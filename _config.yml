@@ -79,5 +79,5 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:Coder-Star/coderstar.github.io.git
+  repo: git@github.com:Coder-Star/Coder-Star.github.io.git
   branch: master
