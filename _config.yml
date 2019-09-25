@@ -3,19 +3,24 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-keywords:
-author: John Doe
-language: en
-timezone:
+title: CoderStar的技术之路 #博客主题
+subtitle: #博客子标题
+description: 加油吧 # 作者描述
+keywords: # 站点关键词，用于搜索优化
+author: CoderStar # 博主名
+language: zh-Hans # 站点语言
+timezone: Asia/Shanghai # 时区
+
+# 注意
+# 语言这里需要进入 /***/themes/next/languages/ 目录
+# 不同版本的语言名称可能有些许差别
+# *** 为博客根目录
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: https://coder-star.github.io/ # 你的域名，如果有 
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :title/
 permalink_defaults:
 
 # Directory
@@ -35,7 +40,7 @@ titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -43,16 +48,16 @@ highlight:
   line_number: true
   auto_detect: false
   tab_replace:
-  
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-  path: ''
+  path: ""
   per_page: 10
   order_by: -date
-  
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -73,7 +78,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: hexo-theme-next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -81,3 +86,24 @@ deploy:
   type: git
   repo: git@github.com:Coder-Star/Coder-Star.github.io.git
   branch: master
+
+feed: # RSS订阅插件
+  type: atom
+  path: atom.xml
+  limit: 0
+
+plugins: hexo-generate-feed
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+symbols_count_time:
+  #文章内是否显示
+  symbols: true
+  time: true
+  # 网页底部是否显示
+  total_symbols: true
+  total_time: true
