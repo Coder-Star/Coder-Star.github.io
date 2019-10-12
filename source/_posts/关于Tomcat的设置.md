@@ -5,7 +5,7 @@ categories: [杂项]
 tags: [web]
 description: Tomcat相关参数设置
 ---
-#### 1、设置Tomcat部分参数
+# 1、设置Tomcat部分参数
 
 1. 可在/bin/catalina.bat文件中设置以下参数
 ```
