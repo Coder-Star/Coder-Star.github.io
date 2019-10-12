@@ -3,8 +3,6 @@ title: 关于Session与Cookie
 date: 2019-09-25 20:58:52
 categories: [杂项]
 tags: [web]
-<!--description: 这是关于Session与Cookie的摘要-->
-<!--photos: https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=2e8bb83990504fc2a25fb703dde6802c/b151f8198618367adb114bec25738bd4b31ce562.jpg-->
 ---
 ### 一、cookie
 cookie是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为4KB；我们可以通过cookie保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；
