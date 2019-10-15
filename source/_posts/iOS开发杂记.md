@@ -68,3 +68,14 @@ viewDidDisappear：      视图控制器的 view 已经从 window 上消失。
 # 7、启动图所有尺寸
 ![启动图尺寸1.png](/iOS开发杂记/启动图尺寸1.png)
 ![启动图尺寸2.png](/iOS开发杂记/启动图尺寸2.png)
+
+# 8、view添加阴影
+这种方式是使用离屏渲染的方式，性能会有很大的损耗
+```
+view.backgroundColor = .white //设置view背景色，如果不设置，会导致阴影显示不出来或者阴影加在子view上
+view.layer.masksToBounds = false //设置子view允许超出父view
+view.layer.shadowColor = UIColor.black.cgColor //设置阴影颜色
+view.layer.shadowOffset = CGSize.init(width: 0, height: 1) //设置阴影偏移量
+view.layer.shadowOpacity = 0.15 //设置阴影透明度
+view.layer.shadowRadius = 3 //设置阴影半径
+```
