@@ -4,7 +4,7 @@ date: 2019-10-12 11:53:11
 categories: [Swift]
 tags: [Swift]
 ---
-# 一、字符串
+# 1、字符串
 1. subString与String
 - subString是一个全新的类型，看类名像是String的子类，但是大家千万别被误导了，Substring并不是String的子类，这是两个不同的类型，但是它们都继承了StringProtocol协议，因此存在一些共性；在开发中Substring并不常用(一般会在分割String中见到)，所以往往要转成String。
 - subString最重要的作用的体现是在性能上，自身在分割时，其实重用了父String的内存，延长了父String的生命周期，当这个subString不被释放，其父String也不被释放。
@@ -33,7 +33,7 @@ print("使用components对字符串进行分割结果：\(x.components(separated
 
 //我们可以直接利用String()函数将subString类型转成String
 ```
-# 二、Map、filter、reduce、flatMap以及compactMap的使用
+# 2、Map、filter、reduce、flatMap以及compactMap的使用
 1. Map
 map方法用于对数据中的每一个元素进行处理，然后返回一个新数组，新数组可以是旧数组中的部分属性组成的；
 ```
@@ -95,7 +95,7 @@ print(arr22)
 [1, 2, 3, 7, 8, 9, 4, 5, 6]
 ```
 >一般情况下可以使用简洁写法`list.compactMap{"\($0)"}`,即省略最外面的()以及return,但是当代码逻辑比较复杂时，需要加上()
-# 三、List数组处理
+# 3、List数组处理
 1. sort函数
 Swift中自带sort函数，可为数组、字典等进行排序。(Swift4.1以后为sorted)，代码示例如下：
 ```
@@ -120,10 +120,9 @@ print(sortList1)
 [["sort": "1", "name": "李一", "code": "0001"], ["sort": "2", "name": "李二", "code": "0002"], ["sort": "3", "name": "李三", "code": "0003"]]
 //倒序结果
 [["sort": "3", "name": "李三", "code": "0003"], ["sort": "2", "name": "李二", "code": "0002"], ["sort": "1", "name": "李一", "code": "0001"]]
-
 ```
 字符串排序以及字典排序与上面方法类似，其中字符串排序可更加省略闭包参数，如 `let sortStr = str.sort(<)`,字典排序用0以及1代替key以及value，如根据key值排序代码， `let result = dic.sort {$0.0 < $1.0}`。
-# 四、JSON相关
+# 4、JSON相关
 swift中json方面的处理一般有两种方式(资料参照:[资料](https://www.cnblogs.com/CoderEYLee/p/Object-C-0021.html))，一种是原生形式，一种是SwiftyJSON第三方库形式(git地址为：[SwiftyJSON](https://github.com/SwiftyJSON/SwiftyJSON))；
 1. json字符串转对象
 ```
@@ -141,7 +140,7 @@ guard let anyObject = try? JSONSerialization.jsonObject(with: jsonData, options:
 let data = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: false) ?? Data()
 let json = JSON(data).dictionaryValue
 ```
-# 五、限制符
+# 5、限制符
 swift的限制符分为五类，分别为`open` > `public `>` internal` > `fileprivate` > `private`，其中` internal`为默认限制符
 * **private**
 对于属性来说, private 最为严格, 只能在声明的地方使用, 例如, 在 class 中声明一个 private 属性, 除了在这个声明中能使用之外, 其他地方, 包括扩展中均无法使用。用于类时, 可以在当前模块实例化, 继承, 不可跨模块访问。值得注意的是, private 修饰的类, 依旧可以在外部, 别的文件中访问, 实例化。
@@ -156,16 +155,16 @@ swift的限制符分为五类，分别为`open` > `public `>` internal` > `filep
 
 **class func 与static func 之间的区别**
 **static func** 禁止被子类重写，相当于 **class final func**
-# 六、extension扩展
+# 6、extension扩展
 1. 注意事项
 * 子类如果想要重写父类的extension中的方法，需要在父类方法上加上@objc的修饰符
-# 七、Swift以及OC
+# 7、Swift以及OC
 ## 1、Swift与OC互相调用
 * Swift调用OC
 Swift调用OC需要借助桥接文件，将OC的.h文件在桥接文件中引入，然后swift就可以直接使用在.h文件中定义的接口以及属性了；
 * OC调用Swift 
 OC调用swift时，需要在调用的的OC文件中引入一个.h头文件，其格式为 #import "CoderStar-Swift.h" ，其中CoderStar为整个工程的名称。引入后需要重新编译一下。（实际编译会将工程的所有.swift文件中涉及到的接口以及属性全都整合到这个.h文件中，进入该文件中就能明白了）。
-# 八、Swift中的设计模式
+# 8、Swift中的设计模式
 ## 1、单例模式
 单例模式保证程序在运行过程中一个类只会生成一个实例。
 单例模式中，类的构造方法必须进行重写(默认限制符为public)，然后使其私有化，这样才能防止其他对象使用这个类的默认的'()'初始化方法来创建对象。
@@ -193,3 +192,33 @@ class SingletonHelp: NSObject {
 
 let isTimeOut = SingletonHelp.singletonHelp.isTimeOut // 获取单例属性
 ```
+# 9、OptionSets(选项集合)
+swift的enum是枚举类型，只支持单选；要想构造选项集合的结构，需要使用struct来遵从OptionSet协议。代码示例
+```
+//因为 OptionSet中已经有了public init(rawValue: Self.RawValue)构造方法，所以我们只需要在Sex中建立rawValue就可以了
+struct Sex:OptionSet{
+    let rawValue:Int
+    //rawValue的值需要注意，必须是2的整数次幂，因为集合的本质就是位运算
+    static let man = Sex(rawValue:1)
+    static let woman = Sex(rawValue:2)
+}
+class Test{
+    static func showSex(sex:Sex){
+        if sex.contains(.man){
+            print("man")
+        }
+        if sex.contains(.woman){
+            print("woman")
+        }
+      print(sex)
+    }
+}
+Test.showSex(sex:[.man,.woman])
+```
+# 10、Class与Struct之间的区别
+说区别之前，先明确可选型其实是有默认值的，默认值为nil
+* Class是引用类型，Struct是值类型;(引用类型与值类型区别于深拷贝与浅拷贝对应起来)
+* Struct不能继承，Class可以继承
+* Class需要自己定义构造器，而Struct不需要；(Struct默认生成的构造器必须包括所有成员参数，只有当所有参数都为可选型时，可直接不用传入参数直接简单构造) 举一反三：Class中的属性必须设置初始值，否则编译错误
+* Struct改变其属性受修饰符let影响，不可改变，Class不受影响
+* struct方法中需要修改自身property时(非init方法)，方法需要前缀修饰符 mutating
