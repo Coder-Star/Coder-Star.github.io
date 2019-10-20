@@ -376,6 +376,11 @@ changyan:
   appkey:
 
 
+valine_modify:
+  enable: true
+  appid: 'FRPNU6p78BNSv2zYHgCzOABk-gzGzoHsz' # 这里填写上面得到的APP ID
+  appkey:   'mlQgBuQz7jHSkjBGcx5d3veb' # 这里填写上面得到的APP KEY
+  placeholder: 请输入您的评论 # 留言框占位提示文字
 # Valine.
 # You can get your appid and appkey from https://leancloud.cn
 # more info please open https://valine.js.org
