@@ -42,7 +42,7 @@ Object value=session.getAttribute(String key);
 ```
 3. session删除
 ```
-session.invalidate();//销毁session对象，所有属性删除
+session.invalidate(); //销毁session对象，所有属性删除
 session.removeAttribute("currentName"); //删除某个session属性
 ```
 在实际开发中，一般会将用户的信息封装成一个实体（属性可能包括账号、密码、权限、个人相关信息等等），然后将产生的对象放在session，这样我们就可以根据登录用户的session获取这个用户的基本信息了；
