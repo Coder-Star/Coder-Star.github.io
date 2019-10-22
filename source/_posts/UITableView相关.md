@@ -43,6 +43,7 @@ optional public func tableView(_ tableView: UITableView, willDisplay cell: UITab
 # 2、问题集锦
 ## 1、取消TableView前后默认空白部分
 - 代码示例
+
 ```
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.01
@@ -60,13 +61,17 @@ optional public func tableView(_ tableView: UITableView, willDisplay cell: UITab
 - 注意事项
 1. 在设置 **tableView.delegate = self** 时注意将其放在tableView加入其View之前 ( **ParentView.addSubview(tableView)** )，否则上述代码不会生效。
 2. 在ios11系统以下，如果上述header以及footer置为0，则会认为其没有设置高度，还是会默认设置大约为50个像素的高度；ios11系统以上可直接设置为0；
+
 ## 2、TableView高度自适应
-设置TableView高度自适应一般需要设置estimatedRowHeight以及rowHeight两个属性,并且cell的子控件布局要要实现自动布局（即cell的子控件需要将cell撑满）。其中estimatedRowHeight是一个对cell的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight设为UITableView.automaticDimension；
+设置TableView高度自适应一般需要设置estimatedRowHeight以及rowHeight两个属性,并且cell的子控件布局要实现自动布局（即cell的子控件需要将cell撑满）。其中estimatedRowHeight是一个对cell的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight设为UITableView.automaticDimension；
+
 >`cellForRowAtIndexPath`与`heightForRowAtIndexPath`调用顺序：
 >1.  tableView设置了预估行高
     `cellForRowAtIndexPath`  在 `heightForRowAtIndexPath` 之前调用
+    
 >2.  tableView没有设置预估行高
      tableView首先会把所有IndexPath的heightForRowAtIndexPath遍历一遍以计算contentsize，然后又按照上述情况设置一次
+     
 ```
 //设置预估高度
 tableView?.estimatedRowHeight = 44
@@ -90,8 +95,9 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 ```
 ## 3、TableView滚动条常在（具体原理百度上很多，ScrollView同理）
-1、UIImageView扩展(oc代理类文件如何新建自行百度)
+1. UIImageView扩展(oc代理类文件如何新建自行百度)
 - .h文件（如果项目为swift工程，将该文件在桥接文件中声明以供swift使用）
+
 ```
 #import <UIKit/UIKit.h>
 #define noDisableVerticalScrollTag 836913 //竖向滚动
@@ -101,7 +107,9 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 NS_ASSUME_NONNULL_END
 ```
-- .m文件
+
+ - .m文件
+
 ```
 #import "UIImageView+Scroll.h"
 @implementation UIImageView (ForScrollView)
@@ -133,12 +141,13 @@ NS_ASSUME_NONNULL_END
 }
 @end
 ```
-2、为tableView绑定标签
+
+2. 为tableView绑定标签
 ```
  tableView.tag = Int(noDisableVerticalScrollTag)
 ```
 以上代码可以实现tableView人工滚动后，滚动条显示后不会再消失。但刚进入不会直接显示滚动条，如果进入页面就直接显示滚动条，则需要添上以下代码；
-3、进入页面直接显示滚动条
+3. 进入页面直接显示滚动条
 ```
 //当tableView绑定完数据后，使用flashScrollIndicators方法
  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -163,8 +172,10 @@ func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forR
         
     }
 ```
+
 ## 5、tableCell点击之后UIAlertController延迟弹出问题处理
 猜测原因：`点击事件触发后没有及时刷新UI，或者进入到了其他线程，主线程可能经过几次循环后之后才会发现UI变化，去刷新UI`
+
 ```
 //方法1 
 func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -183,6 +194,7 @@ tableCell.selectionStyle = .none  //不要将点击后颜色变化置为none
 * 可在使用复用的cell前，先删除cell之前的子view(代码如下)
 * 为每一个cell设置一个特定的reuseIdentifierId，去缓冲池取的时候直接取特定的reuseIdentifierId(不推荐使用，如果这样做的话，其中就不存在复用了)
 * 不再使用dequeueReusableCell从缓冲池中取，而是直接通过cellForRow直接定位到具体的indexPath(不推荐，原因同上)
+
 ```
 let id = "cellId"
 var tableCell = tableView.dequeueReusableCell(withIdentifier: id)
@@ -193,4 +205,51 @@ if tableCell == nil{
           tableCell?.subviews.forEach{$0.removeFromSuperview()}
        }
 }
+```
+
+## 7、UITableViewCell中的使用cell和cell.contentView的区别
+**进行编辑时，比如cell需要向左向右移动用以显示编辑按钮时，使用cell子视图不会自动移动；cell.contentView会自动移动；** 其他情况下两者基本没有什么区别
+## 8、UITableView进行编辑多选模式的步骤
+如果遇到进行编辑模式后，cell没有自动右移的问题解决方式请见**UITableViewCell中的使用cell和cell.contentView的区别**；
+
+* 设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式
+
+```
+/// 多选样式，前面有一个圆圈，
+ func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return  UITableViewCell.EditingStyle(rawValue: UITableViewCell.EditingStyle.delete.rawValue | UITableViewCell.EditingStyle.insert.rawValue)!
+    }
+```
+* 进入编辑模式
+
+```
+tableView.isEditing = true //进入编辑模式
+tableView.allowsMultipleSelectionDuringEditing = true //当编辑模式时允许多选
+```
+* 选中及取消选中
+
+```
+// 选中
+func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    if tableView.isEditing {
+        let cell = self.tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .checkmark
+    }
+}
+// 取消选中
+func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    if tableView.isEditing {
+        let cell = self.tableView.cellForRow(at: indexPath)
+        cell?.accessoryType = .none
+    }
+}
+```
+* 统计选中的项以及关闭编辑模式
+
+```
+//统计选中的项
+let list = tableView.indexPathsForSelectedRows
+// 关闭编辑模式
+tableView.isEditing = false
+关闭编辑后需要记得将所有tablecell的accessoryType复原到进行编辑模式之前的样式
 ```
