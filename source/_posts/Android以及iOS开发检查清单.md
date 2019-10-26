@@ -9,7 +9,9 @@ tags: [Android,iOS]
 ## 2、第三方库
 
 * **retrofit** 网络请求
+
 * **Glide** 图片加载
+* **PictureSelector** 图片选择
 * **BaseRecyclerViewAdapterHelper** RecyclerView适配器
 * **SwipeDelMenuLayout** 侧滑菜单
 * **SmartRefreshLayout** 上拉刷新 下拉加载
@@ -51,3 +53,6 @@ tags: [Android,iOS]
 * **Bugly** 错误上报
 * **SwiftyUserDefaults**  UserDefaults存储
 * **KeychainSwift** 钥匙串存储
+* **JSBadgeView** 角标
+* **AMPopTip** 文字气泡
+* **BRPickerView** 选择器组件，时间、日期以及列表等(OC)
