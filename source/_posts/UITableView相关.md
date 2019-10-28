@@ -212,7 +212,9 @@ if tableCell == nil{
 ## 8、UITableView进行编辑多选模式的步骤
 如果遇到进行编辑模式后，cell没有自动右移的问题解决方式请见**UITableViewCell中的使用cell和cell.contentView的区别**；
 
-* 设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式
+* 设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式,或者tableview在未加在view上时设置其为编辑模式，也默认为圆圈样式
+
+**cell.selectionStyle = .none** 切记不可将selectionStyle设置为none，这样会使选择以及取消选择的样式都显示不出来。
 
 ```
 /// 多选样式，前面有一个圆圈，
