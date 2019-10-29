@@ -255,3 +255,15 @@ let list = tableView.indexPathsForSelectedRows
 tableView.isEditing = false
 关闭编辑后需要记得将所有tablecell的accessoryType复原到进行编辑模式之前的样式
 ```
+## 8、UITableView懒加载中不可以设置tableFooterView以及tableHeaderView，设置会导致崩溃
+
+```
+ private lazy var tableView:UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        // tableView.tableFooterView = UIView() 不可这么写
+        // tableView.tableHeaderView = UIView() 不可这么写
+        return tableView
+    }()
+```
