@@ -213,3 +213,31 @@ class Student{
 * **类**
   * 对于类来说，不会有默认的构造方法，如果想使用构造器对属性进行赋值就必须自定义构造方法；
   * 一旦自定义了一个构造方法，其原本的初始化方法（比如从父类继承而来）都不可以再使用，并且在自定义的构造方法中，必须先对属性进行赋值，然后再调用父类的构造方法。如果想使用默认的初始化方法，请重写这个方法，并进行相应的赋值后，调用父类的构造方法；
+  
+## 13、alpha、hidden、opaque、opacity以及isUserInteractionEnabled等属性的解析
+
+### 1、isUserInteractionEnabled
+
+用于控制view及其子view是否可以接收响应事件；当设为false时，该视图对象会从响应链中被移除，响应事件会传递到view的父视图。  
+
+* UIImageView的isUserInteractionEnabled默认为false;
+
+* UILabel的isUserInteractionEnabled默认为false;
+
+* UIView的isUserInteractionEnabled默认为true;
+
+### 2、hidden
+
+控制view是否隐藏，当设置为true时，自身以及子view均会被隐藏，不管subView的hideen是否为true，并且当前view以及子view会从响应链中移除；
+
+### 3、alpha
+
+控制view的透明度，是一个浮点值，取值范围0~1.0,表示从完全透明到完全不透明；会影响自己的透明度，也会影响subView的透明度，当alpha为0，当前view以及子view会从响应链中移除；更改alpha默认是有动画效果的。当使用alpha属性来隐藏view，使用hidden比使用alpha性能好。
+
+### 4、opacity
+
+opacity是CALayer的属性，对应的是UIView的alpha。
+
+### 5、opaque
+
+表示view的不透明度，设为true表示不透明。但是它决定不了当前view是否不透明，只是为绘图系统提供一个性能优化开关，当设为true时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将opaque设为true的尽量将opaque设为true。至于什么场景下会使用fasle，我也是不太清楚啊...
