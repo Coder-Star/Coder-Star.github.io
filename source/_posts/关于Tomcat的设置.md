@@ -5,10 +5,11 @@ categories: [杂项]
 tags: [web]
 description: Tomcat相关参数设置
 ---
-# 1、设置Tomcat部分参数
+## 1、设置Tomcat部分参数
 
-1. 可在/bin/catalina.bat文件中设置以下参数
-```
+### 1、可在/bin/catalina.bat文件中设置以下参数
+
+```vim
 //set local
 set JAVA_OPTS=-Xms2048m -Xmx2048m //设置tomcat启动内存大小
 set JAVA_HOME=D:\Java\jdk1.8.0_60  //设置tomcat所用jdk

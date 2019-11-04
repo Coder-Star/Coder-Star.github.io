@@ -4,9 +4,9 @@ date: 2019-10-25 20:23:58
 categories: [APP]
 tags: [Android,iOS]
 ---
-# 1、Android
+## 1、Android
 
-## 2、第三方库
+### 1、Android第三方库
 
 * **retrofit** 网络请求
 
@@ -24,11 +24,12 @@ tags: [Android,iOS]
 * **EventBus** 事件总线
 * **logger** 日志打印
 
-# 2、iOS
+## 2、iOS
 
+### 1、iOS第三方库
 
-## 2、第三方库
 以Swift为主，都可以通过pod的方式引入项目中
+
 * **Alamofire**  网络请求
 
 * **SnapKit** 自动布局
