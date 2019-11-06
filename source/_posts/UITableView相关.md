@@ -288,6 +288,30 @@ tableView.isEditing = false
 关闭编辑后需要记得将所有tablecell的accessoryType复原到进行编辑模式之前的样式
 ```
 
+##### 3.额外样式修改
+
+多选时，去除选中情况下的蓝色浮层，只显示左侧圆圈
+
+```swift
+override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let tableCell:UITableViewCell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        tableCell.multipleSelectionBackgroundView = UIView()
+        return tableCell
+    }
+
+/// 设置完上述代码后，然后选中选中发现有的控件背景颜色不见了，需要在自定义cell上实现这样的方法
+override func setSelected(_ selected: Bool, animated: Bool) {
+         super.setSelected(selected, animated: animated)
+         /// 在这里对所有需要设置背景颜色的控件背景颜色重新赋值
+    }
+```
+
+##### 总结一下，tablecell多选编辑效果不理想的原因
+
+1. 自定义cell上面的控件是否加在contentView上
+
+2. cell的selectionStyle不可以设为none，否则没有选中效果
+
 ### 8、UITableView懒加载中不可以设置tableFooterView以及tableHeaderView，设置会导致崩溃
 
 ```swift
