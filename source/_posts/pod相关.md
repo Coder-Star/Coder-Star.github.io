@@ -8,9 +8,14 @@ tags: [iOS]
 
 发布一个共享库需要必不可少的部分
 
-* **共享文件夹** (文件夹存放着你要共享的内容, 也就是其他人pod得到的文件, .podspec文件中的source_files需要指定此文件路径及文件类型);
-* **LICENSE文件** (默认一般选择MIT);
-* **库描述文件.podspec** (本库的各项信息描述, 需要提交给CocoaPods, pod通过这个文件查找到你共享的库, .podspec文件的格式见第3点).
+* **共享文件夹**  
+  文件夹存放着你要共享的内容, 也就是其他人pod得到的文件, .podspec文件中的source_files需要指定此文件路径及文件类型
+
+* **LICENSE文件**  
+  默认一般选择MIT
+  
+* **库描述文件.podspec**  
+  本库的各项信息描述, 需要提交给CocoaPods, pod通过这个文件查找到你共享的库, .podspec文件的格式见第3点
 
 ### 1、准备工程文件
 
@@ -98,7 +103,7 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 * 将共享库上传到仓库地址后，一般使用`pod setup`以及`pod search` 查看自己的库，如果遇到上传很长时间还是无法查询到自己库的时候，可以先将`pod setup`成功后生成的~/Library/Caches/CocoaPods/search_index.json文件删除后再进行`pod search`
 `rm ~/Library/Caches/CocoaPods/search_index.json`
 
-* 当想在工程文件中使用私有库时候，需要在Podfile前面加上私有Spec repo的git地址，如`source git@github.com:Coder-Star/LTXSpecs.git`,如果还想使用公有库资源，再把公有库地址加上`source 'https://github.com/CocoaPods/Specs.git'`
+* 当想在工程文件中使用私有库时候，需要在Podfile前面加上私有Spec repo的git地址，如`source https://github.com/Coder-Star/LTXSpecs.git`,如果还想使用公有库资源，再把公有库地址加上`source 'https://github.com/CocoaPods/Specs.git'`
 
 ## 二、profile文件样式
 
