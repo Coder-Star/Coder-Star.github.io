@@ -30,27 +30,32 @@ Pod::Spec.new do |s|
   s.name         = "O2View"             #名称
   s.version      = "0.0.1"              #版本号
   s.summary      = "Just testing"       #简短介绍
-  s.description  =  <<-DESC
-  SwifterSwift is a collection of over 500 native Swift extensions, with handy methods, syntactic sugar, and performance improvements for wide range of primitive data types, UIKit and Cocoa classes –over 500 in 1– for iOS, macOS, tvOS and watchOS.
-                   DESC
-  s.homepage     = "http://aoto.io/"
+  s.homepage     = "http://aoto.io/"     #主页地址，可以是github主页
   # s.screenshots  = "www.example.com/screenshots_1.gif" //快照
-  s.license      = "MIT"                #开源协议
+  s.license      = { :type => "MIT", :file => "LICENSE" } #开源协议
   s.author       = { "linyi31" => "linyi@jd.com" }
-  s.source       = { :git => "https://github.com/marklin2012/O2View.git" }
-  ## 这里不支持ssh的地址，只支持HTTP和HTTPS，最好使用HTTPS
-  ## 正常情况下我们会使用稳定的tag版本来访问，如果是在开发测试的时候，不需要发布release版本，直接指向git地址使用
-  ## 待测试通过完成后我们再发布指定release版本，使用如下方式
-  #s.source      = { :git => "http://EXAMPLE/O2View.git", :tag => version }
-  s.platform      = :ios, "9.0"          #支持的平台及版本，这里我们用swift，直接上9.0
-  s.requires_arc = true                 #是否使用ARC
-  s.source_files  = "O2View/*.swift"    #OC可以使用类似这样"Classes/**/*.{h,m}"
-  s.frameworks = 'UIKit', 'QuartzCore', 'Foundation'    #所需的framework,多个用逗号隔开
-  s.module_name = 'O2View'              #模块名称
-  # s.dependency "JSONKit", "~> 1.4"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
-  if s.respond_to? 'swift_version'  #设置swift版本
-    s.swift_version = "4.2"
+  s.source       = { :git => "https://github.com/Coder-Star/LTXiOSUtils.git", :tag => s.version } #共享库源代码地址
+  s.platform     = :ios, "9.0"            #支持的平台及版本，这里我们用swift，直接上9.0
+  s.source_files = "Source/Classes/**/*.swift"   #OC可以使用类似这样"Source/Classes/**/*.{h,m}",**/*是一个正则，表示下面所有swift文件，这个路径是相对于podspec文件而言
+  s.swift_version = "4.2"  #设置swift版本
+  s.dependency "Alamofire", "~> 4.7"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
+  s.dependency 'SwiftyJSON', '~> 4.0'
+  s.resources     = 'Source/Resource/*.png'  #资源文件路径
+
+  #文件分层，如果Classes下面只有子目录，没有文件，则上述的s.source_files可以不用写
+  s.subspec 'Utils' do |ss1|
+      ss1.source_files = 'Source/Classes/Utils/*.swift'
   end
+  s.subspec 'View' do |ss2|
+      ss1.source_files = 'Source/Classes/View/*.swift'
+      s.subspec 'Button' do |sss1|
+        sss1.source_files = 'Source/Classes/View/Button/*.swift'
+      end
+      s.subspec 'TextView' do |sss2|
+        sss1.source_files = 'Source/Classes/View/TextView/*.swift'
+      end
+  end
+
 end
 ```
 
