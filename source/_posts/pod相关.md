@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
       ss1.source_files = 'Source/Classes/Utils/*.swift'
   end
   s.subspec 'View' do |ss2|
-      ss1.source_files = 'Source/Classes/View/*.swift'
+      ss2.source_files = 'Source/Classes/View/*.swift'
       s.subspec 'Button' do |sss1|
         sss1.source_files = 'Source/Classes/View/Button/*.swift'
       end
