@@ -27,7 +27,7 @@ tags: [iOS]
 
 ```pod
 Pod::Spec.new do |s|
-  s.name         = "O2View"             #名称
+  s.name         = "LTXiOSUtils"        #名称
   s.version      = "0.0.1"              #版本号
   s.summary      = "Just testing"       #简短介绍
   s.homepage     = "http://aoto.io/"     #主页地址，可以是github主页
@@ -35,24 +35,26 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" } #开源协议
   s.author       = { "linyi31" => "linyi@jd.com" }
   s.source       = { :git => "https://github.com/Coder-Star/LTXiOSUtils.git", :tag => s.version } #共享库源代码地址
-  s.platform     = :ios, "9.0"            #支持的平台及版本，这里我们用swift，直接上9.0
-  s.source_files = "Source/Classes/**/*.swift"   #OC可以使用类似这样"Source/Classes/**/*.{h,m}",**/*是一个正则，表示下面所有swift文件，这个路径是相对于podspec文件而言
+  # s.source     = { :git => 'local', :tag => s.version} #当在开发阶段，使用本地代码时，可以使用这种写法，实际上参数不重要，只有给予s.source 参数就行，后面的是为了避免警告
+  s.platform     = :ios, "9.0"            #支持的平台及最低版本
+  s.source_files = "LTXiOSUtils/Classes/**/*.swift"   #OC可以使用类似这样"Source/Classes/**/*.{h,m}",**/*是一个正则，表示下面所有swift文件，这个路径是相对于podspec文件而言
+  #s.exclude_files = "LTXiOSUtils/Classes/Exclude" #忽略提交的文件
   s.swift_version = "4.2"  #设置swift版本
   s.dependency "Alamofire", "~> 4.7"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
   s.dependency 'SwiftyJSON', '~> 4.0'
-  s.resources     = 'Source/Resource/*.png'  #资源文件路径
+  s.resources     = 'LTXiOSUtils/Resource/*.png'  #资源文件路径
 
   #文件分层，如果Classes下面只有子目录，没有文件，则上述的s.source_files可以不用写
   s.subspec 'Utils' do |ss1|
-      ss1.source_files = 'Source/Classes/Utils/*.swift'
+      ss1.source_files = 'LTXiOSUtils/Classes/Utils/*.swift'
   end
   s.subspec 'View' do |ss2|
-      ss2.source_files = 'Source/Classes/View/*.swift'
+      ss2.source_files = 'LTXiOSUtils/Classes/View/*.swift'
       s.subspec 'Button' do |sss1|
-        sss1.source_files = 'Source/Classes/View/Button/*.swift'
+        sss1.source_files = 'LTXiOSUtils/Classes/View/Button/*.swift'
       end
       s.subspec 'TextView' do |sss2|
-        sss1.source_files = 'Source/Classes/View/TextView/*.swift'
+        sss1.source_files = 'LTXiOSUtils/Classes/View/TextView/*.swift'
       end
   end
 
@@ -66,7 +68,7 @@ git tag -m '描述' '1.0.0'
 git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推送指定tag到远程
 ```
 
-### 2、pod处理
+### 2、pod相关命令
 
 #### 1、注册及查看等等
 
@@ -93,7 +95,13 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 #### 3、公有库
 
 * **pod trunk push XXX.podspec**  
-  //发布到公有库
+  发布到公有库
+
+* **pod trunk delete XXX 版本号**  
+  删除某个pod的特定版本
+
+* **pod trunk deprecate XXX**  
+  放弃整个pod库，需要进行确认
 
 #### 4、私有库
 
@@ -165,6 +173,9 @@ pod 'Alamofire', '<= 2.0' //使用小于或等于2.0的版本
 pod 'Alamofire', '~> 0.1.2' //使用大于等于0.1.2但小于0.2的版本
 pod 'Alamofire', '~>0.1' //使用大于等于0.1但小于1.0的版本
 pod 'Alamofire', '~>0' //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
-```
 
-## 三、Pod相关命令
+不从spec仓库中取，直接从github仓库上取
+pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :tag => '0.7.0'
+pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'develop'
+pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => '082f8319af'
+```
