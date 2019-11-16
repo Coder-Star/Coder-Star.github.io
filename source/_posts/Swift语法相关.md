@@ -102,7 +102,7 @@ let arr2 = array.compactMap{ a ->Int?in
 }
 print(arr1)
 print(arr2)
-//结果 
+//结果
 [Optional(5), Optional(6), Optional(5), nil]
 [5, 6, 5]
 
@@ -117,7 +117,18 @@ print(arr22)
 [1, 2, 3, 7, 8, 9, 4, 5, 6]
 ```
 
->一般情况下可以使用简洁写法`list.compactMap{"\($0)"}`,即省略最外面的()以及return,但是当代码逻辑比较复杂时，需要加上()
+>一般情况下可以使用简洁写法`list.compactMap{"\($0)"}`,即省略最外面的()以及return,但是当代码逻辑比较复杂时(比如遍历后的结果需要拼接之类的)，需要加上()
+
+### 6、forEach
+
+循环遍历list
+
+```swift
+let array = ["Apple", "Orange", "Grape", ""]
+array.forEach{
+            print($0)
+        }
+```
 
 ## 3、List数组处理
 
