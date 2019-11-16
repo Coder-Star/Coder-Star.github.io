@@ -241,3 +241,34 @@ opacity是CALayer的属性，对应的是UIView的alpha。
 ### 5、opaque
 
 表示view的不透明度，设为true表示不透明。但是它决定不了当前view是否不透明，只是为绘图系统提供一个性能优化开关，当设为true时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将opaque设为true的尽量将opaque设为true。至于什么场景下会使用fasle，我也是不太清楚啊...
+
+## 14、Swift项目导入三方库的方法
+
+### 1、直接在文件头部使用import导入，这种适合不常用的三方库
+
+```swift
+import Foundation
+```
+
+### 2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库
+
+```swift
+import Foundation
+import MBProgressHUD
+
+///弹窗加载提示
+class func show() {
+   MBProgressHUD.showAdded(to: viewToShow(), animated: true)
+}
+
+///隐藏所有弹窗
+class func hide() {
+   MBProgressHUD.hide(for: viewToShow(), animated: true)
+}
+```
+
+### 3、`@_exported import`关键字导入，在某个文件以内引入该文件，可以在全局进行使用
+
+```swift
+@_exported import Alamofire
+```
