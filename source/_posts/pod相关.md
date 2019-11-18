@@ -101,7 +101,7 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
   删除某个pod的特定版本
 
 * **pod trunk deprecate XXX**  
-  放弃整个pod库，需要进行确认
+  放弃整个pod库(会弹出确认框提示确认)
 
 #### 4、私有库
 
