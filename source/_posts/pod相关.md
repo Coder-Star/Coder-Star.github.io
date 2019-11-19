@@ -25,7 +25,7 @@ tags: [iOS]
 2.建立 name.podspec文件，用于描述工程，其中name为工程的名字，该文件随项目一起push到github上
 其中podspec文件格式如下
 
-```pod
+```Ruby
 Pod::Spec.new do |s|
   s.name         = "LTXiOSUtils"        #名称
   s.version      = "0.0.1"              #版本号
@@ -111,6 +111,14 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 * **pod repo push 私有库名称 xxxx.podspec**  
   将描述文件上传到私有库
 
+#### 5、安装相关命令
+
+```Ruby
+pod install --verbose --no-repo-update #更新跳过本地仓库
+pod update --verbose --no-repo-update #更新跳过本地仓库
+pod setup #生成本地spec仓库
+```
+
 ### 3、注意事项
 
 * 将共享库上传到仓库地址后，一般使用`pod setup`以及`pod search` 查看自己的库，如果遇到上传很长时间还是无法查询到自己库的时候，可以先将`pod setup`成功后生成的~/Library/Caches/CocoaPods/search_index.json文件删除后再进行`pod search`
@@ -120,10 +128,7 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 
 ## 二、profile文件样式
 
-```pod
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
-
+```Ruby
 target 'BaseIOSProject' do
   source 'https://github.com/CocoaPods/Specs.git'
   platform :ios, '10.0'
@@ -163,7 +168,7 @@ end
 
 ```
 
-```pod
+```Ruby
 pod 'Alamofire' //不显式指定依赖库版本，表示每次都获取最新版本
 pod 'Alamofire', '2.0' //只使用2.0版本
 pod 'Alamofire', '> 2.0' //使用高于2.0的版本
