@@ -49,12 +49,13 @@ Pod::Spec.new do |s|
       ss1.source_files = 'LTXiOSUtils/Classes/Utils/*.swift'
   end
   s.subspec 'View' do |ss2|
+      ss2.dependency 'LTXiOSUtils/Utils'
       ss2.source_files = 'LTXiOSUtils/Classes/View/*.swift'
-      s.subspec 'Button' do |sss1|
+      ss2.subspec 'Button' do |sss1|
         sss1.source_files = 'LTXiOSUtils/Classes/View/Button/*.swift'
       end
-      s.subspec 'TextView' do |sss2|
-        sss1.source_files = 'LTXiOSUtils/Classes/View/TextView/*.swift'
+      ss2.subspec 'TextView' do |sss2|
+        sss2.source_files = 'LTXiOSUtils/Classes/View/TextView/*.swift'
       end
   end
 
@@ -117,6 +118,7 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 pod install --verbose --no-repo-update #更新跳过本地仓库
 pod update --verbose --no-repo-update #更新跳过本地仓库
 pod setup #生成本地spec仓库
+pod spec lint #从本地以及远程验证pod是否能够通过验证
 ```
 
 ### 3、注意事项
