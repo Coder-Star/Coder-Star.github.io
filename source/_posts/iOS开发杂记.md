@@ -242,6 +242,20 @@ opacity是CALayer的属性，对应的是UIView的alpha。
 
 表示view的不透明度，设为true表示不透明。但是它决定不了当前view是否不透明，只是为绘图系统提供一个性能优化开关，当设为true时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将opaque设为true的尽量将opaque设为true。至于什么场景下会使用fasle，我也是不太清楚啊...
 
+### 6、其他补充
+
+#### 1、实现view透明度，并不影响subView的方法
+
+```swift
+// 第一种
+view.backgroundColor = UIColor(white: 1, alpha: 0.5) //只可以在黑白之间调节
+view.backgroundColor = UIColor(red: 10, green: 10, blue: 10, alpha: 0.5) // 可以在各种颜色之间进行调节
+
+// 第二种
+ view.backgroundColor = UIColor.black.withAlphaComponent(0.5) // 某一个颜色进行透明度设置
+
+```
+
 ## 14、Swift项目导入三方库的方法
 
 ### 1、直接在文件头部使用import导入，这种适合不常用的三方库
