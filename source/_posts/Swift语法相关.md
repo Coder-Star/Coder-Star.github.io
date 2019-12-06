@@ -300,3 +300,33 @@ enum sex {
     case `default`
 }
 ```
+
+## 11、isKindOf、isMemberOf、isEuqal、is以及==之间区别
+
+**1、** isKindOf、isMemberOf以及isEuqal都是NSObjectProtocol协议中定义的方法，类需要继承自NSObject或者实现了NSObjectProtocol协议)才可以使用，其中isMemberOf判断某个对象是否是某一个类的实例，isKindOf判断某个对象是否为某个类及其子类的实例，isKindOf的范围更大点；isEuqal主要用于比较两个对象是否是同一个对象，hash值是否相同。
+
+```swift
+class Info:NSObject {
+
+}
+class SubInfo:Info {
+
+}
+let info = Info()
+let subinfo = SubInfo()
+
+print(subinfo.isKind(of: Info.self)) //true
+print(subinfo.isKind(of: SubInfo.self)) //true
+print(subinfo.isMember(of: Info.self)) //false
+print(info.isMember(of: Info.self)) //true
+
+```
+
+**2、** ==是Equatable协议中的方法，如果想使用==这种方式比较两个对象之间的关系，其对应类就必须实现Equatable协议，结构体等一样。另外补充一下，Equatable协议是比较相等(里面有 == 以及 != )，还有一个Comparable协议是比较顺序，里面有>,<,<=,>=这些。现在大部分基础类就以已经实现了这些协议(NSObject,基础类型等)，而且大部分实现时比较两者值是否相等。
+
+**3、** is用于任何类型的判断，包括对象类型(支持子类)以及非对象类型；判断实例是否是某一类型。
+
+
+## 12、swift中闭包的相关理解
+
+swift中的闭包（block）分为非逃匿闭包以及逃匿闭包两种。
