@@ -150,7 +150,7 @@ target 'BaseIOSProject' do
   end
 end
 
-#设计引入的库的swift语言版本
+#限制引入的库的swift语言版本
 swift_42 = ['Alamofire','MJRefresh']
 post_install do |installer|
   installer.pods_project.targets.each do |target|

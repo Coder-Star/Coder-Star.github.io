@@ -326,7 +326,6 @@ print(info.isMember(of: Info.self)) //true
 
 **3、** is用于任何类型的判断，包括对象类型(支持子类)以及非对象类型；判断实例是否是某一类型。
 
-
 ## 12、swift中闭包的相关理解
 
 swift中的闭包（block）分为非逃匿闭包以及逃匿闭包两种。

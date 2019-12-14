@@ -19,5 +19,5 @@ npm是NodeJS的包管理工具
 
 ### 2、安装淘宝镜像
 
-**npm install -g cnpm --registry=<https://registry.npm.taobao.org>**  
+**npm install -g cnpm --registry=https://registry.npm.taobao.org**  
 安装完毕之后就可以使用cnpm install这种方式了
