@@ -115,8 +115,8 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 #### 5、安装相关命令
 
 ```Ruby
-pod install --verbose --no-repo-update #更新跳过本地仓库
-pod update --verbose --no-repo-update #更新跳过本地仓库
+pod install --no-repo-update #安装跳过本地仓库，如果指定版本了，会安装指定版本，如果没有指定版本，则不会更新；pod install --verbose --no-repo-update 查看详细更新信息
+pod update --no-repo-update #更新跳过本地仓库，不指定版本，会将版本更新到最新版； pod update --verbose --no-repo-update
 pod setup #生成本地spec仓库
 pod spec lint #从本地以及远程验证pod是否能够通过验证
 ```
