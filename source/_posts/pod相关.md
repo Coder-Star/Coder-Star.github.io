@@ -109,6 +109,8 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 * **pod repo add 私有库名称 私有库地址**  
   添加私有库地址到本地repo，这里的私有库地址可以是gitee、gitlab、github等git服务器地址
 
+* **pod repo remove xxxx** 删除某一个私有Spec Repo
+
 * **pod repo push 私有库名称 xxxx.podspec**  
   将描述文件上传到私有库
 
@@ -121,6 +123,12 @@ pod setup #生成本地spec仓库
 pod spec lint #从本地以及远程验证pod是否能够通过验证
 ```
 
+#### 6、其他
+
+```Ruby
+pod trunk add-owner 名称 邮箱 #如果你的pod是多人维护的，可以使用该命令添加写作者
+```
+
 ### 3、注意事项
 
 * 将共享库上传到仓库地址后，一般使用`pod setup`以及`pod search` 查看自己的库，如果遇到上传很长时间还是无法查询到自己库的时候，可以先将`pod setup`成功后生成的~/Library/Caches/CocoaPods/search_index.json文件删除后再进行`pod search`
@@ -128,6 +136,8 @@ pod spec lint #从本地以及远程验证pod是否能够通过验证
 
 * 当想在工程文件中使用私有库时候，需要在Podfile前面加上私有Spec repo的git地址，如`source https://github.com/Coder-Star/LTXSpecs.git`,如果还想使用公有库资源，再把公有库地址加上`source 'https://github.com/CocoaPods/Specs.git'`
 
+* 当想删除私有库中某一个podspec时，可以直接在Spec Repo代码中将某个私有库podspec的文件删除，然后提交后远程就可以了
+  
 ## 二、profile文件样式
 
 ```Ruby
