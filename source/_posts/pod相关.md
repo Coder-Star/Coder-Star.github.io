@@ -74,7 +74,7 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 #### 1、注册及查看等等
 
 * **pod trunk register xxxx@qq.com 'name'**  
-  pod注册,包括邮箱以及用户名
+  pod注册,包括邮箱以及用户名，会让邮箱发送一个链接，点击链接完成注册
 
 * **pod trunk me**  
   查看自己的pod相关信息，包括发布过的库
