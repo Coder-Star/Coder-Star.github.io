@@ -131,8 +131,10 @@ pod trunk add-owner 名称 邮箱 #如果你的pod是多人维护的，可以使
 
 ### 3、注意事项
 
-* 将共享库上传到仓库地址后，一般使用`pod setup`以及`pod search` 查看自己的库，如果遇到上传很长时间还是无法查询到自己库的时候，可以先将`pod setup`成功后生成的~/Library/Caches/CocoaPods/search_index.json文件删除后再进行`pod search`
-`rm ~/Library/Caches/CocoaPods/search_index.json`
+* 将共享库上传到仓库地址后，一般使用`pod setup`以及`pod search` 查看自己的库，如果遇到上传很长时间还是无法查询到自己库的时候，可以先将`pod setup`成功后生成的~/Library/Caches/CocoaPods/search_index.json文件删除后再进行`pod search`  
+  
+  `rm ~/Library/Caches/CocoaPods/search_index.json`  
+  如果还不成功，还可以使用`pod search xxx --simple`进行搜索。
 
 * 当想在工程文件中使用私有库时候，需要在Podfile前面加上私有Spec repo的git地址，如`source https://github.com/Coder-Star/LTXSpecs.git`,如果还想使用公有库资源，再把公有库地址加上`source 'https://github.com/CocoaPods/Specs.git'`
 
@@ -142,7 +144,9 @@ pod trunk add-owner 名称 邮箱 #如果你的pod是多人维护的，可以使
 
 ```Ruby
 target 'BaseIOSProject' do
-  source 'https://github.com/CocoaPods/Specs.git'
+  source 'https://github.com/Coder-Star/LTXSpecs.git' #自己的私有库，在前面
+  source 'https://github.com/CocoaPods/Specs.git' #公有库
+  #source 'https://cdn.cocoapods.org/' # cocoapods 1.7.2 加入了cdn，用于替换https://github.com/CocoaPods/Specs.git共有源
   platform :ios, '10.0'
   use_frameworks!
 
