@@ -329,3 +329,121 @@ print(info.isMember(of: Info.self)) //true
 ## 12、swift中闭包的相关理解
 
 swift中的闭包（block）分为非逃匿闭包以及逃匿闭包两种。
+
+## 13、关于一些关键字的理解以及注意事项
+
+主要关键字包括 **let var static lazy**等等
+
+* lazy：延迟加载，一般用于修饰属性，只可以标识变量（var修饰的属性）；
+
+lazy修饰属性后，当第一次访问这个属性时，会判断这个属性是否已经初始化，如果已经初始化会直接返回，如果没有，会进行初始化。一般lazy修饰的属性会采用闭包的方式进行初始化。(类初始化的时候不会初始化被lazy修饰的属性)
+
+```swift
+//修饰属性范例
+lazy var titleLabel:UILabel = {
+       let titleLabel = UILabel()
+       titleLabel.text = "这是标题"
+       return titleLabel
+    }()
+//与map filter等接受闭包运行的方法一起使用时
+let arr = ["1","2"]
+let list = arr.lazy.compactMap{ (info:String)->String in
+   print("内部--\(info)")
+   return "\(info)"
+}
+for item in list{
+    print("外部--\(item)")
+}
+//结果
+   内部--1
+   外部--1
+   内部--2
+   外部--2
+```
+
+* let标识常量，var标识变量；
+
+let修饰的属性为线程安全的。let修饰的属性只可以被赋值一次，如果在方法中，除了使用这种形式外，还可以使用`let number:Int;number = 1`这种形式，不过两种形式赋值一次之后都不可以再次赋值了。
+
+* static 用于限定作用域，可以修饰方法以及属性。
+
+```swift
+class Info{
+   static let name = "张三"
+}
+print(Info.name) //输出张三
+print(Info().name) //报错，这点与Java不同，java中允许这种使用
+```
+
+**static let** 修饰属性时，属性会自动进行懒加载，并且是线程安全的
+**static var** 修饰属性时，属性的初始化时机不确定
+
+附上初始化的一部分写法
+
+```swift
+// 写法1
+static let redLabel:UILabel = {
+        $0.backgroundColor = .red
+        $0.text = "红色"
+        return $0
+    }(UILabel())
+
+// 写法2
+static let redLabel:UILabel = {
+        let redLabel = UILabel()
+        redLabel.backgroundColor = .red
+        redLabel.text = "红色"
+        return redLabel
+    }()
+
+```
+
+## 14、class和static的相同点和区别
+
+### 1、相同点
+
+* 都可以用来修饰方法，其中class修饰的叫做类方法，static修饰的叫做静态方法；
+* 都可以用来修饰计算属性；
+
+### 2、区别
+
+* class只可以用于类中，修饰的方法以及计算属性可以被重写
+* static可以用于类、结构体以及枚举中使用，修饰后的方法以及属性不可以被重写；static可以修饰存储属性，修改后的属性叫做静态变量（常量）；
+* class、struct以及enum都可以实现protocol，其中在protocol定义时使用static，enum以及struct去实现时使用static，class去实现时class以及static都可以使用；
+
+## 15、计算属性、存储属性以及类型属性
+
+* 类型属性：被static修饰的属性；可以用在枚举、类中；
+* 存储属性：存储变量或常量，可以用在结构体以及类中；
+* 计算属性：不直接存储值，而是通过get以及set方法来赋值以及取值，同时对其他属性进行操作，类似一个方法；在类、结构体以及枚举中都可以使用；必须用var修饰、属性的类型不可以忽略、如果想修改属性的值，必须写set方法，否则只有一个get方法；
+
+```swift
+// 错误写法，这种写法会进入死循环
+var name: String {
+        get {
+            return self.name
+        }
+        set {
+            self.name = newValue
+        }
+    }
+```
+
+## 16、init构造方法总结
+
+无论是结构体、类还是枚举，除非是在定义属性的时候已经给属性进行赋值，否则必须在init方法中对其进行赋值。
+
+```swift
+class Student{
+   var sex:String! // var修饰的属性这种形式的写法 会 为属性自动设置一个nil的初始值，构造方法中不必要对其进行赋值了
+   let name:String! //let修饰的属性这种形式的写法 不会 为属性设置初始值，必须通过构造方法进行赋值或者使用 let name:String! = nil这种方式的写法
+}
+```
+
+便利构造函数中，一定不会有super，并且方法的第一句是调用自身的构造方法，然后再对属性赋值，只有self被初始化时候才可以对属性进行赋值，这也导致其赋值的属性不可以用let修饰。
+
+* **结构体**
+  * 对应结构体来说，会有一个默认的构造器，默认的构造器会带出所有的属性；当自定义初始化方法后，默认的初始化方法就没有了，必须使用自定义的初始化方法；
+* **类**
+  * 对于类来说，不会有默认的构造方法，如果想使用构造器对属性进行赋值就必须自定义构造方法；
+  * 一旦自定义了一个构造方法，其原本的初始化方法（比如从父类继承而来）都不可以再使用，并且在自定义的构造方法中，必须先对属性进行赋值，然后再调用父类的构造方法。如果想使用默认的初始化方法，请重写这个方法，并进行相应的赋值后，调用父类的构造方法；
