@@ -181,10 +181,9 @@ NS_ASSUME_NONNULL_END
 ```swift
 //在最后一个cell即将展示完毕之后，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束
  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if list.count > 0 , indexPath.row == list.count-1{
-            tableView.snp.updateConstraints{make in
-                make.height.equalTo(tableView.contentSize.height)
-            }
+        tableView.layoutIfNeeded()
+        tableView.snp.updateConstraints { make in
+            make.height.equalTo(tableView.contentSize.height)
         }
     }
 func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
