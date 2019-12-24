@@ -168,3 +168,17 @@ class func hide() {
 ```swift
 @_exported import Alamofire
 ```
+
+## 11、关于时间Date相关概念的理解
+
+### 1、calendar
+
+消除日历差异，iphone里面自带公历、日本日历以及佛历等日历，以及时制（24小时还是12小时）
+
+### 2、timeZone
+
+消除时区差异，使用不同时区，获得的时间也不同
+
+### 3、locale
+
+消除地区差异，会影响时间选择时显示的语言
