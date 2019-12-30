@@ -76,7 +76,8 @@ optional public func tableView(_ tableView: UITableView, willDisplay cell: UITab
 
 ### 2、TableView高度自适应
 
-设置TableView高度自适应一般需要设置estimatedRowHeight以及rowHeight两个属性,并且cell的子控件布局要实现自动布局（即cell的子控件需要将cell撑满）。其中estimatedRowHeight是一个对cell的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight设为UITableView.automaticDimension；
+设置TableView高度自适应一般需要设置estimatedRowHeight以及rowHeight两个属性,并且cell的子控件布局要实现自动布局（即cell的子控件需要将cell撑满）。其中estimatedRowHeight是一个对cell的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight设为UITableView.automaticDimension；  
+**需要注意的是当estimatedRowHeight设为0时表示关闭预估高度（在实践中发现可能还会表示不使用自适应），ios11之前默认值为0，ios11及以后默认值为44，也就是说如果app需要兼容ios10及以下系统时，必须手动为estimatedRowHeight属性赋值，但是我觉得即使不是ios10及以下系统，还是建议为该属性手动赋值一个比较接近的值，提升流畅度**
 
 >`cellForRowAtIndexPath`与`heightForRowAtIndexPath`调用顺序：
 
