@@ -175,12 +175,12 @@ NS_ASSUME_NONNULL_END
     }
 ```
 
-### 4、提供一个获取tableView自适应高度的方法
+### 4、提供一个获取tableView自适应高度比较暴力的方法
 
-近期开发中遇到了一个ScrollView嵌套tableView的场景，因为ScrollView需要依靠其子View的相对约束来计算其ContentSize,所以需要获取到tableView的高度。下面是相关代码。大致思路为**在最后一个cell即将展示完毕之后，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束。(可以提前给tableView设置一个平均高度，然后去更新这个约束，这样即使没有获取到实际高度，也不会有错误)**
+近期开发中遇到了一个ScrollView嵌套tableView的场景，因为ScrollView需要依靠其子View的相对约束来计算其ContentSize,所以需要获取到tableView的高度。下面是相关代码。大致思路为**cell即将展示时，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束。(可以提前给tableView设置一个平均高度，然后去更新这个约束，这样即使没有获取到实际高度，也不会有错误)**
 
 ```swift
-//在最后一个cell即将展示完毕之后，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束
+//在cell即将展示时，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束
  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         tableView.layoutIfNeeded()
         tableView.snp.updateConstraints { make in
