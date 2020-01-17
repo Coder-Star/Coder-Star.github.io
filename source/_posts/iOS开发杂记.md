@@ -182,3 +182,14 @@ class func hide() {
 ### 3、locale
 
 消除地区差异，会影响时间选择时显示的语言
+
+## 12、layoutSubviews相关
+
+### 1、触发时机
+
+* init()不会触发，init(frame: CGRect)，当frame不为0时会触发
+* addSubview会触发
+* 设置view的frame是时，当frame设置前后发生了变化会触发
+* 滚动一个UIScrollView会触发
+* 旋转Screen会触发
+* 改变一个UIView大小时会触发父View上的layoutSubviews
