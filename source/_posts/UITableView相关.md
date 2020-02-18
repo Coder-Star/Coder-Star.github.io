@@ -256,7 +256,7 @@ if tableCell == nil{
 
 ```swift
 tableView.isEditing = true //进入编辑模式
-tableView.allowsMultipleSelectionDuringEditing = true //当编辑模式时允许多选
+tableView.allowsMultipleSelectionDuringEditing = true //当编辑模式时允许多选,当开启该选项后，前面的样式不必要再
 ```
 
 ##### 1.选中及取消选中
