@@ -127,7 +127,7 @@ pod spec lint #从本地以及远程验证pod是否能够通过验证
 
 ```Ruby
 pod trunk add-owner 名称 邮箱 #如果你的pod是多人维护的，可以使用该命令添加写作者
-pod clean #清理
+pod cache clean --all #清理
 pod deintegrate #移除pod库依赖
 ```
 
