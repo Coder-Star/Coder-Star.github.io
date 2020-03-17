@@ -183,13 +183,47 @@ class func hide() {
 
 消除地区差异，会影响时间选择时显示的语言
 
-## 12、layoutSubviews相关
+## 12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded等相关
 
-### 1、触发时机
+### 1、layoutSubviews
 
+不要直接调用该方法，而是重写该方法等待触发时机自动被调用，并且这个方法的触发时机比较多，调用比较频繁，所以没有特殊需求或者必要性，不需重写该方法。
+
+**触发时机**
 * init()不会触发，init(frame: CGRect)，当frame不为0时会触发
 * addSubview会触发
-* 设置view的frame是时，当frame设置前后发生了变化会触发
+* 设置view的frame时，当frame设置前后发生了变化会触发，不变化不触发
 * 滚动一个UIScrollView会触发
 * 旋转Screen会触发
 * 改变一个UIView大小时会触发父View上的layoutSubviews
+
+### 2、setNeedsLayout
+
+该方法异步执行；该方法是将指定view打上一个需要更新的标记，等待下一个view绘制周期的时候会更新该view。默认会调用layoutSubviews方法。这种方法会将所有布局更新合并到一个更新周期，这通常对性能更好。  
+当我们修改视图的约束时，实际上会自动执行相当于setNeedsLayout的操作；  
+Tips：下一次更新周期就是runloop的循环周期。
+
+### 3、setNeedsDisplay
+
+该方法异步执行；该方法默认会自动调用drawRect方法，这样可以拿到UIGraphicsGetCurrentContext，进行绘图。
+
+### 4、layoutIfNeeded
+
+该方法会在当前runloop周期内立即更新带有需要刷新标记的视图，所以我们如果想要当前runloop理解刷新视图，调用顺序应该是
+```
+self.view.setNeedsLayout()
+self.view.layoutIfNeeded()
+```
+如果有需要刷新的标记，就会立即调用layoutSubviews，如果没有，则不调用。
+Tips：在视图第一次显示之前，相关view肯定带有刷新标记的，所有直接调用layoutIfNeeded就会立即进行更新。
+## 13、自定义View的注意事项
+
+注:**createUI为设置view私有方法**
+
+### 1、创建时机
+
+createUI方法最好在initWithFrame中调用，外部使用init或initWithFrame均可以正常执行createUI方法。不要在自定义View中同时重写init与initWithFrame并执行相同视图布局代码。会导致布局代码(createUI)执行多次；
+
+### 2、view重复创建
+
+如果view重复添加同一个view并不会出现多层级的问题。苹果自身会判断view新旧父视图是否一致，若一致，不做任何操作(可通过调试layoutSubviews的被调用次数进行验证)。注意，这时候的同一个view是指指向同一个引用，如果自定义view的子视图最好以懒加载的形式加载，可避免因某种书写不当导致的异常，如果在createUI方法直接使用 `let view = UIView()`的形式创建，就会出现多层级的问题；
