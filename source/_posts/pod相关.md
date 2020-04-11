@@ -85,6 +85,9 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 * **pod search XXX**  
   搜索共享库信息
 
+* **pod outdated**  
+  查询依赖的三方库是否有更新
+
 #### 2、创建
 
 * **pod lib create XXX**  
@@ -201,4 +204,14 @@ pod 'Alamofire', '~>0' //高于0的版本，写这个限制和什么都不写是
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :tag => '0.7.0'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'develop'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => '082f8319af'
+
+pod 'Alamofire', :podspec => 'https://github.com/Alamofire/Alamofire/blob/master/Alamofire.podspec'
 ```
+
+## 三、关于项目引入CocoaPods的一些建议
+
+### 1、CocoaPods生成的Pods目录以及profile.lock等文件不加入到.gitignore中去
+
+### 2、profile中依赖的第三方库使用精确版本号，不使用任何’~> 1.0', ‘>= 1.0'之类的版本号语法，只使用精确版本号，如'1.0.0'
+
+### 3、
