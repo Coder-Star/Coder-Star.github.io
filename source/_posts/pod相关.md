@@ -120,8 +120,8 @@ git push --tags //推送所有tag，也可以使用  git push origin '1.0.0' 推
 #### 5、安装相关命令
 
 ```Ruby
-pod install --no-repo-update #安装跳过本地仓库，如果指定版本了，会安装指定版本，如果没有指定版本，则不会更新；pod install --verbose --no-repo-update 查看详细更新信息
-pod update --no-repo-update #更新跳过本地仓库，不指定版本，会将版本更新到最新版； pod update --verbose --no-repo-update
+pod install --no-repo-update #安装跳过更新podspec索引，如果指定版本了，会安装指定版本，如果没有指定版本，则不会更新；pod install --verbose --no-repo-update 查看详细更新信息
+pod update --no-repo-update #更新跳过更新podspec索引，不指定版本，会将版本更新到最新版； pod update --verbose --no-repo-update 查看更新过程中的详细信息
 pod setup #生成本地spec仓库
 pod spec lint #从本地以及远程验证pod是否能够通过验证
 ```
@@ -145,7 +145,7 @@ pod deintegrate #移除pod库依赖
 
 * 当想删除私有库中某一个podspec时，可以直接在Spec Repo代码中将某个私有库podspec的文件删除，然后提交后远程就可以了
   
-## 二、profile文件样式
+## 二、Podfile文件样式
 
 ```Ruby
 target 'BaseIOSProject' do
@@ -210,8 +210,19 @@ pod 'Alamofire', :podspec => 'https://github.com/Alamofire/Alamofire/blob/master
 
 ## 三、关于项目引入CocoaPods的一些建议
 
-### 1、CocoaPods生成的Pods目录以及profile.lock等文件不加入到.gitignore中去
+### 1、CocoaPods生成的Pods目录以及Podfile.lock等文件不加入到.gitignore中去
 
-### 2、profile中依赖的第三方库使用精确版本号，不使用任何’~> 1.0', ‘>= 1.0'之类的版本号语法，只使用精确版本号，如'1.0.0'
+* 这样做可以保证协作方pull完代码之后不需要执行pod命令，甚至可以不装CocoaPods就可以参与开发，避免因为github的问题导致pod install执行失败的问题出现
+* 如果不带入Podfile.lock，可能会导致pod install获得的库版本不同
 
-### 3、
+### 2、Podfile中依赖的第三方库使用精确版本号，不使用任何’~> 1.0', ‘>= 1.0'之类的版本号语法，只使用精确版本号，如'1.0.0'
+
+这种做法可以保证三方库的可控性，避免pod update产生更新
+
+### 3、当两个人同时修改Podfile文件，产生冲突
+
+
+
+# 相关资料
+
+[用CocoaPods做iOS程序的依赖管理--唐巧](http://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/)
