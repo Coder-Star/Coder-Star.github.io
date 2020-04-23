@@ -32,3 +32,6 @@ npm是NodeJS的包管理工具
 
 * 清除缓存  
   `npm cache clean --force`  在node 5版本以上，--force需强制加上，如果不加上会报错。
+
+* 在更新包的过程中出现了file exist，can not remove这种类型的错误  
+  先使用`rimraf node_modules` 删除node_modules文件夹，然后直接是使用`npm update <模块名>`命令更新模块

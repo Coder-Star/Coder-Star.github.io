@@ -43,9 +43,27 @@ print("使用components对字符串进行分割结果：\(x.components(separated
 
 ## 2、Map、filter、reduce、flatMap以及compactMap的使用
 
+首先明确这些高阶函数内部实现机制实际也是循环，是比较耗时的操作，大家使用时要考虑到这一点。
+
 ### 1、Map  
 
 map方法用于对数据中的每一个元素进行处理，然后返回一个新数组，新数组可以是旧数组中的部分属性组成的；
+
+**仿写原理**
+
+```swift
+extension Array{
+    func customMap<T>(transform:((Element) -> T)) -> [T]{
+        var rs:[T] = []
+        for element in self {
+            rs.append(transform(element))
+        }
+        return rs
+    }
+}
+```
+
+**示例Demo**
 
 ```swift
 let str = [12,13,14,15,16,17]
@@ -59,6 +77,23 @@ print(str1)
 
 filter函数用于将列表中元素进行过滤，筛选出数组中满足某种文件的元素组成新数组；
 
+**仿写原理**
+
+```swift
+extension Array{
+    func customFilter(includeElement:(Element) -> Bool) -> [Element] {
+        var rs:[Element] = []
+        for x in self {
+            if includeElement(x) == true {
+                rs.append(x)
+            }
+        }
+        return rs
+    }
+}
+```
+
+**示例Demo**
 ```swift
 let str = [12,13,14,15,16,17]
 let str2 = str.filter{$0 < 13 || $0 > 15} //$0表示数组中每一个元素
@@ -68,6 +103,22 @@ print(str2)
 ```
 
 ### 3、reduce
+
+**仿写原理**
+
+```swift
+extension Array{
+    func customReduce<T>(initial:T, combine:(T,Element)->T) -> T {
+        var rs = initial
+        for x in self {
+            rs = combine(rs, x)
+        }
+        return rs
+    }
+}
+```
+
+**示例Demo**
 
 reduce函数用于将数组元素组合计算为一个计算值，并且接受一个初始值，这个初始值的类型可以与数组元素的类型不同；
 
@@ -449,3 +500,22 @@ class Student{
 * **类**
   * 对于类来说，不会有默认的构造方法，如果想使用构造器对属性进行赋值就必须自定义构造方法；
   * 一旦自定义了一个构造方法，其原本的初始化方法（比如从父类继承而来）都不可以再使用，并且在自定义的构造方法中，必须先对属性进行赋值，然后再调用父类的构造方法。如果想使用默认的初始化方法，请重写这个方法，并进行相应的赋值后，调用父类的构造方法；
+
+## 17、OC的Block与Swift的Closure之间互相转换
+
+**Block转为Closure**
+
+```swift
+// block为获取的oc Block，后面(String) -> Void 为Block的类型 callback为转换后的Closure
+typealias CallbackType = @convention(block) (String) -> Void
+let blockPtr = UnsafeRawPointer(Unmanaged<AnyObject>.passUnretained(block as AnyObject).toOpaque())
+let callback = unsafeBitCast(blockPtr, to: CallbackType.self)
+```
+
+**Closure转为Block**
+
+``` swift
+// callback为swift的Closure，block为一个常量，不太明白为什么要这么写
+let callbackBlock = callback as @convention(block) (String) -> Void
+let callbackBlockObject = unsafeBitCast(callbackBlock, to: AnyObject.self)
+```
