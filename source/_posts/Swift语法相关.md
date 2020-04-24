@@ -519,3 +519,13 @@ let callback = unsafeBitCast(blockPtr, to: CallbackType.self)
 let callbackBlock = callback as @convention(block) (String) -> Void
 let callbackBlockObject = unsafeBitCast(callbackBlock, to: AnyObject.self)
 ```
+
+## 18、限制协议protocol只能有类去实现
+
+添加实现class
+
+```swift
+protocol MyProtocol: class {
+
+}
+```

@@ -54,17 +54,47 @@ URL/Protocol方案
 **swift库**
 * [URLNavigator](https://github.com/devxoul/URLNavigator)
 
-#### MGJRouter
+#### MGJRouter及ModuleManager
 
-记录在使用MGJRouter过程中遇到的问题
+MGJRouter本身是一个单例模式，其实是在路由中心中维护了一张路由表（字典），其中url为key，value为Block；注册时，将key以及value保存到路由表中，使用时，根据Url拿到对应的Block进行执行。
 
-* 如果url中含有中文，想要使用canOpenURL这个方法，需要对url进行编码，否则会引起代码Crash；
+**优点**
+
+* 项目简洁，就两个文件；
+* 可以协调本地调用、远程推送调用，甚至可以达到同一个url管理三端的效果；（iOS，Android）
+
+**缺点**
+
+* 传值比较麻烦；传值一般有两种方式，一种是直接在url上拼接，一种是通过提供的字典进行传值，对于普通的数据类型还可以接受，但是想要传递类似UIImage以及Data这种对象就比较难了。
+* 参数传递以及接收解析时存在hardcode的问题；
+
+为了解决MGJRouter本身的传值麻烦问题以及部分不适合用URL传值的方式，就可以通过注册protocol的方式来实现。核心代码如下。
+```swift
+ModuleManager.register(className: AnyObject, forProtocol: Protocol)
+```
+
+**记录在使用MGJRouter过程中遇到的问题**
+
+* 如果url中含有中文，想要使用canOpenURL这个方法，需要对url进行编码，否则会引起代码Crash，因为其函数实现未对url进行编码；
   
 #### 2、Target-Action方案
 
-* [CTMediator](https://github.com/casatwy/CTMediator)
+**[CTMediator](https://github.com/casatwy/CTMediator)**
 
+CTMediator是casatwy提出的Target-Action方案的实现。
 
+#### 3、完整的组件解耦以及通信方案
+
+**[BeeHive](https://github.com/alibaba/BeeHive)**
+
+BeeHive是阿里开源的一个APP模块化编程框架的实现方案，其吸收了Spring框架Service的理念来实现模块间的API解构，其实本质上与蘑菇街后来推出的Protocol方案类似。
+
+**提供的主要功能**
+
+* 应用代理解耦：解除AppDelegate代理方法中，不同业务代码的耦合。
+* 模块间调用解耦：解除不同模块间的过度耦合问题，提供更加清晰的调用方案。
+* 其他开发支持功能
+  
 
 
 ### 四、总结
@@ -77,3 +107,6 @@ URL/Protocol方案
 * [蘑菇街App的组件化之路·续](https://www.tuicool.com/articles/QneYvmi)
 * [iOS应用架构谈组件化方案](https://casatwy.com/iOS-Modulization.html)
 * [iOS组件化方案探索](http://blog.cnbang.net/tech/3080/)
+* [BeeHive，一次iOS模块化解耦实践](https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&mid=2247488305&idx=1&sn=0f0a2e4d5febe3024adf0578f092b020&source=41#wechat_redirect)
+* [BeeHive框架全面解析——iOS开发主流方案比较](https://xiaozhuanlan.com/topic/4052613897)
+* [BeeHive —— 一个优雅但还在完善中的解耦框架](https://www.jianshu.com/p/24f6299ebe82)
