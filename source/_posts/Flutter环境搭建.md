@@ -6,11 +6,11 @@ tags: [Flutter]
 ---
 ## 1、下载Flutter
 
- ```git
+```git
 git clone -b master https://github.com/flutter/flutter.git
 ```
 
-### 2、配置环境变量
+## 2、配置环境变量
 
 ```vim
 vim ~/.bash_profile
@@ -24,13 +24,13 @@ source ~/.bash_profile
 flutter -h //显示相关帮助
 ```
 
-### 3、检查环境
+## 3、检查环境
 
 ```flutter
 flutter doctor
 flutter doctor --android-licenses
 ```
 
-### 4、Android Studio 安装Flutter插件
+## 4、Android Studio 安装Flutter插件
 
-![AS示例图.png](/Flutter环境搭建/AS示例图.png)
+![AS示例图.png](../img/AS示例图.png)

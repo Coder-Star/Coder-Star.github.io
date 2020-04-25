@@ -28,7 +28,7 @@ tags: [iOS]
 
 下面代码实现效果如下图所示，其中上面标题部分是一个固定view，下面红色部分是可滑动部分，可以根据以下代码体会以下UIScrollView在利用snpkit设置约束的不同之处；
 
-![UIScrollView实现效果图.png](/UIScrollView相关/UIScrollView实现效果图.png)
+![UIScrollView实现效果图.png](../img/UIScrollView实现效果图.png)
 
 ```swift
 import Foundation
