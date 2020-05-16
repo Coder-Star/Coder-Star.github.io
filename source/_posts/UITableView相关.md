@@ -312,7 +312,7 @@ override func setSelected(_ selected: Bool, animated: Bool) {
 
 2. cell的selectionStyle不可以设为none，否则没有选中效果
 
-### 8、UITableView懒加载中不可以设置tableFooterView以及tableHeaderView，设置会导致崩溃
+### 8、UITableView懒加载中不可以设置tableFooterView以及tableHeaderView，设置会导致崩溃（好像在ios 13上已经修复该问题）
 
 ```swift
  private lazy var tableView:UITableView = {
@@ -324,3 +324,6 @@ override func setSelected(_ selected: Bool, animated: Bool) {
         return tableView
     }()
 ```
+### 9、cell使用自动高度布局时，内部view约束高度过小
+
+当cell使用自动高度布局时，内部view约束高度过小（小于0.17）时，会出现设置的高度约束无效，cell实际显示出的高度为cell默认高度44.

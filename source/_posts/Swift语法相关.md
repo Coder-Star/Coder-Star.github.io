@@ -263,7 +263,7 @@ swift的限制符分为五类，分别为`open` > `public`>`internal` > `filepri
 
 * 子类如果想要重写父类的extension中的方法，需要在父类方法上加上@objc的修饰符
 * 当用某一个限制符修饰扩展时，其扩展内部方法以及计算属性等默认都会使用该限制符，如果其中需要比较小的限制符，需要手动加上
-* 扩展中不可以使用存储属性
+* 扩展中不可以使用存储属性，只可以有计算属性以及方法
 
 ## 7、Swift以及OC
 
@@ -520,12 +520,46 @@ let callbackBlock = callback as @convention(block) (String) -> Void
 let callbackBlockObject = unsafeBitCast(callbackBlock, to: AnyObject.self)
 ```
 
-## 18、限制协议protocol只能有类去实现
+## 18、protocol相关
 
-添加实现class
+### 1、限制协议protocol只能有类去实现
 
 ```swift
 protocol MyProtocol: class {
 
+}
+```
+或者
+```swift
+protocol MyProtocol: AnyObject {
+
+}
+```
+
+### 2、当protocol被struct实现
+因为struct中的方法如果对属性进行修改时，需要在方法前面加上`mutating`关键字，所以当protocol可能被struct实现时，需要注意将protocol中的部分方法前面加上`mutating`关键字
+
+### 3、可选protocol
+
+OC方法
+
+```swift
+@objc protocol SomeProtocol {
+    func requiredFunc()
+    @objc optional func optionalFunc()
+}
+```
+
+Swift方法
+
+```swift
+protocol SomeProtocol {
+    func requiredFunc()
+    func optionalFunc()
+}
+extension SomeProtocol {
+    func optionalFunc() {
+       print(“Dumb Implementation”)
+    }
 }
 ```
