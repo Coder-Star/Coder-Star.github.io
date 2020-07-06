@@ -8,7 +8,7 @@ tags: [iOS]
 
 * **Class是引用类型，Struct是值类型;**
 
-这里引申一下，引用类型与值类型区别其实可以与深拷贝与浅拷贝对应起来，值类型在赋给另一个变量时会对值进行一次拷贝，而引用类型赋给另一个变量是将引用地址赋给它。值类型如果每次赋值时候都进行拷贝的话会增大内存开销，实际上只有值类型发生改变的时候才会进行真正的拷贝--“写时复制（Copy-On-Write）”的特性，当没有改变时，两者共享同一个内存地址。
+这里引申一下，引用类型与值类型区别其实可以与深拷贝与浅拷贝****对应起来，值类型在赋给另一个变量时会对值进行一次拷贝，而引用类型赋给另一个变量是将引用地址赋给它。值类型如果每次赋值时候都进行拷贝的话会增大内存开销，实际上只有值类型发生改变的时候才会进行真正的拷贝--“写时复制（Copy-On-Write）”的特性，当没有改变时，两者共享同一个内存地址。
 
 * **Struct不能继承，Class可以继承**
 * **Class需要自己定义构造器，而Struct不需要；**(Struct默认生成的构造器必须包括所有成员参数，只有当所有参数都为可选型时，可直接不用传入参数直接简单构造) 举一反三：Class中的属性必须都有默认值，否则编译错误,可以通过声明时赋值或者构造器赋值两种方式给属性设置默认值
@@ -20,13 +20,13 @@ tags: [iOS]
 ![iOS持久化方式.webp](../img/iOS持久化方式.webp)
 
 * UserDefaults  
-  这种方式本质上还是plist文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的plist文件放置在Library/Preference，生成的plist文件为 包名.plist
+  这种方式本质上还是plist文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的plist文件放置在Library/Preference，生成的plist文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密；
 * plist文件  
   可以利用NSArray以及NSDictionary两种结构的读写文件方法。
 * keychain钥匙串
   此种方式存储的信息不会随着APP的卸载还删除。很安全。
 * 归档
-  
+  数据对象需要遵守NSCoding协议。缺点：只能一次性归档保存或者一次性解压。所以只能针对小量数据，对数据操作比较笨拙，如果想改动数据的某一个小部分，需要解压或者归档整个数据；
 * 沙盒文件  
   应用沙盒机制：每个iOS应用都有自己的应用沙盒（文件系统目录），与其他文件系统隔离。每个应用必须在自己的沙盒里运行，其他应用不能访问该沙盒。  
   ```
@@ -43,3 +43,56 @@ tags: [iOS]
   * SQLite
   * CoreData
   * Realm
+
+## 3、iOS事件分发及响应链机制
+
+### 寻找最合适的View
+
+```swift
+/// 寻找顺序
+touch(UIEvent)->UIApplication事件队列->UIWindow->UIView->UIView的子view->...->view
+```
+
+在寻找最合适View过程中会用到UIView的下列两个方法；
+```swift
+override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+}
+
+override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+}
+
+```
+当一个视图View收到hitTest消息时，先会检查自己是否可以响应事件，如果 View 的 userInteractionEnabled = NO，enabled = NO（UIControl），或者 alpha <= 0.01， hidden = YES 等情况的时候，直接返回 nil，然后调用自己的poinInside方法；如果返回false表示点击区域不在自己视图范围内，直接返回nil。  
+返回nil表示此View已经不是合适View了，如果不返回nil会遍历自己的子视图，所有子视图的遍历顺序是从最顶层视图一直到到最底层视图，即从subviews数组的末尾向前遍历，即后加入的子view会先遍历，子视图就会调用自己的hitTest方法；逐级进行进去，找到最小的那个UIview。
+
+tips  
+在测试过程中，发现hitTest方法会执行两遍，point值一致，根据stackoverflow上面的描述，苹果回复意思就是说hitTest是一个没有副作用的纯函数，进行多次调用也不会对外产生影响，因此系统可以多次调整调用之间被测试的点。
+
+### 事件分发
+
+在找到最合适的View后会进行事件分发。
+UIApplication sendEvent: → UIWindow sendEvent: → 最合适的view开始响应
+
+### 事件响应
+
+事件响应的方式可以分别三种：UIResponder、UIGestureRecognizer、UIControl
+
+#### UIResponder
+
+UIResponder类中包含以下几个方法，用来响应事件，采用响应链进行传递。
+```
+– touchesBegan:withEvent:
+– touchesMoved:withEvent:
+– touchesEnded:withEvent:
+– touchesCancelled:withEvent:
+```
+
+响应链是在事件分发寻找View中产生的响应链，最合适的View便是第一响应者，如果第一响应者不响应事件，便把这事件交由下一个响应者进行处理；  
+```swift
+/// 根据事件类型调用对应方法，以touchBegan为例：  
+最合适的view touchesBegan: withEvent: → 所在ViewController touchesBegan: withEvent:→ parentView touchesBegan: withEvent: → ... → UIWindow touchesBegan: withEvent: → UIAplication touchesBegan: withEvent: → AppDelegate touchesBegan: withEvent: → 结束  
+/// 如果某个View或ViewController未调用super touchesBegan: withEvent:则响应结束
+```
+![iOS持久化方式.webp](../img/响应链.png)
+
+#### UIGestureRecognizer
