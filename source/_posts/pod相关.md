@@ -208,6 +208,11 @@ pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit =
 pod 'Alamofire', :podspec => 'https://github.com/Alamofire/Alamofire/blob/master/Alamofire.podspec'
 ```
 
+* 纯OC项目中，通过cocoapods导入OC库时，一般都不使用use_frameworks!
+* 纯swift项目中，通过cocoapods导入swift库时，必须使用use_frameworks!
+* 只要是通过cocoapods导入swift库时，都必须使用use_frameworks!
+* 使用动态链接库dynamic frameworks时，必须使用use_frameworks!
+
 ## 三、关于项目引入CocoaPods的一些建议
 
 ### 1、CocoaPods生成的Pods目录以及Podfile.lock等文件不加入到.gitignore中去

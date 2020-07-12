@@ -524,6 +524,8 @@ let callbackBlockObject = unsafeBitCast(callbackBlock, to: AnyObject.self)
 
 ### 1、限制协议protocol只能有类去实现
 
+应用场景：当协议被weak修饰时，必须进行下述操作（限制协议protocol只能有类去实现），因为weak跟引用计数有关，只有类才涉及到引用计数。
+
 ```swift
 protocol MyProtocol: class {
 
@@ -550,7 +552,7 @@ OC方法
 }
 ```
 
-Swift方法
+Swift方法，利用extension为protocol的方法添加默认实现
 
 ```swift
 protocol SomeProtocol {
