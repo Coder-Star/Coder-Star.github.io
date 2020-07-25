@@ -75,24 +75,63 @@ ModuleManager.register(className: AnyObject, forProtocol: Protocol)
 
 **记录在使用MGJRouter过程中遇到的问题**
 
-* 如果url中含有中文，想要使用canOpenURL这个方法，需要对url进行编码，否则会引起代码Crash，因为其函数实现未对url进行编码；
+* 如果url中含有中文，想要使用canOpenURL这个方法，需要对url进行编码，否则会引起代码Crash，因为其函数实现未对url进行编码；这一点已经在MGJRouter提交了pr，不过根据上次pr还没有处理的情况来看，这个库很有可能不再进行维护了；网上也有很多这个库的swift翻译版本；
   
 #### 2、Target-Action方案
 
 **[CTMediator](https://github.com/casatwy/CTMediator)**
 
-CTMediator是casatwy提出的Target-Action方案的实现。
+CTMediator是casatwy提出的Target-Action（如果不知道什么意思的自行google）方案的实现。其与url方法相比最大的特点就在于不需要去维护路由表以及路由方案存在的hard code问题；
+
+大致思想如下：（假定B模块需要与A模块通信）  
+
+A模块在开发完成之后需要对外提供基于Target-Action的调用方式，根据框架源码的阅读，需要给我们提供的类以及方法加上指定前缀，其中，类名前面需要加上Target_，方法名前面需要加上Action_。这部分代码我们可以封装成一个单独的pod（起名为A)。理论上我们做完这部分工作后就可以通过CTMediator调用模块，但是调用模块时需要进行一定的硬编码，如类名、方法名以及方法参数等等，这样在程序编译时进行检查；于是我们可以进行下一步操作； 
+```swift
+@objc class Target_A: NSObject {
+
+    @objc func Action_Extension_ViewController(_ params:NSDictionary) -> UIViewController {
+        if let callback = params["callback"] as? (String) -> Void {
+            callback("success")
+        }
+
+        let aViewController = ViewController()
+        return aViewController
+    }
+}
+``` 
+我们可以通过给CTMediator类（单例）提供扩展的方式，将硬编码的部分写入这部分中，这样外部调用时就可以知道我们需要什么参数了，这部分工作也是由编码A模块的人提供；可以也将该部分单独作为一个pod（起名A_Extension），这里解释下这部分代码不与之前A模块的业务代码放入一个pod的好处：
+* A模块业务代码不需要集成CTMediator；
+* 团队合作的时候A模块的开发方早期不用提供A模块代码，先只提供A_Extension这个pod包即可，类似先定义接口，后期进行实现；
+```swift
+public extension CTMediator {
+    @objc func A_showSwift(callback:@escaping (String) -> Void) -> UIViewController? {
+        let params = [
+            "callback":callback,
+            kCTMediatorParamsKeySwiftTargetModuleName:"A_swift"
+            ] as [AnyHashable : Any]
+        if let viewController = self.performTarget("A", action: "Extension_ViewController", params: params, shouldCacheTarget: false) as? UIViewController {
+            return viewController
+        }
+        return nil
+    }
+}
+```
+
 
 #### 3、完整的组件解耦以及通信方案
 
 **[BeeHive](https://github.com/alibaba/BeeHive)**
 
-BeeHive是阿里开源的一个APP模块化编程框架的实现方案，其吸收了Spring框架Service的理念来实现模块间的API解构，其实本质上与蘑菇街后来推出的Protocol方案类似。
+BeeHive是阿里开源的一个APP模块化编程框架的实现方案，其吸收了Spring框架Service的理念来实现模块间的API解构，路由方面，本质上与蘑菇街后来推出的Protocol方案类似，也加入了url Router的方式，不过readme.md没有对这种方式进行体现，但是在源码中可以看出；其中这种Protocol方法在思想上跟spring的service注入类似；
+
+这种方式决定了业务模块需要引入公共的协议；
+
+在这个框架中，使用了注解方式进行注册的设计很有意思；
 
 **提供的主要功能**
 
-* 应用代理解耦：解除AppDelegate代理方法中，不同业务代码的耦合。
-* 模块间调用解耦：解决模块间的耦合问题，提供更加清晰的调用方案。
+* 模块解耦：通过提前注册（注册方式多种），解决不同模块监听声明周期的问题； 
+* 模块间调用解耦：通过提前注册的方式（注册方式多种），将协议与协议的实现类绑定起来，解决模块间的耦合问题，提供更加清晰的调用方案。
 * 其他开发支持功能
   
 
