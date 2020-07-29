@@ -122,7 +122,8 @@ opacity是CALayer的属性，对应的是UIView的alpha。
 
 ### 5、opaque
 
-表示view的不透明度，设为true表示不透明。但是它决定不了当前view是否不透明，只是为绘图系统提供一个性能优化开关，当设为true时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将opaque设为true的尽量将opaque设为true。至于什么场景下会使用fasle，我也是不太清楚啊...
+表示view的不透明度，设为true表示不透明。但是它决定不了当前view是否不透明，只是为绘图系统提供一个性能优化开关（GPU就不会再利用图层颜色合成真正的色值），当设为true时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将opaque设为true的尽量将opaque设为true。UIView的默认值是true，但UIButton等子类的默认值都是false。  
+如果opaque被设置成YES，而对应UIView的alpha属性不为1.0的时候，就会有不可预料的情况发生。所以当UIView具有透明度的时候，应该将opaque设置为fasle。
 
 ### 6、其他补充
 

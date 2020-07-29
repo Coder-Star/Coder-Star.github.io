@@ -97,6 +97,24 @@ UIResponder类中包含以下几个方法，用来响应事件，采用响应链
 
 #### UIGestureRecognizer
 
+手势识别器同样有touch的四个函数，但是手势识别器本身并不继承自UIResponder，本身并不在响应链里，只有手势识别器对应的view在响应链中的时候手势识别器才会监听touch事件，并根据自己的touch函数识别手势，然后触发相应的回调函数。  
+本质来说，hit-test view触摸事件的回调跟手势识别器是两个独立的过程，互不干涉，手势识别器先开始接收touch事件。  
+一般来说手势识别器的回调函数会比hit-test view的触摸事件的晚一些，因为手势识别器只有在手势识别出来之后才会触发回调函数（默认情况下只有一个手势识别器能够响应）.但是手势识别器接收touch事件的时机比hit-test view早。  
+但是手势识别中定义了三个属性，能够影响hit-test view触摸事件的调用过程，这三个属性如下所示：
+```swift
+// 当值为YES时（默认值），表示手势识别成功后触摸事件取消掉，即识别成功后hitTest-View会调用touchesCancelled函数。
+// 当值为NO时，触摸事件会正常起作用，会正常收到touchesEnded消息。
+cancelsTouchesInView
+
+// 当值为NO时（默认值），触摸事件和手势识别的过程同时进行，当然先会发送触摸事件，然后当手势识别成功时，触摸事件会被取消掉，即识别成功后hitTest-View会调用touchesCancelled函数。
+// 当值为YES时，手势识别器先接收touch事件进行手势识别，识别过程中hit-test view的触摸事件会先被UIWindow hold住，当手势识别成功时hit-test view的触摸事件不会调用，当手势识别失败时才开始调用touchesBegan函数。
+delaysTouchesBegan
+
+// 当值为YES时（默认值），当手势识别失败时会延迟（约0.15ms）调用touchesEnded函数。
+// 当值为NO时，当手势识别失败时会立即调用touchesEnded函数。
+delaysTouchesEnded
+```
+
 ## 4、tableview的性能优化
 
 ### 1、cell复用
@@ -123,3 +141,9 @@ cell复用时需要注意在cell上添加子视图导致重叠的问题；
 
 ### 5、滑动时，按需加载
 
+
+## 5、KVO、KVC的原理
+
+### 1、KVO
+
+### 2、KVC
