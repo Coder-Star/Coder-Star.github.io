@@ -115,6 +115,10 @@ delaysTouchesBegan
 delaysTouchesEnded
 ```
 
+### 3、UIControl
+
+UIControl会有自己的四个Tracking系列方法对应touch的四个方法，事实上，UIControl的 Tracking 系列方法是在touch系列方法内部调用的。比如 beginTrackingWithTouch 是在 touchesBegan方法内部调用的， 因此它虽然也是UIResponder，但touches 系列方法的默认实现和UIResponder本类还是有区别的。
+
 ## 4、tableview的性能优化
 
 ### 1、cell复用
