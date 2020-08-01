@@ -117,7 +117,8 @@ delaysTouchesEnded
 
 ### 3、UIControl
 
-UIControl会有自己的四个Tracking系列方法对应touch的四个方法，事实上，UIControl的 Tracking 系列方法是在touch系列方法内部调用的。比如 beginTrackingWithTouch 是在 touchesBegan方法内部调用的， 因此它虽然也是UIResponder，但touches 系列方法的默认实现和UIResponder本类还是有区别的。
+UIControl会有自己的四个Tracking系列方法对应touch的四个方法，事实上，UIControl的 Tracking 系列方法是在touch系列方法内部调用的。比如 beginTrackingWithTouch 是在 touchesBegan方法内部调用的， 因此它虽然也是UIResponder，但touches 系列方法的默认实现和UIResponder本类还是有区别的。  
+UIControl同时添加action以及绑定手势识别器后，手势识别器会响应，action不响应，从结果来看，手势识别器具有更高的优先级；
 
 ## 4、tableview的性能优化
 
@@ -131,7 +132,7 @@ cell复用时需要注意在cell上添加子视图导致重叠的问题；
 * 对于固定高度的cell，我们可以直接给定cell高度；
 * 对于高度不固定的cell，我们需要将计算后的高度缓存下来，下次展示这个cell时，直接使用缓存的高度，减少高度计算
 
-### 3、渲染
+### 3、渲染优化（不止TableView）
 
 #### 1、减少subviews的个数和层级
 
@@ -139,7 +140,12 @@ cell复用时需要注意在cell上添加子视图导致重叠的问题；
 
 #### 2、少用subviews的透明图层
 
-对于不透明的View，设置opaque为YES，这样在绘制该View时，就不需要考虑被View覆盖的其他内容（尽量设置Cell的view为opaque，避免GPU对Cell下面的内容也进行绘制）,给view都设置一个背景色，避免使用默认的透明；
+对于不透明的View，设置opaque为YES，这样在绘制该View时，就不需要考虑被View覆盖的其他内容（尽量设置Cell的view为opaque，避免GPU对Cell下面的内容也进行绘制）,给view都设置一个背景色，避免使用默认的透明；如果想要透明的效果，可以将背景色设置与父View的背景色一致。
+
+#### 3、尽量将图片大小设置的和UIImageView的大小一致。
+当对一个UIImageView设置一个较大的image时，需要在主线程完成重采样的过程，耗时耗内存，所以尽量在设置图片时设置的和UIImageView的大小相近。
+
+#### 4、避免离屏渲染
 
 ### 4、异步绘制
 
@@ -150,4 +156,52 @@ cell复用时需要注意在cell上添加子视图导致重叠的问题；
 
 ### 1、KVO
 
+**原理**  
+1. KVO是关于runtime机制实现的;
+2. 当某个类的对象属性第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的setter方法。派生类在被重写的setter方法内实现真正的通知机制;
+3. 如果原类为Person，那么生成的派生类名为NSKVONotifying_Person;
+4. 每个类对象中都有一个isa指针指向当前类，当一个类对象的第一次被观察，那么系统就会偷偷讲isa指针指向动态生成的派生类，从而在给被监控属性复制是执行的是派生类的setter方法;
+5. 键值观察通知依赖于NSObject的两个方法：willChangeValueForKey:和didChangeValueForKey:,在一个被观察属性发生改变之前，willChangeValueForkey:和didChangeValueForKey:；在一个被观察属性发生改变之前，willChangeValueForKey:一定会被调用，这就会记录旧的值。而当改变发生后，didChangeValueForKey:会被调用，继而observeValueForKey:ofObject:change:context:也会被调用
+
+如果直接给属性赋值，不调用set方法赋值是不会触发KVO的。  
+我们可以手动调用KVO，也就是在值改变之前手动调用willChangeValueForKey方法，在值改变之后手动调用didChangeValueForKey方法。
+
+**使用场景**  
+监听某个值的变化从而进行相应的操作，如更新UI等。
+
 ### 2、KVC
+
+**原理**  
+KVC取值（valueForKey:）
+![KVC取值.jpg](../img/KVC取值.png)
+
+KVC赋值（setValue:forKey: ）
+![KVC赋值.jpg](../img/KVC赋值.jpg)
+
+accessInstanceVariablesDirectly表示是否允许直接访问成员变量，默认返回值是YES。
+
+**使用场景**
+
+* 字典转模型 ,简化代码量
+* 修改系统的只读变量
+* 可以任意修改一个对象的属性和变量(包括私有变量)
+
+通过KVC改变属性会触发KVO。
+
+
+## 6、UIImageView加载图片相关
+
+**过程**
+* 从磁盘拷贝数据到内核缓冲区域；
+* 从内核缓存区域复制数据到用户内存；
+* UIImage赋值给UIImageView的image时，图像数据会被解码，变成位图数，内存大小为 width height 4bytes （4bytes:每个像素点的大小)；
+* CTTransaction捕捉到UIImageView layer树的变化；
+* 主线程 runloop提交CTTransaction，开始图像渲染。（如果数据没有字节对齐，Core Animation会再拷贝一份数据，进行字节对齐，GPU处理位图数据，进行渲染）；
+
+**加载方式**
+* imageNamed：在图片第一次渲染到屏幕的时候触发解码，缓存解码之后的数据，缓存在全局内存中，不会随着UIImage的释放而释放。适合加载一些经常显示、比较小的图片，如QQ列表缩略图等；
+* imageWithContentsOfFile: 或 imageWithData: 与imageNamed不同的是会随着UIImage的释放而释放。适合加载不常显示而且比较大的图片。
+
+**优化**
+* 减少加载UIImage内存的大小,根据imageview实际size来加载，可以减少内存占用。解码后生成CGImage缩略图，再转化为UIImage,然后传给UIImgaeView渲染展示。
+* 解码的操作在主线程，比较耗费CPU的资源。可以把耗时的解码操作放入子线程，解码完成之后再回调到主线程刷新，例如SDWebImage。还有更加极限的优化是在子线程解码之后，将解码之后的图片存在磁盘之中，例如FastImageCache。

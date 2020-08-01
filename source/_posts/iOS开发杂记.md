@@ -123,6 +123,7 @@ opacity是CALayer的属性，对应的是UIView的alpha。
 ### 5、opaque
 
 表示view的不透明度，设为true表示不透明。但是它决定不了当前view是否不透明，只是为绘图系统提供一个性能优化开关（GPU就不会再利用图层颜色合成真正的色值），当设为true时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将opaque设为true的尽量将opaque设为true。UIView的默认值是true，但UIButton等子类的默认值都是false。  
+如果你加载一个没有alpha通道（图片的属性）的图片，并且将它显示在 UIImageView 上，会自动设置opaque 为 YES。  
 如果opaque被设置成YES，而对应UIView的alpha属性不为1.0的时候，就会有不可预料的情况发生。所以当UIView具有透明度的时候，应该将opaque设置为fasle。
 
 ### 6、其他补充
@@ -188,14 +189,14 @@ class func hide() {
 
 ### 1、layoutSubviews
 
-不要直接调用该方法，而是重写该方法等待触发时机自动被调用，并且这个方法的触发时机比较多，调用比较频繁，所以没有特殊需求或者必要性，不需重写该方法。
+不要直接调用该方法，而是重写该方法等待触发时机自动被调用，并且这个方法的触发时机比较多，调用比较频繁，所以没有特殊需求或者必要性，不需重写该方法。一般重写该方法对子View的frame进行修改。
 
 **触发时机**
 * init()不会触发，init(frame: CGRect)，当frame不为0时会触发
 * addSubview会触发
 * 设置view的frame时，当frame设置前后发生了变化会触发，不变化不触发
-* 滚动一个UIScrollView会触发
-* 旋转Screen会触发
+* 滚动UIScrollView会多次触发
+* 旋转Screen会触发父UIView上的layoutSubviews事件
 * 改变一个UIView大小时会触发父View上的layoutSubviews
 
 ### 2、setNeedsLayout
@@ -210,20 +211,37 @@ Tips：下一次更新周期就是runloop的循环周期。
 
 ### 4、layoutIfNeeded
 
-该方法会在当前runloop周期内立即更新带有需要刷新标记的视图，所以我们如果想要当前runloop理解刷新视图，调用顺序应该是
+该方法会在当前runloop周期（刷新频率60HZ）内立即更新带有需要刷新标记的视图，所以我们如果想要当前runloop理解刷新视图，调用顺序应该是
 ```
 self.view.setNeedsLayout()
 self.view.layoutIfNeeded()
 ```
 如果有需要刷新的标记，就会立即调用layoutSubviews，如果没有，则不调用。
 Tips：在视图第一次显示之前，相关view肯定带有刷新标记的，所有直接调用layoutIfNeeded就会立即进行更新。
+
+### 5、drawRect
+
+
+
+### 6、sizeThatFits、sizeToFit
+
+一般在使用UILabel的时候会用到，使用这两个方法之前，必须要给label赋值，否则不会显示内容的。
+* sizeToFit会自动调用sizeThatFits方法；
+* sizeToFit不应该在子类中被重写，应该重写sizeThatFits；
+* sizeThatFits传入的参数是receiver当前的size，返回一个适合的size；
+* sizeToFit可以被手动直接调用；
+* sizeToFit和sizeThatFits方法都没有递归，对subviews也不负责，只负责自己；
+
 ## 13、自定义View的注意事项
 
 注:**createUI为设置view私有方法**
 
 ### 1、创建时机
+自定义view继承自UIView时，一般都会重写UIView的initWithFrame，如果调用者在使用时，没有调用你写的initWithFrame，而是直接init，系统也会在super init(即UIView init)之后，调用UIView的initWithFrame，然后因为你重写了，所以会调用你写的。
+顺序就是
+`customView init -> UiView init -> UIView initWithFrame -> CustomView initWithFrame`。
 
-createUI方法最好在initWithFrame中调用，外部使用init或initWithFrame均可以正常执行createUI方法。不要在自定义View中同时重写init与initWithFrame并执行相同视图布局代码。会导致布局代码(createUI)执行多次；
+所以createUI方法最好在initWithFrame中调用。不要在自定义View中同时重写init与initWithFrame并执行相同视图布局代码。会导致布局代码(createUI)执行多次；
 
 ### 2、view重复创建
 
