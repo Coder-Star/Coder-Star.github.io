@@ -14,6 +14,7 @@ tags: [Android,iOS]
 * **PictureSelector** 图片选择
 * **BaseRecyclerViewAdapterHelper** RecyclerView适配器
 * **SwipeDelMenuLayout** 侧滑菜单
+* **SwipeRecyclerView** 侧滑菜单、拖拽、下拉刷新、上拉加载
 * **SmartRefreshLayout** 上拉刷新 下拉加载
 * **MagicIndicator** 分页控制器ViewPager，还有一个，**FlycoTabLayout**
 * **banner** 轮播控件
@@ -23,6 +24,8 @@ tags: [Android,iOS]
 * **SuperToasts** toast
 * **EventBus** 事件总线
 * **logger** 日志打印
+
+* **Stetho** 使用Chrome来调试app，可以查看网络请求、数据库以及UI页面等，需要翻墙。
 
 ## 2、iOS
 
