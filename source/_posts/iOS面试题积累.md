@@ -92,7 +92,7 @@ UIResponder类中包含以下几个方法，用来响应事件，采用响应链
 响应链是在事件分发寻找View中产生的响应链，最合适的View便是第一响应者，如果第一响应者不响应事件，便把这事件交由下一个响应者进行处理；  
 ```swift
 /// 根据事件类型调用对应方法，以touchBegan为例：  
-最合适的view touchesBegan: withEvent: → 所在ViewController touchesBegan: withEvent:→ parentView touchesBegan: withEvent: → ... → UIWindow touchesBegan: withEvent: → UIAplication touchesBegan: withEvent: → AppDelegate touchesBegan: withEvent: → 结束  
+最合适的view touchesBegan: withEvent: → 所在ViewController touchesBegan: withEvent:→ parentViewViewController touchesBegan: withEvent: → ... → UIWindow touchesBegan: withEvent: → UIAplication touchesBegan: withEvent: → AppDelegate touchesBegan: withEvent: → 结束  
 /// 如果某个View或ViewController未调用super touchesBegan: withEvent:则响应结束
 ```
 ![iOS持久化方式.webp](../img/响应链.png)
@@ -228,5 +228,76 @@ UIView主要对CALayer做了简单的封装（UIView 类中有个成员变量lay
 
 基本上你改变一个单独的layer的任何属性的时候，都会触发一个从旧的值过渡到新值的简单动画（这就是所谓的可动画animatable）。但是当 layer 附加在 view 上时，它的默认的隐式动画的layer行为就被禁止了，但是会在animation block 中重新启用了它们。
 
+## 8、RunLoop
 
-                                                
+**模式**
+1. kCFRunLoopDefaultMode：App的默认Mode，通常主线程是在这个Mode下运行
+2. UITrackingRunLoopMode：界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响
+3. UIInitializationRunLoopMode: 在刚启动 App 时第进入的第一个 Mode，启动完成后就不再使用，会切换到kCFRunLoopDefaultMode
+4. GSEventReceiveRunLoopMode: 接受系统事件的内部 Mode，通常用不到
+5. kCFRunLoopCommonModes: 这是一个占位用的Mode，作为标记kCFRunLoopDefaultMode和UITrackingRunLoopMode用，并不是一种真正的Mode
+
+ RunLoop只会运行在一个模式下，要切换模式，就要暂停当前模式，重新启动一个运行模式
+
+**作用**
+* 保持程序持续运行
+* 处理App中各类事件
+* 节省CPU资源，提高程序性能
+
+**实际应用**                                                
+* 控制线程生命周期（线程保活、线程永驻）
+* TableView延迟加载图片  
+  把setImage放到NSDefaultRunLoopMode去做，也就是在滑动的时候并不会去调用赋值图片的方法，而是会等到滑动完毕切换到NSDefaultRunLoopMode下面才会调用 `imageView.perform(#selector(setImage), with: nil, afterDelay: 0, inModes: [.default])`
+* 解决NSTimer在滑动时停止工作的问题  
+  将Timer添加到CommonMode里面即可，`RunLoop.current.add(timer, forMode: .common)`
+* 监测RunLoop的状态监测应用卡顿   
+  根据 //TODO
+
+一个线程对应一个RunLoop，其中主线程的Runloop是默认开启的，子线程的线程默认关闭，我们需要手动进行开启，开启方式:`RunLoop.current.run()`
+
+
+配合CADisplayLink监听FPS，基本原理就是统计每一秒中CADisplayLink执行的次数就OK啦
+```
+let displayLink = CADisplayLink(target: self, selector: #selector(displayLinkAction(displayLink:)))
+displayLink.add(to: .current, forMode: .common)
+```
+
+
+## 9、Runtime
+
+## 10、线程安全
+
+```
+// 使用信号量
+let lock = DispatchSemaphore(value: 1)
+//
+func operation() {
+  lock.wait()
+  // 方法体
+  lock.signal()
+}
+```
+
+## 11、循环引用
+
+循环引用就是两个及以上的对象出现了引用环，导致对象都无法得到释放，典型场景一般包括timer，block以及delegate；
+
+**block、delegate**
+
+一般使用Weak修饰可以解决问题
+
+**timer**  
+```
+
+```
+timer循环引用出现的原因很多人会说是timer所在的类与类之间存在循环引用，但是如果将timer不设置为类的一个属性，而是在一个方法里面定义，这样类便不会持有timer，但是你你发现timer和类还是不能被释放，其实主要原因是timer在创建时需要加入到Runloop中，Runloop不退出一直持有timer，timer又以target的形式强引用类，则导致都不销毁的问题。
+
+解决方法：  
+* 使用iOS 10以上的API，使用Block的形式创建定时器，使timer不再强引用所在类；
+```
+_ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+    self?.fireTimer()
+}
+```
+* 使用中间类来解决类与timer之间的强应用，timer强引用中间类，中间类弱引用timer所在类，可以使用NSProxy；
+* 如果类是ViewController，可以在页面出现时启动定时器，消失时关闭定时器，前提是你的需求可以允许这么做；
