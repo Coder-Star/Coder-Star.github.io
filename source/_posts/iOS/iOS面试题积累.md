@@ -301,3 +301,14 @@ _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
 ```
 * 使用中间类来解决类与timer之间的强应用，timer强引用中间类，中间类弱引用timer所在类，可以使用NSProxy；
 * 如果类是ViewController，可以在页面出现时启动定时器，消失时关闭定时器，前提是你的需求可以允许这么做；
+
+## 12、Swift派发
+
+swift会使用三种派发方式，一般编译型语言也会有这几种基础性的派发方式。
+* 直接派发
+* 函数表派发
+* 消息派发
+
+在不同的情况下会使用不同的派发方式
+
+![Swift派发](../img/Swift派发.webp)
