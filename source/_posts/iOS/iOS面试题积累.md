@@ -17,7 +17,7 @@ tags: [iOS]
 
 
 ## 2、iOS中数据持久化相关
-![iOS持久化方式.webp](../img/iOS持久化方式.webp)
+![iOS持久化方式.webp](../../img/iOS持久化方式.webp)
 
 * UserDefaults  
   这种方式本质上还是plist文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的plist文件放置在Library/Preference，生成的plist文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密；
@@ -95,7 +95,7 @@ UIResponder类中包含以下几个方法，用来响应事件，采用响应链
 最合适的view touchesBegan: withEvent: → 所在ViewController touchesBegan: withEvent:→ parentViewViewController touchesBegan: withEvent: → ... → UIWindow touchesBegan: withEvent: → UIAplication touchesBegan: withEvent: → AppDelegate touchesBegan: withEvent: → 结束  
 /// 如果某个View或ViewController未调用super touchesBegan: withEvent:则响应结束
 ```
-![iOS持久化方式.webp](../img/响应链.png)
+![iOS持久化方式.webp](../../img/响应链.png)
 
 #### UIGestureRecognizer
 
@@ -182,10 +182,10 @@ cell复用时需要注意在cell上添加子视图导致重叠的问题；
 
 **原理**  
 KVC取值（valueForKey:）
-![KVC取值.jpg](../img/KVC取值.png)
+![KVC取值.jpg](../../img/KVC取值.png)
 
 KVC赋值（setValue:forKey: ）
-![KVC赋值.jpg](../img/KVC赋值.jpg)
+![KVC赋值.jpg](../../img/KVC赋值.jpg)
 
 accessInstanceVariablesDirectly表示是否允许直接访问成员变量，默认返回值是YES。
 
@@ -311,4 +311,4 @@ swift会使用三种派发方式，一般编译型语言也会有这几种基础
 
 在不同的情况下会使用不同的派发方式
 
-![Swift派发](../img/Swift派发.webp)
+![Swift派发](../../img/Swift派发.webp)

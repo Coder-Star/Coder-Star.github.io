@@ -137,8 +137,10 @@ group.notify(queue: DispatchQueue.main) {
 // 并行队列
 let queue = DispatchQueue(label: "label",attributes: [.concurrent])
 let semaphore = DispatchSemaphore(value: 1) //设置数量为1的信号量，即限制正在运行的任务只有一个
-semaphore.wait()
+
 queue.async() {
+    semaphore.wait()
+
    // 网络请求并获得回调
    semaphore.signal()
 }
@@ -149,7 +151,36 @@ queue.async() {
 
 ### 3、串行、并行队列，同步、异步任务
 
+串行、并行是队列的属性。
+
 ## Operation
 
 Operation是苹果基于GCD封装的，面向对象使用；可控性比GCD要强，其中一个非常重要的特性是可以设置各操作之间的依赖，即强行规定操作A要在操作B完成之后才能开始执行，成为操作A依赖于操作B：  
 相关的类有Operation和OperationQueue。其中Operation是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的子类：BlockOperation。创建Operation子类的对象，把对象添加到OperationQueue队列里执行。
+
+
+## Thread
+
+
+## 常用操作
+
+### 对方法加锁，保证只能同一个线程进行访问
+* 使用信号量
+  ```swift
+  let lock = DispatchSemaphore(value: 1)
+  // 进入锁
+  lock.wait()
+  // 释放锁
+  lock.signal()
+  ```
+* objc_sync_enter、objc_sync_exit（其实是OC里面的`@synchronized`）
+  ```swift
+  objc_sync_enter(object)
+  objc_sync_exit(object)
+  ```
+* 使用NSLock
+  ```swift
+  let lock = NSLock()
+  lock.lock()
+  lock.unlock()
+  ```

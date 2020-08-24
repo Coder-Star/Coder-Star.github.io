@@ -33,4 +33,4 @@ flutter doctor --android-licenses
 
 ## 4、Android Studio 安装Flutter插件
 
-![AS示例图.png](../img/AS示例图.png)
+![AS示例图.png](../../img/AS示例图.png)

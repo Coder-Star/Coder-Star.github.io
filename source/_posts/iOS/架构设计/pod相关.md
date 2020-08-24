@@ -21,7 +21,7 @@ tags: [iOS]
 
 代码开发过程中，需要注意将暴露出的方法以及类的访问显示符调整为open或者是public
 
-1. 目录如下![工程目录.png](../img/工程目录.png)
+1. 目录如下![工程目录.png](../../../img/工程目录.png)
 2.建立 name.podspec文件，用于描述工程，其中name为工程的名字，该文件随项目一起push到github上
 其中podspec文件格式如下
 

@@ -22,4 +22,4 @@ viewDidload里面只做addSubview的事情；然后在viewWillAppear里面做布
 
 ### 1、MVVM
 
-![MVVM架构示意图.gif](/iOS架构设计相关/MVVM架构示意图.gif)
+![MVVM架构示意图.gif](../../../img/MVVM架构示意图.gif)
