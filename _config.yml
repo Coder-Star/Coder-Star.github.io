@@ -5,8 +5,8 @@
 # Site
 title: CoderStar的技术成长 #博客主题
 subtitle: #博客子标题
-description:  # 作者描述
-keywords: # 站点关键词，用于搜索优化
+description: Think more, Code less # 作者描述
+keywords: iOS,CoderStar # 站点关键词，用于搜索优化
 author: CoderStar # 博主名
 language: zh-Hans # 站点语言
 timezone: Asia/Shanghai # 时区
