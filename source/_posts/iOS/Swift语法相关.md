@@ -233,6 +233,10 @@ guard let anyObject = try? JSONSerialization.jsonObject(with: jsonData, options:
 // json字符串 -> Data -> 对象
 let data = jsonString.data(using: String.Encoding.utf8, allowLossyConversion: false) ?? Data()
 let json = JSON(data).dictionaryValue
+
+//json字符串 -> 对象
+// 实际上内部还是将json字符串转为data，然后进行处理
+JSON(parseJSON: jsonString)
 ```
 
 ## 5、限制符
@@ -261,7 +265,7 @@ swift的限制符分为五类，分别为`open` > `public`>`internal` > `filepri
 
 ## 6、extension扩展
 
-* 子类如果想要重写父类的extension中的方法，需要在父类方法上加上@objc的修饰符
+* 子类如果想要重写父类的extension中的方法，需要在父类方法上加上@objc的修饰符（这里的原因是类的扩展中方法使用的是直接派发的方式，这种方式不支持方法的重写，所以需要在父类方法上加上@objc的修饰符使其派发方式换为消息转发）
 * 当用某一个限制符修饰扩展时，其扩展内部方法以及计算属性等默认都会使用该限制符，如果其中需要比较小的限制符，需要手动加上
 * 扩展中不可以使用存储属性，只可以有计算属性以及方法
 
