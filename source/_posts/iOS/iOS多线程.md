@@ -1,7 +1,7 @@
 ---
 title: iOS多线程
 date: 2019-12-17 21:08:14
-categories: [Swift]
+categories: [iOS]
 tags: [iOS, 多线程]
 ---
 ## 前言
