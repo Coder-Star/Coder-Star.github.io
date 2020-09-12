@@ -23,6 +23,14 @@ url地址便是.plist文件地址，苹果要求这个链接必须是https链接
 
 ## 附录 manifest.plist
 
+plist文件格式必须为UTF-8，中各部分参数解释如下
+* URL：应用 (.ipa) 文件的完全限定 HTTPS URL，iOS 14之前可以使用HTTP，iOS 14必须是HTTPS
+* display-image：57 x 57 像素的 PNG 图像，在下载和安装过程中显示。指定图像的完全限定 URL
+* full-size-image：512 x 512 像素的 PNG 图像，表示 iTunes 中相应的应用
+* bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样
+* bundle-version：应用的包版本，在 Xcode 项目中指定
+* title：下载和安装过程中显示的应用的名称
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

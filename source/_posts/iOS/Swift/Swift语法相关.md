@@ -531,15 +531,15 @@ let callbackBlockObject = unsafeBitCast(callbackBlock, to: AnyObject.self)
 应用场景：当协议被weak修饰时，必须进行下述操作（限制协议protocol只能有类去实现），因为weak跟引用计数有关，只有类才涉及到引用计数。
 
 ```swift
+// 这种方式不再推荐使用，因为swift4之后，该关键字被废弃
 protocol MyProtocol: class {
 
 }
-```
-或者
-```swift
+
 protocol MyProtocol: AnyObject {
 
 }
+
 ```
 
 ### 2、当protocol被struct实现
