@@ -312,3 +312,10 @@ swift会使用三种派发方式，一般编译型语言也会有这几种基础
 在不同的情况下会使用不同的派发方式
 
 ![Swift派发](../../img/Swift方法派发.jpg)
+
+## 13、iOS自身的设计模式
+
+* 代理模式：tableview的delegate、datasource
+* 观察者模式：KVO，Notification
+* 单例模式：UserDefault，UIApplication
+* 

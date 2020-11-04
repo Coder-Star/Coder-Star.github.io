@@ -246,3 +246,42 @@ Tips：在视图第一次显示之前，相关view肯定带有刷新标记的，
 ### 2、view重复创建
 
 如果view重复添加同一个view并不会出现多层级的问题。苹果自身会判断view新旧父视图是否一致，若一致，不做任何操作(可通过调试layoutSubviews的被调用次数进行验证)。注意，这时候的同一个view是指指向同一个引用，如果自定义view的子视图最好以懒加载的形式加载，可避免因某种书写不当导致的异常，如果在createUI方法直接使用 `let view = UIView()`的形式创建，就会出现多层级的问题；
+
+## 14、关于UserDefaults中的suitename
+
+在咱们平时使用UserDefaults时一般使用`UserDefaults.standard`这个方式这存储信息，通过这种方式实际上操作的是APP沙箱中Library/Preferences目录下的以bundle id命名的plist文件；如果一个APP使用了一些SDK，这些SDK会或多或沙的使用该方式存储，这样就会带来一系列问题；
+* 各个SDK需要保证设置数据KEY的唯一性，以防止存取冲突；
+* plist文件越来越大造成的读写效率问题；
+* 无法便捷的清除由某一个SDK创建的UserDefaults数据；
+  
+针对上述问题，我们可以使用UserDefaults提供的另外一个方法，
+```Swift
+@available(iOS 7.0, *)
+public init?(suiteName suitename: String?)
+```
+根据传入的suitname有四种情况
+* 传入nil；跟使用`UserDefaults.standard`效果相同
+* 传入bundle id；无效，返回nil
+* 传入App Groups配置中Group ID；会操作APP的共享目录中创建的plist文件，方便跨APP或宿主APP与扩展应用之间共享数据；
+* 传入其他值；操作的是沙箱的Documents/Library/Preferences目录下以suitename命名的plist文件
+
+## 15、扩展程序与主程序之间的通信方式
+
+扩展程序一般是指APP Extension，扩展程序一般都不是脱离宿主程序单独运行的，难免需要和宿主程序进行数据交互。  
+由于拓展与宿主应用是两个完全独立的App，并且iOS应用基于沙盒的形式限制，所以一般的共享数据方法都是实现不了数据共享，这里就需要使用App Groups（App Groups这是iOS8新开放的功能，在OS X上早就可用了。它主要用于同一Group下的App共享同一份读写空间，以实现数据共享）。  
+通过 App Groups 提供的同一 group 内 app 共同读写区域，可以用 UserDefaults 和 FileManager 两种方式实现 extension 和 主app 之间的数据共享。
+
+```Swift
+/// UserDefaults
+/// suitename传入group id
+@available(iOS 7.0, *)
+public init?(suiteName suitename: String?)
+
+/// FileManager
+let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "groupID")
+let fileURL = groupURL.appendingPathComponent("fileName")
+
+// 这样就可以利用NSArray等这种数据结构读写文件了
+
+
+```
