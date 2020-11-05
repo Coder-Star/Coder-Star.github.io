@@ -1,7 +1,9 @@
 ---
 title: XCode及iOS等配置
 date: 2020-11-04 16:49:59
-categories: [iOS]
+category: 
+- iOS
+- Xcode
 tags: [iOS,Xcode]
 ---
 
