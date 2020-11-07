@@ -353,6 +353,15 @@
     {% endif %}
 
     <footer class="post-footer">
+      
+      {# 添加公众号图片 #}
+      {% if not is_index %}
+      <div class="article-end-OfficialAccounts">
+           <image src="/images/OfficialAccounts.jpg"/>
+           <p class="article-end-OfficialAccounts-p">更多文章请关注公众号</p>
+      </div>
+      {% endif %}
+
       {% if post.tags and post.tags.length and not is_index %}
         <div class="post-tags">
           {% for tag in post.tags %}
