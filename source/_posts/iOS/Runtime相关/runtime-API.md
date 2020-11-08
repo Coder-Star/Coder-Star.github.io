@@ -2,10 +2,10 @@
 title: runtime-API
 date: 2020-09-18 20:50:44
 categories: [iOS]
-tags: [iOS,runtime]
+tags: [iOS, runtime]
 ---
 
-## runtime-API收集
+## runtime-API 收集
 
 ![objc](../../../img/iOS/runtime-api/objc.webp)
 ![class](../../../img/iOS/runtime-api/class.webp)

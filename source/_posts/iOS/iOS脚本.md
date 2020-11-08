@@ -4,7 +4,8 @@ date: 2020-02-18 18:53:07
 categories: [iOS]
 tags: [iOS]
 ---
-## 1、Xcode编译时获取版本号并展示到storyboard中
+
+## 1、Xcode 编译时获取版本号并展示到 storyboard 中
 
 ```swift
 # 注意：Xcode 11与Xcode 10环境变量有变化
@@ -17,7 +18,7 @@ fi
 sed -i bak -e "/userLabel=\"versionLb\"/s/text=\"[^\"]*\"/text=\"版本号：$version\"/" $PROJECT_DIR/$PROJECT_NAME/Base.lproj/LaunchScreen.storyboard
 ```
 
-### 2、R.swift库使用
+### 2、R.swift 库使用
 
 ```swift
 "$PODS_ROOT/R.swift/rswift" generate "$SRCROOT/LTXiOSUtilsDemo/R.generated.swift"
