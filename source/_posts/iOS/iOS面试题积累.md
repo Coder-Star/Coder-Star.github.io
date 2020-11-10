@@ -205,6 +205,9 @@ UIView 主要对 CALayer 做了简单的封装（UIView 类中有个成员变量
 
 ## RunLoop
 
+* RunLoop本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector事件).
+* RunLoop没有事情处理时就会使线程进入睡眠状态.这样可以节省CPU资源,提高程序性能.
+
 **模式**
 
 1. kCFRunLoopDefaultMode：App 的默认 Mode，通常主线程是在这个 Mode 下运行
@@ -231,7 +234,19 @@ RunLoop 只会运行在一个模式下，要切换模式，就要暂停当前模
 - 监测 RunLoop 的状态监测应用卡顿  
   根据 //TODO
 
-一个线程对应一个 RunLoop，其中主线程的 Runloop 是默认开启的，子线程的线程默认关闭，我们需要手动进行开启，开启方式:`RunLoop.current.run()`
+
+* 每一条线程都有一个Runloop对应；
+* 主线程的Runloop的对象系统已经自动帮我们创建好了,并且只有主线程结束时即程序结束时才会销毁；
+* 子线程的Runloop对象需要我们主动创建并维护,子线程的Runloop对象在第一次获取时就会创建,销毁则是在子线程结束时. 并且创建出来的runLoop对象默认是不开启的,必须手动开启RunLoop；
+* Runloop并不保证线程安全,我们只能在当前线程内部操作当前线程的Runloop对象,而不能在当前线程中去操作其他线程的RunLoop对象；
+
+```swift
+//获取当前线程的RunLoop对象,在子线程中调用时如果是第一次获取内部会帮我们创建RunLoop对象 
+let runloop = RunLoop.current
+// 运行runloop
+runloop.run()
+```
+
 
 配合 CADisplayLink 监听 FPS，基本原理就是统计每一秒中 CADisplayLink 执行的次数就 OK 啦
 
