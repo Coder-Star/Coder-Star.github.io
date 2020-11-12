@@ -130,46 +130,6 @@ delaysTouchesEnded
 UIControl 会有自己的四个 Tracking 系列方法对应 touch 的四个方法，事实上，UIControl 的 Tracking 系列方法是在 touch 系列方法内部调用的。比如 beginTrackingWithTouch 是在 touchesBegan 方法内部调用的， 因此它虽然也是 UIResponder，但 touches 系列方法的默认实现和 UIResponder 本类还是有区别的。  
 UIControl 同时添加 action 以及绑定手势识别器后，手势识别器会响应，action 不响应，从结果来看，手势识别器具有更高的优先级；
 
-## tableview 的性能优化
-
-### 1、cell 复用
-
-cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；
-
-为了使 cell 可以尽可能进行复用，需要尽量减少 tableview 的 cell 种类，可以将几种 cell 集中在一个 cell 上，然后通过控制子视图的显示与隐藏起到展示不同 cell 的效果；同理，尽量少用 addView 给 Cell 动态添加 View，可以初始化时就添加，然后通过 hide 来控制是否显示；
-
-### 2、高度缓存
-
-- 对于固定高度的 cell，我们可以直接给定 cell 高度；
-- 对于高度不固定的 cell，我们需要将计算后的高度缓存下来，下次展示这个 cell 时，直接使用缓存的高度，减少高度计算
-
-### 3、渲染优化（不止 TableView）
-
-渲染优化目的就是减少 GPU 的运行压力。
-
-#### 1、减少 subviews 的个数和层级
-
-子控件的层级越深，渲染到屏幕上所需要的计算量就越大；如多用 drawRect 绘制元素，替代用 view 显示
-
-#### 2、少用 subviews 的透明图层
-
-对于不透明的 View，设置 opaque 为 YES，这样在绘制该 View 时，就不需要考虑被 View 覆盖的其他内容（尽量设置 Cell 的 view 为 opaque，避免 GPU 对 Cell 下面的内容也进行绘制）,给 view 都设置一个背景色，避免使用默认的透明；如果想要透明的效果，可以将背景色设置与父 View 的背景色一致。
-
-#### 3、尽量将图片大小设置的和 UIImageView 的大小一致。
-
-当对一个 UIImageView 设置一个较大的 image 时，需要在主线程完成重采样的过程，耗时耗内存，所以尽量在设置图片时设置的和 UIImageView 的大小相近。
-
-#### 4、避免离屏渲染
-
-#### 其他
-
-- GPU 能处理的最大纹理尺寸是 4096x4096，一旦超过这个尺寸，就会占用 CPU 资源进行处理，所以纹理尽量不要超过这个尺寸
-- 尽量避免短时间内大量图片的显示，尽可能将多张图片合成一张进行显示
-
-### 4、异步绘制
-
-### 5、滑动时，按需加载
-
 ## UIImageView 加载图片相关
 
 **过程**
@@ -189,6 +149,7 @@ cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；
 
 - 减少加载 UIImage 内存的大小,根据 imageview 实际 size 来加载，可以减少内存占用。解码后生成 CGImage 缩略图，再转化为 UIImage,然后传给 UIImgaeView 渲染展示。
 - 解码的操作在主线程，比较耗费 CPU 的资源。可以把耗时的解码操作放入子线程，解码完成之后再回调到主线程刷新，例如 SDWebImage。还有更加极限的优化是在子线程解码之后，将解码之后的图片存在磁盘之中，例如 FastImageCache。
+
 
 ## UIView 与 CALayer
 

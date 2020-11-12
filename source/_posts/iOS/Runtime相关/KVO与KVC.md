@@ -61,7 +61,7 @@ KVO 赋值、取值各有两个方法，一个 key，一个 keyPath；其中 key
 
 1. KVO 是关于 runtime 机制实现的;
 2. 当某个类的对象属性第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的 setter 方法。派生类在被重写的 setter 方法内实现真正的通知机制;
-3. 如果原类为 Person，那么生成的派生类名为 NSKVONotifying_Person;
+3. 如果原类为 Person，那么生成的派生类名为 NSKVONotifying_Person，但是在Swift工程中，因为命名空间的存在，生成的类名为NSKVONotifying_xxx.Person xxx为product name
 4. 每个类对象中都有一个 isa 指针指向当前类，当一个类对象的第一次被观察，那么系统就会偷偷将 isa 指针指向动态生成的派生类，从而在给被监控属性赋值时执行的是派生类的 setter 方法;
 5. 键值观察通知依赖于 NSObject 的两个方法：`willChangeValueForKey:`和`didChangeValueForKey:`,在一个被观察属性发生改变之前，willChangeValueForKey:一定会被调用，这就会记录旧的值。而当改变发生后，didChangeValueForKey:会被调用，继而 observeValueForKey:ofObject:change:context:也会被调用
 

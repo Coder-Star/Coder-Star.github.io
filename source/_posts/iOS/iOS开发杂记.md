@@ -207,7 +207,7 @@ class func hide() {
 当我们修改视图的约束时，实际上会自动执行相当于 setNeedsLayout 的操作；  
 Tips：下一次更新周期就是 runloop 的循环周期。
 
-### 3、setNeedsDisplay
+### 3、setNeedsDisplay、setNeedsDisplayInRect
 
 该方法异步执行；该方法默认会自动调用 drawRect 方法，这样可以拿到 UIGraphicsGetCurrentContext，进行绘图。
 
@@ -224,6 +224,16 @@ self.view.layoutIfNeeded()
 Tips：在视图第一次显示之前，相关 view 肯定带有刷新标记的，所有直接调用 layoutIfNeeded 就会立即进行更新。
 
 ### 5、drawRect
+调用时机
+* drawRect是在Controller->loadView, Controller->viewDidLoad之后会自动调用
+* setNeedsDisplay、setNeedsDisplayInRect调用时
+* sizeToFit调用时
+* 当contentMode为redraw时，当frame发生变化时将自动调用
+
+以上时机均要求view的frame不为空
+
+不要手动调用，通过调用setNeedsDisplay、setNeedsDisplayInRect等方式给view打上标记，然后系统自动调用drawRect方法；
+
 
 ### 6、sizeThatFits、sizeToFit
 
