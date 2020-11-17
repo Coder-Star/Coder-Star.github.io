@@ -1,7 +1,8 @@
 ---
 title: Swift语法相关
 date: 2019-10-12 11:53:11
-categories: [Swift]
+category:
+  - Swift
 tags: [Swift]
 ---
 ## 1、字符串
