@@ -24,12 +24,17 @@ source ~/.bash_profile
 flutter -h //显示相关帮助
 ```
 
-## 3、检查环境
+## 3、flutter相关命令
 
-```flutter
-flutter doctor
-flutter doctor --android-licenses
-```
+
+* flutter doctor // 检查flutter相关环境
+* flutter doctor --android-licenses
+
+* flutter create xxapp // 创建Flutter Application
+* flutter create -i swift -a kotlin xxapp //指定语言Android使用Kotlin，iOS使用Swift
+* flutter create -t module xxapp_module //创建Flutter Module
+* flutter create --template=plugin xxapp_plugin //创建Flutter Plugin
+* flutter create --template=package xxapp_package // Flutter Package
 
 ## 4、Android Studio 安装Flutter插件
 
