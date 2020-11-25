@@ -33,7 +33,8 @@ flutter -h //显示相关帮助
 * flutter create xxapp // 创建Flutter Application
 * flutter create -i swift -a kotlin xxapp //指定语言Android使用Kotlin，iOS使用Swift
 * flutter create -t module xxapp_module //创建Flutter Module
-* flutter create --template=plugin xxapp_plugin //创建Flutter Plugin
+* flutter create --org com.example --template=plugin --platforms=android,ios -a kotlin hello
+ //创建Flutter Plugin
 * flutter create --template=package xxapp_package // Flutter Package
 
 ## 4、Android Studio 安装Flutter插件
