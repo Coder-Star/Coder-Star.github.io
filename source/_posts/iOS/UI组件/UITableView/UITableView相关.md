@@ -73,6 +73,7 @@ optional public func tableView(_ tableView: UITableView, willDisplay cell: UITab
 
 1. 在设置 **tableView.delegate = self** 时注意将其放在tableView加入其View之前 ( **ParentView.addSubview(tableView)** )，否则上述代码不会生效。
 2. 在ios11系统以下，如果上述header以及footer置为0，则会认为其没有设置高度，还是会默认设置大约为50个像素的高度；ios11系统以上可直接设置为0；
+3. 如果不设置viewForHeaderInSection或者设置其为nil，直接设置heightForHeaderInSection，不会走heightForHeaderInSection这个代理；
 
 ### 2、TableView高度自适应
 
