@@ -33,3 +33,22 @@ props: {
 * **.capture** 是改变js默认的事件机制,默认是冒泡,capture功能是将冒泡改为倾听模式
 * **.once** 是将事件设置为只执行一次,如 .click.prevent.once 代表只阻止事件的默认行为一次,当第二次触发的时候事件本身的行为会执行
 * **.passive** 滚动事件的默认行为 (即滚动行为) 将会立即触发，而不会等待 onScroll 完成。这个 .passive 修饰符尤其能够提升移动端的性能。
+  
+```vue
+@click.stop
+```
+
+
+### 其他
+
+this.$forceUpdate() 强制刷新
+
+**关于$nextTick的说明**
+
+vue的双向绑定，dom更新是异步更新的，也就是说值修改后之后，对应的dom并不会同步进行更新，如果此时立即去取dom的值，取到的还是更新之前的值，$nextTick会将回调延迟到下次DOM更新之后执行。
+
+```vue
+this.$nextTick(()=>{
+    // 可以获取改变后dom的信息了
+})
+```
