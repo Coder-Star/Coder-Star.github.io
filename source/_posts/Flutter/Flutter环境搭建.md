@@ -37,6 +37,8 @@ flutter -h //显示相关帮助
  //创建Flutter Plugin
 * flutter create --template=package xxapp_package // Flutter Package
 
-## 4、Android Studio 安装Flutter插件
+## 4、Android Studio 安装相关插件
 
-![AS示例图.png](../../img/Flutter/AS示例图.png)
+* Flutter
+* Dart
+* ...
