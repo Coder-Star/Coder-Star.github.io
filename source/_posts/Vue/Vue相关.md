@@ -20,9 +20,70 @@ props: {
     },
     refArr: {
         type: Array,
-        default: () => { return [] }
+        default: () => {[]}
     },
+    refStr: {
+        type: String,
+        required: true,
+        validator: function(value) {
+          return value > 10
+        }
+    }
+
+    // type可以为 Number、String、Boolean、Object、Array、Function
 }
+```
+
+### 关键
+```
+v-html
+v-text
+v-bind
+v-on
+v-model
+v-slot
+```
+
+### 缩写
+
+```
+:  v-bind:
+@  v-on:
+#  v-slot:
+```
+
+slot
+```
+// 使用
+<template #header="{code, title}">
+  {{code}}
+  {{title}}
+</template>
+
+<template #footer="data">
+  {{data.code}}
+  {{data.title}}
+</template>
+
+<slot name="header" :code="code" :title="title"/>
+<slot name="footer" :code="code" :title="title"/>
+
+```
+
+### 父子传值
+
+```vue
+parm.sync
+this.$emit("update:parm", "")
+
+父组件传入的 v-model 对应 props的value
+this.$emit("input", "")
+
+
+$attrs // 在子组件可通过该属性获取到父组件通过v-bind 传过来的字段
+$listeners // 在子组件可通过该属性获取到父组件通过v-on 传过来的事件
+$parent 
+
 ```
 
 ### 事件修饰符

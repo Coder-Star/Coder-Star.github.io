@@ -48,3 +48,8 @@ part 'src/string_extension.dart';
 library flutter_star;
 export 'flutter_star_extension.dart';
 ```
+
+* flutter packages pub publish --dry-run  检查包运行是否正常
+* flutter packages pub publish 发布包
+* flutter packages pub publish --server=https://pub.dartlang.org 就是指定服务器发布
+* flutter packages pub publish -v 显示发布过程中的信息
