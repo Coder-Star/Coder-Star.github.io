@@ -7,13 +7,23 @@ tags: [npm]
 npm是NodeJS的包管理工具
 
 **安装**
+```
+npm install <模块名> -g 
+全局安装
 
-1. **npm install <模块名> -g**  
-   全局安装
-2. **npm install <模块名>**  
-   本地安装
-3. **npm install <模块名> --save-dev**  
-   项目中安装并将模块保存到package.json中
+npm install <模块名>
+本地安装
+
+npm install <模块名> --save-dev 或 npm install gulp -S
+项目中安装并将模块保存到package.json中devDependencies
+
+npm install <模块名> --save  或 npm install gulp -D  
+项目中安装并将模块保存到package.json中dependencies
+
+npm install gulp --save-optional 或 npm install gulp -O
+项目中安装并将模块保存到package.json中optionalDependencies
+
+```
 
 **安装淘宝镜像**
 

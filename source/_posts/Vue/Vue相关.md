@@ -83,6 +83,7 @@ this.$emit("input", "")
 $attrs // 在子组件可通过该属性获取到父组件通过v-bind 传过来的字段
 $listeners // 在子组件可通过该属性获取到父组件通过v-on 传过来的事件
 $parent 
+$slots // 所有插槽
 
 ```
 

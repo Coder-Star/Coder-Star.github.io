@@ -154,8 +154,9 @@ target 'BaseIOSProject' do
   #source 'https://cdn.cocoapods.org/' # cocoapods 1.7.2 加入了cdn，用于替换https://github.com/CocoaPods/Specs.git共有源
   platform :ios, '10.0'
   use_frameworks!
+  # use_modular_headers!
 
-  pod 'Alamofire', '~> 4.7' #网络请求
+  pod 'Alamofire', '~> 4.7', :modular_headers => true #网络请求
   pod 'MJRefresh' #上拉刷新、下拉下载
 
   target 'BaseIOSProjectTests' do
@@ -225,9 +226,20 @@ pod 'Alamofire', :podspec => 'https://github.com/Alamofire/Alamofire/blob/master
 这种做法可以保证三方库的可控性，避免pod update产生更新
 
 ### 3、当两个人同时修改Podfile文件，产生冲突
+忽略其中一个人的包文件，只保留Podfile文件，合并完成之后，重新install
 
+## 打包
 
+### framework
+1. 安装cocoapods-packager `gem "cocoapods-packager"`
+2. 打包 `pod package XXX.podspec`
 
-# 相关资料
+命令
+```ruby
+pod package XXX.podspec --force // --force表示强制覆盖之前存在的文件
+pod package XXX.podspec --library // --library表示打包成a文件，如果不加就是打包成framework文件
+```
+
+## 相关资料
 
 [用CocoaPods做iOS程序的依赖管理--唐巧](http://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/)
