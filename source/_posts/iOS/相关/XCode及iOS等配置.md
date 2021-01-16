@@ -55,3 +55,9 @@ Build Settings > Other Swift Flags, 配置如下
 -Xfrontend -warn-long-expression-type-checking=100
 ```
 
+
+Xcode代码片段路径
+`~/Library/Developer/Xcode/UserData/CodeSnippets`
+
+文件模板路径
+`/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File\ Templates/iOS/Source`
