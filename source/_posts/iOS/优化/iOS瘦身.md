@@ -1,0 +1,71 @@
+---
+title: iOS瘦身
+category:
+  - iOS
+  - 瘦身
+tags:
+  - iOS
+  - 瘦身
+date: 2021-01-19 08:50:18
+---
+
+## App Thinning
+
+### Slicing
+
+App Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。
+
+### bitcode
+
+Bitcode 是一个编译好的程序的中间表示形式。上传到 iTunes Connect 中的包含 Bitcode 的 app 将会在 App store 中进行链接和编译。苹果会对包含 Bitcode 的二进制 app 进行二次优化，而不需要提交一个新的 app 版本到 app store 中
+
+### On-Demand Resources
+
+ODR（on-demand resources 随需应变资源)是 iOS 减少应用资源消耗的另外一种方法。比如多级游戏，用户需要的通常都是他们当前的级数以及下一级。ODR 意味着用户可以下载他们需要的几级游戏。随着你的级数不断增加，应用再下载其他级数，并将用户成功过关的级数删掉。 
+当用户点击应用内容的时候，就会动态从 App Store 上进行下载，也就是说用户只会在需要的时候占用存储空间。这项功能有趣之处还在于当将这些内容在后台进行下载之后，当存储空间紧张的时候会自动进行删除
+
+## 删除无用图片
+
+### LSUnusedResources 工具
+
+客户端工具，不能执行脚本 [下载地址](https://github.com/tinymind/LSUnusedResources)
+
+### FengNiao
+
+脚本工具， [下载地址](https://github.com/onevcat/FengNiao.git)
+
+```
+git clone https://github.com/onevcat/FengNiao.git
+cd FengNiao
+./install.sh
+```
+
+## 图片、视频压缩
+
+### 使用 WebP 格式
+
+谷歌开源的格式，WebP 压缩率比较高，而且肉眼看不出差异，同时支持有损和无损两种压缩模式。
+
+WebP 在 CPU 消耗和解码时间上会比 PNG 高两倍。所以，我们有时候还需要在性能和体积上做取舍。
+
+如果图片大小超过了 100KB，你可以考虑使用 WebP；而小于 100KB 时，你可以使用网页工具 TinyPng（https://tinypng.com/）或者 GUI 工具 ImageOptim（https://github.com/ImageOptim/ImageOptim）进行图片压缩。这两个工具的压缩率没有 WebP 那么高，不会改变图片压缩方式，所以解析时对性能损耗也不会增加。
+
+** 格式转换工具**
+
+1. 腾讯开发的 iSpart http://isparta.github.io/
+2. Google 提供的工具 https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html
+
+## 代码瘦身
+
+### 通过 Appcode 找出无用代码
+
+使用 APPCode 提供的静态分析 Code->Inspect Code
+
+### LinkMap 结合 Mach-O 找出无用代码
+
+### 编码人素质
+
+1. 代码复用，禁止拷贝代码，共用代码下沉为底层组件
+2. 尽量将图片资源放入 Images.xcassets 中，包括 pod 库的图片。 Images.xcassets 中的图片加载后会有缓存，提升加载速度，并且在最终打包时会自动进行压缩，再根据最终运行设备进行 2x 和 3x 分发
+3. 对于一些非必要的大资源文件，例如字体库、换肤资源，可以在 App 启动后通过异步下载到本地，而不用直接放在 ipa 包内
+4.

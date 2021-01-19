@@ -37,6 +37,8 @@ flutter -h //显示相关帮助
  //创建Flutter Plugin
 * flutter create --template=package xxapp_package // Flutter Package
 
+* flutter create -i swift -a kotlin .  //如果在一个既存项目中运行这个命令，那么这将会修复当前项目，重新创建丢失的文件,注意最后面是一个`.`
+
 ## 4、Android Studio 安装相关插件
 
 * Flutter
