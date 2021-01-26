@@ -224,16 +224,17 @@ self.view.layoutIfNeeded()
 Tips：在视图第一次显示之前，相关 view 肯定带有刷新标记的，所有直接调用 layoutIfNeeded 就会立即进行更新。
 
 ### 5、drawRect
+
 调用时机
-* drawRect是在Controller->loadView, Controller->viewDidLoad之后会自动调用
-* setNeedsDisplay、setNeedsDisplayInRect调用时
-* sizeToFit调用时
-* 当contentMode为redraw时，当frame发生变化时将自动调用
 
-以上时机均要求view的frame不为空
+- drawRect 是在 Controller->loadView, Controller->viewDidLoad 之后会自动调用
+- setNeedsDisplay、setNeedsDisplayInRect 调用时
+- sizeToFit 调用时
+- 当 contentMode 为 redraw 时，当 frame 发生变化时将自动调用
 
-不要手动调用，通过调用setNeedsDisplay、setNeedsDisplayInRect等方式给view打上标记，然后系统自动调用drawRect方法；
+以上时机均要求 view 的 frame 不为空
 
+不要手动调用，通过调用 setNeedsDisplay、setNeedsDisplayInRect 等方式给 view 打上标记，然后系统自动调用 drawRect 方法；
 
 ### 6、sizeThatFits、sizeToFit
 

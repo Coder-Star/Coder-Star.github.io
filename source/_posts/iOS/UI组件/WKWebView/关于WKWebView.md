@@ -4,11 +4,12 @@ date: 2019-10-12 14:08:29
 categories: [iOS]
 tags: [iOS]
 ---
+
 ## 1、代理
 
-WKWebview代理主要是WKUIDelegate以及WKNavigationDelegate两部分。
+WKWebview 代理主要是 WKUIDelegate 以及 WKNavigationDelegate 两部分。
 
-### 1、WKNavigationDelegate可以分为页面跳转以及页面渲染两部分。
+### 1、WKNavigationDelegate 可以分为页面跳转以及页面渲染两部分。
 
 ```swift
 //页面调转部分
@@ -24,7 +25,7 @@ optional public func webView(_ webView: WKWebView, didReceiveServerRedirectForPr
 optional public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error)
 
 //页面渲染
-//网页开始加载时调用 
+//网页开始加载时调用
 optional public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!)
 //网页正在加载
 optional public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!)
@@ -39,8 +40,8 @@ optional public func webViewWebContentProcessDidTerminate(_ webView: WKWebView)
 
 ## 2、其他
 
-### 1、js注入相关
-  
+### 1、js 注入相关
+
 ```swift
 //注入宽度自适应标签
  let js = "var oMeta = document.createElement('meta');oMeta.content = 'initial-scale=0.6,minimum-scale=0.5';oMeta.name = 'viewport';document.getElementsByTagName('head')[0].appendChild(oMeta);"

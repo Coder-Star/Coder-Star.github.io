@@ -4,11 +4,12 @@ date: 2019-10-12 14:45:16
 categories: [iOS]
 tags: [iOS]
 ---
+
 ## 一、UIScrollView
 
-### 1、UIScrollView特殊点
+### 1、UIScrollView 特殊点
 
-- ios根View的焦点一般都是(0,0)，会从屏幕左上角开始布局，如果view第一个子视图是UIScrollView时，则view视图会自动下移大概64pt（状态栏20pt + 导航栏44pt）。如果不是第一个视图，并不会自动向下偏移，如果没有经过特殊布局，便会出现其内容被导航栏遮挡的问题出现（iOS 11.0系统以下），如果使用下面代码处理一下。
+- ios 根 View 的焦点一般都是(0,0)，会从屏幕左上角开始布局，如果 view 第一个子视图是 UIScrollView 时，则 view 视图会自动下移大概 64pt（状态栏 20pt + 导航栏 44pt）。如果不是第一个视图，并不会自动向下偏移，如果没有经过特殊布局，便会出现其内容被导航栏遮挡的问题出现（iOS 11.0 系统以下），如果使用下面代码处理一下。
 
 ```swift
  self.edgesForExtendedLayout = UIRectEdge.init(rawValue: 0)
@@ -17,16 +18,16 @@ tags: [iOS]
  self.navigationController?.navigationBar.backgroundColor = .white //使用上面语句处理后会出现导航栏变灰色问题，需要人工改变导航栏颜色
 ```
 
-- 其他View利用snpkit布局时，一般子视图的约束会依赖于父视图，但是UIScrollView的contentSize是根据子视图来决定，意思就是父视图约束依赖于子视图，所以我们必须设置子视图的宽高；
+- 其他 View 利用 snpkit 布局时，一般子视图的约束会依赖于父视图，但是 UIScrollView 的 contentSize 是根据子视图来决定，意思就是父视图约束依赖于子视图，所以我们必须设置子视图的宽高；
 
 ### 2、设置约束
 
-利用snpkit自动布局库处理UIScrollView时，一般处理方法是：Scrollview里面放一个ContainView，然后子视图拉约束到ContainView，这样ContainView的大小就可以根据子视图来变化，Scrollview的大小根据ContainView来定。
-其中UIScrollView如果设置是全局滚动时，一般可设置其约束为make.edges.equalToSuperview()，如果部分滚动时，宽高属性约束都不可少。（具体见示例代码）
+利用 snpkit 自动布局库处理 UIScrollView 时，一般处理方法是：Scrollview 里面放一个 ContainView，然后子视图拉约束到 ContainView，这样 ContainView 的大小就可以根据子视图来变化，Scrollview 的大小根据 ContainView 来定。
+其中 UIScrollView 如果设置是全局滚动时，一般可设置其约束为 make.edges.equalToSuperview()，如果部分滚动时，宽高属性约束都不可少。（具体见示例代码）
 
 ## 二、代码示例
 
-下面代码实现效果如下图所示，其中上面标题部分是一个固定view，下面红色部分是可滑动部分，可以根据以下代码体会以下UIScrollView在利用snpkit设置约束的不同之处；
+下面代码实现效果如下图所示，其中上面标题部分是一个固定 view，下面红色部分是可滑动部分，可以根据以下代码体会以下 UIScrollView 在利用 snpkit 设置约束的不同之处；
 
 ![UIScrollView实现效果图.png](../../../../img/UIScrollView实现效果图.png)
 
