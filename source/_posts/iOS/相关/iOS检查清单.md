@@ -85,7 +85,7 @@ JSPatch 作者 bang 的博客
 
 ### 6、https://blog.ibireme.com/
 
-YYKit 作者的博客，很多文章如《iOS 保持界面流畅的技巧》《深入理解 RunLoop》等都有极高的实用价值
+YYKit 作者的博客，真名叫郭曜源，网名为ibireme，很多文章如《iOS 保持界面流畅的技巧》《深入理解 RunLoop》等都有极高的实用价值。
 
 ### 7、https://ming1016.github.io/
 

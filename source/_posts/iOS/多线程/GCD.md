@@ -58,6 +58,41 @@ queue.async {
 - 同步任务会阻塞当前线程，不会开辟线程；任务会直接在当前线程执行，任务完成后恢复线程原任务；
 - 异步任务不会阻塞当前线程，会开辟新的线程；
 
+### 主队列
+因为主队列只有一个主线程，async也没有开线程的能力，所以在子线程进行主队列异步任务，实际也会阻塞当前子线程，先执行异步任务，才会继续子线程中的工作。
+
+
+## 使用sync产生死锁的情况
+
+一般出现错误为`EXC_BAD_INSTRUCTION`
+
+- 在主线程使用sync
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    DispatchQueue.main.sync {
+
+    }
+}
+
+- 串行队列同步任务中开启同步任务
+let serialQueue = DispatchQueue(label: "serialQueue")
+serialQueue.sync {
+    serialQueue.sync {
+                
+    }
+}
+```
+
+- 串行队列异步任务中开启同步任务
+let serialQueue = DispatchQueue(label: "serialQueue")
+serialQueue.async {
+    serialQueue.sync {
+                
+    }
+}
+```
+
 ## 使用场景介绍
 
 ### 任务组
