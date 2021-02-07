@@ -205,6 +205,8 @@ pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch =
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit => '082f8319af'
 
 pod 'Alamofire', :podspec => 'https://github.com/Alamofire/Alamofire/blob/master/Alamofire.podspec'
+
+pod 'Alamofire',:path => '../' # 本地库，寻找对应的Alamofire.podspec文件
 ```
 
 - 纯 OC 项目中，通过 cocoapods 导入 OC 库时，一般都不使用 use_frameworks!
