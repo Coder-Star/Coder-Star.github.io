@@ -27,7 +27,7 @@ iOS 中异常捕获的方式主要包含三种
 extension CrashHandler {
 
     private static func openSignalHandler() {
-        // 大部分异常就是SIGTRAP
+        // 大部分异常就是SIGTRAP，OC中的NSException异常对应的也是这个信号。
         signal(SIGTRAP, CrashHandler.signalHandler)
         signal(SIGABRT, CrashHandler.signalHandler)
         signal(SIGSEGV, CrashHandler.signalHandler)

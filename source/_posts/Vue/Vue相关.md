@@ -31,6 +31,7 @@ props: {
     }
 
     // type可以为 Number、String、Boolean、Object、Array、Function
+    // type也可以为数组，如type: [String, Number]
 }
 ```
 
