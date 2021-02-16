@@ -16,7 +16,7 @@ date: 2020-11-21 22:38:25
 Channel 提供标准的消息解码器来为我们在发送及接收数据自动进行序列化及序列化；
 
 支持的数据类型
-![支持的数据类型](../../img/Flutter/Flutter-Native通信/MethodChannel数据类型)
+![支持的数据类型](../../img/Flutter/Flutter-Native通信/MethodChannel数据类型.png)
 
 codec，MessageCodecx 协议
 
