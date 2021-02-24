@@ -13,10 +13,10 @@ date: 2021-02-02 20:25:06
 
 两者打印出来的内容相同.
 
-`[self class]`就是发送消息 `objc_msgSend`，消息接受者 `self`，方法编号 `class`
+`[self class]`就是发送消息 `objc_msgSend`，消息接收者 `self`，方法编号 `class`
 `[super class]`本质就是 `objc_msgSendSuper`，消息的接收者还是 `self`，方法编号 `class`。只是调用 `objc_msgSendSuper` 的时候会直接跳过 `self` 查找，直接在从 `super` 出现的在的方法所在的类的父类开始查找进行查找。
 
-class 方法的作用就是返回 eceiver 的类别。
+class 方法的作用就是返回 receiver 的类别。
 
 ## category & extension 区别
 

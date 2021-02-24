@@ -64,7 +64,10 @@ cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；
 
 ### 滑动时，按需加载
 
+## 整体优化
 
+* 不要使用太复杂的XIB/Storyboard
+* 使用AutoreleasePool
 
 ## 其他
 

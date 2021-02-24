@@ -20,7 +20,7 @@ props: {
     },
     refArr: {
         type: Array,
-        default: () => {[]}
+        default: () => ([])
     },
     refStr: {
         type: String,
@@ -106,3 +106,5 @@ vue 的双向绑定，dom 更新是异步更新的，也就是说值修改后之
 ```vue
 this.$nextTick(()=>{ // 可以获取改变后dom的信息了 })
 ```
+
+## Vue实例属性

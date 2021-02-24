@@ -33,7 +33,7 @@ flutter -h //显示相关帮助
 - flutter create xxapp // 创建 Flutter Application
 - flutter create -i swift -a kotlin xxapp //指定语言 Android 使用 Kotlin，iOS 使用 Swift
 - flutter create -t module xxapp_module //创建 Flutter Module
-- flutter create --org com.example --template=plugin --platforms=android,ios -a kotlin hello
+- flutter create  --template=plugin --platforms=android,ios -i swift -a kotlin xxapp_plugin
   //创建 Flutter Plugin
 - flutter create --template=package xxapp_package // Flutter Package
 

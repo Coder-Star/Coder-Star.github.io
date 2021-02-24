@@ -9,29 +9,46 @@ tags:
 date: 2021-02-07 14:05:23
 ---
 
-其中runtime的核心包含下面几个部分
+其中 runtime 的核心包含下面几个部分
 
 - 消息转发
 - 方法交换
 
+### 方法调用相关
+
+OC 的方法调用整体分为三个步骤
+
+- 消息发送
+- 动态方法解析
+- 消息转发
+
+**消息发送**
+
+1. 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送
+2. 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache 中查找方法，如果找到方法，直接调用。如果找不到，往下进行
+3. 没有在消息接受者 receiverClass 的 cache 中找到方法，则从 receiverClass 的 class_rw_t 中查找方法，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行
+4. 没有在 receiverClass 中找到方法，则通过 superClass 指针找到 superClass，也是现在缓存中查找，如果找到，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行
+5. 没有在消息接受者 superClass 的 cache 中找到方法，则从 superClass 的 class_rw_t 中查找方法，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，重复 4、5 步骤。如果找不到了 superClass 了，往下进行 6.如果在最底层的 superClass 也找不到该方法，则要转到动态方法解析
+
+**动态方法解析**
+
+开发者可以实现以下方法，来动态添加方法实现
+
+```oc
+  +resolveInstanceMethod: //实例方法
+  +resolveClassMethod: //类方法
+```
+
+动态解析过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行
+
+**消息转发**
+
+- 调用 forwardingTargetForSelector，返回值不为 nil 时，会调用 objc_msgSend(返回值, SEL)
+- 调用 methodSignatureForSelector,返回值不为 nil，调用 forwardInvocation:方法；返回值为 nil 时，调用 doesNotRecognizeSelector:方法
+- 开发者可以在 forwardInvocation:方法中自定义任何逻辑
+- 以上方法都有对象方法、类方法 2 个版本（前面可以是加号+，也可以是减号-）
 
 ### 方法交换
-**SEL：方法的名称、标识**
-
-- sel_registerName
-- #selector 底层是 sel_registerName
-- NSSelectorFromString() 底层是 sel_registerName
-- method_getName 底层是 sel_registerName
-
-**Method：方法体类定义中的方法**
-
-1. class_getInstanceMethod() //获取 Method，传入 SEL
-
-**IMP：函数指针，指向方法实现的地址**
-
-1. method_getImplementation //获取 IMP，传入 Method
-
-其实 SEL 和 IMP 都是 Method 结构体的属性。
 
 方法交换(method-swizzling)，主要目的是替换两个 Method 的 IMP
 
@@ -56,13 +73,13 @@ if didAddMethod {
 }
 ```
 
-## runtime应用场景
+## runtime 应用场景
 
 - 数据埋点
-- Crash防护
-- Extension或者Category中为类添加实例变量
+- Crash 防护
+- Extension 或者 Category 中为类添加实例变量
 - JSON 转 model
-- 
+-
 
 ## runtime 三方库
 

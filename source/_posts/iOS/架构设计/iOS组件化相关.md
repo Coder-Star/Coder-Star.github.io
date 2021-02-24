@@ -16,7 +16,7 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 
 ### 二、架构设计、组件拆分
 
-![iOS架构设计](../img/iOS架构设计.png)
+![iOS架构设计](../../../img/iOS架构设计.png)
 
 #### 1、基础支撑层
 
@@ -49,7 +49,7 @@ URL/Protocol 方案
 **OC 库**
 
 - [JLRoutes](https://github.com/joeldev/JLRoutes)：现在 github 上 star 数最高的是 JLRoutes，但是其用不到的功能比较多，而且基于遍历查找 URL 效率比较低下；
-- [HHRouter](https://github.com/lightory/HHRouter)：布丁动画的方案，对 URl 的查找方式不再使用遍历，还是使用匹配的方式，效率较高，但是 HHRouter 耦合程序比较高，过度依赖 ViewController;
+- [HHRouter](https://github.com/lightory/HHRouter)：布丁动画的方案，对 URL 的查找方式不再使用遍历，还是使用匹配的方式，效率较高，但是 HHRouter 耦合程序比较高，过度依赖 ViewController;
 - [MGJRouter](https://github.com/meili/MGJRouter)：蘑菇街的设计方案，根据 HHRouter 方案进行改写，MGJRouter 的功能比较简单，但是查找 URL 的效率比较高，也解决了 HHRouter 过度依赖 ViewController 的问题；
 - [LDBusMediator](https://github.com/Lede-Inc/LDBusMediator)：网易的设计方案，其逻辑跟 MGJRouter 类似，区别在于 MGJRouter 使用的是先注册的方式，而 LDBusMediator 使用的是后查询的方式。
 - [routable-ios](https://github.com/clayallsopp/routable-ios)：in-app 的方案；
@@ -97,7 +97,7 @@ A 模块在开发完成之后需要对外提供基于 Target-Action 的调用方
 // Action方法必须带@objc前缀
 class Target_A: NSObject {
     // 方法参数只允许有一个，并且类型为NSDictionary，Action方法第一个参数不能有Argument Label
-    @objc func Action_Extension_ViewController(_ params:NSDictionary) -> UIViewController {
+    @objc func Action_Extension_ViewController(_ params: NSDictionary) -> UIViewController {
         if let callback = params["callback"] as? (String) -> Void {
             callback("success")
         }

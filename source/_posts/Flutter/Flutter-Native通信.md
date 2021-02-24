@@ -9,9 +9,9 @@ date: 2020-11-21 22:38:25
 
 ### Flutter 与 Native 通信方式
 
-- BasicMessageChannel：用于传递字符串和半结构化的信息,这个用的比较少
-- MethodChannel：用于传递方法调用（method invocation）通常用来调用 native 中某个方法
-- EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flutter 端
+- BasicMessageChannel：用于传递字符串和半结构化的信息,这个用的比较少，相互调用
+- MethodChannel：用于传递方法调用（method invocation）通常用来调用 native 中某个方法，相互调用
+- EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flutter 端，原生发送消息,flutter接收，单向通信。
 
 Channel 提供标准的消息解码器来为我们在发送及接收数据自动进行序列化及序列化；
 
