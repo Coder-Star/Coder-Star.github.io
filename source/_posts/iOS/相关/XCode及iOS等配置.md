@@ -47,3 +47,10 @@ Xcode 代码片段路径
 
 文件模板路径
 `/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File\ Templates/iOS/Source`
+
+## Build Settings
+
+- `${SRCROOT}` 项目根目录下
+- `$(PROJECT_DIR)` 代表的是整个项目
+- `$(inherited)` 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited)将会包含 Pods.xcodeproj 中的配置
+- `${PODS_ROOT}` 代表的是 pod 目录

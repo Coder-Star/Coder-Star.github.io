@@ -47,3 +47,28 @@ npm install gulp --save-optional 或 npm install gulp -O
 
 - 在更新包的过程中出现了 file exist，can not remove 这种类型的错误  
   先使用`rimraf node_modules` 删除 node_modules 文件夹，然后直接是使用`npm update <模块名>`命令更新模块
+
+```json
+{
+  "dependencies" :{
+    "foo" : "1.0.0 - 2.9999.9999", // 指定版本范围
+    "bar" : ">=1.0.2 <2.1.2",
+    "baz" : ">1.0.2 <=2.3.4",
+    "boo" : "2.0.1", // 指定版本
+    "qux" : "<1.0.0 || >=2.3.1 <2.4.5 || >=2.5.2 <3.0.0",
+    "asd" : "http://asdf.com/asdf.tar.gz", // 指定包地址
+    "til" : "~1.2",  // 最近可用版本
+    "elf" : "~1.2.3",
+    "elf" : "^1.2.3", // 兼容版本
+    "two" : "2.x", // 2.1、2.2、...、2.9皆可用
+    "thr" : "*",  // 任意版本
+    "thr2": "", // 任意版本
+    "lat" : "latest", // 当前最新
+    "dyl" : "file:../dyl", // 本地地址
+    "xyz" : "git+ssh://git@github.com:npm/npm.git#v1.0.27", // git 地址
+    "fir" : "git+ssh://git@github.com:npm/npm#semver:^5.0",
+    "wdy" : "git+https://isaacs@github.com/npm/npm.git",
+    "xxy" : "git://github.com/npm/npm.git#v1.0.27",
+  }
+}
+```
