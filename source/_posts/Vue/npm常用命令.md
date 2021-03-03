@@ -65,7 +65,7 @@ npm install gulp --save-optional 或 npm install gulp -O
     "thr2": "", // 任意版本
     "lat" : "latest", // 当前最新
     "dyl" : "file:../dyl", // 本地地址
-    "xyz" : "git+ssh://git@github.com:npm/npm.git#v1.0.27", // git 地址
+    "xyz" : "git+ssh://git@github.com:npm/npm.git#v1.0.27", // git 地址，#后为可以为分支、tag或者某个commit
     "fir" : "git+ssh://git@github.com:npm/npm#semver:^5.0",
     "wdy" : "git+https://isaacs@github.com/npm/npm.git",
     "xxy" : "git://github.com/npm/npm.git#v1.0.27",

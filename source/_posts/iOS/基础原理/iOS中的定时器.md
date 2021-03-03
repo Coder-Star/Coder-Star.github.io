@@ -2,7 +2,7 @@
 title: iOS中的定时器
 category:
   - iOS
-  - 定时器
+  - 基础原理
 tags:
   - iOS
   - 定时
