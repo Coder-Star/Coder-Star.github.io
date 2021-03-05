@@ -61,7 +61,7 @@ default -> `default`
 
 - as
 - is
-- dynamicType //swift4.0 中已经废弃了
+- Type //swift4.0 中已经废弃了
 - nil
 - do
 - try
@@ -138,3 +138,9 @@ default -> `default`
 - @autoclosure
 - @escaping
 - @convention
+
+
+## 其他
+
+- @inline(never) 声明这个函数never编译成inline的形式
+- @inline(__always) 声明这个函数总是编译成inline的形式， 这种方式对防止反编译拿到核心方法逻辑有帮助

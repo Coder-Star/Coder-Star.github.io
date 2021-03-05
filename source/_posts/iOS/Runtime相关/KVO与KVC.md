@@ -80,7 +80,7 @@ KVO 赋值、取值各有两个方法，一个 key，一个 keyPath；其中 key
 ### 在 Swift 中使用 KVO
 
 1. 类继承自 NSObject
-2. 需要 KVC 的属性使用@objc dynamic 修饰（其中@objc 是为了 OC 可以调用，dynamic 是允许动态派发，方便 setter）
+2. 需要 KVC 的属性使用@objc dynamic 修饰（其中@objc 是为了 OC 可以调用，dynamic 是允许动态派发，方便 setter，在 Swift4 之前，dynamic 默认带有@objc 性质，之后就没有了。）
 
 ```Swift
 // user为User对象实例
@@ -96,3 +96,5 @@ let observation = user.observe(\User.name, options: [.new]) { user, change in
 ```
 
 **实际 Swift 还可以使用`didSet`这种形式来实现属性值改变观察**
+
+
