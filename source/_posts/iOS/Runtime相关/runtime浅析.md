@@ -39,11 +39,11 @@ OC 的方法调用整体分为三个步骤
   +resolveClassMethod: //类方法
 ```
 
-动态解析过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行
+动态解析(实际由开发者手动增加一个方法)过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行
 
 **消息转发**
 
-- 调用 forwardingTargetForSelector，返回值不为 nil 时，会调用 objc_msgSend(返回值, SEL)
+- 调用 forwardingTargetForSelector，返回值不为 nil 时，会调用 objc_msgSend(返回值, SEL)，返回值为 nil，执行下一步。
 - 调用 methodSignatureForSelector,返回值不为 nil，调用 forwardInvocation:方法；返回值为 nil 时，调用 doesNotRecognizeSelector:方法
 - 开发者可以在 forwardInvocation:方法中自定义任何逻辑
 - 以上方法都有对象方法、类方法 2 个版本（前面可以是加号+，也可以是减号-）
