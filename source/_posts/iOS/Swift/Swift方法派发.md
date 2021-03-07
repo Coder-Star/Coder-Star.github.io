@@ -2,7 +2,6 @@
 title: Swift方法派发
 category:
   - Swift
-  - 方法派发
 tags:
   - Swift
   - 方法派发
@@ -27,6 +26,8 @@ swift 语言中支持三种派发方式。
 在不同的情况下会使用不同的派发方式
 
 ![Swift派发](../../../img/iOS/Swift/Swift方法派发.jpg)
+
+上图有一个地方不太完整，当 class 的 extension 的方法使用了@objc 修饰，使用消息派发方式。这也是extension中的方法加上@objc之后可以被重写的原因
 
 Swift 中，编译器对于有几种情况不会进行内联优化
 

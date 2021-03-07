@@ -28,7 +28,12 @@ weak 对象自动被置为 nil 的流程
 
 1. 对象的引用计数为 0 时，执行 dealloc
 2. 在 dealloc 中，调用了\_objc_rootDealloc 函数
-3. 在\_objc_rootDealloc 中，调用了 object_dispose 函数
+3. 在\_objc_rootDealloc 中，调用了 object_dispose 函数,该函数内部作用如下：
+   1. 为 C++ 的实例变量们（iVars）调用 destructors
+   2. 为 ARC 状态下的 实例变量们（iVars） 调用 -release
+   3. 解除所有使用 runtime Associate 方法关联的对象
+   4. 解除所有 \_\_weak 引用
+   5. 调用 free()
 4. 调用 objc_destructInstance
 5. 最后调用 objc_clear_deallocating
    1. 从 weak 表中获取废弃对象的地址为键值的记录

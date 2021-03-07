@@ -59,14 +59,15 @@ queue.async {
 - 异步任务不会阻塞当前线程，会开辟新的线程；
 
 ### 主队列
-因为主队列只有一个主线程，async也没有开线程的能力，所以在子线程进行主队列异步任务，实际也会阻塞当前子线程，先执行异步任务，才会继续子线程中的工作。
 
+因为主队列只有一个主线程，async 也没有开线程的能力，所以在子线程进行主队列异步任务，实际也会阻塞当前子线程，先执行异步任务，才会继续子线程中的工作。
 
-## 使用sync产生死锁的情况
+## 使用 sync 产生死锁的情况
 
 一般出现错误为`EXC_BAD_INSTRUCTION`
 
-- 在主线程使用sync
+- 在主线程使用 sync
+
 ```swift
 override func viewDidLoad() {
     super.viewDidLoad()
@@ -79,19 +80,26 @@ override func viewDidLoad() {
 let serialQueue = DispatchQueue(label: "serialQueue")
 serialQueue.sync {
     serialQueue.sync {
-                
+
     }
 }
 ```
 
 - 串行队列异步任务中开启同步任务
+
+```
 let serialQueue = DispatchQueue(label: "serialQueue")
 serialQueue.async {
-    serialQueue.sync {
-                
-    }
+  serialQueue.sync {
+      }
 }
+
 ```
+
+### 栅栏函数
+
+栅栏函数需要放在并行队列中才能发挥其作用。其作用是拦截栅栏函数前的并发任务，等到栅栏函数执行完后，在执行后面的并发任务。
+栅栏函数不能用在全局并发队列中，不起作用。苹果官方也规定了不允许在全局并发队列中使用栅栏函数。
 
 ## 使用场景介绍
 
@@ -99,7 +107,7 @@ serialQueue.async {
 
 任务组的主要应用场景：当需要一组任务结束后再统一去执行一些操作；如等到几个没有顺序要求的网络请求成功之后再去统一刷新 UI。
 
-任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是**入组任务数等于出组任务数**。  
+任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是**入组任务数等于出组任务数**。
 任务组与队列需要关联来实现上述操作，关联方式包括两种：自动关联及手动关联；
 
 group.enter()和 group.leave()需要成对存在。

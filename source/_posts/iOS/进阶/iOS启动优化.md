@@ -39,17 +39,20 @@ date: 2021-02-05 22:03:03
    - 将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者+initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间
    - 二进制重排（主要是节省加载 Mach-O 文件的时间）
 
-3. 调用 main 函数执行，后续执行
+3. 调用 main 函数执行，后续执行。（main -> applicationDidFinishLaunching）
 
    > main()函数执行之后到 AppDelegate 类中的 applicationDidFinishLaunching:withOptions:方法执行结束前这段时间。这是 APP 启动优化的重点
 
    **优化方式包括**
 
-   - 尽量使用纯代码编写，减少 xib 的使用
    - 启动阶段的网络请求，是否都放到异步请求
    - 一些耗时的操作是否可以放到后面去执行，或异步执行等
 
-4. 首屏渲染完成后
+4. applicationDidFinishLaunching -> 首页渲染完成
+
+   - 尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂
+   - 在viewDidLoad以及viewWillAppear方法中少做逻辑，或者采用异步的方式去做
+   - 
 
 ## 二进制重排
 
@@ -75,3 +78,5 @@ clang 插桩
    则在 Other Swift Flags 增加
    - `-sanitize-coverage=func`
    - `-sanitize=undefined`
+
+获取启动过程中的执行方法：[AppOrderFiles](https://github.com/yulingtianxia/AppOrderFiles)

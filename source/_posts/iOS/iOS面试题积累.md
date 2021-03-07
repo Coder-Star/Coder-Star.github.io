@@ -5,6 +5,10 @@ categories: [iOS]
 tags: [iOS]
 ---
 
+## Swif与OC对比
+
+![Swift-C数据类型对应](../../img/iOS/Swift/Swift-C数据类型对应.png)
+
 ## class 与 struct 之间的区别
 
 - **class 是引用类型，struct 是值类型;**
