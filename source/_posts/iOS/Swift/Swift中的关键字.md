@@ -143,5 +143,5 @@ default -> `default`
 
 ## 其他
 
-- @inline(never) 声明这个函数never编译成inline的形式
-- @inline(__always) 声明这个函数总是编译成inline的形式， 这种方式对防止反编译拿到核心方法逻辑有帮助
+- @inline(never) 声明这个函数never永远不被编译成inline的形式
+- @inline(__always) 声明这个函数总是编译成inline的形式， 这种方式对防止反编译拿到核心方法逻辑有帮助。
