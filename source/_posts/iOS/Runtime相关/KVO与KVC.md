@@ -65,6 +65,8 @@ KVO 赋值、取值各有两个方法，一个 key，一个 keyPath；其中 key
 4. 每个类对象中都有一个 isa 指针指向当前类，当一个类对象的第一次被观察，那么系统就会偷偷将 isa 指针指向动态生成的派生类，从而在给被监控属性赋值时执行的是派生类的 setter 方法;
 5. 键值观察通知依赖于 NSObject 的两个方法：`willChangeValueForKey:`和`didChangeValueForKey:`,在一个被观察属性发生改变之前，willChangeValueForKey:一定会被调用，这就会记录旧的值。而当改变发生后，didChangeValueForKey:会被调用，继而 observeValueForKey:ofObject:change:context:也会被调用
 
+自动生成的子类会重写父类的set、class、dealloc、_isKVOA方法。其中class方法返回的不是子类，而是父类。当观察对象移除所有的监听后，会将观察对象的isa指向原来的类，但是动态生成的类不会注销，而是留在下次观察再使用，避免反馈创建中间子类。
+
 如果直接给属性赋值，不调用 set 方法赋值是不会触发 KVO 的。  
 我们可以手动调用 KVO，也就是在值改变之前手动调用 willChangeValueForKey 方法，在值改变之后手动调用 didChangeValueForKey 方法。
 
