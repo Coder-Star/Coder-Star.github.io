@@ -50,6 +50,14 @@ Xcode 代码片段路径
 
 ## Build Settings
 
+- Other Linker Flags，控制对库文件的链接
+  - -ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来，如果库中只有 category 没有类，category 也不会加进来
+  - -all_load 强制链接器把目标文件都加载进来，即使没有 objc 代码
+  - -force_load 跟 all_load 作用类似，但是需要指定要进行全部加载的库文件的路径
+
+
+**通用**
+
 - `${SRCROOT}` 项目根目录下
 - `$(PROJECT_DIR)` 代表的是整个项目
 - `$(inherited)` 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited)将会包含 Pods.xcodeproj 中的配置
