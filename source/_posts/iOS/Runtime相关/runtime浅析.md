@@ -53,6 +53,8 @@ OC 的方法调用整体分为三个步骤
 - 开发者可以在 forwardInvocation:方法中自定义任何逻辑
 - 以上方法都有对象方法、类方法 2 个版本（前面可以是加号+，也可以是减号-）
 
+> forwardingTargetForSelector 仅支持一个对象的返回，也就是说消息只能被转发给一个对象;forwardInvocation 可以将消息同时转发给任意多个对象。
+
 ### 方法交换
 
 方法交换(method-swizzling)，主要目的是替换两个 Method 的 IMP

@@ -18,7 +18,7 @@ OC 的 weak 实现和 Swift 还有些区别；
 
 ## OC 中 Weak 原理
 
-Runtime 维护了一个 weak 表，用于存储指向某个对象的所有 weak 指针。weak 表其实是一个 hash 表，Key 是所指对象的地址，value 是 weak 指针的地址数组，是数组的原因是一个对象可能被多个弱引用指针指向。
+Runtime 维护了一个 weak 表，用于存储指向某个对象的所有 weak 指针。weak 表其实是一个 hash 表，Key 是**所指对象的地址**，value 是 **weak 指针的地址数组**，是数组的原因是一个对象可能被多个弱引用指针指向。
 
 1. 初始化时：runtime 会调用 objc_initWeak 函数，初始化一个新的 weak 指针指向对象的地址。
 2. 添加引用时：objc_initWeak 函数会调用 objc_storeWeak() 函数， objc_storeWeak() 的作用是更新指针指向，创建对应的弱引用表。
