@@ -33,13 +33,15 @@ date: 2021-01-09 08:49:49
 - **DZNEmptyDataSet** 空数据背景
 - **FSPagerView** 轮播控件
 - **Hero** 动画
-- **QQ_XGPush** 信鸽推送
+- **TPNS-iOS** 腾讯云推送
 - **Bugly** 错误上报
 - **SwiftyUserDefaults** UserDefaults 存储
 - **KeychainSwift** 钥匙串存储
 - **JSBadgeView** 角标
 - **AMPopTip** 文字气泡
 - **BRPickerView** 选择器组件，时间、日期以及列表等(OC)
+- **QRCodeReader.swift** 二维码扫描
+- **EFQRCode** 二维码生成
 
 ### 小工具
 

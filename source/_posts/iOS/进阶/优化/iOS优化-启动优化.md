@@ -1,13 +1,17 @@
 ---
-title: iOS启动优化
+title: iOS优化-启动优化
 category:
   - iOS
-  - 启动优化
+  - 优化
 tags:
   - iOS
-  - 启动优化
+  - 优化
 date: 2021-02-05 22:03:03
 ---
+
+## 前言
+
+苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。
 
 ## APP 启动过程
 
@@ -33,11 +37,12 @@ date: 2021-02-05 22:03:03
 
    **这一步优化方式包括**
 
-   - 减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间
+   - 减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。
    - 尽量不使用 C++虚函数；这样可以节约 rebase/binding 的时间
    - 清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间
    - 将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者+initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间
    - 二进制重排（主要是节省加载 Mach-O 文件的时间）
+   - 多使用swift structs，利用swift静态分发的特性。
 
 3. 调用 main 函数执行，后续执行。（main -> applicationDidFinishLaunching）
 
@@ -51,8 +56,8 @@ date: 2021-02-05 22:03:03
 4. applicationDidFinishLaunching -> 首页渲染完成
 
    - 尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂
-   - 在viewDidLoad以及viewWillAppear方法中少做逻辑，或者采用异步的方式去做
-   - 
+   - 在 viewDidLoad 以及 viewWillAppear 方法中少做逻辑，或者采用异步的方式去做
+   -
 
 ## 二进制重排
 

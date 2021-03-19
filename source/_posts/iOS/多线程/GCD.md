@@ -116,6 +116,8 @@ group.enter()和 group.leave()需要成对存在。
 - 当任务组的入组数大于出组数，`group.notify`永远不会执行；
 - 当出组数大于入组数，**程序会崩溃**。
 
+> group.notify是异步执行的，如果想要阻塞当前线程，使任务组的任务执行完毕，可以使用group.wait()。
+
 ```swift
  // 任务组
 let group = DispatchGroup()

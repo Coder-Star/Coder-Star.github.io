@@ -1,5 +1,5 @@
 ---
-title: iOS优化相关
+title: iOS优化-UI
 category:
   - iOS
   - 优化
@@ -66,16 +66,7 @@ cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；
 
 ## 整体优化
 
-* 不要使用太复杂的XIB/Storyboard
-* 使用AutoreleasePool
+- 不要使用太复杂的 XIB/Storyboard
+- 使用 AutoreleasePool
 
 ## 其他
-
-### 检测循环引用
-**MLeaksFinder**
-
-基本原理是当ViewController pop或者dimiss后应该很快进行销毁，如果不销毁就是发生了循环引用，通过hook相关方法。在hook方法中使用一个弱引用引用VC，然后延时一段时间再去使用该引用，如果此时引用为nil，则没有循环引用，如果不为nil，则有可能发生了循环引用。
-
-**FBRetainCycleDetector**
-
-当传入内存中的任意一个 OC 对象，FBRetainCycleDetector 会递归遍历该对象的所有强引用的对象，以检测以该对象为根结点的强引用树有没有循环引用。

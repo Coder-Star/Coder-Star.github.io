@@ -85,9 +85,10 @@ if didAddMethod {
 
 - 数据埋点
 - Crash 防护
-- Extension 或者 Category 中为类添加实例变量
+- Category 中为类添加成员变量，利用关联对象。
 - JSON 转 model
--
+
+> 关联对象由AssociationsManager管理并在AssociationsHashMap中存储。所有对象的关联内容都被放在一个统一的全局容器中.
 
 ## runtime 三方库
 
