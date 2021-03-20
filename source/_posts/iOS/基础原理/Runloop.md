@@ -12,7 +12,7 @@ date: 2021-03-03 21:45:53
 - RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件).
 - RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.
 
-![](../../../img/iOS/底层/runloop.png)
+![runloop.png](../../../img/iOS/基础原理/runloop.png)
 
 - Entry 进入
 - BeforeTimers

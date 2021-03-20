@@ -1,8 +1,10 @@
 ---
 title: SQL语句优化
 date: 2019-10-20 19:54:36
-categories: [数据库]
-tags: [SQL]
+category:
+  - 数据库
+tags:
+  - 数据库
 ---
 
 - 比较运算符能用“=”就不用“<>”

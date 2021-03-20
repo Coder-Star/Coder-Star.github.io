@@ -1,11 +1,11 @@
 ---
 title: css学习笔记
+date: 2021-02-22 14:46:51
 category:
+  - 前端
   - CSS
-  - 学习笔记
 tags:
   - CSS
-date: 2021-02-22 14:46:51
 ---
 
 ## 修改input - placeholder 和 readonly 的样式

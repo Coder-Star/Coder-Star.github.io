@@ -1,7 +1,12 @@
 ---
 title: ES相关
 date: 2020-10-30 09:00:21
+category:
+  - 前端
+  - JS
 tags:
+  - 前端
+  - JS
 ---
 
 ##

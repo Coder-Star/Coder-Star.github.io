@@ -81,8 +81,8 @@ viewDidDisappear：      视图控制器的 view 已经从 window 上消失。
 
 ## 7、启动图所有尺寸
 
-![启动图尺寸1.png](../../img/启动图尺寸1.png)
-![启动图尺寸2.png](../../img/启动图尺寸2.png)
+![启动图尺寸1.png](../../img/iOS/相关/启动图尺寸1.png)
+![启动图尺寸2.png](../../img/iOS/相关/启动图尺寸2.png)
 
 ## 8、view 添加阴影
 

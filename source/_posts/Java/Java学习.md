@@ -24,9 +24,9 @@ tags: [Java]
 Java 的集合类主要由两个接口派生而出：**Collection**和**Map**。
 
 - Collection
-  ![Collection接口及其派生类.png](../../img/Collection接口及其派生类.png)
+  ![Collection接口及其派生类.png](../../img/Java/Collection接口及其派生类.png)
 - Map
-  ![Map接口及其派生类.png](../../img/Map接口及其派生类.png)
+  ![Map接口及其派生类.png](../../img/Java/Map接口及其派生类.png)
 
 #### 2、工具类
 
