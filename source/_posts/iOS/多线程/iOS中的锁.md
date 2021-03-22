@@ -16,7 +16,7 @@ date: 2021-03-02 22:52:45
 ### 互斥锁
 
 - NSLock
-- pthread_mutex
+- pthread_mutex（也是一个递归锁）
 - synchronized（objc_sync_enter/objc_sync_exit）
 
 ```swift
