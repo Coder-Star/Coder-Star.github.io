@@ -9,6 +9,11 @@ tags:
 date: 2021-03-22 08:47:15
 ---
 
+**CocoaPods 系列博客**
+[CocoaPods-总览](../CocoaPods-总览)
+[CocoaPods-项目使用](../CocoaPods-项目使用)
+[CocoaPods-封装自己的 Pod 库](../CocoaPods-封装自己的Pod库)
+
 ## 基本概念
 
 CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(cocoapods-repo-svn).我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库.这样委托 pod 来管理.
@@ -51,7 +56,7 @@ Cocoapods 1.7.2 就可以使用 CDN 的方式下载索引库，需要在 Podfile
 - Build Phases -> Embed Pods Frameworks 添加 "${SRCROOT}/Pods/Target Support Files/Pods-test/Pods-test-frameworks.sh" // 静态库不会生成该文件
 - Build Phases -> Copy Pods Resources 添加 "${SRCROOT}/Pods/Target Support Files/Pods-test/Pods-test-resources.sh" // 如果三方库中没有资源文件，则不会生成该文件
 
-两个sh文件实际上就是将封装通用架构动态库文件和将动态库复制到 bundle 指定目录下。
+两个 sh 文件实际上就是将封装通用架构动态库文件和将动态库复制到 bundle 指定目录下。
 
 如果是静态库方式引入，Pods 项目最终会编译成为一个名为 libPods-项目名称.a 的文件，主项目只要依赖这个.a 文件即可；
 
