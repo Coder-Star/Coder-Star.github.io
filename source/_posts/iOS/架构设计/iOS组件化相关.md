@@ -30,15 +30,12 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 
 ### 三、组件间通信(路由方案)
 
-**路由解决问题**
+目前存在的组件间路由方案大概有四种，分别是
 
-- 点击推送消息进入到指定页面
-- 3Dtouch 快捷方式
-- 系列 APP 之间页面互相调用、跳转
-- 组件与组件之前的互相调用
-- ...
-
-目前市面上主要流行的组件间通信方案主要是以蘑菇街为主的 URL/Protocol 方案和反革命 casatwy 提出的 Target-Action 方案。
+- URL/Protocol 方案
+- Target-Action 方案
+- protocol 与 class 映射方案
+- 基于通知的方案
 
 #### 1、URL/Protocol 方案
 
@@ -134,7 +131,7 @@ public extension CTMediator {
 
 BeeHive 是阿里开源的一个 APP 模块化编程框架的实现方案，其吸收了 Spring 框架 Service 的理念来实现模块间的 API 解构，路由方面，本质上与蘑菇街后来推出的 Protocol 方案类似，也加入了 url Router 的方式，不过 readme.md 没有对这种方式进行体现，但是在源码中可以看出；其中这种 Protocol 方法在思想上跟 spring 的 service 注入类似；
 
-这种方式决定了业务模块需要引入公共的协议；
+**这种方式决定了业务模块需要引入公共的协议；**
 
 在这个框架中，使用了注解方式进行注册的设计很有意思；
 
