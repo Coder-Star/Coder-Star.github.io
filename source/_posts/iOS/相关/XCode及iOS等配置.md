@@ -50,11 +50,14 @@ Xcode 代码片段路径
 
 ## Build Settings
 
-- Other Linker Flags，控制对库文件的链接
+- Other Linker Flags：控制对OC库文件的链接
   - -ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来，如果库中只有 category 没有类，category 也不会加进来
   - -all_load 强制链接器把目标文件都加载进来，即使没有 objc 代码
   - -force_load 跟 all_load 作用类似，但是需要指定要进行全部加载的库文件的路径
 
+
+- Preprocessor Macros：OC环境的宏定义，一般Debug模式下会配置DEBUG=1，这样才可以使用 #if DEBUG的写法
+- Active Compilation Conditions： Swift环境下的宏定义，一般Debug模式下会配置DEBUG，这样才可以使用 #if DEBUG的写法
 
 **通用**
 

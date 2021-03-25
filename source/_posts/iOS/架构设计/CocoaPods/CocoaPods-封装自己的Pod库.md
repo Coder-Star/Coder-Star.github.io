@@ -44,9 +44,10 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/Coder-Star/LTXiOSUtils.git", :tag => s.version } #共享库源代码地址
   # s.source     = { :git => 'local', :tag => s.version} #当在开发阶段，使用本地代码时，可以使用这种写法，实际上参数不重要，只有给予s.source 参数就行，后面的是为了避免警告
   s.platform     = :ios, "9.0" # 支持的平台及最低版本
-  # s.ios.deployment_target = '7.0' # 或者这种写法
+  # s.ios.deployment_target = '7.0' # 或者这种写法，这种写法可以设置多平台
   s.requires_arc  = true # arc和mrc选项，true一定不要加单引号
   s.swift_version = "4.2"  #设置swift版本
+  s.static_framework  =  true # 设置库为静态库，mach-o type会是static
 
   s.source_files = "LTXiOSUtils/Classes/**/*.swift"   #OC可以使用类似这样"Source/Classes/**/*.{h,m}",**/*是一个正则，表示下面所有swift文件，这个路径是相对于podspec文件而言
   # s.exclude_files = "LTXiOSUtils/Classes/Exclude" #忽略提交的文件
@@ -63,11 +64,18 @@ Pod::Spec.new do |s|
   resources.resource_bundle = { "LTXiOSUtils" => "LTXiOSUtils/Resources/Resource/*" } # LTXiOSUtil是bundle的名称。
 
   s.vendored_libraries = 'YJDemoSDK/Classes/libWeChatSDK.a' # 表示依赖第三方/自己的 .a / 静态库，依赖的第三方的或者自己的静态库文件必须以lib为前缀进行命名，否则会出现找不到的情况，这一点非常重要
-  s.public_header_files = 'YJDemoSDK/Classes/YJDemoSDK.h'   #需要对外开放的头文件
+  s.public_header_files = 'YJDemoSDK/Classes/YJDemoSDK.h'   #需要对外开放的头文件，如果在swift工程中，这个头文件会被放置到umbrella-header中
+
+  s.private_header_files = 'xxxx.h' #私有h文件，该文件放置库中使用的第三方的头文件
 
   s.vendored_frameworks = "frameworks/Test.framework" # 第三方framework目录，当库不想公布源码时可以使用这种方式
   s.frameworks = "UIKit","Foundation" #需要引入的系统frameworks
   s.libraries  = 'z', 'sqlite3' #表示依赖的系统类库，比如libz.dylib等
+
+# 模块化，假如项目中有OC代码，需要模块化，就需要进行开启，并且配合public_header_files使用
+#  s.pod_target_xcconfig = {
+#    'DEFINES_MODULE' => 'YES'
+#  }
 
   #文件分层，如果Classes下面只有子目录，没有文件，则上述的s.source_files可以不用写
   s.subspec 'Utils' do |ss1|

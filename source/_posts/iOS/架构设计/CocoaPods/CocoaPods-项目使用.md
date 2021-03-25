@@ -42,6 +42,8 @@ target 'BaseIOSProject' do
 
   platform :ios, '10.0'
 
+  install! 'cocoapods', :clean  #全局
+
   # 动态库形式
   use_frameworks!
 
@@ -61,6 +63,9 @@ target 'BaseIOSProject' do
 
   pod 'Alamofire', '~> 4.7', :modular_headers => true #网络请求
   pod 'MJRefresh' #上拉刷新、下拉下载
+
+  pod 'QueryKit/Attribute' # 子模块
+  pod 'QueryKit', :subspecs => ['Attribute', 'QuerySet'] # 多个子模块
 
   pod 'LTXiOSUtils',:path => '../' # 本地pod库，会寻找该路径下LTXiOSUtils.podspec文件
 
