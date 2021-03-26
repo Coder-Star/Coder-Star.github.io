@@ -114,7 +114,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 1. UIImageView 扩展(oc 代理类文件如何新建自行百度)
 
-- .h 文件（如果项目为 swift 工程，将该文件在桥接文件中声明以供 swift 使用）
+- .h 文件
 
 ```OC
 #import <UIKit/UIKit.h>

@@ -71,3 +71,10 @@ ARC 下，栈 block 自动转为堆 block 的情况
 - 将 block 赋值给\_\_strong 指针的时候
 - block 作为 Cocoa API 中方法名含有 usingBlock 的方法参数时
 - block 作为 GCD API 的方法参数时
+
+## copy / mutableCopy
+
+- 不可变对象调用 copy，不会生成新的对象，因为没有必要。指针指向同一地址即可满足。
+- 不可变对象调用 mutableCopy，生成新的对象，因为需要修改而原对象不支持修改。
+- 可变对象调用 copy，生成新的对象，因为预期是获得一个不可变对象。
+- 可变对象调用 mutableCopy，生成新对象，可变对象的修改不应影响到原对象，所以会生成新对象。

@@ -47,6 +47,12 @@ framework module moduleName {
 	export *
 	module * { export * }
 
+  // 子Module
+  explicit module SubModuleName {
+    header "SubModuleName.h"
+    export *
+  }
+
 	link framework "Foundation" // 目前这个地方只能link SDK内置的框架
 }
 ```
