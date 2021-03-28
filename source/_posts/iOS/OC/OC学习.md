@@ -13,7 +13,7 @@ date: 2020-03-16 11:36:19
 - @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。
 - @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，
 
-当属性是只读属性，但是重写了了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。
+当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。
 
 @property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是@syntheszie var = \_var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上@synthesize 及@dynamic。
 

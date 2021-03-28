@@ -32,6 +32,8 @@ date: 2021-03-22 08:47:37
 
 **podspec 文件格式**
 
+全部配置请见 [官方文档](https://guides.cocoapods.org/syntax/podspec.html#specification)
+
 ```Ruby
 Pod::Spec.new do |s|
   s.name         = "LTXiOSUtils"        #名称
@@ -65,6 +67,7 @@ Pod::Spec.new do |s|
 
   s.vendored_libraries = 'YJDemoSDK/Classes/libWeChatSDK.a' # 表示依赖第三方/自己的 .a / 静态库，依赖的第三方的或者自己的静态库文件必须以lib为前缀进行命名，否则会出现找不到的情况，这一点非常重要
   s.public_header_files = 'YJDemoSDK/Classes/YJDemoSDK.h'   #需要对外开放的头文件，如果在swift工程中，这个头文件会被放置到umbrella-header中
+  s.module_map = 'source/module.modulemap' # 自定义modulemap
 
   s.private_header_files = 'xxxx.h' #私有h文件，该文件放置库中使用的第三方的头文件
 

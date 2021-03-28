@@ -113,3 +113,7 @@ pod package XXX.podspec --library // --library表示打包成a文件，如果不
 # 那就需要加上那个私有库的source，默认是cocoapods的Specs仓库。
 # --spec-sources=private,https://github.com/CocoaPods/Specs.git。
 ```
+
+问题
+
+- Swift 的 Pod 依赖 OC 的 Pod，如果 OC 开始没有模块化，打包不成功。
