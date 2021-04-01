@@ -1,11 +1,10 @@
 ---
-title: Android以及iOS开发检查清单
+title: Android三方库收集
 date: 2019-10-25 20:23:58
-categories: [APP]
-tags: [Android, iOS]
+categories: [Android]
+tags: [Android]
 ---
 
-## 1、Android
 
 - **retrofit** 网络请求
 

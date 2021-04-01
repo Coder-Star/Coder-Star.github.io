@@ -79,6 +79,8 @@ viewWillDisappear：     视图控制器的 view 将要从 window 上消失。
 viewDidDisappear：      视图控制器的 view 已经从 window 上消失。
 ```
 
+![](../../img/iOS/基础/VC生命周期.png)
+
 ## 7、启动图所有尺寸
 
 ![启动图尺寸1.png](../../img/iOS/相关/启动图尺寸1.png)
