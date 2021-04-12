@@ -44,3 +44,34 @@ flutter -h //显示相关帮助
 - Flutter
 - Dart
 - ...
+
+
+## 5、使用fvm灵活切换flutter版本
+
+```
+// 添加homebrew tap
+brew tap xinfeng-tech/fvm
+
+// 安装 fvm
+brew install fvm
+
+// 安装flutter版本
+fvm install 1.17.1
+
+// 修改环境变量（~/.bash_profile文件中）
+export FVM_DIR="$HOME/.fvm"
+source "/usr/local/opt/fvm/init.sh"
+
+并修改flutter的路径
+export PATH=/你的flutter文件夹所在位置/flutter/bin:$PATH
+修改为
+/Users/用户名/.fvm/current/bin:$PATH
+
+// 切换flutter版本
+fvm use 1.17.1
+
+// 查看flutter相关版本
+fvm list
+```
+
+Tips：换成fvm管理flutter版本后第一次执行flutter命令会出现警告，可以项目中先执行一下 `flutter pub get` 然后再执行一下`flutter clean`，问题就会得到解决。
