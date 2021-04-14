@@ -30,34 +30,6 @@ self.edgesForExtendedLayout =  UIRectEdge.init(rawValue: 0)
 self.navigationController?.navigationBar.backgroundColor = .white
 ```
 
-## 3、页面向下偏移
-
-当 view 的第一个页面是 scrollView 或者 tableView 时，页面会自动向下偏移 64pt，如果已经设置了 top 约束，则页面就会错位，使用下面代码使 scrollView 或者 tableView 不要自动向下偏移。
-
-```swift
-if #available(iOS 11.0, *) {
-   scrollView.contentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior.never
-  //tableView.contentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior.never
-}else{
-   self.automaticallyAdjustsScrollViewInsets = false
-}
-```
-
-## 4、控制页面 view 在安全区域内
-
-```swift
-baseScrollView.snp.makeConstraints{(make) in
-      make.left.right.equalToSuperview()
-      make.width.equalTo(ConstantsHelp.SCREENWITH)
-      if #available(iOS 11.0, *) {
-         make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-         make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-      } else {
-         make.top.equalTo(topLayoutGuide.snp.bottom)
-         make.bottom.equalTo(bottomLayoutGuide.snp.bottom)
-      }
-}
-```
 
 ## 5、启动图配置方法说明
 

@@ -62,6 +62,8 @@ Xcode 代码片段路径
 **通用**
 
 - `${SRCROOT}` 项目根目录下
+- `${PODS_ROOT}` 代表的是 pod 目录
+
 - `$(PROJECT_DIR)` 代表的是整个项目
 - `$(inherited)` 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited)将会包含 Pods.xcodeproj 中的配置
-- `${PODS_ROOT}` 代表的是 pod 目录
+
