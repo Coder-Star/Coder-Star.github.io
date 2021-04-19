@@ -9,6 +9,14 @@ tags:
 date: 2021-02-05 22:03:03
 ---
 
+iOS 优化系列目录如下：
+
+- [iOS 优化-总览](../iOS优化-总览)
+- [iOS 优化-UI](../iOS优化-UI)
+- [iOS 优化-内存](../iOS优化-内存)
+- [iOS 优化-启动优化](../iOS优化-启动优化)
+- [iOS 优化-瘦身](../iOS优化-瘦身)
+
 ## 前言
 
 苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。
@@ -22,6 +30,7 @@ date: 2021-02-05 22:03:03
 
    - dylib loading
      - 加载所有依赖的 Mach-O 文件（递归调用 Mach-O 加载的方法）
+     - 加载动态链接库加载器 dyld(dynamic loader)
      - 加载动态链接库
    - rebase/binding
 
@@ -29,7 +38,7 @@ date: 2021-02-05 22:03:03
      - 定位内部、外部指针引用，例如字符串、函数等
 
    - Objc setup
-     - 初始化 Objective-C Runtime（包括 ObjC 相关 Class 的注册、category 注册、selector 唯一性检查等）
+     - 初始化 Objective-C Runtime（包括 ObjC 相关 Class 的注册、category 注册、selector 唯一性检查等），category 注册会将 category 定义的方法插入到主类中。
    - initializer
      - 调用 ObjC 的 +load 函数
      - 执行声明为 attribute((constructor))的 C/C++ 函数
@@ -42,7 +51,7 @@ date: 2021-02-05 22:03:03
    - 清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间
    - 将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者+initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间
    - 二进制重排（主要是节省加载 Mach-O 文件的时间）
-   - 多使用swift structs，利用swift静态分发的特性。
+   - 多使用 swift structs，利用 swift 静态分发的特性。
 
 3. 调用 main 函数执行，后续执行。（main -> applicationDidFinishLaunching）
 

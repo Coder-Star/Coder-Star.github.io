@@ -15,22 +15,12 @@ date: 2021-03-02 22:52:45
 
 ### 互斥锁
 
-- NSLock
 - pthread_mutex（也是一个递归锁）
+- NSLock
 - synchronized（objc_sync_enter/objc_sync_exit）
 
-```swift
-// 两者本质一样，其实NSLock的底层也是使用pthread_mutex_lock来实现的
-
-// NSLock形式
-let lock = NSLock()
-lock.lock()
-// 执行内容
-lock.unlock()
 ```
-
-```
-// pthread_mute形式
+// pthread_mutex形式
 var mutex = pthread_mutex_t()
 func initLock() {
   pthread_mutex_init(&mutex, nil)
@@ -41,11 +31,21 @@ pthread_mutex_unlock(&mutex)
 ```
 
 ```swift
-// 两本质相同
+// NSLock形式
+let lock = NSLock()
+lock.lock()
+// 执行内容
+lock.unlock()
+```
+
+```swift
+// 两本质相同，其中
 
 // oc
 // 这种方式使用简单，支持多线程递归嵌套
-// 需要注意试用期间self这个参数不可为nil
+// 需要注意使用期间self这个参数不可为nil，其底层会执行objc_sync_enter及objc_sync_exit这两个函数，其最终底层是依靠recursive_mutex_t锁来进行加锁的。这也是synchronized可以支持递归调用的原因。
+// 当传入的self对象是nil的时候，线程安全就会失效。
+// 为什么  @synchronized 是性能最差的呢？因为其包含的操作极为复杂，除了常规的加锁解锁操作以外，还需要考虑哈希表寻址，缓存获取/创建缓存等，最差情况下即 N 个 不同的 obj 创建多个不同的  SyncData，并且会调用命名为自旋锁的互斥锁 os_unfair_lock 来实现缓存.
 @synchronized (self) {
     // 执行内容
 }
