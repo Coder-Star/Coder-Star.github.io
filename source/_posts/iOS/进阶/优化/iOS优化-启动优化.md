@@ -32,10 +32,10 @@ iOS 优化系列目录如下：
      - 加载所有依赖的 Mach-O 文件（递归调用 Mach-O 加载的方法）
      - 加载动态链接库加载器 dyld(dynamic loader)
      - 加载动态链接库
-   - rebase/binding
+   - rebase（偏移修正）/binding（符号绑定）
 
-     - 对动态链接库进行 rebase 指针调整和 bind 符号绑定
-     - 定位内部、外部指针引用，例如字符串、函数等
+     - rebase(偏移修正)：修复内部指针。ASLR+偏移值 = 运行时确定的内存地址,造成这种现象的原因是因为系统运用了虚拟内存。
+     - binding(符号绑定)： 绑定就是给符号赋值的过程。例如 NSLog 方法，在编译时期生成的 mach-o 文件中，会创建一个符号！NSLog（目前指向一个随机的地址），然后在运行时（从磁盘加载到内存中，是一个镜像文件），会将真正的地址给符号（即在内存中将地址与符号进行绑定，是 dyld 做的，也称为动态库符号绑定）。
 
    - Objc setup
      - 初始化 Objective-C Runtime（包括 ObjC 相关 Class 的注册、category 注册、selector 唯一性检查等），category 注册会将 category 定义的方法插入到主类中。

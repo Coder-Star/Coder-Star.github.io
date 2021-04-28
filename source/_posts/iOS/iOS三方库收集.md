@@ -24,13 +24,32 @@ date: 2021-01-09 08:49:49
 - **MJRefresh(OC)** 上拉刷新、下拉加载
 - **MBProgressHUD(OC)** 进度框
 
-- **JXSegmentedView** 分页控制器
+- **JXSegmentedView** 分页控制器，其作者有好几个 UI 库，都值得看看
+
+- **富文本相关**
+  - **YYText**
+  - **ZSSRichTextEditor**
+  - **TYAttributedLabel**
+
+- **动画**
+  - **Hero** 动画库
+  - **Spring**
+  - **EasyAnimation**
+  - **PeekPop** 3D动画
+  - **Animations** 动画Demo
 
 ## 工具
 
 ### JSON 解析
 
 - **SwiftyJSON** json 取值
+- **HandyJSON**
+
+### 数据库
+
+- **FMDB(OC)** SQLite 数据库框架
+- **Realm** 移动端数据库
+- **MMKV**
 
 ## 待定
 
@@ -40,6 +59,7 @@ date: 2021-01-09 08:49:49
 
 - **TZImagePickerController(OC)** 照片选择
 - **SKPhotoBrowser(OC)** 图片浏览
+- **ZLPhotoBrowser**  图片选择
 
 - **ESTabBarController-swift** 底部 tabbar
 - **UITableView+FDTemplateLayoutCell(OC)** 缓存 tableview 高度
@@ -55,3 +75,13 @@ date: 2021-01-09 08:49:49
 - **BRPickerView(OC)** 选择器组件，时间、日期以及列表等
 - **QRCodeReader.swift** 二维码扫描
 - **EFQRCode** 二维码生成
+- **PromiseKit** 异步编程
+- **AsyncDisplayKit** 异步UI
+- **ReactiveSwift** rx语法
+- **SwiftGen** 二维码扫描
+- **EFQRCode** 二维码生成
+
+
+## 调试
+
+- **GDPerformanceView** 显示FPS、CPU等信息
