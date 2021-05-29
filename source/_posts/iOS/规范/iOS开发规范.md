@@ -1,13 +1,14 @@
 ---
 title: iOS开发规范
 date: 2020-08-31 10:50:18
-categories: [iOS]
+categories: [规范]
 tags: [Swift, iOS, 规范]
 ---
 
 ### 语法规范
 
 * [Objective-C 开发规范](../Objective-C开发规范)
+* [Swift 开发规范](../Swift开发规范)
 * [Swift 开发规范](../Swift开发规范)
 
 ### 资源文件管理
