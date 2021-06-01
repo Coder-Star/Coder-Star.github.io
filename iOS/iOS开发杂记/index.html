@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CoderStar's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="1、UITapGestureRecognizer 相关 一个手势添加到多个 view 上，只有最后一个 view 添加的有效   每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 Vie">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发杂记">
+<meta property="og:url" content="https://coder-star.github.io/iOS/iOS开发杂记/index.html">
+<meta property="og:site_name" content="CoderStar&#39;s Blog">
+<meta property="og:description" content="1、UITapGestureRecognizer 相关 一个手势添加到多个 view 上，只有最后一个 view 添加的有效   每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 Vie">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80/VC%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E7%9B%B8%E5%85%B3/%E5%90%AF%E5%8A%A8%E5%9B%BE%E5%B0%BA%E5%AF%B81.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E7%9B%B8%E5%85%B3/%E5%90%AF%E5%8A%A8%E5%9B%BE%E5%B0%BA%E5%AF%B82.png">
+<meta property="og:updated_time" content="2021-06-01T08:14:30.489Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发杂记">
+<meta name="twitter:description" content="1、UITapGestureRecognizer 相关 一个手势添加到多个 view 上，只有最后一个 view 添加的有效   每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 Vie">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80/VC%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coder-star.github.io/iOS/iOS开发杂记/">
+
+
+
+
+
+  <title>iOS开发杂记 | CoderStar's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CoderStar's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/iOS开发杂记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CoderStar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CoderStar's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS开发杂记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T14:12:08+08:00">
+                2019-10-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T16:14:30+08:00">
+                2021-06-01
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.6k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、UITapGestureRecognizer-相关"><a href="#1、UITapGestureRecognizer-相关" class="headerlink" title="1、UITapGestureRecognizer 相关"></a>1、UITapGestureRecognizer 相关</h2><ul>
+<li><strong>一个手势添加到多个 view 上，只有最后一个 view 添加的有效</strong></li>
+</ul>
+<blockquote>
+<p>每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 View 本身，结果就是 Gesture Recognizer 作为 View 处理触控事件的代理。当 Gesture Recognizer 接收到指定的事件时，它就会发送一条动作消息(action message)给 ViewController 并处理。</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//labelOne点击事件会失效</span></span><br><span class="line"><span class="keyword">let</span> singleTapGesture = <span class="type">UITapGestureRecognizer</span>(target: <span class="keyword">self</span>, action: #selector(changeAgreeState))</span><br><span class="line"></span><br><span class="line">labelOne.addGestureRecognizer(singleTapGesture)</span><br><span class="line">labelOne.isUserInteractionEnabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">labelTwo.addGestureRecognizer(singleTapGesture)</span><br><span class="line">labelTwo.isUserInteractionEnabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、元素被导航栏遮挡"><a href="#2、元素被导航栏遮挡" class="headerlink" title="2、元素被导航栏遮挡"></a>2、元素被导航栏遮挡</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.edgesForExtendedLayout =  <span class="type">UIRectEdge</span>.<span class="keyword">init</span>(rawValue: <span class="number">0</span>)</span><br><span class="line"><span class="comment">//设置edgesForExtendedLayout后会导致导航栏颜色变灰，需要人工改变导航栏颜色</span></span><br><span class="line"><span class="keyword">self</span>.navigationController?.navigationBar.backgroundColor = .white</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、启动图配置方法说明"><a href="#5、启动图配置方法说明" class="headerlink" title="5、启动图配置方法说明"></a>5、启动图配置方法说明</h2><p><a href="https://www.jianshu.com/p/05b31f29b135" target="_blank" rel="noopener">启动图配置</a></p>
+<h2 id="6、ViewController-的生命周期"><a href="#6、ViewController-的生命周期" class="headerlink" title="6、ViewController 的生命周期"></a>6、ViewController 的生命周期</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">initWithCoder：         通过 nib 文件初始化时触发。</span><br><span class="line">awakeFromNib：          nib 文件被加载的时候，会发生一个 awakeFromNib 的消息到 nib 文件中的每个对象。</span><br><span class="line">loadView：              开始加载视图控制器自带的 view。</span><br><span class="line">viewDidLoad：           视图控制器的 view 被加载完成。</span><br><span class="line">viewWillAppear：        视图控制器的 view 将要显示在 window 上。</span><br><span class="line">updateViewConstraints： 视图控制器的 view 开始更新 <span class="type">AutoLayout</span> 约束。</span><br><span class="line">viewWillLayoutSubviews：视图控制器的 view 将要更新内容视图的位置。</span><br><span class="line">viewDidLayoutSubviews： 视图控制器的 view 已经更新视图的位置。</span><br><span class="line">viewDidAppear：         视图控制器的 view 已经展示到 window 上。</span><br><span class="line">viewWillDisappear：     视图控制器的 view 将要从 window 上消失。</span><br><span class="line">viewDidDisappear：      视图控制器的 view 已经从 window 上消失。</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../img/iOS/%E5%9F%BA%E7%A1%80/VC%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt></p>
+<h2 id="7、启动图所有尺寸"><a href="#7、启动图所有尺寸" class="headerlink" title="7、启动图所有尺寸"></a>7、启动图所有尺寸</h2><p><img src="../../img/iOS/%E7%9B%B8%E5%85%B3/%E5%90%AF%E5%8A%A8%E5%9B%BE%E5%B0%BA%E5%AF%B81.png" alt="启动图尺寸1.png"><br><img src="../../img/iOS/%E7%9B%B8%E5%85%B3/%E5%90%AF%E5%8A%A8%E5%9B%BE%E5%B0%BA%E5%AF%B82.png" alt="启动图尺寸2.png"></p>
+<h2 id="8、view-添加阴影"><a href="#8、view-添加阴影" class="headerlink" title="8、view 添加阴影"></a>8、view 添加阴影</h2><p>这种方式是使用离屏渲染的方式，性能会有很大的损耗</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">view.backgroundColor = .white <span class="comment">//设置view背景色，如果不设置，会导致阴影显示不出来或者阴影加在子view上</span></span><br><span class="line">view.layer.masksToBounds = <span class="literal">false</span> <span class="comment">//设置子view允许超出父view</span></span><br><span class="line">view.layer.shadowColor = <span class="type">UIColor</span>.black.cgColor <span class="comment">//设置阴影颜色</span></span><br><span class="line">view.layer.shadowOffset = <span class="type">CGSize</span>.<span class="keyword">init</span>(width: <span class="number">0</span>, height: <span class="number">1</span>) <span class="comment">//设置阴影偏移量</span></span><br><span class="line">view.layer.shadowOpacity = <span class="number">0.15</span> <span class="comment">//设置阴影透明度</span></span><br><span class="line">view.layer.shadowRadius = <span class="number">3</span> <span class="comment">//设置阴影半径</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="9、alpha、hidden、opaque、opacity-以及-isUserInteractionEnabled-等属性的解析"><a href="#9、alpha、hidden、opaque、opacity-以及-isUserInteractionEnabled-等属性的解析" class="headerlink" title="9、alpha、hidden、opaque、opacity 以及 isUserInteractionEnabled 等属性的解析"></a>9、alpha、hidden、opaque、opacity 以及 isUserInteractionEnabled 等属性的解析</h2><h3 id="1、isUserInteractionEnabled"><a href="#1、isUserInteractionEnabled" class="headerlink" title="1、isUserInteractionEnabled"></a>1、isUserInteractionEnabled</h3><p>用于控制 view 及其子 view 是否可以接收响应事件；当设为 false 时，该视图对象会从响应链中被移除，响应事件会传递到 view 的父视图。</p>
+<ul>
+<li><p>UIImageView 的 isUserInteractionEnabled 默认为 false;</p>
+</li>
+<li><p>UILabel 的 isUserInteractionEnabled 默认为 false;</p>
+</li>
+<li><p>UIView 的 isUserInteractionEnabled 默认为 true;</p>
+</li>
+</ul>
+<h3 id="2、hidden"><a href="#2、hidden" class="headerlink" title="2、hidden"></a>2、hidden</h3><p>控制 view 是否隐藏，当设置为 true 时，自身以及子 view 均会被隐藏，不管 subView 的 hideen 是否为 true，并且当前 view 以及子 view 会从响应链中移除；</p>
+<h3 id="3、alpha"><a href="#3、alpha" class="headerlink" title="3、alpha"></a>3、alpha</h3><p>控制 view 的透明度，是一个浮点值，取值范围 0~1.0,表示从完全透明到完全不透明；会影响自己的透明度，也会影响 subView 的透明度，当 alpha 为 0，当前 view 以及子 view 会从响应链中移除；更改 alpha 默认是有动画效果的。当使用 alpha 属性来隐藏 view，使用 hidden 比使用 alpha 性能好。</p>
+<h3 id="4、opacity"><a href="#4、opacity" class="headerlink" title="4、opacity"></a>4、opacity</h3><p>opacity 是 CALayer 的属性，对应的是 UIView 的 alpha。</p>
+<h3 id="5、opaque"><a href="#5、opaque" class="headerlink" title="5、opaque"></a>5、opaque</h3><p>表示 view 的不透明度，设为 true 表示不透明。但是它决定不了当前 view 是否不透明，只是为绘图系统提供一个性能优化开关（GPU 就不会再利用图层颜色合成真正的色值），当设为 true 时，绘图系统在绘制该视图时会将整个视图当做不透明来对待。能将 opaque 设为 true 的尽量将 opaque 设为 true。UIView 的默认值是 true，但 UIButton 等子类的默认值都是 false。<br>如果你加载一个没有 alpha 通道（图片的属性）的图片，并且将它显示在 UIImageView 上，会自动设置 opaque 为 YES。<br>如果 opaque 被设置成 YES，而对应 UIView 的 alpha 属性不为 1.0 的时候，就会有不可预料的情况发生。所以当 UIView 具有透明度的时候，应该将 opaque 设置为 fasle。</p>
+<h3 id="6、其他补充"><a href="#6、其他补充" class="headerlink" title="6、其他补充"></a>6、其他补充</h3><h4 id="1、实现-view-透明度，并不影响-subView-的方法"><a href="#1、实现-view-透明度，并不影响-subView-的方法" class="headerlink" title="1、实现 view 透明度，并不影响 subView 的方法"></a>1、实现 view 透明度，并不影响 subView 的方法</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种</span></span><br><span class="line">view.backgroundColor = <span class="type">UIColor</span>(white: <span class="number">1</span>, alpha: <span class="number">0.5</span>) <span class="comment">//只可以在黑白之间调节</span></span><br><span class="line">view.backgroundColor = <span class="type">UIColor</span>(red: <span class="number">10</span>, green: <span class="number">10</span>, blue: <span class="number">10</span>, alpha: <span class="number">0.5</span>) <span class="comment">// 可以在各种颜色之间进行调节</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种</span></span><br><span class="line"> view.backgroundColor = <span class="type">UIColor</span>.black.withAlphaComponent(<span class="number">0.5</span>) <span class="comment">// 某一个颜色进行透明度设置</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="10、Swift-项目导入三方库的方法"><a href="#10、Swift-项目导入三方库的方法" class="headerlink" title="10、Swift 项目导入三方库的方法"></a>10、Swift 项目导入三方库的方法</h2><h3 id="1、直接在文件头部使用-import-导入，这种适合不常用的三方库"><a href="#1、直接在文件头部使用-import-导入，这种适合不常用的三方库" class="headerlink" title="1、直接在文件头部使用 import 导入，这种适合不常用的三方库"></a>1、直接在文件头部使用 import 导入，这种适合不常用的三方库</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库"><a href="#2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库" class="headerlink" title="2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库"></a>2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> MBProgressHUD</span><br><span class="line"></span><br><span class="line"><span class="comment">///弹窗加载提示</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">show</span>() </span>&#123;</span><br><span class="line">   <span class="type">MBProgressHUD</span>.showAdded(to: viewToShow(), animated: <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">///隐藏所有弹窗</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">hide</span>() </span>&#123;</span><br><span class="line">   <span class="type">MBProgressHUD</span>.hide(<span class="keyword">for</span>: viewToShow(), animated: <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、-exported-import关键字导入，在某个文件以内引入该文件，可以在全局进行使用"><a href="#3、-exported-import关键字导入，在某个文件以内引入该文件，可以在全局进行使用" class="headerlink" title="3、@_exported import关键字导入，在某个文件以内引入该文件，可以在全局进行使用"></a>3、<code>@_exported import</code>关键字导入，在某个文件以内引入该文件，可以在全局进行使用</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@_exported <span class="keyword">import</span> Alamofire</span><br></pre></td></tr></table></figure>
+
+<h2 id="11、关于时间-Date-相关概念的理解"><a href="#11、关于时间-Date-相关概念的理解" class="headerlink" title="11、关于时间 Date 相关概念的理解"></a>11、关于时间 Date 相关概念的理解</h2><h3 id="1、calendar"><a href="#1、calendar" class="headerlink" title="1、calendar"></a>1、calendar</h3><p>消除日历差异，iphone 里面自带公历、日本日历以及佛历等日历，以及时制（24 小时还是 12 小时）</p>
+<h3 id="2、timeZone"><a href="#2、timeZone" class="headerlink" title="2、timeZone"></a>2、timeZone</h3><p>消除时区差异，使用不同时区，获得的时间也不同</p>
+<h3 id="3、locale"><a href="#3、locale" class="headerlink" title="3、locale"></a>3、locale</h3><p>消除地区差异，会影响时间选择时显示的语言</p>
+<h2 id="12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded-等相关"><a href="#12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded-等相关" class="headerlink" title="12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded 等相关"></a>12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded 等相关</h2><h3 id="1、layoutSubviews"><a href="#1、layoutSubviews" class="headerlink" title="1、layoutSubviews"></a>1、layoutSubviews</h3><p>不要直接调用该方法，而是重写该方法等待触发时机自动被调用，并且这个方法的触发时机比较多，调用比较频繁，所以没有特殊需求或者必要性，不需重写该方法。一般重写该方法对子 View 的 frame 进行修改。</p>
+<p><strong>触发时机</strong></p>
+<ul>
+<li>init()不会触发，init(frame: CGRect)，当 frame 不为 0 时会触发</li>
+<li>addSubview 会触发</li>
+<li>设置 view 的 frame 时，当 frame 设置前后发生了变化会触发，不变化不触发</li>
+<li>滚动 UIScrollView 会多次触发</li>
+<li>旋转 Screen 会触发父 UIView 上的 layoutSubviews 事件</li>
+<li>改变一个 UIView 大小时会触发父 View 上的 layoutSubviews</li>
+</ul>
+<h3 id="2、setNeedsLayout"><a href="#2、setNeedsLayout" class="headerlink" title="2、setNeedsLayout"></a>2、setNeedsLayout</h3><p>该方法异步执行；该方法是将指定 view 打上一个需要更新的标记，等待下一个 view 绘制周期的时候会更新该 view。默认会调用 layoutSubviews 方法。这种方法会将所有布局更新合并到一个更新周期，这通常对性能更好。<br>当我们修改视图的约束时，实际上会自动执行相当于 setNeedsLayout 的操作；<br>Tips：下一次更新周期就是 runloop 的循环周期。</p>
+<h3 id="3、setNeedsDisplay、setNeedsDisplayInRect"><a href="#3、setNeedsDisplay、setNeedsDisplayInRect" class="headerlink" title="3、setNeedsDisplay、setNeedsDisplayInRect"></a>3、setNeedsDisplay、setNeedsDisplayInRect</h3><p>该方法异步执行；该方法默认会自动调用 drawRect 方法，这样可以拿到 UIGraphicsGetCurrentContext，进行绘图。</p>
+<h3 id="4、layoutIfNeeded"><a href="#4、layoutIfNeeded" class="headerlink" title="4、layoutIfNeeded"></a>4、layoutIfNeeded</h3><p>该方法会在当前 runloop 周期（刷新频率 60HZ）内立即更新带有需要刷新标记的视图，所以我们如果想要当前 runloop 理解刷新视图，调用顺序应该是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">self.view.setNeedsLayout()</span><br><span class="line">self.view.layoutIfNeeded()</span><br></pre></td></tr></table></figure>
+
+<p>如果有需要刷新的标记，就会立即调用 layoutSubviews，如果没有，则不调用。<br>Tips：在视图第一次显示之前，相关 view 肯定带有刷新标记的，所有直接调用 layoutIfNeeded 就会立即进行更新。</p>
+<h3 id="5、drawRect"><a href="#5、drawRect" class="headerlink" title="5、drawRect"></a>5、drawRect</h3><p>调用时机</p>
+<ul>
+<li>drawRect 是在 Controller-&gt;loadView, Controller-&gt;viewDidLoad 之后会自动调用</li>
+<li>setNeedsDisplay、setNeedsDisplayInRect 调用时</li>
+<li>sizeToFit 调用时</li>
+<li>当 contentMode 为 redraw 时，当 frame 发生变化时将自动调用</li>
+</ul>
+<p>以上时机均要求 view 的 frame 不为空</p>
+<p>不要手动调用，通过调用 setNeedsDisplay、setNeedsDisplayInRect 等方式给 view 打上标记，然后系统自动调用 drawRect 方法；</p>
+<h3 id="6、sizeThatFits、sizeToFit"><a href="#6、sizeThatFits、sizeToFit" class="headerlink" title="6、sizeThatFits、sizeToFit"></a>6、sizeThatFits、sizeToFit</h3><p>一般在使用 UILabel 的时候会用到，使用这两个方法之前，必须要给 label 赋值，否则不会显示内容的。</p>
+<ul>
+<li>sizeToFit 会自动调用 sizeThatFits 方法；</li>
+<li>sizeToFit 不应该在子类中被重写，应该重写 sizeThatFits；</li>
+<li>sizeThatFits 传入的参数是 receiver 当前的 size，返回一个适合的 size；</li>
+<li>sizeToFit 可以被手动直接调用；</li>
+<li>sizeToFit 和 sizeThatFits 方法都没有递归，对 subviews 也不负责，只负责自己；</li>
+</ul>
+<h2 id="13、自定义-View-的注意事项"><a href="#13、自定义-View-的注意事项" class="headerlink" title="13、自定义 View 的注意事项"></a>13、自定义 View 的注意事项</h2><p>注:<strong>createUI 为设置 view 私有方法</strong></p>
+<h3 id="1、创建时机"><a href="#1、创建时机" class="headerlink" title="1、创建时机"></a>1、创建时机</h3><p>自定义 view 继承自 UIView 时，一般都会重写 UIView 的 initWithFrame，如果调用者在使用时，没有调用你写的 initWithFrame，而是直接 init，系统也会在 super init(即 UIView init)之后，调用 UIView 的 initWithFrame，然后因为你重写了，所以会调用你写的。<br>顺序就是<br><code>customView init -&gt; UiView init -&gt; UIView initWithFrame -&gt; CustomView initWithFrame</code>。</p>
+<p>所以 createUI 方法最好在 initWithFrame 中调用。不要在自定义 View 中同时重写 init 与 initWithFrame 并执行相同视图布局代码。会导致布局代码(createUI)执行多次；</p>
+<h3 id="2、view-重复创建"><a href="#2、view-重复创建" class="headerlink" title="2、view 重复创建"></a>2、view 重复创建</h3><p>如果 view 重复添加同一个 view 并不会出现多层级的问题。苹果自身会判断 view 新旧父视图是否一致，若一致，不做任何操作(可通过调试 layoutSubviews 的被调用次数进行验证)。注意，这时候的同一个 view 是指指向同一个引用，如果自定义 view 的子视图最好以懒加载的形式加载，可避免因某种书写不当导致的异常，如果在 createUI 方法直接使用 <code>let view = UIView()</code>的形式创建，就会出现多层级的问题；</p>
+<h2 id="15、扩展程序与主程序之间的通信方式"><a href="#15、扩展程序与主程序之间的通信方式" class="headerlink" title="15、扩展程序与主程序之间的通信方式"></a>15、扩展程序与主程序之间的通信方式</h2><p>扩展程序一般是指 APP Extension，扩展程序一般都不是脱离宿主程序单独运行的，难免需要和宿主程序进行数据交互。<br>由于拓展与宿主应用是两个完全独立的 App，并且 iOS 应用基于沙盒的形式限制，所以一般的共享数据方法都是实现不了数据共享，这里就需要使用 App Groups（App Groups 这是 iOS8 新开放的功能，在 OS X 上早就可用了。它主要用于同一 Group 下的 App 共享同一份读写空间，以实现数据共享）。<br>通过 App Groups 提供的同一 group 内 app 共同读写区域，可以用 UserDefaults 和 FileManager 两种方式实现 extension 和 主 app 之间的数据共享。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// UserDefaults</span></span><br><span class="line"><span class="comment">/// suitename传入group id</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">7.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>?(suiteName suitename: <span class="type">String?</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">/// FileManager</span></span><br><span class="line"><span class="keyword">let</span> groupURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.containerURL(forSecurityApplicationGroupIdentifier: <span class="string">"groupID"</span>)</span><br><span class="line"><span class="keyword">let</span> fileURL = groupURL.appendingPathComponent(<span class="string">"fileName"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样就可以利用NSArray等这种数据结构读写文件了</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/OfficialAccounts.jpg" alt="CoderStar wechat" style="width: 500px; max-width: 100%;">
+    <div>欢迎大家订阅公众号</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果各位看官觉得博文还OK，请打赏博主一杯咖啡吧</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="CoderStar 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="CoderStar 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    CoderStar
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://coder-star.github.io/iOS/iOS开发杂记/" title="iOS开发杂记">https://coder-star.github.io/iOS/iOS开发杂记/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+      
+      
+      
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tags"></i> iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/iOS/UI/WKWebView/关于WKWebView/" rel="next" title="关于WKWebView">
+                <i class="fa fa-chevron-left"></i> 关于WKWebView
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/iOS/UI/Navigation/导航栏相关/" rel="prev" title="导航栏相关">
+                导航栏相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="CoderStar">
+            
+              <p class="site-author-name" itemprop="name">CoderStar</p>
+              <p class="site-description motion-element" itemprop="description">Think more, Code less</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              <div class="cat_list">
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0ab9d4edb899" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5d3120ae5188254cbc32a2e1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1340529758@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          <div>
+    <image src="/images/WeChatOfficialAccountLogoBeautify.png">
+</image></div>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、UITapGestureRecognizer-相关"><span class="nav-text">1、UITapGestureRecognizer 相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、元素被导航栏遮挡"><span class="nav-text">2、元素被导航栏遮挡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、启动图配置方法说明"><span class="nav-text">5、启动图配置方法说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、ViewController-的生命周期"><span class="nav-text">6、ViewController 的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、启动图所有尺寸"><span class="nav-text">7、启动图所有尺寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、view-添加阴影"><span class="nav-text">8、view 添加阴影</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、alpha、hidden、opaque、opacity-以及-isUserInteractionEnabled-等属性的解析"><span class="nav-text">9、alpha、hidden、opaque、opacity 以及 isUserInteractionEnabled 等属性的解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、isUserInteractionEnabled"><span class="nav-text">1、isUserInteractionEnabled</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、hidden"><span class="nav-text">2、hidden</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、alpha"><span class="nav-text">3、alpha</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、opacity"><span class="nav-text">4、opacity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、opaque"><span class="nav-text">5、opaque</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、其他补充"><span class="nav-text">6、其他补充</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、实现-view-透明度，并不影响-subView-的方法"><span class="nav-text">1、实现 view 透明度，并不影响 subView 的方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10、Swift-项目导入三方库的方法"><span class="nav-text">10、Swift 项目导入三方库的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、直接在文件头部使用-import-导入，这种适合不常用的三方库"><span class="nav-text">1、直接在文件头部使用 import 导入，这种适合不常用的三方库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库"><span class="nav-text">2、在导入的库上面再封装一层，这样可以启动库隔离的作用，后续可以很容易切换底层库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、-exported-import关键字导入，在某个文件以内引入该文件，可以在全局进行使用"><span class="nav-text">3、@_exported import关键字导入，在某个文件以内引入该文件，可以在全局进行使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11、关于时间-Date-相关概念的理解"><span class="nav-text">11、关于时间 Date 相关概念的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、calendar"><span class="nav-text">1、calendar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、timeZone"><span class="nav-text">2、timeZone</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、locale"><span class="nav-text">3、locale</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded-等相关"><span class="nav-text">12、layoutSubviews、setNeedsLayout、setNeedsDisplay、layoutIfNeeded 等相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、layoutSubviews"><span class="nav-text">1、layoutSubviews</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、setNeedsLayout"><span class="nav-text">2、setNeedsLayout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、setNeedsDisplay、setNeedsDisplayInRect"><span class="nav-text">3、setNeedsDisplay、setNeedsDisplayInRect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、layoutIfNeeded"><span class="nav-text">4、layoutIfNeeded</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、drawRect"><span class="nav-text">5、drawRect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、sizeThatFits、sizeToFit"><span class="nav-text">6、sizeThatFits、sizeToFit</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13、自定义-View-的注意事项"><span class="nav-text">13、自定义 View 的注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、创建时机"><span class="nav-text">1、创建时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、view-重复创建"><span class="nav-text">2、view 重复创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15、扩展程序与主程序之间的通信方式"><span class="nav-text">15、扩展程序与主程序之间的通信方式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderStar</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV, 
+        el: '#comments' ,
+        appId: 'FRPNU6p78BNSv2zYHgCzOABk-gzGzoHsz',
+        appKey: 'mlQgBuQz7jHSkjBGcx5d3veb',
+        placeholder: '请输入您的评论',
+    });
+  </script>
+ 
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
