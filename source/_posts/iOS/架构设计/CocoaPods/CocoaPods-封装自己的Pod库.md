@@ -80,6 +80,8 @@ Pod::Spec.new do |s|
 #    'DEFINES_MODULE' => 'YES'
 #  }
 
+  s.default_subspec = "Utils"
+
   #文件分层，如果Classes下面只有子目录，没有文件，则上述的s.source_files可以不用写
   s.subspec 'Utils' do |ss1|
       ss1.source_files = 'LTXiOSUtils/Classes/Utils/*.swift'
