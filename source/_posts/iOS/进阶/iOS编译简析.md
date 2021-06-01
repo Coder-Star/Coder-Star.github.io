@@ -93,7 +93,7 @@ Swift 编译过程引入 SIL 有几个优点：
 LLVM IR 有三种表示形式。
 
 - text:便于阅读的文本格式，类似于汇编语言，拓展名`.ll`；
-- bitcode:二进制格式，拓展名`.bc`
+- bitcode:二进制格式，拓展名`.bc`；
 - memory:内存格式
 
 ### LLVM 后端
@@ -171,6 +171,6 @@ swiftc -o LLVMSwift.o LLVMSwift.swift
 
 既然讲到了 LLVM，那就顺便讲一下 BitCode，上文也讲到了 BitCode 其实就是 IR 代码的一种编码形式。
 
-需要说明的是 BitCode 是以 section 形式保存在可执行文件中。当我们把携带 BitCode 的 App 提交到 AppStore 后，苹果会提取出可执行文件中的 BitCode 段，然后针对不同的 CPU 架构编译和链接成不同的可执行文件变体(Variant)，不同 CPU 架构的设备会自动选择合适的架构的变体进行下载。而在 BitCode 之前，我们都是把所有需要的 CPU 架构集合打包成一个 Fat Binary，结果就是用户最终下载的安装包之中有很多冗余的 CPU 架构支持代码。开启BitCode之后，编译器后端(Backend)的工作都由 Apple 接管。
+需要说明的是 BitCode 是以 section 形式保存在可执行文件中。当我们把携带 BitCode 的 App 提交到 AppStore 后，苹果会提取出可执行文件中的 BitCode 段，然后针对不同的 CPU 架构编译和链接成不同的可执行文件变体(Variant)，不同 CPU 架构的设备会自动选择合适的架构的变体进行下载。而在 BitCode 之前，我们都是把所有需要的 CPU 架构集合打包成一个 Fat Binary，结果就是用户最终下载的安装包之中有很多冗余的 CPU 架构支持代码。开启 BitCode 之后，编译器后端(Backend)的工作都由 Apple 接管。
 
-BitCode的一些具体说明及注意事项后面会在iOS瘦身优化中专门去讲解。
+BitCode 的一些具体说明及注意事项后面会在 iOS 瘦身优化中专门去讲解。
