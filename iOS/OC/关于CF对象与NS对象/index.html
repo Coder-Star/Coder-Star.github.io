@@ -97,7 +97,7 @@
 <meta property="og:description" content="前言Core Foundation 是一组 C 语言接口，Foundation 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的。Core Foundation 有 Foundation 没有的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/OC/CF-NS.png">
-<meta property="og:updated_time" content="2021-06-04T15:47:41.213Z">
+<meta property="og:updated_time" content="2021-06-04T15:57:31.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于CF对象与NS对象">
 <meta name="twitter:description" content="前言Core Foundation 是一组 C 语言接口，Foundation 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的。Core Foundation 有 Foundation 没有的">
@@ -351,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-04T23:47:41+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-04T23:57:31+08:00">
                 2021-06-04
               </time>
             
@@ -484,6 +484,7 @@
 <p><strong>__bridge_retained</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// OC-&gt;CF __bridge_retained</span><br><span class="line">NSString *originOCStr = [[NSString alloc]initWithFormat:@&quot;OC&quot;];</span><br><span class="line">CFStringRef cfStr = (__bridge_retained CFStringRef) originOCStr;</span><br><span class="line"></span><br><span class="line">//这时候，即使开启ARC，也需要手动执行CFRelease，因为此时对象管理已经交给CF管理了</span><br><span class="line">CFRelease(cfStr);</span><br></pre></td></tr></table></figure>
 
+<p><strong>__bridge_transfer</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// CF-&gt;OC __bridge_transfer</span><br><span class="line">CFStringRef originCFStr = CFStringCreateWithCString(NULL, &quot;CF&quot;, kCFStringEncodingUTF8);</span><br><span class="line">NSString *ocStr = (__bridge_transfer NSString *)originCFStr;</span><br></pre></td></tr></table></figure>
 
 <h3 id="CF-NS-对照"><a href="#CF-NS-对照" class="headerlink" title="CF-NS 对照"></a>CF-NS 对照</h3><p>并不是所有的 CF 对象都支持 <code>Toll-Free Bridging</code>，以下是支持的结构类型表。</p>
