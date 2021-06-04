@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="[self class] 和 [super class]区别两者打印出来的内容相同. [self class]就是发送消息 objc_msgSend，消息接收者 self，方法编号 class[super class]本质就是 objc_msgSendSuper，消息的接收者还是 self，方法编号 class。只是调用 objc_msgSendSuper 的时候会直接跳过 self 查找，直接在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T08:14:30.483Z">
+<meta property="og:updated_time" content="2021-06-03T15:43:40.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC面试相关">
 <meta name="twitter:description" content="[self class] 和 [super class]区别两者打印出来的内容相同. [self class]就是发送消息 objc_msgSend，消息接收者 self，方法编号 class[super class]本质就是 objc_msgSendSuper，消息的接收者还是 self，方法编号 class。只是调用 objc_msgSendSuper 的时候会直接跳过 self 查找，直接在">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T16:14:30+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-03T23:43:40+08:00">
+                2021-06-03
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.1k 字
+                  1.2k 字
                 </span>
               
 
@@ -460,7 +460,7 @@
 <li>给类添加新的方法</li>
 <li>不能给类添加成员变量</li>
 <li>通过@property 定义的变量，只能生成对应的 getter 和 setter 的方法声明，但是不能实现 getter 和 setter 方法，同时也不能生成带下划线的成员属性</li>
-<li>是运行期决定的</li>
+<li>是运行期决定的，这也是没法添加成员变量的原因，因为在运行期，对象的内存布局已经确定，所以不允许再添加成员变量去修改内存布局。</li>
 </ul>
 <p>分类同名方法会优先主类的方法使用。<br>多个分类中的同名方法会只执行一个,即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。</p>
 <p>extension：扩展</p>
