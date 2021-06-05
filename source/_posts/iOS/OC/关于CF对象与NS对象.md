@@ -12,7 +12,7 @@ date: 2021-03-14 19:10:36
 
 ## 前言
 
-`Core Foundation` 是一组 C 语言接口，`Foundation` 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的。Core Foundation 有 Foundation 没有的功能，比如 CFDictionary 的 Key 元素无需实现 NSCoping 协议、CFArray 可以不进行对象引用计数等、CFRunloop 提供了比 NSRunloop 更加细致化的 Api、利用CFStringTransform将中文转为拼音。反过来，Foundation 也有 Core Foundation 无法胜任的工作，最大的来说就是自动引用计数功能，还有比如 NSBundle 在 Core Foundation 中也没有。
+`Core Foundation` 是一组 C 语言接口，`Foundation` 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的，比如 CFDictionary 的 Key 元素无需实现 NSCoping 协议、CFArray 可以不进行对象引用计数等、CFRunloop 提供了比 NSRunloop 更加细致化的 Api、利用 CFStringTransform 将中文转为拼音。反过来，Foundation 也有 Core Foundation 无法胜任的工作，最大的来说就是自动引用计数功能，还有比如 NSBundle 在 Core Foundation 中也没有。
 
 > 先说下出现这两个框架的历史原因，当年乔布斯被自己创办的公司驱逐后，成立了`NeXT Computer`公司，拥有`NeXTSTEP`操作系统，后来乔布斯回到苹果后，就出现了一个问题。如何让旧的系统（Mac OS 9）和 NeXTSTEP 合成为一个新系统，这就需要一个更为底层的核心库可以供 Mac Toolbox 和 OPENSTEP 双方调用。Core Foundation 就这么诞生了。其中 Foundation 对象是 NS 开头的原因也是由于 NeXTSTEP 系统。
 
@@ -84,6 +84,8 @@ CFStringRef cfStr = (__bridge_retained CFStringRef) originOCStr;
 //这时候，即使开启ARC，也需要手动执行CFRelease，因为此时对象管理已经交给CF管理了
 CFRelease(cfStr);
 ```
+
+**\_\_bridge_transfer**
 
 ```Objective-C
 // CF->OC __bridge_transfer
