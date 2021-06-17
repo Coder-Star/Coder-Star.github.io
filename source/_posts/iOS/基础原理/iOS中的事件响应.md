@@ -1,17 +1,25 @@
 ---
-title: iOS事件分发及响应链
+title: iOS中的事件响应
 category:
   - iOS
   - 基础原理
 tags:
   - iOS
-  - 事件分发
 date: 2020-12-22 20:50:01
 ---
 
-## iOS 事件分发及响应链机制
+iOS 中可以响应并处理事件的类型包括三种，这三种
 
-### 寻找最合适的 View
+- `UIResponder`
+- `UIGestureRecognizer`
+- `UIControl`
+
+# UIResponder
+
+UIResponder是iOS是响应事件的基类，可以用来响应用户的点击、触摸等事件。通过下面四个回调API进行响应
+
+
+## 寻找最合适的View
 
 ```swift
 /// 寻找顺序
@@ -29,11 +37,18 @@ override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
 
 ```
 
-当一个视图 View 收到 hitTest 消息时，先会检查自己是否可以响应事件，如果 View 的 userInteractionEnabled = NO，enabled = NO（UIControl），或者 alpha <= 0.01， hidden = YES 等情况的时候，直接返回 nil，然后调用自己的 poinInside 方法；如果返回 false 表示点击区域不在自己视图范围内，直接返回 nil。  
+当一个视图 View 收到 hitTest 消息时，先会检查自己是否可以响应事件，如果 
+- View 的 userInteractionEnabled = NO，
+- enabled = NO（UIControl）
+- ，或者 alpha <= 0.01， 
+- hidden = YES 
+等情况的时候，直接返回 nil，然后调用自己的 poinInside 方法；如果返回 false 表示点击区域不在自己视图范围内，直接返回 nil。  
 返回 nil 表示此 View 已经不是合适 View 了，如果不返回 nil 会遍历自己的子视图，所有子视图的遍历顺序是从最顶层视图一直到到最底层视图，即从 subviews 数组的末尾向前遍历，即后加入的子 view 会先遍历，子视图就会调用自己的 hitTest 方法；逐级进行进去，找到最小的那个 UIview。
 
 tips  
 在测试过程中，发现 hitTest 方法会执行两遍，point 值一致，根据 stackoverflow 上面的描述，苹果回复意思就是说 hitTest 是一个没有副作用的纯函数，进行多次调用也不会对外产生影响，因此系统可以多次调用调整 Point。[苹果回复](https://lists.apple.com/archives/cocoa-dev/2014/Feb/msg00118.html)
+
+>UIImageView默认serInteractionEnabled = false
 
 ### 事件分发
 

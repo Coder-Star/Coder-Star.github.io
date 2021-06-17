@@ -123,6 +123,7 @@ git push --tags
 
 ```
 // 验证 本地podspec，验证过程中可能会出现警告造成验证不成功（The spec did not pass validation）,可以使用pod lib lint --allow-warnings忽略警告完成验证
+// 也可以添加 `--skip-import-validation` 忽略导入验证
 pod lib lint
 
 // 验证本地podspec及远程podspec文件

@@ -256,3 +256,16 @@ let fileURL = groupURL.appendingPathComponent("fileName")
 
 
 ```
+
+16、判断UIScrollView的滚动方向
+
+```swift
+func scrollViewDidScroll(_ scrollView: UIScrollView) {
+   let point = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
+   if point.y > 0 {
+      // 手势下滑
+   } else {
+      // 手势上滑
+   }
+}
+```

@@ -20,7 +20,8 @@ date: 2020-03-16 11:36:19
 什么情况下需要使用@synthesize 呢？
 
 - 修改生成的成员变量名字
-- 手动添加了 setter/getter 方法
+- 重写了只读属性的getter时
+- 同时重写setter和getter时
 - 实现了带有 property 属性的 protocol
 
 怎么用呢？
@@ -34,6 +35,13 @@ date: 2020-03-16 11:36:19
 ```
 
 ### @property 属性修饰符
+
+**setter、getter**
+
+```
+@property (nonatomic, readonly, getter=isFinalized) BOOL finalized;
+@property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;
+```
 
 **内存管理**
 
@@ -93,3 +101,8 @@ date: 2020-03-16 11:36:19
 
 - 基本数据类型：atomic readwrite assign
 - 普通 OC 对象： atomic readwrite strong
+
+
+
+
+## @import、#import、 #include、@class

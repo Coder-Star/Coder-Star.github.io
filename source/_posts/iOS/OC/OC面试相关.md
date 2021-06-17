@@ -9,16 +9,14 @@ tags:
 date: 2021-02-02 20:25:06
 ---
 
-## [self class] 和 [super class]区别
+## Extension & Category：分类
 
-两者打印出来的内容相同.
+extension：扩展
 
-`[self class]`就是发送消息 `objc_msgSend`，消息接收者 `self`，方法编号 `class`
-`[super class]`本质就是 `objc_msgSendSuper`，消息的接收者还是 `self`，方法编号 `class`。只是调用 `objc_msgSendSuper` 的时候会直接跳过 `self` 查找，直接在从 `super` 出现的在的方法所在的类的父类开始查找进行查找。
-
-class 方法的作用就是返回 receiver 的类别。
-
-## category & extension
+- 可以给类添加成员变量及方法
+- 添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的@interface 和实现文件里的@implement 一起形成了一个完整的类
+- 伴随着类的产生而产生，也随着类的消失而消失
+- 必须有类的源码才可以给类添加 extension，所以对于系统一些类，如 NSString，就无法添加类扩展
 
 category：分类
 
@@ -30,13 +28,14 @@ category：分类
 分类同名方法会优先主类的方法使用。
 多个分类中的同名方法会只执行一个,即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。
 
-extension：扩展
+## [self class] 和 [super class]区别
 
-- 可以给类添加成员变量及方法，但是是私有的
-- 添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的@interface 和实现文件里的@implement 一起形成了一个完整的类
-- 伴随着类的产生而产生，也随着类的消失而消失
-- 必须有类的源码才可以给类添加 extension，所以对于系统一些类，如 nsstring，就无法添加类扩展
+两者打印出来的内容相同.
 
+`[self class]`就是发送消息 `objc_msgSend`，消息接收者 `self`，方法编号 `class`
+`[super class]`本质就是 `objc_msgSendSuper`，消息的接收者还是 `self`，方法编号 `class`。只是调用 `objc_msgSendSuper` 的时候会直接跳过 `self` 查找，直接在从 `super` 出现的在的方法所在的类的父类开始查找进行查找。
+
+class 方法的作用就是返回 receiver 的类别。
 
 ## load 方法的加载顺序
 
@@ -48,7 +47,7 @@ load 函数是 main 函数启动前装载文件直接通过函数地址调用，
 
 initialize：当类或子类第一次收到消息时被调用只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕，子类和父类同时实现 initialize，父类的先被调用，然后调用子类的。本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。
 
-load方法里面可以调用category中声明的方法，因为附加category到类的工作会先于+load方法的执行。
+load 方法里面可以调用 category 中声明的方法，因为附加 category 到类的工作会先于+load 方法的执行。
 
 ## OC 中的 block
 
@@ -71,9 +70,7 @@ ARC 下，栈 block 自动转为堆 block 的情况
 - block 作为 Cocoa API 中方法名含有 usingBlock 的方法参数时
 - block 作为 GCD API 的方法参数时
 
-
-__block作用：1、解决block内部想修改外部auto变量的问题；2、解决循环引用；
-
+\_\_block 作用：1、解决 block 内部想修改外部 auto 变量的问题；2、解决循环引用；
 
 ## copy / mutableCopy
 

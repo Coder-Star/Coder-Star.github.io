@@ -34,3 +34,8 @@ lipo  libname.a  -thin  armv7  -output  libname-armv7.a
 **擦除指定架构**
 
 lipo XXX.a -remove arm64 -output XXX.a
+
+
+## Xcode
+
+- 关闭Xcode，打开终端输入`defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES`，然后项目Build的时候可以在Xcode顶部看到项目编译时间
