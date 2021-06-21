@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-21T16:13:37.801Z">
+<meta property="og:updated_time" content="2021-06-21T16:14:20.838Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift开发规范">
 <meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风">
@@ -349,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-22T00:13:37+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-22T00:14:20+08:00">
                 2021-06-22
               </time>
             
@@ -460,11 +460,7 @@
 <li>全局常量命名使用 k 前缀 + UpperCamelCase 命名；</li>
 <li>扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如<code>UIView+Frame.swift</code>；</li>
 <li>工程中文件夹或者 Group 统一使用 UpperCamelCase 风格，一律使用单数形式；</li>
-<li>命名中出现缩略词时，缩略词要么全部大写，要么全部小写，以首字母大小写为准，通用缩略词包括 JSON、URL 等；</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IDUtil</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">idToString</span><span class="params">()</span></span> &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
+<li>命名中出现缩略词时，缩略词要么全部大写，要么全部小写，以首字母大小写为准，通用缩略词包括 JSON、URL 等；如<code>class IDUtil {}</code>、<code>func idToString() { }</code></li>
 <li>不要使用不规范的缩写，如 AbstractClass“缩写”命名成 AbsClass 等，不怕名称长，就怕名称不明确。</li>
 <li>文件名如果有复数含义，文件名应使用复数形式，如一些工具类；</li>
 </ul>
