@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。 shell基础123$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。$与$&amp;#123;&amp;#125;都是  sed命令unix与linux在执行sed指令时有些许区别">
+<meta name="description" content="这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。 shell基础123$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。$与$&amp;#123;&amp;#125;都是用来获取变量内容的  sed命令unix与linux在执行se">
 <meta name="keywords" content="shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shell笔记">
 <meta property="og:url" content="https://coder-star.github.io/杂项/shell笔记/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。 shell基础123$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。$与$&amp;#123;&amp;#125;都是  sed命令unix与linux在执行sed指令时有些许区别">
+<meta property="og:description" content="这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。 shell基础123$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。$与$&amp;#123;&amp;#125;都是用来获取变量内容的  sed命令unix与linux在执行se">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.319Z">
+<meta property="og:updated_time" content="2021-06-16T12:54:55.033Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell笔记">
-<meta name="twitter:description" content="这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。 shell基础123$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。$与$&amp;#123;&amp;#125;都是  sed命令unix与linux在执行sed指令时有些许区别">
+<meta name="twitter:description" content="这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。 shell基础123$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。$与$&amp;#123;&amp;#125;都是用来获取变量内容的  sed命令unix与linux在执行se">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-16T20:54:55+08:00">
+                2021-06-16
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  150 字
+                  159 字
                 </span>
               
 
@@ -442,7 +442,7 @@
 
       
         <p>这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。</p>
-<h2 id="shell基础"><a href="#shell基础" class="headerlink" title="shell基础"></a>shell基础</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。</span><br><span class="line"></span><br><span class="line">$与$&#123;&#125;都是</span><br></pre></td></tr></table></figure>
+<h2 id="shell基础"><a href="#shell基础" class="headerlink" title="shell基础"></a>shell基础</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。</span><br><span class="line"></span><br><span class="line">$与$&#123;&#125;都是用来获取变量内容的</span><br></pre></td></tr></table></figure>
 
 <h2 id="sed命令"><a href="#sed命令" class="headerlink" title="sed命令"></a>sed命令</h2><p>unix与linux在执行sed指令时有些许区别，当使用sed -i 命令时，需要在-i指令后面多加一段 “”, 即 <code>sed -i &quot;&quot; &quot;s/192.168.0.2/192.168.0.3/g&quot; filePath</code></p>
 <h2 id="curl命令"><a href="#curl命令" class="headerlink" title="curl命令"></a>curl命令</h2>
@@ -641,7 +641,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

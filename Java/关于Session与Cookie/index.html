@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="一、cookiecookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；如果我们不设置 cookie 的过期时间时，cookie 信息保存在内存中，当浏览器关闭窗口时，就会自动将 cookie 删除；如果设定了过期时间，则浏览器会将">
+<meta name="description" content="前言有些时候技术群里面的群友会说一些涉及 Session 和 Cookie 的问题，但是通过他们的表述感觉其对两者并没有了解清楚，今天简单说明一下。 Cookiecookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；如果我们不设置">
 <meta name="keywords" content="web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于Session与Cookie">
 <meta property="og:url" content="https://coder-star.github.io/Java/关于Session与Cookie/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="一、cookiecookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；如果我们不设置 cookie 的过期时间时，cookie 信息保存在内存中，当浏览器关闭窗口时，就会自动将 cookie 删除；如果设定了过期时间，则浏览器会将">
+<meta property="og:description" content="前言有些时候技术群里面的群友会说一些涉及 Session 和 Cookie 的问题，但是通过他们的表述感觉其对两者并没有了解清楚，今天简单说明一下。 Cookiecookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；如果我们不设置">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.297Z">
+<meta property="og:updated_time" content="2021-06-17T04:53:59.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于Session与Cookie">
-<meta name="twitter:description" content="一、cookiecookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；如果我们不设置 cookie 的过期时间时，cookie 信息保存在内存中，当浏览器关闭窗口时，就会自动将 cookie 删除；如果设定了过期时间，则浏览器会将">
+<meta name="twitter:description" content="前言有些时候技术群里面的群友会说一些涉及 Session 和 Cookie 的问题，但是通过他们的表述感觉其对两者并没有了解清楚，今天简单说明一下。 Cookiecookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；如果我们不设置">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-17T12:53:59+08:00">
+                2021-06-17
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.1k 字
+                  1.2k 字
                 </span>
               
 
@@ -441,8 +441,19 @@
       
 
       
-        <h2 id="一、cookie"><a href="#一、cookie" class="headerlink" title="一、cookie"></a>一、cookie</h2><p>cookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；<br>如果我们不设置 cookie 的过期时间时，cookie 信息保存在内存中，当浏览器关闭窗口时，就会自动将 cookie 删除；如果设定了过期时间，则浏览器会将 cookie 保存在硬盘中。存储在硬盘上的 cookie 可以在不同的浏览器进程间共享，比如两个浏览器窗口。而对于保存在内存里的 cookie，不同的浏览器有不同的处理方式。<br>cookie 在本地的存储格式为 key=value;key1=value1 有点类似于 map 的键值对，每个键值对之间用；号隔开，同时不允许键、值中出现分号（;）、逗号（,）、等号（=）以及空格；如果值中需要出现上述特殊字符，可以需要使用 escape()函数进行编码，取值时候通过 unescape()函数将取出的值进行解码</p>
-<h3 id="1、使用-JS-操作-cookie"><a href="#1、使用-JS-操作-cookie" class="headerlink" title="1、使用 JS 操作 cookie"></a>1、使用 JS 操作 cookie</h3><h3 id="1、新建、修改-cookie"><a href="#1、新建、修改-cookie" class="headerlink" title="1、新建、修改 cookie"></a>1、新建、修改 cookie</h3><p>新建 cookie，如果前面的 key 值不存在，则会新建 key 值为 username，value 值为李四的键值对；如果已存在，则会修改对应 key 的 value 值</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有些时候技术群里面的群友会说一些涉及 Session 和 Cookie 的问题，但是通过他们的表述感觉其对两者并没有了解清楚，今天简单说明一下。</p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>cookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；<br>如果我们不设置 cookie 的过期时间时，cookie 信息保存在内存中，当浏览器关闭窗口时，就会自动将 cookie 删除；如果设定了过期时间，则浏览器会将 cookie 保存在硬盘中。存储在硬盘上的 cookie 可以在不同的浏览器进程间共享，比如两个浏览器窗口。而对于保存在内存里的 cookie，不同的浏览器有不同的处理方式。<br>cookie 在本地的存储格式为 key=value;key1=value1 有点类似于 map 的键值对，每个键值对之间用；号隔开，同时不允许键、值中出现分号（;）、逗号（,）、等号（=）以及空格；如果值中需要出现上述特殊字符，可以需要使用 escape()函数进行编码，取值时候通过 unescape()函数将取出的值进行解码。</p>
+<p>前端持久化存储的方式除上述 Cookie 外还有以下几种形式：</p>
+<ul>
+<li>SessionStorage</li>
+<li>LocalStorage</li>
+<li>IndexDB</li>
+<li>WebSQL</li>
+</ul>
+<p>对于 APP 来讲，也是存储有 Cookie 信息的，因为 <code>WKWebView</code>、<code>UIWebView</code> 其实本身也是一种浏览器壳子，拿 iOS 的 <code>WKWebView</code> 举个 🌰 ，使用下列代码可以获得 WkWebView 的 Cookie；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> #available(iOS <span class="number">11.0</span>, *) &#123;</span><br><span class="line">    webView.configuration.websiteDataStore.httpCookieStore.getAllCookies &#123; cookies <span class="keyword">in</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1、新建、修改-cookie"><a href="#1、新建、修改-cookie" class="headerlink" title="1、新建、修改 cookie"></a>1、新建、修改 cookie</h3><p>新建 cookie，如果前面的 key 值不存在，则会新建 key 值为 username，value 值为李四的键值对；如果已存在，则会修改对应 key 的 value 值</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"username=李四"</span>; <span class="comment">//单个键值对</span></span><br><span class="line"><span class="built_in">document</span>.cookie = <span class="string">"username=李四;age=21"</span>; <span class="comment">//多个键值对，中间用；隔开</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="2、删除-cookie"><a href="#2、删除-cookie" class="headerlink" title="2、删除 cookie"></a>2、删除 cookie</h3><p>删除 cookie 是通过设置 cookie 的过期时间为一个过去的时间来达到删除 cookie 的目的，真正的删除是由浏览器去自动删除的，其中删除时起作用的是对应 key 值，value 值可填可不填</p>
@@ -450,17 +461,16 @@
 
 <h3 id="3、取-cookie-值"><a href="#3、取-cookie-值" class="headerlink" title="3、取 cookie 值"></a>3、取 cookie 值</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cookieInfo = <span class="built_in">document</span>.cookie; <span class="comment">// 我们可以使用split的方式将字符串cookieInfo转成数组，然后取出指定key的value值</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="二、session"><a href="#二、session" class="headerlink" title="二、session"></a>二、session</h2><p>session 是存储在服务器端的信息，称为会话信息。同一站点，每一个用户登录都会建立一个 session，会为每一个用户建立一个 id 作为访问的唯一标识，（其中 tomcat 容器的这个 id 叫做 Jsessionid，不同的容器名字会不同），当服务器访问人过多，服务器的压力就会很大。当关闭网站时，会话结束，session 就会失效，并不能长时间的保存；</p>
-<h3 id="1、操作-session-代码"><a href="#1、操作-session-代码" class="headerlink" title="1、操作 session 代码"></a>1、操作 session 代码</h3><h4 id="1-session-附加属性"><a href="#1-session-附加属性" class="headerlink" title="1.session 附加属性"></a>1.session 附加属性</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession(); <span class="comment">//获取session对象</span></span><br><span class="line">session.setAttribute(<span class="built_in">String</span> key,<span class="built_in">Object</span> value);; <span class="comment">//为session附加属性，其中value为对象类型</span></span><br></pre></td></tr></table></figure>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>session 是存储在服务器端的信息，称为会话信息。同一站点，每一个用户登录都会建立一个 session，会为每一个用户建立一个 id 作为访问的唯一标识，（比如 tomcat 容器的这个 id 叫做 Jsessionid，不同的容器名字会不同），当服务器访问人过多，服务器的压力就会很大。当关闭网站时，会话结束，session 就会失效，并不能长时间的保存；</p>
+<h4 id="1-session-附加属性"><a href="#1-session-附加属性" class="headerlink" title="1.session 附加属性"></a>1.session 附加属性</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession(); <span class="comment">//获取session对象</span></span><br><span class="line">session.setAttribute(String key,Object value);; <span class="comment">//为session附加属性，其中value为对象类型</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="2-获取-session-属性"><a href="#2-获取-session-属性" class="headerlink" title="2.获取 session 属性"></a>2.获取 session 属性</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> value=session.getAttribute(<span class="built_in">String</span> key);</span><br></pre></td></tr></table></figure>
+<h4 id="2-获取-session-属性"><a href="#2-获取-session-属性" class="headerlink" title="2.获取 session 属性"></a>2.获取 session 属性</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object value=session.getAttribute(String key);</span><br></pre></td></tr></table></figure>
 
-<h4 id="3-session-删除"><a href="#3-session-删除" class="headerlink" title="3.session 删除"></a>3.session 删除</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session.invalidate(); <span class="comment">//销毁session对象，所有属性删除</span></span><br><span class="line">session.removeAttribute(<span class="string">"currentName"</span>); <span class="comment">//删除某个session属性</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-session-删除"><a href="#3-session-删除" class="headerlink" title="3.session 删除"></a>3.session 删除</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session.invalidate(); <span class="comment">//销毁session对象，所有属性删除</span></span><br><span class="line">session.removeAttribute(<span class="string">"currentName"</span>); <span class="comment">//删除某个session属性</span></span><br></pre></td></tr></table></figure>
 
 <p>在实际开发中，一般会将用户的信息封装成一个实体（属性可能包括账号、密码、权限、个人相关信息等等），然后将产生的对象放在 session，这样我们就可以根据登录用户的 session 获取这个用户的基本信息了；</p>
-<h3 id="三、两者联系"><a href="#三、两者联系" class="headerlink" title="三、两者联系"></a>三、两者联系</h3><p>当后台程序需要为某个前台请求创建一个 session 时，服务器首先检查这个请求的 Cookie 值是否会有 session id，如果已包含则说明以前已经为此客户端创建过 session（一般是成功登录），服务器就按照 session id 把这个 session 检索出来使用，如果客户端请求不包含 session id，则为此客户端创建一个 session 并且生成一个与此 session 相关联的 session id，并且将该 id 放在 Response 中的 set-cookie 中，下一次客户端再请求就会将这个 id 放在 request header 中传给服务器，其中这个 id 一般是存在 cookie 中；<br>当客户端将 cookie 禁用时，我们无法将该 id 保存在 cookie 中，我们就需要对我们的请求 url 进行重写，(将 id 放在 url 后面，作为一个 get 请求的参数传递给后台)，关键代码如下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">response.encodeURL(<span class="string">"http://www.laozizhu.com"</span>);</span><br><span class="line"><span class="comment">// 重写后会在url后面加上 ;JSESSIONID=1234 （假如session id是1234）</span></span><br></pre></td></tr></table></figure>
-
+<h2 id="两者联系"><a href="#两者联系" class="headerlink" title="两者联系"></a>两者联系</h2><p>当后台程序需要为某个前台请求创建一个 session 时，服务器首先检查这个请求的 Cookie 值是否会有 session id，如果已包含则说明以前已经为此客户端创建过 session（一般是成功登录），服务器就按照 session id 把这个 session 检索出来使用，如果客户端请求不包含 session id，则为此客户端创建一个 session 并且生成一个与此 session 相关联的 session id，并且将该 id 放在 Response 中的 set-cookie 中，下一次客户端再请求就会自动将这个 id 放在 request header 中传给服务器，其中这个 id 一般是存在 cookie 中；</p>
+<p>当客户端将 cookie 禁用时，我们无法将该 id 保存在 cookie 中，我们就需要对我们的请求 url 进行重写，(将 id 放在 url 后面，作为一个 get 请求的参数传递给后台)。</p>
 
       
     </div>
@@ -657,7 +667,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -726,7 +736,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、cookie"><span class="nav-text">一、cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、使用-JS-操作-cookie"><span class="nav-text">1、使用 JS 操作 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、新建、修改-cookie"><span class="nav-text">1、新建、修改 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、删除-cookie"><span class="nav-text">2、删除 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、取-cookie-值"><span class="nav-text">3、取 cookie 值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、session"><span class="nav-text">二、session</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、操作-session-代码"><span class="nav-text">1、操作 session 代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-session-附加属性"><span class="nav-text">1.session 附加属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-获取-session-属性"><span class="nav-text">2.获取 session 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-session-删除"><span class="nav-text">3.session 删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、两者联系"><span class="nav-text">三、两者联系</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie"><span class="nav-text">Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、新建、修改-cookie"><span class="nav-text">1、新建、修改 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、删除-cookie"><span class="nav-text">2、删除 cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、取-cookie-值"><span class="nav-text">3、取 cookie 值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Session"><span class="nav-text">Session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-session-附加属性"><span class="nav-text">1.session 附加属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-获取-session-属性"><span class="nav-text">2.获取 session 属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-session-删除"><span class="nav-text">3.session 删除</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#两者联系"><span class="nav-text">两者联系</span></a></li></div>
             
 
           </div>

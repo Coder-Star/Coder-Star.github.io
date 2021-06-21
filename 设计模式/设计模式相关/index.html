@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="一、面向对象六大设计原则 开闭原则（OCP）：Open Close Principle 单一职责原则（SRP）：Single Responsibility Principle 里氏替换原则（LSP）：Liskov Substitution Principle 依赖倒置原则（DIP）：Dependence Inversion Principle 接口隔离原则（ISP）：Interface Segre">
+<meta name="description" content="面向对象六大设计原则 开闭原则（OCP）：Open Close Principle 单一职责原则（SRP）：Single Responsibility Principle 里氏替换原则（LSP）：Liskov Substitution Principle 依赖倒置原则（DIP）：Dependence Inversion Principle 接口隔离原则（ISP）：Interface Segrega">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式相关">
 <meta property="og:url" content="https://coder-star.github.io/设计模式/设计模式相关/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="一、面向对象六大设计原则 开闭原则（OCP）：Open Close Principle 单一职责原则（SRP）：Single Responsibility Principle 里氏替换原则（LSP）：Liskov Substitution Principle 依赖倒置原则（DIP）：Dependence Inversion Principle 接口隔离原则（ISP）：Interface Segre">
+<meta property="og:description" content="面向对象六大设计原则 开闭原则（OCP）：Open Close Principle 单一职责原则（SRP）：Single Responsibility Principle 里氏替换原则（LSP）：Liskov Substitution Principle 依赖倒置原则（DIP）：Dependence Inversion Principle 接口隔离原则（ISP）：Interface Segrega">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.320Z">
+<meta property="og:updated_time" content="2021-06-16T12:44:34.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式相关">
-<meta name="twitter:description" content="一、面向对象六大设计原则 开闭原则（OCP）：Open Close Principle 单一职责原则（SRP）：Single Responsibility Principle 里氏替换原则（LSP）：Liskov Substitution Principle 依赖倒置原则（DIP）：Dependence Inversion Principle 接口隔离原则（ISP）：Interface Segre">
+<meta name="twitter:description" content="面向对象六大设计原则 开闭原则（OCP）：Open Close Principle 单一职责原则（SRP）：Single Responsibility Principle 里氏替换原则（LSP）：Liskov Substitution Principle 依赖倒置原则（DIP）：Dependence Inversion Principle 接口隔离原则（ISP）：Interface Segrega">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-16T20:44:34+08:00">
+                2021-06-16
               </time>
             
           </span>
@@ -441,7 +441,7 @@
       
 
       
-        <h1 id="一、面向对象六大设计原则"><a href="#一、面向对象六大设计原则" class="headerlink" title="一、面向对象六大设计原则"></a><strong>一、面向对象六大设计原则</strong></h1><ul>
+        <h1 id="面向对象六大设计原则"><a href="#面向对象六大设计原则" class="headerlink" title="面向对象六大设计原则"></a><strong>面向对象六大设计原则</strong></h1><ul>
 <li>开闭原则（OCP）：Open Close Principle</li>
 <li>单一职责原则（SRP）：Single Responsibility Principle</li>
 <li>里氏替换原则（LSP）：Liskov Substitution Principle</li>
@@ -520,8 +520,8 @@
 <ul>
 <li>线程安全问题</li>
 </ul>
-<p>代码示例<br><strong>后续代码示例都是使用 Swift 语言进行编写</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 构造方法必须私有化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line">    <span class="comment">// Swift中，类型属性是懒加载的，并且是线程安全的</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">Singleton</span>()</span><br></pre></td></tr></table></figure>
+<p>代码示例</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 构造方法必须私有化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line">    <span class="comment">// Swift中，let本身就是线程安全</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">Singleton</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="2、建造者模式"><a href="#2、建造者模式" class="headerlink" title="2、建造者模式"></a><strong>2、建造者模式</strong></h3><p>应用场景：</p>
 <p>当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数</p>
@@ -741,7 +741,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -810,7 +810,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、面向对象六大设计原则"><span class="nav-text">一、面向对象六大设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开闭原则"><span class="nav-text">开闭原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单一职责原则"><span class="nav-text">单一职责原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#里氏替换原则"><span class="nav-text">里氏替换原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖倒置原则"><span class="nav-text">依赖倒置原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口隔离原则"><span class="nav-text">接口隔离原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迪米特法则"><span class="nav-text">迪米特法则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式"><span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建型设计模式"><span class="nav-text">1、创建型设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、单例模式"><span class="nav-text">1、单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、建造者模式"><span class="nav-text">2、建造者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、原型模式"><span class="nav-text">3、原型模式</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象六大设计原则"><span class="nav-text">面向对象六大设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开闭原则"><span class="nav-text">开闭原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单一职责原则"><span class="nav-text">单一职责原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#里氏替换原则"><span class="nav-text">里氏替换原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖倒置原则"><span class="nav-text">依赖倒置原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口隔离原则"><span class="nav-text">接口隔离原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迪米特法则"><span class="nav-text">迪米特法则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式"><span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建型设计模式"><span class="nav-text">1、创建型设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、单例模式"><span class="nav-text">1、单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、建造者模式"><span class="nav-text">2、建造者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、原型模式"><span class="nav-text">3、原型模式</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-18T22:11:20+08:00">
+                2021-06-18
               </time>
             
           </span>
@@ -412,7 +412,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  215 字
+                  229 字
                 </span>
               
 
@@ -452,8 +452,8 @@
         
           
           1、物理像素也称为设备像素，屏幕的最小物理单位。是一个物理属性，即屏幕出厂时就已经固定的参数，比如一般手机产品参数中的设备分辨率（如 2340 x 1080）就是指设备像素。
-2、逻辑像素也被成为设备独立像素。iOS 单位为 pt，Android 单位为 dp。一般逻辑像素与物理像素是 1：n 的关系。
-3、CSS 像素一般情况下，1 个 CSS 像素等于 1 个逻辑像素。但是当浏览器页面放大时候
+2、逻辑像素也被成为设备独立像素。iOS 单位为 pt，Android 单位为 dp。一般逻辑像素与物理像素是 1：n 的关系。是一种绝对单位，1pt约等于0.16毫米。
+3、CSS 像素一般情况下，1 个 CSS 像素等于
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1371,7 +1371,7 @@ MJRefresh(OC
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/基础原理/iOS事件分发及响应链/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/基础原理/iOS中的事件响应/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -1390,7 +1390,7 @@ MJRefresh(OC
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/iOS/基础原理/iOS事件分发及响应链/" itemprop="url">iOS事件分发及响应链</a></h1>
+                <a class="post-title-link" href="/iOS/基础原理/iOS中的事件响应/" itemprop="url">iOS中的事件响应</a></h1>
         
 
         <div class="post-meta">
@@ -1418,8 +1418,8 @@ MJRefresh(OC
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-10T21:40:04+08:00">
+                2021-06-10
               </time>
             
           </span>
@@ -1479,7 +1479,7 @@ MJRefresh(OC
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.4k 字
+                  1.5k 字
                 </span>
               
 
@@ -1518,13 +1518,18 @@ MJRefresh(OC
       
         
           
-          iOS 事件分发及响应链机制寻找最合适的 View12/// 寻找顺序touch(UIEvent)-&gt;UIApplication事件队列-&gt;UIWindow-&gt;UIView-&gt;UIView的子view-&gt;...-&gt;view
+          iOS 中可以响应并处理事件的类型包括三种，这三种
 
-在寻找最合适 View 过程中会用到 UIView 的下列两个方法；（注意一下，在寻找最合适 View 过程中 UIViewControl
+UIResponder
+UIGestureRecognizer
+UIControl
+
+UIResponderUIResponder是iOS是响应事件的基类，可以用来响应用户的点击、触摸等事件。通过下面四个回调API进行响应
+寻找最合适的View12/// 寻找顺序touch(UIEvent)-&gt;UIApplication事件队列-&gt;
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/iOS/基础原理/iOS事件分发及响应链/#more" rel="contents">
+            <a class="btn" href="/iOS/基础原理/iOS中的事件响应/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2456,7 +2461,7 @@ JSON Parser json 格式化
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

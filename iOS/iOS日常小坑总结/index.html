@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="iOS请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行UI操作,请注意切换到主线程.">
+<meta name="description" content="iOS 请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行 UI 操作,请注意切换到主线程. Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB WkWebview 字体过小，注入一段 js var meta = document.createElement(&amp;#">
 <meta name="keywords" content="iOS,坑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS日常小坑总结">
 <meta property="og:url" content="https://coder-star.github.io/iOS/iOS日常小坑总结/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="iOS请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行UI操作,请注意切换到主线程.">
+<meta property="og:description" content="iOS 请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行 UI 操作,请注意切换到主线程. Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB WkWebview 字体过小，注入一段 js var meta = document.createElement(&amp;#">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.303Z">
+<meta property="og:updated_time" content="2021-06-18T12:27:20.383Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS日常小坑总结">
-<meta name="twitter:description" content="iOS请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行UI操作,请注意切换到主线程.">
+<meta name="twitter:description" content="iOS 请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行 UI 操作,请注意切换到主线程. Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB WkWebview 字体过小，注入一段 js var meta = document.createElement(&amp;#">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-18T20:27:20+08:00">
+                2021-06-18
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  45 字
+                  254 字
                 </span>
               
 
@@ -442,7 +442,12 @@
 
       
         <ul>
-<li>iOS请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行UI操作,请注意切换到主线程.</li>
+<li>iOS 请求权限回调,第一次用户选择时回调会发生在非主线程,如果在回调中进行 UI 操作,请注意切换到主线程.</li>
+<li>Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB</li>
+<li>WkWebview 字体过小，注入一段 js <code>var meta = document.createElement(&#39;meta&#39;); meta.setAttribute(&#39;name&#39;, &#39;viewport&#39;); meta.setAttribute(&#39;content&#39;, &#39;width=device-width&#39;); document.getElementsByTagName(&#39;head&#39;)[0].appendChild(meta);</code></li>
+<li>UIButton通过textLabel设置颜色、标题不生效，因为这两个属性跟按钮本身状态挂钩，UIButton只会显示跟状态对应的标题和颜色。</li>
+<li>attributedText设置后，text、lineBreakMode、textAlignment等属性会被重置，虽然文档上说font，textColor也会被重置，但是根据我的测试，结果显示这两个属性不会被重置。</li>
+<li>UICollectionViewFlowLayout设置<code>estimatedItemSize</code>后<code>sizeForItemAt</code>代理虽然会走，但是设置的值不会起效果</li>
 </ul>
 
       
@@ -637,7 +642,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不会自动">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.297Z">
+<meta property="og:updated_time" content="2021-06-05T08:22:10.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC学习">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不会自动">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-05T16:22:10+08:00">
+                2021-06-05
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  995 字
+                  1k 字
                 </span>
               
 
@@ -420,7 +420,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  4 分钟
                 </span>
               
             </div>
@@ -451,13 +451,17 @@
 <p>什么情况下需要使用@synthesize 呢？</p>
 <ul>
 <li>修改生成的成员变量名字</li>
-<li>手动添加了 setter/getter 方法</li>
+<li>重写了只读属性的getter时</li>
+<li>同时重写setter和getter时</li>
 <li>实现了带有 property 属性的 protocol</li>
 </ul>
 <p>怎么用呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .h文件</span><br><span class="line">@property (nonatomic, readonly, unsafe_unretained) int i;</span><br><span class="line"></span><br><span class="line">// .m文件</span><br><span class="line">@synthesize i = __i; // __i为指定的实例变量，@synthesize i相当于 @synthesize i = i;</span><br></pre></td></tr></table></figure>
 
-<h3 id="property-属性修饰符"><a href="#property-属性修饰符" class="headerlink" title="@property 属性修饰符"></a>@property 属性修饰符</h3><p><strong>内存管理</strong></p>
+<h3 id="property-属性修饰符"><a href="#property-属性修饰符" class="headerlink" title="@property 属性修饰符"></a>@property 属性修饰符</h3><p><strong>setter、getter</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, readonly, getter=isFinalized) BOOL finalized;</span><br><span class="line">@property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;</span><br></pre></td></tr></table></figure>
+
+<p><strong>内存管理</strong></p>
 <ul>
 <li>retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用</li>
 <li>strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用</li>
@@ -496,7 +500,7 @@
 <li>基本数据类型：atomic readwrite assign</li>
 <li>普通 OC 对象： atomic readwrite strong</li>
 </ul>
-
+<h2 id="import、-import、-include、-class"><a href="#import、-import、-include、-class" class="headerlink" title="@import、#import、 #include、@class"></a>@import、#import、 #include、@class</h2>
       
     </div>
     
@@ -696,7 +700,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -765,7 +769,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#property-属性修饰符"><span class="nav-text">@property 属性修饰符</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#property-属性修饰符"><span class="nav-text">@property 属性修饰符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import、-import、-include、-class"><span class="nav-text">@import、#import、 #include、@class</span></a></li></ol></div>
             
 
           </div>

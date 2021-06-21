@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Swift5一、非语法层面1、ABI 稳定。iOS12.2 内置 Swift 核心库。当我们开发项目时，设置适配最低版本在 12.2 及其以上时，打包便不会再打入 swift 标准库，会很大程度上减小安装包的尺寸。经过我的实际测试，会减少大概 4.6M 的尺寸。当最低版本低于 12.2 版本后，就会打入 swift runtime，但是经过 app store 分发后，因为 App Thinnin">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.299Z">
+<meta property="og:updated_time" content="2021-06-08T13:04:34.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift版本更新记录">
 <meta name="twitter:description" content="Swift5一、非语法层面1、ABI 稳定。iOS12.2 内置 Swift 核心库。当我们开发项目时，设置适配最低版本在 12.2 及其以上时，打包便不会再打入 swift 标准库，会很大程度上减小安装包的尺寸。经过我的实际测试，会减少大概 4.6M 的尺寸。当最低版本低于 12.2 版本后，就会打入 swift runtime，但是经过 app store 分发后，因为 App Thinnin">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-08T21:04:34+08:00">
+                2021-06-08
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  556 字
+                  761 字
                 </span>
               
 
@@ -441,12 +441,20 @@
       
 
       
-        <h2 id="Swift5"><a href="#Swift5" class="headerlink" title="Swift5"></a>Swift5</h2><h3 id="一、非语法层面"><a href="#一、非语法层面" class="headerlink" title="一、非语法层面"></a>一、非语法层面</h3><h4 id="1、ABI-稳定。"><a href="#1、ABI-稳定。" class="headerlink" title="1、ABI 稳定。"></a>1、ABI 稳定。</h4><p>iOS12.2 内置 Swift 核心库。<br>当我们开发项目时，设置适配最低版本在 12.2 及其以上时，打包便不会再打入 swift 标准库，会很大程度上减小安装包的尺寸。经过我的实际测试，会减少大概 4.6M 的尺寸。<br>当最低版本低于 12.2 版本后，就会打入 swift runtime，但是经过 app store 分发后，因为 App Thinning 机制，不同系统获取到的安装包尺寸会不同，即 12.2 及以上系统的尺寸会小一点，因为去掉了包中的 swift runtime。</p>
+        <h2 id="Swift5"><a href="#Swift5" class="headerlink" title="Swift5"></a>Swift5</h2><h3 id="一、非语法层面"><a href="#一、非语法层面" class="headerlink" title="一、非语法层面"></a>一、非语法层面</h3><h4 id="1、ABI-稳定。"><a href="#1、ABI-稳定。" class="headerlink" title="1、ABI 稳定。"></a>1、ABI 稳定。</h4><p>iOS12.2 内置 Swift 核心库。当我们开发项目时，设置适配最低版本在 12.2 及其以上时，打包便不会再打入 swift 标准库，会很大程度上减小安装包的尺寸。经过我的实际测试，会减少大概 4.6M 的尺寸。当最低版本低于 12.2 版本后，就会打入 swift runtime，但是经过 app store 分发后，因为 App Thinning 机制，不同系统获取到的安装包尺寸会不同，即 12.2 及以上系统的尺寸会小一点，因为去掉了包中的 swift runtime。<br>因为内置了Swift runtime后，带来了以下好处：</p>
+<ul>
+<li><strong>减小包体积</strong></li>
+<li><strong>节省内存</strong></li>
+<li><strong>减小启动耗时</strong></li>
+<li><strong>不强制依赖编译器</strong>：在ABI稳定之前，两个二进制组件必须是同一版本编译器编译的才能共存，在ABI稳定之后，不会再存在这个问题。应用程序能在更高版本的 Swift 标准库环境下运行。</li>
+<li></li>
+</ul>
 <h3 id="二、语法层面、"><a href="#二、语法层面、" class="headerlink" title="二、语法层面、"></a>二、语法层面、</h3><ul>
 <li>枚举遍历时，即使所有选项都覆盖了还是会提示警告让实现@unknown default，这样主要还是为了ABI稳定做考虑，必须后后续系统枚举增加选项。</li>
 </ul>
 <h4 id="1、原始字符串。"><a href="#1、原始字符串。" class="headerlink" title="1、原始字符串。"></a>1、原始字符串。</h4><p>使用#”….”#来创建原始字符串，而不是采用转义字符的方式。如果字符串本身有#，则外部使用##来创建</p>
-<h2 id="Swift5-1"><a href="#Swift5-1" class="headerlink" title="Swift5.1"></a>Swift5.1</h2><h3 id="一、非语法层面-1"><a href="#一、非语法层面-1" class="headerlink" title="一、非语法层面"></a>一、非语法层面</h3><h3 id="1、模块稳定。"><a href="#1、模块稳定。" class="headerlink" title="1、模块稳定。"></a>1、模块稳定。</h3><p>模块稳定定义了一个新的基于文本的模块接口文件(swiftinterface 文件)，该文件说明了二进制框架的 API。</p>
+<h2 id="Swift5-1"><a href="#Swift5-1" class="headerlink" title="Swift5.1"></a>Swift5.1</h2><h3 id="一、非语法层面-1"><a href="#一、非语法层面-1" class="headerlink" title="一、非语法层面"></a>一、非语法层面</h3><h3 id="1、模块稳定。"><a href="#1、模块稳定。" class="headerlink" title="1、模块稳定。"></a>1、模块稳定。</h3><p><strong>模块稳定：</strong> 定义了一个新的基于文本的模块接口文件(.swiftinterface  文件)，该文件说明了二进制框架的 API。Module 稳定使我们创建的 Swift framework 能够兼容未来的 Swift 版本。比如说你当前的framework是Swift5.1编译的，那当Swift 6编译器下也可以正常使用framework提供的API。组件能在更高版本的编译器环境下被引用。</p>
+<p><strong>Library Evolution：</strong> 二进制组件在发生改变时，只要 API 向前兼容，引用它的宿主无须重新编译。</p>
 <ul>
 <li>编译出来的二进制文件更小，通常是 10%。<br>Swift 和 ObjC 的桥接更快了<ul>
 <li>NSString 和 String 桥接有 15x 的提升</li>
@@ -684,7 +692,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

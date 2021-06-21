@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80/VC%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E7%9B%B8%E5%85%B3/%E5%90%AF%E5%8A%A8%E5%9B%BE%E5%B0%BA%E5%AF%B81.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E7%9B%B8%E5%85%B3/%E5%90%AF%E5%8A%A8%E5%9B%BE%E5%B0%BA%E5%AF%B82.png">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.303Z">
+<meta property="og:updated_time" content="2021-06-05T02:49:38.129Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发杂记">
 <meta name="twitter:description" content="1、UITapGestureRecognizer 相关 一个手势添加到多个 view 上，只有最后一个 view 添加的有效   每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 Vie">
@@ -353,8 +353,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-05T10:49:38+08:00">
+                2021-06-05
               </time>
             
           </span>
@@ -527,7 +527,8 @@
 <h2 id="15、扩展程序与主程序之间的通信方式"><a href="#15、扩展程序与主程序之间的通信方式" class="headerlink" title="15、扩展程序与主程序之间的通信方式"></a>15、扩展程序与主程序之间的通信方式</h2><p>扩展程序一般是指 APP Extension，扩展程序一般都不是脱离宿主程序单独运行的，难免需要和宿主程序进行数据交互。<br>由于拓展与宿主应用是两个完全独立的 App，并且 iOS 应用基于沙盒的形式限制，所以一般的共享数据方法都是实现不了数据共享，这里就需要使用 App Groups（App Groups 这是 iOS8 新开放的功能，在 OS X 上早就可用了。它主要用于同一 Group 下的 App 共享同一份读写空间，以实现数据共享）。<br>通过 App Groups 提供的同一 group 内 app 共同读写区域，可以用 UserDefaults 和 FileManager 两种方式实现 extension 和 主 app 之间的数据共享。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// UserDefaults</span></span><br><span class="line"><span class="comment">/// suitename传入group id</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">7.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>?(suiteName suitename: <span class="type">String?</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">/// FileManager</span></span><br><span class="line"><span class="keyword">let</span> groupURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.containerURL(forSecurityApplicationGroupIdentifier: <span class="string">"groupID"</span>)</span><br><span class="line"><span class="keyword">let</span> fileURL = groupURL.appendingPathComponent(<span class="string">"fileName"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样就可以利用NSArray等这种数据结构读写文件了</span></span><br></pre></td></tr></table></figure>
 
-
+<p>16、判断UIScrollView的滚动方向</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidScroll</span><span class="params">(<span class="number">_</span> scrollView: UIScrollView)</span></span> &#123;</span><br><span class="line">   <span class="keyword">let</span> point = scrollView.panGestureRecognizer.translation(<span class="keyword">in</span>: scrollView.superview)</span><br><span class="line">   <span class="keyword">if</span> point.y &gt; <span class="number">0</span> &#123;</span><br><span class="line">      <span class="comment">// 手势下滑</span></span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 手势上滑</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -727,7 +728,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

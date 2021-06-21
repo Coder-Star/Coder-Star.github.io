@@ -557,8 +557,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-20T11:52:32+08:00">
+                2021-06-20
               </time>
             
           </span>
@@ -618,7 +618,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  172 字
+                  412 字
                 </span>
               
 
@@ -657,14 +657,14 @@
       
         
           
-          isa指针isa指针是一个联合体，
+          isa 指针isa 指针是一个联合体，
 
 
-每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的isa指针指向类。
-每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的isa指针指向元类。
-所有的元类最终继承一个根元类，根元类isa指针指向本身，形成一个封闭的内循环。
+每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。
+每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。
+所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。
 
-引用计数会存储在isa指针上，当引用计数超过2
+引用计数会存储在 isa 指针
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2050,8 +2050,8 @@ Mach-O 加
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-11T10:08:12+08:00">
+                2021-06-11
               </time>
             
           </span>
@@ -2111,7 +2111,7 @@ Mach-O 加
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  177 字
+                  216 字
                 </span>
               
 
@@ -2257,8 +2257,8 @@ lipo -info查看查看静态库支持的 CPU 架构lipo -info frameworkName.fram
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-03T23:43:40+08:00">
-                2021-06-03
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-05T18:32:26+08:00">
+                2021-06-05
               </time>
             
           </span>
@@ -2357,8 +2357,12 @@ lipo -info查看查看静态库支持的 CPU 架构lipo -info frameworkName.fram
       
         
           
-          [self class] 和 [super class]区别两者打印出来的内容相同.
-[self class]就是发送消息 objc_msgSend，消息接收者 self，方法编号 class[super class]本质就是 objc_msgSendSuper，消息的接收者还是 self，方法编号 class。只是调用 objc_msgSendSuper 的时候会直接跳过 self 查找，直接在
+          Extension &amp; Category：分类extension：扩展
+
+可以给类添加成员变量及方法
+添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的@interface 和实现文件里的@implement 一起形成了一个完整的类
+伴随着类的产生而产生，也随着类的消失而消失
+必须有类的源码才可以给类添加 extension，所以对于系统一些类，如 NSString，就无法
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2473,7 +2477,7 @@ lipo -info查看查看静态库支持的 CPU 架构lipo -info frameworkName.fram
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

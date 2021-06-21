@@ -88,19 +88,19 @@
 
 
 
-<meta name="description" content="isa指针isa指针是一个联合体，   每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的isa指针指向类。 每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的isa指针指向元类。 所有的元类最终继承一个根元类，根元类isa指针指向本身，形成一个封闭的内循环。  引用计数会存储在isa指针上，当引用计数超过2">
+<meta name="description" content="isa 指针isa 指针是一个联合体，   每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。 每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。 所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。  引用计数会存储在 isa 指针">
 <meta name="keywords" content="iOS,OC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OC底层">
 <meta property="og:url" content="https://coder-star.github.io/iOS/OC/OC底层/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="isa指针isa指针是一个联合体，   每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的isa指针指向类。 每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的isa指针指向元类。 所有的元类最终继承一个根元类，根元类isa指针指向本身，形成一个封闭的内循环。  引用计数会存储在isa指针上，当引用计数超过2">
+<meta property="og:description" content="isa 指针isa 指针是一个联合体，   每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。 每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。 所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。  引用计数会存储在 isa 指针">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.298Z">
+<meta property="og:updated_time" content="2021-06-20T03:52:32.312Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC底层">
-<meta name="twitter:description" content="isa指针isa指针是一个联合体，   每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的isa指针指向类。 每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的isa指针指向元类。 所有的元类最终继承一个根元类，根元类isa指针指向本身，形成一个封闭的内循环。  引用计数会存储在isa指针上，当引用计数超过2">
+<meta name="twitter:description" content="isa 指针isa 指针是一个联合体，   每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。 每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。 所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。  引用计数会存储在 isa 指针">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png">
 
 
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-20T11:52:32+08:00">
+                2021-06-20
               </time>
             
           </span>
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  172 字
+                  412 字
                 </span>
               
 
@@ -454,14 +454,20 @@
       
 
       
-        <h2 id="isa指针"><a href="#isa指针" class="headerlink" title="isa指针"></a>isa指针</h2><p>isa指针是一个联合体，</p>
+        <h2 id="isa-指针"><a href="#isa-指针" class="headerlink" title="isa 指针"></a>isa 指针</h2><p>isa 指针是一个联合体，</p>
 <p><img src="../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png" alt="isa指针"></p>
 <ul>
-<li>每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的isa指针指向类。</li>
-<li>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的isa指针指向元类。</li>
-<li>所有的元类最终继承一个根元类，根元类isa指针指向本身，形成一个封闭的内循环。</li>
+<li>每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。</li>
+<li>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。</li>
+<li>所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。</li>
 </ul>
-<p>引用计数会存储在isa指针上，当引用计数超过255时，引用计数会存储在SideTable的属性中。</p>
+<p>引用计数会存储在 isa 指针上，当引用计数超过 255 时，引用计数会存储在 SideTable 的属性中。</p>
+<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>数据成员对⻬规则:</p>
+<ul>
+<li>结构(struct)(或联合(union))的数据成员，第一个数据成员放在 offset 为 0 的地方(即首地址的位置），以后每个数据成员存储的起始位置要从该成员大小或者成员的子成员大小(只要该成员有子成员，比如说是数组，结构体等)的整数倍开始(比如 int 为 4 字节,则要从 4 的整数倍地址开始存储。</li>
+<li>结构体作为成员:如果一个结构里有某些结构体成员,则结构体成员要从其内部最大元素大小的整数倍地址开始存储.(struct a 里存有 struct b,b 里有 char、int 、double 等元素,那 b 应该从 8 的整数倍开始存储.)</li>
+<li>收尾工作:结构体的总大小,也就是 sizeof 的结果,必须是其内部最大成员的整数倍，不足的要补⻬。</li>
+</ul>
 
       
     </div>
@@ -664,7 +670,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -733,7 +739,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#isa指针"><span class="nav-text">isa指针</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#isa-指针"><span class="nav-text">isa 指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存对齐"><span class="nav-text">内存对齐</span></a></li></ol></div>
             
 
           </div>
