@@ -39,3 +39,5 @@ lipo XXX.a -remove arm64 -output XXX.a
 ## Xcode
 
 - 关闭Xcode，打开终端输入`defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES`，然后项目Build的时候可以在Xcode顶部看到项目编译时间
+
+- `defaults write com.apple.Xcode PBXNumberOfParallelBuildSubtasks 8`  提高XCode编译时使用的线程数

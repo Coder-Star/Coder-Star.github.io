@@ -9,11 +9,6 @@ tags: [iOS, Xcode]
 
 ## Xcode
 
-```
-Product > Scheme > Edit Scheme... > Run > Arguments > Arguments Passed On Launch
-Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables
-```
-
 ### 控制台输出 Core Data 执行过程及结果
 
 进入 Product > Scheme > Edit Scheme... > Run > Arguments > Arguments Passed On Launch，在其中添加 `-com.apple.CoreData.SQLDebug 3`
