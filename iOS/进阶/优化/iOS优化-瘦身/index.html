@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  App ThinningSlicingApp Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。 bitcodeBit">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.317Z">
+<meta property="og:updated_time" content="2021-06-25T08:55:21.257Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS优化-瘦身">
 <meta name="twitter:description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  App ThinningSlicingApp Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。 bitcodeBit">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-25T16:55:21+08:00">
+                2021-06-25
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.6k 字
+                  1.7k 字
                 </span>
               
 
@@ -490,6 +490,12 @@
 </ol>
 <h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><h3 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h3><p>Xcode 支持编译器层面的一些优化优化选项，可以让我们介于更快的编译速度和更小的二进制大小并且更快的执行速度之间自由选择想要进行的优化粒度。</p>
 <p>去除无用架构，如可以去除 armv6、armv7、armv7s。</p>
+<ul>
+<li>模拟器 32 位处理器测试需要 i386 架构</li>
+<li>模拟器 64 位处理器测试需要 x86_64 架构</li>
+<li>真机 32 位处理器需要 armv7,或者 armv7s 架构</li>
+<li>真机 64 位处理器需要 arm64 架构</li>
+</ul>
 <p>armv6</p>
 <ul>
 <li>iPhone</li>
@@ -510,7 +516,12 @@
 <li>iPhone5C</li>
 <li>iPad4</li>
 </ul>
-<p>其他全部是 arm64 架构，理论上只保留 arm64 架构其实就够用了。</p>
+<p>arm64</p>
+<ul>
+<li>iPhone 5S</li>
+<li>…</li>
+</ul>
+<p>其他全部是 arm64 架构，理论上只保留 arm64 架构其实就够用了。可以在<code>Build Settin</code>-<code>Excluded Architectures</code>项设置排除的架构</p>
 <p><strong>OC</strong></p>
 <p>OC 关于编译内联优化的参数位于<code>Build Settings</code> -&gt; <code>Apple Clang - Code Generation</code> -&gt;<code>Optimization Level</code>，可选参数如下</p>
 <ul>

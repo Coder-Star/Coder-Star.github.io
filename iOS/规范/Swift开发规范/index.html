@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风">
+<meta name="description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 一、命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 1反例：_name $name / 学生 / getPingfenByName()[评分]  文件名、c">
 <meta name="keywords" content="iOS,Swift开发规范">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift开发规范">
 <meta property="og:url" content="https://coder-star.github.io/iOS/规范/Swift开发规范/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风">
+<meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 一、命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 1反例：_name $name / 学生 / getPingfenByName()[评分]  文件名、c">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-21T16:14:20.838Z">
+<meta property="og:updated_time" content="2021-06-25T02:47:27.916Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift开发规范">
-<meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风">
+<meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 一、命名规约 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头； 1反例：_name $name / 学生 / getPingfenByName()[评分]  文件名、c">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-22T00:14:20+08:00">
-                2021-06-22
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-25T10:47:27+08:00">
+                2021-06-25
               </time>
             
           </span>
@@ -453,25 +453,37 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该<a href="https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">博文链接</a>。</p>
-<h2 id="命名规约"><a href="#命名规约" class="headerlink" title="命名规约"></a>命名规约</h2><ul>
-<li>代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头；</li>
-<li>文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风格；</li>
-<li>方法名、参数名、成员变量、局部变量、枚举成员统一使用 lowerCamelCase 风格</li>
-<li>全局常量命名使用 k 前缀 + UpperCamelCase 命名；</li>
-<li>扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如<code>UIView+Frame.swift</code>；</li>
-<li>工程中文件夹或者 Group 统一使用 UpperCamelCase 风格，一律使用单数形式；</li>
-<li>命名中出现缩略词时，缩略词要么全部大写，要么全部小写，以首字母大小写为准，通用缩略词包括 JSON、URL 等；如<code>class IDUtil {}</code>、<code>func idToString() { }</code></li>
-<li>不要使用不规范的缩写，如 AbstractClass“缩写”命名成 AbsClass 等，不怕名称长，就怕名称不明确。</li>
-<li>文件名如果有复数含义，文件名应使用复数形式，如一些工具类；</li>
+<h2 id="一、命名规约"><a href="#一、命名规约" class="headerlink" title="一、命名规约"></a>一、命名规约</h2><ul>
+<li><p>代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">反例：_name $name / 学生 / getPingfenByName()[评分]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风格；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="class"><span class="keyword">class</span> <span class="title">LoginName</span> </span>&#123; &#125; / <span class="class"><span class="keyword">enum</span> <span class="title">SexType</span> </span>&#123; &#125;</span><br><span class="line">反例：<span class="class"><span class="keyword">class</span> <span class="title">loginName</span> </span>&#123; &#125; / <span class="class"><span class="keyword">enum</span> <span class="title">SexTYPE</span> </span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方法名、参数名、成员变量、局部变量、枚举成员统一使用 lowerCamelCase 风格</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：localValue</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>全局常量命名使用 k 前缀 + UpperCamelCase 命名；</p>
+</li>
+<li><p>扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如<code>UIView+Frame.swift</code>；</p>
+</li>
+<li><p>工程中文件夹或者 Group 统一使用 UpperCamelCase 风格，一律使用单数形式；</p>
+</li>
+<li><p>命名中出现缩略词时，缩略词要么全部大写，要么全部小写，以首字母大小写为准，通用缩略词包括 JSON、URL 等；如<code>class IDUtil {}</code>、<code>func idToString() { }</code></p>
+</li>
+<li><p>不要使用不规范的缩写，如 AbstractClass“缩写”命名成 AbsClass 等，不怕名称长，就怕名称不明确。</p>
+</li>
+<li><p>文件名如果有复数含义，文件名应使用复数形式，如一些工具类；</p>
+</li>
 </ul>
-<h2 id="修饰规约"><a href="#修饰规约" class="headerlink" title="修饰规约"></a>修饰规约</h2><ul>
+<h2 id="二、修饰规约"><a href="#二、修饰规约" class="headerlink" title="二、修饰规约"></a>二、修饰规约</h2><ul>
 <li>能用 let 修饰的时候，不要使用 var；</li>
 <li>修饰符顺序按照 注解、访问限制、static、final 顺序；</li>
 <li>尽可能利用访问限制修饰符控制类、方法等的访问限制；</li>
 <li>写方法时，要考虑这个方法是否会被重载。如果不会，标记为 final，final 会缩短编译时间；</li>
 <li>在编写库的时候需要注意修饰符的选用，遵循开闭原则；</li>
 </ul>
-<h2 id="格式规约"><a href="#格式规约" class="headerlink" title="格式规约"></a>格式规约</h2><ul>
+<h2 id="三、格式规约"><a href="#三、格式规约" class="headerlink" title="三、格式规约"></a>三、格式规约</h2><ul>
 <li>类、函数左大括号不另起一行，与名称之间留有空格</li>
 <li>禁止使用无用分号</li>
 <li>代码中的空格出现地点<ul>
@@ -494,7 +506,7 @@
 <li>每行代码长度应小于 100 个字符，或者阅读时候不应该需要滚动屏幕，在正常范围内可以看到完整代码</li>
 <li>实现每个协议时, 在单独的 extension 里来实现</li>
 </ul>
-<h2 id="简略规约"><a href="#简略规约" class="headerlink" title="简略规约"></a>简略规约</h2><ul>
+<h2 id="四、简略规约"><a href="#四、简略规约" class="headerlink" title="四、简略规约"></a>四、简略规约</h2><ul>
 <li>Swift 会被结构体按照自身的成员自动生成一个非 public 的初始化方法，如果这个初始化方法刚好适合，不要自己再声明</li>
 <li>类及结构体初始化方法不要直接调用.init，直接直接省略，使用()</li>
 <li>如果只有一个 get 的计算属性，忽略 get</li>
@@ -508,13 +520,13 @@
 <li>访问实例成员或方法时尽量不要使用 <code>self.</code>，特殊场景除外，如构造函数时</li>
 <li>当方法无返回值时，不需添加 void</li>
 </ul>
-<h2 id="注释规约"><a href="#注释规约" class="headerlink" title="注释规约"></a>注释规约</h2><ul>
+<h2 id="五、注释规约"><a href="#五、注释规约" class="headerlink" title="五、注释规约"></a>五、注释规约</h2><ul>
 <li>文档注释使用单行注释，即///，不使用多行注释，即/***/。 多行注释用于对某一代码段或者设计进行描述</li>
 <li>对于公开的类、方法以及属性等必须加上文档注释，方法需要加上对应的<code>Parameter（s）</code>、<code>Returns</code>、<code>Throws</code> 标签，强烈建议使用<code>⌥ ⌘ /</code>自动生成文档模板</li>
 <li>在代码中灵活的使用一些地标注释，如<code>MARK</code>、<code>FIXME</code>、<code>TODO</code>，当同一文件中存在多种类型定义或者多种逻辑时，可以使用<code>Mark</code>进行分组注释</li>
 <li>尽量将注释另起一行，而不是放在代码后</li>
 </ul>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<h2 id="六、其他"><a href="#六、其他" class="headerlink" title="六、其他"></a>六、其他</h2><ul>
 <li>不要使用魔法值(即未经定义的常量)；</li>
 <li>函数参数最多不得超过 8 个；寄存器数目问题，超过 8 个会影响效率；</li>
 <li>图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用</li>
@@ -810,7 +822,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名规约"><span class="nav-text">命名规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰规约"><span class="nav-text">修饰规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式规约"><span class="nav-text">格式规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简略规约"><span class="nav-text">简略规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释规约"><span class="nav-text">注释规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关规范"><span class="nav-text">相关规范</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、命名规约"><span class="nav-text">一、命名规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、修饰规约"><span class="nav-text">二、修饰规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、格式规约"><span class="nav-text">三、格式规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、简略规约"><span class="nav-text">四、简略规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、注释规约"><span class="nav-text">五、注释规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、其他"><span class="nav-text">六、其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关规范"><span class="nav-text">相关规范</span></a></li></ol></div>
             
 
           </div>
