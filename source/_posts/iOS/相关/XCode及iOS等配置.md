@@ -27,14 +27,19 @@ tags: [iOS, Xcode]
 
 进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`DYLD_PRINT_ENV`，值为`1`
 
-### Swift 代码编译过长，显示警告信息
+### Swift 代码编译时间相关
 
 Build Settings > Other Swift Flags, 配置如下
 
 ```
 // 100这个参数表示毫秒，表示当编译时间超过这个时间时，会显示警告
+// 方法体时长超过 100 ms
 -Xfrontend -warn-long-function-bodies=100
+// 类型推断时长超过 100 ms
 -Xfrontend -warn-long-expression-type-checking=100
+
+// 输出每个函数的编译时长
+-Xfrontend -debug-time-function-bodies
 ```
 
 Xcode 代码片段路径

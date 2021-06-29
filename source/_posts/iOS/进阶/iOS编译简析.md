@@ -154,6 +154,12 @@ swiftc LLVMSwift.swift -emit-silgen
 // 生成中间体语言（SIL），优化后的
 swiftc LLVMSwift.swift -emit-sil
 
+// 生成优化后的中间体语言（SIL）,并将结果导入到LLVMSwift.sil文件中
+swiftc LLVMSwift.swift -emit-sil  -o LLVMSwift.sil 
+
+// 生成优化后的中间体语言（SIL），并将sil文件中的乱码字符串进行还原，并将结果导入到LLVMSwift.sil文件中
+swiftc LLVMSwift.swift -emit-sil | xcrun swift-demangle > LLVMSwift.sil
+
 // 生成LLVM中间体语言 （.ll文件）
 swiftc LLVMSwift.swift -emit-ir
 

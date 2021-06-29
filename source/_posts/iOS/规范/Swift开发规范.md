@@ -16,28 +16,47 @@ state: 已发
 
 ## 一、命名规约
 
-- 代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头；
+- 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头；
   ```swift
   反例：_name $name / 学生 / getPingfenByName()[评分]
   ```
-- 文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风格；
+- 【强制】文件名、class、struct、enum、protocol 命名统一使用 UpperCamelCase 风格；
   ```swift
   正例：class LoginName { } / enum SexType { }
   反例：class loginName { } / enum SexTYPE { }
   ```
-- 方法名、参数名、成员变量、局部变量、枚举成员统一使用 lowerCamelCase 风格
+- 【强制】方法名、参数名、成员变量、局部变量、枚举成员统一使用 lowerCamelCase 风格
   ```swift
-  正例：localValue
+  正例：localValue / getMessageInfo()
+  反例：LocalValue / GetMessageInfo()
   ```
-- 全局常量命名使用 k 前缀 + UpperCamelCase 命名；
-- 扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如`UIView+Frame.swift`；
-- 工程中文件夹或者 Group 统一使用 UpperCamelCase 风格，一律使用单数形式；
-- 命名中出现缩略词时，缩略词要么全部大写，要么全部小写，以首字母大小写为准，通用缩略词包括 JSON、URL 等；如`class IDUtil {}`、`func idToString() { }`
-- 不要使用不规范的缩写，如 AbstractClass“缩写”命名成 AbsClass 等，不怕名称长，就怕名称不明确。
-- 文件名如果有复数含义，文件名应使用复数形式，如一些工具类；
+- 【强制】命名中出现缩略词时，缩略词要么全部大写，要么全部小写，以首字母大小写为准，通用缩略词包括 JSON、URL、ID等；
+  ```swift
+  正例：class IDUtil {} /  func idToString()
+  反例：class IdUtils {} / func iDToString()
+  ```
+- 【强制】不要使用不规范的缩写，力求语义表达完整清楚，不怕名称长。
+  ```swift
+  反例：AbstractClass 缩写成 AbsClass
+  ```
+- 【推荐】全局常量命名使用 k 前缀 + UpperCamelCase 命名；
+  说明：本质上是不推荐使用全局常量的，主要原因是会散落到代码各处，不方便管理
+  ```swift
+  正例：kMaxLocaolStoreCount
+  ```
+- 【推荐】扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如果扩展文件中功能不属于同一类，也可使用“原生类型名+Extensions”的形式；
+  ```swift
+  正例：UIView+Frame.swift / MessageViewController+Request.swift / UIViewExtensions.swift
+  ```
+- 【推荐】工程中文件夹或者 Group 统一使用 UpperCamelCase 风格，一律使用单数形式；
+- 【推荐】文件名如果有复数含义，文件名应使用复数形式，如一些工具类；
+  ```swift
+  正例：MessageUtils.swift
+  ```
 
-## 二、修饰规约
+## 二、定义规约
 
+- 不要使用魔法值(即未经定义的常量)；
 - 能用 let 修饰的时候，不要使用 var；
 - 修饰符顺序按照 注解、访问限制、static、final 顺序；
 - 尽可能利用访问限制修饰符控制类、方法等的访问限制；
@@ -60,7 +79,7 @@ state: 已发
 - 如果是一个很长的数字时，建议使用下划线按照语言习惯三位或者四位一组分割连接。
 - 表示单例的静态属性，一般命名为 shared 或者 default
 - 如果是空的 block，直接声明{ }，括号之间不需换行
-- 解包时推荐使用原有名字，前提时解包后的名字与解包前的名字在作用域上不会形成冲突
+- 解包时推荐使用原有名字，前提是解包后的名字与解包前的名字在作用域上不会形成冲突
 - if 后面的 else\else if, 跟着上一个 if\else if 的右括号
 - switch 中, case 跟 switch 左对齐
 - 每行代码长度应小于 100 个字符，或者阅读时候不应该需要滚动屏幕，在正常范围内可以看到完整代码
@@ -71,7 +90,7 @@ state: 已发
 - Swift 会被结构体按照自身的成员自动生成一个非 public 的初始化方法，如果这个初始化方法刚好适合，不要自己再声明
 - 类及结构体初始化方法不要直接调用.init，直接直接省略，使用()
 - 如果只有一个 get 的计算属性，忽略 get
-- 数据定义时，尽量使用字面量形式进行自动推断，如果上下文不足以推断字面量类型时，需要声明赋值类型
+- 数据定义时，简单类型尽量使用字面量形式进行自动推断，如果上下文不足以推断字面量类型或者类型比较复杂时，需要声明赋值类型
 - 省略默认的访问权限（internal）
 - 过滤, 转换等, 优先使用 filter, map 等高阶函数简化代码，并尽量使用最简写
 - 使用闭包时，尽量使用最简写
@@ -86,11 +105,18 @@ state: 已发
 - 文档注释使用单行注释，即///，不使用多行注释，即/\*\*\*/。 多行注释用于对某一代码段或者设计进行描述
 - 对于公开的类、方法以及属性等必须加上文档注释，方法需要加上对应的`Parameter（s）`、`Returns`、`Throws` 标签，强烈建议使用`⌥ ⌘ /`自动生成文档模板
 - 在代码中灵活的使用一些地标注释，如`MARK`、`FIXME`、`TODO`，当同一文件中存在多种类型定义或者多种逻辑时，可以使用`Mark`进行分组注释
-- 尽量将注释另起一行，而不是放在代码后
+- 尽量将注释放在代码上一行，而不是放在代码后
 
-## 六、其他
+## 六、编译效率规约
 
-- 不要使用魔法值(即未经定义的常量)；
+- 数组合并建议使用append方法而不是+号拼接；
+- 字符串合并避免使用+号而是多采用"\(str1)\(str2)"的形式；
+- if 的条件部分不要做过多运算，如 `if count == 60 * 60 / 2`;
+- 尽量不使用Storyboard或者Xib，会增加编译时间；
+- 减少三目运算符的使用
+
+## 七、其他
+
 - 函数参数最多不得超过 8 个；寄存器数目问题，超过 8 个会影响效率；
 - 图形化的字面量，`#colorLiteral(...)`, `#imageLiteral(...)`只能用在 playground 当做自我练习使用，禁止在项目工程中使用
 - 避免强制解包以及强制类型映射，尽量使用`if let` 或 `guard let`进行解包，禁止`try！`形式处理异常，避免使用隐式解包
@@ -121,4 +147,4 @@ state: 已发
 
 [Swift 官方 API 设计指南](https://swift.org/documentation/api-design-guidelines/)
 
-[google 发布的 Swift 编码规范](https://google.github.io/swift/#apples-markup-format)
+[Google 发布的 Swift 编码规范](https://google.github.io/swift/#apples-markup-format)
