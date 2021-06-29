@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="语法规范 Objective-C 开发规范 Swift 开发规范 Swift 开发规范  资源文件管理 png 图片使用 TinyPNG 或者类似工具压缩处理，减少包体积 项目中可以创建多个 xcassets 文件，在 xcassets 内部也可以创建多个文件夹进行图片资源管理分组 图片资源推荐使用 png 格式 资源文件命名单词之间使用下划线_连接，单词小写模块名_业务功能描述_控件描述_控件状">
+<meta name="description" content="语法规范 Swift 开发规范  资源文件命名及使用 资源文件命名单词之间使用下划线_连接，单词小写，规则如下：模块名_业务功能描述_控件描述_控件状态限定词，如home_message_btn_normal; 12控件描述包括 背景：bg；图标：icon；按钮：btn；图片：img；等控件状态包括 正常：normal；按下：pressed；选中：selected；禁用：disabled；高亮：h">
 <meta name="keywords" content="iOS,Swift,规范">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发规范">
 <meta property="og:url" content="https://coder-star.github.io/iOS/规范/iOS开发规范/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="语法规范 Objective-C 开发规范 Swift 开发规范 Swift 开发规范  资源文件管理 png 图片使用 TinyPNG 或者类似工具压缩处理，减少包体积 项目中可以创建多个 xcassets 文件，在 xcassets 内部也可以创建多个文件夹进行图片资源管理分组 图片资源推荐使用 png 格式 资源文件命名单词之间使用下划线_连接，单词小写模块名_业务功能描述_控件描述_控件状">
+<meta property="og:description" content="语法规范 Swift 开发规范  资源文件命名及使用 资源文件命名单词之间使用下划线_连接，单词小写，规则如下：模块名_业务功能描述_控件描述_控件状态限定词，如home_message_btn_normal; 12控件描述包括 背景：bg；图标：icon；按钮：btn；图片：img；等控件状态包括 正常：normal；按下：pressed；选中：selected；禁用：disabled；高亮：h">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.315Z">
+<meta property="og:updated_time" content="2021-06-26T08:55:08.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发规范">
-<meta name="twitter:description" content="语法规范 Objective-C 开发规范 Swift 开发规范 Swift 开发规范  资源文件管理 png 图片使用 TinyPNG 或者类似工具压缩处理，减少包体积 项目中可以创建多个 xcassets 文件，在 xcassets 内部也可以创建多个文件夹进行图片资源管理分组 图片资源推荐使用 png 格式 资源文件命名单词之间使用下划线_连接，单词小写模块名_业务功能描述_控件描述_控件状">
+<meta name="twitter:description" content="语法规范 Swift 开发规范  资源文件命名及使用 资源文件命名单词之间使用下划线_连接，单词小写，规则如下：模块名_业务功能描述_控件描述_控件状态限定词，如home_message_btn_normal; 12控件描述包括 背景：bg；图标：icon；按钮：btn；图片：img；等控件状态包括 正常：normal；按下：pressed；选中：selected；禁用：disabled；高亮：h">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-26T16:55:08+08:00">
+                2021-06-26
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  270 字
+                  332 字
                 </span>
               
 
@@ -441,40 +441,30 @@
       
 
       
-        <h3 id="语法规范"><a href="#语法规范" class="headerlink" title="语法规范"></a>语法规范</h3><ul>
-<li><a href="../Objective-C开发规范">Objective-C 开发规范</a></li>
-<li><a href="../Swift开发规范">Swift 开发规范</a></li>
+        <h2 id="语法规范"><a href="#语法规范" class="headerlink" title="语法规范"></a>语法规范</h2><ul>
 <li><a href="../Swift开发规范">Swift 开发规范</a></li>
 </ul>
-<h3 id="资源文件管理"><a href="#资源文件管理" class="headerlink" title="资源文件管理"></a>资源文件管理</h3><ul>
-<li>png 图片使用 TinyPNG 或者类似工具压缩处理，减少包体积</li>
-<li>项目中可以创建多个 xcassets 文件，在 xcassets 内部也可以创建多个文件夹进行图片资源管理分组</li>
-<li>图片资源推荐使用 png 格式</li>
-<li>资源文件命名单词之间使用下划线<code>_</code>连接，单词小写<br><code>模块名_业务功能描述_控件描述_控件状态限定词</code></li>
+<h2 id="资源文件命名及使用"><a href="#资源文件命名及使用" class="headerlink" title="资源文件命名及使用"></a>资源文件命名及使用</h2><ul>
+<li><p>资源文件命名单词之间使用下划线<code>_</code>连接，单词小写，规则如下：<br><code>模块名_业务功能描述_控件描述_控件状态限定词</code>，如<code>home_message_btn_normal</code>;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">控件描述包括 背景：bg；图标：icon；按钮：btn；图片：img；等</span><br><span class="line">控件状态包括 正常：normal；按下：pressed；选中：selected；禁用：disabled；高亮：highlighted；等</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>尽量使用 xcassets 管理图片资源，根据实际情况创建一个或多个 xcassets 文件，在 xcassets 内部也可以创建多个文件夹进行图片资源管理分组，其中文件夹名称使用 UpperCamelCase 形式，根据实际情况考虑，可不再放入1x的图片；</p>
+</li>
+<li><p>png 图片使用 TinyPNG 或者类似工具压缩处理，减少包体积；</p>
+</li>
+<li><p>图片资源推荐使用 png 格式</p>
+</li>
+<li><p>颜色、字体等样式放在一处统一管理</p>
+</li>
 </ul>
-<p>控件描述包括</p>
-<ul>
-<li>背景 bg</li>
-<li>图标 icon</li>
-<li>按钮 btn</li>
-<li>其他 img</li>
-</ul>
-<p>控件状态包括</p>
-<ul>
-<li>正常 normal</li>
-<li>按下 pressed</li>
-<li>选中 selected</li>
-<li>禁用 disabled</li>
-<li>高亮 highlighted</li>
-</ul>
-<h3 id="基本组件"><a href="#基本组件" class="headerlink" title="基本组件"></a>基本组件</h3><h3 id="UI-相关"><a href="#UI-相关" class="headerlink" title="UI 相关"></a>UI 相关</h3><h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><ul>
+<h2 id="基本组件"><a href="#基本组件" class="headerlink" title="基本组件"></a>基本组件</h2><h2 id="UI-相关"><a href="#UI-相关" class="headerlink" title="UI 相关"></a>UI 相关</h2><h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><ul>
 <li>UserDefault 不存储大容量数据，如果存储大容量数据，尽量使用数据库存储</li>
 <li>UserDefault 存储数据时，考虑数据安全性，决定是否将数据加密</li>
 </ul>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><ul>
 <li>禁止使用自带的<code>print()</code>方法打印 Log，需进行封装，控制生产环境下不可输出调试 Log</li>
 </ul>
-
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2>
       
     </div>
     
@@ -661,7 +651,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">106</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -669,7 +659,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">+ Swift</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
               </div>
             
 
@@ -747,7 +737,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法规范"><span class="nav-text">语法规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源文件管理"><span class="nav-text">资源文件管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本组件"><span class="nav-text">基本组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI-相关"><span class="nav-text">UI 相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储"><span class="nav-text">数据存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法规范"><span class="nav-text">语法规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源文件命名及使用"><span class="nav-text">资源文件命名及使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本组件"><span class="nav-text">基本组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI-相关"><span class="nav-text">UI 相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据存储"><span class="nav-text">数据存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li></ol></div>
             
 
           </div>

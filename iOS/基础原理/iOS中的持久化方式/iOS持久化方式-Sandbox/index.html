@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle Application app 的 md5 标识 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识 Documents Library Application Support Caches Pre">
+<meta name="description" content="沙盒目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle： Application app 的 md5 标识为名的文件夹 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识为名的文件夹 Documents Library Application Sup">
 <meta name="keywords" content="iOS,持久化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS持久化方式-Sandbox">
 <meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle Application app 的 md5 标识 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识 Documents Library Application Support Caches Pre">
+<meta property="og:description" content="沙盒目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle： Application app 的 md5 标识为名的文件夹 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识为名的文件夹 Documents Library Application Sup">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.306Z">
+<meta property="og:updated_time" content="2021-06-28T09:47:41.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS持久化方式-Sandbox">
-<meta name="twitter:description" content="目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle Application app 的 md5 标识 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识 Documents Library Application Support Caches Pre">
+<meta name="twitter:description" content="沙盒目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle： Application app 的 md5 标识为名的文件夹 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识为名的文件夹 Documents Library Application Sup">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-28T17:47:41+08:00">
+                2021-06-28
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  817 字
+                  935 字
                 </span>
               
 
@@ -452,11 +452,11 @@
       
 
       
-        <h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p>Sandbox 详细目录（真机目录：/private/var/mobile/Containers）</p>
+        <h2 id="沙盒目录"><a href="#沙盒目录" class="headerlink" title="沙盒目录"></a>沙盒目录</h2><p>Sandbox 详细目录（真机目录：/private/var/mobile/Containers）</p>
 <ul>
-<li>Bundle<ul>
+<li>Bundle：<ul>
 <li>Application<ul>
-<li>app 的 md5 标识<ul>
+<li>app 的 md5 标识为名的文件夹<ul>
 <li>MyApp.app</li>
 <li>BundleMetadata.plist</li>
 </ul>
@@ -467,12 +467,16 @@
 </li>
 <li>Data<ul>
 <li>Application<ul>
-<li>app 的 md5 标识<ul>
+<li>app 的 md5 标识为名的文件夹<ul>
 <li>Documents</li>
 <li>Library<ul>
 <li>Application Support</li>
 <li>Caches</li>
-<li>Preference</li>
+<li>Cookies</li>
+<li>Preferences</li>
+<li>Saved Application State</li>
+<li>SplashBoard</li>
+<li>WebKit：存储WKWebView持久化的一些东西，如IndexDB、LocalStorage、WebSQL等；</li>
 </ul>
 </li>
 <li>SystemData</li>
@@ -487,11 +491,11 @@
 </ul>
 </li>
 <li>Shared<ul>
-<li>AppGroup<ul>
-<li>app 的 md5 标识<ul>
+<li>AppGroup：<ul>
+<li>app 的 md5 标识为名的文件夹<ul>
 <li>Library<ul>
 <li>Caches</li>
-<li>Preferences<br>当创建 group 的 UserDefault 时会创建该目录，默认没有，对应 plist 的名称为 group 名称</li>
+<li>Preferences：默认没有该目录，当创建 group 的 UserDefault 时会创建该目录，UserDefault对应 plist 的名称为 group 名称；</li>
 </ul>
 </li>
 </ul>
@@ -505,9 +509,29 @@
 <li>Temp</li>
 <li>iCloud</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Application: 包含了所有的资源文件和和可执行文件，上架前经过数字签名，上架后不可修改。</span><br><span class="line"></span><br><span class="line">Documents: 保存应运行时生成的需要持久化的、重要的数据（比如用户下载的歌曲）。iTunes、iCloud会备份该目录。在此目录下不要保存从网络上下载的文件，否则app无法上架。用户可以通过文件分享分享该目录下的文件,建议保存你希望用户看得见的文件。</span><br><span class="line">Tip: 在iOS11 以后新增了一个“文件”APP，集中管理iOS上应用内创建的文件，以及各个云盘服务中保存的文件。在iOS工程info.plist中设置Application supports iTunes file sharing 和 Supports opening documents in place这两个选项为YES（默认为NO），就可以将该应用的沙盒路径Documents文件暴露在“文件”APP中。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Library/Application Support: 建议用来存储除用户数据相关以外的所有文件，如游戏的新关卡。在iTunes和iCloud备份时会备份该目录。</span><br><span class="line"></span><br><span class="line">Library/Caches: 保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据（例如，网络请求的音视频与图片等的缓存）。需要程序员手动清除。iTunes、iCloud不会备份该目录；</span><br><span class="line"></span><br><span class="line">Library/Preference: 保存应用的所有偏好设置，iOS的Settings(设置)应用会在该目录中查找应用的设置信息。iTunes、iCloud会备份该目录。通过UserDefaults生成的plist文件也会存储在该目录下，我们不应该直接在这里创建文件，而是只通过UserDefaults。</span><br><span class="line"></span><br><span class="line">tmp: 保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下都会自动清除该目录的数据。无需程序员手动清除。iTunes不会备份该目录。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。</span><br></pre></td></tr></table></figure>
-
-<h3 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h3><p><strong>Data 目录下</strong></p>
+<p>关键沙盒路径解读</p>
+<ul>
+<li><p>Bundle/Application: 包含了所有的资源文件和和可执行文件，上架前经过数字签名，上架后不可修改。</p>
+</li>
+<li><p>Documents: 保存应运行时生成的需要持久化的、重要的数据（比如用户下载的歌曲）。iTunes、iCloud会备份该目录。在此目录下不要保存从网络上下载的文件，否则app无法上架。用户可以通过文件分享分享该目录下的文件,建议保存你希望用户看得见的文件。</p>
+<blockquote>
+<p>在iOS11 以后新增了一个“文件”APP，集中管理iOS上应用内创建的文件，以及各个云盘服务中保存的文件。在iOS工程info.plist中设置Application supports iTunes file sharing 和 Supports opening documents in place这两个选项为YES（默认为NO），就可以将该应用的沙盒路径Documents文件暴露在“文件”APP中。</p>
+</blockquote>
+</li>
+<li><p>Library/Application Support: 建议用来存储除用户数据相关以外的所有文件，如游戏的新关卡。在iTunes和iCloud备份时会备份该目录。</p>
+</li>
+<li><p>Library/Caches: 保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据（例如，网络请求的音视频与图片等的缓存）。需要程序员手动清除。iTunes、iCloud不会备份该目录；</p>
+</li>
+<li><p>Library/Preference: 保存应用的所有偏好设置，iOS的Settings(设置)应用会在该目录中查找应用的设置信息。iTunes、iCloud会备份该目录。通过UserDefaults生成的plist文件也会存储在该目录下，我们不应该直接在这里创建文件，而是只通过UserDefaults；</p>
+</li>
+<li><p>Library/SplashBoard: 存储启动屏缓存，缓存文件格式为ktx，本质上就是图片，如果启动屏不生效的问题可以考虑从删除该路径下缓存这个点；</p>
+</li>
+<li><p>tmp: 保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下都会自动清除该目录的数据。无需程序员手动清除；iTunes不会备份该目录。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。</p>
+</li>
+<li><p>AppGroup：宿主程序与Extension数据共享区域，</p>
+</li>
+</ul>
+<h2 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h2><p><strong>Data 目录下</strong></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 沙盒主目录</span></span><br><span class="line"><span class="keyword">let</span> path = <span class="type">NSHomeDirectory</span>()</span><br><span class="line"><span class="comment">// tmp目录</span></span><br><span class="line"><span class="keyword">let</span> tmpPath = <span class="type">NSTemporaryDirectory</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Documtents目录</span></span><br><span class="line"><span class="comment">// Library目录 -&gt; libraryDirectory</span></span><br><span class="line"><span class="comment">// Application Support目录 -&gt; applicationSupportDirectory</span></span><br><span class="line"><span class="comment">// Caches目录 -&gt; cachesDirectory</span></span><br><span class="line"><span class="comment">// Preferences目录 -&gt; preferencePanesDirectory</span></span><br><span class="line"><span class="keyword">let</span> documtentsPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面形式获取路径返回值为String，下面形式返回值为URL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dataURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.urls(<span class="keyword">for</span>: .documentDirectory, <span class="keyword">in</span>: .userDomainMask).first?.appendingPathComponent(<span class="string">"sqliteName"</span>).appendingPathExtension(<span class="string">"sqlite"</span>)</span><br></pre></td></tr></table></figure>
 
 <p><strong>AppGroup 目录下</strong></p>
@@ -708,7 +732,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">106</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -716,7 +740,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">+ Swift</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
               </div>
             
 
@@ -794,7 +818,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作方式"><span class="nav-text">操作方式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#沙盒目录"><span class="nav-text">沙盒目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作方式"><span class="nav-text">操作方式</span></a></li></ol></div>
             
 
           </div>

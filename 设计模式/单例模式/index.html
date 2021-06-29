@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Swift,方法派发,">
+  <meta name="keywords" content="标签1,标签2,">
 
 
 
@@ -88,20 +88,18 @@
 
 
 
-<meta name="description" content="对于编译型语言来看，有主要三种类型的方法派发方式，分别为  直接派发 函数表派发 消息派发  直接派发三种形式里面最快速的，编译器可以对这种派发进行更多优化的事情，比如函数内联等。典型语言：C。 函数表派发OC 语言支持直接派发、消息派发两种方式。swift 语言中支持三种派发方式。 在不同的情况下会使用不同的派发方式  上图有一个地方不太完整，当 class 的 extension 的方法使用了">
-<meta name="keywords" content="Swift,方法派发">
+<meta name="description" content="Think more, Code less">
+<meta name="keywords" content="标签1,标签2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Swift方法派发">
-<meta property="og:url" content="https://coder-star.github.io/iOS/Swift/Swift方法派发/index.html">
+<meta property="og:title" content="单例模式">
+<meta property="og:url" content="https://coder-star.github.io/设计模式/单例模式/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="对于编译型语言来看，有主要三种类型的方法派发方式，分别为  直接派发 函数表派发 消息派发  直接派发三种形式里面最快速的，编译器可以对这种派发进行更多优化的事情，比如函数内联等。典型语言：C。 函数表派发OC 语言支持直接派发、消息派发两种方式。swift 语言中支持三种派发方式。 在不同的情况下会使用不同的派发方式  上图有一个地方不太完整，当 class 的 extension 的方法使用了">
+<meta property="og:description" content="Think more, Code less">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/Swift%E6%96%B9%E6%B3%95%E6%B4%BE%E5%8F%91.jpg">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.299Z">
+<meta property="og:updated_time" content="2021-06-26T09:45:07.246Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift方法派发">
-<meta name="twitter:description" content="对于编译型语言来看，有主要三种类型的方法派发方式，分别为  直接派发 函数表派发 消息派发  直接派发三种形式里面最快速的，编译器可以对这种派发进行更多优化的事情，比如函数内联等。典型语言：C。 函数表派发OC 语言支持直接派发、消息派发两种方式。swift 语言中支持三种派发方式。 在不同的情况下会使用不同的派发方式  上图有一个地方不太完整，当 class 的 extension 的方法使用了">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/Swift%E6%96%B9%E6%B3%95%E6%B4%BE%E5%8F%91.jpg">
+<meta name="twitter:title" content="单例模式">
+<meta name="twitter:description" content="Think more, Code less">
 
 
 
@@ -131,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://coder-star.github.io/iOS/Swift/Swift方法派发/">
+  <link rel="canonical" href="https://coder-star.github.io/设计模式/单例模式/">
 
 
 
 
 
-  <title>Swift方法派发 | CoderStar's Blog</title>
+  <title>单例模式 | CoderStar's Blog</title>
   
 
 
@@ -306,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/Swift/Swift方法派发/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/设计模式/单例模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -323,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Swift方法派发</h1>
+          <h1 class="post-title" itemprop="name headline">单例模式</h1>
         
 
         <div class="post-meta">
@@ -335,8 +333,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-05T21:21:56+08:00">
-                2021-03-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-26T17:45:01+08:00">
+                2021-06-26
               </time>
             
 
@@ -351,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-26T17:45:07+08:00">
+                2021-06-26
               </time>
             
           </span>
@@ -370,8 +368,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Swift/" itemprop="url" rel="index">
-                    <span itemprop="name">Swift</span>
+                  <a href="/categories/父分类/" itemprop="url" rel="index">
+                    <span itemprop="name">父分类</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/父分类/子分类/" itemprop="url" rel="index">
+                    <span itemprop="name">子分类</span>
                   </a>
                 </span>
 
@@ -406,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  407 字
+                  0 字
                 </span>
               
 
@@ -443,29 +452,7 @@
       
 
       
-        <p>对于编译型语言来看，有主要三种类型的方法派发方式，分别为</p>
-<ul>
-<li>直接派发</li>
-<li>函数表派发</li>
-<li>消息派发</li>
-</ul>
-<h3 id="直接派发"><a href="#直接派发" class="headerlink" title="直接派发"></a>直接派发</h3><p>三种形式里面最快速的，编译器可以对这种派发进行更多优化的事情，比如函数内联等。典型语言：C。</p>
-<h3 id="函数表派发"><a href="#函数表派发" class="headerlink" title="函数表派发"></a>函数表派发</h3><p>OC 语言支持直接派发、消息派发两种方式。<br>swift 语言中支持三种派发方式。</p>
-<p>在不同的情况下会使用不同的派发方式</p>
-<p><img src="../../../img/iOS/Swift/Swift%E6%96%B9%E6%B3%95%E6%B4%BE%E5%8F%91.jpg" alt="Swift派发"></p>
-<p>上图有一个地方不太完整，当 class 的 extension 的方法使用了@objc 修饰，使用消息派发方式。这也是 extension 中的方法加上@objc 之后可以被重写的原因。</p>
-<h3 id="关于内联优化"><a href="#关于内联优化" class="headerlink" title="关于内联优化"></a>关于内联优化</h3><p>内联主要原理是：将一些函数的实现直接编译入调用函数的位置中去，减少函数指针的栈调用。<br>当开启编译优化(Optimization Level)时，编译器会根据函数实际情况进行内联优化。当哪些情况，编译器默认不会进行内联优化呢；</p>
-<ul>
-<li>函数体过长（想象一下，要是都展开了，无形中增加了包体积，重复代码）；</li>
-<li>函数包含动态派发；</li>
-<li>函数中包含递归调用；</li>
-</ul>
-<p>Swift 中内联优化修饰符</p>
-<ul>
-<li>@inline(never) 声明这个函数 never 永远不被编译成 inline 的形式，即使开启了编译器优化</li>
-<li>@inline(__always) 声明这个函数总是编译成 inline 的形式， 这个修饰符只对函数体过长这种不会被内联优化的情况生效。</li>
-</ul>
-
+        
       
     </div>
     
@@ -522,7 +509,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/Swift/Swift方法派发/" title="Swift方法派发">https://coder-star.github.io/iOS/Swift/Swift方法派发/</a>
+    <a href="https://coder-star.github.io/设计模式/单例模式/" title="单例模式">https://coder-star.github.io/设计模式/单例模式/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -541,9 +528,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Swift/" rel="tag"><i class="fa fa-tags"></i> Swift</a>
+            <a href="/tags/标签1/" rel="tag"><i class="fa fa-tags"></i> 标签1</a>
           
-            <a href="/tags/方法派发/" rel="tag"><i class="fa fa-tags"></i> 方法派发</a>
+            <a href="/tags/标签2/" rel="tag"><i class="fa fa-tags"></i> 标签2</a>
           
         </div>
       
@@ -556,8 +543,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/iOS/基础原理/Runloop/" rel="next" title="Runloop">
-                <i class="fa fa-chevron-left"></i> Runloop
+              <a href="/杂项/shell笔记/" rel="next" title="shell笔记">
+                <i class="fa fa-chevron-left"></i> shell笔记
               </a>
             
           </div>
@@ -565,10 +552,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/iOS/Swift/Swift版本更新记录/" rel="prev" title="Swift版本更新记录">
-                Swift版本更新记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -623,17 +606,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -650,7 +624,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-count">106</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -658,7 +632,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">+ Swift</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/新机必备软件/">新机必备软件</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
               </div>
             
 
@@ -726,22 +700,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接派发"><span class="nav-text">直接派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数表派发"><span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于内联优化"><span class="nav-text">关于内联优化</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
