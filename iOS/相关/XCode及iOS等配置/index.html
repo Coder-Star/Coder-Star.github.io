@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Xcode控制台输出 Core Data 执行过程及结果进入 Product &amp;gt; Scheme &amp;gt; Edit Scheme… &amp;gt; Run &amp;gt; Arguments &amp;gt; Arguments Passed On Launch，在其中添加 -com.apple.CoreData.SQLDebug 3 禁止控制台打印 NSLog进入 Product &amp;gt; Scheme &amp;g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-27T07:04:24.652Z">
+<meta property="og:updated_time" content="2021-06-29T09:57:44.631Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XCode及iOS等配置">
 <meta name="twitter:description" content="Xcode控制台输出 Core Data 执行过程及结果进入 Product &amp;gt; Scheme &amp;gt; Edit Scheme… &amp;gt; Run &amp;gt; Arguments &amp;gt; Arguments Passed On Launch，在其中添加 -com.apple.CoreData.SQLDebug 3 禁止控制台打印 NSLog进入 Product &amp;gt; Scheme &amp;g">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-27T15:04:24+08:00">
-                2021-06-27
+              <time title="更新于" itemprop="dateModified" datetime="2021-06-29T17:57:44+08:00">
+                2021-06-29
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  534 字
+                  567 字
                 </span>
               
 
@@ -470,8 +470,9 @@
 </li>
 </ul>
 <ul>
-<li>Preprocessor Macros：OC环境的宏定义，一般Debug模式下会配置DEBUG=1，这样才可以使用 #if DEBUG的写法</li>
-<li>Active Compilation Conditions： Swift环境下的宏定义，一般Debug模式下会配置DEBUG，这样才可以使用 #if DEBUG的写法</li>
+<li>Preprocessor Macros(GCC_PREPROCESSOR_DEFINITIONS)：OC环境的宏定义，一般Debug模式下会配置DEBUG=1，这样才可以使用 #if DEBUG的写法</li>
+<li>Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8之后Swift环境下的条件编译变量，加上<code>-D XXX</code></li>
+<li>Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8之后Swift环境下的条件编译变量，一般Debug模式下会配置DEBUG，这样才可以使用 #if DEBUG的写法，不需要加D；</li>
 </ul>
 <p><strong>通用</strong></p>
 <ul>
@@ -686,7 +687,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
