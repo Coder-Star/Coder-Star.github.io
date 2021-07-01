@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【规约】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-01T14:18:29.486Z">
+<meta property="og:updated_time" content="2021-07-01T14:45:37.146Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【规约】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
@@ -349,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-01T22:18:29+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-01T22:45:37+08:00">
                 2021-07-01
               </time>
             
@@ -598,20 +598,35 @@
 </li>
 </ul>
 <h2 id="七、其他"><a href="#七、其他" class="headerlink" title="七、其他"></a>七、其他</h2><ul>
-<li>【强制】函数参数数量最多不得超过 8 个；<br>说明：寄存器数目问题，超过 8 个会影响效率；</li>
-<li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用；<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
-<li>【强制】避免强制解包以及强制类型映射，尽量使用<code>if let</code> 或 <code>guard let</code>进行解包，禁止<code>try！</code>形式处理异常，避免使用隐式解包；</li>
-<li>【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；</li>
-<li>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</li>
-<li>【推荐】实现每个协议时，尽量在单独的 extension 里来实现；</li>
-<li>【推荐】优先创建函数而不是自定义操作符；</li>
-<li>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</li>
-<li>【推荐】赋值数组、字典时每个元素分别占用一行时，最后一个选项后面也添加逗号；这样未来如果有元素加入会更加方便；</li>
-<li>【推荐】布尔类型属性使用 <code>is</code> 作为属性名前缀，返回值为布尔型类型的方法名使用 <code>is</code> 作为方法名作为前缀；</li>
-<li>【推荐】使用 guard 来提前结束条件，避免形成判断嵌套；</li>
-<li>【推荐】在闭包中使用 self 时使用捕获列表<code>[weak self]</code>避免循环引用，闭包开始判断 self 的有效性；</li>
-<li>【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 <code>weak</code> 修饰；</li>
-<li>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，而是不需担心循环引用问题；</li>
+<li><p>【强制】函数参数数量最多不得超过 8 个；<br>说明：寄存器数目问题，超过 8 个会影响效率；</p>
+</li>
+<li><p>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用；<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</p>
+</li>
+<li><p>【强制】避免强制解包以及强制类型映射，尽量使用<code>if let</code> 或 <code>guard let</code>进行解包，禁止<code>try！</code>形式处理异常，避免使用隐式解包；</p>
+</li>
+<li><p>【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；</p>
+</li>
+<li><p>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</p>
+</li>
+<li><p>【推荐】实现每个协议时，尽量在单独的 extension 里来实现；</p>
+</li>
+<li><p>【推荐】优先创建函数而不是自定义操作符；</p>
+</li>
+<li><p>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</p>
+</li>
+<li><p>【推荐】赋值数组、字典时每个元素分别占用一行时，最后一个选项后面也添加逗号；这样未来如果有元素加入会更加方便；</p>
+</li>
+<li><p>【推荐】布尔类型属性使用 <code>is</code> 作为属性名前缀，返回值为布尔型类型的方法名使用 <code>is</code> 作为方法名作为前缀；</p>
+</li>
+<li><p>【推荐】使用 guard 来提前结束条件，避免形成判断嵌套；</p>
+</li>
+<li><p>【推荐】在闭包中使用 self 时使用捕获列表<code>[weak self]</code>避免循环引用，闭包开始判断 self 的有效性；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正例：</span><br><span class="line">    timer = <span class="type">Timer</span>.scheduledTimer(withTimeInterval: <span class="number">2</span>, repeats: <span class="literal">true</span>) &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> <span class="keyword">self</span> = <span class="keyword">self</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        <span class="keyword">self</span>.timerHandle()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 <code>weak</code> 修饰；</p>
+</li>
+<li><p>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，而是不需担心循环引用问题；</p>
+</li>
 </ul>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://github.com/realm/SwiftLint" target="_blank" rel="noopener">SwiftLint 工具</a> 提示格式错误</p>
 <p><a href="https://github.com/nicklockwood/SwiftFormat" target="_blank" rel="noopener">SwiftFormat 工具</a> 提示并修复格式错误</p>
