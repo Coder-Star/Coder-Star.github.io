@@ -363,7 +363,7 @@ extension UIView {
    var resultArr = ["1", "2"]
    let extraArr = ["3", "4"]
    正例：resultArr.append(contentsOf: extraArr)
-   正例：resultArr += extraArr
+   反例：resultArr += extraArr
    ```
 
 - 【推荐】字符串合并避免使用 + 号而是多采用`"\(str1)\(str2)"`的形式；
@@ -412,7 +412,7 @@ extension UIView {
   ```
 - 【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 `weak` 修饰；
 - 【推荐】能用`struct`解决的，尽量使用`struct`而不是`class`；
-  说明：`struct` 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，而是不需担心循环引用问题；
+  说明：`struct` 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；
 
 ## 工具
 
