@@ -4,14 +4,21 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/Swift-开发规范/</loc>
-        <lastmod>2021-07-01T14:50:21.434Z</lastmod>
+        <lastmod>2021-07-02T03:59:39.982Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-07-01T14:50:21.434Z</lastmod>
+        <lastmod>2021-07-02T03:59:39.982Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/坑/</loc>
+        <lastmod>2021-07-02T03:21:42.065Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -103,13 +110,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/命令/</loc>
         <lastmod>2021-06-25T03:32:38.504Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/坑/</loc>
-        <lastmod>2021-06-23T02:35:47.696Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

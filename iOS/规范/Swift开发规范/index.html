@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-01T14:50:21.434Z">
+<meta property="og:updated_time" content="2021-07-02T03:59:39.982Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-01T22:50:21+08:00">
-                2021-07-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-02T11:59:39+08:00">
+                2021-07-02
               </time>
             
           </span>
@@ -580,7 +580,7 @@
 <h2 id="六、编译效率规约"><a href="#六、编译效率规约" class="headerlink" title="六、编译效率规约"></a>六、编译效率规约</h2><p>该段是提高编译效率，减少编译时间总结提出的规约，对代码可读性及统一风格等影响不大，所以该部分只是作为推荐，不强制一定遵守。</p>
 <ul>
 <li><p>【推荐】数组合并建议使用 append 方法而不是 + 号拼接；</p>
-  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> resultArr = [<span class="string">"1"</span>, <span class="string">"2"</span>]</span><br><span class="line"><span class="keyword">let</span> extraArr = [<span class="string">"3"</span>, <span class="string">"4"</span>]</span><br><span class="line">正例：resultArr.append(contentsOf: extraArr)</span><br><span class="line">正例：resultArr += extraArr</span><br></pre></td></tr></table></figure>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> resultArr = [<span class="string">"1"</span>, <span class="string">"2"</span>]</span><br><span class="line"><span class="keyword">let</span> extraArr = [<span class="string">"3"</span>, <span class="string">"4"</span>]</span><br><span class="line">正例：resultArr.append(contentsOf: extraArr)</span><br><span class="line">反例：resultArr += extraArr</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】字符串合并避免使用 + 号而是多采用<code>&quot;\(str1)\(str2)&quot;</code>的形式；</p>
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">let</span> code = <span class="string">"200"</span></span><br><span class="line">   <span class="keyword">let</span> message = <span class="string">"success"</span></span><br><span class="line">正例：<span class="keyword">let</span> result = <span class="string">"\(code)\(message)"</span></span><br><span class="line">反例：<span class="keyword">let</span> result = code + message</span><br></pre></td></tr></table></figure>
