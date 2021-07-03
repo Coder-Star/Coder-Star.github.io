@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-02T04:11:03.103Z">
+<meta property="og:updated_time" content="2021-07-02T04:26:41.739Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
@@ -349,7 +349,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-02T12:11:03+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-02T12:26:41+08:00">
                 2021-07-02
               </time>
             
@@ -586,7 +586,7 @@
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">let</span> code = <span class="string">"200"</span></span><br><span class="line">   <span class="keyword">let</span> message = <span class="string">"success"</span></span><br><span class="line">正例：<span class="keyword">let</span> result = <span class="string">"\(code)\(message)"</span></span><br><span class="line">反例：<span class="keyword">let</span> result = code + message</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】if 的条件部分不要做过多运算</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">60</span> * <span class="number">60</span> / <span class="number">2</span> / <span class="number">2</span> &#123;&#125;</span><br><span class="line">反例：<span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">900</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">900</span> &#123;&#125;</span><br><span class="line">反例：<span class="keyword">if</span> <span class="built_in">count</span> == <span class="number">60</span> * <span class="number">60</span> / <span class="number">2</span> / <span class="number">2</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】不要让可选值使用？? 赋默认值再嵌套其他运算；</p>
 </li>
