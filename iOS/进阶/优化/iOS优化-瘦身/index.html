@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  App ThinningSlicingApp Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。 bitcodeBit">
+<meta name="description" content="前言iOS 优化将是一个系列文章，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个系列的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS优化-瘦身">
+<meta property="og:title" content="iOS 优化 - 瘦身">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-瘦身/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  App ThinningSlicingApp Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。 bitcodeBit">
+<meta property="og:description" content="前言iOS 优化将是一个系列文章，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个系列的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-25T08:55:21.257Z">
+<meta property="og:updated_time" content="2021-07-09T02:14:20.422Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS优化-瘦身">
-<meta name="twitter:description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  App ThinningSlicingApp Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。 bitcodeBit">
+<meta name="twitter:title" content="iOS 优化 - 瘦身">
+<meta name="twitter:description" content="前言iOS 优化将是一个系列文章，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个系列的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就">
 
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>iOS优化-瘦身 | CoderStar's Blog</title>
+  <title>iOS 优化 - 瘦身 | CoderStar's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS优化-瘦身</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 优化 - 瘦身</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-25T16:55:21+08:00">
-                2021-06-25
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-09T10:14:20+08:00">
+                2021-07-09
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.7k 字
+                  2.8k 字
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6 分钟
+                  10 分钟
                 </span>
               
             </div>
@@ -452,36 +452,77 @@
       
 
       
-        <p>iOS 优化系列目录如下：</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>iOS 优化将是一个系列文章，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个系列的开篇就从瘦身开始吧。</p>
+<p>APP 的大小是分为 APP 下载大小和安装大小两个概念的。</p>
 <ul>
-<li><a href="../iOS优化-总览">iOS 优化-总览</a></li>
-<li><a href="../iOS优化-UI">iOS 优化-UI</a></li>
-<li><a href="../iOS优化-内存">iOS 优化-内存</a></li>
-<li><a href="../iOS优化-启动优化">iOS 优化-启动优化</a></li>
-<li><a href="../iOS优化-瘦身">iOS 优化-瘦身</a></li>
+<li>下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量；</li>
+<li>当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就是指压缩包解压后所占用的空间。</li>
 </ul>
-<h2 id="App-Thinning"><a href="#App-Thinning" class="headerlink" title="App Thinning"></a>App Thinning</h2><h3 id="Slicing"><a href="#Slicing" class="headerlink" title="Slicing"></a>Slicing</h3><p>App Thinning 会专门针对不同的设备来选择只适用于当前设备的内容以供下载。比如，iPhone 6 只会下载 2x 分辨率的图片资源，iPhone 6plus 则只会下载 3x 分辨率的图片资源。</p>
-<h3 id="bitcode"><a href="#bitcode" class="headerlink" title="bitcode"></a>bitcode</h3><p>Bitcode 是一个编译好的程序的中间表示形式。上传到 iTunes Connect 中的包含 Bitcode 的 app 将会在 App store 中进行链接和编译。苹果会对包含 Bitcode 的二进制 app 进行二次优化，而不需要提交一个新的 app 版本到 app store 中。属于 Apple 内部的优化，但需要注意；</p>
+<p>其实用户在商店看到的大小是安装大小。如果想看全可以在 App Store Connect 后台查看。</p>
+<p>虽然苹果历年都会调整 App 下载大小，由之前的 100M 到后来的 150M 再到现在的 200M。如今，App 下载大小超出 200 MB 时 ，会出现两种情况：</p>
+<ul>
+<li>iOS 13 以下的用户，无法通过蜂窝数据下载 App；</li>
+<li>iOS 13 及以上的用户，需要手动设置才可以使用蜂窝网络下载 App。</li>
+</ul>
+<p>可执行文件大小限制：</p>
+<ul>
+<li>iOS 7 之前，二进制文件中所有的 __TEXT 段总和不得超过 80 MB；</li>
+<li>iOS 7.X 至 iOS 8.X ，二进制文件中，每个特定架构中的 __TEXT 段不得超过 60 MB；</li>
+<li>iOS 9.0 之后，二进制文件中所有的 __TEXT 段总和不得超过 500 MB。</li>
+</ul>
+<blockquote>
+<p>顺便给大家说下苹果将下载大小限制由 100M 调整到 150M 的原因是什么，主要原因就是 Uber 当年用 Swift 重构开发 APP，随着业务的增长，后期发现实在无法再将 APP 尺寸降到 100M 以下，只能联系苹果让其将下载大小提升到 150M，同时苹果的 Swift 团队还帮助添加了一些编译器选项 (-Osize)。</p>
+</blockquote>
+<p>该文主要研究的是如何降低 APP 的下载大小的。在介绍我们作为开发者的优化方向之前，我们先看一下苹果自身对于 APP 下载大小的优化有哪些吧。</p>
+<h2 id="App-Thinning（苹果自身优化）"><a href="#App-Thinning（苹果自身优化）" class="headerlink" title="App Thinning（苹果自身优化）"></a>App Thinning（苹果自身优化）</h2><p>App Thinning 是指 iOS9 以后引入的一项优化，Apple 会尽可能，自动降低分发到具体用户时，所需要下载的 App 大小。其主要包含以下三项功能。</p>
+<h3 id="Slicing（应用分割）"><a href="#Slicing（应用分割）" class="headerlink" title="Slicing（应用分割）"></a>Slicing（应用分割）</h3><p>当向 App Store Connect 上传 .ipa 后，App Store Connect 构建过程中，会自动分割该 App，会专门针对不同的设备来选择只适用于当前设备的内容（主要是架构和资源）以供设备下载。其差异性主要是体现在架构（32 位还是 64 位）和资源（@1x、@2x 还是 @3x）。</p>
+<p>其中架构方面开发者不需要去控制，但是对于资源来说要求图片在 Assets 管理，如果放在 Bundle，则不会被优化。</p>
+<h3 id="Bitcode（中间码）"><a href="#Bitcode（中间码）" class="headerlink" title="Bitcode（中间码）"></a>Bitcode（中间码）</h3><p>Bitcode 是一个编译好的程序的中间表示形式（IR）。上传到 App Store Connect 中的包含 Bitcode 的 App 将会在 App store 中进行链接和编译。苹果会对包含 Bitcode 的二进制 app 进行二次优化，而不需要提交一个新的 app 版本到 app store 中。属于 Apple 内部的优化，但需要注意；</p>
 <ul>
 <li>全部都要支持。我们所依赖的静态库、动态库、Cocoapods 管理的第三方库，都需要开启 Bitcode。否则打包会编译失败。具体错误会在 Xcode 中指出。</li>
 <li>crash 定位。开启 Bitcode 后最终生成的可执行文件是 Apple 自动生成的，同时会产生新的符号表文件，所以我们无法使用自己包生成的 DYSM 符号化文件来进行符号化，而是使用使用 Apple 生成的 DYSM 符号化文件。</li>
+<li>Flutter 不支持 Bitcode，如果项目是包含 Flutter 框架的，就无法使用这种方式。</li>
+<li>BitCode 在 iOS 开发中是可选的，在 watchOS 开发中是必须要选择的， Mac OS 是不支持 BitCode 的。</li>
 </ul>
-<p><strong>Bitcode 开启 Build Settings -&gt; Enable Bitcode -&gt; 设置为 YES</strong></p>
-<h3 id="On-Demand-Resources"><a href="#On-Demand-Resources" class="headerlink" title="On-Demand Resources"></a>On-Demand Resources</h3><p>ODR（on-demand resources 随需应变资源)是 iOS 减少应用资源消耗的另外一种方法。比如多级游戏，用户需要的通常都是他们当前的级数以及下一级。ODR 意味着用户可以下载他们需要的几级游戏。随着你的级数不断增加，应用再下载其他级数，并将用户成功过关的级数删掉。<br>当用户点击应用内容的时候，就会动态从 App Store 上进行下载，也就是说用户只会在需要的时候占用存储空间。这项功能有趣之处还在于当将这些内容在后台进行下载之后，当存储空间紧张的时候会自动进行删除。</p>
-<p>配合 Xcode 中的 Resources Tag 使用，</p>
-<h2 id="删除没有使用的图片"><a href="#删除没有使用的图片" class="headerlink" title="删除没有使用的图片"></a>删除没有使用的图片</h2><h3 id="LSUnusedResources-工具"><a href="#LSUnusedResources-工具" class="headerlink" title="LSUnusedResources 工具"></a>LSUnusedResources 工具</h3><p>客户端工具，不能执行脚本 <a href="https://github.com/tinymind/LSUnusedResources" target="_blank" rel="noopener">下载地址</a></p>
-<h3 id="FengNiao"><a href="#FengNiao" class="headerlink" title="FengNiao"></a>FengNiao</h3><p>脚本工具， <a href="https://github.com/onevcat/FengNiao.git" target="_blank" rel="noopener">下载地址</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/onevcat/FengNiao.git</span><br><span class="line">cd FengNiao</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-
-<h2 id="1x-图片去除"><a href="#1x-图片去除" class="headerlink" title="@1x 图片去除"></a>@1x 图片去除</h2><p>由于当前 App 不适配非 Retina 屏幕，所以@1x 的图片没必要继续放入项目当中，核对后删除所有@1x 的图片资源。（1x 图是 3Gs 用的，4 都开始使用 2x 图了，6p 开始使用 3x 图）</p>
-<h2 id="图片、视频压缩"><a href="#图片、视频压缩" class="headerlink" title="图片、视频压缩"></a>图片、视频压缩</h2><h3 id="使用-WebP-格式"><a href="#使用-WebP-格式" class="headerlink" title="使用 WebP 格式"></a>使用 WebP 格式</h3><p>谷歌开源的格式，WebP 压缩率比较高，而且肉眼看不出差异，同时支持有损和无损两种压缩模式。</p>
-<p>WebP 在 CPU 消耗和解码时间上会比 PNG 高两倍。所以，我们有时候还需要在性能和体积上做取舍。</p>
-<p>如果图片大小超过了 100KB，你可以考虑使用 WebP；而小于 100KB 时，你可以使用网页工具 TinyPng（<a href="https://tinypng.com/）或者" target="_blank" rel="noopener">https://tinypng.com/）或者</a> GUI 工具 ImageOptim（<a href="https://github.com/ImageOptim/ImageOptim）进行图片压缩。这两个工具的压缩率没有" target="_blank" rel="noopener">https://github.com/ImageOptim/ImageOptim）进行图片压缩。这两个工具的压缩率没有</a> WebP 那么高，不会改变图片压缩方式，所以解析时对性能损耗也不会增加。</p>
-<p><strong> 格式转换工具</strong></p>
-<ol>
-<li>腾讯开发的 iSpart <a href="http://isparta.github.io/" target="_blank" rel="noopener">http://isparta.github.io/</a></li>
-<li>Google 提供的工具 <a href="https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html" target="_blank" rel="noopener">https://storage.googleapis.com/downloads.webmproject.org/releases/webp/index.html</a></li>
-</ol>
+<p>开启方式：<code>Build Settings -&gt; Enable Bitcode -&gt; 设置为 YES</code>。</p>
+<p>如果想对Bitcode了解更深入一些，可以看下我之前的一篇博文–<a href="../iOS编译简析">iOS编译简析</a>。</p>
+<h3 id="On-Demand-Resources（随需应变资源）"><a href="#On-Demand-Resources（随需应变资源）" class="headerlink" title="On-Demand Resources（随需应变资源）"></a>On-Demand Resources（随需应变资源）</h3><p>on-Demand Resource 即一部分图片可以被放置在苹果的服务器上，不随着 App 的下载而下载，直到用户真正进入到某个页面时才下载这些资源文件。</p>
+<p>应用场景：相机应用的贴纸或者滤镜、关卡游戏等。</p>
+<p>开启方式：<code>Build Settings -&gt; Enable On Demand Resources -&gt; 设置为 YES</code></p>
+<p>设置资源的 Tag 类型，种类包括：</p>
+<ul>
+<li>Initial install tags：资源和 App 同时下载。在 App Store 中，App 的大小计算已经包含了这部分资源。当没有 NSBundleResourceRequest 对象访问它们时，它们将会从设备上清除。</li>
+<li>Prefetch tag order： 在 App 安装后开始下载，按照预加载列表中的顺序依次下载。</li>
+<li>Dowloaded only on demand： 只有在 App 中发出请求时才会下载。</li>
+</ul>
+<h2 id="瘦身方向"><a href="#瘦身方向" class="headerlink" title="瘦身方向"></a>瘦身方向</h2><p>将 ipa 安装包后缀名改为 zip，将其解压，进入。app 文件后，就可以很直观的看到安装包的组成部分，其中主要的组成部分便是资源文件与 可执行文件 Mach-O 文件两部分。其中资源文件又包括 Assets.car 文件、plist 文件、json 文件等等。这两个部分便是我们的主要瘦身方向。</p>
+<h2 id="资源瘦身"><a href="#资源瘦身" class="headerlink" title="资源瘦身"></a>资源瘦身</h2><h3 id="去除无用的图片资源"><a href="#去除无用的图片资源" class="headerlink" title="去除无用的图片资源"></a>去除无用的图片资源</h3><p>业务的迭代开发，出现无用的图片资源是比较正常的，我们可以借助工具找出哪些图片资源没有被使用过。推荐下面两款工具。</p>
+<ul>
+<li><a href="https://github.com/tinymind/LSUnusedResources" target="_blank" rel="noopener">LSUnusedResources</a>：可视化客户端工具。</li>
+<li><a href="https://github.com/onevcat/FengNiao.git" target="_blank" rel="noopener">FengNiao</a>：命令行工具，可嵌入到Run Script中使用。</li>
+</ul>
+<p>因为这类工具的原理都是在相关文件（.m、.swift 等等）中检测是否有图片名称的字符，所以存在以下问题。<br>问题点：</p>
+<ul>
+<li>如果代码中使用的图标名称是拼接而成的，就会误以为相关图片是废弃图片；</li>
+<li>如果 Assets.xcassets 文件中直接修改了图片的名字，也会认为相关图片可能是废弃图片；</li>
+</ul>
+<h3 id="1x-图片去除"><a href="#1x-图片去除" class="headerlink" title="@1x 图片去除"></a>@1x 图片去除</h3><p> @1x 的图片已经没有必要继续放入 Assets 中去了，可以删除所有 @1x 的图片资源。</p>
+<blockquote>
+<p>@1x 图是 3Gs 用的，4 都开始使用 @2x 图了，@6p 开始使用 3x 图</p>
+</blockquote>
+<h3 id="资源压缩"><a href="#资源压缩" class="headerlink" title="资源压缩"></a>资源压缩</h3><p>以图片资源举例，我们可以使用工具对其进行压缩，推荐两款工具如下：</p>
+<ul>
+<li>网页工具：<a href="https://tinypng.com/" target="_blank" rel="noopener">TinyPng</a></li>
+<li>GUI 客户端工具：ImageOptim（<a href="https://github.com/ImageOptim/ImageOptim）" target="_blank" rel="noopener">https://github.com/ImageOptim/ImageOptim）</a></li>
+</ul>
+<h3 id="图片资源使用-Webp-格式"><a href="#图片资源使用-Webp-格式" class="headerlink" title="图片资源使用 Webp 格式"></a>图片资源使用 Webp 格式</h3><p>谷歌开源的格式，Webp压缩率比较高，同时支持有损和无损两种压缩模式，可以带来更小的图片体积，而且肉眼看不出差异。根据Google的测试，无损压缩后的WebP比PNG文件少了26％的体积，有损压缩后的WebP图片相比于等效质量指标的JPEG图片减少了25％~34%的体积。</p>
+<p>但是 Webp 格式 在 CPU 消耗和解码时间上会比 PNG 格式 高两倍。所以，我们需要根据项目的实际情况在性能和体积上做取舍。</p>
+<p>推荐二种转 Webp 格式的方法</p>
+<ul>
+<li><a href="http://isparta.github.io/" target="_blank" rel="noopener">iSpart</a>：腾讯出品，GUI工具</li>
+<li>Google提供了命令行工具用于将图片转换为webp，在Mac下，可以使用homebrew安装webp工具–<code>brew install webp</code>，</li>
+</ul>
+<p>SDWebImage目前已经支持加载Webp格式的图片。</p>
 <h2 id="代码瘦身"><a href="#代码瘦身" class="headerlink" title="代码瘦身"></a>代码瘦身</h2><h3 id="通过-Appcode-找出无用代码"><a href="#通过-Appcode-找出无用代码" class="headerlink" title="通过 Appcode 找出无用代码"></a>通过 Appcode 找出无用代码</h3><p>使用 APPCode 提供的静态分析 Code-&gt;Inspect Code</p>
 <h3 id="LinkMap-结合-Mach-O-找出无用代码"><a href="#LinkMap-结合-Mach-O-找出无用代码" class="headerlink" title="LinkMap 结合 Mach-O 找出无用代码"></a>LinkMap 结合 Mach-O 找出无用代码</h3><h3 id="编码人素质"><a href="#编码人素质" class="headerlink" title="编码人素质"></a>编码人素质</h3><ol>
 <li>代码复用，禁止拷贝代码，共用代码下沉为底层组件</li>
@@ -493,7 +534,7 @@
 <ul>
 <li>模拟器 32 位处理器测试需要 i386 架构</li>
 <li>模拟器 64 位处理器测试需要 x86_64 架构</li>
-<li>真机 32 位处理器需要 armv7,或者 armv7s 架构</li>
+<li>真机 32 位处理器需要 armv7, 或者 armv7s 架构</li>
 <li>真机 64 位处理器需要 arm64 架构</li>
 </ul>
 <p>armv6</p>
@@ -527,7 +568,7 @@
 <ul>
 <li>None[-O0]: 编译器不会优化代码，意味着更快的编译速度和更多的调试信息，默认在 Debug 模式下开启。</li>
 <li>Fast[-O,O1]: 编译器会优化代码性能并且最小限度影响编译时间，此选项在编译时会占用更多的内存。</li>
-<li>Faster[-O2]：编译器会开启不依赖空间/时间折衷所有优化选项。在此，编译器不会展开循环或者函数内联。此选项会增加编译时间并且提高代码执行效率。</li>
+<li>Faster[-O2]：编译器会开启不依赖空间 / 时间折衷所有优化选项。在此，编译器不会展开循环或者函数内联。此选项会增加编译时间并且提高代码执行效率。</li>
 <li>Fastest[-O3]：编译器会开启所有的优化选项来提升代码执行效率。此模式编译器会执行函数内联使得生成的可执行文件会变得更大。一般不推荐使用此模式。</li>
 <li>Fastest Smallest[-Os]：编译器会开启除了会明显增加包大小以外的所有优化选项。默认在 Release 模式下开启。</li>
 <li>Fastest, Aggressive Optimization[-Ofast]：启动 -O3 中的所有优化，可能会开启一些违反语言标准的一些优化选项。一般不推荐使用此模式。</li>
@@ -538,6 +579,13 @@
 <li>No optimization[-Onone]：不进行优化，能保证较快的编译速度。默认在 Debug 模式开启。</li>
 <li>Optimize for Speed[-O]：编译器将会对代码的执行效率进行优化，一定程度上会增加包大小。默认在 Release 模式下开启。</li>
 <li>Optimize for Size[-Osize]：编译器会尽可能减少包的大小并且最小限度影响代码的执行效率。</li>
+</ul>
+<p>相关链接</p>
+<ul>
+<li><a href="https://www.infoq.cn/article/asjhHAmupqtcx5oGrb4b" target="_blank" rel="noopener">我在 Uber 亲历的最严重的工程灾难</a></li>
+<li><a href="https://xiaozhuanlan.com/topic/6147250839" target="_blank" rel="noopener">iOS 安装包瘦身实践</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/358002160" target="_blank" rel="noopener">今日头条 iOS 安装包瘦身-1</a></li>
+<li><a href="https://mp.weixin.qq.com/s/PufNDzf9VfrEZdJbNcpwNQ" target="_blank" rel="noopener">今日头条 iOS 安装包瘦身-2</a></li>
 </ul>
 
       
@@ -596,7 +644,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-瘦身/" title="iOS优化-瘦身">https://coder-star.github.io/iOS/进阶/优化/iOS优化-瘦身/</a>
+    <a href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-瘦身/" title="iOS 优化 - 瘦身">https://coder-star.github.io/iOS/进阶/优化/iOS优化-瘦身/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -732,7 +780,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">+ Swift</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/">IDE</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/Chrome插件/">Chrome插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDE/IDEA/">IDEA</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">64</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/H5/">H5</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">+ Swift</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Dart/">Dart</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/">Fluter</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Fluter/Icon/">Icon</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/NodeJS/">NodeJS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OC/">OC</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">62</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/APP安全/">APP安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/">Runtime相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Runtime相关/KVO、KVC/">KVO、KVC</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UIView/">UIView</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/">UI组件</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI组件/UIImage/">UIImage</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/iPhone/">iPhone</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/runtime/">runtime</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/statusBar/">statusBar</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/动画/">动画</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/命令/">命令</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCD/">GCD</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/GCDOperation/">GCDOperation</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/Thread/">Thread</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/开发规范/">开发规范</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/异常捕获/">异常捕获</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/推送/">推送</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/Assets-xcassets/">Assets.xcassets</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/编译过程/">编译过程</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/md/">md</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/装机必备/">装机必备</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">1</span></li></ul>
               </div>
             
 
@@ -741,7 +789,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -810,7 +858,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Thinning"><span class="nav-text">App Thinning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Slicing"><span class="nav-text">Slicing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bitcode"><span class="nav-text">bitcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Demand-Resources"><span class="nav-text">On-Demand Resources</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除没有使用的图片"><span class="nav-text">删除没有使用的图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LSUnusedResources-工具"><span class="nav-text">LSUnusedResources 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FengNiao"><span class="nav-text">FengNiao</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1x-图片去除"><span class="nav-text">@1x 图片去除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片、视频压缩"><span class="nav-text">图片、视频压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-WebP-格式"><span class="nav-text">使用 WebP 格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码瘦身"><span class="nav-text">代码瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-Appcode-找出无用代码"><span class="nav-text">通过 Appcode 找出无用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkMap-结合-Mach-O-找出无用代码"><span class="nav-text">LinkMap 结合 Mach-O 找出无用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码人素质"><span class="nav-text">编码人素质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他优化"><span class="nav-text">其他优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器优化"><span class="nav-text">编译器优化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Thinning（苹果自身优化）"><span class="nav-text">App Thinning（苹果自身优化）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Slicing（应用分割）"><span class="nav-text">Slicing（应用分割）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bitcode（中间码）"><span class="nav-text">Bitcode（中间码）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Demand-Resources（随需应变资源）"><span class="nav-text">On-Demand Resources（随需应变资源）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#瘦身方向"><span class="nav-text">瘦身方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源瘦身"><span class="nav-text">资源瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#去除无用的图片资源"><span class="nav-text">去除无用的图片资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1x-图片去除"><span class="nav-text">@1x 图片去除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源压缩"><span class="nav-text">资源压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片资源使用-Webp-格式"><span class="nav-text">图片资源使用 Webp 格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码瘦身"><span class="nav-text">代码瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-Appcode-找出无用代码"><span class="nav-text">通过 Appcode 找出无用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkMap-结合-Mach-O-找出无用代码"><span class="nav-text">LinkMap 结合 Mach-O 找出无用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码人素质"><span class="nav-text">编码人素质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他优化"><span class="nav-text">其他优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器优化"><span class="nav-text">编译器优化</span></a></li></ol></li></ol></div>
             
 
           </div>
