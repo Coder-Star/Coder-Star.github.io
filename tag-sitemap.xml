@@ -4,14 +4,28 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/Hybrid/</loc>
-        <lastmod>2021-07-09T16:06:10.331Z</lastmod>
+        <lastmod>2021-07-10T11:43:56.715Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/三方库/</loc>
+        <lastmod>2021-07-10T05:31:41.224Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-07-09T16:05:19.952Z</lastmod>
+        <lastmod>2021-07-10T05:31:41.224Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/优化/</loc>
+        <lastmod>2021-07-09T16:39:24.338Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -19,13 +33,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/装机必备/</loc>
         <lastmod>2021-07-09T06:28:12.493Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/优化/</loc>
-        <lastmod>2021-07-09T02:14:20.422Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -438,13 +445,6 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/新项目/</loc>
-        <lastmod>2021-06-01T09:17:10.303Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/三方库/</loc>
         <lastmod>2021-06-01T09:17:10.303Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

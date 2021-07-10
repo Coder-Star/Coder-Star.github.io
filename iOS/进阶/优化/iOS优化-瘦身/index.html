@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言iOS 优化将是一个系列文章，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个系列的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-09T02:14:20.422Z">
+<meta property="og:updated_time" content="2021-07-09T16:39:24.338Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言iOS 优化将是一个系列文章，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个系列的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-09T10:14:20+08:00">
-                2021-07-09
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-10T00:39:24+08:00">
+                2021-07-10
               </time>
             
           </span>
@@ -476,7 +476,7 @@
 <p>该文主要研究的是如何降低 APP 的下载大小的。在介绍我们作为开发者的优化方向之前，我们先看一下苹果自身对于 APP 下载大小的优化有哪些吧。</p>
 <h2 id="App-Thinning（苹果自身优化）"><a href="#App-Thinning（苹果自身优化）" class="headerlink" title="App Thinning（苹果自身优化）"></a>App Thinning（苹果自身优化）</h2><p>App Thinning 是指 iOS9 以后引入的一项优化，Apple 会尽可能，自动降低分发到具体用户时，所需要下载的 App 大小。其主要包含以下三项功能。</p>
 <h3 id="Slicing（应用分割）"><a href="#Slicing（应用分割）" class="headerlink" title="Slicing（应用分割）"></a>Slicing（应用分割）</h3><p>当向 App Store Connect 上传 .ipa 后，App Store Connect 构建过程中，会自动分割该 App，会专门针对不同的设备来选择只适用于当前设备的内容（主要是架构和资源）以供设备下载。其差异性主要是体现在架构（32 位还是 64 位）和资源（@1x、@2x 还是 @3x）。</p>
-<p>其中架构方面开发者不需要去控制，但是对于资源来说要求图片在 Assets 管理，如果放在 Bundle，则不会被优化。</p>
+<p>其中架构方面开发者不需要去控制，但是对于资源来说要求图片在 <strong>Asset Catalog</strong> 管理，如果放在 Bundle，则不会被优化。</p>
 <h3 id="Bitcode（中间码）"><a href="#Bitcode（中间码）" class="headerlink" title="Bitcode（中间码）"></a>Bitcode（中间码）</h3><p>Bitcode 是一个编译好的程序的中间表示形式（IR）。上传到 App Store Connect 中的包含 Bitcode 的 App 将会在 App store 中进行链接和编译。苹果会对包含 Bitcode 的二进制 app 进行二次优化，而不需要提交一个新的 app 版本到 app store 中。属于 Apple 内部的优化，但需要注意；</p>
 <ul>
 <li>全部都要支持。我们所依赖的静态库、动态库、Cocoapods 管理的第三方库，都需要开启 Bitcode。否则打包会编译失败。具体错误会在 Xcode 中指出。</li>
@@ -519,17 +519,18 @@
 <p>但是 Webp 格式 在 CPU 消耗和解码时间上会比 PNG 格式 高两倍。所以，我们需要根据项目的实际情况在性能和体积上做取舍。</p>
 <p>推荐二种转 Webp 格式的方法</p>
 <ul>
-<li><a href="http://isparta.github.io/" target="_blank" rel="noopener">iSpart</a>：腾讯出品，GUI工具</li>
-<li>Google提供了命令行工具用于将图片转换为webp，在Mac下，可以使用homebrew安装webp工具–<code>brew install webp</code>，</li>
+<li><a href="http://isparta.github.io/" target="_blank" rel="noopener">iSpart</a>：腾讯出品，GUI工具；</li>
+<li><a href="https://developers.google.com/speed/webp/docs/using" target="_blank" rel="noopener">webp工具</a>: 在Mac下，可以使用homebrew安装webp工具–<code>brew install webp</code>；</li>
 </ul>
-<p>SDWebImage目前已经支持加载Webp格式的图片。</p>
-<h2 id="代码瘦身"><a href="#代码瘦身" class="headerlink" title="代码瘦身"></a>代码瘦身</h2><h3 id="通过-Appcode-找出无用代码"><a href="#通过-Appcode-找出无用代码" class="headerlink" title="通过 Appcode 找出无用代码"></a>通过 Appcode 找出无用代码</h3><p>使用 APPCode 提供的静态分析 Code-&gt;Inspect Code</p>
-<h3 id="LinkMap-结合-Mach-O-找出无用代码"><a href="#LinkMap-结合-Mach-O-找出无用代码" class="headerlink" title="LinkMap 结合 Mach-O 找出无用代码"></a>LinkMap 结合 Mach-O 找出无用代码</h3><h3 id="编码人素质"><a href="#编码人素质" class="headerlink" title="编码人素质"></a>编码人素质</h3><ol>
-<li>代码复用，禁止拷贝代码，共用代码下沉为底层组件</li>
-<li>尽量将图片资源放入 Images.xcassets 中，包括 pod 库的图片。 Images.xcassets 中的图片加载后会有缓存，提升加载速度，并且在最终打包时会自动进行压缩，再根据最终运行设备进行 2x 和 3x 分发。</li>
-<li>对于一些非必要的大资源文件，例如字体库、换肤资源，可以在 App 启动后通过异步下载到本地，而不用直接放在 ipa 包内。</li>
-</ol>
-<h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><h3 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h3><p>Xcode 支持编译器层面的一些优化优化选项，可以让我们介于更快的编译速度和更小的二进制大小并且更快的执行速度之间自由选择想要进行的优化粒度。</p>
+<p>SDWebImage目前支持加载Webp格式的图片–<code>pod &#39;SDWebImage/WebP&#39;</code>。</p>
+<h3 id="将部分资源移动到远程"><a href="#将部分资源移动到远程" class="headerlink" title="将部分资源移动到远程"></a>将部分资源移动到远程</h3><p>除了上文提到的使用On-Demand Resources方式将部分资源放在苹果服务器之外，我们也可以将一些本地资源转移到服务器上去，如一些banner广告图、主题资源等等。这样不仅降低了安装包大小，也将这些资源动态化了。</p>
+<h3 id="图标优化"><a href="#图标优化" class="headerlink" title="图标优化"></a>图标优化</h3><ul>
+<li>使用tint color精简图标</li>
+<li>使用图标字体替换部分图标</li>
+</ul>
+<h2 id="代码瘦身"><a href="#代码瘦身" class="headerlink" title="代码瘦身"></a>代码瘦身</h2><h3 id="清除无用代码"><a href="#清除无用代码" class="headerlink" title="清除无用代码"></a>清除无用代码</h3><p>### </p>
+<p><a href="https://github.com/huanxsd/LinkMap" target="_blank" rel="noopener">LinkMap</a></p>
+<h2 id="编译器优化"><a href="#编译器优化" class="headerlink" title="编译器优化"></a>编译器优化</h2><p>Xcode 支持编译器层面的一些优化优化选项，可以让我们介于更快的编译速度和更小的二进制大小并且更快的执行速度之间自由选择想要进行的优化粒度。</p>
 <p>去除无用架构，如可以去除 armv6、armv7、armv7s。</p>
 <ul>
 <li>模拟器 32 位处理器测试需要 i386 架构</li>
@@ -580,12 +581,17 @@
 <li>Optimize for Speed[-O]：编译器将会对代码的执行效率进行优化，一定程度上会增加包大小。默认在 Release 模式下开启。</li>
 <li>Optimize for Size[-Osize]：编译器会尽可能减少包的大小并且最小限度影响代码的执行效率。</li>
 </ul>
+<h2 id="编码人素质"><a href="#编码人素质" class="headerlink" title="编码人素质"></a>编码人素质</h2><ol>
+<li>代码复用，禁止无脑拷贝代码，共用代码下沉为底层组件；</li>
+<li>重复功能的框架使用一套。</li>
+</ol>
 <p>相关链接</p>
 <ul>
 <li><a href="https://www.infoq.cn/article/asjhHAmupqtcx5oGrb4b" target="_blank" rel="noopener">我在 Uber 亲历的最严重的工程灾难</a></li>
 <li><a href="https://xiaozhuanlan.com/topic/6147250839" target="_blank" rel="noopener">iOS 安装包瘦身实践</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/358002160" target="_blank" rel="noopener">今日头条 iOS 安装包瘦身-1</a></li>
 <li><a href="https://mp.weixin.qq.com/s/PufNDzf9VfrEZdJbNcpwNQ" target="_blank" rel="noopener">今日头条 iOS 安装包瘦身-2</a></li>
+<li><a href="https://jelly.jd.com/article/6006b1035b6c6a01506c87a9" target="_blank" rel="noopener">探究WebP一些事儿</a></li>
 </ul>
 
       
@@ -858,7 +864,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Thinning（苹果自身优化）"><span class="nav-text">App Thinning（苹果自身优化）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Slicing（应用分割）"><span class="nav-text">Slicing（应用分割）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bitcode（中间码）"><span class="nav-text">Bitcode（中间码）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Demand-Resources（随需应变资源）"><span class="nav-text">On-Demand Resources（随需应变资源）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#瘦身方向"><span class="nav-text">瘦身方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源瘦身"><span class="nav-text">资源瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#去除无用的图片资源"><span class="nav-text">去除无用的图片资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1x-图片去除"><span class="nav-text">@1x 图片去除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源压缩"><span class="nav-text">资源压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片资源使用-Webp-格式"><span class="nav-text">图片资源使用 Webp 格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码瘦身"><span class="nav-text">代码瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-Appcode-找出无用代码"><span class="nav-text">通过 Appcode 找出无用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkMap-结合-Mach-O-找出无用代码"><span class="nav-text">LinkMap 结合 Mach-O 找出无用代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码人素质"><span class="nav-text">编码人素质</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他优化"><span class="nav-text">其他优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器优化"><span class="nav-text">编译器优化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Thinning（苹果自身优化）"><span class="nav-text">App Thinning（苹果自身优化）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Slicing（应用分割）"><span class="nav-text">Slicing（应用分割）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bitcode（中间码）"><span class="nav-text">Bitcode（中间码）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#On-Demand-Resources（随需应变资源）"><span class="nav-text">On-Demand Resources（随需应变资源）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#瘦身方向"><span class="nav-text">瘦身方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源瘦身"><span class="nav-text">资源瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#去除无用的图片资源"><span class="nav-text">去除无用的图片资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1x-图片去除"><span class="nav-text">@1x 图片去除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源压缩"><span class="nav-text">资源压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片资源使用-Webp-格式"><span class="nav-text">图片资源使用 Webp 格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将部分资源移动到远程"><span class="nav-text">将部分资源移动到远程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图标优化"><span class="nav-text">图标优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码瘦身"><span class="nav-text">代码瘦身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#清除无用代码"><span class="nav-text">清除无用代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译器优化"><span class="nav-text">编译器优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码人素质"><span class="nav-text">编码人素质</span></a></li></ol></div>
             
 
           </div>

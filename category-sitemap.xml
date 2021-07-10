@@ -10,14 +10,21 @@
 
     <url>
         <loc>https://coder-star.github.io/categories/Hybrid/</loc>
-        <lastmod>2021-07-09T16:06:10.331Z</lastmod>
+        <lastmod>2021-07-10T11:43:56.715Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/categories/iOS/</loc>
-        <lastmod>2021-07-09T08:12:53.017Z</lastmod>
+        <lastmod>2021-07-10T05:31:41.224Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E4%BC%98%E5%8C%96/</loc>
+        <lastmod>2021-07-09T16:39:24.338Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -25,13 +32,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/</loc>
         <lastmod>2021-07-09T06:28:12.493Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E4%BC%98%E5%8C%96/</loc>
-        <lastmod>2021-07-09T02:14:20.422Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
