@@ -1,11 +1,10 @@
 ---
-title: H5混合模式
+title: Native与JS交互
 category:
-  - iOS
-  - H5
+  - Hybrid
 tags:
   - iOS
-  - H5
+  - Hybrid
 date: 2021-02-02 12:39:50
 ---
 
