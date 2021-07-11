@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%BC%96%E8%AF%91/Clang.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%BC%96%E8%AF%91/swiftc.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%BC%96%E8%AF%91/LLVM%E5%90%8E%E7%AB%AF.png">
-<meta property="og:updated_time" content="2021-07-03T09:51:17.781Z">
+<meta property="og:updated_time" content="2021-07-10T17:53:59.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS编译简析">
 <meta name="twitter:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端(FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器(Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及大部分">
@@ -355,8 +355,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-03T17:51:17+08:00">
-                2021-07-03
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-11T01:53:59+08:00">
+                2021-07-11
               </time>
             
           </span>
@@ -510,6 +510,7 @@
 <li>SIL 保证转换：SIL 保证转换阶段负责执行额外且影响程序正确性的数据流诊断，转换后的最终结果是规范的 SIL；</li>
 <li>SIL 优化：该阶段负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化；</li>
 </ul>
+<p>Swift引入SIL的目的是希望弥补一些Clang编译器的缺陷，如无法执行一些高级分析，可靠的诊断和优化。</p>
 <p>Swift 编译过程引入 SIL 有几个优点：</p>
 <ul>
 <li>完成的变数程序的语义(Fully represents program semantics );</li>

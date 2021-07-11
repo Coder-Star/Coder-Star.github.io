@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/sameLayer.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/WKChildScrollView.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/%E5%AF%B9%E6%AF%94.png">
-<meta property="og:updated_time" content="2021-07-10T11:59:29.548Z">
+<meta property="og:updated_time" content="2021-07-11T11:34:35.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="同层渲染">
 <meta name="twitter:description" content="前言可能作为 iOS 开发者，对同层渲染这个名词比较陌生，但是如果大家开发过小程序，应该对这个名词就不会陌生，因为小程序中有一类组件叫做原生组件（native-component），比如camera、video等，这类组件在渲染过程中最终会映射成下文提到的原生组件。 在正文开始之前，先给大家统一几个概念，方便后续的阅读。  原生组件：iOS、Android 等客户端 Native 组件，如 iOS">
@@ -354,8 +354,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-10T19:59:29+08:00">
-                2021-07-10
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-11T19:34:35+08:00">
+                2021-07-11
               </time>
             
           </span>
@@ -449,16 +449,16 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>可能作为 iOS 开发者，对<strong>同层渲染</strong>这个名词比较陌生，但是如果大家开发过小程序，应该对这个名词就不会陌生，因为小程序中有一类组件叫做原生组件（native-component），比如<code>camera</code>、<code>video</code>等，这类组件在渲染过程中最终会映射成下文提到的原生组件。</p>
 <p>在正文开始之前，先给大家统一几个概念，方便后续的阅读。</p>
 <ul>
-<li>原生组件：iOS、Android 等客户端 Native 组件，如 iOS 中的 <code>UITextField</code>、<code>UITextView</code>，Android 中的 <code>EditText</code>、`ListView 等；</li>
+<li>原生组件：iOS、Android 等客户端 Native 组件，如 iOS 中的 <code>UITextField</code>、<code>UITextView</code>，Android 中的 <code>EditText</code>、<code>ListView</code> 等；</li>
 <li>H5 组件：是指 HTML5 语言编写的 web 组件，如<code>&lt;input/&gt;</code>、 <code>&lt;textarea&gt;&lt;/textarea&gt;</code>等；</li>
 </ul>
-<p>相比于 H5 组件，原生组件不仅可以提供 H5 组件无法实现的一些功能，还能提升用户体验上的流畅度（特别是对于音视频播放器而言），又因为减少了客户端代码与 webview 通信的流程，降低了通信开销，简单来说，原生组件功能全、速度快、开销少；</p>
+<p>相比于 H5 组件，原生组件不仅可以提供 H5 组件无法实现的一些功能，还能提升用户体验上的流畅度（特别是对于音视频播放器而言），又因为减少了客户端代码与 WebView 通信的流程，降低了通信开销，简单来说，原生组件功能全、速度快、开销少；</p>
 <h2 id="应用及概念"><a href="#应用及概念" class="headerlink" title="应用及概念"></a>应用及概念</h2><p>任何技术的产生都是伴随着需求或问题，那么同层渲染的产生到底是解决什么问题呢？</p>
 <p>我们上文已经提到原生组件比 H5 组件性能更好，所以说对于一些 H5 组件，我们希望其在客户端渲染时被映射成原生组件，那么问题来了：作为客户端来讲，我们一般会采用 WebView 加载 HTML，原生组件脱离在 WebView 渲染流程外，如果把 WebView 看成单独的一层，那么原生组件则位于另一个更高的层级。那么这样的层级就带来了一些问题：</p>
 <ul>
 <li>原生组件的层级是最高的：页面中的其他组件无论设置 z-index 为多少，都无法盖在原生组件上；</li>
 <li>部分 CSS 样式无法应用于原生组件；</li>
-<li>原生组件无法在 scroll-view 等可滚动的 H5 组件中使用：因为如果开发者在可滚动的 DOM 区域，插入原生组件作为其子节点，由于原生组件是直接插入到 webview 外部的层级，与 DOM 之间没有关联，所以不会跟随移动也不会被裁减。</li>
+<li>原生组件无法在 scroll-view 等可滚动的 H5 组件中使用：因为如果开发者在可滚动的 DOM 区域，插入原生组件作为其子节点，由于原生组件是直接插入到 WebView 外部的层级，与 DOM 之间没有关联，所以不会跟随移动也不会被裁减。</li>
 </ul>
 <p>未同层渲染的层级图如下图所示：</p>
 <p><img src="../../../img/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/notSameLayer.jpeg" alt="未同层渲染的层级"></p>
@@ -496,7 +496,7 @@
 <li>…</li>
 </ul>
 <p>具体Demo示例可见<a href="https://github.com/Coder-Star/SameLayerRender" target="_blank" rel="noopener">SameLayerRender</a></p>
-<h3 id="效果对比"><a href="#效果对比" class="headerlink" title="效果对比"></a>效果对比</h3><p><img src="../../../img/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/%E5%AF%B9%E6%AF%94.png" alt="WKChildScrollView"></p>
+<h3 id="效果对比"><a href="#效果对比" class="headerlink" title="效果对比"></a>效果对比</h3><p><img src="../../../img/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/%E5%AF%B9%E6%AF%94.png" alt="对比图"></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后，祝大家周末愉快！</p>
 <p>Let’s be CoderStar!</p>
 <p>相关链接</p>
