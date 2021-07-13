@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Mac%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/</loc>
+        <lastmod>2021-07-13T12:42:00.507Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/iOS/Hybrid/%E5%90%8C%E5%B1%82%E6%B8%B2%E6%9F%93/</loc>
         <lastmod>2021-07-11T11:34:35.970Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -51,14 +59,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/UI/WKWebView/%E5%85%B3%E4%BA%8EWKWebView/</loc>
         <lastmod>2021-07-09T08:12:53.017Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Mac%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/</loc>
-        <lastmod>2021-07-09T06:28:12.493Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

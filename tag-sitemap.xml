@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/装机必备/</loc>
+        <lastmod>2021-07-13T12:42:00.507Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/Hybrid/</loc>
         <lastmod>2021-07-11T11:34:35.970Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -33,13 +40,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/优化/</loc>
         <lastmod>2021-07-09T16:39:24.338Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/装机必备/</loc>
-        <lastmod>2021-07-09T06:28:12.493Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
