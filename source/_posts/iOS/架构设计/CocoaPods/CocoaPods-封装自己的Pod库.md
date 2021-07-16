@@ -49,7 +49,7 @@ Pod::Spec.new do |s|
   # s.ios.deployment_target = '7.0' # 或者这种写法，这种写法可以设置多平台
   s.requires_arc  = true # arc和mrc选项，true一定不要加单引号
   s.swift_version = "4.2"  #设置swift版本
-  s.static_framework  =  true # 设置库为静态库，mach-o type会是static
+  s.static_framework  =  true # 设置库为静态库，mach-o type会是static，设置之后即使项目的 Podfile 中使用了 use_frameworks! ，使用 该pod 也会以静态库使用
 
   s.source_files = "LTXiOSUtils/Classes/**/*.swift"   #OC可以使用类似这样"Source/Classes/**/*.{h,m}",**/*是一个正则，表示下面所有swift文件，这个路径是相对于podspec文件而言
   # s.exclude_files = "LTXiOSUtils/Classes/Exclude" #忽略提交的文件
