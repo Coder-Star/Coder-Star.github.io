@@ -209,7 +209,7 @@ xcrun -sdk iphoneos pngcrush -revert-iphone-optimizations image.png image1.png
 
 ![pngcrsuh测试效果对比图](../../../../img/iOS/进阶/优化/瘦身/pngcrsuh_deal.png)
 
-**结论：Compress PNG Files 虽然是压缩 PNG，但其最主要的目的并不是为了压缩图片大小， 而是将 PNG 转换成 iOS 更容易处理、更块速度的去识别的格式，可以根据项目在开启、关闭两种情况下的打包大小，自行取舍。**
+**结论：Compress PNG Files 虽然是压缩 PNG，但其最主要的目的并不是为了压缩图片大小， 而是将 PNG 转换成 iOS 更容易处理、更快速度的去识别的格式，可以根据项目在开启、关闭两种情况下的打包大小，自行取舍。**
 
 **非 PNG 资源**
 
