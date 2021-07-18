@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Chrome%E6%8F%92%E4%BB%B6/</loc>
+        <lastmod>2021-07-18T14:17:12.815Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E7%98%A6%E8%BA%AB/</loc>
         <lastmod>2021-07-18T12:17:17.246Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -91,14 +99,6 @@
     <url>
         <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/IDEA%E6%8F%92%E4%BB%B6/</loc>
         <lastmod>2021-07-09T01:58:01.728Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Chrome%E6%8F%92%E4%BB%B6/</loc>
-        <lastmod>2021-07-09T01:57:47.729Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
