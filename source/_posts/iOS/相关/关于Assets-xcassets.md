@@ -10,6 +10,8 @@ tags:
 date: 2020-11-14 11:23:12
 ---
 
+除了图片资源外，Asset Catalogs 也可以存储文本、Data 甚至 AR、apple TV 相关的资源，非常全能。
+
 先放置一个 Assets.xcassets 中图片的操作选项
 
 ![Assets.xcassets](../../../img/iOS/相关/Assets.png)
