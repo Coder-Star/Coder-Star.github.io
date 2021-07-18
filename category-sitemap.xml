@@ -9,6 +9,48 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/categories/iOS-%E4%BC%98%E5%8C%96/</loc>
+        <lastmod>2021-07-18T10:19:28.033Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E7%9B%B8%E5%85%B3/Assets-xcassets/</loc>
+        <lastmod>2021-07-18T09:51:27.768Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E7%9B%B8%E5%85%B3/</loc>
+        <lastmod>2021-07-18T09:51:27.768Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/</loc>
+        <lastmod>2021-07-18T09:51:27.768Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/%E8%A7%84%E8%8C%83/</loc>
+        <lastmod>2021-07-17T07:09:06.612Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/CocoaPods/</loc>
+        <lastmod>2021-07-16T12:49:41.480Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/categories/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/</loc>
         <lastmod>2021-07-13T12:42:00.507Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -25,20 +67,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/iOS/%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/</loc>
         <lastmod>2021-07-10T17:53:59.920Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/</loc>
-        <lastmod>2021-07-10T17:53:59.920Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E4%BC%98%E5%8C%96/</loc>
-        <lastmod>2021-07-09T16:39:24.338Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -93,13 +121,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/categories/%E8%A7%84%E8%8C%83/</loc>
-        <lastmod>2021-06-26T08:55:08.953Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/categories/iOS/%E5%91%BD%E4%BB%A4/</loc>
         <lastmod>2021-06-25T03:32:38.504Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -130,13 +151,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
         <lastmod>2021-06-16T12:44:34.335Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/CocoaPods/</loc>
-        <lastmod>2021-06-10T07:11:26.686Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -198,6 +212,13 @@
     </url>
 
     <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E4%BC%98%E5%8C%96/</loc>
+        <lastmod>2021-06-01T09:17:10.317Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/categories/%E5%89%8D%E7%AB%AF/CSS/</loc>
         <lastmod>2021-06-01T09:17:10.317Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -214,20 +235,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/iOS/APP%E5%AE%89%E5%85%A8/</loc>
         <lastmod>2021-06-01T09:17:10.315Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E7%9B%B8%E5%85%B3/Assets-xcassets/</loc>
-        <lastmod>2021-06-01T09:17:10.314Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E7%9B%B8%E5%85%B3/</loc>
-        <lastmod>2021-06-01T09:17:10.314Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
