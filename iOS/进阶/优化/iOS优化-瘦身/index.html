@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/Strip_Swift_Symbols.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/%E6%9D%82%E9%A1%B9/%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/LinkMap.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/AppCode_Inspect.png">
-<meta property="og:updated_time" content="2021-07-19T02:59:43.819Z">
+<meta property="og:updated_time" content="2021-07-19T03:02:26.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
@@ -355,7 +355,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-19T10:59:43+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-19T11:02:26+08:00">
                 2021-07-19
               </time>
             
@@ -537,6 +537,7 @@
 <p>因为这类工具的原理都是在相关文件（.m、.swift 等等）中利用正则表达式检测是否有图片名称的字符，所以存在以下问题。<br>问题点：</p>
 <ul>
 <li>如果代码中使用的图标名称是拼接而成的，就会误以为相关图片是废弃图片；</li>
+<li>如果 Assets.xcassets 文件中直接修改了图片的名字，也会认为相关图片可能是废弃图片；</li>
 </ul>
 <p>可以利用<a href="https://www.duplicatephotocleaner.com/" target="_blank" rel="noopener">Duplicate Photos</a>从内容上检测重复/相似图片。</p>
 <p>引申一下：</p>
