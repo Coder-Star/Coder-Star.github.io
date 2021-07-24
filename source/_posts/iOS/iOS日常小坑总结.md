@@ -14,17 +14,6 @@ date: 2021-05-27 14:51:08
 - UIButton 通过 textLabel 设置颜色、标题不生效，因为这两个属性跟按钮本身状态挂钩，UIButton 只会显示跟状态对应的标题和颜色。
 - attributedText 设置后，text、lineBreakMode、textAlignment 等属性会被重置，虽然文档上说 font，textColor 也会被重置，但是根据我的测试，结果显示这两个属性不会被重置。
 - UICollectionViewFlowLayout 设置`estimatedItemSize`后`sizeForItemAt`代理虽然会走，但是设置的值不会起效果
-- UICollectionView 父 view 添加手势，其内部代理 didSelectItemAt 不触发，需要对手势代理进行处理一下
-
-```swift
-tapViewGesture.delegate = self
-
-override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-  let p = gestureRecognizer.location(in: spanMenuView)
-  let v = self.firstViewController?.view.hitTest(p, with: nil)
-  return v == gestureRecognizer.view
-}
-```
 
 - UITextField的clearButtonMode背后的删除按钮本身也是UITextField rightView的一种，如果手动设置了rightView，clearButtonMode的设置将不会生效。
 - UITextField直接设置text，不会触发editingChanged，如果需要实现触发目的，可以手动调用一下触发事件。

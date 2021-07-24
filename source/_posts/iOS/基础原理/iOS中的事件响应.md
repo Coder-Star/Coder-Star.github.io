@@ -312,6 +312,8 @@ open var delaysTouchesEnded: Bool
 
 `UIGestureRecognizer`同样有 `touch`系列 的四个函数。
 
+### 优先级
+
 当我们在一个添加了手势的`UIResponder`上执行**非连续的双击**操作，触发的回调消息如下表所示。
 
 ![UIGestureRecognizer_Touch](../../../img/iOS/基础原理/响应链/UIGestureRecognizer_Touch.png)
@@ -341,47 +343,47 @@ open var delaysTouchesEnded: Bool
   * 当值为 `YES` 时（默认值），当手势识别失败时会延迟（约 0.15s）调用 touchesEnded 函数。
   * 当值为 `NO` 时，当手势识别失败时会立即调用 `touchesEnded` 函数。
 
-我们也可以通过实现`UIGestureRecognizer`的相关代理方法，改变手势的处理方式，其中手势代理方法如下：
+我们也可以通过实现`UIGestureRecognizer`的相关代理方法，改变手势的处理方式，包含手势之间的依赖关系，及手势的禁止及允许等设置。
+
+### 手势之间的依赖关系
+
+当触摸事件发生时，哪个 `UIGestureRecognizer` 先收到这个事件并没有固定的顺序，我们可以使用`UIGestureRecognizer` 提供的方法来控制它们之间的顺序和相互关系。
 
 ```swift
+/// UIGestureRecognizer 的方法
 /**
- 指定 UIGestureRecognizer 之间的依赖关系
+调用这个方法将该手势置于另一手势的优先级之下，只有另一手势识别失败才会识别该手势；如果另一手势识别成功，则该手势的状态变为识别失败。
+适用于同一个View中创建多个UIGestureRecognizer，要调整优先级的情况。
+例：单击手势中调用此方法，参数是双击手势，判断双击失败后才会响应单击。
 */
-@available(iOS 3.2, *)
-optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
+open func require(toFail otherGestureRecognizer: UIGestureRecognizer)
 
+/// UIGestureRecognizerDelegate 协议里的Optional方法
+/**
+返回YES能保证失效，但返回NO并不能保证生效（单一控制优先级）
+适用于不同层级的手势优先级处理
+*/
+
+/// 返回YES第一个手势失效
 @available(iOS 7.0, *)
 optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool
-
+/// 返回YES第二个手势失效
 @available(iOS 7.0, *)
 optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool
 
+/// UIGestureRecognizerDelegate 协议里的Optional方法
 /**
- 控制 UIGestureRecognizer 是够可以响应触摸事件
+控制两个 UIGestureRecognizer 之间是否可以同时异步进行
+需要注意的是，假设存在两个可能会互相 block 的 UIGestureRecognizer，系统会分别对它们的 delegate 调用这个方法，只要有一个返回 YES，那么这两个 UIGestureRecognizer 就可以同时进行识别
 */
 
 @available(iOS 3.2, *)
-optional func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
-
-@available(iOS 3.2, *)
-optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool
-
-@available(iOS 9.0, *)
-optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive press: UIPress) -> Bool
-
-@available(iOS 13.4, *)
-optional func gestureRecognizer(_ gestureRcognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool
+optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
 ```
 
-通过查看代理方法可知，其代理方法主要分为两类：
- - 指定 `UIGestureRecognizer` 之间的依赖关系；
- - 控制 `UIGestureRecognizer` 是够可以响应触摸事件。
+### 手势的禁止与允许
 
-关于这部分，本文主要研究一下第二类代理方法（控制手势识别器是否可以响应事件），或者更准确来讲是讨论一下以下两个方法，为下个小节的`UIControl`做一个铺垫。
-- `optional func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool`
-- `optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool`
-
-关于这两个方法，我们先看一下 Apple 官方的描述。
+我们先看一下 Apple 官方的描述。
 
 > When a touch begins, if you can immediately determine whether or not your gesture recognizer should consider that touch, use thegestureRecognizer:shouldReceiveTouch: method. This method is called every time there is a new touch. Returning NO prevents the gesture recognizer from being notified that a touch occurred. The default value is YES. This method does not alter the state of the gesture recognizer.
 >
@@ -389,12 +391,16 @@ optional func gestureRecognizer(_ gestureRcognizer: UIGestureRecognizer, shouldR
 >
 > You can use the gestureRecognizerShouldBegin:UIView method if your view or view controller cannot be the gesture recognizer’s delegate. The method signature and implementation is the same.
 
-这两个方法都是用来禁止 `UIGestureRecognizer` 响应触摸事件的，区别在于当触摸事件发生时，
+- `optional func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool`
+- `optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool`
+
+上述两个方法都是用来决定是够允许 `UIGestureRecognizer` 响应触摸事件的，区别在于当触摸事件发生时，
 - 使用第一个方法可以立即控制 UIGestureRecognizer 是否对其处理，且不会修改 `UIGestureRecognizer` 的状态机;（时机在手势`touchesBegan`前）
 - 使用二个方法会等待一段时间，在 UIGestureRecognizer 识别手势转换状态时调用，返回 `NO` 会改变其状态机，使其 state 变为 `failed`。（时机在手势`touchesEnded`后）
 
 UIView 自身也有一个 `gestureRecognizerShouldBegin`方法， 当 View 不是 `UIGestureRecognizer` 的 `delegate` 时，我们可以使用这个方法来使 UIGestureRecognizer 失效。**对于所有绑定到父 View 上的 `UIGestureRecognizer`，除了它们本身的 delegate 之外，Hit-Testing 返回的 View 也会收到这个方法的调用**。
 
+当 View 继承了`gestureRecognizerShouldBegin`方法并在此处打上断点，得到的方法调用如下图所示。
 ![gestureRecognizerShouldBegin](../../../img/iOS/基础原理/响应链/gestureRecognizerShouldBegin.png)
 
 上图中我们还可以看到两个没有提到过的名词，一个是`UITouchesEvent`，另一个是`UIGestureEnvironment`。
@@ -455,7 +461,7 @@ func cancelTracking(with event: UIEvent?)
 原因我们找到了，下面来介绍一下里面涉及到的原理。
 
 上节`UIGestureRecognizer`中介绍过`gestureRecognizerShouldBegin`方法对手势有决定是否响应的作用，`UIControl`便是利用这一点达到了上述效果。
-`UIControl` 内部重写了 UIView 提供的的`gestureRecognizerShouldBegin`方法，返回 `false`，使父 View 上的手势不参与到事件响应中去，但是不会影响其自身的手势。
+**`UIControl` 内部重写了 UIView 提供的的`gestureRecognizerShouldBegin`方法，返回 `false`，使父 View 上的手势不参与到事件响应中去，但是不会影响其自身的手势。**
 
 **小结**
 **1. UIButton 会截断响应链的事件传递，也可以利用响应链来寻找 Action Method。**
@@ -467,6 +473,25 @@ func cancelTracking(with event: UIEvent?)
 这里再介绍一下`UIScrollView`关于事件响应的三个属性、
 
 ### `delaysContentTouches`
+
+## 相关问题
+
+通过阅读本文，我想你对下面的问题出现的原因及解决办法应该有了比较深刻的认识。
+
+**UICollectionView 父 view 添加手势，其内部代理 `didSelectItemAt` 不触发**
+
+```swift
+tapViewGesture.delegate = self
+
+override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+  let p = gestureRecognizer.location(in: superview)
+  let v = superview.hitTest(p, with: nil)
+  /// gestureRecognizer.view为父View。
+  /// hitTest返回为父View，则返回true,手势生效；
+  /// 如果返回为UICollectionView，则返回false，手势不生效，UICollectionView的didSelectItemAt可以正常触发。
+  return v == gestureRecognizer.view
+}
+```
 
 ## 最后
 
