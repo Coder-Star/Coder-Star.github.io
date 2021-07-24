@@ -1,5 +1,5 @@
 ---
-title: iOS中的事件响应
+title: iOS 中的事件响应
 category:
   - iOS
   - 基础原理
@@ -8,108 +8,475 @@ tags:
 date: 2020-12-22 20:50:01
 ---
 
-iOS 中可以响应并处理事件的类型包括三种，这三种
+## 前言
+
+Hi Coder，我是 CoderStar！
+
+iOS 中的事件响应者主要分为两类，分别为`UIResponder`及`UIGestureRecognizer`，其中`UIControl`是一种比较特殊的`UIResponder`，所以本文将事件响应者分为以下三种类型进行讨论。
 
 - `UIResponder`
 - `UIGestureRecognizer`
 - `UIControl`
 
-# UIResponder
+> 下文中所涉及到的Apple官方描述可以通过[Event Handling Guide for iOS.pdf](https://gitee.com/CoderStar/pubilc-file/blob/master/iOS/Event%20Handling%20Guide%20for%20iOS/Event%20Handling%20Guide%20for%20iOS.pdf)
+查阅到。
 
-UIResponder是iOS是响应事件的基类，可以用来响应用户的点击、触摸等事件。通过下面四个回调API进行响应
+本文篇幅较长，如果大家不想细读，可以直接跳过细节展开看每个小节的结论部分。
 
+## 事件来由：UITouch 触摸
 
-## 寻找最合适的View
+**创建**
+
+每个手指每一次触摸屏幕，对应生成一个 UITouch 对象。多个手指先后触摸，系统会根据触摸的位置判断是否更新同一个 UITouch 对象。
+- 若两个手指一前一后触摸同一个位置 (即双击)，那么第一次触摸时生成一个 UITouch 对象，第二次触摸会更新这个 UITouch 对象，这是该 UITouch 对象的 tapCount 属性值从 1 变成 2；
+- 若两个手指一前一后触摸的位置不同，将会生成两个 UITouch 对象，两者之间没有联系；
+
+**销毁**
+
+手指离开屏幕一段时间后，确定该 UITouch 对象不会再被更新，就释放。
+
+列举一些关键属性及方法，可以留意一下，后文中的介绍会涉及到这些属性。
 
 ```swift
-/// 寻找顺序
-touch(UIEvent)->UIApplication事件队列->UIWindow->UIView->UIView的子view->...->view
+/// 触摸次数
+var tapCount: Int
+
+/// 触摸对象的手势识别
+var gestureRecognizers: [UIGestureRecognizer]?
+
+/// 正在触摸的对象对应的View
+/// 在hit-testing过程时绑定上去
+var view: UIView?
+
+/// 正在触摸的对象对应的window
+/// 在hit-testing过程时绑定上去
+var window: UIWindow?
+
+/// 最后一次触摸时间
+var timestamp: TimeInterval
+
+/// 触摸类型
+/// 直接接触、间接接触、Apple Pencil触摸等
+var type: UITouch.TouchType
+
+/// 返回触摸对象指定视图中的坐标
+func location(in: UIView?) -> CGPoint
+
+/// 返回触摸对象指定视图中的上次坐标
+func previousLocation(in: UIView?) -> CGPoint
 ```
 
-在寻找最合适 View 过程中会用到 UIView 的下列两个方法；（注意一下，在寻找最合适 View 过程中 UIViewController 并没有参与进来)
+## 事件本身：UIEvent 事件
+
+UIEvent 对象中包含了触发该对象的触摸对象集合，因为一个触摸事件可能是由多个手指同时触摸产生的。
+
+列举一些核心属性
+
+```swift
+/// 事件关联的所有触摸
+open var allTouches: Set<UITouch>? { get }
+
+/// 事件发生的时间
+var timestamp: TimeInterval { get }
+
+/// 事件类型
+/// 如触摸、运动（重力感应）、多媒体（蓝牙耳机）、物理按键
+open var type: UIEvent.EventType { get }
+
+/// 事件类型子类型
+/// 如上述多媒体类型中又分为音频播放、音频暂停等子类型
+open var subtype: UIEvent.EventSubtype { get }
+```
+
+从上述`type`属性我们可以看出，事件不仅仅单指本文主要讲的触摸事件，还有运动事件等。同时我们可以通过 `allTouches` 属性获取到该事件对应的所有触摸对象。
+
+## 事件生命周期
+
+![事件生命周期](../../../img/iOS/基础原理/响应链/事件生命周期.png)
+
+通过上图我们对事件整个的生命周期其实有一个大致的了解。下文会分为几个小节对图中的流程的细节方面进行一个梳理。
+
+## 普通事件响应者：UIResponder
+
+每个响应者都是一个 UIResponder 对象，即所有派生自 UIResponder 的对象，本身都具备响应事件的能力。因此以下类作为 UIResponder 的派生类都可以是响应者：
+
+* UIView
+* UIViewController
+* UIApplication
+* AppDelegate
+
+### Hit-Testing
+
+从触摸事件发生后，iOS 系统便会根据 Hit-Testing 的过程来确定触摸事件发生在哪个视图对象上，其实 Hit-Testing 的过程本质就是找到**第一响应者**（或最佳响应者，后文统一称为第一响应者）。
+
+其中查找的过程如下
+
+`UIApplication ——> UIWindow ——> 子视图 ——> ... ——> 子视图`
+
+> 可以注意下，其实 UIViewController 并没有参与查找的过程，如果想验证，可以在下文提到的 hitTest 函数中加入断点，看一下相关函数的调用情况。
+
+Hit-Testing 的过程大概如下图：
+
+![Hit-Testing过程](../../../img/iOS/基础原理/响应链/hitTest.png)
+
+该过程中会用到 UIView 提供的两个关键函数
+
+```swift
+/// 返回符合条件的UIView
+func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView?
+
+/// 检查坐标是否在自身内部
+func point(inside point: CGPoint, with event: UIEvent?) -> Bool
+```
+
+- `检查自身可否接收事件`过程中，如果视图符合以下三个条件中的任一个，都会无法接收事件：
+  * view.isUserInteractionEnabled = false
+  * view.alpha <= 0.01
+  * view.isHidden = true
+- `检查坐标是否在自身内部`这个过程使用了上述的`point`方法来判断坐标是否在自身内部。
+- `从后往前遍历子视图重复执行` 指的是按照 `FILO` 的原则，将其所有子视图按照「后添加的先遍历」的规则进行命中测试。该规则保证了系统会优先测试视图层级树中最后添加的视图，如果视图之间有重叠，该视图也是同级视图中展示最完整的视图，即用户最可能想要点的那个视图。
+
+根据上述介绍，我们可以复原出`hitTest`的函数实现，如下所示。
 
 ```swift
 override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+  // 视图无法接受事件
+  if !isUserInteractionEnabled || isHidden || alpha <= 0.01 {
+    return nil
+  }
+
+  // 判断触摸点是否在自身内部
+  if self.point(inside: point, with: event) {
+    // 按 FILO 遍历子视图
+    for subview in subviews.reversed() {
+        let convertedPoint = subview.convert(point, from: self)
+        // 判断触摸点是否在子视图内部，在就返回视图，不在就返回nil
+        let resultView = subview.hitTest(convertedPoint, with: event)
+        if resultView != nil { return resultView }
+      }
+
+    // 该视图的所有子视图都不符合要求，而触摸点又在该视图自身内部
+    return self
+  }
+
+  // 触摸点是否不在该视图内部
+  return nil
 }
-
-override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-}
-
 ```
 
-当一个视图 View 收到 hitTest 消息时，先会检查自己是否可以响应事件，如果 
-- View 的 userInteractionEnabled = NO，
-- enabled = NO（UIControl）
-- ，或者 alpha <= 0.01， 
-- hidden = YES 
-等情况的时候，直接返回 nil，然后调用自己的 poinInside 方法；如果返回 false 表示点击区域不在自己视图范围内，直接返回 nil。  
-返回 nil 表示此 View 已经不是合适 View 了，如果不返回 nil 会遍历自己的子视图，所有子视图的遍历顺序是从最顶层视图一直到到最底层视图，即从 subviews 数组的末尾向前遍历，即后加入的子 view 会先遍历，子视图就会调用自己的 hitTest 方法；逐级进行进去，找到最小的那个 UIview。
+> 在测试过程中，发现 hitTest 方法会执行两遍，point 值一致。苹果回复意思就是说： hitTest 是一个没有副作用的纯函数，进行多次调用也不会对外产生影响，因此系统可以多次调用调整 Point。[苹果回复](https://lists.apple.com/archives/cocoa-dev/2014/Feb/msg00118.html)
 
-tips  
-在测试过程中，发现 hitTest 方法会执行两遍，point 值一致，根据 stackoverflow 上面的描述，苹果回复意思就是说 hitTest 是一个没有副作用的纯函数，进行多次调用也不会对外产生影响，因此系统可以多次调用调整 Point。[苹果回复](https://lists.apple.com/archives/cocoa-dev/2014/Feb/msg00118.html)
+在`hitTest`函数中拿到的 event 对象，其`allTouches`属性为空，等到下文所提到的发送事件时，在`sendEvent`函数中拿到的 event 对象，其`allTouches`属性有了值，并且对应的`UITouch`对象的`view`、`window`及`gestureRecognizers`属性也有了对应的值。所以我们可以推断：
 
->UIImageView默认serInteractionEnabled = false
+**系统通过 Hit-Testing 记录了适合响应触摸事件的 View 与 Window 等信息，在 Hit-Testing 完成之后，创建了 UITouch 并将其保存在 UIEvent 中进行发送。UIApplication 能够通过 sendEvent 方法发送事件给正确的 UIWindow 正是由于在 Hit-Testing 过程中系统记录了能够响应触摸事件的 Window。**
 
-### 事件分发
+### 发送事件
 
-在找到最合适的 View 后会进行事件分发。
-UIApplication sendEvent: → UIWindow sendEvent: → 最合适的 view 开始响应
+在寻找到第一响应者之后，UIApplication 便会调用`sendEvent`函数发送事件到 UIWindow，然后 UIWindow 调用`sendEvent`函数发送事件到第一响应者进行响应，顺序如下：
 
-### 事件响应
+`UIApplication -> UIWindow -> hit-tested view`
 
-事件响应的方式可以分别三种：UIResponder、UIGestureRecognizer、UIControl
+我们可以在`touchesBegan`函数中加入断点查看相关函数调用验证这一过程
+![sendEvent](../../../img/iOS/基础原理/响应链/sendEvent.png)
 
-#### UIResponder
+### 事件响应 (Responder Chain)
 
-子类包括：UIViewController、UIView、UIApplication
-
-UIResponder 类中包含以下几个方法，用来响应事件，采用响应链进行传递。
-
-```
-– touchesBegan:withEvent:
-– touchesMoved:withEvent:
-– touchesEnded:withEvent:
-– touchesCancelled:withEvent:
-```
-
-响应链是在事件分发寻找 View 中产生的响应链，最合适的 View 便是第一响应者，如果第一响应者不响应事件，便把这事件交由下一个响应者进行处理；
+UIResponder 响应事件的能力体现在下面四个可以处理触摸事件的方法，其传递事件的能力体现在它的`next`属性。
 
 ```swift
-/// 根据事件类型调用对应方法，以touchBegan为例：
-最合适的view touchesBegan: withEvent: → 所在ViewController touchesBegan: withEvent:→ parentViewViewController touchesBegan: withEvent: → ... → UIWindow touchesBegan: withEvent: → UIAplication touchesBegan: withEvent: → AppDelegate touchesBegan: withEvent: → 结束
-/// 如果某个View或ViewController未调用super touchesBegan: withEvent:则响应结束
+/// 触摸开始
+open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+
+/// 触摸移动
+open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
+
+/// 触摸结束
+open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
+
+/// 触摸停止
+open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
+
+/// 下一个响应者
+/// 该值的绑定赋值发生addSubview等过程中
+open var next: UIResponder? { get }
 ```
 
-![响应链.webp](../../../img/iOS/基础原理/响应链.png)
+通过上述 Hit-Testing 的过程，我们实际上可以得到一条可以响应触摸事件的响应链。所谓响应链是由响应者组成的一个链表，链表的头是第一响应者，链表的每个结点的下一个结点都是该结点的 `next` 属性。如果第一响应者对事件不响应，则可以将事件传到`next`属性对应的下一个响应者。
 
-#### UIGestureRecognizer
+响应者对于接收到的事件有下列操作：
+  * 不拦截，默认操作，事件会自动沿着默认的响应链往下传递；
+  * 拦截，不再往下分发事件，重写 `touchesBegan` 进行事件处理，不调用父类的 `touchesBegan`；
+  * 拦截，继续往下分发事件，重写 `touchesBegan` 进行事件处理，同时调用父类的 `touchesBegan` 将事件往下传递；
 
-手势识别器同样有 touch 的四个函数，但是手势识别器本身并不继承自 UIResponder，本身并不在响应链里，只有手势识别器对应的 view 在响应链中的时候手势识别器才会监听 touch 事件，并根据自己的 touch 函数识别手势，然后触发相应的回调函数。  
-本质来说，hit-test view 触摸事件的回调跟手势识别器是两个独立的过程，互不干涉，手势识别器先开始接收 touch 事件。  
-一般来说手势识别器的回调函数会比 hit-test view 的触摸事件的晚一些，因为手势识别器只有在手势识别出来之后才会触发回调函数（默认情况下只有一个手势识别器能够响应）.但是手势识别器接收 touch 事件的时机比 hit-test view 早。  
-但是手势识别中定义了三个属性，能够影响 hit-test view 触摸事件的调用过程，这三个属性如下所示：
+如果最终没有响应者响应事件，则事件被丢弃。
+
+> 需要注意，只有当`touchesEnded`函数被正常触发，才能说事件被响应了。
+
+![Responder Chain](../../../img/iOS/基础原理/响应链/responderChain.png)
+
+`ParentView`是`TapTestView`的父 View，`TapTestView`没有重写`touchesBegan` 方法，在`ParentView`的`touchesBegan` 方法中打上断点，点击`TapTestView`区域，相关函数调用如上图所示，可以看出先调用了`TapTestView`的`touchesBegan`方法，然后接着调用了`ParentView`的`touchesBegan` 方法。
+
+![响应链](../../../img/iOS/基础原理/响应链/响应链.png)
+
+如上图所示，关于`next`对象有下列原则。
+
+* UIView：若视图是控制器的根视图，则其 nextResponder 为控制器对象；否则，其 nextResponder 为父视图；
+* UIViewController：若控制器的视图是 window 的根视图，则其 nextResponder 为窗口对象；若控制器是从别的控制器 present 出来的，则其 nextResponder 为 presenting view controller；
+* UIWindow：nextResponder 为 UIApplication 对象；
+* UIApplication：若当前应用的 app delegate 是一个 UIResponder 对象，且不是 UIView、UIViewController 或 app 本身，则 UIApplication 的 nextResponder 为 app delegate；
+
+通过上述响应链的介绍，我们是可以有一些相关的实际应用的。
+
+**1. 利用重写`hitTest`或者`point`方法扩大 View 的点击范围。**
+
+这种需求在一些图标的点击事件上非常常见，类似需求还包括：子 view 超出了父 view 的 bounds 响应事件等。
 
 ```swift
-// 当值为YES时（默认值），表示手势识别成功后触摸事件取消掉，即识别成功后hitTest-View会调用touchesCancelled函数。
-// 当值为NO时，触摸事件会正常起作用，会正常收到touchesEnded消息。
-cancelsTouchesInView
-
-// 当值为NO时（默认值），触摸事件和手势识别的过程同时进行，当然先会发送触摸事件，然后当手势识别成功时，触摸事件会被取消掉，即识别成功后hitTest-View会调用touchesCancelled函数。
-// 当值为YES时，手势识别器先接收touch事件进行手势识别，识别过程中hit-test view的触摸事件会先被UIWindow hold住，当手势识别成功时hit-test view的触摸事件不会调用，当手势识别失败时才开始调用touchesBegan函数。
-delaysTouchesBegan
-
-// 当值为YES时（默认值），当手势识别失败时会延迟（约0.15ms）调用touchesEnded函数。
-// 当值为NO时，当手势识别失败时会立即调用touchesEnded函数。
-delaysTouchesEnded
+extension UIImageView {
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if !self.isUserInteractionEnabled || self.alpha <= 0.01 || self.isHidden {
+            return nil
+        }
+        /// checkEnlargeEdge函数用来判断点击的point是否在扩大后的范围内
+        if let isEnlarge = checkEnlargeEdge(point) {
+            if isEnlarge {
+                return self
+            } else {
+                return nil
+            }
+        }
+        return super.hitTest(point, with: event)
+    }
+}
 ```
 
-### UIControl
+**2. 利用响应链获取 view 所在的 UIViewController。**
 
-UIControl 会有自己的四个 Tracking 系列方法对应 touch 的四个方法，事实上，UIControl 的 Tracking 系列方法是在 touch 系列方法内部调用的。比如 beginTrackingWithTouch 是在 touchesBegan 方法内部调用的， 因此它虽然也是 UIResponder，但 touches 系列方法的默认实现和 UIResponder 本类还是有区别的。
+```swift
+extension UIView {
+  public var firstViewController: UIViewController? {
+    for view in sequence(first: superview, next: { $0?.superview }) {
+      if let responder = view?.next, responder.isKind(of: UIViewController.self) {
+            return responder as? UIViewController
+      }
+    }
+    return nil
+  }
+}
+```
 
-UIControl 同时添加 action 以及绑定手势时，action 会响应，手势不响应；这貌似违背了手势优先级更高的原则，其实主要原因是 UIControl 是 UIResponder 中一个比较特殊的存在；
+上述代码示例的更详细版本可以访问 [LTXiOSUtils](https://github.com/Coder-Star/LTXiOSUtils)。
 
-- 其在阻断响应链，UIControl 在事件处理的封装内并不会默认向 nextResponder 传递事件，而是自己拦截了这个事件进行处理
-- 比父视图手势识别器的优先级高，UIControl 则在内部重写了 UIGestureRecognizer 的代理方法 gestureRecognizerShouldBegin:，使其不能够进行手势识别的状态转换，从而达到了「比父视图的 UIGestureRecognizer 优先级更高」的效果
+**小结**
 
-如果想手势更优先响应，可应让手势的 delayTouchesBegan 设置为 true。
+**1. 系统通过`hitTest`方法沿视图层级树从底向上（从根视图开始），从后向前（从逻辑上更靠近屏幕的视图开始）进行遍历，最终返回一个适合响应触摸事件的 View，并在过程中为 UITouch 记录了 view、window 及 gestureRecognizers 等必要信息；**
+**2. 原生触摸事件从 `Hit-Testing` 返回的 View 开始，沿着响应链从头到尾进行传递。**
+
+> UITableView、UICollectionView 的 item 点击也是通过响应链来实现的。
+
+## 优先级更高事件响应者：UIGestureRecognizer
+
+上节我们分析了当只有`UIResponder`参与事件响应时事件的传递是什么样的，那这节我们看一下当`UIGestureRecognizer`加入到响应时，事件的传递与响应会发生什么变化。
+
+先列表几个`UIGestureRecognizer`的关键属性
+
+```swift
+open var state: UIGestureRecognizer.State { get }
+weak open var delegate: UIGestureRecognizerDelegate?
+open var view: UIView? { get }
+
+open var cancelsTouchesInView: Bool
+open var delaysTouchesBegan: Bool
+open var delaysTouchesEnded: Bool
+```
+
+其`state`属性，其有以下几种状态
+
+- possible：手势识别器尚未识别其手势，但可能正在评估触摸事件，这是默认状态；
+- began：手势识别器已接收到识别为连续手势的触摸对象；
+- changed：手势识别器已接收到被识别为连续手势变化的触摸；
+- ended：手势识别器已接收到被识别为连续手势结束的触摸；
+- cancelled：手势识别器已接收到导致取消连续手势的触摸；
+- failed：手势识别器收到了一个无法识别为手势的多点触控序列；
+- recognized：手势识别器接收到一个多点触控序列，并将其识别为它的手势。
+
+手势分为离散型手势和持续型手势两类，下面介绍一下两种类型，state 的变化情况。
+
+- 离散型手势 (Discrete gestures)：点按 (Tap)、轻扫 (Swipe)
+  * 识别成功：possible -> recognized
+  * 识别失败：possible -> failed
+- 持续型手势 (Continuous gesture)：滑动 (Pan)
+  * 完整识别：possible -> began -> changed -> recognized
+  * 不完整识别：possible -> began -> changed -> cancel
+  * 识别失败：possible -> failed
+
+`UIGestureRecognizer`同样有 `touch`系列 的四个函数。
+
+当我们在一个添加了手势的`UIResponder`上执行**非连续的双击**操作，触发的回调消息如下表所示。
+
+![UIGestureRecognizer_Touch](../../../img/iOS/基础原理/响应链/UIGestureRecognizer_Touch.png)
+
+由此我们可以得出加入了手势后的事件处理流程图，如下图所示。
+
+![UIGestureRecognizer](../../../img/iOS/基础原理/响应链/UIGestureRecognizer.png)
+
+> 解释一下 **Window 怎么知道要把事件传递给哪些手势识别器？**
+> 上文中已经提到： hit-test 过程中，UITouch 对象 gestureRecognizers 属性被赋了值，通过该属性便可以找到对应的手势识别器。
+
+从上图中我们可以看出：Window 在将事件传递给最佳响应者的同时，也会将事件传递给相关的手势识别器**并由手势识别器优先识别**。若手势识别器成功识别了事件，就会取消最佳响应者对事件的响应；若手势识别器没能识别事件，最佳响应者才完全接手事件的响应权。
+
+用一句话来总结就是：**手势识别器比 `UIResponder` 具有更高的事件响应优先级！！！**
+
+我们可以通过修改`UIGestureRecognizer`的一些属性改变上述默认的事件处理流程。
+
+- `cancelsTouchesInView`
+  * 当值为 `YES` 时（默认值），表示手势识别成功后触摸事件取消掉，即识别成功后 hitTest-View 会调用 touchesCancelled 函数;
+  * 当值为 `NO` 时，触摸事件会正常起作用，会正常收到 touchesEnded 消息。
+
+- `delaysTouchesBegan`
+  - 当值为 `NO` 时（默认值），触摸事件和手势识别的过程同时进行，先会发送触摸事件，然后当手势识别成功时，触摸事件会被取消掉，即识别成功后 hitTest-View 会调用 `touchesCancelled` 函数。
+  - 当值为 `YES` 时，手势识别器先接收 touch 事件进行手势识别，识别过程中 hit-test view 的触摸事件会先被 UIWindow hold 住，当手势识别成功时 hit-test view 的触摸事件不会调用，当手势识别失败时才开始调用 `touchesBegan` 函数。
+
+- `delaysTouchesEnded`
+  * 当值为 `YES` 时（默认值），当手势识别失败时会延迟（约 0.15s）调用 touchesEnded 函数。
+  * 当值为 `NO` 时，当手势识别失败时会立即调用 `touchesEnded` 函数。
+
+我们也可以通过实现`UIGestureRecognizer`的相关代理方法，改变手势的处理方式，其中手势代理方法如下：
+
+```swift
+/**
+ 指定 UIGestureRecognizer 之间的依赖关系
+*/
+@available(iOS 3.2, *)
+optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool
+
+@available(iOS 7.0, *)
+optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool
+
+@available(iOS 7.0, *)
+optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool
+
+/**
+ 控制 UIGestureRecognizer 是够可以响应触摸事件
+*/
+
+@available(iOS 3.2, *)
+optional func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
+
+@available(iOS 3.2, *)
+optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool
+
+@available(iOS 9.0, *)
+optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive press: UIPress) -> Bool
+
+@available(iOS 13.4, *)
+optional func gestureRecognizer(_ gestureRcognizer: UIGestureRecognizer, shouldReceive event: UIEvent) -> Bool
+```
+
+通过查看代理方法可知，其代理方法主要分为两类：
+ - 指定 `UIGestureRecognizer` 之间的依赖关系；
+ - 控制 `UIGestureRecognizer` 是够可以响应触摸事件。
+
+关于这部分，本文主要研究一下第二类代理方法（控制手势识别器是否可以响应事件），或者更准确来讲是讨论一下以下两个方法，为下个小节的`UIControl`做一个铺垫。
+- `optional func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool`
+- `optional func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool`
+
+关于这两个方法，我们先看一下 Apple 官方的描述。
+
+> When a touch begins, if you can immediately determine whether or not your gesture recognizer should consider that touch, use thegestureRecognizer:shouldReceiveTouch: method. This method is called every time there is a new touch. Returning NO prevents the gesture recognizer from being notified that a touch occurred. The default value is YES. This method does not alter the state of the gesture recognizer.
+>
+> If you need to wait as long as possible before deciding whether or not a gesture recognizer should analyze a touch, use thegestureRecognizerShouldBegin: delegate method. Generally, you use this method if you have a UIView or UIControl subclass with custom touch-event handling that competes with a gesture recognizer. Returning NO causes the gesture recognizer to immediately fail, which allows the other touch handling to proceed. This method is called when a gesture recognizer attempts to transition out of the Possible state, if the gesture recognition would prevent a view or control from receiving a touch.
+>
+> You can use the gestureRecognizerShouldBegin:UIView method if your view or view controller cannot be the gesture recognizer’s delegate. The method signature and implementation is the same.
+
+这两个方法都是用来禁止 `UIGestureRecognizer` 响应触摸事件的，区别在于当触摸事件发生时，
+- 使用第一个方法可以立即控制 UIGestureRecognizer 是否对其处理，且不会修改 `UIGestureRecognizer` 的状态机;（时机在手势`touchesBegan`前）
+- 使用二个方法会等待一段时间，在 UIGestureRecognizer 识别手势转换状态时调用，返回 `NO` 会改变其状态机，使其 state 变为 `failed`。（时机在手势`touchesEnded`后）
+
+UIView 自身也有一个 `gestureRecognizerShouldBegin`方法， 当 View 不是 `UIGestureRecognizer` 的 `delegate` 时，我们可以使用这个方法来使 UIGestureRecognizer 失效。**对于所有绑定到父 View 上的 `UIGestureRecognizer`，除了它们本身的 delegate 之外，Hit-Testing 返回的 View 也会收到这个方法的调用**。
+
+![gestureRecognizerShouldBegin](../../../img/iOS/基础原理/响应链/gestureRecognizerShouldBegin.png)
+
+上图中我们还可以看到两个没有提到过的名词，一个是`UITouchesEvent`，另一个是`UIGestureEnvironment`。
+
+**`UITouchesEvent`**
+
+通过上文列举的`UIEvent`属性，我们发现其所有的属性都是只读以防止被修改，在事件响应的流程中，实际上传递的对象是`UIEvent`的子类`UITouchesEvent`。
+
+**`UIGestureEnvironment`**
+
+我们可以认为`UIGestureEnvironment`是管理所有手势的上下文环境，当调用 `addGestureRecognizer` 方法时会将 `UIGestureRecognizer` 加入到其中，UIWindow 通过 `sendEvent`发送事件之后，`UIGestureEnvironment`接收该事件并对相关的手势进行调用，起到对手势统一管理的作用。
+
+**小结**
+
+**1. `UIGestureRecognizer` 首先收到触摸事件，`Hit-Testing` 返回的 View 延迟收到；**
+**2. 第一个 `UIGestureRecognizer` 识别成功后，`UIGestureEnvironment` 会发起响应链的 `cancel`；**
+**3. 可以通过设置 `UIGestureRecognizer` 的 `Properties` 来控制对响应链的影响。**
+
+### 特殊事件响应者： UIControl
+
+#### 事件通知方式
+
+`UIControl`作为`UIResponder`的派生类，其也具有`UIResponder` 的`touch`系列四个方法，但其内部对这四个方法进行了重写，在 `touchBegin`、`touchesMoved`、`touchesEnded`、`touchesCancelled` 中实际上分别调用了以下对应的四个方法。比如 `beginTracking` 是在 `touchesBegan` 方法内部调用的。
+
+通过下述方法参数，我们可以注意到：UIControl 处理的不是 touch 数组而是单个 touch。 也就是说：UIControl 只处理单点触控事件。
+
+```swift
+func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool
+func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool
+func endTracking(_ touch: UITouch?, with event: UIEvent?)
+func cancelTracking(with event: UIEvent?)
+```
+
+`UIControl`在重写`touch`系列四个方法时，其方法内部不会调用父类的方法，**也就意味着`UIControl`对事件响应进行了阻断，使事件不会流向`nextResponder`**。
+
+关于`UIControl`事件处理的流程如下：
+1. 通过 `func addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event)`添加事件处理的`target`和`action`；
+2. 当`UIControl`监听到需要处理的交互事件时，会调用 `func sendAction(_ action: Selector, to target: Any?, for event: UIEvent?)` 将`target`、`action`以及`event`对象发送给全局应用。
+3. `Application`对象再通过 `func sendAction(_ action: Selector, to target: Any?, from sender: Any?, for event: UIEvent?) -> Bool` 向`target`发送`action`。
+
+> 可以注意到`addTarget`时，`target`类型是一个可选值，如传入 nil 时，`Application`会在响应链上从上往下寻找能响应`action`的对象。
+
+![button_target_action](../../../img/iOS/基础原理/响应链/button_target_action.png)
+
+### 优先级
+
+`UIControl`也是`UIResponder`的派生类，当其父 View 添加了手势事件，自身也添加了事件响应，按照上文描述来看，其结果应该是手势事件触发，自身的事件响应不会被触发。但是根据我们的开发经验可以知道，实际的结果是手势事件不触发，自身的事件响应正常触发。那其中的原理是什么呢？它与普通的`UIResponder`有何不同呢？我们先看一下 Apple 官方的一些介绍。
+
+> In iOS 6.0 and later, default control actions prevent overlapping gesture recognizer behavior. For example, the default action for a button is a single tap. If you have a single tap gesture recognizer attached to a button’s parent view, and the user taps the button, then the button’s action method receives the touch event instead of the gesture recognizer. This applies only to gesture recognition that overlaps the default action for a control, which includes:
+> * A single finger single tap on a UIButton, UISwitch, UIStepper, UISegmentedControl, and UIPageControl.
+> * A single finger swipe on the knob of a UISlider, in a direction parallel to the slider.
+> * A single finger pan gesture on the knob of a UISwitch, in a direction parallel to the switch.
+>
+> If you have a custom subclass of one of these controls and you want to change the default action, attach a gesture recognizer directly to the control instead of to the parent view. Then, the gesture recognizer receives the touch event first. As always, be sure to read the iOS Human Interface Guidelines to ensure that your app offers an intuitive user experience, especially when overriding the default behavior of a standard control.
+
+通过上边的描述我们可以得出原因，**对于系统`UIControl`（除去开发者自定义的）来说，为了防止 `UIControl` 默认的手势与其父 View 上的 `UIGestureRecognizer` 的冲突，系统会默认设定，`UIControl` 来响应触摸事件。**
+
+原因我们找到了，下面来介绍一下里面涉及到的原理。
+
+上节`UIGestureRecognizer`中介绍过`gestureRecognizerShouldBegin`方法对手势有决定是否响应的作用，`UIControl`便是利用这一点达到了上述效果。
+`UIControl` 内部重写了 UIView 提供的的`gestureRecognizerShouldBegin`方法，返回 `false`，使父 View 上的手势不参与到事件响应中去，但是不会影响其自身的手势。
+
+**小结**
+**1. UIButton 会截断响应链的事件传递，也可以利用响应链来寻找 Action Method。**
+**2. UIGestureRecognizer 仍然会先于 UIControl 接收到触摸事件；**
+**3. UIButton 等系统 UIControl 会拦截其父 View 上的 UIGestureRecognizer，但不会拦截自己和子 View 上的 UIGestureRecognizer；**
+
+## 扩展
+
+这里再介绍一下`UIScrollView`关于事件响应的三个属性、
+
+### `delaysContentTouches`
+
+## 最后
+
+最后，祝大家周末愉快！
+
+Let's be CoderStar!
+
+相关链接
+
+- [由手势与 UIControl 冲突引发的「事件处理全家桶」探索](https://juejin.cn/post/6908553699732226061)
+- [iOS 事件(UITouch、UIControl、UIGestureRecognizer)传递机制](https://www.jianshu.com/p/df86508e2811)
+- [iOS | 事件传递及响应链](https://juejin.cn/post/6894518925514997767)
+- [iOS触摸事件全家桶](https://www.jianshu.com/p/c294d1bd963d)
