@@ -105,7 +105,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%93%8D%E5%BA%94%E9%93%BE/UIGestureRecognizer.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%93%8D%E5%BA%94%E9%93%BE/gestureRecognizerShouldBegin.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%93%8D%E5%BA%94%E9%93%BE/button_target_action.png">
-<meta property="og:updated_time" content="2021-07-25T07:46:14.602Z">
+<meta property="og:updated_time" content="2021-07-26T02:02:36.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 中的事件响应">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 中的事件响应者主要分为两类，分别为UIResponder及UIGestureRecognizer，其中UIControl是一种比较特殊的UIResponder，所以本文将事件响应者分为以下三种类型进行讨论。  UIResponder UIGestureRecognizer UIControl   下文中所涉及到的Apple官方描述可以通过E">
@@ -359,8 +359,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-25T15:46:14+08:00">
-                2021-07-25
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-26T10:02:36+08:00">
+                2021-07-26
               </time>
             
           </span>
@@ -425,7 +425,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6.5k 字
+                  6.7k 字
                 </span>
               
 
@@ -441,7 +441,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  25 分钟
+                  26 分钟
                 </span>
               
             </div>
@@ -707,7 +707,11 @@
 <p><strong>UICollectionView 父 view 添加手势，其内部代理 <code>didSelectItemAt</code> 不触发</strong></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tapViewGesture.delegate = <span class="keyword">self</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">gestureRecognizerShouldBegin</span><span class="params">(<span class="number">_</span> gestureRecognizer: UIGestureRecognizer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> p = gestureRecognizer.location(<span class="keyword">in</span>: superview)</span><br><span class="line">  <span class="keyword">let</span> v = superview.hitTest(p, with: <span class="literal">nil</span>)</span><br><span class="line">  <span class="comment">/// gestureRecognizer.view为父View。</span></span><br><span class="line">  <span class="comment">/// hitTest返回为父View，则返回true,手势生效；</span></span><br><span class="line">  <span class="comment">/// 如果返回为UICollectionView，则返回false，手势不生效，UICollectionView的didSelectItemAt可以正常触发。</span></span><br><span class="line">  <span class="keyword">return</span> v == gestureRecognizer.view</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后，祝大家周末愉快！</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后，附上戴铭老师本周博文《我写技术文章的一点心得》中的一段话，我觉得很有共鸣。</p>
+<blockquote>
+<p>写文章并不是最终的目的，写作是你对自己思想的研究和开发。文章的上限是你的技术能力，文章只是让人了解你技术一种手段。因此更重要的是你做的技术是否有突破有演进，获得应用，并在产品中取得了好的效果。还有那些孤独着研究技术的时光，经历着一直努力着奋斗着却一直不被看见，得不到认同，也没有结果的岁月，还能够一直被自己的热情感动而不放弃去取得一点点进步带来的满足感。</p>
+</blockquote>
+<p>新的一周要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <p>相关链接</p>
 <ul>
