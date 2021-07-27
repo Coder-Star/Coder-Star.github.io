@@ -292,7 +292,11 @@ Assets.car 文件是工程中 Asset Catalog 的构建产物。Xcode 构建过程
 * [iSpart](http://isparta.github.io/)：腾讯出品，GUI工具；
 * [webp工具](https://developers.google.com/speed/webp/docs/using): 在Mac下，可以使用Homebrew安装WebP工具--`brew install webp`；
 
-iOS 原生并不支持 WebP 格式加载，需要引入 `SDWebImage/WebP`，或者进行自研。
+iOS 原生并不支持 WebP 格式加载，需要借助一些三方库的支持，或者进行自研；
+* 如果使用的是`SDWebImage`，则可以使用引入`SDWebImageWebPCoder`；  SDWebImage/WebP
+* 如果使用的是`Kingfisher`，则可以使用`KingfisherWebP`;
+
+> 之前可以直接使用 `pod SDWebImage/WebP`的形式，但是`SDWebImage`版本升级之后，这种方式被替换了，而且使用这种形式会依赖 google 的`libwebp`库，在集成过程中会遇到一些问题，需要手动处理一下。
 
 **结论：该方案适合整个大前端及后端统一调整，整体进行优化，如果是单一的客户端进行调整，可能达不到最优效果。**
 
