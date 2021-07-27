@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/iOS-优化/</loc>
+        <lastmod>2021-07-27T02:51:35.974Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
         <lastmod>2021-07-26T02:02:36.422Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -19,13 +26,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/Swift/</loc>
         <lastmod>2021-07-22T06:03:53.669Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/iOS-优化/</loc>
-        <lastmod>2021-07-19T03:02:26.528Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

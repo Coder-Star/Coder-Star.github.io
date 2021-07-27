@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/Strip_Swift_Symbols.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/%E6%9D%82%E9%A1%B9/%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/LinkMap.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/AppCode_Inspect.png">
-<meta property="og:updated_time" content="2021-07-19T03:02:26.528Z">
+<meta property="og:updated_time" content="2021-07-27T02:51:35.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
@@ -355,8 +355,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-19T11:02:26+08:00">
-                2021-07-19
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-27T10:51:35+08:00">
+                2021-07-27
               </time>
             
           </span>
@@ -410,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  9.4k 字
+                  9.5k 字
                 </span>
               
 
@@ -426,7 +426,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  34 分钟
+                  35 分钟
                 </span>
               
             </div>
@@ -640,7 +640,14 @@
 <li><a href="http://isparta.github.io/" target="_blank" rel="noopener">iSpart</a>：腾讯出品，GUI工具；</li>
 <li><a href="https://developers.google.com/speed/webp/docs/using" target="_blank" rel="noopener">webp工具</a>: 在Mac下，可以使用Homebrew安装WebP工具–<code>brew install webp</code>；</li>
 </ul>
-<p>iOS 原生并不支持 WebP 格式加载，需要引入 <code>SDWebImage/WebP</code>，或者进行自研。</p>
+<p>iOS 原生并不支持 WebP 格式加载，需要借助一些三方库的支持，或者进行自研；</p>
+<ul>
+<li>如果使用的是<code>SDWebImage</code>，则可以使用引入<code>SDWebImageWebPCoder</code>；  SDWebImage/WebP</li>
+<li>如果使用的是<code>Kingfisher</code>，则可以使用<code>KingfisherWebP</code>;</li>
+</ul>
+<blockquote>
+<p>之前可以直接使用 <code>pod SDWebImage/WebP</code>的形式，但是<code>SDWebImage</code>版本升级之后，这种方式被替换了，而且使用这种形式会依赖 google 的<code>libwebp</code>库，在集成过程中会遇到一些问题，需要手动处理一下。</p>
+</blockquote>
 <p><strong>结论：该方案适合整个大前端及后端统一调整，整体进行优化，如果是单一的客户端进行调整，可能达不到最优效果。</strong></p>
 <h3 id="资源动态化"><a href="#资源动态化" class="headerlink" title="资源动态化"></a>资源动态化</h3><p>除了上文提到的使用 <code>On-Demand Resources</code> 方式将部分资源放在苹果服务器之外，我们也可以将一些本地资源转移到自己的服务器上去。这样不仅降低了安装包大小，也将这些资源动态化了。适合放在服务器的资源应包含以下几个特性：</p>
 <ul>
