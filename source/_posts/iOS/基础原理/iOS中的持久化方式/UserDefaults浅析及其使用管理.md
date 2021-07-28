@@ -62,6 +62,24 @@ public init?(suiteName suitename: String?)
 
 因为`UserDefaults`存储的数据都是明文，没有经过加密，所以尽量不要使用`UserDefaults`存储敏感数据，即使使用，也要使用加密算法对其进行加密后再存储进去。
 
+### 尺寸限制
+
+在`UserDefaults`中，有一个`sizeLimitExceededNotification`属性很清楚的回答了这个问题。
+
+```swift
+/**
+NSUserDefaultsSizeLimitExceededNotification is posted on the main queue when more data is stored in user defaults than is allowed.
+Currently there is no limit for local user defaults except on tvOS, where a warning notification will be posted at 512kB, and the process terminated at 1MB.
+For ubiquitous defaults, the limit depends on the logged in iCloud user.
+*/
+@available(iOS 9.3, *)
+public class let sizeLimitExceededNotification: NSNotification.Name
+```
+
+翻译过来就是
+- 除了 tvOS 之外，其他的系统是没有限制。
+- 在 tvOS 上，警告通知将在 512kB 处发布，进程在 1MB 处终止;
+
 ### `value(forKey:)` 和 `object(forKey:)`
 
 首先明确这两者是完全不同的东西，`value(forKey:)`定义于`NSKeyValueCoding`，就是我们常说的 KVC，其并不是`UserDefaults`的直接方法，`object(forKey:)`才是。
