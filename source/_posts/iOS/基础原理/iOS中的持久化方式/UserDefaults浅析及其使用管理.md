@@ -11,7 +11,7 @@ date: 2021-07-27 21:20:21
 
 Hi Coder，我是 CoderStar！
 
-我想每一个 iOSer 对`UserDefaults`都有所了解，但你真的完全了解它吗？下面，我谈谈我对`UserDefaults`的看法。
+我想每一个 iOSer 对`UserDefaults`都有所了解，但大家真的完全了解它吗？下面，我谈谈我对`UserDefaults`的看法。
 
 > 同时，这也应该是 iOS 持久化方式系列的开篇文章了。
 
@@ -28,13 +28,13 @@ public convenience init()
 public init?(suiteName suitename: String?)
 ```
 
-平时大家经常使用的应该是第一种方式，第二种方式和第一种方式产生的结果是一样的，实际上操作的都是 **APP 沙箱中 `Library/Preferences` 目录下的以 `bundle id` 命名的 `plist` 文件**，只不过第一种方式是获取到的是一个单例对象，而第二种方式每次获取到都是新的对象，从内存优化来看，很明显是第一种方式比较合适，避免对象的生成和销毁。
+平时大家经常使用的应该是第一种方式，第二种方式和第一种方式产生的结果是一样的，实际上操作的都是 **APP 沙箱中 `Library/Preferences` 目录下的以 `bundle id` 命名的 `plist` 文件**，只不过第一种方式是获取到的是一个单例对象，而第二种方式每次获取到都是新的对象，从内存优化来看，很明显是第一种方式比较合适，其可以避免对象的生成和销毁。
 
 如果一个 APP 使用了一些 SDK，这些 SDK 或多或少的会使用`UserDefaults`来存储信息，如果都使用前两种方式，这样就会带来一系列问题：
 
 - 各个 SDK 需要保证设置数据 KEY 的唯一性，以防止存取冲突；
-- plist 文件越来越大造成的读写效率问题；
-- 无法便捷的清除由某一个 SDK 创建的 UserDefaults 数据；
+- `plist` 文件越来越大造成的读写效率问题；
+- 无法便捷的清除由某一个 SDK 创建的 `UserDefaults` 数据；
 
 针对上述问题，我们可以使用第三种方式，也是本文主要介绍的一种方式。
 
@@ -52,10 +52,10 @@ public init?(suiteName suitename: String?)
 
 那看到这里，可能会有 iOSer 会有个疑问，`UserDefaults` 底层也是使用的 `plist` 文件，那它和普通的 plist 文件读取有什么区别呢？
 
-主要区别是：`UserDefaults`会自动帮我们做 `plist` 文件的存取并在内存中做了缓存。其中需要注意的是`UserDefaults`对数据的操作影响`plist`文件的改变这一过程是异步的，也就是说你修改了`UserDefaults`某一个 key 的值，紧接着去获取这个 key 的值，确实是修改后的，但此时`plist`文件中对应的值可能还是修改前的。
+主要区别是：`UserDefaults`会自动帮我们做 `plist` 文件的存取并在内存中做了缓存。其中需要注意的是`UserDefaults`对数据的操作影响`plist`文件的改变这一过程是异步的，也就是说你修改了`UserDefaults`某一个 key 的值，紧接着去获取这个 key 的值，得到的也会是修改后的值，但此时`plist`文件中对应的值可能还是修改前的。
 
-从 iOS 8 开始，会有一个常驻进程 `cfprefsd` 来负责异步更新`plist`文件这一任务。所以 `UserDefaults` 的`synchronize`函数废弃也是有道理的，因为其保证不了调用之后会将值立即存储到 plist 文件中。
-> 本质上，我们是可以对 UserDefaults 的最终产物 plist 文件进行操作的，但这是有风险的，最好不要这么操作。
+从 iOS 8 开始，会有一个常驻进程 `cfprefsd` 来负责异步更新`plist`文件这一任务。所以 `UserDefaults` 的`synchronize`函数废弃也是有道理的，因为其本质上保证不了调用之后会将值立即存储到 plist 文件中。
+> 本质上，我们是可以通过文件操作的方式对 UserDefaults 的最终产物 plist 文件进行操作的，但这是有风险的，最好不要这么操作。
 
 ## 使用管理
 
@@ -384,7 +384,7 @@ func test() {
   /// 存
   UserDefaultsConfig.hadShownGuideView = true
   /// 取
-  let username = UserDefaultsConfig.username
+  let hadShownGuideView = UserDefaultsConfig.hadShownGuideView
 }
 
 ```
