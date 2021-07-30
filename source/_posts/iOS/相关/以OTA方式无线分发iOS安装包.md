@@ -1,5 +1,5 @@
 ---
-title: 以OTA方式无线分发iOS安装包
+title: 以 OTA 方式无线分发 iOS 安装包
 date: 2020-03-26 19:49:05
 categories: [iOS]
 tags: [分发]

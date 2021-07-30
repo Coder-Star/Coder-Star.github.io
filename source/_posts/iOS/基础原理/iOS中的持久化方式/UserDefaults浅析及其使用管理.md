@@ -54,7 +54,7 @@ public init?(suiteName suitename: String?)
 
 ### `UserDefaults`的存储范围
 
-因为`UserDefaults`底层使用的`plist`文件，所以`plist`文件支持的数据类型就是`UserDefaults`的存储范围，其中包括`Array`、`Data`、`Dictionary`、`String`、`Int`、`Bool`、`Float`、`Double`等基础数据类型。
+因为`UserDefaults`底层使用的`plist`文件，所以`plist`文件支持的数据类型就是`UserDefaults`的存储范围，其中包括`Array`、`Data`、`Dictionary`、`String`、`Int`、`Bool`、`Float`、`Double`、`Date`等基础数据类型。并且对于`Array`、`Dictionary`这两个容器对象，其包含的内容也必须是上述类型，并且`Dictionary`的key必须是`String`类型。
 
 对于不是基本数据类型的数据结构，需要自己通过`JSONEncoder`、`NSKeyedArchiver`等方式将其转换为 Data，然后再将其存入`UserDefaults`中。
 

@@ -1,5 +1,5 @@
 ---
-title: iOS脚本
+title: iOS 脚本
 date: 2020-02-18 18:53:07
 categories: [iOS]
 tags: [iOS]
@@ -16,17 +16,4 @@ if [ -z ${version} ]; then
     version=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "${PROJECT_DIR}/${INFOPLIST_FILE}")
 fi
 sed -i bak -e "/userLabel=\"versionLb\"/s/text=\"[^\"]*\"/text=\"版本号：$version\"/" $PROJECT_DIR/$PROJECT_NAME/Base.lproj/LaunchScreen.storyboard
-```
-
-### 2、R.swift 库使用
-
-```swift
-"$PODS_ROOT/R.swift/rswift" generate "$SRCROOT/LTXiOSUtilsDemo/R.generated.swift"
-
-```
-
-## 3、SwiftLint
-
-```swift
-"${PODS_ROOT}/SwiftLint/swiftlint"
 ```
