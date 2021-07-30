@@ -3,7 +3,6 @@ title: Operation
 category:
   - iOS
   - 多线程
-  - GCDOperation
 tags:
   - iOS
   - 多线程

@@ -1,7 +1,9 @@
 ---
 title: iOS证书相关
 date: 2019-10-21 19:52:42
-categories: [iOS]
+categories: 
+  - iOS
+  - 相关
 tags: [iOS证书]
 ---
 

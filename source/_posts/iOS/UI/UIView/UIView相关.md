@@ -2,7 +2,7 @@
 title: UIView相关
 category:
   - iOS
-  - UIView
+  - UI
 tags:
   - iOS
   - UIView

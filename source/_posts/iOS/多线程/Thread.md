@@ -3,7 +3,6 @@ title: Thread
 category:
   - iOS
   - 多线程
-  - Thread
 tags:
   - iOS
   - 多线程

@@ -2,7 +2,7 @@
 title: iOS相关命令
 category:
   - iOS
-  - 命令
+  - 相关
 tags:
   - iOS
   - 命令

@@ -1,7 +1,9 @@
 ---
 title: UIScrollView相关
 date: 2019-10-12 14:45:16
-categories: [iOS]
+categories: 
+  - iOS
+  - UI
 tags: [iOS]
 ---
 

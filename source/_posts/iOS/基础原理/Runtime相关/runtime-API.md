@@ -1,7 +1,9 @@
 ---
 title: runtime-API
 date: 2020-09-18 20:50:44
-categories: [iOS]
+categories: 
+  - iOS
+  - 基础原理
 tags: [iOS, runtime]
 ---
 

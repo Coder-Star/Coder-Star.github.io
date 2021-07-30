@@ -2,7 +2,6 @@
 title: md语法
 category:
   - 杂项
-  - md
 tags:
   - md
 date: 2021-01-27 09:15:12

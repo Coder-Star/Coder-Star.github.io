@@ -3,7 +3,6 @@ title: GCD
 category:
   - iOS
   - 多线程
-  - GCD
 tags:
   - iOS
   - 多线程

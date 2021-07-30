@@ -3,7 +3,6 @@ title: 关于Assets.xcassets
 category:
   - iOS
   - 相关
-  - Assets.xcassets
 tags:
   - iOS
   - Assets.xcassets

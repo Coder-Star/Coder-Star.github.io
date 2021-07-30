@@ -3,8 +3,7 @@ title: KVO&KVC
 date: 2020-11-06 09:24:08
 category:
   - iOS
-  - Runtime相关
-  - KVO、KVC
+  - 基础原理
 tags: [iOS, KVO, KVC]
 ---
 

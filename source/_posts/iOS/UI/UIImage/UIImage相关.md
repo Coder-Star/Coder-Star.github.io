@@ -2,8 +2,7 @@
 title: UIImage相关
 category:
   - iOS
-  - UI组件
-  - UIImage
+  - UI
 tags:
   - iOS
   - UIImage

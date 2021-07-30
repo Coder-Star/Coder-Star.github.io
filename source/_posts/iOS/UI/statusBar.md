@@ -2,7 +2,7 @@
 title: statusBar
 category:
   - iOS
-  - statusBar
+  - UI
 tags:
   - iOS
   - statusBar

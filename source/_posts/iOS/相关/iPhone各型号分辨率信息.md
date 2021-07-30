@@ -2,7 +2,7 @@
 title: iPhone各型号分辨率信息
 category:
   - iOS
-  - iPhone
+  - 相关
 tags:
   - iOS
   - iPhone

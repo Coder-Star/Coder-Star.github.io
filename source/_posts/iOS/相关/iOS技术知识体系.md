@@ -1,7 +1,8 @@
 ---
-title: iOS技术知识体系
+title: iOS 技术知识体系
 date: 2020-09-04 09:00:37
-categories: [iOS]
+categories:
+   - iOS
 tags: [iOS, 体系]
 ---
 

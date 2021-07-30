@@ -2,7 +2,7 @@
 title: iOS动画
 category:
   - iOS
-  - 动画
+  - UI
 tags:
   - iOS
   - 动画

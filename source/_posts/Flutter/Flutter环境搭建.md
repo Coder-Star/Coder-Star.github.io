@@ -1,7 +1,8 @@
 ---
 title: Flutter环境搭建
 date: 2019-10-12 13:36:22
-categories: [Android]
+categories: 
+ - Flutter
 tags: [Flutter]
 ---
 

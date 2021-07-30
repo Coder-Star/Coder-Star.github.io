@@ -1,7 +1,9 @@
 ---
 title: iOS 脚本
 date: 2020-02-18 18:53:07
-categories: [iOS]
+categories: 
+  - iOS
+  - 相关
 tags: [iOS]
 ---
 
