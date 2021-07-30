@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 我想每一个 iOSer 对UserDefaults都有所了解，但大家真的完全了解它吗？下面，我谈谈我对UserDefaults的看法。  同时，这也应该是 iOS 持久化方式系列的开篇文章了。  对象实例UserDefaults生成对象实例大概有以下三种方式： 123456open class var standard: UserDefaults">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-28T06:24:26.001Z">
+<meta property="og:updated_time" content="2021-07-28T16:15:53.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UserDefaults 浅析及其使用管理">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 我想每一个 iOSer 对UserDefaults都有所了解，但大家真的完全了解它吗？下面，我谈谈我对UserDefaults的看法。  同时，这也应该是 iOS 持久化方式系列的开篇文章了。  对象实例UserDefaults生成对象实例大概有以下三种方式： 123456open class var standard: UserDefaults">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-28T14:24:26+08:00">
-                2021-07-28
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-29T00:15:53+08:00">
+                2021-07-29
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.8k 字
+                  2.9k 字
                 </span>
               
 
@@ -466,7 +466,7 @@
 <li>传入 <code>App Groups</code> 配置中 <code>Group ID</code>：会操作 APP 的共享目录中创建的以<code>Group ID</code>命名的 <code>plist</code> 文件，方便宿主应用与扩展应用之间共享数据；</li>
 <li>传入其他值：操作的是沙箱中 <code>Library/Preferences</code> 目录下以 <code>suiteName</code> 命名的 `plist 文件。</li>
 </ul>
-<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="UserDefaults的存储范围"><a href="#UserDefaults的存储范围" class="headerlink" title="UserDefaults的存储范围"></a><code>UserDefaults</code>的存储范围</h3><p>因为<code>UserDefaults</code>底层使用的<code>plist</code>文件，所以<code>plist</code>文件支持的数据类型就是<code>UserDefaults</code>的存储范围，其中包括<code>Array</code>、<code>Data</code>、<code>Dictionary</code>、<code>String</code>、<code>Int</code>、<code>Bool</code>、<code>Float</code>、<code>Double</code>等基础数据类型。</p>
+<h2 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h2><h3 id="UserDefaults的存储范围"><a href="#UserDefaults的存储范围" class="headerlink" title="UserDefaults的存储范围"></a><code>UserDefaults</code>的存储范围</h3><p>因为<code>UserDefaults</code>底层使用的<code>plist</code>文件，所以<code>plist</code>文件支持的数据类型就是<code>UserDefaults</code>的存储范围，其中包括<code>Array</code>、<code>Data</code>、<code>Dictionary</code>、<code>String</code>、<code>Int</code>、<code>Bool</code>、<code>Float</code>、<code>Double</code>、<code>Date</code>等基础数据类型。并且对于<code>Array</code>、<code>Dictionary</code>这两个容器对象，其包含的内容也必须是上述类型，并且<code>Dictionary</code>的key必须是<code>String</code>类型。</p>
 <p>对于不是基本数据类型的数据结构，需要自己通过<code>JSONEncoder</code>、<code>NSKeyedArchiver</code>等方式将其转换为 Data，然后再将其存入<code>UserDefaults</code>中。</p>
 <p>需要注意，<code>UserDefaults</code>的设计初衷就不是用来存储大数据的，因为为了提高取值时的效率，当应用启动时会自动加载 <code>Userdefault</code> 里所有的数据，如果数据量太大的话就会造成启动缓慢，影响性能。</p>
 <p>因为<code>UserDefaults</code>存储的数据都是明文，没有经过加密，所以尽量不要使用<code>UserDefaults</code>存储敏感数据，即使使用，也要使用加密算法对其进行加密后再存储进去。</p>

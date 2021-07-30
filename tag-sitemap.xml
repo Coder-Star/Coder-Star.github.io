@@ -4,7 +4,42 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-07-28T06:24:26.001Z</lastmod>
+        <lastmod>2021-07-30T07:16:53.054Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/三方库/</loc>
+        <lastmod>2021-07-30T07:15:18.885Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/坑/</loc>
+        <lastmod>2021-07-30T06:55:09.912Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/命令/</loc>
+        <lastmod>2021-07-29T15:48:52.503Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/分发/</loc>
+        <lastmod>2021-07-29T15:48:13.730Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/AutoreleasePool/</loc>
+        <lastmod>2021-07-29T01:21:33.629Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -19,13 +54,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/iOS-优化/</loc>
         <lastmod>2021-07-27T02:51:35.974Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/坑/</loc>
-        <lastmod>2021-07-24T15:43:29.290Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -80,13 +108,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/三方库/</loc>
-        <lastmod>2021-07-10T05:31:41.224Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Swift-开发规范/</loc>
         <lastmod>2021-07-02T04:26:41.739Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -131,13 +152,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/标签1/</loc>
         <lastmod>2021-06-26T09:45:07.246Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/命令/</loc>
-        <lastmod>2021-06-25T03:32:38.504Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -325,13 +339,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/分发/</loc>
-        <lastmod>2021-06-01T09:17:10.314Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Objective-C/</loc>
         <lastmod>2021-06-01T09:17:10.314Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -438,13 +445,6 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/基础原理/</loc>
-        <lastmod>2021-06-01T09:17:10.304Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/AutoreleasePool/</loc>
         <lastmod>2021-06-01T09:17:10.304Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>

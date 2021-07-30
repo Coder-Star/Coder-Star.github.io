@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="工具1、AppDelegate 解耦以及组件化通信AppDelegate 解耦实现原理基本相同，都是利用协议、组合模式  FRDModuleManager 豆瓣的方案，OC PluggableApplicationDelegate swift PluggableAppDelegate swift，比 PluggableApplicationDelegate 多了 UNUserNotificatio">
+<meta name="description" content="大神博客1、https://casatwy.com/casatwy 的博客，看他的博客及网上的相关资料，之前是安居客的架构师，后来去了天猫，但一直没找到他的真实名字，其他人在介绍他的时候也是直接说他的英文名 casatwy，只有一篇博客称呼他为田神，可能是姓田吧，不过这些都不重要，他带给我们 iOS 开发者的技术分享才是最重要的，我们在心中默默的敬佩就好了。因为他之前是架构师，所以他的博客中对于">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS检查清单">
-<meta property="og:url" content="https://coder-star.github.io/iOS/相关/iOS检查清单/index.html">
+<meta property="og:title" content="iOS 博客集锦">
+<meta property="og:url" content="https://coder-star.github.io/iOS/相关/iOS 博客集锦/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="工具1、AppDelegate 解耦以及组件化通信AppDelegate 解耦实现原理基本相同，都是利用协议、组合模式  FRDModuleManager 豆瓣的方案，OC PluggableApplicationDelegate swift PluggableAppDelegate swift，比 PluggableApplicationDelegate 多了 UNUserNotificatio">
+<meta property="og:description" content="大神博客1、https://casatwy.com/casatwy 的博客，看他的博客及网上的相关资料，之前是安居客的架构师，后来去了天猫，但一直没找到他的真实名字，其他人在介绍他的时候也是直接说他的英文名 casatwy，只有一篇博客称呼他为田神，可能是姓田吧，不过这些都不重要，他带给我们 iOS 开发者的技术分享才是最重要的，我们在心中默默的敬佩就好了。因为他之前是架构师，所以他的博客中对于">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.312Z">
+<meta property="og:updated_time" content="2021-07-30T07:16:53.054Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS检查清单">
-<meta name="twitter:description" content="工具1、AppDelegate 解耦以及组件化通信AppDelegate 解耦实现原理基本相同，都是利用协议、组合模式  FRDModuleManager 豆瓣的方案，OC PluggableApplicationDelegate swift PluggableAppDelegate swift，比 PluggableApplicationDelegate 多了 UNUserNotificatio">
+<meta name="twitter:title" content="iOS 博客集锦">
+<meta name="twitter:description" content="大神博客1、https://casatwy.com/casatwy 的博客，看他的博客及网上的相关资料，之前是安居客的架构师，后来去了天猫，但一直没找到他的真实名字，其他人在介绍他的时候也是直接说他的英文名 casatwy，只有一篇博客称呼他为田神，可能是姓田吧，不过这些都不重要，他带给我们 iOS 开发者的技术分享才是最重要的，我们在心中默默的敬佩就好了。因为他之前是架构师，所以他的博客中对于">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="https://coder-star.github.io/iOS/相关/iOS检查清单/">
+  <link rel="canonical" href="https://coder-star.github.io/iOS/相关/iOS 博客集锦/">
 
 
 
 
 
-  <title>iOS检查清单 | CoderStar's Blog</title>
+  <title>iOS 博客集锦 | CoderStar's Blog</title>
   
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/相关/iOS检查清单/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/相关/iOS 博客集锦/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS检查清单</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 博客集锦</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T15:16:53+08:00">
+                2021-07-30
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.1k 字
+                  616 字
                 </span>
               
 
@@ -420,7 +420,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4 分钟
+                  2 分钟
                 </span>
               
             </div>
@@ -441,86 +441,12 @@
       
 
       
-        <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h3 id="1、AppDelegate-解耦以及组件化通信"><a href="#1、AppDelegate-解耦以及组件化通信" class="headerlink" title="1、AppDelegate 解耦以及组件化通信"></a>1、AppDelegate 解耦以及组件化通信</h3><p><strong>AppDelegate 解耦</strong><br>实现原理基本相同，都是利用协议、组合模式</p>
-<ul>
-<li><a href="https://github.com/lincode/FRDModuleManager" target="_blank" rel="noopener">FRDModuleManager</a> 豆瓣的方案，OC</li>
-<li><a href="https://github.com/fmo91/PluggableApplicationDelegate" target="_blank" rel="noopener">PluggableApplicationDelegate</a> swift</li>
-<li><a href="https://github.com/pchelnikov/PluggableAppDelegate" target="_blank" rel="noopener">PluggableAppDelegate</a> swift，比 PluggableApplicationDelegate 多了 UNUserNotificationCenterDelegate 支持，并进行了文件拆分</li>
-</ul>
-<p><strong>组件间通信</strong></p>
-<ul>
-<li><a href="https://github.com/joeldev/JLRoutes" target="_blank" rel="noopener">JLRoutes</a>：现在 github 上 star 数最高的是 JLRoutes，但是其用不到的功能比较多，而且基于遍历查找 URL 效率比较低下，OC；</li>
-<li><a href="https://github.com/lightory/HHRouter" target="_blank" rel="noopener">HHRouter</a>：布丁动画的方案，对 URl 的查找方式不再使用遍历，还是使用匹配的方式，效率较高，但是 HHRouter 耦合程序比较高，过度依赖 ViewController，OC;</li>
-<li><a href="https://github.com/meili/MGJRouter" target="_blank" rel="noopener">MGJRouter</a>：蘑菇街的设计方案，根据 HHRouter 方案进行改写，MGJRouter 的功能比较简单，但是查找 URL 的效率比较高，也解决了 HHRouter 过度依赖 ViewController 的问题，OC；</li>
-<li><a href="https://github.com/Lede-Inc/LDBusMediator" target="_blank" rel="noopener">LDBusMediator</a>：网易的设计方案，其逻辑跟 MGJRouter 类似，区别在于 MGJRouter 使用的是先注册的方式，而 LDBusMediator 使用的是后查询的方式，OC。</li>
-<li><a href="https://github.com/clayallsopp/routable-ios" target="_blank" rel="noopener">routable-ios</a>：in-app 的方案；OC</li>
-<li><a href="https://github.com/devxoul/URLNavigator" target="_blank" rel="noopener">URLNavigator</a> swift</li>
-</ul>
-<p><strong>AppDelegate 解耦以及组件化通信</strong></p>
-<ul>
-<li><a href="https://github.com/alibaba/BeeHive" target="_blank" rel="noopener">BeeHive</a> 阿里的 iOS 解耦框架，OC 语言，主要解决 AppDelegate 解耦以及组件之间通信</li>
-</ul>
-<h2 id="常用库"><a href="#常用库" class="headerlink" title="常用库"></a>常用库</h2><p>以 Swift 为主，都可以通过 pod 的方式引入项目中</p>
-<ul>
-<li><p><strong>Alamofire</strong> 网络请求</p>
-</li>
-<li><p><strong>SnapKit</strong> 自动布局</p>
-</li>
-<li><p><strong>MJRefresh</strong> 上拉刷新、下拉加载(OC)</p>
-</li>
-<li><p><strong>Moya</strong> 网络抽象层</p>
-</li>
-<li><p><strong>MBProgressHUD</strong> 进度框(OC)</p>
-</li>
-<li><p><strong>IQKeyboardManagerSwift</strong> 键盘控制</p>
-</li>
-<li><p><strong>SwiftyJSON</strong> json 取值</p>
-</li>
-<li><p><strong>SwifterSwift</strong> swift 扩展库，很全，重量级</p>
-</li>
-<li><p><strong>SwiftDate</strong> 日期扩展库</p>
-</li>
-<li><p><strong>R.swift</strong> 资源映射，可以像 Android 一样使用资源文件</p>
-</li>
-<li><p><strong>JXSegmentedView</strong> 分页控制器 ViewPager</p>
-</li>
-<li><p><strong>TZImagePickerController</strong> 照片选择(OC)</p>
-</li>
-<li><p><strong>SKPhotoBrowser</strong> 图片浏览(OC)</p>
-</li>
-<li><p><strong>Kingfisher</strong> 异步加载图片，还有一个 OC 的，SDWebImage</p>
-</li>
-<li><p><strong>ESTabBarController-swift</strong> 底部 tabbar</p>
-</li>
-<li><p><strong>UITableView+FDTemplateLayoutCell</strong> 缓存 tableview 高度(OC)</p>
-</li>
-<li><p><strong>DZNEmptyDataSet</strong> 空数据背景</p>
-</li>
-<li><p><strong>FSPagerView</strong> 轮播控件</p>
-</li>
-<li><p><strong>Hero</strong> 动画</p>
-</li>
-<li><p><strong>QQ_XGPush</strong> 信鸽推送</p>
-</li>
-<li><p><strong>Bugly</strong> 错误上报</p>
-</li>
-<li><p><strong>SwiftyUserDefaults</strong> UserDefaults 存储</p>
-</li>
-<li><p><strong>KeychainSwift</strong> 钥匙串存储</p>
-</li>
-<li><p><strong>JSBadgeView</strong> 角标</p>
-</li>
-<li><p><strong>AMPopTip</strong> 文字气泡</p>
-</li>
-<li><p><strong>BRPickerView</strong> 选择器组件，时间、日期以及列表等(OC)</p>
-</li>
-</ul>
-<h2 id="大神博客"><a href="#大神博客" class="headerlink" title="大神博客"></a>大神博客</h2><h3 id="1、https-casatwy-com"><a href="#1、https-casatwy-com" class="headerlink" title="1、https://casatwy.com/"></a>1、<a href="https://casatwy.com/" target="_blank" rel="noopener">https://casatwy.com/</a></h3><p>casatwy 的博客，看他的博客及网上的相关资料，之前是安居客的架构师，后来去了天猫，但一直没找到他的真实名字，其他人在介绍他的时候也是直接说他的英文名 casatwy，只有一篇博客称呼他为田神，可能是姓田吧，不过这些都不重要，他带给我们 iOS 开发者的技术分享才是最重要的，我们在心中默默的敬佩就好了。因为他之前是架构师，所以他的博客中对于 iOS 的架构设计有很多分享，非常建议大家去看一看。博客中有《iOS 应用架构谈》系列文章。</p>
+        <h2 id="大神博客"><a href="#大神博客" class="headerlink" title="大神博客"></a>大神博客</h2><h3 id="1、https-casatwy-com"><a href="#1、https-casatwy-com" class="headerlink" title="1、https://casatwy.com/"></a>1、<a href="https://casatwy.com/" target="_blank" rel="noopener">https://casatwy.com/</a></h3><p>casatwy 的博客，看他的博客及网上的相关资料，之前是安居客的架构师，后来去了天猫，但一直没找到他的真实名字，其他人在介绍他的时候也是直接说他的英文名 casatwy，只有一篇博客称呼他为田神，可能是姓田吧，不过这些都不重要，他带给我们 iOS 开发者的技术分享才是最重要的，我们在心中默默的敬佩就好了。因为他之前是架构师，所以他的博客中对于 iOS 的架构设计有很多分享，非常建议大家去看一看。博客中有《iOS 应用架构谈》系列文章。</p>
 <h3 id="2、https-onevcat-com-blog"><a href="#2、https-onevcat-com-blog" class="headerlink" title="2、https://onevcat.com/#blog"></a>2、<a href="https://onevcat.com/#blog" target="_blank" rel="noopener">https://onevcat.com/#blog</a></h3><p>喵神的博客，为 Swift 技术在国内的推广做了很大贡献。著作有《Swifter-Swift 开发者必备 Tips(第四版)》</p>
 <h3 id="3、http-blog-cnbang-net"><a href="#3、http-blog-cnbang-net" class="headerlink" title="3、http://blog.cnbang.net/"></a>3、<a href="http://blog.cnbang.net/" target="_blank" rel="noopener">http://blog.cnbang.net/</a></h3><p>JSPatch 作者 bang 的博客</p>
 <h3 id="4、http-yulingtianxia-com"><a href="#4、http-yulingtianxia-com" class="headerlink" title="4、http://yulingtianxia.com/"></a>4、<a href="http://yulingtianxia.com/" target="_blank" rel="noopener">http://yulingtianxia.com/</a></h3><p>腾讯杨萧玉的博客，底层细节能深入到汇编的实现，令人惊叹</p>
 <h3 id="5、https-halfrost-com"><a href="#5、https-halfrost-com" class="headerlink" title="5、https://halfrost.com/"></a>5、<a href="https://halfrost.com/" target="_blank" rel="noopener">https://halfrost.com/</a></h3><p>人称“霜神”冰霜的博客，冰霜的文章针对某个问题总是能有深入、全面的剖析。</p>
-<h3 id="6、https-blog-ibireme-com"><a href="#6、https-blog-ibireme-com" class="headerlink" title="6、https://blog.ibireme.com/"></a>6、<a href="https://blog.ibireme.com/" target="_blank" rel="noopener">https://blog.ibireme.com/</a></h3><p>YYKit 作者的博客，真名叫郭曜源，网名为ibireme，很多文章如《iOS 保持界面流畅的技巧》《深入理解 RunLoop》等都有极高的实用价值。</p>
+<h3 id="6、https-blog-ibireme-com"><a href="#6、https-blog-ibireme-com" class="headerlink" title="6、https://blog.ibireme.com/"></a>6、<a href="https://blog.ibireme.com/" target="_blank" rel="noopener">https://blog.ibireme.com/</a></h3><p>YYKit 作者的博客，真名叫郭曜源，网名为 ibireme，很多文章如《iOS 保持界面流畅的技巧》《深入理解 RunLoop》等都有极高的实用价值。</p>
 <h3 id="7、https-ming1016-github-io"><a href="#7、https-ming1016-github-io" class="headerlink" title="7、https://ming1016.github.io/"></a>7、<a href="https://ming1016.github.io/" target="_blank" rel="noopener">https://ming1016.github.io/</a></h3><p>滴滴技术专家戴铭的博客，每篇都是精品。极客时间《iOS 开发高手课》和纸书《跟戴铭学 iOS 编程》作者</p>
 <h3 id="8、https-draveness-me"><a href="#8、https-draveness-me" class="headerlink" title="8、https://draveness.me/"></a>8、<a href="https://draveness.me/" target="_blank" rel="noopener">https://draveness.me/</a></h3><p>被人称为灯塔的 Draveness 的博客。Draveness 涉猎很广，文章也很有深度</p>
 <h3 id="9、https-www-jianshu-com-u-96a14318a4de"><a href="#9、https-www-jianshu-com-u-96a14318a4de" class="headerlink" title="9、https://www.jianshu.com/u/96a14318a4de"></a>9、<a href="https://www.jianshu.com/u/96a14318a4de" target="_blank" rel="noopener">https://www.jianshu.com/u/96a14318a4de</a></h3><p>iOS 程序犭袁，CYLTabBarController 作者，博客也是篇篇经典</p>
@@ -584,7 +510,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/相关/iOS检查清单/" title="iOS检查清单">https://coder-star.github.io/iOS/相关/iOS检查清单/</a>
+    <a href="https://coder-star.github.io/iOS/相关/iOS 博客集锦/" title="iOS 博客集锦">https://coder-star.github.io/iOS/相关/iOS 博客集锦/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -796,7 +722,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-text">工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、AppDelegate-解耦以及组件化通信"><span class="nav-text">1、AppDelegate 解耦以及组件化通信</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用库"><span class="nav-text">常用库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大神博客"><span class="nav-text">大神博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、https-casatwy-com"><span class="nav-text">1、https://casatwy.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、https-onevcat-com-blog"><span class="nav-text">2、https://onevcat.com/#blog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、http-blog-cnbang-net"><span class="nav-text">3、http://blog.cnbang.net/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、http-yulingtianxia-com"><span class="nav-text">4、http://yulingtianxia.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、https-halfrost-com"><span class="nav-text">5、https://halfrost.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、https-blog-ibireme-com"><span class="nav-text">6、https://blog.ibireme.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、https-ming1016-github-io"><span class="nav-text">7、https://ming1016.github.io/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、https-draveness-me"><span class="nav-text">8、https://draveness.me/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、https-www-jianshu-com-u-96a14318a4de"><span class="nav-text">9、https://www.jianshu.com/u/96a14318a4de</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习资源"><span class="nav-text">学习资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、https-www-hangge-com-航歌-做最好的开发者知识平台"><span class="nav-text">1、https://www.hangge.com/(航歌 - 做最好的开发者知识平台)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、http-www-code4app-com-code-php（code4app）"><span class="nav-text">2、http://www.code4app.com/code.php（code4app）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、http-code-cocoachina-com-（cocoachina）"><span class="nav-text">3、http://code.cocoachina.com/（cocoachina）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-开发效率工具"><span class="nav-text">iOS 开发效率工具</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#大神博客"><span class="nav-text">大神博客</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、https-casatwy-com"><span class="nav-text">1、https://casatwy.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、https-onevcat-com-blog"><span class="nav-text">2、https://onevcat.com/#blog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、http-blog-cnbang-net"><span class="nav-text">3、http://blog.cnbang.net/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、http-yulingtianxia-com"><span class="nav-text">4、http://yulingtianxia.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、https-halfrost-com"><span class="nav-text">5、https://halfrost.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、https-blog-ibireme-com"><span class="nav-text">6、https://blog.ibireme.com/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、https-ming1016-github-io"><span class="nav-text">7、https://ming1016.github.io/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、https-draveness-me"><span class="nav-text">8、https://draveness.me/</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、https-www-jianshu-com-u-96a14318a4de"><span class="nav-text">9、https://www.jianshu.com/u/96a14318a4de</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习资源"><span class="nav-text">学习资源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、https-www-hangge-com-航歌-做最好的开发者知识平台"><span class="nav-text">1、https://www.hangge.com/(航歌 - 做最好的开发者知识平台)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、http-www-code4app-com-code-php（code4app）"><span class="nav-text">2、http://www.code4app.com/code.php（code4app）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、http-code-cocoachina-com-（cocoachina）"><span class="nav-text">3、http://code.cocoachina.com/（cocoachina）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS-开发效率工具"><span class="nav-text">iOS 开发效率工具</span></a></li></ol></div>
             
 
           </div>
