@@ -3,6 +3,27 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/装机必备/</loc>
+        <lastmod>2021-07-30T12:46:22.554Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/体系/</loc>
+        <lastmod>2021-07-30T12:33:34.541Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-07-30T12:33:34.541Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/Icon/</loc>
         <lastmod>2021-07-30T12:24:44.002Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -39,13 +60,6 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/KVO/</loc>
-        <lastmod>2021-07-30T12:23:51.306Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/iOS/</loc>
         <lastmod>2021-07-30T12:23:51.306Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -124,13 +138,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/命令/</loc>
         <lastmod>2021-07-30T12:21:10.035Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/体系/</loc>
-        <lastmod>2021-07-30T12:20:48.370Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -271,13 +278,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/设计模式/</loc>
         <lastmod>2021-07-30T12:05:05.202Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/装机必备/</loc>
-        <lastmod>2021-07-30T12:04:14.483Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
