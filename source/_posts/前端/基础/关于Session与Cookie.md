@@ -1,7 +1,8 @@
 ---
 title: 关于Session与Cookie
 date: 2019-09-25 20:58:52
-categories: [杂项]
+categories: 
+   - 前端
 tags: [web]
 state: 发布
 ---

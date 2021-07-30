@@ -1,6 +1,7 @@
 ---
 title: Swift中模式匹配
 category:
+  - iOS
   - Swift
 tags:
   - Swift

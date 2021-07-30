@@ -1,6 +1,7 @@
 ---
 title: IDEA插件
 category:
+  - 杂项
   - 装机必备
 tags:
   - 装机必备

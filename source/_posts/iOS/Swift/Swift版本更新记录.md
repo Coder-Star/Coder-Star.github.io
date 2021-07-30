@@ -1,6 +1,7 @@
 ---
 title: Swift版本更新记录
 category:
+  - iOS
   - Swift
 tags:
   - Swift

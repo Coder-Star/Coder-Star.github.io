@@ -2,7 +2,7 @@
 title: Swift 开发规范
 category:
   - iOS
-  - 开发规范
+  - 规范
 tags:
   - iOS
   - Swift 开发规范

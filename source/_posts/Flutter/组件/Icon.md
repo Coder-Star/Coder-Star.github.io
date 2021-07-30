@@ -1,7 +1,7 @@
 ---
 title: Icon
 category:
-  - Fluter
+  - Flutter
   - Icon
 tags:
   - Fluter

@@ -1,7 +1,9 @@
 ---
 title: iOS开发规范
 date: 2020-08-31 10:50:18
-categories: [规范]
+categories: 
+  - iOS
+  - 规范
 tags: [Swift, iOS, 规范]
 ---
 

@@ -75,6 +75,13 @@ date: 2021-01-09 08:49:49
 - **Realm** 移动端数据库
 - **MMKV**
 
+
+### 内存泄漏
+- MLeaksFinder 找到内存泄漏的对象
+- OOMDetector 手Q自研
+- FBRetainCycleDetector 检测该对象有没有循环引用即可
+- 
+
 ## 待定
 
 - **SwifterSwift** swift 扩展库，很全，重量级

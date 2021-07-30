@@ -1,6 +1,7 @@
 ---
 title: Native与JS交互
 category:
+  - iOS
   - Hybrid
 tags:
   - iOS

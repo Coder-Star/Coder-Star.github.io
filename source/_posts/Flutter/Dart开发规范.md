@@ -1,7 +1,7 @@
 ---
 title: Dart开发规范
 category:
-  - 规范
+  - Flutter
 tags:
   - Dart
   - 规范

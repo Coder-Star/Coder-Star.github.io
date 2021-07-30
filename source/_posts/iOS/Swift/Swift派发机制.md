@@ -1,10 +1,11 @@
 ---
 title: Swift 派发机制
 category:
-  + Swift
+  - iOS
+  - Swift
 tags:
-  + Swift
-  + 方法派发
+  - Swift
+  - 方法派发
 date: 2021-03-05 21:21:56
 ---
 

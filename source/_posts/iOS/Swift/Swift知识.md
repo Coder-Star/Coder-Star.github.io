@@ -1,6 +1,7 @@
 ---
 title: Swift 知识
 category:
+  - iOS
   - Swift
 tags:
   - Swift
