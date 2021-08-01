@@ -88,18 +88,20 @@
 
 
 
-<meta name="description" content="沙盒目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle： Application app 的 md5 标识为名的文件夹 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识为名的文件夹 Documents Library Application Sup">
+<meta name="description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是iOS持久化方系列的第二篇文章，第一篇请见UserDefaults浅析及其使用管理。  驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。  整体目录结构先看一">
 <meta name="keywords" content="iOS,持久化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS持久化方式-Sandbox">
+<meta property="og:title" content="iOS 持久化方式 - Sandbox">
 <meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="沙盒目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle： Application app 的 md5 标识为名的文件夹 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识为名的文件夹 Documents Library Application Sup">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是iOS持久化方系列的第二篇文章，第一篇请见UserDefaults浅析及其使用管理。  驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。  整体目录结构先看一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-28T09:47:41.137Z">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%8C%81%E4%B9%85%E5%8C%96/sandbox.png">
+<meta property="og:updated_time" content="2021-08-01T14:56:29.768Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS持久化方式-Sandbox">
-<meta name="twitter:description" content="沙盒目录Sandbox 详细目录（真机目录：/private/var/mobile/Containers）  Bundle： Application app 的 md5 标识为名的文件夹 MyApp.app BundleMetadata.plist       Data Application app 的 md5 标识为名的文件夹 Documents Library Application Sup">
+<meta name="twitter:title" content="iOS 持久化方式 - Sandbox">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是iOS持久化方系列的第二篇文章，第一篇请见UserDefaults浅析及其使用管理。  驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。  整体目录结构先看一">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%8C%81%E4%B9%85%E5%8C%96/sandbox.png">
 
 
 
@@ -135,7 +137,7 @@
 
 
 
-  <title>iOS持久化方式-Sandbox | CoderStar's Blog</title>
+  <title>iOS 持久化方式 - Sandbox | CoderStar's Blog</title>
   
 
 
@@ -321,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS持久化方式-Sandbox</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 持久化方式 - Sandbox</h1>
         
 
         <div class="post-meta">
@@ -349,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-28T17:47:41+08:00">
-                2021-06-28
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-01T22:56:29+08:00">
+                2021-08-01
               </time>
             
           </span>
@@ -415,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  935 字
+                  1.5k 字
                 </span>
               
 
@@ -431,7 +433,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  5 分钟
                 </span>
               
             </div>
@@ -452,7 +454,15 @@
       
 
       
-        <h2 id="沙盒目录"><a href="#沙盒目录" class="headerlink" title="沙盒目录"></a>沙盒目录</h2><p>Sandbox 详细目录（真机目录：/private/var/mobile/Containers）</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>该篇文章是iOS持久化方系列的第二篇文章，第一篇请见<a href="../UserDefaults浅析及其使用管理">UserDefaults浅析及其使用管理</a>。</p>
+<blockquote>
+<p>驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。</p>
+</blockquote>
+<h2 id="整体目录结构"><a href="#整体目录结构" class="headerlink" title="整体目录结构"></a>整体目录结构</h2><p>先看一下整体的目录结构。请注意该目录不是某一个 APP 的沙盒或 Bundle 目录，而是 所有 APP 在 iOS 系统中整体的一个目录结构。</p>
+<blockquote>
+<p>真机环境下，该目录路径为<code>/private/var/mobile/Containers</code>，如果在模拟器中，该目录路径便实际为 Mac 下的文件路径，举某一个模拟器下的路径为例：<code>/Users/coderstar/Library/Developer/CoreSimulator/Devices/1328FF08-D6CB-4EFE-B936-5E1CB5D03D75/data/Containers</code>。</p>
+</blockquote>
 <ul>
 <li>Bundle：<ul>
 <li>Application<ul>
@@ -476,7 +486,7 @@
 <li>Preferences</li>
 <li>Saved Application State</li>
 <li>SplashBoard</li>
-<li>WebKit：存储WKWebView持久化的一些东西，如IndexDB、LocalStorage、WebSQL等；</li>
+<li>WebKit</li>
 </ul>
 </li>
 <li>SystemData</li>
@@ -495,7 +505,7 @@
 <li>app 的 md5 标识为名的文件夹<ul>
 <li>Library<ul>
 <li>Caches</li>
-<li>Preferences：默认没有该目录，当创建 group 的 UserDefault 时会创建该目录，UserDefault对应 plist 的名称为 group 名称；</li>
+<li>Preferences</li>
 </ul>
 </li>
 </ul>
@@ -509,44 +519,47 @@
 <li>Temp</li>
 <li>iCloud</li>
 </ul>
-<p>关键沙盒路径解读</p>
-<ul>
-<li><p>Bundle/Application: 包含了所有的资源文件和和可执行文件，上架前经过数字签名，上架后不可修改。</p>
-</li>
-<li><p>Documents: 保存应运行时生成的需要持久化的、重要的数据（比如用户下载的歌曲）。iTunes、iCloud会备份该目录。在此目录下不要保存从网络上下载的文件，否则app无法上架。用户可以通过文件分享分享该目录下的文件,建议保存你希望用户看得见的文件。</p>
 <blockquote>
-<p>在iOS11 以后新增了一个“文件”APP，集中管理iOS上应用内创建的文件，以及各个云盘服务中保存的文件。在iOS工程info.plist中设置Application supports iTunes file sharing 和 Supports opening documents in place这两个选项为YES（默认为NO），就可以将该应用的沙盒路径Documents文件暴露在“文件”APP中。</p>
+<p>上述所列目录不一定完全，其中还有部分目录会在相关文件第一次生成时自动创建。</p>
 </blockquote>
-</li>
-<li><p>Library/Application Support: 建议用来存储除用户数据相关以外的所有文件，如游戏的新关卡。在iTunes和iCloud备份时会备份该目录。</p>
-</li>
-<li><p>Library/Caches: 保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据（例如，网络请求的音视频与图片等的缓存）。需要程序员手动清除。iTunes、iCloud不会备份该目录；</p>
-</li>
-<li><p>Library/Preference: 保存应用的所有偏好设置，iOS的Settings(设置)应用会在该目录中查找应用的设置信息。iTunes、iCloud会备份该目录。通过UserDefaults生成的plist文件也会存储在该目录下，我们不应该直接在这里创建文件，而是只通过UserDefaults；</p>
-</li>
-<li><p>Library/SplashBoard: 存储启动屏缓存，缓存文件格式为ktx，本质上就是图片，如果启动屏不生效的问题可以考虑从删除该路径下缓存这个点；</p>
-</li>
-<li><p>tmp: 保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下都会自动清除该目录的数据。无需程序员手动清除；iTunes不会备份该目录。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。</p>
-</li>
-<li><p>AppGroup：宿主程序与Extension数据共享区域，</p>
-</li>
-</ul>
-<h2 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h2><p><strong>Data 目录下</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 沙盒主目录</span></span><br><span class="line"><span class="keyword">let</span> path = <span class="type">NSHomeDirectory</span>()</span><br><span class="line"><span class="comment">// tmp目录</span></span><br><span class="line"><span class="keyword">let</span> tmpPath = <span class="type">NSTemporaryDirectory</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Documtents目录</span></span><br><span class="line"><span class="comment">// Library目录 -&gt; libraryDirectory</span></span><br><span class="line"><span class="comment">// Application Support目录 -&gt; applicationSupportDirectory</span></span><br><span class="line"><span class="comment">// Caches目录 -&gt; cachesDirectory</span></span><br><span class="line"><span class="comment">// Preferences目录 -&gt; preferencePanesDirectory</span></span><br><span class="line"><span class="keyword">let</span> documtentsPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面形式获取路径返回值为String，下面形式返回值为URL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dataURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.urls(<span class="keyword">for</span>: .documentDirectory, <span class="keyword">in</span>: .userDomainMask).first?.appendingPathComponent(<span class="string">"sqliteName"</span>).appendingPathExtension(<span class="string">"sqlite"</span>)</span><br></pre></td></tr></table></figure>
+<p>从以上目录结构，我们基本上可以得到 APP 的沙盒结构，如下图所示。</p>
+<p><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%8C%81%E4%B9%85%E5%8C%96/sandbox.png" alt="sandbox"></p>
+<blockquote>
+<p><a href="https://github.com/xndrs/XSimulatorMngr" target="_blank" rel="noopener">XSimulatorMngr</a>工具可以帮助我们更方便的查看模拟器下<code>Sandbox</code>中的文件，更多工具可见<a href="../../../../杂项/装机必备/Mac效率软件">Mac效率软件</a>。</p>
+</blockquote>
+<h2 id="关键目录解读"><a href="#关键目录解读" class="headerlink" title="关键目录解读"></a>关键目录解读</h2><p>虽然上述目录结构下的子目录比较多，但是有很大一部分是供系统使用，下面我们了解一下几个比较关键的目录。</p>
+<h3 id="Bundle-Application"><a href="#Bundle-Application" class="headerlink" title="Bundle/Application"></a><code>Bundle/Application</code></h3><p>包含了所有的资源文件和和可执行文件，上架前经过数字签名，上架后不可修改。</p>
+<h3 id="Documents"><a href="#Documents" class="headerlink" title="Documents"></a>Documents</h3><p>该目录的内容可以通过文件共享提供给用户，因此，该目录应仅包含您可能希望向用户公开的文件。<br>使用此目录来存储用户生成的内容，如用户自己创建的文件或者下载的音视频等数据文件。<br>iTunes、iCloud 会备份该目录。</p>
+<blockquote>
+<p>在 iOS11 以后新增了一个 <strong>文件</strong> APP，集中管理 iOS 上应用内创建的文件，以及各个云盘服务中保存的文件。在 iOS 工程 <code>info.plist</code> 中设置 <code>Application supports iTunes file sharing</code> 和 <code>Supports opening documents in place</code> 这两个选项为 <code>YES</code>（默认为 <code>NO</code>），就可以将该应用的沙盒路径 Documents 文件暴露在<strong>文件</strong> APP 中。</p>
+</blockquote>
+<h3 id="Library-Application-Support"><a href="#Library-Application-Support" class="headerlink" title="Library/Application Support"></a>Library/Application Support</h3><p>此目录包含应用程序用来运行但应对用户隐藏的文件，如游戏的新关卡等文件。<br>iTunes、iCloud 会备份该目录。</p>
+<h3 id="Library-Caches"><a href="#Library-Caches" class="headerlink" title="Library/Caches"></a>Library/Caches</h3><p>保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据，如网络请求的音视频与图片等的缓存。<br>在 iOS 5.0 及以后版本中，Caches 当系统磁盘空间非常低时，系统可能会在极少数情况下该删除目录（APP 正在运行时不会发生），所以尽量保证 APP 在运行时可以重新创建相关文件。<br>iTunes、iCloud 不会备份该目录。</p>
+<h3 id="Library-Preference"><a href="#Library-Preference" class="headerlink" title="Library/Preference"></a>Library/Preference</h3><p>保存应用的所有偏好设置。如果看过上篇文章，应该就会记得<code>UserDefaults</code>生成的<code>plist</code>文件就会保存该目录下。<br>iTunes、iCloud 会备份该目录。</p>
+<h3 id="Library-SplashBoard"><a href="#Library-SplashBoard" class="headerlink" title="Library/SplashBoard"></a>Library/SplashBoard</h3><p>存储启动屏缓存，缓存文件格式为 <code>ktx</code>，本质上就是图片，如果启动屏不生效的问题可以考虑从删除该路径下相关缓存文件这个角度解决；</p>
+<h3 id="Library-WebKit"><a href="#Library-WebKit" class="headerlink" title="Library/WebKit"></a>Library/WebKit</h3><p>存储 <code>WKWebView</code> 持久化的一些东西，如 <code>IndexDB</code>、<code>LocalStorage</code>、<code>WebSQL</code> 等；</p>
+<h3 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h3><p>保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下系统都会自动清除该目录的数据。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。<br>iTunes、iCloud 不会备份该目录。</p>
+<h3 id="AppGroup"><a href="#AppGroup" class="headerlink" title="AppGroup"></a>AppGroup</h3><p>宿主程序与扩展程序数据共享区域。</p>
+<p>子目录<code>Library/Preferences</code>，默认没有该目录，当创建 <code>group</code> 的 <code>UserDefaults</code> 时会创建该目录，<code>UserDefaults</code> 对应 <code>plist</code> 的名称为 <code>group</code> 名称；</p>
+<h2 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h2><h3 id="获取路径地址"><a href="#获取路径地址" class="headerlink" title="获取路径地址"></a>获取路径地址</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 沙盒主目录</span></span><br><span class="line"><span class="keyword">let</span> path = <span class="type">NSHomeDirectory</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Documtents目录</span></span><br><span class="line"><span class="keyword">let</span> documtentsPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Library目录</span></span><br><span class="line"><span class="keyword">let</span> libraryPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.libraryDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Application Support目录</span></span><br><span class="line"><span class="keyword">let</span> applicationSupportPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.applicationSupportDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"> <span class="comment">/// Caches目录</span></span><br><span class="line"><span class="keyword">let</span> cachesPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.cachesDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">/// tmp目录</span></span><br><span class="line"><span class="keyword">let</span> tmpPath = <span class="type">NSTemporaryDirectory</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">--------------------------------------------------------</span></span><br><span class="line"><span class="comment">上面形式获取路径返回值为 String 形式，下面形式返回值为 URL 形式</span></span><br><span class="line"><span class="comment">可根据实际情况选择合适的方式</span></span><br><span class="line"><span class="comment">--------------------------------------------------------</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dataURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.urls(<span class="keyword">for</span>: .documentDirectory, <span class="keyword">in</span>: .userDomainMask).first?.appendingPathComponent(<span class="string">"sqliteName"</span>).appendingPathExtension(<span class="string">"sqlite"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// AppGroup目录路径</span></span><br><span class="line"><span class="keyword">let</span> appGroupIdentifier = <span class="string">"group.com.star.LTXiOSUtils.extension"</span></span><br><span class="line"><span class="keyword">let</span> groupURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.containerURL(forSecurityApplicationGroupIdentifier: appgroupIdentifier)</span><br></pre></td></tr></table></figure>
 
-<p><strong>AppGroup 目录下</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> appGroupIdentifier = <span class="string">"group.com.star.LTXiOSUtils.extension"</span></span><br><span class="line"><span class="keyword">let</span> groupURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.containerURL(forSecurityApplicationGroupIdentifier: appgroupIdentifier)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 这种方式创建的userDefaults是可以被共享的，其创建后对应的plist文件名称就是appGroupIdentifier</span></span><br><span class="line"><span class="keyword">let</span> userDefaults = <span class="type">UserDefaults</span>(suiteName: appGroupIdentifier)</span><br></pre></td></tr></table></figure>
-
-<p>获取到路径后就可以通过文件写入、读取的方式操作沙盒了<br>可以操作的数据结构有：</p>
+<blockquote>
+<p>请注意 <code>NSSearchPathForDirectoriesInDomains(.preferencePanesDirectory, .userDomainMask, true).first!</code> 获取的路径并不是 iOS 系统下的<code>Preference</code>路径，而是 Mac 系统下的偏好设置路径，枚举中并没有提供<code>Preference</code>路径，我猜想不提供的主要原因也是 Apple 官方并不想开发者直接去操作该路径下的文件，而是使用<code>UserDefaults</code>等形式进行操作。</p>
+</blockquote>
+<h3 id="数据存取"><a href="#数据存取" class="headerlink" title="数据存取"></a>数据存取</h3><p>获取到路径后就可以对数据进行存取了，可以直接进行存取操作的数据结构有：</p>
 <ul>
-<li>NSMutableArray、NSArray</li>
-<li>NSData、Data、NSMutableData</li>
-<li>String、NSString</li>
-<li>NSDictionary、NSMutableDictionary</li>
+<li><code>NSMutableArray</code>、<code>NSArray</code></li>
+<li><code>NSData</code>、<code>Data</code>、<code>NSMutableData</code></li>
+<li><code>String</code>、<code>NSString</code></li>
+<li><code>NSDictionary</code>、<code>NSMutableDictionary</code></li>
 </ul>
-<p>以 NSDictionary 举例，其余类似</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dicPath = path.appendingPathComponent(<span class="string">"dic"</span>).appendingPathExtension(<span class="string">"plist"</span>)</span><br><span class="line"><span class="keyword">let</span> dic = [<span class="string">"姓名"</span>: <span class="string">"张三"</span>, <span class="string">"年龄"</span>: <span class="number">24</span>] <span class="keyword">as</span> [<span class="type">String</span> : <span class="type">Any</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写入</span></span><br><span class="line"><span class="type">NSDictionary</span>(dictionary: dic).write(to: dicPath, atomically: <span class="literal">true</span>)</span><br><span class="line"><span class="comment">// 读取</span></span><br><span class="line"><span class="type">NSDictionary</span>(contentsOf: dicPath)</span><br></pre></td></tr></table></figure>
+<p>以 <code>NSDictionary</code> 举例，其余类似</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dicPath = <span class="type">FileManager</span>.<span class="keyword">default</span>.urls(<span class="keyword">for</span>: .documentDirectory, <span class="keyword">in</span>: .userDomainMask).first!.appendingPathComponent(<span class="string">"dic"</span>).appendingPathExtension(<span class="string">"plist"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dic: [<span class="type">String</span>: <span class="type">Any</span>] = [<span class="string">"姓名"</span>: <span class="string">"张三"</span>, <span class="string">"年龄"</span>: <span class="number">24</span>] </span><br><span class="line"></span><br><span class="line"><span class="comment">/// 写入</span></span><br><span class="line"><span class="type">NSDictionary</span>(dictionary: dic).write(to: dicPath, atomically: <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 读取</span></span><br><span class="line"><span class="keyword">let</span> data = <span class="type">NSDictionary</span>(contentsOf: dicPath)</span><br></pre></td></tr></table></figure>
 
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
+<p>相关链接</p>
+<p><a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html" target="_blank" rel="noopener">File System Programming Guide</a></p>
 
       
     </div>
@@ -604,7 +617,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/" title="iOS持久化方式-Sandbox">https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/</a>
+    <a href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/" title="iOS 持久化方式 - Sandbox">https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -818,7 +831,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#沙盒目录"><span class="nav-text">沙盒目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作方式"><span class="nav-text">操作方式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整体目录结构"><span class="nav-text">整体目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键目录解读"><span class="nav-text">关键目录解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bundle-Application"><span class="nav-text">Bundle/Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Documents"><span class="nav-text">Documents</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-Application-Support"><span class="nav-text">Library/Application Support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-Caches"><span class="nav-text">Library/Caches</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-Preference"><span class="nav-text">Library/Preference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-SplashBoard"><span class="nav-text">Library/SplashBoard</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Library-WebKit"><span class="nav-text">Library/WebKit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tmp"><span class="nav-text">tmp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AppGroup"><span class="nav-text">AppGroup</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作方式"><span class="nav-text">操作方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取路径地址"><span class="nav-text">获取路径地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存取"><span class="nav-text">数据存取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>

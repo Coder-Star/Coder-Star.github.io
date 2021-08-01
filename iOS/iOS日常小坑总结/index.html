@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="iOS 请求权限回调，第一次用户选择时回调会发生在非主线程，如果在回调中进行 UI 操作，请注意切换到主线程。  Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB，  WkWebview 字体过小，注入一段 js var meta = document.createElement">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-30T06:55:09.912Z">
+<meta property="og:updated_time" content="2021-07-31T09:55:15.999Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 日常小坑总结">
 <meta name="twitter:description" content="iOS 请求权限回调，第一次用户选择时回调会发生在非主线程，如果在回调中进行 UI 操作，请注意切换到主线程。  Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB，  WkWebview 字体过小，注入一段 js var meta = document.createElement">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T14:55:09+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-31T17:55:15+08:00">
+                2021-07-31
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  328 字
+                  427 字
                 </span>
               
 
@@ -454,11 +454,17 @@
 </li>
 <li><p>UICollectionViewFlowLayout 设置<code>estimatedItemSize</code>后<code>sizeForItemAt</code>代理虽然会走，但是设置的值不会起效果</p>
 </li>
-<li><p>UITextField的clearButtonMode背后的删除按钮本身也是UITextField rightView的一种，如果手动设置了rightView，clearButtonMode的设置将不会生效。</p>
+<li><p>UITextField 的 clearButtonMode 背后的删除按钮本身也是 UITextField rightView 的一种，如果手动设置了 rightView，clearButtonMode 的设置将不会生效。</p>
 </li>
-<li><p>UITextField直接设置text，不会触发editingChanged，如果需要实现触发目的，可以手动调用一下触发事件。</p>
+<li><p>UITextField 直接设置 text，不会触发 editingChanged，如果需要实现触发目的，可以手动调用一下触发事件。</p>
+</li>
+</ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">field.text = nickName</span><br><span class="line">field.sendActions(<span class="keyword">for</span>: .editingChanged)</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><p><code>selector-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1415360-addobserver" target="_blank" rel="noopener">addObserver(_:selector:name:object:)</a> 不再需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 方法（iOS 11.2 中测试）;<br><code>block-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1411723-addobserver" target="_blank" rel="noopener">addObserver(forName:object:queue:using:)</a> 还是需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 才能删除 callback Block（在 iOS 11.2 中测试）。</p>
+</li>
+<li><p>UITableCell初始化时Width不管是什么机型都会是320，如果在该时间需要使用Width，需要手动设置一下Width；</p>
 </li>
 </ul>
 

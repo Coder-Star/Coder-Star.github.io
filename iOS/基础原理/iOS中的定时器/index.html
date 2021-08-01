@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="TimerTimer 的创建分别实例方法以及类方法，还分为 Block 以及 Target-Action 两种形式，共四种方式。其中 Block 方式自动解决了循环引用，不需手动处理，类方法创建的 Timer 自动执行，不需要手动加入到 Runloop，而实例方法需要手动加入到 Runloop。 如果是一次性调用的 NSTimer，会在本次调用完毕之后 invalidate 掉 NSTimer 自">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.306Z">
+<meta property="og:updated_time" content="2021-07-30T13:08:35.252Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS中的定时器">
 <meta name="twitter:description" content="TimerTimer 的创建分别实例方法以及类方法，还分为 Block 以及 Target-Action 两种形式，共四种方式。其中 Block 方式自动解决了循环引用，不需手动处理，类方法创建的 Timer 自动执行，不需要手动加入到 Runloop，而实例方法需要手动加入到 Runloop。 如果是一次性调用的 NSTimer，会在本次调用完毕之后 invalidate 掉 NSTimer 自">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T21:08:35+08:00">
+                2021-07-30
               </time>
             
           </span>
@@ -462,7 +462,7 @@
 <li>如果类是 ViewController，可以在页面出现时启动定时器，消失时关闭定时器，前提是你的需求可以允许这么做；</li>
 </ul>
 <p>Timer 的实时性是不准确的，会存在延迟，这与 timer 所在的线程有很大关系，当线程在进行大量计算时，这期间有可能会错过很多次 NSTimer 的循环周期，但是 NSTimer 并不会将前面错过的执行次数在后面都执行一遍，而是继续执行后面的循环，也就是在一个循环周期内只会执行一次循环。无论循环延迟的多离谱，循环间隔都不会发生变化，在进行完大数据处理之后，有可能会立即执行一次 NSTimer 循环，但是后面的循环间隔始终和第一次添加循环时的间隔相同。</p>
-<h2 id="PerformSelector"><a href="#PerformSelector" class="headerlink" title="PerformSelector"></a>PerformSelector</h2><p>当调用 NSObject 的 performSelecter:afterDelay: 后，实际上其内部会创建一个 Timer 并添加到当前线程的 RunLoop 中。所以如果当前线程没有 RunLoop，则这个方法会失效。</p>
+<h2 id="PerformSelector"><a href="#PerformSelector" class="headerlink" title="PerformSelector"></a>PerformSelector</h2><p>当调用 NSObject 的 performSelecter:afterDelay: 后，实际上其内部会创建一个 Timer 并添加到当前线程的 RunLoop 中。<strong>所以如果当前线程没有 RunLoop，则这个方法会失效。</strong></p>
 <p>当调用 performSelector:onThread: 时，实际上其会创建一个 Timer 加到对应的线程去，同样的，如果对应线程没有 RunLoop 该方法也会失效。</p>
 <h2 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h2><h2 id="DispatchSourceTimer-GCD"><a href="#DispatchSourceTimer-GCD" class="headerlink" title="DispatchSourceTimer(GCD)"></a>DispatchSourceTimer(GCD)</h2>
       

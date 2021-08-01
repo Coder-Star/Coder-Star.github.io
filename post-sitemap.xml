@@ -9,6 +9,30 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-Sandbox/</loc>
+        <lastmod>2021-08-01T14:56:29.768Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/iOS/iOS%E6%97%A5%E5%B8%B8%E5%B0%8F%E5%9D%91%E6%80%BB%E7%BB%93/</loc>
+        <lastmod>2021-07-31T09:55:15.999Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
+        <lastmod>2021-07-30T13:08:35.252Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Mac%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/</loc>
         <lastmod>2021-07-30T12:46:22.554Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -481,14 +505,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/iOS/iOS%E6%97%A5%E5%B8%B8%E5%B0%8F%E5%9D%91%E6%80%BB%E7%BB%93/</loc>
-        <lastmod>2021-07-30T06:55:09.912Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/AutoreleasePool%E7%9B%B8%E5%85%B3/</loc>
         <lastmod>2021-07-29T01:21:33.629Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -515,14 +531,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/CocoaPods/CocoaPods-%E5%B0%81%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84Pod%E5%BA%93/</loc>
         <lastmod>2021-07-16T12:49:41.480Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-Sandbox/</loc>
-        <lastmod>2021-06-28T09:47:41.137Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -739,14 +747,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-%E6%80%BB%E8%A7%88/</loc>
         <lastmod>2021-06-01T09:17:10.307Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
-        <lastmod>2021-06-01T09:17:10.306Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
