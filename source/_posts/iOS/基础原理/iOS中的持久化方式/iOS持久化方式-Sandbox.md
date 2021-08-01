@@ -19,7 +19,7 @@ Hi Coder，我是 CoderStar！
 
 ## 整体目录结构
 
-先看一下整体的目录结构。请注意该目录不是某一个 APP 的沙盒或 Bundle 目录，而是 所有 APP 在 iOS 系统中整体的一个目录结构。
+先看一下整体的目录结构。请注意该目录不是某一个 APP 的沙盒目录，而是所有 APP 在系统中整体的一个目录结构。
 
 > 真机环境下，该目录路径为`/private/var/mobile/Containers`，如果在模拟器中，该目录路径便实际为 Mac 下的文件路径，举某一个模拟器下的路径为例：`/Users/coderstar/Library/Developer/CoreSimulator/Devices/1328FF08-D6CB-4EFE-B936-5E1CB5D03D75/data/Containers`。
 
@@ -54,7 +54,6 @@ Hi Coder，我是 CoderStar！
   - SystemGroup
 - Staging
 - Temp
-- iCloud
 
 > 上述所列目录不一定完全，其中还有部分目录会在相关文件第一次生成时自动创建。
 
@@ -77,7 +76,7 @@ Hi Coder，我是 CoderStar！
 该目录的内容可以通过文件共享提供给用户，因此，该目录应仅包含您可能希望向用户公开的文件。
 使用此目录来存储用户生成的内容，如用户自己创建的文件或者下载的音视频等数据文件。
 iTunes、iCloud 会备份该目录。
-  > 在 iOS11 以后新增了一个 **文件** APP，集中管理 iOS 上应用内创建的文件，以及各个云盘服务中保存的文件。在 iOS 工程 `info.plist` 中设置 `Application supports iTunes file sharing` 和 `Supports opening documents in place` 这两个选项为 `YES`（默认为 `NO`），就可以将该应用的沙盒路径 Documents 文件暴露在**文件** APP 中。
+  > 在 iOS11 以后新增了一个 **文件** APP，集中管理 iOS 上应用内创建的文件，以及各个云盘服务中保存的文件。在 iOS 工程 `info.plist` 中设置 `Application supports iTunes file sharing` 和 `Supports opening documents in place` 这两个选项为 `YES`（默认为 `NO`），就可以将该应用的沙盒 `Documents`路径下的文件暴露在**文件** APP 中。
 
 ### Library/Application Support
 
@@ -87,7 +86,7 @@ iTunes、iCloud 会备份该目录。
 ### Library/Caches
 
 保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据，如网络请求的音视频与图片等的缓存。
-在 iOS 5.0 及以后版本中，Caches 当系统磁盘空间非常低时，系统可能会在极少数情况下该删除目录（APP 正在运行时不会发生），所以尽量保证 APP 在运行时可以重新创建相关文件。
+在 iOS 5.0 及以后版本中，Caches 当系统磁盘空间非常低时，系统可能会在极少数情况下该删除目录（APP 正在运行时不会发生），所以尽量保证该路径的文件在 APP 在重新运行时可以得到重新创建。
 iTunes、iCloud 不会备份该目录。
 
 ### Library/Preference
@@ -101,7 +100,7 @@ iTunes、iCloud 会备份该目录。
 
 ### Library/WebKit
 
-存储 `WKWebView` 持久化的一些东西，如 `IndexDB`、`LocalStorage`、`WebSQL` 等；
+存储 `WKWebView` 相关的一些数据，如 `IndexDB`、`LocalStorage`、`WebSQL` 等；
 
 ### tmp
 
@@ -169,7 +168,7 @@ let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdent
 ```swift
 let dicPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("dic").appendingPathExtension("plist")
 
-let dic: [String: Any] = ["姓名": "张三", "年龄": 24] 
+let dic: [String: Any] = ["姓名": "张三", "年龄": 24]
 
 /// 写入
 NSDictionary(dictionary: dic).write(to: dicPath, atomically: true)
