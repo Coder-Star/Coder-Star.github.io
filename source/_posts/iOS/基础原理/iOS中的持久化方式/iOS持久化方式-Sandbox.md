@@ -1,5 +1,5 @@
 ---
-title: iOS持久化方式-Sandbox
+title: iOS 持久化方式 - Sandbox
 category:
   - iOS
   - 基础原理
@@ -9,9 +9,19 @@ tags:
 date: 2021-02-24 22:43:50
 ---
 
-## 沙盒目录
+## 前言
 
-Sandbox 详细目录（真机目录：/private/var/mobile/Containers）
+Hi Coder，我是 CoderStar！
+
+该篇文章是iOS持久化方系列的第二篇文章，第一篇请见[UserDefaults浅析及其使用管理](../UserDefaults浅析及其使用管理)。
+
+> 驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。
+
+## 整体目录结构
+
+先看一下整体的目录结构。请注意该目录不是某一个 APP 的沙盒或 Bundle 目录，而是 所有 APP 在 iOS 系统中整体的一个目录结构。
+
+> 真机环境下，该目录路径为`/private/var/mobile/Containers`，如果在模拟器中，该目录路径便实际为 Mac 下的文件路径，举某一个模拟器下的路径为例：`/Users/coderstar/Library/Developer/CoreSimulator/Devices/1328FF08-D6CB-4EFE-B936-5E1CB5D03D75/data/Containers`。
 
 - Bundle：
   - Application
@@ -29,7 +39,7 @@ Sandbox 详细目录（真机目录：/private/var/mobile/Containers）
         - Preferences
         - Saved Application State
         - SplashBoard
-        - WebKit：存储WKWebView持久化的一些东西，如IndexDB、LocalStorage、WebSQL等；
+        - WebKit
       - SystemData
       - tmp
   - InternalDaemon
@@ -40,82 +50,140 @@ Sandbox 详细目录（真机目录：/private/var/mobile/Containers）
     - app 的 md5 标识为名的文件夹
       - Library
         - Caches
-        - Preferences：默认没有该目录，当创建 group 的 UserDefault 时会创建该目录，UserDefault对应 plist 的名称为 group 名称；
+        - Preferences
   - SystemGroup
 - Staging
 - Temp
 - iCloud
 
-关键沙盒路径解读
+> 上述所列目录不一定完全，其中还有部分目录会在相关文件第一次生成时自动创建。
 
-- Bundle/Application: 包含了所有的资源文件和和可执行文件，上架前经过数字签名，上架后不可修改。
+从以上目录结构，我们基本上可以得到 APP 的沙盒结构，如下图所示。
 
-- Documents: 保存应运行时生成的需要持久化的、重要的数据（比如用户下载的歌曲）。iTunes、iCloud会备份该目录。在此目录下不要保存从网络上下载的文件，否则app无法上架。用户可以通过文件分享分享该目录下的文件,建议保存你希望用户看得见的文件。
-  > 在iOS11 以后新增了一个“文件”APP，集中管理iOS上应用内创建的文件，以及各个云盘服务中保存的文件。在iOS工程info.plist中设置Application supports iTunes file sharing 和 Supports opening documents in place这两个选项为YES（默认为NO），就可以将该应用的沙盒路径Documents文件暴露在“文件”APP中。
+![sandbox](../../../../img/iOS/基础原理/持久化/sandbox.png)
 
-- Library/Application Support: 建议用来存储除用户数据相关以外的所有文件，如游戏的新关卡。在iTunes和iCloud备份时会备份该目录。
+> [XSimulatorMngr](https://github.com/xndrs/XSimulatorMngr)工具可以帮助我们更方便的查看模拟器下`Sandbox`中的文件，更多工具可见[Mac效率软件](../../../../杂项/装机必备/Mac效率软件)。
 
-- Library/Caches: 保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据（例如，网络请求的音视频与图片等的缓存）。需要程序员手动清除。iTunes、iCloud不会备份该目录；
+## 关键目录解读
 
-- Library/Preference: 保存应用的所有偏好设置，iOS的Settings(设置)应用会在该目录中查找应用的设置信息。iTunes、iCloud会备份该目录。通过UserDefaults生成的plist文件也会存储在该目录下，我们不应该直接在这里创建文件，而是只通过UserDefaults；
+虽然上述目录结构下的子目录比较多，但是有很大一部分是供系统使用，下面我们了解一下几个比较关键的目录。
 
-- Library/SplashBoard: 存储启动屏缓存，缓存文件格式为ktx，本质上就是图片，如果启动屏不生效的问题可以考虑从删除该路径下缓存这个点；
+### `Bundle/Application`
 
-- tmp: 保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下都会自动清除该目录的数据。无需程序员手动清除；iTunes不会备份该目录。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。
+包含了所有的资源文件和和可执行文件，上架前经过数字签名，上架后不可修改。
 
-- AppGroup：宿主程序与Extension数据共享区域，
+### Documents
+
+该目录的内容可以通过文件共享提供给用户，因此，该目录应仅包含您可能希望向用户公开的文件。
+使用此目录来存储用户生成的内容，如用户自己创建的文件或者下载的音视频等数据文件。
+iTunes、iCloud 会备份该目录。
+  > 在 iOS11 以后新增了一个 **文件** APP，集中管理 iOS 上应用内创建的文件，以及各个云盘服务中保存的文件。在 iOS 工程 `info.plist` 中设置 `Application supports iTunes file sharing` 和 `Supports opening documents in place` 这两个选项为 `YES`（默认为 `NO`），就可以将该应用的沙盒路径 Documents 文件暴露在**文件** APP 中。
+
+### Library/Application Support
+
+此目录包含应用程序用来运行但应对用户隐藏的文件，如游戏的新关卡等文件。
+iTunes、iCloud 会备份该目录。
+
+### Library/Caches
+
+保存应用运行时生成的需要持久化的数据，一般存储体积大、不需要备份的非重要数据，如网络请求的音视频与图片等的缓存。
+在 iOS 5.0 及以后版本中，Caches 当系统磁盘空间非常低时，系统可能会在极少数情况下该删除目录（APP 正在运行时不会发生），所以尽量保证 APP 在运行时可以重新创建相关文件。
+iTunes、iCloud 不会备份该目录。
+
+### Library/Preference
+
+保存应用的所有偏好设置。如果看过上篇文章，应该就会记得`UserDefaults`生成的`plist`文件就会保存该目录下。
+iTunes、iCloud 会备份该目录。
+
+### Library/SplashBoard
+
+存储启动屏缓存，缓存文件格式为 `ktx`，本质上就是图片，如果启动屏不生效的问题可以考虑从删除该路径下相关缓存文件这个角度解决；
+
+### Library/WebKit
+
+存储 `WKWebView` 持久化的一些东西，如 `IndexDB`、`LocalStorage`、`WebSQL` 等；
+
+### tmp
+
+保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下系统都会自动清除该目录的数据。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。
+iTunes、iCloud 不会备份该目录。
+
+### AppGroup
+
+宿主程序与扩展程序数据共享区域。
+
+子目录`Library/Preferences`，默认没有该目录，当创建 `group` 的 `UserDefaults` 时会创建该目录，`UserDefaults` 对应 `plist` 的名称为 `group` 名称；
 
 ## 操作方式
 
-**Data 目录下**
+### 获取路径地址
 
 ```swift
- // 沙盒主目录
+/// 沙盒主目录
 let path = NSHomeDirectory()
-// tmp目录
-let tmpPath = NSTemporaryDirectory()
 
-// Documtents目录
-// Library目录 -> libraryDirectory
-// Application Support目录 -> applicationSupportDirectory
-// Caches目录 -> cachesDirectory
-// Preferences目录 -> preferencePanesDirectory
+/// Documtents目录
 let documtentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
 
-// 上面形式获取路径返回值为String，下面形式返回值为URL
+/// Library目录
+let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true).first!
+
+/// Application Support目录
+let applicationSupportPath = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).first!
+
+ /// Caches目录
+let cachesPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first!
+
+/// tmp目录
+let tmpPath = NSTemporaryDirectory()
+
+/**
+--------------------------------------------------------
+上面形式获取路径返回值为 String 形式，下面形式返回值为 URL 形式
+可根据实际情况选择合适的方式
+--------------------------------------------------------
+*/
 
 let dataURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("sqliteName").appendingPathExtension("sqlite")
 
-```
 
-**AppGroup 目录下**
 
-```swift
+/// AppGroup目录路径
 let appGroupIdentifier = "group.com.star.LTXiOSUtils.extension"
 let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appgroupIdentifier)
-
-
-// 这种方式创建的userDefaults是可以被共享的，其创建后对应的plist文件名称就是appGroupIdentifier
-let userDefaults = UserDefaults(suiteName: appGroupIdentifier)
-
 ```
 
-获取到路径后就可以通过文件写入、读取的方式操作沙盒了
-可以操作的数据结构有：
+> 请注意 `NSSearchPathForDirectoriesInDomains(.preferencePanesDirectory, .userDomainMask, true).first!` 获取的路径并不是 iOS 系统下的`Preference`路径，而是 Mac 系统下的偏好设置路径，枚举中并没有提供`Preference`路径，我猜想不提供的主要原因也是 Apple 官方并不想开发者直接去操作该路径下的文件，而是使用`UserDefaults`等形式进行操作。
 
-- NSMutableArray、NSArray
-- NSData、Data、NSMutableData
-- String、NSString
-- NSDictionary、NSMutableDictionary
+### 数据存取
 
-以 NSDictionary 举例，其余类似
+获取到路径后就可以对数据进行存取了，可以直接进行存取操作的数据结构有：
+
+- `NSMutableArray`、`NSArray`
+- `NSData`、`Data`、`NSMutableData`
+- `String`、`NSString`
+- `NSDictionary`、`NSMutableDictionary`
+
+以 `NSDictionary` 举例，其余类似
 
 ```swift
-let dicPath = path.appendingPathComponent("dic").appendingPathExtension("plist")
-let dic = ["姓名": "张三", "年龄": 24] as [String : Any]
+let dicPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("dic").appendingPathExtension("plist")
 
-// 写入
+let dic: [String: Any] = ["姓名": "张三", "年龄": 24] 
+
+/// 写入
 NSDictionary(dictionary: dic).write(to: dicPath, atomically: true)
-// 读取
-NSDictionary(contentsOf: dicPath)
+
+/// 读取
+let data = NSDictionary(contentsOf: dicPath)
 ```
+
+## 最后
+
+新的一周要更加努力呀！
+
+Let's be CoderStar!
+
+相关链接
+
+[File System Programming Guide](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html)
