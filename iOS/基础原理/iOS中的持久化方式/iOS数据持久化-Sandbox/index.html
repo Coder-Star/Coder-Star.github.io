@@ -91,15 +91,15 @@
 <meta name="description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是iOS持久化方系列的第二篇文章，第一篇请见UserDefaults浅析及其使用管理。  驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。  整体目录结构先看一">
 <meta name="keywords" content="iOS,持久化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 持久化方式 - Sandbox">
-<meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/index.html">
+<meta property="og:title" content="iOS 数据持久化 - Sandbox">
+<meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS数据持久化-Sandbox/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是iOS持久化方系列的第二篇文章，第一篇请见UserDefaults浅析及其使用管理。  驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。  整体目录结构先看一">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%8C%81%E4%B9%85%E5%8C%96/sandbox.png">
-<meta property="og:updated_time" content="2021-08-01T15:00:59.960Z">
+<meta property="og:updated_time" content="2021-08-01T15:28:31.407Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 持久化方式 - Sandbox">
+<meta name="twitter:title" content="iOS 数据持久化 - Sandbox">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是iOS持久化方系列的第二篇文章，第一篇请见UserDefaults浅析及其使用管理。  驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。  整体目录结构先看一">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E6%8C%81%E4%B9%85%E5%8C%96/sandbox.png">
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/">
+  <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS数据持久化-Sandbox/">
 
 
 
 
 
-  <title>iOS 持久化方式 - Sandbox | CoderStar's Blog</title>
+  <title>iOS 数据持久化 - Sandbox | CoderStar's Blog</title>
   
 
 
@@ -306,7 +306,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS数据持久化-Sandbox/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS 持久化方式 - Sandbox</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 数据持久化 - Sandbox</h1>
         
 
         <div class="post-meta">
@@ -351,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-01T23:00:59+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-01T23:28:31+08:00">
                 2021-08-01
               </time>
             
@@ -537,7 +537,7 @@
 <h3 id="Library-Preference"><a href="#Library-Preference" class="headerlink" title="Library/Preference"></a>Library/Preference</h3><p>保存应用的所有偏好设置。如果看过上篇文章，应该就会记得<code>UserDefaults</code>生成的<code>plist</code>文件就会保存该目录下。<br>iTunes、iCloud 会备份该目录。</p>
 <h3 id="Library-SplashBoard"><a href="#Library-SplashBoard" class="headerlink" title="Library/SplashBoard"></a>Library/SplashBoard</h3><p>存储启动屏缓存，缓存文件格式为 <code>ktx</code>，本质上就是图片，如果启动屏不生效的问题可以考虑从删除该路径下相关缓存文件这个角度解决；</p>
 <h3 id="Library-WebKit"><a href="#Library-WebKit" class="headerlink" title="Library/WebKit"></a>Library/WebKit</h3><p>存储 <code>WKWebView</code> 相关的一些数据，如 <code>IndexDB</code>、<code>LocalStorage</code>、<code>WebSQL</code> 等；</p>
-<h3 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h3><p>保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下系统都会自动清除该目录的数据。比如相机拍摄完成时的照片视频都会被暂时保存到这个路径。<br>iTunes、iCloud 不会备份该目录。</p>
+<h3 id="tmp"><a href="#tmp" class="headerlink" title="tmp"></a>tmp</h3><p>保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下系统都会自动清除该目录的数据。<br>iTunes、iCloud 不会备份该目录。</p>
 <h3 id="AppGroup"><a href="#AppGroup" class="headerlink" title="AppGroup"></a>AppGroup</h3><p>宿主程序与扩展程序数据共享区域。</p>
 <p>子目录<code>Library/Preferences</code>，默认没有该目录，当创建 <code>group</code> 的 <code>UserDefaults</code> 时会创建该目录，<code>UserDefaults</code> 对应 <code>plist</code> 的名称为 <code>group</code> 名称；</p>
 <h2 id="操作方式"><a href="#操作方式" class="headerlink" title="操作方式"></a>操作方式</h2><h3 id="获取路径地址"><a href="#获取路径地址" class="headerlink" title="获取路径地址"></a>获取路径地址</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 沙盒主目录</span></span><br><span class="line"><span class="keyword">let</span> path = <span class="type">NSHomeDirectory</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Documtents目录</span></span><br><span class="line"><span class="keyword">let</span> documtentsPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Library目录</span></span><br><span class="line"><span class="keyword">let</span> libraryPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.libraryDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">/// Application Support目录</span></span><br><span class="line"><span class="keyword">let</span> applicationSupportPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.applicationSupportDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"> <span class="comment">/// Caches目录</span></span><br><span class="line"><span class="keyword">let</span> cachesPath = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.cachesDirectory, .userDomainMask, <span class="literal">true</span>).first!</span><br><span class="line"></span><br><span class="line"><span class="comment">/// tmp目录</span></span><br><span class="line"><span class="keyword">let</span> tmpPath = <span class="type">NSTemporaryDirectory</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">--------------------------------------------------------</span></span><br><span class="line"><span class="comment">上面形式获取路径返回值为 String 形式，下面形式返回值为 URL 形式</span></span><br><span class="line"><span class="comment">可根据实际情况选择合适的方式</span></span><br><span class="line"><span class="comment">--------------------------------------------------------</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dataURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.urls(<span class="keyword">for</span>: .documentDirectory, <span class="keyword">in</span>: .userDomainMask).first?.appendingPathComponent(<span class="string">"sqliteName"</span>).appendingPathExtension(<span class="string">"sqlite"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// AppGroup目录路径</span></span><br><span class="line"><span class="keyword">let</span> appGroupIdentifier = <span class="string">"group.com.star.LTXiOSUtils.extension"</span></span><br><span class="line"><span class="keyword">let</span> groupURL = <span class="type">FileManager</span>.<span class="keyword">default</span>.containerURL(forSecurityApplicationGroupIdentifier: appgroupIdentifier)</span><br></pre></td></tr></table></figure>
@@ -616,7 +616,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/" title="iOS 持久化方式 - Sandbox">https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-Sandbox/</a>
+    <a href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS数据持久化-Sandbox/" title="iOS 数据持久化 - Sandbox">https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS数据持久化-Sandbox/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -650,8 +650,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-keychain/" rel="next" title="iOS持久化方式-keychain">
-                <i class="fa fa-chevron-left"></i> iOS持久化方式-keychain
+              <a href="/iOS/基础原理/Runtime相关/runtime底层/" rel="next" title="runtime底层">
+                <i class="fa fa-chevron-left"></i> runtime底层
               </a>
             
           </div>
