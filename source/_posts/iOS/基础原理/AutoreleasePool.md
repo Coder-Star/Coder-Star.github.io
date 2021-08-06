@@ -1,5 +1,5 @@
 ---
-title: AutoreleasePool 相关
+title: AutoreleasePool
 category:
   - iOS
   - 基础原理
@@ -114,3 +114,9 @@ autoreleasepool 核心作用就是降低内存使用峰值。当你使用类似 
 还有使用 NSOperation 时 main 方法要不要用 autoreleasepool 包起来，官方文档说 iOS 8 之后不需要了，系统会帮你做。但是实际在使用 addOperationWithBlock 时，operation 执行完，block 中的 autorelease 对象没有被释放，感觉是没有生效，配合着比较重的解码或者其他操作时，也导致过 OOM。现在在异步线程搞事情时，除了关注并发问题外，特别注意 autorelease 问题[破涕为笑]
 
 之前遇到过一个 C++ 实现的 SDK，开了几个常驻线程，在线程中向上层 OC 回调数据，为了方便使用，会将 C++ 的 buffer 转成 NSData 再序列化成 OC 的 Protobuf 对象。SDK 中的异步线程没有显式创建 autoreleasepool 包起来，虽然回调中创建的 OC 对象最终还会进入 autoreleasepool（NoPage 逻辑），但线程销毁 pool 才释放，而线程是常驻的，导致细水长流，每次回调就泄漏一点点内存，最后 OOM[捂脸]
+
+
+有两种情况生成的对象会加入到autoreleasepool中：
+
+非alloc/new/copy/mutablecopy 开始的方式初始化时。
+id的指针或对象的指针在没有显示指定时

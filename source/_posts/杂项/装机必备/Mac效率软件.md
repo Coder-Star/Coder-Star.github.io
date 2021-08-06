@@ -170,11 +170,14 @@ JSONConverter 是 MAC 上 iOS/Flutter 开发的辅助工具，可以快速的格
 
 图片压缩工具
 ![ImageOptim](../../../img/杂项/效率软件/ImageOptim.png)
+[ImageOptim-CLI](https://github.com/JamieMason/ImageOptim-CLI)：Mac 可使用`brew install imageoptim-cli`安装，其会根据你的指定，选择性调用 `JPEGmini`、`ImageAlpha`、`ImageOptim` 等工具，实现中间过程自动化。
 
 ### [iSpart](http://isparta.github.io/)
 
 iSparta 是一款 APNG 和 Webp 转换工具。
 ![iSparta](../../../img/杂项/效率软件/iSpart.png)
+
+* [webp工具](https://developers.google.com/speed/webp/docs/using): 在Mac下，可以使用Homebrew安装WebP工具--`brew install webp`；
 
 ### [Lookin](https://lookin.work/)
 
@@ -241,6 +244,30 @@ mobileprovision 文件管理器工具
 一个应用程序，可让您打开。car 文件并浏览 / 提取其图像，或使用 QuickLook 在 Finder 上预览它们
 ![AssetCatalogTinkerer](../../../img/杂项/效率软件/AssetCatalogTinkerer.png)
 
+### cocoapods 依赖关系可视化
+
+安装`cocoapods-dependencies`工具，在`Podfile`文件路径下执行`pod dependencies`在控制台就会输出级联的依赖关系。
+
+安装`cocoapods-dependencies`： `gem install cocoapods-dependencies`
+
+这样的方式输出的依赖关系不直观，我们可以安装`graphviz`工具将这些依赖关系生成为`.gz`文件，并且也可以生成依赖图；
+
+* 安装`graphviz`：`brew install graphviz`
+* 生成`.gz`文件：`pod dependencies --graphviz`
+* 生成依赖图：`pod dependencies --image`
+* 生成`.gz`文件及依赖图：`pod dependencies --graphviz --image`
+
+`.gz`文件其实就是一种描述图形的文件，我们可以通过其他的工具去解析它，比如：
+* 在线网站：[GraphvizOnline](http://dreampuf.github.io/GraphvizOnline)
+* vs 插件：Graphviz (dot) language support for Visual Studio Code
+
+### 其他工具
+
+* [FengNiao](https://github.com/onevcat/FengNiao.git)：找出未使用的图片资源，命令行工具，可嵌入到Run Script中或者在CI系统中使用，支持的模式匹配更加强大；
+* [Duplicate Photos](https://www.duplicatephotocleaner.com/)：从内容上检测重复/相似图片；
+* [fdupes](https://github.com/adrianlopezroche/fdupes)：检测项目中的重复文件，其原理是对比不同文件的签名，签名相同的文件就会判定为重复资源；
+* [fui](https://github.com/dblock/fui)：查找未import的.h文件；
+
 ## 在线工具
 
 ### [JSON](https://www.json.cn/)
@@ -250,6 +277,7 @@ JSON 解析，用来格式化 JSON
 ### [tinypng](https://tinypng.com/)
 
 在线压缩图片
+[TinyPNG4Mac](https://github.com/kyleduo/TinyPNG4Mac/)：TinyPng的客户端工具，无需联网使用浏览器；
 
 ### [tableconvert](https://tableconvert.com/)
 

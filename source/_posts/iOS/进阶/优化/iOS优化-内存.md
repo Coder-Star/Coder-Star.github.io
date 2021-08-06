@@ -1,5 +1,5 @@
 ---
-title: iOS优化-内存
+title: iOS 优化 - 内存
 category:
   - iOS
   - 优化
@@ -8,14 +8,6 @@ tags:
   - 优化
 date: 2021-03-18 09:44:17
 ---
-
-iOS 优化系列目录如下：
-
-- [iOS 优化-总览](../iOS优化-总览)
-- [iOS 优化-UI](../iOS优化-UI)
-- [iOS 优化-内存](../iOS优化-内存)
-- [iOS 优化-启动优化](../iOS优化-启动优化)
-- [iOS 优化-瘦身](../iOS优化-瘦身)
 
 ### 检测循环引用
 
@@ -26,3 +18,5 @@ iOS 优化系列目录如下：
 **FBRetainCycleDetector**
 
 当传入内存中的任意一个 OC 对象，FBRetainCycleDetector 会递归遍历该对象的所有强引用的对象，以检测以该对象为根结点的强引用树有没有循环引用。
+
+- 使用 AutoreleasePool

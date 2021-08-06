@@ -1,5 +1,5 @@
 ---
-title: OC学习
+title: OC 学习
 category:
   - iOS
   - OC
@@ -10,20 +10,20 @@ date: 2020-03-16 11:36:19
 
 ## 修饰符
 
-- @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名)
+- @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)
 - @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。
 - @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，
 
 当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。
 
-@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是@syntheszie var = \_var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上@synthesize 及@dynamic。
+@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是 @syntheszie var = \_var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上 @synthesize 及 @dynamic。
 
-什么情况下需要使用@synthesize 呢？
+什么情况下需要使用 @synthesize 呢？
 
-- 修改生成的成员变量名字
-- 重写了只读属性的getter时
-- 同时重写setter和getter时
-- 实现了带有 property 属性的 protocol
+- 修改生成的成员变量名字；
+- 重写了只读属性的 getter 时；
+- 同时重写 setter 和 getter 时；
+- 实现了带有 property 属性的 protocol；
 
 怎么用呢？
 
@@ -48,7 +48,7 @@ date: 2020-03-16 11:36:19
 
 - retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用
 - strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用
-- copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于(NSArray,NSDictionary,NSString)，释放旧对象
+- copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于 (NSArray,NSDictionary,NSString)，释放旧对象
 - assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针
 - weak 表示只是指向对象，不隐式发送 retain, 指向对象一旦被销毁就会自动 nil 化
 - \_\_unsafe_unretained 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针
@@ -103,7 +103,8 @@ date: 2020-03-16 11:36:19
 - 基本数据类型：atomic readwrite assign
 - 普通 OC 对象： atomic readwrite strong
 
-
-
-
 ## @import、#import、 #include、@class
+
+@class 用在 .h文件中，作用是创建一个向前引用，是解决两个.h文件互相引用的解决办法。
+
+#import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。

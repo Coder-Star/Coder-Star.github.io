@@ -1,5 +1,5 @@
 ---
-title: statusBar
+title: StatusBar
 category:
   - iOS
   - UI

@@ -13,6 +13,22 @@ tags: [iOS, 体系]
 
 ## 基础知识
 
+### UI
+
+- Frame、Bounds
+- UIView、Layer
+-
+
+### 内存管理
+
+- MRC
+- ARC
+- AutoRelease
+  - AutoreleasePool
+- 循环引用
+- 内存管理分区
+- 
+
 ### 持久化方案
 
 - 数据库，SQLite、Realm、CoreData
@@ -89,7 +105,7 @@ tags: [iOS, 体系]
 ## 开发框架
 
 - Rx
-- 
+-
 
 ## 工程化
 
@@ -114,7 +130,7 @@ tags: [iOS, 体系]
 
 ## 经典场景
 
-- 埋点统计系统
+- 埋点统计（无痕埋点）
 - 国际化
 - 主题
 - 推送
@@ -127,5 +143,9 @@ tags: [iOS, 体系]
 - 大神博客
 - WWDC
 - 官方文档
+- B 站斯坦福课程
+-
 
-## 音视频
+## 分支方向
+
+- 音视频

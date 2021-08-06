@@ -92,6 +92,8 @@ open var subtype: UIEvent.EventSubtype { get }
 
 ![事件生命周期](../../../img/iOS/基础原理/响应链/事件生命周期.png)
 
+> IOKit.framework 在 iOS 工程中不存在，可以通过创建一个 Mac 项目然后获取到继而手动放到 iOS 工程中。
+
 通过上图我们对事件整个的生命周期其实有一个大致的了解。下文会分为几个小节对图中的流程的细节方面进行一个梳理。
 
 ## 普通事件响应者：UIResponder

@@ -33,7 +33,7 @@ NetworkProcess 也是通过封装的 NSURLSession 发起并管理网络请求的
 
 用于数据库和服务工作者的存储。
 
-![WkWebView进程间通信图](../../../../img/iOS/UI/WkWebView.jpg)
+![WkWebView进程间通信图](../../../img/iOS/UI/WkWebView.jpg)
 
 ## 代理方法
 
