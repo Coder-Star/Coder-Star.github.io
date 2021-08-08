@@ -966,8 +966,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-07T22:05:12+08:00">
+                2021-08-07
               </time>
             
           </span>
@@ -1016,7 +1016,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  954 字
+                  549 字
                 </span>
               
 
@@ -1032,7 +1032,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  2 分钟
                 </span>
               
             </div>
@@ -1066,213 +1066,6 @@ CTTransaction 捕捉到 UIImageView layer 树的变化
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/iOS/iOS面试题积累/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-      
-      
-      
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/UIScrollView/UIScrollView相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CoderStar">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CoderStar's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/iOS/UI/UIScrollView/UIScrollView相关/" itemprop="url">UIScrollView相关</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T14:45:16+08:00">
-                2019-10-12
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:18:18+08:00">
-                2021-07-30
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/UI/" itemprop="url" rel="index">
-                    <span itemprop="name">UI</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  910 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  4 分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          一、UIScrollView1、UIScrollView 特殊点
-ios 根 View 的焦点一般都是(0,0)，会从屏幕左上角开始布局，如果 view 第一个子视图是 UIScrollView 时，则 view 视图会自动下移大概 64pt（状态栏 20pt + 导航栏 44pt）。如果不是第一个视图，并不会自动向下偏移，如果没有经过特殊布局，便会出现其内容被导航栏遮挡的问题出现（iOS 11.
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/iOS/UI/UIScrollView/UIScrollView相关/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1529,7 +1322,7 @@ event response (按钮以及手势的事件响应)
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/Navigation/导航栏相关/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/导航栏相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -1548,7 +1341,7 @@ event response (按钮以及手势的事件响应)
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/iOS/UI/Navigation/导航栏相关/" itemprop="url">导航栏相关</a></h1>
+                <a class="post-title-link" href="/iOS/UI/导航栏相关/" itemprop="url">导航栏相关</a></h1>
         
 
         <div class="post-meta">
@@ -1576,8 +1369,8 @@ event response (按钮以及手势的事件响应)
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:18:27+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-02T21:54:55+08:00">
+                2021-08-02
               </time>
             
           </span>
@@ -1667,7 +1460,7 @@ event response (按钮以及手势的事件响应)
           导航栏相关
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/iOS/UI/Navigation/导航栏相关/">
+            <a class="btn" href="/iOS/UI/导航栏相关/">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1921,7 +1714,7 @@ event response (按钮以及手势的事件响应)
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/WKWebView/关于WKWebView/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/关于WKWebView/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -1940,7 +1733,7 @@ event response (按钮以及手势的事件响应)
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/iOS/UI/WKWebView/关于WKWebView/" itemprop="url">关于 WKWebView</a></h1>
+                <a class="post-title-link" href="/iOS/UI/关于WKWebView/" itemprop="url">关于 WKWebView</a></h1>
         
 
         <div class="post-meta">
@@ -1968,8 +1761,8 @@ event response (按钮以及手势的事件响应)
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:18:07+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-02T21:55:27+08:00">
+                2021-08-02
               </time>
             
           </span>
@@ -2073,7 +1866,7 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/iOS/UI/WKWebView/关于WKWebView/#more" rel="contents">
+            <a class="btn" href="/iOS/UI/关于WKWebView/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2128,7 +1921,7 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/UITableView/UITableView相关/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/UITableView相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -2147,7 +1940,7 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/iOS/UI/UITableView/UITableView相关/" itemprop="url">UITableView相关</a></h1>
+                <a class="post-title-link" href="/iOS/UI/UITableView相关/" itemprop="url">UITableView相关</a></h1>
         
 
         <div class="post-meta">
@@ -2175,8 +1968,8 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:18:15+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-02T21:54:50+08:00">
+                2021-08-02
               </time>
             
           </span>
@@ -2280,7 +2073,204 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/iOS/UI/UITableView/UITableView相关/#more" rel="contents">
+            <a class="btn" href="/iOS/UI/UITableView相关/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+      
+      
+      
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/Flutter/Flutter环境搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CoderStar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CoderStar's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/Flutter/Flutter环境搭建/" itemprop="url">Flutter环境搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T13:36:22+08:00">
+                2019-10-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:08:54+08:00">
+                2021-07-30
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Flutter/" itemprop="url" rel="index">
+                    <span itemprop="name">Flutter</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  356 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1、下载 Flutter1git clone -b master https://github.com/flutter/flutter.git
+
+2、配置环境变量123456789vim ~/.bash_profile//加入内容export PATH=/你的flutter文件夹所在位置/flutter/bin:$PATHexport PUB_HOSTED_URL=https://pub.flut
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/Flutter/Flutter环境搭建/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -2374,7 +2364,7 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">103</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2382,7 +2372,7 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
               </div>
             
 
@@ -2391,7 +2381,7 @@ UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

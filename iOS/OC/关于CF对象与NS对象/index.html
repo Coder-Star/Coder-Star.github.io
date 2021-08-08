@@ -91,15 +91,15 @@
 <meta name="description" content="前言Core Foundation 是一组 C 语言接口，Foundation 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的，比如 CFDictionary 的 Key 元素无需实现 NSC">
 <meta name="keywords" content="iOS,OC,Core Foundation">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于CF对象与NS对象">
+<meta property="og:title" content="关于 CF 对象与 NS 对象">
 <meta property="og:url" content="https://coder-star.github.io/iOS/OC/关于CF对象与NS对象/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Core Foundation 是一组 C 语言接口，Foundation 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的，比如 CFDictionary 的 Key 元素无需实现 NSC">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/OC/CF-NS.png">
-<meta property="og:updated_time" content="2021-06-05T01:44:59.593Z">
+<meta property="og:updated_time" content="2021-08-02T14:02:09.827Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于CF对象与NS对象">
+<meta name="twitter:title" content="关于 CF 对象与 NS 对象">
 <meta name="twitter:description" content="前言Core Foundation 是一组 C 语言接口，Foundation 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的，比如 CFDictionary 的 Key 元素无需实现 NSC">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/OC/CF-NS.png">
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>关于CF对象与NS对象 | CoderStar's Blog</title>
+  <title>关于 CF 对象与 NS 对象 | CoderStar's Blog</title>
   
 
 
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">关于CF对象与NS对象</h1>
+          <h1 class="post-title" itemprop="name headline">关于 CF 对象与 NS 对象</h1>
         
 
         <div class="post-meta">
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-05T09:44:59+08:00">
-                2021-06-05
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-02T22:02:09+08:00">
+                2021-08-02
               </time>
             
           </span>
@@ -463,7 +463,7 @@
 <ul>
 <li><p>当 NSString 的其中一个私有子类实现即为 NSCFString，其内存的结构与 CFString 是相同的，CFString 的 isa 指针就指向 NSCFString 类，即，CFString 对象就是一个 NSCFString 类的实例。所以，当 NSString 的实现刚好是 NSCFString 的时候，他们两者之间的转换是相当容易而直接的，他们就是同一个类的实例。</p>
 </li>
-<li><p>当 NSString 的实现不是 NSCFString 的时候（比如我们自己 subclass 了 NSString），我们调用 CF 函数，就需要先检查对象的具体实现。如果发现其不是 NSCFString，我们不会调用 CF 函数的实现来获得结果，而是通过给对象发送与函数功能相对应的 ObjC 消息（调用相对应的 NSString 的接口）来获得其结果。例如 CFStringGetLength 函数，当收到一个作为参数传递进来的对象时，会先确认该对象到底是不是 NSCFString 实现。如果是的话，就会直接调用 CFStringGetLength 函数的实现来获得字符串的长度；如果不是的话，会给对象发送 length 消息（调用 NSString 的- (NSUInteger)length 接口），来得到字符串的长度</p>
+<li><p>当 NSString 的实现不是 NSCFString 的时候（比如我们自己 subclass 了 NSString），我们调用 CF 函数，就需要先检查对象的具体实现。如果发现其不是 NSCFString，我们不会调用 CF 函数的实现来获得结果，而是通过给对象发送与函数功能相对应的 ObjC 消息（调用相对应的 NSString 的接口）来获得其结果。例如 CFStringGetLength 函数，当收到一个作为参数传递进来的对象时，会先确认该对象到底是不是 NSCFString 实现。如果是的话，就会直接调用 CFStringGetLength 函数的实现来获得字符串的长度；如果不是的话，会给对象发送 length 消息（调用 NSString 的 - (NSUInteger)length 接口），来得到字符串的长度</p>
 </li>
 </ul>
 <blockquote>
@@ -546,7 +546,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/OC/关于CF对象与NS对象/" title="关于CF对象与NS对象">https://coder-star.github.io/iOS/OC/关于CF对象与NS对象/</a>
+    <a href="https://coder-star.github.io/iOS/OC/关于CF对象与NS对象/" title="关于 CF 对象与 NS 对象">https://coder-star.github.io/iOS/OC/关于CF对象与NS对象/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -592,8 +592,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/iOS/进阶/优化/iOS优化-内存/" rel="prev" title="iOS优化-内存">
-                iOS优化-内存 <i class="fa fa-chevron-right"></i>
+              <a href="/iOS/进阶/优化/iOS优化-内存/" rel="prev" title="iOS 优化 - 内存">
+                iOS 优化 - 内存 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -676,7 +676,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">103</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -684,7 +684,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
               </div>
             
 
@@ -693,7 +693,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

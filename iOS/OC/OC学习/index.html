@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不会自动">
+<meta name="description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta name="keywords" content="OC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OC学习">
+<meta property="og:title" content="OC 学习">
 <meta property="og:url" content="https://coder-star.github.io/iOS/OC/OC学习/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不会自动">
+<meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-30T12:01:53.774Z">
+<meta property="og:updated_time" content="2021-08-03T14:53:46.013Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OC学习">
-<meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不会自动">
+<meta name="twitter:title" content="OC 学习">
+<meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>OC学习 | CoderStar's Blog</title>
+  <title>OC 学习 | CoderStar's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">OC学习</h1>
+          <h1 class="post-title" itemprop="name headline">OC 学习</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:01:53+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-03T22:53:46+08:00">
+                2021-08-03
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1k 字
+                  1.1k 字
                 </span>
               
 
@@ -453,18 +453,18 @@
 
       
         <h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><ul>
-<li>@property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量(下划线+属性名)</li>
+<li>@property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)</li>
 <li>@synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。</li>
 <li>@dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，</li>
 </ul>
 <p>当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。</p>
-<p>@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是@syntheszie var = _var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上@synthesize 及@dynamic。</p>
-<p>什么情况下需要使用@synthesize 呢？</p>
+<p>@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是 @syntheszie var = _var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上 @synthesize 及 @dynamic。</p>
+<p>什么情况下需要使用 @synthesize 呢？</p>
 <ul>
-<li>修改生成的成员变量名字</li>
-<li>重写了只读属性的getter时</li>
-<li>同时重写setter和getter时</li>
-<li>实现了带有 property 属性的 protocol</li>
+<li>修改生成的成员变量名字；</li>
+<li>重写了只读属性的 getter 时；</li>
+<li>同时重写 setter 和 getter 时；</li>
+<li>实现了带有 property 属性的 protocol；</li>
 </ul>
 <p>怎么用呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .h文件</span><br><span class="line">@property (nonatomic, readonly, unsafe_unretained) int i;</span><br><span class="line"></span><br><span class="line">// .m文件</span><br><span class="line">@synthesize i = __i; // __i为指定的实例变量，@synthesize i相当于 @synthesize i = i;</span><br></pre></td></tr></table></figure>
@@ -476,7 +476,7 @@
 <ul>
 <li>retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用</li>
 <li>strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用</li>
-<li>copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于(NSArray,NSDictionary,NSString)，释放旧对象</li>
+<li>copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于 (NSArray,NSDictionary,NSString)，释放旧对象</li>
 <li>assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针</li>
 <li>weak 表示只是指向对象，不隐式发送 retain, 指向对象一旦被销毁就会自动 nil 化</li>
 <li>__unsafe_unretained 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针</li>
@@ -511,7 +511,9 @@
 <li>基本数据类型：atomic readwrite assign</li>
 <li>普通 OC 对象： atomic readwrite strong</li>
 </ul>
-<h2 id="import、-import、-include、-class"><a href="#import、-import、-include、-class" class="headerlink" title="@import、#import、 #include、@class"></a>@import、#import、 #include、@class</h2>
+<h2 id="import、-import、-include、-class"><a href="#import、-import、-include、-class" class="headerlink" title="@import、#import、 #include、@class"></a>@import、#import、 #include、@class</h2><p>@class 用在 .h文件中，作用是创建一个向前引用，是解决两个.h文件互相引用的解决办法。</p>
+<p>#import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。</p>
+
       
     </div>
     
@@ -568,7 +570,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/OC/OC学习/" title="OC学习">https://coder-star.github.io/iOS/OC/OC学习/</a>
+    <a href="https://coder-star.github.io/iOS/OC/OC学习/" title="OC 学习">https://coder-star.github.io/iOS/OC/OC学习/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -694,7 +696,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">103</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -702,7 +704,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
               </div>
             
 
@@ -711,7 +713,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

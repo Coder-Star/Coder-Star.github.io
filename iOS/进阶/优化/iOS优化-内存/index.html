@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  检测循环引用MLeaksFinder 基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，">
+<meta name="description" content="检测循环引用MLeaksFinder 基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，如果此时引用为 nil，则没有循环引用，如果不为 nil，则有可能发生了循环引用。 FBRetainCycleDetector 当传入内">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS优化-内存">
+<meta property="og:title" content="iOS 优化 - 内存">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-内存/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  检测循环引用MLeaksFinder 基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，">
+<meta property="og:description" content="检测循环引用MLeaksFinder 基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，如果此时引用为 nil，则没有循环引用，如果不为 nil，则有可能发生了循环引用。 FBRetainCycleDetector 当传入内">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.316Z">
+<meta property="og:updated_time" content="2021-08-04T12:34:28.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS优化-内存">
-<meta name="twitter:description" content="iOS 优化系列目录如下：  iOS 优化-总览 iOS 优化-UI iOS 优化-内存 iOS 优化-启动优化 iOS 优化-瘦身  检测循环引用MLeaksFinder 基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，">
+<meta name="twitter:title" content="iOS 优化 - 内存">
+<meta name="twitter:description" content="检测循环引用MLeaksFinder 基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，如果此时引用为 nil，则没有循环引用，如果不为 nil，则有可能发生了循环引用。 FBRetainCycleDetector 当传入内">
 
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>iOS优化-内存 | CoderStar's Blog</title>
+  <title>iOS 优化 - 内存 | CoderStar's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS优化-内存</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 优化 - 内存</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-04T20:34:28+08:00">
+                2021-08-04
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  200 字
+                  168 字
                 </span>
               
 
@@ -452,18 +452,13 @@
       
 
       
-        <p>iOS 优化系列目录如下：</p>
-<ul>
-<li><a href="../iOS优化-总览">iOS 优化-总览</a></li>
-<li><a href="../iOS优化-UI">iOS 优化-UI</a></li>
-<li><a href="../iOS优化-内存">iOS 优化-内存</a></li>
-<li><a href="../iOS优化-启动优化">iOS 优化-启动优化</a></li>
-<li><a href="../iOS优化-瘦身">iOS 优化-瘦身</a></li>
-</ul>
-<h3 id="检测循环引用"><a href="#检测循环引用" class="headerlink" title="检测循环引用"></a>检测循环引用</h3><p><strong>MLeaksFinder</strong></p>
+        <h3 id="检测循环引用"><a href="#检测循环引用" class="headerlink" title="检测循环引用"></a>检测循环引用</h3><p><strong>MLeaksFinder</strong></p>
 <p>基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，如果此时引用为 nil，则没有循环引用，如果不为 nil，则有可能发生了循环引用。</p>
 <p><strong>FBRetainCycleDetector</strong></p>
 <p>当传入内存中的任意一个 OC 对象，FBRetainCycleDetector 会递归遍历该对象的所有强引用的对象，以检测以该对象为根结点的强引用树有没有循环引用。</p>
+<ul>
+<li>使用 AutoreleasePool</li>
+</ul>
 
       
     </div>
@@ -521,7 +516,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-内存/" title="iOS优化-内存">https://coder-star.github.io/iOS/进阶/优化/iOS优化-内存/</a>
+    <a href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-内存/" title="iOS 优化 - 内存">https://coder-star.github.io/iOS/进阶/优化/iOS优化-内存/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -555,8 +550,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/iOS/OC/关于CF对象与NS对象/" rel="next" title="关于CF对象与NS对象">
-                <i class="fa fa-chevron-left"></i> 关于CF对象与NS对象
+              <a href="/iOS/OC/关于CF对象与NS对象/" rel="next" title="关于 CF 对象与 NS 对象">
+                <i class="fa fa-chevron-left"></i> 关于 CF 对象与 NS 对象
               </a>
             
           </div>
@@ -649,7 +644,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">103</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -657,7 +652,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
               </div>
             
 
@@ -666,7 +661,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

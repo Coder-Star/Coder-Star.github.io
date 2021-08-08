@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CoderStar's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="1、基础知识样式UITableView 有两种样式（plain，grouped），其中 plain 为普通列表样式，grouped 是分组样式。可以在实例化的时候进行设置，默认是 plain。 123456789//tableview样式let  tableView = UITableView()  //plain形式let  tableview = UITableView(frame:frame">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UITableView相关">
+<meta property="og:url" content="https://coder-star.github.io/iOS/UI/UITableView相关/index.html">
+<meta property="og:site_name" content="CoderStar&#39;s Blog">
+<meta property="og:description" content="1、基础知识样式UITableView 有两种样式（plain，grouped），其中 plain 为普通列表样式，grouped 是分组样式。可以在实例化的时候进行设置，默认是 plain。 123456789//tableview样式let  tableView = UITableView()  //plain形式let  tableview = UITableView(frame:frame">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-08-02T13:54:50.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UITableView相关">
+<meta name="twitter:description" content="1、基础知识样式UITableView 有两种样式（plain，grouped），其中 plain 为普通列表样式，grouped 是分组样式。可以在实例化的时候进行设置，默认是 plain。 123456789//tableview样式let  tableView = UITableView()  //plain形式let  tableview = UITableView(frame:frame">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coder-star.github.io/iOS/UI/UITableView相关/">
+
+
+
+
+
+  <title>UITableView相关 | CoderStar's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CoderStar's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/UITableView相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CoderStar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CoderStar's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UITableView相关</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-12T13:48:42+08:00">
+                2019-10-12
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-02T21:54:50+08:00">
+                2021-08-02
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、基础知识"><a href="#1、基础知识" class="headerlink" title="1、基础知识"></a>1、基础知识</h2><h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>UITableView 有两种样式（plain，grouped），其中 plain 为普通列表样式，grouped 是分组样式。可以在实例化的时候进行设置，默认是 plain。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//tableview样式</span></span><br><span class="line"><span class="keyword">let</span>  tableView = <span class="type">UITableView</span>()  <span class="comment">//plain形式</span></span><br><span class="line"><span class="keyword">let</span>  tableview = <span class="type">UITableView</span>(frame:frame, style:.grouped) <span class="comment">//grouped形式</span></span><br><span class="line"></span><br><span class="line">tableview.separatorStyle = .singleLine <span class="comment">//设置是否有横线,默认有横线</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//tablecell样式</span></span><br><span class="line">tablecell.selectionStyle = .gray  <span class="comment">//设置cell点击的样式，其中设置为none时候点击时候没有阴影效果</span></span><br><span class="line">tablecell.accessoryType = .disclosureIndicator <span class="comment">//设置cell尾部样式，箭头还是对号等等</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数据源（UITableViewDataSource）"><a href="#数据源（UITableViewDataSource）" class="headerlink" title="数据源（UITableViewDataSource）"></a>数据源（UITableViewDataSource）</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//行数（必须实现）</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, numberOfRowsInSection section: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line"><span class="comment">//每个cell（必须实现）</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cellForRowAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span></span><br><span class="line"><span class="comment">//组数，非必须实现 默认是1</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">numberOfSections</span><span class="params">(<span class="keyword">in</span> tableView: UITableView)</span></span> -&gt; <span class="type">Int</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="代理（UITableViewDelegate）"><a href="#代理（UITableViewDelegate）" class="headerlink" title="代理（UITableViewDelegate）"></a>代理（UITableViewDelegate）</h3><p>UITableViewDelegate 继承 UIScrollViewDelegate，也就是说 UITableView 其实拥有很多 UIScrollView 的操作。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//cell点击监听</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, didSelectRowAt indexPath: IndexPath)</span></span></span><br><span class="line"><span class="comment">//取消点击后产生的阴影</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, didDeselectRowAt indexPath: IndexPath)</span></span></span><br><span class="line"><span class="comment">//编辑操作，左滑</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, editActionsForRowAt indexPath: IndexPath)</span></span> -&gt; [<span class="type">UITableViewRowAction</span>]?</span><br><span class="line"><span class="comment">//cell即将展示</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2、问题集锦"><a href="#2、问题集锦" class="headerlink" title="2、问题集锦"></a>2、问题集锦</h2><h3 id="1、取消-TableView-前后默认空白部分"><a href="#1、取消-TableView-前后默认空白部分" class="headerlink" title="1、取消 TableView 前后默认空白部分"></a>1、取消 TableView 前后默认空白部分</h3><p>代码示例</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, heightForHeaderInSection section: Int)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.01</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, viewForHeaderInSection section: Int)</span></span> -&gt; <span class="type">UIView?</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, heightForFooterInSection section: Int)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0.01</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, viewForFooterInSection section: Int)</span></span> -&gt; <span class="type">UIView?</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意事项</p>
+<ol>
+<li>在设置 <strong>tableView.delegate = self</strong> 时注意将其放在 tableView 加入其 View 之前 ( <strong>ParentView.addSubview(tableView)</strong> )，否则上述代码不会生效。</li>
+<li>在 ios11 系统以下，如果上述 header 以及 footer 置为 0，则会认为其没有设置高度，还是会默认设置大约为 50 个像素的高度；ios11 系统以上可直接设置为 0；</li>
+<li>如果不设置 viewForHeaderInSection 或者设置其为 nil，直接设置 heightForHeaderInSection，不会走 heightForHeaderInSection 这个代理；</li>
+</ol>
+<h3 id="2、TableView-高度自适应"><a href="#2、TableView-高度自适应" class="headerlink" title="2、TableView 高度自适应"></a>2、TableView 高度自适应</h3><p>设置 TableView 高度自适应一般需要设置 estimatedRowHeight 以及 rowHeight 两个属性,并且 cell 的子控件布局要实现自动布局（即 cell 的子控件需要将 cell 撑满）。其中 estimatedRowHeight 是一个对 cell 的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight 设为 UITableView.automaticDimension；<br><strong>需要注意的是当 estimatedRowHeight 设为 0 时表示关闭预估高度（在实践中发现可能还会表示不使用自适应），ios11 之前默认值为 0，ios11 及以后默认值为 44，也就是说如果 app 需要兼容 ios10 及以下系统时，必须手动为 estimatedRowHeight 属性赋值，但是我觉得即使不是 ios10 及以下系统，还是建议为该属性手动赋值一个比较接近的值，提升流畅度</strong></p>
+<blockquote>
+<p><code>cellForRowAtIndexPath</code>与<code>heightForRowAtIndexPath</code>调用顺序：</p>
+</blockquote>
+<ol>
+<li>tableView 设置了预估行高<br><code>cellForRowAtIndexPath</code> 在 <code>heightForRowAtIndexPath</code> 之前调用</li>
+<li>tableView 没有设置预估行高<br>tableView 首先会把所有 IndexPath 的 heightForRowAtIndexPath 遍历一遍以计算 contentsize，然后又按照上述情况设置一次</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//设置预估高度</span></span><br><span class="line">tableView?.estimatedRowHeight = <span class="number">44</span></span><br><span class="line"><span class="comment">//设置高度自适应</span></span><br><span class="line">tableView?.rowHeight = <span class="type">UITableView</span>.automaticDimension</span><br><span class="line"></span><br><span class="line"><span class="comment">//cell自动布局代码</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cellForRowAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</span><br><span class="line">     <span class="keyword">let</span> tableCell:<span class="type">UITableViewCell</span> = <span class="type">UITableViewCell</span>(style: .<span class="keyword">default</span>, reuseIdentifier: <span class="string">"cell"</span>)</span><br><span class="line">     tableCell.accessoryType = .disclosureIndicator</span><br><span class="line">     <span class="keyword">let</span> itemUILabel = <span class="type">UILabel</span>()</span><br><span class="line">    <span class="comment">//设置换行</span></span><br><span class="line">     itemUILabel.lineBreakMode = .byWordWrapping</span><br><span class="line">     itemUILabel.numberOfLines  = <span class="number">0</span></span><br><span class="line">     tableCell.addSubview(itemUILabel)</span><br><span class="line">     itemUILabel.snp.makeConstraints &#123; (make) <span class="keyword">in</span></span><br><span class="line">       make.top.<span class="keyword">left</span>.<span class="keyword">right</span>.bottom.equalTo(tableCell) <span class="comment">//其中bottom属性比较重要，因为这样cell才知道自己的底部约束，使cell撑开</span></span><br><span class="line">     &#125;</span><br><span class="line">  <span class="keyword">return</span> tableCell</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、TableView-滚动条常在（具体原理百度上很多，ScrollView-同理）"><a href="#3、TableView-滚动条常在（具体原理百度上很多，ScrollView-同理）" class="headerlink" title="3、TableView 滚动条常在（具体原理百度上很多，ScrollView 同理）"></a>3、TableView 滚动条常在（具体原理百度上很多，ScrollView 同理）</h3><ol>
+<li>UIImageView 扩展(oc 代理类文件如何新建自行百度)</li>
+</ol>
+<ul>
+<li>.h 文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line">#define noDisableVerticalScrollTag 836913 //竖向滚动</span><br><span class="line">#define noDisableHorizontalScrollTag 836914 //横向滚动</span><br><span class="line">NS_ASSUME_NONNULL_BEGIN</span><br><span class="line">@interface UIImageView (ForScrollView)</span><br><span class="line">@end</span><br><span class="line">NS_ASSUME_NONNULL_END</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>.m 文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;UIImageView+Scroll.h&quot;</span><br><span class="line">@implementation UIImageView (ForScrollView)</span><br><span class="line">- (void)setAlpha:(CGFloat)alpha&#123;</span><br><span class="line"></span><br><span class="line">    if (self.superview.tag == noDisableVerticalScrollTag) &#123;</span><br><span class="line">        if (alpha == 0 &amp;&amp; self.autoresizingMask == UIViewAutoresizingFlexibleLeftMargin) &#123;</span><br><span class="line">            if (self.frame.size.width &lt; 10 &amp;&amp; self.frame.size.height &gt; self.frame.size.width) &#123;</span><br><span class="line">                UIScrollView *sc = (UIScrollView*)self.superview;</span><br><span class="line">                if (sc.frame.size.height &lt; sc.contentSize.height) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (self.superview.tag == noDisableHorizontalScrollTag) &#123;</span><br><span class="line">        if (alpha == 0 &amp;&amp; self.autoresizingMask == UIViewAutoresizingFlexibleTopMargin) &#123;</span><br><span class="line">            if (self.frame.size.height &lt; 10 &amp;&amp; self.frame.size.height &lt; self.frame.size.width) &#123;</span><br><span class="line">                UIScrollView *sc = (UIScrollView*)self.superview;</span><br><span class="line">                if (sc.frame.size.width &lt; sc.contentSize.width) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [super setAlpha:alpha];</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-为-tableView-绑定标签"><a href="#1-为-tableView-绑定标签" class="headerlink" title="1. 为 tableView 绑定标签"></a>1. 为 tableView 绑定标签</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tableView.tag = <span class="type">Int</span>(noDisableVerticalScrollTag)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码可以实现 tableView 人工滚动后，滚动条显示后不会再消失。但刚进入不会直接显示滚动条，如果进入页面就直接显示滚动条，则需要添上以下代码；</p>
+<h4 id="2-进入页面直接显示滚动条"><a href="#2-进入页面直接显示滚动条" class="headerlink" title="2. 进入页面直接显示滚动条"></a>2. 进入页面直接显示滚动条</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当tableView绑定完数据后，使用flashScrollIndicators方法</span></span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">        tableView.flashScrollIndicators() <span class="comment">//该方法会自动显示滚动条1~2秒，再配合1，2步骤代码就可以实现滚动条常在了。</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、提供一个获取-tableView-自适应高度比较暴力的方法"><a href="#4、提供一个获取-tableView-自适应高度比较暴力的方法" class="headerlink" title="4、提供一个获取 tableView 自适应高度比较暴力的方法"></a>4、提供一个获取 tableView 自适应高度比较暴力的方法</h3><p>近期开发中遇到了一个 ScrollView 嵌套 tableView 的场景，因为 ScrollView 需要依靠其子 View 的相对约束来计算其 ContentSize,所以需要获取到 tableView 的高度。下面是相关代码。大致思路为<strong>cell 即将展示时，获取 tableView 的 contentSize，此 contentSize 便为 tableView 的高度，将此值更新为 tableView 的高度约束。(可以提前给 tableView 设置一个平均高度，然后去更新这个约束，这样即使没有获取到实际高度，也不会有错误)</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在cell即将展示时，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束</span></span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">        tableView.layoutIfNeeded()</span><br><span class="line">        tableView.snp.updateConstraints &#123; make <span class="keyword">in</span></span><br><span class="line">            make.height.equalTo(tableView.contentSize.height)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">        <span class="type">DispatchQueue</span>.main.asyncAfter(deadline:.now()+<span class="number">0.5</span>)&#123;</span><br><span class="line">            <span class="type">QL1</span>(tableView.contentSize.height)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5、tableCell-点击之后-UIAlertController-延迟弹出问题处理"><a href="#5、tableCell-点击之后-UIAlertController-延迟弹出问题处理" class="headerlink" title="5、tableCell 点击之后 UIAlertController 延迟弹出问题处理"></a>5、tableCell 点击之后 UIAlertController 延迟弹出问题处理</h3><p>猜测原因：<code>点击事件触发后没有及时刷新UI，或者进入到了其他线程，主线程可能经过几次循环后之后才会发现UI变化，去刷新UI</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法1</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, didSelectRowAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">        tableView.deselectRow(at: indexPath, animated: <span class="literal">false</span>) <span class="comment">//重点是 animated: false ，需要将是否显示动画设为false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法2，将弹出框操作放在主线程中进行</span></span><br><span class="line"><span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">  <span class="comment">//弹出框操作</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法三</span></span><br><span class="line">tableCell.selectionStyle = .<span class="keyword">none</span>  <span class="comment">//不要将点击后颜色变化置为none</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6、tablecell-复用导致页面数据错位"><a href="#6、tablecell-复用导致页面数据错位" class="headerlink" title="6、tablecell 复用导致页面数据错位"></a>6、tablecell 复用导致页面数据错位</h3><h4 id="1-可在使用复用的-cell-前，先删除-cell-之前的子-view-代码如下"><a href="#1-可在使用复用的-cell-前，先删除-cell-之前的子-view-代码如下" class="headerlink" title="1.可在使用复用的 cell 前，先删除 cell 之前的子 view(代码如下)"></a>1.可在使用复用的 cell 前，先删除 cell 之前的子 view(代码如下)</h4><h4 id="2-为每一个-cell-设置一个特定的-reuseIdentifierId，去缓冲池取的时候直接取特定的-reuseIdentifierId-不推荐使用，如果这样做的话，其中就不存在复用了"><a href="#2-为每一个-cell-设置一个特定的-reuseIdentifierId，去缓冲池取的时候直接取特定的-reuseIdentifierId-不推荐使用，如果这样做的话，其中就不存在复用了" class="headerlink" title="2.为每一个 cell 设置一个特定的 reuseIdentifierId，去缓冲池取的时候直接取特定的 reuseIdentifierId(不推荐使用，如果这样做的话，其中就不存在复用了)"></a>2.为每一个 cell 设置一个特定的 reuseIdentifierId，去缓冲池取的时候直接取特定的 reuseIdentifierId(不推荐使用，如果这样做的话，其中就不存在复用了)</h4><h4 id="3-不再使用-dequeueReusableCell-从缓冲池中取，而是直接通过-cellForRow-直接定位到具体的-indexPath-不推荐，原因同上"><a href="#3-不再使用-dequeueReusableCell-从缓冲池中取，而是直接通过-cellForRow-直接定位到具体的-indexPath-不推荐，原因同上" class="headerlink" title="3.不再使用 dequeueReusableCell 从缓冲池中取，而是直接通过 cellForRow 直接定位到具体的 indexPath(不推荐，原因同上)"></a>3.不再使用 dequeueReusableCell 从缓冲池中取，而是直接通过 cellForRow 直接定位到具体的 indexPath(不推荐，原因同上)</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> id = <span class="string">"cellId"</span></span><br><span class="line"><span class="keyword">var</span> tableCell = tableView.dequeueReusableCell(withIdentifier: id)</span><br><span class="line"><span class="keyword">if</span> tableCell == <span class="literal">nil</span>&#123;</span><br><span class="line">       tableCell = <span class="type">UITableViewCell</span>(style: .<span class="keyword">default</span>, reuseIdentifier:id)</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (tableCell?.subviews.<span class="built_in">count</span>)! &gt; <span class="number">0</span>&#123;</span><br><span class="line">          tableCell?.subviews.forEach&#123;$<span class="number">0</span>.removeFromSuperview()&#125;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7、UITableViewCell-中的使用-cell-和-cell-contentView-的区别"><a href="#7、UITableViewCell-中的使用-cell-和-cell-contentView-的区别" class="headerlink" title="7、UITableViewCell 中的使用 cell 和 cell.contentView 的区别"></a>7、UITableViewCell 中的使用 cell 和 cell.contentView 的区别</h3><p><strong>进行编辑时，比如 cell 需要向左向右移动用以显示编辑按钮时，使用 cell 子视图不会自动移动；cell.contentView 会自动移动；</strong> 其他情况下两者基本没有什么区别</p>
+<h3 id="8、UITableView-进行编辑多选模式的步骤"><a href="#8、UITableView-进行编辑多选模式的步骤" class="headerlink" title="8、UITableView 进行编辑多选模式的步骤"></a>8、UITableView 进行编辑多选模式的步骤</h3><p>如果遇到进行编辑模式后，cell 没有自动右移的问题解决方式请见<a href="#7uitableviewcell%e4%b8%ad%e7%9a%84%e4%bd%bf%e7%94%a8cell%e5%92%8ccellcontentview%e7%9a%84%e5%8c%ba%e5%88%ab">UITableViewCell 中的使用 cell 和 cell.contentView 的区别</a>；</p>
+<h4 id="1-设置进行编辑模式的样式（删除、插入等）-如果不设置，默认为删除形式-或者-tableview-在未加在-view-上时设置其为编辑模式，也默认为圆圈样式"><a href="#1-设置进行编辑模式的样式（删除、插入等）-如果不设置，默认为删除形式-或者-tableview-在未加在-view-上时设置其为编辑模式，也默认为圆圈样式" class="headerlink" title="1.设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式,或者 tableview 在未加在 view 上时设置其为编辑模式，也默认为圆圈样式"></a>1.设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式,或者 tableview 在未加在 view 上时设置其为编辑模式，也默认为圆圈样式</h4><p><strong>cell.selectionStyle = .none</strong> 切记不可将 selectionStyle 设置为 none，这样会使选择以及取消选择的样式都显示不出来。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 多选样式，前面有一个圆圈，</span></span><br><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, editingStyleForRowAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span>.<span class="type">EditingStyle</span> &#123;</span><br><span class="line">        <span class="keyword">return</span>  <span class="type">UITableViewCell</span>.<span class="type">EditingStyle</span>(rawValue: <span class="type">UITableViewCell</span>.<span class="type">EditingStyle</span>.delete.rawValue | <span class="type">UITableViewCell</span>.<span class="type">EditingStyle</span>.insert.rawValue)!</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-进入编辑模式"><a href="#2-进入编辑模式" class="headerlink" title="2.进入编辑模式"></a>2.进入编辑模式</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tableView.isEditing = <span class="literal">true</span> <span class="comment">//进入编辑模式</span></span><br><span class="line">tableView.allowsMultipleSelectionDuringEditing = <span class="literal">true</span> <span class="comment">//当编辑模式时允许多选,当开启该选项后，前面的样式不必要再</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="1-选中及取消选中"><a href="#1-选中及取消选中" class="headerlink" title="1.选中及取消选中"></a>1.选中及取消选中</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 选中</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, didSelectRowAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> tableView.isEditing &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = <span class="keyword">self</span>.tableView.cellForRow(at: indexPath)</span><br><span class="line">        cell?.accessoryType = .checkmark</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 取消选中</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, didDeselectRowAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> tableView.isEditing &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = <span class="keyword">self</span>.tableView.cellForRow(at: indexPath)</span><br><span class="line">        cell?.accessoryType = .<span class="keyword">none</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-统计选中的项以及关闭编辑模式"><a href="#2-统计选中的项以及关闭编辑模式" class="headerlink" title="2.统计选中的项以及关闭编辑模式"></a>2.统计选中的项以及关闭编辑模式</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//统计选中的项</span></span><br><span class="line"><span class="keyword">let</span> list = tableView.indexPathsForSelectedRows</span><br><span class="line"><span class="comment">// 关闭编辑模式</span></span><br><span class="line">tableView.isEditing = <span class="literal">false</span></span><br><span class="line">关闭编辑后需要记得将所有tablecell的accessoryType复原到进行编辑模式之前的样式</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-额外样式修改"><a href="#3-额外样式修改" class="headerlink" title="3.额外样式修改"></a>3.额外样式修改</h5><p>多选时，去除选中情况下的蓝色浮层，只显示左侧圆圈</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cellForRowAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> tableCell:<span class="type">UITableViewCell</span> = <span class="type">UITableViewCell</span>(style: .<span class="keyword">default</span>, reuseIdentifier: <span class="string">"cell"</span>)</span><br><span class="line">        tableCell.multipleSelectionBackgroundView = <span class="type">UIView</span>()</span><br><span class="line">        <span class="keyword">return</span> tableCell</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 设置完上述代码后，然后选中选中发现有的控件背景颜色不见了，需要在自定义cell上实现这样的方法</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setSelected</span><span class="params">(<span class="number">_</span> selected: Bool, animated: Bool)</span></span> &#123;</span><br><span class="line">         <span class="keyword">super</span>.setSelected(selected, animated: animated)</span><br><span class="line">         <span class="comment">/// 在这里对所有需要设置背景颜色的控件背景颜色重新赋值</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="总结一下，tablecell-多选编辑效果不理想的原因"><a href="#总结一下，tablecell-多选编辑效果不理想的原因" class="headerlink" title="总结一下，tablecell 多选编辑效果不理想的原因"></a>总结一下，tablecell 多选编辑效果不理想的原因</h5><ol>
+<li><p>自定义 cell 上面的控件是否加在 contentView 上</p>
+</li>
+<li><p>cell 的 selectionStyle 不可以设为 none，否则没有选中效果</p>
+</li>
+</ol>
+<h3 id="8、UITableView-懒加载中不可以设置-tableFooterView-以及-tableHeaderView，设置会导致崩溃（好像在-ios-13-上已经修复该问题）"><a href="#8、UITableView-懒加载中不可以设置-tableFooterView-以及-tableHeaderView，设置会导致崩溃（好像在-ios-13-上已经修复该问题）" class="headerlink" title="8、UITableView 懒加载中不可以设置 tableFooterView 以及 tableHeaderView，设置会导致崩溃（好像在 ios 13 上已经修复该问题）"></a>8、UITableView 懒加载中不可以设置 tableFooterView 以及 tableHeaderView，设置会导致崩溃（好像在 ios 13 上已经修复该问题）</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">lazy</span> <span class="keyword">var</span> tableView:<span class="type">UITableView</span> = &#123;</span><br><span class="line">       <span class="keyword">let</span> tableView = <span class="type">UITableView</span>()</span><br><span class="line">       tableView.delegate = <span class="keyword">self</span></span><br><span class="line">       tableView.dataSource = <span class="keyword">self</span></span><br><span class="line">       <span class="comment">// tableView.tableFooterView = UIView() 不可这么写</span></span><br><span class="line">       <span class="comment">// tableView.tableHeaderView = UIView() 不可这么写</span></span><br><span class="line">       <span class="keyword">return</span> tableView</span><br><span class="line">   &#125;()</span><br></pre></td></tr></table></figure>
+
+<h3 id="9、cell-使用自动高度布局时，内部-view-约束高度过小"><a href="#9、cell-使用自动高度布局时，内部-view-约束高度过小" class="headerlink" title="9、cell 使用自动高度布局时，内部 view 约束高度过小"></a>9、cell 使用自动高度布局时，内部 view 约束高度过小</h3><p>当 cell 使用自动高度布局时，内部 view 约束高度过小（小于 0.17）时，会出现设置的高度约束无效，cell 实际显示出的高度为 cell 默认高度 44.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/OfficialAccounts.jpg" alt="CoderStar wechat" style="width: 500px; max-width: 100%;">
+    <div>欢迎大家订阅公众号</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果各位看官觉得博文还OK，请打赏博主一杯咖啡吧</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="CoderStar 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="CoderStar 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    CoderStar
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://coder-star.github.io/iOS/UI/UITableView相关/" title="UITableView相关">https://coder-star.github.io/iOS/UI/UITableView相关/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+      
+      
+      
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tags"></i> iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Flutter/Flutter环境搭建/" rel="next" title="Flutter环境搭建">
+                <i class="fa fa-chevron-left"></i> Flutter环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/iOS/UI/关于WKWebView/" rel="prev" title="关于 WKWebView">
+                关于 WKWebView <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="CoderStar">
+            
+              <p class="site-author-name" itemprop="name">CoderStar</p>
+              <p class="site-description motion-element" itemprop="description">Think more, Code less</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">103</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              <div class="cat_list">
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">77</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0ab9d4edb899" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5d3120ae5188254cbc32a2e1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1340529758@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          <div>
+    <image src="/images/WeChatOfficialAccountLogoBeautify.png">
+</image></div>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、基础知识"><span class="nav-text">1、基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#样式"><span class="nav-text">样式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据源（UITableViewDataSource）"><span class="nav-text">数据源（UITableViewDataSource）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理（UITableViewDelegate）"><span class="nav-text">代理（UITableViewDelegate）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、问题集锦"><span class="nav-text">2、问题集锦</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、取消-TableView-前后默认空白部分"><span class="nav-text">1、取消 TableView 前后默认空白部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、TableView-高度自适应"><span class="nav-text">2、TableView 高度自适应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、TableView-滚动条常在（具体原理百度上很多，ScrollView-同理）"><span class="nav-text">3、TableView 滚动条常在（具体原理百度上很多，ScrollView 同理）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-为-tableView-绑定标签"><span class="nav-text">1. 为 tableView 绑定标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-进入页面直接显示滚动条"><span class="nav-text">2. 进入页面直接显示滚动条</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、提供一个获取-tableView-自适应高度比较暴力的方法"><span class="nav-text">4、提供一个获取 tableView 自适应高度比较暴力的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、tableCell-点击之后-UIAlertController-延迟弹出问题处理"><span class="nav-text">5、tableCell 点击之后 UIAlertController 延迟弹出问题处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、tablecell-复用导致页面数据错位"><span class="nav-text">6、tablecell 复用导致页面数据错位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-可在使用复用的-cell-前，先删除-cell-之前的子-view-代码如下"><span class="nav-text">1.可在使用复用的 cell 前，先删除 cell 之前的子 view(代码如下)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-为每一个-cell-设置一个特定的-reuseIdentifierId，去缓冲池取的时候直接取特定的-reuseIdentifierId-不推荐使用，如果这样做的话，其中就不存在复用了"><span class="nav-text">2.为每一个 cell 设置一个特定的 reuseIdentifierId，去缓冲池取的时候直接取特定的 reuseIdentifierId(不推荐使用，如果这样做的话，其中就不存在复用了)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-不再使用-dequeueReusableCell-从缓冲池中取，而是直接通过-cellForRow-直接定位到具体的-indexPath-不推荐，原因同上"><span class="nav-text">3.不再使用 dequeueReusableCell 从缓冲池中取，而是直接通过 cellForRow 直接定位到具体的 indexPath(不推荐，原因同上)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、UITableViewCell-中的使用-cell-和-cell-contentView-的区别"><span class="nav-text">7、UITableViewCell 中的使用 cell 和 cell.contentView 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、UITableView-进行编辑多选模式的步骤"><span class="nav-text">8、UITableView 进行编辑多选模式的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-设置进行编辑模式的样式（删除、插入等）-如果不设置，默认为删除形式-或者-tableview-在未加在-view-上时设置其为编辑模式，也默认为圆圈样式"><span class="nav-text">1.设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式,或者 tableview 在未加在 view 上时设置其为编辑模式，也默认为圆圈样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-进入编辑模式"><span class="nav-text">2.进入编辑模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-选中及取消选中"><span class="nav-text">1.选中及取消选中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-统计选中的项以及关闭编辑模式"><span class="nav-text">2.统计选中的项以及关闭编辑模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-额外样式修改"><span class="nav-text">3.额外样式修改</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结一下，tablecell-多选编辑效果不理想的原因"><span class="nav-text">总结一下，tablecell 多选编辑效果不理想的原因</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、UITableView-懒加载中不可以设置-tableFooterView-以及-tableHeaderView，设置会导致崩溃（好像在-ios-13-上已经修复该问题）"><span class="nav-text">8、UITableView 懒加载中不可以设置 tableFooterView 以及 tableHeaderView，设置会导致崩溃（好像在 ios 13 上已经修复该问题）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、cell-使用自动高度布局时，内部-view-约束高度过小"><span class="nav-text">9、cell 使用自动高度布局时，内部 view 约束高度过小</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderStar</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV, 
+        el: '#comments' ,
+        appId: 'FRPNU6p78BNSv2zYHgCzOABk-gzGzoHsz',
+        appKey: 'mlQgBuQz7jHSkjBGcx5d3veb',
+        placeholder: '请输入您的评论',
+    });
+  </script>
+ 
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

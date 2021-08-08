@@ -3,14 +3,119 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/持久化/</loc>
-        <lastmod>2021-08-01T15:28:31.407Z</lastmod>
+        <loc>https://coder-star.github.io/tags/UIView/</loc>
+        <lastmod>2021-08-08T14:43:42.504Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-08-08T14:43:42.504Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/装机必备/</loc>
+        <lastmod>2021-08-06T02:58:41.139Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/优化/</loc>
+        <lastmod>2021-08-05T11:23:33.593Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/体系/</loc>
+        <lastmod>2021-08-04T02:54:46.953Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/OC/</loc>
+        <lastmod>2021-08-03T14:53:46.013Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Core-Foundation/</loc>
+        <lastmod>2021-08-02T14:02:09.827Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/AutoreleasePool/</loc>
+        <lastmod>2021-08-02T14:01:07.070Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Weak/</loc>
+        <lastmod>2021-08-02T14:00:18.038Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/状态栏/</loc>
+        <lastmod>2021-08-02T13:56:34.170Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/statusBar/</loc>
+        <lastmod>2021-08-02T13:56:34.170Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/UI/</loc>
+        <lastmod>2021-08-02T13:54:55.767Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/UIImage/</loc>
+        <lastmod>2021-08-02T13:52:29.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/动画/</loc>
+        <lastmod>2021-08-02T13:51:56.012Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/GCD/</loc>
+        <lastmod>2021-08-02T13:20:01.921Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/多线程/</loc>
+        <lastmod>2021-08-02T13:20:01.921Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/持久化/</loc>
         <lastmod>2021-08-01T15:28:31.407Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -31,20 +136,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/装机必备/</loc>
-        <lastmod>2021-07-30T12:46:22.554Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/体系/</loc>
-        <lastmod>2021-07-30T12:33:34.541Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Icon/</loc>
         <lastmod>2021-07-30T12:24:44.002Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -54,13 +145,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/Fluter/</loc>
         <lastmod>2021-07-30T12:24:44.002Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/md/</loc>
-        <lastmod>2021-07-30T12:24:19.667Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -94,28 +178,7 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/状态栏/</loc>
-        <lastmod>2021-07-30T12:22:32.350Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/statusBar/</loc>
-        <lastmod>2021-07-30T12:22:32.350Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Thread/</loc>
-        <lastmod>2021-07-30T12:22:15.303Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/多线程/</loc>
         <lastmod>2021-07-30T12:22:15.303Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -124,13 +187,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/Operation/</loc>
         <lastmod>2021-07-30T12:22:12.872Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/GCD/</loc>
-        <lastmod>2021-07-30T12:21:57.389Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -220,34 +276,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/UIImage/</loc>
-        <lastmod>2021-07-30T12:18:31.582Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/UI/</loc>
-        <lastmod>2021-07-30T12:18:27.097Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/动画/</loc>
-        <lastmod>2021-07-30T12:18:23.985Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/UIView/</loc>
-        <lastmod>2021-07-30T12:18:12.020Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Flutter/</loc>
         <lastmod>2021-07-30T12:08:54.976Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -332,13 +360,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/OC/</loc>
-        <lastmod>2021-07-30T12:02:16.098Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/版本更新/</loc>
         <lastmod>2021-07-30T12:02:10.616Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -381,13 +402,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/优化/</loc>
-        <lastmod>2021-07-30T11:57:59.955Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/方法派发/</loc>
         <lastmod>2021-07-30T11:56:37.951Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -402,13 +416,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/AutoreleasePool/</loc>
-        <lastmod>2021-07-29T01:21:33.629Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/CocoaPods/</loc>
         <lastmod>2021-07-16T12:49:41.480Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -418,13 +425,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/shell/</loc>
         <lastmod>2021-06-16T12:54:55.033Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Core-Foundation/</loc>
-        <lastmod>2021-06-05T01:44:59.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -465,14 +465,14 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/数据库/</loc>
+        <loc>https://coder-star.github.io/tags/CentOS/</loc>
         <lastmod>2021-06-01T09:17:10.318Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/CentOS/</loc>
+        <loc>https://coder-star.github.io/tags/数据库/</loc>
         <lastmod>2021-06-01T09:17:10.318Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -495,13 +495,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/库/</loc>
         <lastmod>2021-06-01T09:17:10.310Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/weak/</loc>
-        <lastmod>2021-06-01T09:17:10.307Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

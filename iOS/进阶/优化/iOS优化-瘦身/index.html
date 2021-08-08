@@ -101,7 +101,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/Strip_Swift_Symbols.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/%E6%9D%82%E9%A1%B9/%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/LinkMap.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/AppCode_Inspect.png">
-<meta property="og:updated_time" content="2021-07-30T11:57:59.955Z">
+<meta property="og:updated_time" content="2021-08-05T02:25:20.956Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
@@ -355,8 +355,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T19:57:59+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-05T10:25:20+08:00">
+                2021-08-05
               </time>
             
           </span>
@@ -421,7 +421,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  9.5k 字
+                  9.8k 字
                 </span>
               
 
@@ -437,7 +437,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  35 分钟
+                  36 分钟
                 </span>
               
             </div>
@@ -465,8 +465,9 @@
 <li>下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量；</li>
 <li>当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就是指压缩包解压后所占用的空间。</li>
 </ul>
-<p>用户在商店看到的大小是安装大小。如果想看安装包在各机型上的下载、安装大小可以在 App Store Connect 后台查看。</p>
+<p>用户在商店看到的大小是安装大小。如果想看安装包在各机型上最准确的下载、安装大小可以在 App Store Connect 后台查看。</p>
 <p><img src="../../../../img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/download_install_size.png" alt="下载及安装大小示意图"></p>
+<p>其实一般情况来讲，导出的 ipa 文件越小，其下载大小会越小，我们可以将 ipa 文件尺寸作为量化参数，但是更准确的数值还是需要看 App Store Connect 上的下载大小。</p>
 <p><strong>App Store OTA 下载大小限制：</strong></p>
 <p>虽然苹果历年都会调整 App 下载大小，由之前的 100M 到后来的 150M 再到现在的 200M。如今，App 下载大小超出 200 MB 时 ，会出现两种情况：</p>
 <ul>
@@ -479,6 +480,7 @@
 <li>iOS 7.X 至 iOS 8.X，二进制文件中，每个特定架构中的 __TEXT 段不得超过 60 MB；</li>
 <li>iOS 9.0 之后，二进制文件中所有的 __TEXT 段总和不得超过 500 MB。</li>
 </ul>
+<p><a href="https://help.apple.com/app-store-connect/#/dev611e0a21f" target="_blank" rel="noopener">官方描述</a></p>
 <blockquote>
 <p>顺便给大家说下苹果将下载大小限制由 100M 调整到 150M 的原因是什么？主要原因就是 Uber 当年用 Swift 重构开发 APP 时，随着业务的增长，后期发现实在无法再将 APP 尺寸降到 100M 以下，只能联系苹果让其将下载大小提升到 150M，同时苹果的 Swift 团队还帮助添加了一些编译器选项 (-Osize)。</p>
 </blockquote>
@@ -730,8 +732,9 @@
 <li>Fast[-O, O1]: 编译器会优化代码性能并且最小限度影响编译时间，此选项在编译时会占用更多的内存；</li>
 <li>Faster[-O2]：编译器会开启不依赖空间 / 时间折衷所有优化选项。在此，编译器不会展开循环或者函数内联。此选项会增加编译时间并且提高代码执行效率；</li>
 <li>Fastest[-O3]：编译器会开启所有的优化选项来提升代码执行效率。此模式编译器会执行函数内联使得生成的可执行文件会变得更大。一般不推荐使用此模式；</li>
-<li>Fastest Smallest[-Os]：编译器会开启除了会明显增加包大小以外的所有优化选项。默认在 <strong>Release</strong> 模式下开启；</li>
+<li>Fastest Smallest[-Os]：编译器会开启除了会明显增加包大小以外的所有优化选项，兼顾执行速度与体积。默认在 <strong>Release</strong> 模式下开启；</li>
 <li>Fastest, Aggressive Optimization[-Ofast]：启动 -O3 中的所有优化，可能会开启一些违反语言标准的一些优化选项。一般不推荐使用此模式。</li>
+<li>Smallest，Aggressive Size Optimization[-Oz]：Xcode 11之后才出现的编译优化选项，核心原理是对重复的连续机器指令外联成函数进行复用，因此开启Oz，能减少二进制的大小，但同时会带来执行效率的额外消耗。还可能会出现一些问题，见：<a href="https://mp.weixin.qq.com/s/1RNsrmUKuxmQa0jPZozE9A" target="_blank" rel="noopener">大家来找茬：记一起 clang 开启 -Oz 选项引发的血案</a></li>
 </ul>
 <p><strong>结论：使用默认配置即可，无需修改。</strong></p>
 <p><strong>Swift</strong></p>
@@ -788,6 +791,7 @@
 <p><img src="../../../../img/%E6%9D%82%E9%A1%B9/%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/LinkMap.png" alt="LinkMap效果图"></p>
 <h3 id="清除无用代码"><a href="#清除无用代码" class="headerlink" title="清除无用代码"></a>清除无用代码</h3><h4 id="通过-AppCode-查找无用代码"><a href="#通过-AppCode-查找无用代码" class="headerlink" title="通过 AppCode 查找无用代码"></a>通过 AppCode 查找无用代码</h4><p>AppCode 提供了非常强大的代码静态检查工具，使用 Inspect Code，可以找到很多代码优化的地方；</p>
 <p><img src="../../../../img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/AppCode_Inspect.png" alt="AppCode_Inspect"></p>
+<p>但是需要注意的是，AppCode 的静态检查还存在很多问题，对一些使用的代码可能会判断成没有使用，所以使用 AppCode 检查出来的无用代码，还需要人工二次确认才能进行最后的删除。</p>
 <h4 id="基于源码扫描"><a href="#基于源码扫描" class="headerlink" title="基于源码扫描"></a>基于源码扫描</h4><p>一般都是对源码文件进行字符串匹配。例如将 A *a、[A xxx]、NSStringFromClass(“A”)、objc_getClass(“A”) 等归类为使用的类，@interface A : B 归类为定义的类，然后计算差集。</p>
 <p>基于源码扫描 有个已经实现的工具 – <a href="https://github.com/dblock/fui" target="_blank" rel="noopener">fui</a>，它的实现原理是查找所有 #import “A” 和所有的文件进行比对。</p>
 <h4 id="手动去除"><a href="#手动去除" class="headerlink" title="手动去除"></a>手动去除</h4><ul>
@@ -807,12 +811,13 @@
 <li>代码复用，禁止无脑拷贝代码，共用代码下沉为底层组件；</li>
 <li>重复功能的框架使用一套；</li>
 <li>不要因为一个很小的功能就引入一个框架，或者有类似轻量级框架时转而选择一个功能强大但重量级框架；</li>
+<li>建立公共文档，开发的流程规范、项目使用第三方库的规范、设计规范、代码规范都列举出来，避免出现一人一套代码的现象；</li>
 <li>…</li>
 </ol>
 <p><strong>结论：这一部分需要从提升个人编码素质、团队文化以及团队管理等方面入手。</strong></p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>还有一些优化方式，如二进制段压缩，__TEXT 段迁移等方式，大家可以去寻找相关的资料查看，这里只简单介绍相关的原理。</p>
 <ul>
-<li>二进制段压缩：Mach-O 文件中并不是每个段 / 节在程序启动的第一时间都要被用到。可以在构建过程中将 Mach-O 文件中的这部分段 / 节压缩，然后只要在这些段被使用到之前将其解压到内存中，就能达到了减少包大小的效果，同时也能保证程序正常运行。</li>
+<li>二进制段压缩：Mach-O 文件中并不是每个段 / 节在程序启动的第一时间都要被用到。可以在构建过程中将 Mach-O 文件中的这部分段 / 节压缩，然后只要在这些段被使用到之前将其解压到内存中，就能达到了减少包大小的效果，同时也能保证程序正常运行；</li>
 <li>__TEXT 段迁移：将可执行文件的 __TEXT 段中的部分节移动到其它的段，提高了可执行文件的压缩效率。具体可见相关链接中【今日头条优化实践：iOS 包大小二进制优化，一行代码减少 60 MB 下载大小】；</li>
 <li>…</li>
 </ul>
@@ -1019,7 +1024,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">104</span>
+                  <span class="site-state-item-count">103</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1027,7 +1032,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">9</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
               </div>
             
 
@@ -1036,7 +1041,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
