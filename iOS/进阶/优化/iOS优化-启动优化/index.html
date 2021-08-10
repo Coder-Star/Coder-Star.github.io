@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪屏； 沙箱建立、">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-08-05T11:23:33.593Z">
+<meta property="og:updated_time" content="2021-08-09T07:42:30.711Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪屏； 沙箱建立、">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-05T19:23:33+08:00">
-                2021-08-05
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-09T15:42:30+08:00">
+                2021-08-09
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.2k 字
+                  1.3k 字
                 </span>
               
 
@@ -486,7 +486,10 @@
 </ul>
 <h2 id="量化手段"><a href="#量化手段" class="headerlink" title="量化手段"></a>量化手段</h2><p>一般而言</p>
 <h2 id="pre-main-阶段优化"><a href="#pre-main-阶段优化" class="headerlink" title="pre-main 阶段优化"></a>pre-main 阶段优化</h2><ul>
-<li>减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。</li>
+<li>减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。<blockquote>
+<p>linkage的符号internal更多了，external更少了。dyld bind的时间必然能变少。比如两个动态库都依赖了objc_msgsend，要bind两次；但是一个库的话只需要一次，我是这么理解的。</p>
+</blockquote>
+</li>
 <li>尽量不使用 C++ 虚函数；这样可以节约 rebase/binding 的时间</li>
 <li>清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间</li>
 <li>将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者 +initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间</li>

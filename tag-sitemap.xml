@@ -3,14 +3,21 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/UIView/</loc>
-        <lastmod>2021-08-08T14:43:42.504Z</lastmod>
+        <loc>https://coder-star.github.io/tags/优化/</loc>
+        <lastmod>2021-08-10T12:39:03.722Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-08-10T12:39:03.722Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/UIView/</loc>
         <lastmod>2021-08-08T14:43:42.504Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -19,13 +26,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/装机必备/</loc>
         <lastmod>2021-08-06T02:58:41.139Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/优化/</loc>
-        <lastmod>2021-08-05T11:23:33.593Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
