@@ -386,6 +386,8 @@ OC 关于编译内联优化的参数位于 `Build Settings` -> `Apple Clang - Co
 * Fastest, Aggressive Optimization[-Ofast]：启动 -O3 中的所有优化，可能会开启一些违反语言标准的一些优化选项。一般不推荐使用此模式。
 * Smallest，Aggressive Size Optimization[-Oz]：Xcode 11之后才出现的编译优化选项，核心原理是对重复的连续机器指令外联成函数进行复用，因此开启Oz，能减少二进制的大小，但同时会带来执行效率的额外消耗。还可能会出现一些问题，见：[大家来找茬：记一起 clang 开启 -Oz 选项引发的血案](https://mp.weixin.qq.com/s/1RNsrmUKuxmQa0jPZozE9A)
 
+本质上这个优化就是在体积和性能之间做权衡。
+
 **结论：使用默认配置即可，无需修改。**
 
 **Swift**

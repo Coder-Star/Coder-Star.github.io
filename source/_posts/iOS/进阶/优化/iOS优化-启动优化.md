@@ -52,6 +52,7 @@ date: 2021-02-05 22:03:03
 ## pre-main 阶段优化
 
 - 减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。
+  > linkage的符号internal更多了，external更少了。dyld bind的时间必然能变少。比如两个动态库都依赖了objc_msgsend，要bind两次；但是一个库的话只需要一次，我是这么理解的。
 - 尽量不使用 C++ 虚函数；这样可以节约 rebase/binding 的时间
 - 清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间
 - 将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者 +initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间
