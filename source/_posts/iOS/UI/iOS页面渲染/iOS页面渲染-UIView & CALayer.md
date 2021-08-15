@@ -1,5 +1,5 @@
 ---
-title: iOS 页面渲染 - UIView & CALayer
+title: iOS 页面渲染-UIView & CALayer
 category:
   - iOS
   - UI
@@ -114,7 +114,7 @@ open var contents: Any?
 
 #### 使用图片
 
-这种方式就是我们平时常见的 `UIImageView` 显示的形式，我们通过 CALayer 的 `contents` 属性来配置图片。然而，`contents` 属性的类型为 `id`。在这种情况下，可以给 contents 属性赋予任何值，项目仍可以编译通过。但是在实践中，如果 content 的值不是 `CGImage` ，得到的图层将是空白的。
+这种方式就是我们平时常见的 `UIImageView` 显示的形式，我们通过 CALayer 的 `contents` 属性来配置图片。然而，`contents` 属性的类型为 `id`。在这种情况下，可以给 contents 属性赋予任何值，项目仍可以编译通过。**但是在实践中，如果 content 的值不是 `CGImage` ，得到的图层将是空白的**。
 
 既然如此，为什么要将 `contents` 的属性类型定义为 `id` 而非 `CGImage`。这是因为在 Mac OS 系统中，该属性对 `CGImage` 和 `NSImage` 类型的值都起作用，而在 iOS 系统中，该属性只对 `CGImage` 起作用。
 

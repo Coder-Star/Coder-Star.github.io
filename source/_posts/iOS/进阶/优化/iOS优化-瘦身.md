@@ -347,6 +347,8 @@ Xcode 支持编译器层面的一些优化选项，通过修改 `Build Setting` 
 |---------------------------------------------------------|------------------------------------------------------------------|------------------------------|-----------------------|
 | iPhone<br>iPhone2<br>iPhone3G<br>第一代和第二代 iPod Touch | iPhone4<br>iPhone4S<br>iPad1-iPad3，3、4 代 iPod Touch<br>iPad mini | iPhone5<br>iPhone5C<br>iPad4 | iPhone 5S 等剩余全部机型 |
 
+> 顺便说下，如果将iOS最低版本调整到iOS 11，则xocde自动保留架构只有arm64。
+
 **结论：理论上只保留 arm64 架构其实就够用了，可以去除 `armv6` 、 `armv7` 、 `armv7s` 三种架构。**
 
 ### 使用链接时优化 LTO(Link-Time Optimization)

@@ -117,3 +117,9 @@ pod package XXX.podspec --library // --library表示打包成a文件，如果不
 问题
 
 - Swift 的 Pod 依赖 OC 的 Pod，如果 OC 开始没有模块化，打包不成功。
+
+动态库使用场景：
+- 解决苹果对__TEXT段大小限制问题；
+- 懒加载
+- 宿主程序与扩展程序使用同一个库
+- 
