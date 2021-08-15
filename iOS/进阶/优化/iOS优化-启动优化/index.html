@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪屏； 沙箱建立、">
+<meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 优化 - 启动优化">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪屏； 沙箱建立、">
+<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-08-09T07:42:30.711Z">
+<meta property="og:updated_time" content="2021-08-14T00:51:24.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
-<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪屏； 沙箱建立、">
+<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。 解析 Info.plist 加载相关信息，例如如闪">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-09T15:42:30+08:00">
-                2021-08-09
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-14T08:51:24+08:00">
+                2021-08-14
               </time>
             
           </span>
@@ -453,7 +453,7 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。</p>
-<p>苹果建议的启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。</p>
+<p>苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。</p>
 <h2 id="APP-启动过程"><a href="#APP-启动过程" class="headerlink" title="APP 启动过程"></a>APP 启动过程</h2><p>我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。</p>
 <h3 id="解析-Info-plist"><a href="#解析-Info-plist" class="headerlink" title="解析 Info.plist"></a>解析 <code>Info.plist</code></h3><ul>
 <li>加载相关信息，例如如闪屏；</li>
@@ -713,7 +713,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">103</span>
+                  <span class="site-state-item-count">107</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -721,7 +721,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">74</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">2</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">76</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li></ul>
               </div>
             
 
@@ -730,7 +730,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">77</span>
+                  <span class="site-state-item-count">80</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

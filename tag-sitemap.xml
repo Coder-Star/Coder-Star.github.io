@@ -3,22 +3,85 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/优化/</loc>
-        <lastmod>2021-08-10T12:39:03.722Z</lastmod>
+        <loc>https://coder-star.github.io/tags/UI/</loc>
+        <lastmod>2021-08-15T15:49:32.508Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-08-10T12:39:03.722Z</lastmod>
+        <lastmod>2021-08-15T15:49:32.508Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/UIView/</loc>
-        <lastmod>2021-08-08T14:43:42.504Z</lastmod>
+        <lastmod>2021-08-15T13:18:39.144Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/责任链/</loc>
+        <lastmod>2021-08-15T08:33:48.376Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/设计模式/</loc>
+        <lastmod>2021-08-15T08:33:48.376Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/单例模式/</loc>
+        <lastmod>2021-08-15T08:33:31.891Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/标签2/</loc>
+        <lastmod>2021-08-15T08:33:12.111Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/标签1/</loc>
+        <lastmod>2021-08-15T08:33:12.111Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/优化/</loc>
+        <lastmod>2021-08-14T00:51:24.210Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/体系/</loc>
+        <lastmod>2021-08-13T12:41:38.138Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Xcode/</loc>
+        <lastmod>2021-08-11T04:53:54.316Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/库/</loc>
+        <lastmod>2021-08-10T15:29:37.496Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -26,13 +89,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/装机必备/</loc>
         <lastmod>2021-08-06T02:58:41.139Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/体系/</loc>
-        <lastmod>2021-08-04T02:54:46.953Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -75,13 +131,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/statusBar/</loc>
         <lastmod>2021-08-02T13:56:34.170Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/UI/</loc>
-        <lastmod>2021-08-02T13:54:55.767Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -187,13 +236,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/Operation/</loc>
         <lastmod>2021-07-30T12:22:12.872Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Xcode/</loc>
-        <lastmod>2021-07-30T12:21:25.563Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -313,20 +355,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/Swift/</loc>
         <lastmod>2021-07-30T12:06:26.739Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/单例模式/</loc>
-        <lastmod>2021-07-30T12:05:05.202Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/设计模式/</loc>
-        <lastmod>2021-07-30T12:05:05.202Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -488,13 +516,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/组件化/</loc>
         <lastmod>2021-06-01T09:17:10.311Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/库/</loc>
-        <lastmod>2021-06-01T09:17:10.310Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

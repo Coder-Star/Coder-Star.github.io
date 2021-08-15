@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,UI,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CoderStar's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
+<meta name="keywords" content="iOS,UI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 页面渲染 - 离屏渲染">
+<meta property="og:url" content="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/index.html">
+<meta property="og:site_name" content="CoderStar&#39;s Blog">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/FrameBuffer.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/OffscreenBuffer.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E7%94%BB%E5%AE%B6%E7%AE%97%E6%B3%95.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/Color%20Off-screen%20.png">
+<meta property="og:updated_time" content="2021-08-15T15:49:32.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 页面渲染 - 离屏渲染">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/FrameBuffer.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/">
+
+
+
+
+
+  <title>iOS 页面渲染 - 离屏渲染 | CoderStar's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CoderStar's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CoderStar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CoderStar's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS 页面渲染 - 离屏渲染</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-15T17:12:49+08:00">
+                2021-08-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-15T23:49:32+08:00">
+                2021-08-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/UI/" itemprop="url" rel="index">
+                    <span itemprop="name">UI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>上周介绍了一下<a href="../iOS页面渲染-UIView%20&%20CALayer">iOS 页面渲染-UIView &amp; CALayer</a>，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。</p>
+<p>其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。</p>
+<p>在开始本文之前，我先谈谈上周我们《iOS 摸鱼周报》发起人 @zhangferry 访谈我的时候我对访谈问题给的一些答复吧。</p>
+<ul>
+<li>zhangferry：简单介绍下自己和自己的公众号吧。</li>
+</ul>
+<blockquote>
+<p>自己：CoderStar，坐标北京，目前主要工作与 iOS 相关，对大前端、后端都有一定涉猎，喜欢分享干货博文。</p>
+<p>公众号：CoderStar，分享大前端相关的技术知识，只聊技术干货，目前分享的内容主要是 iOS 相关的，后续还会分享一些 Flutter、Vue 前端等相关技术知识。目前公众号文章内容均是自己原创，很欢迎大家投稿一些好文章，大家一块进步。</p>
+</blockquote>
+<ul>
+<li>zhangferry：为什么有写公众号的打算？写公众号有带来什么好处吗？</li>
+</ul>
+<blockquote>
+<p>最开始写公众号的原因其实比较简单：</p>
+<ol>
+<li>因为过去积累了一些笔记，比较零散，想整理一下；</li>
+<li>觉得工作经验已经到了一定的阶段，也是时候将知识梳理一遍，打造自己的知识体系了，融会贯通；</li>
+<li>是想把自己积累的一些技术知识分享出来，大家一起来交流，创造一个好的技术圈子，一个好的技术圈子实在是太重要了。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>写公众号的好处：</p>
+<ol>
+<li>写文章不仅能让我对一个知识点理解的更透彻，也增强了我的写作能力，对于技术知识而言，自己理解是一个阶段，深入浅出的写出来又是一个更高的阶段；</li>
+<li>可以认识很多小伙伴，同行的路上不会孤单，比如和飞哥就是这样认识的。</li>
+</ol>
+</blockquote>
+<ul>
+<li>zhangferry：最近在研究什么有趣的东西？是否可以透露下未来几篇文章的规划？</li>
+</ul>
+<blockquote>
+<p>最近在做优化方面的事情，未来几篇文章可能会偏向优化系列或者底层相关。</p>
+</blockquote>
+<ul>
+<li>zhangferry：如何让自己每周都能抽出时间写博客呢？有没有什么好的学习方法可以分享？</li>
+</ul>
+<blockquote>
+<p>我目前更新的频率是一周一篇文章，一般工作日晚上会去看一些本期文章涉及的资料以及做一些代码实践，然后积累一些笔记，在周末时候将笔记进行整理聚合，形成文章，其实这个过程中还是比较累的，毕竟有的时候工作会忙，但是这个事情一定要坚持，给自己一个目标，不能随随便便就断更，毕竟有第一次断更就有第二次。</p>
+<p>学习方法：说一点吧，我自己对于技术的态度是实践型 + 更优解，当看到一些好的文章的时候，会自己将文章里面的原理或者实现自己动手实践一下，考虑这个方法有什么缺点，并围绕这个技术点去思考有没有更好的解决方案，不断地去寻找更优解。</p>
+</blockquote>
+<p>关于访谈部分就说这么多，希望我的一些心得能给大家提供一些借鉴。好了，我们接下来言归正传，技术干货开始了。</p>
+<blockquote>
+<p>其实本周是准备分享我对某几个设计模式的心得体会给大家的，但后来考虑到内容的连贯性以及不确定大家对设计模式的感兴趣程度，就放弃了这个想法，如果大家对设计模式比较感兴趣，可以通过点赞来表达一下。</p>
+</blockquote>
+<h2 id="离屏渲染概念"><a href="#离屏渲染概念" class="headerlink" title="离屏渲染概念"></a>离屏渲染概念</h2><p>先简单说下 iOS 页面渲染的正常流程。</p>
+<p>如果要在显示屏上显示内容，我们至少需要一块与屏幕像素数据量一样大的 <code>Framebuffer</code>，作为像素数据存储区域，GPU 不停地将渲染完成后的内容放入 <code>Framebuffer</code> 帧缓冲器中，而显示屏幕不断地从 <code>Framebuffer</code> 中获取内容，显示实时的内容。</p>
+<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/FrameBuffer.png" alt="FrameBuffer"></p>
+<p>如果有时因为面临一些限制，无法把渲染结果直接写入 <code>Framebuffer</code>，我们就需要先额外创建离屏渲染缓冲区 <code>Offscreen Buffer</code>，将提前渲染好的内容放入其中，等到合适的时机再将 <code>Offscreen Buffer</code> 中的内容进一步叠加、渲染，完成后将结果切换到 <code>Framebuffer</code> 中，那么这个过程便被称之为<strong>离屏渲染</strong>。</p>
+<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/OffscreenBuffer.png" alt="OffscreenBuffer"></p>
+<blockquote>
+<p>对于上周文章所提到的利用 <code>Core Graphics</code> 的 API 进行页面绘制的方式有时候也会被称为<code>离屏渲染</code>（因为像素数据是暂时存入了CGContext，而不是直接到了frame buffer），但是按照<a href="https://lobste.rs/s/ckm4uw/performance_minded_take_on_ios_design#c_itdkfh" target="_blank" rel="noopener">苹果工程师说法</a>，这种绘制方式发生在CPU中，并非是真正意义上的离屏渲染，其实通过CPU渲染就是俗称的’软件渲染’，而真正的离屏渲染发生在GPU，我们这里研究的更多是 GPU 的离屏渲染。</p>
+</blockquote>
+<h2 id="离屏渲染的性能问题"><a href="#离屏渲染的性能问题" class="headerlink" title="离屏渲染的性能问题"></a>离屏渲染的性能问题</h2><p>通常情况下来说, 离屏渲染非常消耗性能, 主要体现在两个方面：</p>
+<ul>
+<li>创建新缓冲区：要想进行离屏渲染，首先要创建一个新的缓冲区，需要增加额外的空间，大量的离屏渲染可能造成内存的过大压力，其中<code>Offscreen Buffer</code> 的总大小也有限，不能超过屏幕总像素的 2.5 倍；</li>
+<li>渲染的上下文切换：离屏渲染的整个过程，需要进行两次上下文环境切换, 先切换到屏幕外环境, 离屏渲染完成后再切换到当前屏幕, 上下文的切换是很高昂的消耗，特别是滚动视图中，影响更为突出。</li>
+</ul>
+<p>一旦需要离屏渲染的内容过多，很容易造成掉帧的问题。所以大部分情况下，我们都应该尽量避免离屏渲染。</p>
+<h2 id="离屏渲染存在的原因"><a href="#离屏渲染存在的原因" class="headerlink" title="离屏渲染存在的原因"></a>离屏渲染存在的原因</h2><p>既然离屏渲染对性能有损伤，那为什么还要使用离屏渲染呢？主要有两种原因：</p>
+<ol>
+<li>一些特殊效果需要使用额外的 <code>Offscreen Buffer</code> 来保存渲染的中间状态，所以不得不使用离屏渲染；</li>
+<li>处于效率目的，可以将内容提前渲染保存在 <code>Offscreen Buffer</code> 中，达到复用的目的。</li>
+</ol>
+<p>对于第一种情况，也就是不得不使用离屏渲染的情况，一般都是系统自动触发的，比如<code>mask</code>、<code>UIBlurEffectView</code>等。下文会介绍具体哪些常见的场景会发生离屏渲染。</p>
+<p>对于第二种情况，我们可以利用开启<code>CALayer</code>的<code>shouldRasterize</code>属性去触发离屏渲染。开启之后，<code>Render Server</code> 会强制将 <code>CALayer 的渲染位图结果</code>bitmap` 保存下来，这样下次再需要渲染时就可以直接复用，从而提高效率。</p>
+<p>保存的 <code>bitmap</code> 包含 <code>layer</code> 的 <code>subLayer</code>、圆角、阴影、组透明度 <code>group opacity</code> 等，所以如果 <code>layer</code> 的构成包含上述几种元素，结构复杂且需要反复利用，那么就可以考虑打开光栅化。<strong>其主旨在于降低性能损失，但总是至少会触发一次离屏渲染。</strong></p>
+<blockquote>
+<p>圆角、阴影、组透明度等会由系统自动触发离屏渲染，那么打开光栅化就可以节约第二次及以后的渲染时间。而多层 subLayer 的情况由于不会自动触发离屏渲染，所以相比之下会多花费第一次离屏渲染的时间，但是可以节约后续的重复渲染的开销。</p>
+</blockquote>
+<p>不过使用光栅化的时候需要注意以下几点：</p>
+<ul>
+<li>如果 <code>layer</code> 本来并不复杂，也没有圆角阴影等等，则没有必要打开光栅化；</li>
+<li>如果 <code>layer</code> 不能被复用，则没有必要打开光栅化；</li>
+<li><code>layer</code> 的内容（包括子 layer）必须是静态的，因为一旦发生变化（如 resize，动画），之前辛苦处理得到的缓存就失效了。所以如果<code>layer</code>不是静态，需要被频繁修改，比如处于动画之中，那么开启离屏渲染反而影响效率；</li>
+<li>离屏渲染缓存内容有时间限制，缓存内容 <code>100ms</code> 内如果没有被使用，那么就会被丢弃，无法进行复用；</li>
+<li>离屏渲染缓存空间有限，超过 <code>2.5</code> 倍屏幕像素大小的话也会失效，无法复用。</li>
+</ul>
+<blockquote>
+<p>其实除了解决多次离屏渲染的开销，<code>shouldRasterize</code> 在另一个场景中也可以使用：如果 layer 的子结构非常复杂，渲染一次所需时间较长，同样可以打开这个开关，把 layer 绘制到一块缓存，然后在接下来复用这个结果，这样就不需要每次都重新绘制整个 layer 树了。</p>
+</blockquote>
+<h2 id="离屏渲染产生逻辑"><a href="#离屏渲染产生逻辑" class="headerlink" title="离屏渲染产生逻辑"></a>离屏渲染产生逻辑</h2><p>图层的叠加绘制大概遵循<strong>画家算法</strong>，在这种算法下会按层绘制，首先绘制距离较远的场景，然后用绘制距离较近的场景覆盖较远的部分。</p>
+<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E7%94%BB%E5%AE%B6%E7%AE%97%E6%B3%95.png" alt="画家算法"></p>
+<p>在普通的 layer 绘制中，上层的 sublayer 会覆盖下层的 sublayer，下层 sublayer 绘制完之后就可以抛弃了，从而节约空间提高效率。所有 sublayer 依次绘制完毕之后，整个绘制过程完成，就可以进行后续的呈现了。</p>
+<p>而有些场景并没有那么简单。GPU 虽然可以一层一层往画布上进行输出，但是无法在某一层渲染完成之后，再回过头来擦除 / 改变其中的某个部分——因为在这一层之前的若干层 layer 像素数据，已经在渲染中被永久覆盖了。这就意味着，<strong>对于每一层 layer，要么能找到一种通过单次遍历就能完成渲染的算法，要么就不得不另开一块内存，借助这个临时中转区域来完成一些更复杂的、多次的修改 / 剪裁操作。</strong></p>
+<h2 id="离屏渲染发生的场景"><a href="#离屏渲染发生的场景" class="headerlink" title="离屏渲染发生的场景"></a>离屏渲染发生的场景</h2><p>我们先打开模拟器 Debug 下的离屏渲染颜色标记，如左图所示，当出现离屏渲染时，相应控件会出现如右图所示的黄色。<br><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/Color%20Off-screen%20.png" alt="离屏渲染标记"></p>
+<p>通过我们上面离屏渲染发生的原因，其实我们可以很简单的归纳出离屏渲染出现的场景。</p>
+<p><strong>只要裁剪的内容需要画家算法未完成之前的内容参与就会触发离屏渲染</strong>。</p>
+<p>总结一下，下面几种情况会触发离屏渲染：</p>
+<ul>
+<li>使用了 mask 的 layer (layer.mask)；</li>
+<li>添加了投影的 layer (layer.shadow*，表示相关的 shadow 开头的属性)</li>
+<li>设置了组透明度为 YES，并且透明度不为 1 的 layer (layer.allowsGroupOpacity/layer.opacity)</li>
+<li>采用了光栅化的 layer (layer.shouldRasterize)</li>
+<li>绘制了文字的 layer (UILabel, CATextLayer, Core Text 等)</li>
+<li>需要进行裁剪的 layer (layer.masksToBounds / view.clipsToBounds)</li>
+</ul>
+<p>还有一个会触发离屏渲染的场景是我们非常常见的 – 圆角，这个需要着重说明一下。</p>
+<p>我们经常看到，圆角会触发离屏渲染。但其实这个说法是不准确的，因为圆角触发离屏渲染也是有条件的！</p>
+<p>我们先看一下苹果官方文档对于<code>cornerRadius</code>的描述：</p>
+<blockquote>
+<p>Discussion<br>Setting the radius to a value greater than 0.0 causes the layer to begin drawing rounded corners on its background. By default, the corner radius does not apply to the image in the layer’s contents property; it applies only to the background color and border of the layer. However, setting the masksToBounds property to true causes the content to be clipped to the rounded corners.<br>The default value of this property is 0.0.</p>
+</blockquote>
+<p>设置 <code>cornerRadius</code> 大于 0 时，只为 layer 的 <code>backgroundColor</code> 和 <code>border</code> 设置圆角；而不会对 <code>layer</code> 的 <code>contents</code> 设置圆角，除非同时设置了 <code>layer.masksToBounds</code> 为 <code>true</code>（对应 <code>UIView</code> 的 <code>clipsToBounds</code> 属性）。</p>
+<p>但是当<code>layer.masksToBounds</code>或者<code>clipsToBounds</code>设置为 true，也不一定会触发离屏渲染。</p>
+<p><strong>当我们设置了圆角 + 裁剪之后，还需要我们为 contents 设置了内容才会触发离屏渲染，其中为 contents 设置了内容的方式不一定是直接为 layer 的 contents 属性赋值，还包括添加有图像信息的子视图等方式。</strong></p>
+<p>关于圆角，iOS 9 及之后的系统版本，苹果进行了一些优化。<br>我们只设置 <code>layer</code> 的 <code>contents</code> 或者 <code>UIImageView</code> 的 <code>image</code>，并加上圆角 + 裁剪，是不会产生离屏渲染的。但如果加上了背景色、边框或其他有图像内容的图层，还是会产生离屏渲染。</p>
+<p>总结一下，iOS 9 之后圆角造成离屏渲染的条件包括：</p>
+<ul>
+<li>圆角</li>
+<li>裁剪</li>
+<li>layer 的 contents 不为 nil</li>
+<li>设置了背景色 / 边框 / 其他有图像内容的图层</li>
+</ul>
+<blockquote>
+<p>有些结论一定要自己去试一下，就比如说我上面的结论也不一定是对的，因为可能还有我没注意到的 case。</p>
+</blockquote>
+<p>既然圆角 + 裁剪在一定情况下会产生离屏渲染，那么有什么方式可以帮助我们在不产生离屏渲染绘制圆角效果呢？如下：</p>
+<ul>
+<li>【换资源】直接使用带圆角的图片，或者替换背景色为带圆角的纯色背景图，从而避免使用圆角裁剪。不过这种方法需要依赖具体情况，并不通用；</li>
+<li>【UIBezierPath】用贝塞尔曲线绘制闭合带圆角的矩形，在上下文中设置只有内部可见，再将不带圆角的 layer 渲染成图片，添加到贝塞尔矩形中。这种方法效率更高，但是 layer 的布局一旦改变，贝塞尔曲线都需要手动地重新绘制，所以需要对 frame、color 等进行手动地监听并重绘；</li>
+<li>【CoreGraphics】重写 drawRect:，用 CoreGraphics 相关方法，在需要应用圆角时进行手动绘制。不过 CoreGraphics 效率也很有限，如果需要多次调用也会有效率问题；</li>
+<li>【mask】再增加一个和背景色相同的遮罩 mask 覆盖在最上层，盖住四个角，营造出圆角的形状。但这种方式难以解决背景色为图片或渐变色的情况。</li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
+<p>参考链接</p>
+<ul>
+<li><a href="https://juejin.cn/post/6844904162765832206#heading-17" target="_blank" rel="noopener">iOS Rendering 渲染全解析（长文干货）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/72653360" target="_blank" rel="noopener">关于iOS离屏渲染的深入研究</a></li>
+<li><a href="https://juejin.cn/post/6982909100275269662" target="_blank" rel="noopener">iOS界面渲染与优化(四) - 离屏渲染与优化总结</a></li>
+<li><a href="https://juejin.cn/post/6846687603316490254#heading-2" target="_blank" rel="noopener">iOS圆角的离屏渲染，你真的弄明白了吗</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/OfficialAccounts.jpg" alt="CoderStar wechat" style="width: 500px; max-width: 100%;">
+    <div>欢迎大家订阅公众号</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果各位看官觉得博文还OK，请打赏博主一杯咖啡吧</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="CoderStar 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="CoderStar 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    CoderStar
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/" title="iOS 页面渲染 - 离屏渲染">https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+      
+      
+      
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tags"></i> iOS</a>
+          
+            <a href="/tags/UI/" rel="tag"><i class="fa fa-tags"></i> UI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/设计模式/设计模式-建造者模式/" rel="next" title="设计模式-建造者模式">
+                <i class="fa fa-chevron-left"></i> 设计模式-建造者模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/iOS/UI/iOS页面渲染/iOS页面渲染-流程/" rel="prev" title="iOS 页面渲染 - 流程">
+                iOS 页面渲染 - 流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="CoderStar">
+            
+              <p class="site-author-name" itemprop="name">CoderStar</p>
+              <p class="site-description motion-element" itemprop="description">Think more, Code less</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">107</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              <div class="cat_list">
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">76</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">8</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li></ul>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0ab9d4edb899" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5d3120ae5188254cbc32a2e1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1340529758@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          <div>
+    <image src="/images/WeChatOfficialAccountLogoBeautify.png">
+</image></div>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离屏渲染概念"><span class="nav-text">离屏渲染概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离屏渲染的性能问题"><span class="nav-text">离屏渲染的性能问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离屏渲染存在的原因"><span class="nav-text">离屏渲染存在的原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离屏渲染产生逻辑"><span class="nav-text">离屏渲染产生逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#离屏渲染发生的场景"><span class="nav-text">离屏渲染发生的场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderStar</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV, 
+        el: '#comments' ,
+        appId: 'FRPNU6p78BNSv2zYHgCzOABk-gzGzoHsz',
+        appKey: 'mlQgBuQz7jHSkjBGcx5d3veb',
+        placeholder: '请输入您的评论',
+    });
+  </script>
+ 
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
