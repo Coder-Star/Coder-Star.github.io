@@ -97,7 +97,7 @@
 <meta property="og:description" content="RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件). RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.    Entry 进入 BeforeTimers BeforeSources BeforeWaiting 准备进入休眠 AfterWaiting Exit 退">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/runloop.png">
-<meta property="og:updated_time" content="2021-06-01T09:17:10.304Z">
+<meta property="og:updated_time" content="2021-08-16T13:44:28.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runloop">
 <meta name="twitter:description" content="RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件). RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.    Entry 进入 BeforeTimers BeforeSources BeforeWaiting 准备进入休眠 AfterWaiting Exit 退">
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-06-01T17:17:10+08:00">
-                2021-06-01
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-16T21:44:28+08:00">
+                2021-08-16
               </time>
             
           </span>
@@ -500,6 +500,8 @@
 <p>配合 CADisplayLink 监听 FPS，基本原理就是统计每一秒中 CADisplayLink 执行的次数就 OK 啦</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let displayLink = CADisplayLink(target: self, selector: #selector(displayLinkAction(displayLink:)))</span><br><span class="line">displayLink.add(to: .current, forMode: .common)</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+</blockquote>
 
       
     </div>

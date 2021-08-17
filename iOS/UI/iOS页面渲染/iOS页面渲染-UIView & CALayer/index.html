@@ -91,7 +91,7 @@
 <meta name="description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊 UIView 与 CALayer 的相关知识以及它们之间的关系，其实这部分内容要是引申出来会比较多，今天我们先收敛一下，先讲一些基本的东西，后面还会有系列文章对其进行扩展。关于iOS的UI渲染部分，还是建议大家看看Apple的官方文档核心动画编程指南以及WWDC2011的sessionUnderstanding UIKit Ren">
 <meta name="keywords" content="iOS,UIView">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 页面渲染-UIView &amp; CALayer">
+<meta property="og:title" content="iOS 页面渲染 -UIView &amp; CALayer">
 <meta property="og:url" content="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-UIView & CALayer/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊 UIView 与 CALayer 的相关知识以及它们之间的关系，其实这部分内容要是引申出来会比较多，今天我们先收敛一下，先讲一些基本的东西，后面还会有系列文章对其进行扩展。关于iOS的UI渲染部分，还是建议大家看看Apple的官方文档核心动画编程指南以及WWDC2011的sessionUnderstanding UIKit Ren">
@@ -102,9 +102,9 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E5%BC%82%E6%AD%A5%E7%BB%98%E5%88%B6.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/bounds%E5%8F%98%E5%8C%96.gif">
-<meta property="og:updated_time" content="2021-08-15T13:18:39.144Z">
+<meta property="og:updated_time" content="2021-08-17T10:18:25.511Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 页面渲染-UIView &amp; CALayer">
+<meta name="twitter:title" content="iOS 页面渲染 -UIView &amp; CALayer">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊 UIView 与 CALayer 的相关知识以及它们之间的关系，其实这部分内容要是引申出来会比较多，今天我们先收敛一下，先讲一些基本的东西，后面还会有系列文章对其进行扩展。关于iOS的UI渲染部分，还是建议大家看看Apple的官方文档核心动画编程指南以及WWDC2011的sessionUnderstanding UIKit Ren">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%20Tree.png">
 
@@ -142,7 +142,7 @@
 
 
 
-  <title>iOS 页面渲染-UIView & CALayer | CoderStar's Blog</title>
+  <title>iOS 页面渲染 -UIView & CALayer | CoderStar's Blog</title>
   
 
 
@@ -328,7 +328,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS 页面渲染-UIView & CALayer</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 页面渲染 -UIView & CALayer</h1>
         
 
         <div class="post-meta">
@@ -356,8 +356,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-15T21:18:39+08:00">
-                2021-08-15
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-17T18:18:25+08:00">
+                2021-08-17
               </time>
             
           </span>
@@ -422,7 +422,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4k 字
+                  4.3k 字
                 </span>
               
 
@@ -438,7 +438,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  15 分钟
+                  16 分钟
                 </span>
               
             </div>
@@ -495,11 +495,16 @@
 <h3 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h3><p>CALayer 视图结构类似 UIView 的子 View 树形结构，它们分别可以有自己的 SubView 和 SubLayer，可以向它的 RootLayer 上添加子 layer，来完成一些页面效果，比如说渐变等。</p>
 <p>Layer 内部其实三份 layer tree，分别是：</p>
 <ul>
-<li>layer tree(model tree)：一般我们称模型树, 也就是各个树的节点的 model 信息, 比如常见的 <code>frame</code>, <code>affineTransform</code>, <code>backgroundColor</code> 等等, 这些 model 数据都是在开发中可以设置的, 我们任何对于 view/layer 的修改都能反应在 model tree 中；</li>
-<li>presentation tree：这是一个中间层，我们 APP 无法主动操作, 这个层内容是 iOS 系统在 Render Server 中生成的；</li>
-<li>render tree：这是直接对应于提交到 render server 上进行显示的树。</li>
+<li>Layer Tree（模型图层）：此树中的对象是存储<strong>任何动画的目标值</strong>的模型对象, 比如常见的 <code>frame</code>, <code>affineTransform</code>, <code>backgroundColor</code> 等等，我们可以在开发中对属性进行设置。</li>
+<li>Presentation Tree（表现图层）：<strong>表示动画过程中视图的实时属性值</strong>，我们永远不应该去修改该对象，而是只读取相关属性值。</li>
+<li>Render Tree（渲染图层）：这是系统用来绘制的树，不对外提供属性给我们使用，对我们而言是透明的，可以不用 care。</li>
 </ul>
 <p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%20Tree.png" alt="CALayer Tree"></p>
+<blockquote>
+<p>其中 layer tree 对应的是 CALayer 的<code>model()</code>方法返回值，presentation tree 对应的是 CALayer 的<code>presentation()</code>方法返回值，两个方法的返回值类型还是 CALayer。</p>
+<p>这部分容易考查一个面试题是 iOS 如何监听动画中 view 的 frame，可能有人会想着使用 KVO 方式进行监听，但尝试下就知道不可行，当我们改变一个图层的属性时，改变的是模型图层对象属性，属性值是立即更新的，但是屏幕上并不会马上发生改变，只是定义了图层动画结束后的值。</p>
+<p>我们可以利用 <code>CADisplayLink</code> + <code>presentation()</code>去获取，大概过程就是在动画开始之前注册 CADisplayLink，然后在其回调里面使用<code>layer.presentation().frame</code>获取到 view 在动画中的 frame 了。</p>
+</blockquote>
 <p><code>CALayer</code> 是所有 layer 的基类，其派生类会有一些特定的功能，比如绘制文本的 <code>CATextLayer</code>、渐变效果的 <code>CAGradientLayer</code> 等等。种类如下图所示。</p>
 <p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E7%A7%8D%E7%B1%BB.png" alt="CALayer种类"></p>
 <p>我们通常见到的 layer 都是依附于一个 UIView，但是也有一些单独的 layer 不需要附加到 UIView 上，就可以直接在屏幕上显示内容，如 <code>AVCaptureVideoPreviewLayer</code>、<code>CAShapeLayer</code> 等。当然附加在 UIView 上的 layer 和单独的 layer 在行为上还是会有不同的。</p>
@@ -654,7 +659,7 @@
 
 <p>当然这个关系是发生在没有 transform 参与的情况下。如果有 transform 参与，情况就又不一样了。</p>
 <blockquote>
-<p>AutoLayout 在完成布局后，所计算出来的位置和尺寸内部修改的值是 center 和 bounds 两个属性，因此最终的展示效果不会因为仿射变换而产生异常。同时这也解释了为什么通过 AutoLayout 设置约束后修改 frame 属性来改变位置和尺寸不会起作用的原因。</p>
+<p>AutoLayout 在完成布局后，所计算出来的位置和尺寸内部修改的值是 center 和 bounds 两个属性，因此最终的展示效果不会因为仿射变换而产生异常。同时这也解释了为什么通过 AutoLayout 设置约束后修改 frame 属性来改变位置和尺寸不会起作用的原因。<br>解释一下就是：在iOS 8之前，AutoLayout完成布局后，直接修改的是frame的值，如果在AutoLayout设置约束后再设置transform，会造成视图异常，在iOS 8之后修复了这个问题，改用修改center 和 bounds 两个属性。</p>
 </blockquote>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>说不引申，但是写起来篇幅还是挺多的，没办法，因为有些知识点是串在一起的，不展开的话可能不好理解的透彻，先说这么多吧，iOS 页面渲染这块还有很多东西，比如离屏渲染、渲染优化等，这些后面再单独说吧。</p>
 <p>新的一周要更加努力呀！</p>
@@ -722,7 +727,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-UIView & CALayer/" title="iOS 页面渲染-UIView & CALayer">https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-UIView & CALayer/</a>
+    <a href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-UIView & CALayer/" title="iOS 页面渲染 -UIView & CALayer">https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-UIView & CALayer/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
