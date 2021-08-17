@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/装机必备/</loc>
+        <lastmod>2021-08-17T14:06:01.237Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/杂项/</loc>
+        <lastmod>2021-08-17T14:06:01.237Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/UIView/</loc>
         <lastmod>2021-08-17T10:18:25.511Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -89,13 +103,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/库/</loc>
         <lastmod>2021-08-10T15:29:37.496Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/装机必备/</loc>
-        <lastmod>2021-08-06T02:58:41.139Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
