@@ -65,8 +65,8 @@ Hi Coder，我是 CoderStar！
 
 ### 需要根据自己项目的情况进行修改，XXX都是需要进行修改的，可搜索进行修改 ###
 
-# target名称
-TARGET_NAME=XXX
+# Project名称
+PROJECT_NAME=XXX
 
 ## Scheme名
 SCHEME_NAME=XXX
@@ -86,10 +86,10 @@ EXPORTOPTIONSPLIST_PATH=XXX
 
 
 ## workspace路径
-WORKSPACE_PATH=${PROJECT_ROOT_PATH}/${TARGET_NAME}.xcworkspace
+WORKSPACE_PATH=${PROJECT_ROOT_PATH}/${PROJECT_NAME}.xcworkspace
 
 ## project路径
-PROJECT_PATH=${PROJECT_ROOT_PATH}/${TARGET_NAME}.xcodeproj
+PROJECT_PATH=${PROJECT_ROOT_PATH}/${PROJECT_NAME}.xcodeproj
 
 ### 编译打包过程 ###
 
@@ -183,7 +183,7 @@ echo "============Upload PGYER SUCCESS============"
 ## 如需上传到fim，可查阅 https://www.betaqr.com/docs/publish 文档
 
 
-### 如需脚本在执行过程中给用户提供选择，可使用以下Demo进行修改 ###
+### 如需脚本在执行过程中给用户提供选择，可使用以下Demo ###
 
 #echo "Place enter the number you want to export? [ 1:app-store 2:ad-hoc] "
 #read number
