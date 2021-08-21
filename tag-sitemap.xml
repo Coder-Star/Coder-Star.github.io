@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/提效/</loc>
+        <lastmod>2021-08-21T05:34:29.919Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-08-21T05:34:29.919Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/iOS-证书/</loc>
         <lastmod>2021-08-21T05:26:17.329Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -11,13 +25,6 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/Instrument/</loc>
-        <lastmod>2021-08-21T05:25:57.249Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/iOS/</loc>
         <lastmod>2021-08-21T05:25:57.249Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -47,13 +54,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/UI/</loc>
         <lastmod>2021-08-20T05:09:33.928Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/提效/</loc>
-        <lastmod>2021-08-19T14:46:07.624Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
