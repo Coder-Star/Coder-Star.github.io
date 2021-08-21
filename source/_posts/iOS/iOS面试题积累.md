@@ -7,7 +7,7 @@ tags: [iOS]
 
 ## Swif与OC对比
 
-![Swift-C数据类型对应](../../img/iOS/Swift/Swift-OC对比.png)
+![Swift-Objec数据类型对应](../../img/iOS/Swift/Swift-OC对比.png)
 
 
 

@@ -1,5 +1,5 @@
 ---
-title: XCode及iOS等配置
+title: XCode 及 iOS 等配置
 date: 2020-11-04 16:49:59
 category:
   - iOS
@@ -15,10 +15,10 @@ tags: [iOS, Xcode]
 
 ### 禁止控制台打印 NSLog
 
-进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`OS_ACTIVITY_MODE`，值为`Disable`  
+进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`OS_ACTIVITY_MODE`，值为`Disable`
 **注意此种方式不禁止 swift 的 print()**
 
-### 控制台输出 APP main()函数执行之前的耗时
+### 控制台输出 APP main() 函数执行之前的耗时
 
 进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`DYLD_PRINT_STATISTICS`，值为`1`
 如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS
@@ -50,15 +50,14 @@ Xcode 代码片段路径
 
 ## Build Settings
 
-- Other Linker Flags：控制对OC库文件的链接
-  - -ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来，如果库中只有 category 没有类，category 也不会加进来，但是不会将C++、C等类加载进来
+- Other Linker Flags：控制对 OC 库文件的链接
+  - -ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来，如果库中只有 category 没有类，category 也不会加进来，但是不会将 C++、C等类加载进来
   - -all_load 强制链接器把目标文件都加载进来，即使没有 objc 代码
   - -force_load 跟 all_load 作用类似，但是需要指定要进行全部加载的库文件的路径
 
-
-- Preprocessor Macros(GCC_PREPROCESSOR_DEFINITIONS)：OC环境的宏定义，一般Debug模式下会配置DEBUG=1，这样才可以使用 #if DEBUG的写法
-- Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8之后Swift环境下的条件编译变量，加上`-D XXX`
-- Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8之后Swift环境下的条件编译变量，一般Debug模式下会配置DEBUG，这样才可以使用 #if DEBUG的写法，不需要加D；
+- Preprocessor Macros(GCC_PREPROCESSOR_DEFINITIONS)：OC 环境的宏定义，一般 Debug 模式下会配置 DEBUG=1，这样才可以使用 #if DEBUG 的写法
+- Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8 之后 Swift 环境下的条件编译变量，加上`-D XXX`
+- Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8 之后 Swift 环境下的条件编译变量，一般 Debug 模式下会配置 DEBUG，这样才可以使用 #if DEBUG 的写法，不需要加 D；
 
 **通用**
 
@@ -66,5 +65,12 @@ Xcode 代码片段路径
 - `${PODS_ROOT}` 代表的是 pod 目录
 
 - `$(PROJECT_DIR)` 代表的是整个项目
-- `$(inherited)` 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited)将会包含 Pods.xcodeproj 中的配置
+- `$(inherited)` 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited) 将会包含 Pods.xcodeproj 中的配置
 
+## workspace, project, target, build configuration, scheme
+
+想 build 出一个 product，需要知道有哪些文件需要 build，build 的时候需要哪些构建参数。
+
+target 指定了需要哪些文件，build configuration 指定了使用哪些构建参数。所以我们 build 的时候就需要一个特定的 target 和一个特定的 build configuration，这时候 scheme 就起作用了，scheme 可以理解为工程编译运行时的配置文件, 它可以指定 build 的时候用哪个 target 和 build configuration，project 里可以有多个 target 和多个 build configuration，同时 workspace 里可以有多个 project，这些 project 的编译输出文件同在一个编译输出目录下，即整个 workspace 维度的。
+
+所以如果需要编译不同的文件，那么需要不同的 target；如果编译的文件都相同，只是配置文件不同，如 plist、entitlements 文件等，那么只需不同的 build configuration 即可。如果既要编译不同的文件，又要不同的配置文件及编译参数，那么需要 target 和 build configuration 混合使用。所有 build 设置相关的都可以在 build configuration 中单独设置。

@@ -1,10 +1,10 @@
 ---
-title: iOS证书相关
+title: iOS 证书相关
 date: 2019-10-21 19:52:42
-categories: 
+categories:
   - iOS
   - 相关
-tags: [iOS证书]
+tags: [iOS 证书]
 ---
 
 #### 检查 App 证书过期时间信息

@@ -1,7 +1,7 @@
 ---
 title: 以 OTA 方式无线分发 iOS 安装包
 date: 2020-03-26 19:49:05
-categories: 
+categories:
   - iOS
   - 相关
 tags: [分发]
@@ -37,7 +37,7 @@ plist 文件格式必须为 UTF-8，中各部分参数解释如下
 - bundle-version：应用的包版本，在 Xcode 项目中指定
 - title：下载和安装过程中显示的应用的名称
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
