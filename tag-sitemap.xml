@@ -3,8 +3,50 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/iOS-证书/</loc>
+        <lastmod>2021-08-21T05:26:17.329Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Instrument/</loc>
+        <lastmod>2021-08-21T05:25:57.249Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-08-20T01:51:15.372Z</lastmod>
+        <lastmod>2021-08-21T05:25:57.249Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Assets-xcassets/</loc>
+        <lastmod>2021-08-21T05:25:48.617Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/分发/</loc>
+        <lastmod>2021-08-21T05:25:43.474Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Xcode/</loc>
+        <lastmod>2021-08-21T05:23:37.237Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/UI/</loc>
+        <lastmod>2021-08-20T05:09:33.928Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -40,13 +82,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/基础原理/</loc>
         <lastmod>2021-08-16T13:44:28.809Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/UI/</loc>
-        <lastmod>2021-08-15T15:49:32.508Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -96,13 +131,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/体系/</loc>
         <lastmod>2021-08-13T12:41:38.138Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Xcode/</loc>
-        <lastmod>2021-08-11T04:53:54.316Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -269,13 +297,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/iOS证书/</loc>
-        <lastmod>2021-07-30T12:21:18.317Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/命令/</loc>
         <lastmod>2021-07-30T12:21:10.035Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -283,29 +304,8 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/Instrument/</loc>
-        <lastmod>2021-07-30T12:20:14.912Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/分发/</loc>
-        <lastmod>2021-07-30T12:20:10.547Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/推送/</loc>
         <lastmod>2021-07-30T12:20:05.171Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Assets-xcassets/</loc>
-        <lastmod>2021-07-30T12:19:52.605Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

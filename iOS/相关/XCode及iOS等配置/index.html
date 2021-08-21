@@ -91,14 +91,14 @@
 <meta name="description" content="Xcode控制台输出 Core Data 执行过程及结果进入 Product &amp;gt; Scheme &amp;gt; Edit Scheme… &amp;gt; Run &amp;gt; Arguments &amp;gt; Arguments Passed On Launch，在其中添加 -com.apple.CoreData.SQLDebug 3 禁止控制台打印 NSLog进入 Product &amp;gt; Scheme &amp;g">
 <meta name="keywords" content="iOS,Xcode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XCode及iOS等配置">
+<meta property="og:title" content="XCode 及 iOS 等配置">
 <meta property="og:url" content="https://coder-star.github.io/iOS/相关/XCode及iOS等配置/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Xcode控制台输出 Core Data 执行过程及结果进入 Product &amp;gt; Scheme &amp;gt; Edit Scheme… &amp;gt; Run &amp;gt; Arguments &amp;gt; Arguments Passed On Launch，在其中添加 -com.apple.CoreData.SQLDebug 3 禁止控制台打印 NSLog进入 Product &amp;gt; Scheme &amp;g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-08-11T04:53:54.316Z">
+<meta property="og:updated_time" content="2021-08-21T05:23:37.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XCode及iOS等配置">
+<meta name="twitter:title" content="XCode 及 iOS 等配置">
 <meta name="twitter:description" content="Xcode控制台输出 Core Data 执行过程及结果进入 Product &amp;gt; Scheme &amp;gt; Edit Scheme… &amp;gt; Run &amp;gt; Arguments &amp;gt; Arguments Passed On Launch，在其中添加 -com.apple.CoreData.SQLDebug 3 禁止控制台打印 NSLog进入 Product &amp;gt; Scheme &amp;g">
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>XCode及iOS等配置 | CoderStar's Blog</title>
+  <title>XCode 及 iOS 等配置 | CoderStar's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">XCode及iOS等配置</h1>
+          <h1 class="post-title" itemprop="name headline">XCode 及 iOS 等配置</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-11T12:53:54+08:00">
-                2021-08-11
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-21T13:23:37+08:00">
+                2021-08-21
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  580 字
+                  874 字
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -454,7 +454,7 @@
       
         <h2 id="Xcode"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode</h2><h3 id="控制台输出-Core-Data-执行过程及结果"><a href="#控制台输出-Core-Data-执行过程及结果" class="headerlink" title="控制台输出 Core Data 执行过程及结果"></a>控制台输出 Core Data 执行过程及结果</h3><p>进入 Product &gt; Scheme &gt; Edit Scheme… &gt; Run &gt; Arguments &gt; Arguments Passed On Launch，在其中添加 <code>-com.apple.CoreData.SQLDebug 3</code></p>
 <h3 id="禁止控制台打印-NSLog"><a href="#禁止控制台打印-NSLog" class="headerlink" title="禁止控制台打印 NSLog"></a>禁止控制台打印 NSLog</h3><p>进入 Product &gt; Scheme &gt; Edit Scheme… &gt; Run &gt; Arguments &gt; Environment Variables，在其中增加<code>OS_ACTIVITY_MODE</code>，值为<code>Disable</code><br><strong>注意此种方式不禁止 swift 的 print()</strong></p>
-<h3 id="控制台输出-APP-main-函数执行之前的耗时"><a href="#控制台输出-APP-main-函数执行之前的耗时" class="headerlink" title="控制台输出 APP main()函数执行之前的耗时"></a>控制台输出 APP main()函数执行之前的耗时</h3><p>进入 Product &gt; Scheme &gt; Edit Scheme… &gt; Run &gt; Arguments &gt; Environment Variables，在其中增加<code>DYLD_PRINT_STATISTICS</code>，值为<code>1</code><br>如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS</p>
+<h3 id="控制台输出-APP-main-函数执行之前的耗时"><a href="#控制台输出-APP-main-函数执行之前的耗时" class="headerlink" title="控制台输出 APP main() 函数执行之前的耗时"></a>控制台输出 APP main() 函数执行之前的耗时</h3><p>进入 Product &gt; Scheme &gt; Edit Scheme… &gt; Run &gt; Arguments &gt; Environment Variables，在其中增加<code>DYLD_PRINT_STATISTICS</code>，值为<code>1</code><br>如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS</p>
 <h3 id="控制台输入动态链接库相关信息"><a href="#控制台输入动态链接库相关信息" class="headerlink" title="控制台输入动态链接库相关信息"></a>控制台输入动态链接库相关信息</h3><p>进入 Product &gt; Scheme &gt; Edit Scheme… &gt; Run &gt; Arguments &gt; Environment Variables，在其中增加<code>DYLD_PRINT_ENV</code>，值为<code>1</code></p>
 <h3 id="Swift-代码编译时间相关"><a href="#Swift-代码编译时间相关" class="headerlink" title="Swift 代码编译时间相关"></a>Swift 代码编译时间相关</h3><p>Build Settings &gt; Other Swift Flags, 配置如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 100这个参数表示毫秒，表示当编译时间超过这个时间时，会显示警告</span><br><span class="line">// 方法体时长超过 100 ms</span><br><span class="line">-Xfrontend -warn-long-function-bodies=100</span><br><span class="line">// 类型推断时长超过 100 ms</span><br><span class="line">-Xfrontend -warn-long-expression-type-checking=100</span><br><span class="line"></span><br><span class="line">// 输出每个函数的编译时长</span><br><span class="line">-Xfrontend -debug-time-function-bodies</span><br></pre></td></tr></table></figure>
@@ -462,17 +462,19 @@
 <p>Xcode 代码片段路径<br><code>~/Library/Developer/Xcode/UserData/CodeSnippets</code></p>
 <p>文件模板路径<br><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File\ Templates/iOS/Source</code></p>
 <h2 id="Build-Settings"><a href="#Build-Settings" class="headerlink" title="Build Settings"></a>Build Settings</h2><ul>
-<li>Other Linker Flags：控制对OC库文件的链接<ul>
-<li>-ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来，如果库中只有 category 没有类，category 也不会加进来，但是不会将C++、C等类加载进来</li>
+<li><p>Other Linker Flags：控制对 OC 库文件的链接</p>
+<ul>
+<li>-ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来，如果库中只有 category 没有类，category 也不会加进来，但是不会将 C++、C等类加载进来</li>
 <li>-all_load 强制链接器把目标文件都加载进来，即使没有 objc 代码</li>
 <li>-force_load 跟 all_load 作用类似，但是需要指定要进行全部加载的库文件的路径</li>
 </ul>
 </li>
-</ul>
-<ul>
-<li>Preprocessor Macros(GCC_PREPROCESSOR_DEFINITIONS)：OC环境的宏定义，一般Debug模式下会配置DEBUG=1，这样才可以使用 #if DEBUG的写法</li>
-<li>Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8之后Swift环境下的条件编译变量，加上<code>-D XXX</code></li>
-<li>Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8之后Swift环境下的条件编译变量，一般Debug模式下会配置DEBUG，这样才可以使用 #if DEBUG的写法，不需要加D；</li>
+<li><p>Preprocessor Macros(GCC_PREPROCESSOR_DEFINITIONS)：OC 环境的宏定义，一般 Debug 模式下会配置 DEBUG=1，这样才可以使用 #if DEBUG 的写法</p>
+</li>
+<li><p>Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8 之后 Swift 环境下的条件编译变量，加上<code>-D XXX</code></p>
+</li>
+<li><p>Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8 之后 Swift 环境下的条件编译变量，一般 Debug 模式下会配置 DEBUG，这样才可以使用 #if DEBUG 的写法，不需要加 D；</p>
+</li>
 </ul>
 <p><strong>通用</strong></p>
 <ul>
@@ -482,9 +484,12 @@
 </li>
 <li><p><code>$(PROJECT_DIR)</code> 代表的是整个项目</p>
 </li>
-<li><p><code>$(inherited)</code> 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited)将会包含 Pods.xcodeproj 中的配置</p>
+<li><p><code>$(inherited)</code> 继承上一级或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited) 将会包含 Pods.xcodeproj 中的配置</p>
 </li>
 </ul>
+<h2 id="workspace-project-target-build-configuration-scheme"><a href="#workspace-project-target-build-configuration-scheme" class="headerlink" title="workspace, project, target, build configuration, scheme"></a>workspace, project, target, build configuration, scheme</h2><p>想 build 出一个 product，需要知道有哪些文件需要 build，build 的时候需要哪些构建参数。</p>
+<p>target 指定了需要哪些文件，build configuration 指定了使用哪些构建参数。所以我们 build 的时候就需要一个特定的 target 和一个特定的 build configuration，这时候 scheme 就起作用了，scheme 可以理解为工程编译运行时的配置文件, 它可以指定 build 的时候用哪个 target 和 build configuration，project 里可以有多个 target 和多个 build configuration，同时 workspace 里可以有多个 project，这些 project 的编译输出文件同在一个编译输出目录下，即整个 workspace 维度的。</p>
+<p>所以如果需要编译不同的文件，那么需要不同的 target；如果编译的文件都相同，只是配置文件不同，如 plist、entitlements 文件等，那么只需不同的 build configuration 即可。如果既要编译不同的文件，又要不同的配置文件及编译参数，那么需要 target 和 build configuration 混合使用。所有 build 设置相关的都可以在 build configuration 中单独设置。</p>
 
       
     </div>
@@ -542,7 +547,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/相关/XCode及iOS等配置/" title="XCode及iOS等配置">https://coder-star.github.io/iOS/相关/XCode及iOS等配置/</a>
+    <a href="https://coder-star.github.io/iOS/相关/XCode及iOS等配置/" title="XCode 及 iOS 等配置">https://coder-star.github.io/iOS/相关/XCode及iOS等配置/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -576,8 +581,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/iOS/相关/Instrument相关/" rel="next" title="Instrument相关">
-                <i class="fa fa-chevron-left"></i> Instrument相关
+              <a href="/iOS/相关/Instrument相关/" rel="next" title="Instrument 相关">
+                <i class="fa fa-chevron-left"></i> Instrument 相关
               </a>
             
           </div>
@@ -687,7 +692,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">82</span>
+                  <span class="site-state-item-count">83</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -756,7 +761,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode"><span class="nav-text">Xcode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台输出-Core-Data-执行过程及结果"><span class="nav-text">控制台输出 Core Data 执行过程及结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#禁止控制台打印-NSLog"><span class="nav-text">禁止控制台打印 NSLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台输出-APP-main-函数执行之前的耗时"><span class="nav-text">控制台输出 APP main()函数执行之前的耗时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台输入动态链接库相关信息"><span class="nav-text">控制台输入动态链接库相关信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift-代码编译时间相关"><span class="nav-text">Swift 代码编译时间相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Settings"><span class="nav-text">Build Settings</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Xcode"><span class="nav-text">Xcode</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台输出-Core-Data-执行过程及结果"><span class="nav-text">控制台输出 Core Data 执行过程及结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#禁止控制台打印-NSLog"><span class="nav-text">禁止控制台打印 NSLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台输出-APP-main-函数执行之前的耗时"><span class="nav-text">控制台输出 APP main() 函数执行之前的耗时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台输入动态链接库相关信息"><span class="nav-text">控制台输入动态链接库相关信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift-代码编译时间相关"><span class="nav-text">Swift 代码编译时间相关</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Build-Settings"><span class="nav-text">Build Settings</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#workspace-project-target-build-configuration-scheme"><span class="nav-text">workspace, project, target, build configuration, scheme</span></a></li></ol></div>
             
 
           </div>

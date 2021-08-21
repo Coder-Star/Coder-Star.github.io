@@ -9,14 +9,28 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
-        <lastmod>2021-08-20T01:51:15.372Z</lastmod>
+        <loc>https://coder-star.github.io/categories/iOS/%E7%9B%B8%E5%85%B3/</loc>
+        <lastmod>2021-08-21T05:26:17.329Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/categories/iOS/</loc>
+        <lastmod>2021-08-21T05:26:17.329Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/UI/</loc>
+        <lastmod>2021-08-20T05:09:33.928Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
         <lastmod>2021-08-20T01:51:15.372Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -39,13 +53,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E6%9D%82%E9%A1%B9/</loc>
         <lastmod>2021-08-17T14:11:39.748Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/UI/</loc>
-        <lastmod>2021-08-17T10:18:25.511Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -74,13 +81,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/iOS/%E4%BC%98%E5%8C%96/</loc>
         <lastmod>2021-08-14T00:51:24.210Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E7%9B%B8%E5%85%B3/</loc>
-        <lastmod>2021-08-11T04:53:54.316Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
