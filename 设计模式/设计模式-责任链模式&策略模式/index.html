@@ -98,7 +98,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ChainOfResponsibilityUML.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/StrategyUML.png">
-<meta property="og:updated_time" content="2021-08-22T13:14:08.759Z">
+<meta property="og:updated_time" content="2021-08-24T01:36:55.986Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式 - 责任链模式 &amp; 策略模式">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天主要是给大家分享一下两种设计模式，即责任链模式以及策略模式。至于为什么想着给大家分享这两种设计模式呢，这源于我之前对扫码场景的相关代码优化，下面我将结合我遇到这个的场景给大家讲一下这两种设计模式。 顺便我也表达一点我对设计模式的看法，设计模式需要结合一定的使用场景才会体现才会它的妙处，大家在平时在开发时觉得哪些地方的代码不简洁优雅，都可以思考一">
@@ -352,8 +352,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-22T21:14:08+08:00">
-                2021-08-22
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-24T09:36:55+08:00">
+                2021-08-24
               </time>
             
           </span>
@@ -407,7 +407,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.1k 字
+                  3.2k 字
                 </span>
               
 
@@ -455,6 +455,9 @@
 <p>普通的写法便是通过<code>if-else</code>或者<code>switch-case</code>对条件进行判断继而执行不同的分支。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">onScanResult</span><span class="params">(type: String)</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> type &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">"login"</span>:</span><br><span class="line">         <span class="comment">// TODO 登录的相关逻辑</span></span><br><span class="line">      <span class="keyword">case</span> <span class="string">"addContacts"</span></span><br><span class="line">         <span class="comment">// TODO 添加联系人的相关逻辑</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// 此处省略99种分支判断</span></span><br><span class="line">      ...</span><br><span class="line"></span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>上述示例逻辑相对简单，可推理到业务，有可能登录、添加联系人内部逻辑都很复杂，并且还有可能分支判断不是简单的根据type来判断，而是根据很多条件综合来判断。</p>
+</blockquote>
 <p>简单的示例如上所示，那这种方法不好的的地方也显而易见：</p>
 <ul>
 <li>代码臃肿：当出现很多种情况需要处理时，会出现很多的 <code>if-else</code>，并且相关的逻辑可能会比较复杂，大量的代码堆积到一个文件中去；</li>
@@ -539,7 +542,7 @@
 <li>由于策略模式将每个具体的算法都单独封装为一个策略类，如果可选的策略有很多的话，那对象的数量也会很多。</li>
 </ul>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>我们结合扫码这个场景的实际情况再回顾一下这两个设计模式。</p>
-<p>我们先看策略模式，我们其实还是需要去判断选用何种策略模式，那么当判断选用何种策略模式的逻辑相对复杂的时候实际上还是责任链模式比较适合一些，因为责任链模式可以将判断逻辑全部写在自己内部，每个节点之间相互独立，互不影响。</p>
+<p>我们先看策略模式，我们其实还是需要去判断选用何种策略，那么当判断选用何种策略的逻辑相对复杂的时候实际上还是责任链模式比较适合一些，因为责任链模式可以将判断逻辑全部写在自己内部，每个节点之间相互独立，互不影响。</p>
 <p>再看责任链模式，客户端的节点串联需要特别注意，不要出现环形，而且其节点先后顺序最好是按照扫描结果其处理的可能性从大到小，减少节点传递的性能损耗。</p>
 <p>对于两种设计模式，我们肯定都需要提供兜底的跳转方式，如直接显示出扫描结果。</p>
 <p>设计模式没有一个标准规定的写法，关键在于你怎么去融汇贯通，大家要结合自己的使用场景灵活使用设计模式。用着用着你就会发现自己在模块设计甚至系统设计都会再上一个层次。</p>
