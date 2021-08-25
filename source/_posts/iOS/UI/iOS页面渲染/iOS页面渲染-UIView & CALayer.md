@@ -175,7 +175,7 @@ public protocol CALayerDelegate : NSObjectProtocol {
 上面已经提到如果成为 layer 的 delegate，然后实现 displayLayer 方法，便可以开始异步绘制了，在异步绘制过程中：
 
 1. 由 delegete 去负责生成 bitmap 位图；
-2. 切换到主线程，将生成的 bitmap 作为 layer.content 属性的值。
+2. 切换到主线程，将生成的 bitmap 作为 `layer.contents` 属性的值。
 
 下图为异步绘制的时序图：
 ![异步绘制](../../../../img/iOS/UI/iOS页面渲染/异步绘制.png)
