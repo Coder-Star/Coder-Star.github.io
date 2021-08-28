@@ -49,6 +49,17 @@ date: 2021-08-17 20:40:25
 
 [DownGit](https://minhaskamal.github.io/DownGit/#/home)
 
+
+### github1s
+
+[网址](https://github.com/conwnet/github1s)
+
+将github仓库前的github域名换为 `github1s`，便可以以VSCode的形式打开项目，方便查看，但注意不可编辑，是只读的。
+
+如将 `https://github.com/Coder-Star/LTXiOSUtils` 改为 `https://github1s.com/Coder-Star/LTXiOSUtils`
+
+![github1s](../../../img/杂项/Github工具/github1s.png)
+
 ## 装扮
 
 ### shields
