@@ -3,6 +3,41 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/装机必备/</loc>
+        <lastmod>2021-08-30T15:26:53.423Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/杂项/</loc>
+        <lastmod>2021-08-30T15:26:53.423Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/多线程/</loc>
+        <lastmod>2021-08-29T13:25:31.717Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-08-29T13:25:31.717Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Operation/</loc>
+        <lastmod>2021-08-29T12:52:03.822Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/策略/</loc>
         <lastmod>2021-08-28T11:00:08.022Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -19,41 +54,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/设计模式/</loc>
         <lastmod>2021-08-28T11:00:08.022Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/装机必备/</loc>
-        <lastmod>2021-08-27T10:06:01.507Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/杂项/</loc>
-        <lastmod>2021-08-27T10:06:01.507Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Operation/</loc>
-        <lastmod>2021-08-27T01:26:31.498Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/多线程/</loc>
-        <lastmod>2021-08-27T01:26:31.498Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-08-27T01:26:31.498Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

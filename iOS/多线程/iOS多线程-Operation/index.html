@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。 相对GCD的优点：  可">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-08-27T01:26:31.498Z">
+<meta property="og:updated_time" content="2021-08-29T12:52:03.822Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Operation">
 <meta name="twitter:description" content="Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。 相对GCD的优点：  可">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-27T09:26:31+08:00">
-                2021-08-27
+              <time title="更新于" itemprop="dateModified" datetime="2021-08-29T20:52:03+08:00">
+                2021-08-29
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  110 字
+                  219 字
                 </span>
               
 
@@ -458,7 +458,12 @@
 <p>相对GCD的优点：</p>
 <ul>
 <li>可以对操作之前进行依赖；</li>
-<li>设置最大任务数；</li>
+<li>最大并发操作数<code>maxConcurrentOperationCount</code>；<ul>
+<li>maxConcurrentOperationCount 默认情况下为-1，表示不进行限制，可进行并发执行。</li>
+<li>maxConcurrentOperationCount 为1时，队列为串行队列。只能串行执行。</li>
+<li>maxConcurrentOperationCount 大于1时，队列为并发队列。操作并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}。</li>
+</ul>
+</li>
 </ul>
 
       
