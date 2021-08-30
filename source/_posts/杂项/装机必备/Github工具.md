@@ -9,6 +9,8 @@ tags:
 date: 2021-08-17 20:40:25
 ---
 
+今天主要给大家介绍一下 Github 的相关工具
+
 ## Chrome 插件
 
 ### Octotree
@@ -41,30 +43,24 @@ date: 2021-08-17 20:40:25
 
 ![Enhanced GitHub](../../../img/杂项/Chrome插件/Enhanced%20GitHub.jpeg)
 
-## 在线工具
+### GitHub Hovercard
 
-### DownGit
+GitHub 悬浮卡片插件
 
-下载 github 仓库指定文件或文件夹
+![Hovercard](../../../img/杂项/Github工具/Hovercard.png)
 
-[DownGit](https://minhaskamal.github.io/DownGit/#/home)
+### GitHub Isometric Contributions
+
+3D 效果显示 Github 贡献图
+
+![GitHub Isometric Contributions](../../../img/杂项/Github工具/Contributions.png)
 
 
-### github1s
-
-[网址](https://github.com/conwnet/github1s)
-
-将github仓库前的github域名换为 `github1s`，便可以以VSCode的形式打开项目，方便查看，但注意不可编辑，是只读的。
-
-如将 `https://github.com/Coder-Star/LTXiOSUtils` 改为 `https://github1s.com/Coder-Star/LTXiOSUtils`
-
-![github1s](../../../img/杂项/Github工具/github1s.png)
-
-## 装扮
+## 信息展示
 
 ### shields
 
-[网址](https://shields.io/)
+[shields](https://shields.io/)
 
 通过图标方式表示项目的相关信息，也可以自定义图标，如下所示
 
@@ -72,7 +68,7 @@ date: 2021-08-17 20:40:25
 
 ### github-readme-stats
 
-[网址](https://github.com/anuraghazra/github-readme-stats/blob/master/docs/readme_cn.md)
+[github-readme-stats](https://github.com/anuraghazra/github-readme-stats/blob/master/docs/readme_cn.md)
 
 在你的 README 中获取动态生成的 GitHub 统计信息！如下所示
 
@@ -82,32 +78,63 @@ date: 2021-08-17 20:40:25
 
 ### visitor
 
-[网址](https://visitor-badge.glitch.me/#docs)
+[visitor-badge](https://visitor-badge.glitch.me/#docs)
 
-统计 README.md, Issues, PRs 等访问人数。如下所示
+统计 `README.md`, `Issues`, `PRs` 等访问人数。如下所示
 
 ![](https://visitor-badge.glitch.me/badge?page_id=Coder-Star.Coder-Star)
 
 ### gitmoj
 
-[网址](https://gitmoji.js.org/)
+[gitmoji](https://gitmoji.js.org/)
 
 git 提交信息的 emoji 指南
 
+![gitmoj](../../../img/杂项/Github工具/gitmoj.png)
+
 ### resume
 
-[网址](https://resume.github.io)
+[resume](https://resume.github.io)
 
 根据你的 github 信息为你生成一份在线简历，如下所示
 
 [Coder-Star的简历](https://resume.github.io/?Coder-Star)
 
-### githistory
+![resume](../../../img/杂项/Github工具/resume.png)
 
-将github某个文件链接前的github域名换为 `github.githistory.xyz` 便可以一个图形化的方式显示该文件的修改历史，如下所示。
 
-[CSPickerView.podspec变动历史](https://github.githistory.xyz/Coder-Star/CSPickerView/blob/main/CSPickerView.podspec)
+## 在线工具
+
+### DownGit
+
+下载 github 仓库指定文件或文件夹
+
+[DownGit](https://minhaskamal.github.io/DownGit/#/home)
+
+![DownGit](../../../img/杂项/Github工具/DownGit.png)
+
+### github1s
+
+[github1s](https://github.com/conwnet/github1s)
+
+将 github 仓库前的 github 域名换为 `github1s`，便能以 VSCode 的形式打开项目，方便查看，但注意不可编辑，是只读的。
+
+如将 `https://github.com/Coder-Star/LTXiOSUtils` 改为 `https://github1s.com/Coder-Star/LTXiOSUtils`
+
+![github1s](../../../img/杂项/Github工具/github1s.png)
 
 ### github 提供的 api
 
 https://api.github.com/
+
+![github_api](../../../img/杂项/Github工具/github_api.png)
+
+### githistory
+
+将 github 某个文件链接前的 github 域名换为 `github.githistory.xyz` 便可以一个图形化的方式显示该文件的修改历史，如下所示。
+
+[CSPickerView.podspec变动历史](https://github.githistory.xyz/Coder-Star/CSPickerView/blob/main/CSPickerView.podspec)
+
+![githistory](../../../img/杂项/Github工具/githistory.png)
+
+
