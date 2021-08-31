@@ -9,7 +9,11 @@ tags:
 date: 2021-08-17 20:40:25
 ---
 
-今天主要给大家介绍一下 Github 的相关工具
+## 前言
+
+Hi Coder，我是 CoderStar！
+
+这次主要给大家简单介绍一下我常用的一些Github工具。
 
 ## Chrome 插件
 
@@ -54,7 +58,6 @@ GitHub 悬浮卡片插件
 3D 效果显示 Github 贡献图
 
 ![GitHub Isometric Contributions](../../../img/杂项/Github工具/Contributions.png)
-
 
 ## 信息展示
 
@@ -102,7 +105,6 @@ git 提交信息的 emoji 指南
 
 ![resume](../../../img/杂项/Github工具/resume.png)
 
-
 ## 在线工具
 
 ### DownGit
@@ -137,4 +139,19 @@ https://api.github.com/
 
 ![githistory](../../../img/杂项/Github工具/githistory.png)
 
+### OhMyStar
 
+[OhMyStar](https://ohmystarapp.com)
+
+直接引用官方自己介绍的话吧：
+> The best way to organise your GitHub Stars. Beautiful and efficient way to manage, explore and share your Github Stars.
+
+普通版免费，Pro 版收费，其中 Pro 版增加的功能是设备间同步，不过软件本身也支持数据的导入导出，大家根据自己的情况进行选择。
+
+![OhMyStar](../../../img/杂项/Github工具/OhMyStar.png)
+
+类似管理Github Stars的工具的还有[astralapp](https://astralapp.com/)，是网页端管理。
+
+## 最后
+
+Let's be CoderStar!
