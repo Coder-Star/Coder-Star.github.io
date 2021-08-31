@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/iOS/%E6%8F%90%E6%95%88/iOS%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/</loc>
+        <lastmod>2021-08-31T08:10:47.051Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Github%E5%B7%A5%E5%85%B7/</loc>
         <lastmod>2021-08-30T15:26:53.423Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -75,14 +83,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93-UIView%20%26%20CALayer/</loc>
         <lastmod>2021-08-25T01:53:37.253Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E6%8F%90%E6%95%88/iOS%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85/</loc>
-        <lastmod>2021-08-21T05:34:29.919Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
