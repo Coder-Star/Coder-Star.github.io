@@ -1,5 +1,5 @@
 ---
-title: shell笔记
+title: Shell笔记
 category:
   - 杂项
 tags:
@@ -7,14 +7,29 @@ tags:
 date: 2021-05-27 20:59:49
 ---
 
-这几天因为要搭建公司的CI平台，需要用到shell进行打包，所以简单了解了一下shell。
+
 
 ## shell基础
 
-```
+
 $()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。
 
 $与${}都是用来获取变量内容的
+
+
+## 代码段
+
+判断上行代码是否执行成功，如果命令执行成功，则返回0，否则返回1
+```shell
+# 上一行命令执行结果不为0，表示执行失败
+if [ $? -ne 0 ]; then
+fi
+```
+
+判断文件是否存在
+```shell
+if [ -f "$IPA_FILE" ] ; then
+fi
 ```
 
 ## sed命令

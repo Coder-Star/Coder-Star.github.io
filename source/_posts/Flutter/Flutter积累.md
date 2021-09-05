@@ -19,3 +19,14 @@ date: 2020-11-17 22:00:46
 ### Waiting for another flutter command to release the startup lock...
 
 进入到你的 flutter sdk 目录中，然后找到 bin/cache/lockfile 文件，删除它即可。
+
+
+
+### 代码段
+
+刘海屏屏幕适配，正常顶部20，刘海屏44，正常底部0，刘海34
+配套Widget，SafeArea
+```dart
+final double topPadding = MediaQuery.of(context).padding.top;
+final double bottomPadding = MediaQuery.of(context).padding.bottom;
+```
