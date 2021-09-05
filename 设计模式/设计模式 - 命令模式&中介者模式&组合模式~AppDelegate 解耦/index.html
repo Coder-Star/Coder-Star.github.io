@@ -91,17 +91,17 @@
 <meta name="description" content="前言Hi Coder，我是 CoderStar！ 本周主要给大家分享的内容是三种设计模式 (命令模式、中介者模式以及组合模式) 及其它们在AppDelegate解耦场景下的应用，特别是组合模式，沉淀出相应的轮子分享给大家。 同时也给大家说下后面关于设计模式系列的文章计划，因为设计模式相关文章会结合我们开发中实际上会遇到的场景进行整理，所以发文可能不连续，希望大家理解，我会将大部分设计模式的代码示例">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式 - 命令模式 &amp; 组合模式~AppDelegate 解耦">
-<meta property="og:url" content="https://coder-star.github.io/设计模式/设计模式-命令模式&组合模式-AppDelegate解耦/index.html">
+<meta property="og:title" content="设计模式 - 命令模式&amp;中介者模式&amp;组合模式~AppDelegate 解耦">
+<meta property="og:url" content="https://coder-star.github.io/设计模式/设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 本周主要给大家分享的内容是三种设计模式 (命令模式、中介者模式以及组合模式) 及其它们在AppDelegate解耦场景下的应用，特别是组合模式，沉淀出相应的轮子分享给大家。 同时也给大家说下后面关于设计模式系列的文章计划，因为设计模式相关文章会结合我们开发中实际上会遇到的场景进行整理，所以发文可能不连续，希望大家理解，我会将大部分设计模式的代码示例">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/CommandUML.png">
 <meta property="og:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/MediatorUML.png">
 <meta property="og:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/CompositeUML.png">
-<meta property="og:updated_time" content="2021-09-05T13:51:22.256Z">
+<meta property="og:updated_time" content="2021-09-05T14:05:56.881Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式 - 命令模式 &amp; 组合模式~AppDelegate 解耦">
+<meta name="twitter:title" content="设计模式 - 命令模式&amp;中介者模式&amp;组合模式~AppDelegate 解耦">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 本周主要给大家分享的内容是三种设计模式 (命令模式、中介者模式以及组合模式) 及其它们在AppDelegate解耦场景下的应用，特别是组合模式，沉淀出相应的轮子分享给大家。 同时也给大家说下后面关于设计模式系列的文章计划，因为设计模式相关文章会结合我们开发中实际上会遇到的场景进行整理，所以发文可能不连续，希望大家理解，我会将大部分设计模式的代码示例">
 <meta name="twitter:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/CommandUML.png">
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://coder-star.github.io/设计模式/设计模式-命令模式&组合模式-AppDelegate解耦/">
+  <link rel="canonical" href="https://coder-star.github.io/设计模式/设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦/">
 
 
 
 
 
-  <title>设计模式 - 命令模式 & 组合模式~AppDelegate 解耦 | CoderStar's Blog</title>
+  <title>设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦 | CoderStar's Blog</title>
   
 
 
@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/设计模式/设计模式-命令模式&组合模式-AppDelegate解耦/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/设计模式/设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -325,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式 - 命令模式 & 组合模式~AppDelegate 解耦</h1>
+          <h1 class="post-title" itemprop="name headline">设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦</h1>
         
 
         <div class="post-meta">
@@ -353,7 +353,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-05T21:51:22+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-05T22:05:56+08:00">
                 2021-09-05
               </time>
             
@@ -568,7 +568,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/设计模式/设计模式-命令模式&组合模式-AppDelegate解耦/" title="设计模式 - 命令模式 & 组合模式~AppDelegate 解耦">https://coder-star.github.io/设计模式/设计模式-命令模式&组合模式-AppDelegate解耦/</a>
+    <a href="https://coder-star.github.io/设计模式/设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦/" title="设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦">https://coder-star.github.io/设计模式/设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
