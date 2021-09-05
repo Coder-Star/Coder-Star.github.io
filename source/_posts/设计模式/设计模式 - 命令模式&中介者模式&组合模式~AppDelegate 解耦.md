@@ -1,5 +1,5 @@
 ---
-title: 设计模式 - 命令模式 & 组合模式~AppDelegate 解耦
+title: 设计模式 - 命令模式&中介者模式&组合模式~AppDelegate 解耦
 category:
   - 设计模式
 tags:
