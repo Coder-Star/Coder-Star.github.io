@@ -33,3 +33,4 @@ date: 2021-05-27 14:51:08
   `block-based` API 即 [addObserver(forName:object:queue:using:)](https://developer.apple.com/documentation/foundation/notificationcenter/1411723-addobserver) 还是需要主动调用 `NotificationCenter.removeObserver(_:)` 才能删除 callback Block（在 iOS 11.2 中测试）。
 
 - UITableCell初始化时Width不管是什么机型都会是320，如果在该时间需要使用Width，需要手动设置一下Width；
+- UILabel设置渐变色后，文字看不见，建议换成UIButton；

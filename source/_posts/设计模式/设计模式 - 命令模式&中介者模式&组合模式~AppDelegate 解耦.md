@@ -11,7 +11,7 @@ date: 2021-09-04 19:35:13
 
 Hi Coder，我是 CoderStar！
 
-本周主要给大家分享的内容是三种设计模式 (**命令模式**、**中介者模式**以及**组合模式**) 及其它们在`AppDelegate`解耦场景下的应用，特别是组合模式，沉淀出相应的轮子分享给大家。
+今天主要给大家分享的内容是三种设计模式 (**命令模式**、**中介者模式**以及**组合模式**) 及其它们在`AppDelegate`解耦场景下的应用，特别是组合模式，沉淀出相应的轮子分享给大家。
 
 同时也给大家说下后面关于设计模式系列的文章计划，因为设计模式相关文章会结合我们开发中实际上会遇到的场景进行整理，所以发文可能不连续，希望大家理解，我会将大部分设计模式的代码示例全部整理到[DesignPatternsDemo](https://github.com/Coder-Star/DesignPatternsDemo)仓库中，形式为`Playground`，所以代码示例中可能会有一些手动调用系统函数的情况出现。
 
@@ -238,7 +238,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ![组合模式URL图](../../img/设计模式/CompositeUML.png)
 
-其中类似到`AppDelegate`场景下，`AppDelegate`是一个根`Composite`角色，而各个业务便是`Leaf`角色，如果应用到组件化中，则各个组件便是`Leaf`角色或者`Composite`角色（组件内部可再分发到各个业务`Leaf`）。
+类比到`AppDelegate`场景下，`AppDelegate`是一个根`Composite`角色，而各个业务便是`Leaf`角色，如果应用到组件化中，则各个组件便是`Leaf`角色或者`Composite`角色（组件内部可再分发到各个业务`Leaf`）。
 
 ### 代码示例
 
@@ -362,7 +362,9 @@ class AppDelegate: ApplicationServiceManagerDelegate {
 
 ## 最后
 
-新的一周要更加努力呀！
+上述的三种设计模式可以根据各自项目的实际情况进行选用或者组合，比如说壳工程将事件分发到各组件内部可以选用组合模式，组件内部的事件分发可以选用命令或者中介者模式。
+
+要更加努力呀！
 
 Let's be CoderStar!
 
