@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="iOS 请求权限回调，第一次用户选择时回调会发生在非主线程，如果在回调中进行 UI 操作，请注意切换到主线程。  Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB，  WkWebview 字体过小，注入一段 js var meta = document.createElement">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-31T09:55:15.999Z">
+<meta property="og:updated_time" content="2021-09-09T12:02:15.982Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 日常小坑总结">
 <meta name="twitter:description" content="iOS 请求权限回调，第一次用户选择时回调会发生在非主线程，如果在回调中进行 UI 操作，请注意切换到主线程。  Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB，  WkWebview 字体过小，注入一段 js var meta = document.createElement">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-31T17:55:15+08:00">
-                2021-07-31
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-09T20:02:15+08:00">
+                2021-09-09
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  427 字
+                  444 字
                 </span>
               
 
@@ -465,6 +465,8 @@
 <li><p><code>selector-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1415360-addobserver" target="_blank" rel="noopener">addObserver(_:selector:name:object:)</a> 不再需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 方法（iOS 11.2 中测试）;<br><code>block-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1411723-addobserver" target="_blank" rel="noopener">addObserver(forName:object:queue:using:)</a> 还是需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 才能删除 callback Block（在 iOS 11.2 中测试）。</p>
 </li>
 <li><p>UITableCell初始化时Width不管是什么机型都会是320，如果在该时间需要使用Width，需要手动设置一下Width；</p>
+</li>
+<li><p>UILabel设置渐变色后，文字看不见，建议换成UIButton；</p>
 </li>
 </ul>
 

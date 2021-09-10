@@ -3,22 +3,29 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/runtime/</loc>
-        <lastmod>2021-09-07T03:43:00.766Z</lastmod>
+        <loc>https://coder-star.github.io/tags/设计模式/</loc>
+        <lastmod>2021-09-10T02:30:02.074Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/坑/</loc>
+        <lastmod>2021-09-09T12:02:15.982Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-09-07T03:43:00.766Z</lastmod>
+        <lastmod>2021-09-09T12:02:15.982Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/设计模式/</loc>
-        <lastmod>2021-09-05T14:05:56.881Z</lastmod>
+        <loc>https://coder-star.github.io/tags/runtime/</loc>
+        <lastmod>2021-09-07T03:43:00.766Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -271,13 +278,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/持久化/</loc>
         <lastmod>2021-08-01T15:28:31.407Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/坑/</loc>
-        <lastmod>2021-07-31T09:55:15.999Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
