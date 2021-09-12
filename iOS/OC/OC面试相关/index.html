@@ -88,18 +88,20 @@
 
 
 
-<meta name="description" content="Extension &amp;amp; Category：分类extension：扩展  可以给类添加成员变量及方法 添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的 @interface 和实现文件里的 @implement 一起形成了一个完整的类 伴随着类的产生而产生，也随着类的消失而消失 必须有类的源码才可以给类添加 extension，所以对于系统一些类，如 NSString，就">
+<meta name="description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta name="keywords" content="iOS,OC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OC 面试相关">
 <meta property="og:url" content="https://coder-star.github.io/iOS/OC/OC面试相关/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="Extension &amp;amp; Category：分类extension：扩展  可以给类添加成员变量及方法 添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的 @interface 和实现文件里的 @implement 一起形成了一个完整的类 伴随着类的产生而产生，也随着类的消失而消失 必须有类的源码才可以给类添加 extension，所以对于系统一些类，如 NSString，就">
+<meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-08-02T14:06:43.537Z">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png">
+<meta property="og:updated_time" content="2021-09-12T07:52:24.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
-<meta name="twitter:description" content="Extension &amp;amp; Category：分类extension：扩展  可以给类添加成员变量及方法 添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的 @interface 和实现文件里的 @implement 一起形成了一个完整的类 伴随着类的产生而产生，也随着类的消失而消失 必须有类的源码才可以给类添加 extension，所以对于系统一些类，如 NSString，就">
+<meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png">
 
 
 
@@ -349,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-02T22:06:43+08:00">
-                2021-08-02
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-12T15:52:24+08:00">
+                2021-09-12
               </time>
             
           </span>
@@ -415,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.3k 字
+                  2.9k 字
                 </span>
               
 
@@ -431,7 +433,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4 分钟
+                  10 分钟
                 </span>
               
             </div>
@@ -452,7 +454,68 @@
       
 
       
-        <h2 id="Extension-amp-Category：分类"><a href="#Extension-amp-Category：分类" class="headerlink" title="Extension &amp; Category：分类"></a>Extension &amp; Category：分类</h2><p>extension：扩展</p>
+        <h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><ul>
+<li>@property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)</li>
+<li>@synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。</li>
+<li>@dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，</li>
+</ul>
+<p>当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。</p>
+<p>@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是 @syntheszie var = _var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上 @synthesize 及 @dynamic。</p>
+<p>什么情况下需要使用 @synthesize 呢？</p>
+<ul>
+<li>修改生成的成员变量名字；</li>
+<li>重写了只读属性的 getter 时；</li>
+<li>同时重写 setter 和 getter 时；</li>
+<li>实现了带有 property 属性的 protocol；</li>
+</ul>
+<p>怎么用呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .h文件</span><br><span class="line">@property (nonatomic, readonly, unsafe_unretained) int i;</span><br><span class="line"></span><br><span class="line">// .m文件</span><br><span class="line">@synthesize i = __i; // __i为指定的实例变量，@synthesize i相当于 @synthesize i = i;</span><br></pre></td></tr></table></figure>
+
+<h3 id="property-属性修饰符"><a href="#property-属性修饰符" class="headerlink" title="@property 属性修饰符"></a>@property 属性修饰符</h3><p><strong>setter、getter</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, readonly, getter=isFinalized) BOOL finalized;</span><br><span class="line">@property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;</span><br></pre></td></tr></table></figure>
+
+<p><strong>内存管理</strong></p>
+<ul>
+<li>retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用</li>
+<li>strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用</li>
+<li>copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于 (NSArray,NSDictionary,NSString)，释放旧对象</li>
+<li>assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针</li>
+<li>weak 表示只是指向对象，不隐式发送 retain, 指向对象一旦被销毁就会自动 nil 化</li>
+<li>__unsafe_unretained 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针</li>
+</ul>
+<blockquote>
+<p>当修饰可变类型的属性时，如 NSMutableArray、NSMutableDictionary、NSMutableString，用 strong。<br>当修饰不可变类型的属性时，如 NSArray、NSDictionary、NSString，用 copy。</p>
+</blockquote>
+<p><strong>读写权限</strong></p>
+<ul>
+<li>readwrite 可读可写，会生成 getter 和 setter 方法</li>
+<li>readonly 是只能读取，只会生成 getter 方法，不会生成 setter 方法，在值不想被外界修改时使用</li>
+</ul>
+<p><strong>原子性</strong></p>
+<ul>
+<li>nonatomic 非原子性，与 atomic 是相反的</li>
+<li>atomic 原子性，在多线程的环境下是有必要的，会在 setter 里加锁，保证线程安全, 效率降低，底层加锁的方式为 spinlock_t 自旋锁来实现的，在 iOS10 之后，底层换成了<code>os_unfair_lock</code></li>
+</ul>
+<blockquote>
+<p>atomic 不是一定线程安全的，如果一个对象的改变不是直接调用 getter/setter 方法，而是直接对对象内部属性修改、字符串拼接、数组增加和移除元素等操作，就不能保证这个对象是线程安全的。</p>
+</blockquote>
+<p><strong>允许为空，iOS9 新关键字，用于引用类型</strong></p>
+<ul>
+<li>nullable/_Nullable/__nullable 告诉编译器表示值可以空</li>
+<li>nonnull/__nonnull/_Nonnull 表示不可以为 nil，NULL， 不遵守规定编译器会警告</li>
+<li>null_resettable get 不能返回空, set 可以为空，如果使用，必须重写 set 或者 get 方法，处理传递值为空的情况</li>
+<li>_Null_unspecified 不确定是否为空</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// nonnull</span><br><span class="line">@property (nonatomic, copy, nonnull) NSString *name;</span><br><span class="line">@property (nonatomic, copy) NSString * _Nonnull name;</span><br><span class="line">@property (nonatomic, copy) NSString * __nonnull name;</span><br><span class="line">// 方法时使用</span><br><span class="line">- (nonnull NSString *)test:(nonnull NSString *)name;</span><br><span class="line">- (NSString * _Nonnull)test1:(NSString * _Nonnull)name;</span><br><span class="line"></span><br><span class="line">// nullable</span><br><span class="line">@property (nonatomic, copy, nullable) NSString *name;</span><br><span class="line">@property (nonatomic, copy) NSString *_Nullable name;</span><br><span class="line">@property (nonatomic, copy) NSString *__nullable name;</span><br><span class="line"></span><br><span class="line">// null_resettable</span><br><span class="line">@property (nonatomic, copy, null_resettable) NSString *name;</span><br><span class="line"></span><br><span class="line">// _Null_unspecified</span><br><span class="line">@property (nonatomic, strong) NSString *_Null_unspecified name;</span><br><span class="line">@property (nonatomic, strong) NSString *__null_unspecified name;</span><br></pre></td></tr></table></figure>
+
+<p>关于 ARC 下，不显示指定属性关键字时，默认关键字：</p>
+<ul>
+<li>基本数据类型：atomic readwrite assign</li>
+<li>普通 OC 对象： atomic readwrite strong</li>
+</ul>
+<h2 id="import、-import、-include、-class"><a href="#import、-import、-include、-class" class="headerlink" title="@import、#import、 #include、@class"></a>@import、#import、 #include、@class</h2><p>@class 用在 .h 文件中，作用是创建一个向前引用，是解决两个.h 文件互相引用的解决办法。</p>
+<p>import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。</p>
+<h2 id="Extension-amp-Category：分类"><a href="#Extension-amp-Category：分类" class="headerlink" title="Extension &amp; Category：分类"></a>Extension &amp; Category：分类</h2><p>extension：扩展</p>
 <ul>
 <li>可以给类添加成员变量及方法</li>
 <li>添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的 @interface 和实现文件里的 @implement 一起形成了一个完整的类</li>
@@ -470,8 +533,13 @@
 <h2 id="self-class-和-super-class-区别"><a href="#self-class-和-super-class-区别" class="headerlink" title="[self class] 和 [super class] 区别"></a>[self class] 和 [super class] 区别</h2><p>两者打印出来的内容相同.</p>
 <p><code>[self class]</code>就是发送消息 <code>objc_msgSend</code>，消息接收者 <code>self</code>，方法编号 <code>class</code><br><code>[super class]</code>本质就是 <code>objc_msgSendSuper</code>，消息的接收者还是 <code>self</code>，方法编号 <code>class</code>。只是调用 <code>objc_msgSendSuper</code> 的时候会直接跳过 <code>self</code> 查找，直接在从 <code>super</code> 出现的在的方法所在的类的父类开始查找进行查找。</p>
 <p>class 方法的作用就是返回 receiver 的类别。</p>
-<h2 id="load-方法的加载顺序"><a href="#load-方法的加载顺序" class="headerlink" title="load 方法的加载顺序"></a>load 方法的加载顺序</h2><p>父类的 +load 方法执行在前，子类的 +load 方法在后<br>所有类的 +load 方法执行在前，所有分类的 +load 方法执行在后<br>同级别类及分类的执行顺序与编译顺序有关系。</p>
-<p>load 函数是 main 函数启动前装载文件直接通过函数地址调用，而不是使用消息转发的方式，只被调用一次。</p>
+<h2 id="load-与-initialize"><a href="#load-与-initialize" class="headerlink" title="load 与 initialize"></a>load 与 initialize</h2><p>load方法的调用分为两种情况，系统自动调用和手动调用。其中系统自动调用直接通过函数地址调用，而手动调用是使用的消息机制，与正常的方法调用无异。</p>
+<p>自动调用load方法执行顺序</p>
+<ul>
+<li>父类的 +load 方法执行在前，子类的 +load 方法在后</li>
+<li>所有类的 +load 方法执行在前，所有分类的 +load 方法执行在后</li>
+<li>同级别类及分类的执行顺序与编译顺序有关系，先编译先调用。</li>
+</ul>
 <p>initialize：当类或子类第一次收到消息时被调用只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕，子类和父类同时实现 initialize，父类的先被调用，然后调用子类的。本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。</p>
 <p>load 方法里面可以调用 category 中声明的方法，因为附加 category 到类的工作会先于 +load 方法的执行。</p>
 <h2 id="OC-中的-block"><a href="#OC-中的-block" class="headerlink" title="OC 中的 block"></a>OC 中的 block</h2><p>OC 中的 block 本质是一个 OC 对象，内部也会有一个 isa 指针。有三种类型。</p>
@@ -503,6 +571,20 @@
 <li>不可变对象调用 mutableCopy，生成新的对象，因为需要修改而原对象不支持修改。</li>
 <li>可变对象调用 copy，生成新的对象，因为预期是获得一个不可变对象。</li>
 <li>可变对象调用 mutableCopy，生成新对象，可变对象的修改不应影响到原对象，所以会生成新对象。</li>
+</ul>
+<h2 id="isa-指针"><a href="#isa-指针" class="headerlink" title="isa 指针"></a>isa 指针</h2><p>isa 指针是一个联合体，</p>
+<p><img src="../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png" alt="isa指针"></p>
+<ul>
+<li>每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。</li>
+<li>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。</li>
+<li>所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。</li>
+</ul>
+<p>引用计数会存储在 isa 指针上，当引用计数超过 255 时，引用计数会存储在 SideTable 的属性中。</p>
+<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>数据成员对⻬规则:</p>
+<ul>
+<li>结构 (struct)(或联合 (union)) 的数据成员，第一个数据成员放在 offset 为 0 的地方 (即首地址的位置），以后每个数据成员存储的起始位置要从该成员大小或者成员的子成员大小 (只要该成员有子成员，比如说是数组，结构体等) 的整数倍开始 (比如 int 为 4 字节, 则要从 4 的整数倍地址开始存储。</li>
+<li>结构体作为成员: 如果一个结构里有某些结构体成员, 则结构体成员要从其内部最大元素大小的整数倍地址开始存储.(struct a 里存有 struct b,b 里有 char、int 、double 等元素, 那 b 应该从 8 的整数倍开始存储.)</li>
+<li>收尾工作: 结构体的总大小, 也就是 sizeof 的结果, 必须是其内部最大成员的整数倍，不足的要补⻬。</li>
 </ul>
 
       
@@ -689,7 +771,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">111</span>
+                  <span class="site-state-item-count">109</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -697,7 +779,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">77</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">4</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">75</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">4</span></li></ul>
               </div>
             
 
@@ -775,7 +857,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Extension-amp-Category：分类"><span class="nav-text">Extension &amp; Category：分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-class-和-super-class-区别"><span class="nav-text">[self class] 和 [super class] 区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-方法的加载顺序"><span class="nav-text">load 方法的加载顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC-中的-block"><span class="nav-text">OC 中的 block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy-mutableCopy"><span class="nav-text">copy / mutableCopy</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#property-属性修饰符"><span class="nav-text">@property 属性修饰符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import、-import、-include、-class"><span class="nav-text">@import、#import、 #include、@class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extension-amp-Category：分类"><span class="nav-text">Extension &amp; Category：分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-class-和-super-class-区别"><span class="nav-text">[self class] 和 [super class] 区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-与-initialize"><span class="nav-text">load 与 initialize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC-中的-block"><span class="nav-text">OC 中的 block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy-mutableCopy"><span class="nav-text">copy / mutableCopy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isa-指针"><span class="nav-text">isa 指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存对齐"><span class="nav-text">内存对齐</span></a></li></ol></div>
             
 
           </div>
