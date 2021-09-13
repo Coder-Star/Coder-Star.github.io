@@ -1,13 +1,13 @@
 ---
-title: UITableView相关
+title: UITableView 相关
 date: 2019-10-12 13:48:42
-categories: 
+categories:
   - iOS
   - UI
 tags: [iOS]
 ---
 
-## 1、基础知识
+## 基础知识
 
 ### 样式
 
@@ -51,9 +51,9 @@ optional public func tableView(_ tableView: UITableView, editActionsForRowAt ind
 optional public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
 ```
 
-## 2、问题集锦
+## 问题集锦
 
-### 1、取消 TableView 前后默认空白部分
+### 取消 TableView 前后默认空白部分
 
 代码示例
 
@@ -78,16 +78,16 @@ optional public func tableView(_ tableView: UITableView, willDisplay cell: UITab
 2. 在 ios11 系统以下，如果上述 header 以及 footer 置为 0，则会认为其没有设置高度，还是会默认设置大约为 50 个像素的高度；ios11 系统以上可直接设置为 0；
 3. 如果不设置 viewForHeaderInSection 或者设置其为 nil，直接设置 heightForHeaderInSection，不会走 heightForHeaderInSection 这个代理；
 
-### 2、TableView 高度自适应
+### TableView 高度自适应
 
-设置 TableView 高度自适应一般需要设置 estimatedRowHeight 以及 rowHeight 两个属性,并且 cell 的子控件布局要实现自动布局（即 cell 的子控件需要将 cell 撑满）。其中 estimatedRowHeight 是一个对 cell 的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight 设为 UITableView.automaticDimension；  
+设置 TableView 高度自适应一般需要设置 estimatedRowHeight 以及 rowHeight 两个属性, 并且 cell 的子控件布局要实现自动布局（即 cell 的子控件需要将 cell 撑满）。其中 estimatedRowHeight 是一个对 cell 的预估高度，为其设置一个非负的预估高度可以提高表视图的性能，将一些几何计算的成本从加载时间推迟到滚动时间（预估高度和实际高度差值越小越好）；rowHeight 设为 UITableView.automaticDimension；
 **需要注意的是当 estimatedRowHeight 设为 0 时表示关闭预估高度（在实践中发现可能还会表示不使用自适应），ios11 之前默认值为 0，ios11 及以后默认值为 44，也就是说如果 app 需要兼容 ios10 及以下系统时，必须手动为 estimatedRowHeight 属性赋值，但是我觉得即使不是 ios10 及以下系统，还是建议为该属性手动赋值一个比较接近的值，提升流畅度**
 
 > `cellForRowAtIndexPath`与`heightForRowAtIndexPath`调用顺序：
 
-1. tableView 设置了预估行高  
+1. tableView 设置了预估行高
    `cellForRowAtIndexPath` 在 `heightForRowAtIndexPath` 之前调用
-2. tableView 没有设置预估行高  
+2. tableView 没有设置预估行高
    tableView 首先会把所有 IndexPath 的 heightForRowAtIndexPath 遍历一遍以计算 contentsize，然后又按照上述情况设置一次
 
 ```swift
@@ -112,9 +112,9 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
  }
 ```
 
-### 3、TableView 滚动条常在（具体原理百度上很多，ScrollView 同理）
+### TableView 滚动条常在（具体原理百度上很多，ScrollView 同理）
 
-1. UIImageView 扩展(oc 代理类文件如何新建自行百度)
+1. UIImageView 扩展 (oc 代理类文件如何新建自行百度)
 
 - .h 文件
 
@@ -162,7 +162,7 @@ NS_ASSUME_NONNULL_END
 @end
 ```
 
-#### 1. 为 tableView 绑定标签
+#### 为 tableView 绑定标签
 
 ```swift
  tableView.tag = Int(noDisableVerticalScrollTag)
@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_END
 
 以上代码可以实现 tableView 人工滚动后，滚动条显示后不会再消失。但刚进入不会直接显示滚动条，如果进入页面就直接显示滚动条，则需要添上以下代码；
 
-#### 2. 进入页面直接显示滚动条
+#### 进入页面直接显示滚动条
 
 ```swift
 //当tableView绑定完数据后，使用flashScrollIndicators方法
@@ -179,9 +179,9 @@ NS_ASSUME_NONNULL_END
     }
 ```
 
-### 4、提供一个获取 tableView 自适应高度比较暴力的方法
+### 提供一个获取 tableView 自适应高度比较暴力的方法
 
-近期开发中遇到了一个 ScrollView 嵌套 tableView 的场景，因为 ScrollView 需要依靠其子 View 的相对约束来计算其 ContentSize,所以需要获取到 tableView 的高度。下面是相关代码。大致思路为**cell 即将展示时，获取 tableView 的 contentSize，此 contentSize 便为 tableView 的高度，将此值更新为 tableView 的高度约束。(可以提前给 tableView 设置一个平均高度，然后去更新这个约束，这样即使没有获取到实际高度，也不会有错误)**
+近期开发中遇到了一个 ScrollView 嵌套 tableView 的场景，因为 ScrollView 需要依靠其子 View 的相对约束来计算其 ContentSize, 所以需要获取到 tableView 的高度。下面是相关代码。大致思路为**cell 即将展示时，获取 tableView 的 contentSize，此 contentSize 便为 tableView 的高度，将此值更新为 tableView 的高度约束。(可以提前给 tableView 设置一个平均高度，然后去更新这个约束，这样即使没有获取到实际高度，也不会有错误)**
 
 ```swift
 //在cell即将展示时，获取tableView的contentSize，此contentSize便为tableView的高度，将此值更新为tableView的高度约束
@@ -198,7 +198,7 @@ func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forR
     }
 ```
 
-### 5、tableCell 点击之后 UIAlertController 延迟弹出问题处理
+### tableCell 点击之后 UIAlertController 延迟弹出问题处理
 
 猜测原因：`点击事件触发后没有及时刷新UI，或者进入到了其他线程，主线程可能经过几次循环后之后才会发现UI变化，去刷新UI`
 
@@ -219,11 +219,11 @@ tableCell.selectionStyle = .none  //不要将点击后颜色变化置为none
 
 ### 6、tablecell 复用导致页面数据错位
 
-#### 1.可在使用复用的 cell 前，先删除 cell 之前的子 view(代码如下)
+#### 1. 可在使用复用的 cell 前，先删除 cell 之前的子 view(代码如下)
 
-#### 2.为每一个 cell 设置一个特定的 reuseIdentifierId，去缓冲池取的时候直接取特定的 reuseIdentifierId(不推荐使用，如果这样做的话，其中就不存在复用了)
+#### 2. 为每一个 cell 设置一个特定的 reuseIdentifierId，去缓冲池取的时候直接取特定的 reuseIdentifierId(不推荐使用，如果这样做的话，其中就不存在复用了)
 
-#### 3.不再使用 dequeueReusableCell 从缓冲池中取，而是直接通过 cellForRow 直接定位到具体的 indexPath(不推荐，原因同上)
+#### 3. 不再使用 dequeueReusableCell 从缓冲池中取，而是直接通过 cellForRow 直接定位到具体的 indexPath(不推荐，原因同上)
 
 ```swift
 let id = "cellId"
@@ -237,15 +237,16 @@ if tableCell == nil{
 }
 ```
 
-### 7、UITableViewCell 中的使用 cell 和 cell.contentView 的区别
+### UITableViewCell 中的使用 cell 和 cell.contentView 的区别
 
-**进行编辑时，比如 cell 需要向左向右移动用以显示编辑按钮时，使用 cell 子视图不会自动移动；cell.contentView 会自动移动；** 其他情况下两者基本没有什么区别
+- 进行编辑时，比如 cell 需要向左向右移动用以显示编辑按钮时，使用 cell 子视图不会自动移动；cell.contentView 会自动移动；
+- iOS 13 之后，要求必须将视图放在 contentView 上，否则有些控件无法点击；
 
-### 8、UITableView 进行编辑多选模式的步骤
+### UITableView 进行编辑多选模式的步骤
 
 如果遇到进行编辑模式后，cell 没有自动右移的问题解决方式请见[UITableViewCell 中的使用 cell 和 cell.contentView 的区别](#7uitableviewcell%e4%b8%ad%e7%9a%84%e4%bd%bf%e7%94%a8cell%e5%92%8ccellcontentview%e7%9a%84%e5%8c%ba%e5%88%ab)；
 
-#### 1.设置进行编辑模式的样式（删除、插入等）,如果不设置，默认为删除形式,或者 tableview 在未加在 view 上时设置其为编辑模式，也默认为圆圈样式
+#### 设置进行编辑模式的样式（删除、插入等）, 如果不设置，默认为删除形式, 或者 tableview 在未加在 view 上时设置其为编辑模式，也默认为圆圈样式
 
 **cell.selectionStyle = .none** 切记不可将 selectionStyle 设置为 none，这样会使选择以及取消选择的样式都显示不出来。
 
@@ -256,14 +257,14 @@ if tableCell == nil{
     }
 ```
 
-#### 2.进入编辑模式
+#### 进入编辑模式
 
 ```swift
 tableView.isEditing = true //进入编辑模式
 tableView.allowsMultipleSelectionDuringEditing = true //当编辑模式时允许多选,当开启该选项后，前面的样式不必要再
 ```
 
-##### 1.选中及取消选中
+##### 选中及取消选中
 
 ```swift
 // 选中
@@ -282,7 +283,7 @@ func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) 
 }
 ```
 
-##### 2.统计选中的项以及关闭编辑模式
+##### 统计选中的项以及关闭编辑模式
 
 ```swift
 //统计选中的项
@@ -292,7 +293,7 @@ tableView.isEditing = false
 关闭编辑后需要记得将所有tablecell的accessoryType复原到进行编辑模式之前的样式
 ```
 
-##### 3.额外样式修改
+##### 额外样式修改
 
 多选时，去除选中情况下的蓝色浮层，只显示左侧圆圈
 
@@ -316,7 +317,7 @@ override func setSelected(_ selected: Bool, animated: Bool) {
 
 2. cell 的 selectionStyle 不可以设为 none，否则没有选中效果
 
-### 8、UITableView 懒加载中不可以设置 tableFooterView 以及 tableHeaderView，设置会导致崩溃（好像在 ios 13 上已经修复该问题）
+### UITableView 懒加载中不可以设置 tableFooterView 以及 tableHeaderView，设置会导致崩溃（好像在 ios 13 上已经修复该问题）
 
 ```swift
  private lazy var tableView:UITableView = {
@@ -329,6 +330,34 @@ override func setSelected(_ selected: Bool, animated: Bool) {
     }()
 ```
 
-### 9、cell 使用自动高度布局时，内部 view 约束高度过小
+### cell 使用自动高度布局时，内部 view 约束高度过小
 
 当 cell 使用自动高度布局时，内部 view 约束高度过小（小于 0.17）时，会出现设置的高度约束无效，cell 实际显示出的高度为 cell 默认高度 44.
+
+### tableview,collectionView 数据 reload 之后的操作无法响应
+
+我们如果要想实现在 reload 之后弹出 alertView，或者滚动到特定一行，可能会直接写：
+
+```swift
+tableView.reloadData()
+tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+```
+
+复制代码看似没问题，但是滚动没起作用，因为 reloadData 是立即返回的，不会等 tableview 刷新完成。
+解决办法就是需要等 reload 完成之后再做我们需要的操作，reload 是否完成有几种方式监听：
+
+```swift
+//collectionView
+collectionView.performBatchUpdates(nil) { (finished) in
+    //reload完成
+}
+//tableView方法只有iOS11可用
+tableView.performBatchUpdates(nil) { (finished) in
+    //reload完成
+}//替代func beginUpdates()，func endUpdates()
+//tableView等reload完成还可以使用
+tableView.reloadData()
+DispatchQueue.main.async {
+    //reload完成
+}
+```
