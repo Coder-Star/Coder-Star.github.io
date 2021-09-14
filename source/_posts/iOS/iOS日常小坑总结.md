@@ -34,3 +34,4 @@ date: 2021-05-27 14:51:08
 
 - UITableCell初始化时Width不管是什么机型都会是320，如果在该时间需要使用Width，需要手动设置一下Width；
 - UILabel设置渐变色后，文字看不见，建议换成UIButton；
+- UILabel设置frame如果数值不为整数时，可能会有一个灰边。
