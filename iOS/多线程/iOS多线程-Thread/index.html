@@ -97,7 +97,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。 作为多线程系列的开篇，今天我们先来讲讲 Thread，虽然它用的比较少也比较">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png">
-<meta property="og:updated_time" content="2021-09-23T16:30:26.122Z">
+<meta property="og:updated_time" content="2021-09-23T16:42:20.899Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程 -Thread">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。 作为多线程系列的开篇，今天我们先来讲讲 Thread，虽然它用的比较少也比较">
@@ -351,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-24T00:30:26+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-24T00:42:20+08:00">
                 2021-09-24
               </time>
             
@@ -518,15 +518,18 @@
 </tr>
 </tbody></table>
 <p>补充说明：</p>
-<p><strong>start</strong><br>thread 调用 start 方法后，其实并不是马上就开始运行了。实质上是放进了可调度线程池，等待被 CPU 调用。线程执行结束之前，状态可能会在就绪状态 和 运行状态 之间来回的切换。就绪状态 和 运行状态 之间的状态切换由 CPU 来完成, 程序员无法干涉。</p>
-<p><strong>cancel</strong><br>并没有真证的取消线程，只是打了一个标志（通过 isCancelled 方法可以获取到）。一般我们需要在进行大量操作前判断一下标志，避免线程已经被取消了，还运行一些计算的现象产生。</p>
+<p><strong>start</strong></p>
+<p>thread 调用 start 方法后，其实并不是马上就开始运行了。实质上是放进了可调度线程池，等待被 CPU 调用。线程执行结束之前，状态可能会在就绪状态 和 运行状态 之间来回的切换。就绪状态 和 运行状态 之间的状态切换由 CPU 来完成, 程序员无法干涉。</p>
+<p><strong>cancel</strong></p>
+<p>并没有真正的取消线程，只是打了一个标志（通过 isCancelled 方法可以获取到）。一般我们需要在进行大量操作前判断一下标志，避免线程已经被取消了，还运行一些计算的现象产生。</p>
 <p><strong>exit</strong></p>
 <ul>
 <li>不要在主线程中进行调用，否则会出现 <code>Terminating app due to uncaught exception &#39;NSInternalInconsistencyException&#39;, reason: &#39;Call must be made on main thread&#39;</code>。</li>
 <li>其会终止通过 current 方法获取到的线程。同时，苹果建议应避免调用此方法，因为它不会让您的线程有机会清理它在执行期间分配的任何资源。</li>
 <li>调用这个方法之前，一定要注意释放之前由 C 语言创建的对象，不然会造成内存泄漏等问题。</li>
 </ul>
-<p><strong>sleep</strong><br>目前只能控制其休眠多长时间或休眠到什么时间，外部无法手动唤醒。如果想实现手动唤醒的效果，可以考虑使用<code>NSCondition</code>，后面也会对其单独介绍。</p>
+<p><strong>sleep</strong></p>
+<p>目前只能控制其休眠多长时间或休眠到什么时间，外部无法手动唤醒。如果想实现手动唤醒的效果，可以考虑使用<code>NSCondition</code>，后面也会对其单独介绍。</p>
 <h2 id="Thread-的常用属性-方法"><a href="#Thread-的常用属性-方法" class="headerlink" title="Thread 的常用属性 / 方法"></a>Thread 的常用属性 / 方法</h2><p>介绍几个属性 / 方法</p>
 <ul>
 <li>name：给线程命名，方便查找</li>
