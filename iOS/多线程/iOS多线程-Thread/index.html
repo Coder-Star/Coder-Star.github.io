@@ -88,18 +88,20 @@
 
 
 
-<meta name="description" content="使用起来比较轻量级。每一个 Thread 都对应一个线程。需要自己管理线程的生命周期、线程同步、加锁、睡眠以及唤醒等。 创建 1234567891011121314151617// 闭包形式// 类方法@available(iOS 10.0, *)open class func detachNewThread(_ block: @escaping () -&amp;gt; Void)// 实例方法@ava">
+<meta name="description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。 作为多线程系列的开篇，今天我们先来讲讲 Thread，虽然它用的比较少也比较">
 <meta name="keywords" content="iOS,多线程,Thread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Thread">
+<meta property="og:title" content="iOS 多线程 -Thread">
 <meta property="og:url" content="https://coder-star.github.io/iOS/多线程/iOS多线程-Thread/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="使用起来比较轻量级。每一个 Thread 都对应一个线程。需要自己管理线程的生命周期、线程同步、加锁、睡眠以及唤醒等。 创建 1234567891011121314151617// 闭包形式// 类方法@available(iOS 10.0, *)open class func detachNewThread(_ block: @escaping () -&amp;gt; Void)// 实例方法@ava">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。 作为多线程系列的开篇，今天我们先来讲讲 Thread，虽然它用的比较少也比较">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-08-26T11:53:09.252Z">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png">
+<meta property="og:updated_time" content="2021-09-23T16:30:26.122Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Thread">
-<meta name="twitter:description" content="使用起来比较轻量级。每一个 Thread 都对应一个线程。需要自己管理线程的生命周期、线程同步、加锁、睡眠以及唤醒等。 创建 1234567891011121314151617// 闭包形式// 类方法@available(iOS 10.0, *)open class func detachNewThread(_ block: @escaping () -&amp;gt; Void)// 实例方法@ava">
+<meta name="twitter:title" content="iOS 多线程 -Thread">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。 作为多线程系列的开篇，今天我们先来讲讲 Thread，虽然它用的比较少也比较">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png">
 
 
 
@@ -135,7 +137,7 @@
 
 
 
-  <title>Thread | CoderStar's Blog</title>
+  <title>iOS 多线程 -Thread | CoderStar's Blog</title>
   
 
 
@@ -321,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Thread</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 多线程 -Thread</h1>
         
 
         <div class="post-meta">
@@ -349,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-08-26T19:53:09+08:00">
-                2021-08-26
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-24T00:30:26+08:00">
+                2021-09-24
               </time>
             
           </span>
@@ -415,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  446 字
+                  1.3k 字
                 </span>
               
 
@@ -431,7 +433,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  5 分钟
                 </span>
               
             </div>
@@ -452,15 +454,97 @@
       
 
       
-        <p>使用起来比较轻量级。每一个 Thread 都对应一个线程。需要自己管理线程的生命周期、线程同步、加锁、睡眠以及唤醒等。</p>
-<p><strong>创建</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 闭包形式</span></span><br><span class="line"><span class="comment">// 类方法</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">10.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">detachNewThread</span>(<span class="title">_</span> <span class="title">block</span>: @<span class="title">escaping</span> () -&gt; <span class="title">Void</span>)</span></span><br><span class="line"><span class="class">// 实例方法</span></span><br><span class="line"><span class="class">@<span class="title">available</span>(<span class="title">iOS</span> 10.0, *)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">convenience</span> <span class="title">init</span>(<span class="title">block</span>: @<span class="title">escaping</span> () -&gt; <span class="title">Void</span>)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">// 方式形式</span></span><br><span class="line"><span class="class">// 类方法</span></span><br><span class="line"><span class="class"><span class="title">open</span> <span class="title">class</span> <span class="title">func</span> <span class="title">detachNewThreadSelector</span>(<span class="title">_</span> <span class="title">selector</span>: <span class="title">Selector</span>, <span class="title">toTarget</span> <span class="title">target</span>: <span class="title">Any</span>, <span class="title">with</span> <span class="title">argument</span>: <span class="title">Any</span>?)</span></span><br><span class="line"><span class="class">// 实例方法</span></span><br><span class="line"><span class="class">@<span class="title">available</span>(<span class="title">iOS</span> 2.0, *)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">convenience</span> <span class="title">init</span>(<span class="title">target</span>: <span class="title">Any</span>, <span class="title">selector</span>: <span class="title">Selector</span>, <span class="title">object</span> <span class="title">argument</span>: <span class="title">Any</span>?)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">//类方法创建的线程自动运行，利用类方法创建没有返回值，所以如果需要获取创建的<span class="title">thread</span>，需要在相应的<span class="title">selector</span>方法中调用获取当前线程的方法</span></span><br><span class="line"><span class="class">//实例方法创建的线程需要手动调用<span class="title">start</span>方法进行运行</span></span><br></pre></td></tr></table></figure>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>多线程是 iOS 中一个重要的知识点，常见的技术包含</p>
+<ul>
+<li>Thread</li>
+<li>GCD</li>
+<li>Operation</li>
+<li>Pthreads</li>
+</ul>
+<p>其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。</p>
+<p>作为多线程系列的开篇，今天我们先来讲讲 Thread，虽然它用的比较少也比较简单，但还是需要我们掌握了解的。</p>
+<p>Thread 相对 GCD、Operation 而言使用起来比较轻量级。其管理的基本单位就是线程，每一个 Thread 都对应一个线程。<br>需要自己管理线程的生命周期、线程同步、加锁、睡眠以及唤醒等。</p>
+<h2 id="Thread-的创建方式"><a href="#Thread-的创建方式" class="headerlink" title="Thread 的创建方式"></a>Thread 的创建方式</h2><p>Thread 的创建有多种方式。</p>
+<h3 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(iOS <span class="number">10.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">detachNewThread</span>(<span class="title">_</span> <span class="title">block</span>: @<span class="title">escaping</span> () -&gt; <span class="title">Void</span>)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">open</span> <span class="title">class</span> <span class="title">func</span> <span class="title">detachNewThreadSelector</span>(<span class="title">_</span> <span class="title">selector</span>: <span class="title">Selector</span>, <span class="title">toTarget</span> <span class="title">target</span>: <span class="title">Any</span>, <span class="title">with</span> <span class="title">argument</span>: <span class="title">Any</span>?)</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>方法</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实例方法或属性，一般用在实例方式创建线程</span></span><br><span class="line"><span class="comment">//启动</span></span><br><span class="line">start()</span><br><span class="line"><span class="comment">//取消，取消线程并不会马上停止并退出线程，仅仅只作（线程是否需要退出）状态记录</span></span><br><span class="line">cancel()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 类方法或属性，一般是用在线程的执行体中，用在用类方法创建的线程中</span></span><br><span class="line"><span class="comment">//线程停止，停止方法会立即终止除主线程以外所有线程（无论是否在执行任务）并退出，需要在掌控所有线程状态的情况下调用此方法，否则可能会导致内存问题。</span></span><br><span class="line">exit()</span><br><span class="line"><span class="comment">//当前线程</span></span><br><span class="line">current</span><br><span class="line"><span class="comment">//线程休眠，会有阻塞当前线程的效果</span></span><br><span class="line">sleep()</span><br></pre></td></tr></table></figure>
+<p>类方法创建的线程自动运行，通过这种方式我们无法对 Thread 属性进行一些自定义的设置，如<code>name</code>、<code>threadPriority</code>等。</p>
+<h3 id="实例方法"><a href="#实例方法" class="headerlink" title="实例方法"></a>实例方法</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>()</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(target: <span class="type">Any</span>, selector: <span class="type">Selector</span>, object argument: <span class="type">Any?</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">10.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(block: @escaping () -&gt; <span class="type">Void</span>)</span><br></pre></td></tr></table></figure>
 
-<p>Thread 现在提供的阻塞方法为 sleep，只能控制其休眠多长时间或休眠到什么时间，外部无法手动唤醒。如果想实现手动唤醒的效果，可以借助</p>
-<p>Thread 可以进行继承，重写 main 方法</p>
+<p>实例方法创建的线程需要手动调用 start 方法才能运行，在 start 之前我们可以给 Thread 属性进行一些设置。</p>
+<h3 id="使用-NSObject-的拓展方法"><a href="#使用-NSObject-的拓展方法" class="headerlink" title="使用 NSObject 的拓展方法"></a>使用 NSObject 的拓展方法</h3><p>这也是使用 Thread 进行线程切换的系列方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">performSelector</span><span class="params">(onMainThread aSelector: Selector, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool, modes array: [String]?)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">performSelector</span><span class="params">(onMainThread aSelector: Selector, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">perform</span><span class="params">(<span class="number">_</span> aSelector: Selector, on thr: Thread, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool, modes array: [String]?)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">perform</span><span class="params">(<span class="number">_</span> aSelector: Selector, on thr: Thread, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">performSelector</span><span class="params">(inBackground aSelector: Selector, with arg: <span class="keyword">Any</span>?)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="继承-Thread"><a href="#继承-Thread" class="headerlink" title="继承 Thread"></a>继承 Thread</h3><p>Thread 可以进行继承，重写 main 方法，同时不需在 main 方法中调用父类 main 方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MyThread</span>().start()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>: <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="线程生命周期"><a href="#线程生命周期" class="headerlink" title="线程生命周期"></a>线程生命周期</h2><p>线程的生命周期分为下列几种：</p>
+<ul>
+<li>创建：实例化一个线程对象。</li>
+<li>就绪：将线程对象添加到可调度线程池，等待 CPU 调用；</li>
+<li>运行：CPU 从可调度线程池中选中线程进行调用，当前选中的线程为运行状态，未选中的重新变为就绪状态，此步程序员无法控制，由系统来处理；</li>
+<li>堵塞：线程休眠处理。线程 sleep、加了同步锁的对象正在被其他线程操作时，线程也会进入休眠；</li>
+<li>死亡：当线程需要执行的代码块执行完，或者线程强制退出，线程结束。</li>
+</ul>
+<p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png" alt="线程状态"></p>
+<p>类比到 Thread，会有相应的方法与之对应。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>start</td>
+<td>实例方法</td>
+<td>启动</td>
+</tr>
+<tr>
+<td>cancel</td>
+<td>实例方法</td>
+<td>暂停</td>
+</tr>
+<tr>
+<td>exit</td>
+<td>类方法</td>
+<td>取消</td>
+</tr>
+<tr>
+<td>sleep</td>
+<td>类方法</td>
+<td>阻塞</td>
+</tr>
+</tbody></table>
+<p>补充说明：</p>
+<p><strong>start</strong><br>thread 调用 start 方法后，其实并不是马上就开始运行了。实质上是放进了可调度线程池，等待被 CPU 调用。线程执行结束之前，状态可能会在就绪状态 和 运行状态 之间来回的切换。就绪状态 和 运行状态 之间的状态切换由 CPU 来完成, 程序员无法干涉。</p>
+<p><strong>cancel</strong><br>并没有真证的取消线程，只是打了一个标志（通过 isCancelled 方法可以获取到）。一般我们需要在进行大量操作前判断一下标志，避免线程已经被取消了，还运行一些计算的现象产生。</p>
+<p><strong>exit</strong></p>
+<ul>
+<li>不要在主线程中进行调用，否则会出现 <code>Terminating app due to uncaught exception &#39;NSInternalInconsistencyException&#39;, reason: &#39;Call must be made on main thread&#39;</code>。</li>
+<li>其会终止通过 current 方法获取到的线程。同时，苹果建议应避免调用此方法，因为它不会让您的线程有机会清理它在执行期间分配的任何资源。</li>
+<li>调用这个方法之前，一定要注意释放之前由 C 语言创建的对象，不然会造成内存泄漏等问题。</li>
+</ul>
+<p><strong>sleep</strong><br>目前只能控制其休眠多长时间或休眠到什么时间，外部无法手动唤醒。如果想实现手动唤醒的效果，可以考虑使用<code>NSCondition</code>，后面也会对其单独介绍。</p>
+<h2 id="Thread-的常用属性-方法"><a href="#Thread-的常用属性-方法" class="headerlink" title="Thread 的常用属性 / 方法"></a>Thread 的常用属性 / 方法</h2><p>介绍几个属性 / 方法</p>
+<ul>
+<li>name：给线程命名，方便查找</li>
+<li>stackSize：栈区大小，看看线程在栈区占了多大空间</li>
+<li>isMainThread：是否是主线程，比较常用</li>
+<li>threadPriority：线程的优先级，由 0.0 到 1.0 之间的浮点数指定，其中 1.0 是最高优先级，因为语义不够清晰，已经即将被弃用了，跟有注释<code>// To be deprecated; use qualityOfService below</code>，但是 Swift 源码没有相应注释，只有 OC 中有。</li>
+<li>qualityOfService：服务质量，一个枚举类型，iOS8.0 推出，为了取代优先级，在 GCD 中也有类型属性。</li>
+<li>current：当前线程，比较常用</li>
+<li>callStackSymbols：线程调用堆栈，在异步捕获场景下常用</li>
+<li>NSThreadWillExit：线程终止通知</li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
+<p>参考资料</p>
+<ul>
+<li><a href="https://www.jianshu.com/p/840ddd5deb97" target="_blank" rel="noopener">Swift多线程：使用Thread进行多线程间通讯，协调子线程任务</a></li>
+<li><a href="https://blog.csdn.net/weixin_41221795/article/details/80978766" target="_blank" rel="noopener">iOS NSThread/(Swift Thread)讲解</a></li>
+</ul>
 
       
     </div>
@@ -518,7 +602,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-Thread/" title="Thread">https://coder-star.github.io/iOS/多线程/iOS多线程-Thread/</a>
+    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-Thread/" title="iOS 多线程 -Thread">https://coder-star.github.io/iOS/多线程/iOS多线程-Thread/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -564,8 +648,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/iOS/多线程/iOS多线程-GCD/" rel="prev" title="GCD">
-                GCD <i class="fa fa-chevron-right"></i>
+              <a href="/iOS/多线程/iOS多线程-GCD/" rel="prev" title="iOS多线程-GCD">
+                iOS多线程-GCD <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -621,8 +705,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -647,7 +740,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">76</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">4</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">75</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">5</span></li></ul>
               </div>
             
 
@@ -656,7 +749,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-count">86</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -715,6 +808,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-的创建方式"><span class="nav-text">Thread 的创建方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类方法"><span class="nav-text">类方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例方法"><span class="nav-text">实例方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-NSObject-的拓展方法"><span class="nav-text">使用 NSObject 的拓展方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承-Thread"><span class="nav-text">继承 Thread</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程生命周期"><span class="nav-text">线程生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread-的常用属性-方法"><span class="nav-text">Thread 的常用属性 / 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
