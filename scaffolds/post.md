@@ -14,6 +14,6 @@ Hi Coder，我是 CoderStar！
 
 ## 最后
 
-新的一周要更加努力呀！
+要更加努力呀！
 
 Let's be CoderStar!

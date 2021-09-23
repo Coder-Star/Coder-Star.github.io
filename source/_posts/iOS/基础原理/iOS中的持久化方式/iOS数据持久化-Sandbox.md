@@ -102,6 +102,10 @@ iTunes、iCloud 会备份该目录。
 
 存储 `WKWebView` 相关的一些数据，如 `IndexDB`、`LocalStorage`、`WebSQL` 等；
 
+### Library/Cookie
+
+存储 Cookie，本地文件存储在 沙箱文件夹`/Library/Cookies/Cookies.binarycookies`；需要特别注意的是：持久化 Cookie 并非在产生之后立即同步到 Cookies.binarycookies，根据经验会有一个 300ms ~ 3s 的延迟。
+
 ### tmp
 
 保存应用运行时产生的一些临时数据；应用程序退出、系统空间不够、手机重启等情况下系统都会自动清除该目录的数据。

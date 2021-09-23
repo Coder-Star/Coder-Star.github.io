@@ -84,6 +84,10 @@ target 'BaseIOSProject' do
   end
 end
 
+pre_install do |installer|
+
+end
+
 #限制引入的库的swift语言版本
 swift_42 = ['Alamofire','MJRefresh']
 post_install do |installer|
@@ -100,6 +104,12 @@ post_install do |installer|
       end
     end
   end
+end
+
+
+# 替换某个文件内容，起到紧急修复Bug的目的
+post_install do |installer|
+    find_and_replace("xx.Swift", bugCode, fixCode)
 end
 
 ```

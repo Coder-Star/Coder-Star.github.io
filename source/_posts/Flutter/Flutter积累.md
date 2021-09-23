@@ -20,7 +20,9 @@ date: 2020-11-17 22:00:46
 
 进入到你的 flutter sdk 目录中，然后找到 bin/cache/lockfile 文件，删除它即可。
 
+### `The following assertion was thrown while applying parent data.:Incorrect use of ParentDataWidget.`
 
+只要记住一点Expanded的上级控件一定是Column或者Row就好了
 
 ### 代码段
 

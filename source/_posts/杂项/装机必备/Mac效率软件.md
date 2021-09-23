@@ -267,6 +267,7 @@ mobileprovision 文件管理器工具
 * [Duplicate Photos](https://www.duplicatephotocleaner.com/)：从内容上检测重复/相似图片；
 * [fdupes](https://github.com/adrianlopezroche/fdupes)：检测项目中的重复文件，其原理是对比不同文件的签名，签名相同的文件就会判定为重复资源；
 * [fui](https://github.com/dblock/fui)：查找未import的.h文件；
+* [dSYMTools](https://github.com/answer-huang/dSYMTools)：分析Crash
 
 ## 在线工具
 
