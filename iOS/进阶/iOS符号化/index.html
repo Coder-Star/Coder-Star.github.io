@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,符号化,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="CoderStar's Blog" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
+<meta name="keywords" content="iOS,符号化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 符号化">
+<meta property="og:url" content="https://coder-star.github.io/iOS/进阶/iOS符号化/index.html">
+<meta property="og:site_name" content="CoderStar&#39;s Blog">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E6%B5%81%E7%A8%8B.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dSYM%E8%B5%B7%E5%A7%8B%E5%9C%B0%E5%9D%80.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/atos-result.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/DSYMTools_result.png">
+<meta property="og:updated_time" content="2021-09-23T14:22:21.466Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 符号化">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/iOS符号化/">
+
+
+
+
+
+  <title>iOS 符号化 | CoderStar's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CoderStar's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/进阶/iOS符号化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CoderStar">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CoderStar's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS 符号化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-09-16T22:18:35+08:00">
+                2021-09-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-23T22:22:21+08:00">
+                2021-09-23
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  9 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。</p>
+<p>符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac OS 下的一些异常信息（十六进制符号表示）通过某些手段转化成开发人员可读的高级代码片段，从而进一步定位异常的来源，迅速修复。</p>
+<p>符号化程度一般会分为三种：</p>
+<ul>
+<li>未符号化</li>
+<li>部分符号化</li>
+<li>完全符号化</li>
+</ul>
+<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png" alt="符号化程度"></p>
+<p>符号化一般情况会需要下面三个部分</p>
+<ul>
+<li>崩溃日志</li>
+<li>dSYM 文件</li>
+<li>符号化工具</li>
+</ul>
+<h2 id="崩溃日志"><a href="#崩溃日志" class="headerlink" title="崩溃日志"></a>崩溃日志</h2><p>崩溃日志的获取有多种来源，包括以下几种：</p>
+<ul>
+<li>通过<code>设置-隐私-分析与改进-分析数据</code>导出，这个区域可以获取到整部手机的一些异常信息，是<code>Jetsam</code>机制产生的，格式为<code>.ips</code>，需要注意该位置不一定能拿到所有 APP 的异常日志；</li>
+<li>测试机直接导出，<code>Xcode -&gt; Window-Devices and simulators -&gt; View Device Logs</code>(左侧工具栏选中你要导出的目的设备)，导出文件格式为<code>.crash</code>，其实这种方式读取到的日志文件来源还是来自上面第一条的；</li>
+<li>通过<code>Xcode-Organizer-Crashes</code>获取崩溃日志，格式为<code>.xccrashpoint</code>，打开其包内容，其实内部还是文件格式为<code>.crash</code>的日志文件；</li>
+<li>代码中捕获异常并进行存储上报，可借助三方工具或者自研，常见三方工具包括 Bugly、友盟等。</li>
+</ul>
+<p>其实上述几种方式大致可以分为两种</p>
+<ul>
+<li>Crash Log：完整的崩溃日志文件；</li>
+<li>异常信息：只上报关键的错误信息，包含堆栈等；</li>
+</ul>
+<p>对于第二种方式，我们一般是需要在代码中自己去捕获异常的，捕获的方式一般包含两种，其中不管是哪种方式，对我们最重要的信息还是错误堆栈。</p>
+<ul>
+<li><code>NSSetUncaughtExceptionHandler</code></li>
+<li><code>signal</code></li>
+</ul>
+<p>其中<code>NSSetUncaughtExceptionHandler</code>值可以捕获到 OC 的异常，Swift 的异常是捕获不到的，一般情况下在捕获 NSException 异常后同时也会捕获到一个对应的 signal 异常，当然，这也是一般情况，特殊情况下是有可能没有的。</p>
+<p>下列给出简单的代码示例，实际的使用要比这个复杂很多，包含获取<code>Slide Address</code>，异常捕获的传递等等。</p>
+<h4 id="NSSetUncaughtExceptionHandler"><a href="#NSSetUncaughtExceptionHandler" class="headerlink" title="NSSetUncaughtExceptionHandler"></a>NSSetUncaughtExceptionHandler</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSSetUncaughtExceptionHandler</span>(<span class="type">CrashHandler</span>.exceptionHandler)</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">let</span> exceptionHandler: <span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">NSException</span>) -&gt; <span class="type">Void</span> = &#123; exception <span class="keyword">in</span></span><br><span class="line">   <span class="comment">/// 异常堆栈</span></span><br><span class="line">  <span class="keyword">let</span> arr = exception.callStackSymbols</span><br><span class="line">  <span class="comment">/// 异常原因</span></span><br><span class="line">  <span class="keyword">let</span> reason = exception.reason</span><br><span class="line">  <span class="comment">/// 异常名称</span></span><br><span class="line">  <span class="keyword">let</span> name = exception.name.rawValue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="signal"><a href="#signal" class="headerlink" title="signal"></a>signal</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">signal(<span class="type">SIGTRAP</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGABRT</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGSEGV</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGBUS</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGILL</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">let</span> signalHandler: <span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">Int32</span>) -&gt; <span class="type">Void</span> = &#123; signal <span class="keyword">in</span></span><br><span class="line">  <span class="comment">/// 异常堆栈</span></span><br><span class="line">  <span class="keyword">for</span> symbol <span class="keyword">in</span> <span class="type">Thread</span>.callStackSymbols &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  exit(signal)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>介绍几个开源的异常捕获工具：</p>
+<ul>
+<li><a href="https://github.com/kstenerud/KSCrash" target="_blank" rel="noopener">KSCrash</a></li>
+<li><a href="https://github.com/microsoft/plcrashreporter" target="_blank" rel="noopener">plcrashreporter</a></li>
+<li><a href="https://github.com/kaler/CrashKit" target="_blank" rel="noopener">CrashKit</a></li>
+</ul>
+<h2 id="dSYM-文件"><a href="#dSYM-文件" class="headerlink" title="dSYM 文件"></a>dSYM 文件</h2><p><strong>DWARF</strong></p>
+<p><code>DWARF(Debuging With Arbitrary Record Format)</code> 是 <code>ELF</code> 和 <code>Mach-O</code> 等文件格式中用来存储和处理调试信息的标准格式。其内部数据是高度压缩的，可以通过 <code>dwarfdump</code>、<code>otool</code> 等命令提取其中的可读信息。通过 <code>MachOView</code> 打开 <code>DWARF</code> 后会发现其外层依旧是 <code>Mach-O</code> 格式。其中 <code>debug_info</code>、<code>debug_line</code>这两个 <code>section</code> 中存储了主要的调试信息。</p>
+<blockquote>
+<p>ELF、Mach-O 分别是 Linux 和 Mac OS 平台用于存储二进制文件、可执行文件、目标代码和共享库的文件名称。</p>
+</blockquote>
+<p><strong>dSYM</strong></p>
+<p>iOS 平台中， <code>dSYM</code> 文件是指具有调试信息的目标文件，dSYM 中存储着文件名、方法名、行号等信息，是和可执行文件的 16 进制函数地址一一对应的，通过分析崩溃的崩溃文件可以准确知道具体的崩溃信息。</p>
+<p><code>Build Settings</code> -&gt; <code>Debug Information Format</code>中可以设置调试信息的形式，其有两个选项，</p>
+<ul>
+<li><code>DWARF</code></li>
+<li><code>DWARF DWARF With dSYM File</code></li>
+</ul>
+<p>一般情况下我们<code>Debug环境下</code>使用<code>DWARF</code>方式，方便我们进行调试，那对于<code>Release</code>环境我们使用第二种方式，选择第二种方式便可以将符号表从二进制文件中进行剥离，改为使用 dSYM 文件进行存储。开启之后我们就可以在 Xcode 打包出来的文件 xcarchive 里面看到它。另外，如果开启了 bitcode 优化的话，苹果会做二次编译优化，所以最终的 dSYM 就需要在 Apple Connect 手动下载了。</p>
+<p>dSYM 文件对于符号化过程非常重要，所以我们每次发版之后应该尽量将 dSYM 文件进行备份保存。</p>
+<h2 id="符号化流程"><a href="#符号化流程" class="headerlink" title="符号化流程"></a>符号化流程</h2><p>在介绍符号化工具之前，我们先简单了解一下符号化的一个大致原理。</p>
+<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E6%B5%81%E7%A8%8B.png" alt="符号化流程"></p>
+<h3 id="获取到崩溃日志-App-关键行信息"><a href="#获取到崩溃日志-App-关键行信息" class="headerlink" title="获取到崩溃日志 App 关键行信息"></a>获取到崩溃日志 App 关键行信息</h3><p>不管是完整的崩溃文件还是堆栈信息，我们最终需要的其实是关键的崩溃行信息，长下面这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 没有显示的堆栈信息</span><br><span class="line">3 iOSTest  0x000000010029e694 iOSTest + 26260</span><br><span class="line"></span><br><span class="line">// 显示偏移量的堆栈信息</span><br><span class="line">3 iOSTest 0x000000010029e694 0x0000000100298000 + 26260</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取到偏移量、运行时堆栈地址、运行时-APP-起始地址"><a href="#获取到偏移量、运行时堆栈地址、运行时-APP-起始地址" class="headerlink" title="获取到偏移量、运行时堆栈地址、运行时 APP 起始地址"></a>获取到偏移量、运行时堆栈地址、运行时 APP 起始地址</h3><p>我们拿显示偏移量的堆栈信息举例，</p>
+<ul>
+<li>3：信息位于堆栈索引</li>
+<li>iOSTest：包名</li>
+<li>0x000000010029e694：运行时堆栈地址（stack address），16 进制</li>
+<li>0x0000000100298000：应用堆栈在操作系统堆栈中的起点（load address），16 进制</li>
+<li>+26260：以 load address 为起点算起的偏移量（symbol address），10 进制</li>
+</ul>
+<p>上述三个地址之间的关系为 <strong>symbol_address = stack_address - load_address</strong></p>
+<blockquote>
+<p> iOS 加载 Mach-O 文件时为了安全使用了 ASLR(Address Space Layout Randomization) 机制，导致二进制 Mach-O 文件每次加载到内存的首地址都会不一样，但是计算规则是一致的，如上图所示。</p>
+</blockquote>
+<h3 id="获取-dSYM-起始地址"><a href="#获取-dSYM-起始地址" class="headerlink" title="获取 dSYM 起始地址"></a>获取 dSYM 起始地址</h3><p><code>otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</code></p>
+<p>执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 0x0000000100000000，一般情况下都为这个值。</p>
+<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dSYM%E8%B5%B7%E5%A7%8B%E5%9C%B0%E5%9D%80.png" alt="dSYM起始地址"></p>
+<h3 id="计算崩溃地址对应-dSYM-符号表中的地址"><a href="#计算崩溃地址对应-dSYM-符号表中的地址" class="headerlink" title="计算崩溃地址对应 dSYM 符号表中的地址"></a>计算崩溃地址对应 dSYM 符号表中的地址</h3><ul>
+<li>dSYM 起止地址：0x0000000100000000，16 进制</li>
+<li>函数偏移量：26260，10 进制</li>
+</ul>
+<p>所以我们可以拿到 stack address（0x000000010029e694） 在 dSYM 中对应的地址为 <strong>0x0000000100000000 + 26260 = 0x100006694</strong></p>
+<h3 id="获取到具体的函数-行数-文件"><a href="#获取到具体的函数-行数-文件" class="headerlink" title="获取到具体的函数 / 行数 / 文件"></a>获取到具体的函数 / 行数 / 文件</h3><p><strong>使用 dwarfdump</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">dwarfdump iOSTest.app.dSYM --lookup 0x100006694</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用 atos</strong></p>
+<p>使用这种方式，我们不需在手动计算崩溃地址对应 dSYM 符号表中的地址，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 0x0000000100298000为 load address</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 0x000000010029e694为 symbol address</span></span></span><br><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694</span><br></pre></td></tr></table></figure>
+
+<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/atos-result.png" alt></p>
+<p><strong>使用 DSYMTools</strong></p>
+<p>我们还可以使用开源的<a href="https://github.com/answer-huang/dSYMTools" target="_blank" rel="noopener">DSYMTools</a>，其内部也是使用了atos。</p>
+<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/DSYMTools_result.png" alt="DSYMTools_result"></p>
+<h2 id="符号化相关工具"><a href="#符号化相关工具" class="headerlink" title="符号化相关工具"></a>符号化相关工具</h2><p>根据上面的符号化流程，我们用到了下列工具。</p>
+<h3 id="dwarfdump"><a href="#dwarfdump" class="headerlink" title="dwarfdump"></a>dwarfdump</h3><p>Crash Log 中会携带一个 UUID（由 32 个字符组成），位置位于<code>Binary Images</code>处，APP 二进制内部也会有一个 UUID，dSYM 也会有一个 UUID，三个对应起来才可以正常解析，否则会解析失败，所以当解析失败时应首先检查三者的 UUID 是否一致。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
+
+<p>如果设备上 dSYM 文件很多，可以通过下列命令查找指定 UUID 对应 dSYM 位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> UUID改为实际的UUID，并且UUID需要格式转换（增加<span class="string">'-'</span>)</span></span><br><span class="line">mdfind "com_apple_xcode_dsym_uuids == UUID"</span><br></pre></td></tr></table></figure>
+
+<h3 id="symbolicatecrash"><a href="#symbolicatecrash" class="headerlink" title="symbolicatecrash"></a>symbolicatecrash</h3><p>Xcode 提供的 <code>symbolicatecrash</code>。该命令位于：<code>/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash</code>，是一个<code>perl</code>脚本，里面整合了逐步解析的操作（也可以将命令拷贝出来，直接进行调用）。</p>
+<p>使用方式为</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export DEVELOPER_DIR="/Applications/XCode.App/Contents/Developer"</span><br><span class="line">symbolicatecrash log.crash -d xxx.app.dSYM &gt; symbol.log</span><br></pre></td></tr></table></figure>
+
+<p>优点：能非常方便的符号化整份 crash 日志。<br>缺点：</p>
+<ul>
+<li>耗时比较久。</li>
+<li>粒度比较粗，无法符号化特定的某一行。</li>
+</ul>
+<h3 id="atos"><a href="#atos" class="headerlink" title="atos"></a>atos</h3><p>atos 命令将十六进制地址转换为源代码中可识别的函数名称和行号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">atos -arch &lt;Binary Architecture&gt; -o &lt;Path to dSYM file&gt;/Contents/Resources/DWARF/&lt;binary image name&gt; -l &lt;load address&gt; &lt;address to symbolicate&gt;</span><br><span class="line"></span><br><span class="line">// explain parameters</span><br><span class="line">load adress:可执行指令部分相对镜像文件中的起始加载地址</span><br><span class="line">address to symbolicate：调用函数的地址</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">atos -o xxx.app.dSYM/Contents/Resources/DWARF/xxx -l 0x00000001c4fe7000 -arch arm64</span><br><span class="line"></span><br><span class="line">atos -arch arm64 -o  xxx.app.dSYM/Contents/Resources/DWARF/xxx -l 0x00000001c4fe7000 0x00000001a2d6e29c</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>不管是 symbolicatecrash 还是 atos 都有两个问题：</p>
+<ul>
+<li>都仅仅是单机的工具，无法作为在线服务提供；</li>
+<li>必须依赖 macOS 系统，这对于部署到 Linux 系统上的符号化服务很不友好；</li>
+</ul>
+<p><a href="https://github.com/facebookarchive/atosl" target="_blank" rel="noopener">atosl</a></p>
+<p>基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号，可以替换 llvm-atosl 的实现，并且可以天然利用 golang 协程的特性实现高并发</p>
+<h2 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h2><h3 id="如何符号化系统库符号"><a href="#如何符号化系统库符号" class="headerlink" title="如何符号化系统库符号"></a>如何符号化系统库符号</h3><p>符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。</p>
+<h2 id="在线符号化"><a href="#在线符号化" class="headerlink" title="在线符号化"></a>在线符号化</h2><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
+<p>参考资料</p>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/6Odq8JTYXL0bA8xyWEO1Og" target="_blank" rel="noopener">你真的了解符号化么？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/TVRYXhiOXIsMmXZo9GmEVA" target="_blank" rel="noopener">iOS 符号解析重构之路</a></li>
+<li><a href="https://mp.weixin.qq.com/s/iRxvrOsEdW1wPZ3tSPKeIg" target="_blank" rel="noopener">iOS 符号化：基础与进阶</a></li>
+<li><a href="https://mp.weixin.qq.com/s/MIun-eV4_J1hXGDRjGoLaw" target="_blank" rel="noopener">iOS 崩溃日志在线符号化实践</a></li>
+<li><a href="http://www.cocoachina.com/articles/12301" target="_blank" rel="noopener">漫谈iOS Crash收集框架</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/OfficialAccounts.jpg" alt="CoderStar wechat" style="width: 500px; max-width: 100%;">
+    <div>欢迎大家订阅公众号</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>如果各位看官觉得博文还OK，请打赏博主一杯咖啡吧</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="CoderStar 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="CoderStar 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    CoderStar
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://coder-star.github.io/iOS/进阶/iOS符号化/" title="iOS 符号化">https://coder-star.github.io/iOS/进阶/iOS符号化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+      
+      
+      
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tags"></i> iOS</a>
+          
+            <a href="/tags/符号化/" rel="tag"><i class="fa fa-tags"></i> 符号化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-数据库/" rel="next" title="iOS持久化方式-数据库">
+                <i class="fa fa-chevron-left"></i> iOS持久化方式-数据库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpeg" alt="CoderStar">
+            
+              <p class="site-author-name" itemprop="name">CoderStar</p>
+              <p class="site-description motion-element" itemprop="description">Think more, Code less</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">111</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              <div class="cat_list">
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">76</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">4</span></li></ul>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/0ab9d4edb899" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5d3120ae5188254cbc32a2e1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-globe"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1340529758@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          <div>
+    <image src="/images/WeChatOfficialAccountLogoBeautify.png">
+</image></div>
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#崩溃日志"><span class="nav-text">崩溃日志</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NSSetUncaughtExceptionHandler"><span class="nav-text">NSSetUncaughtExceptionHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#signal"><span class="nav-text">signal</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#dSYM-文件"><span class="nav-text">dSYM 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化流程"><span class="nav-text">符号化流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到崩溃日志-App-关键行信息"><span class="nav-text">获取到崩溃日志 App 关键行信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到偏移量、运行时堆栈地址、运行时-APP-起始地址"><span class="nav-text">获取到偏移量、运行时堆栈地址、运行时 APP 起始地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-dSYM-起始地址"><span class="nav-text">获取 dSYM 起始地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算崩溃地址对应-dSYM-符号表中的地址"><span class="nav-text">计算崩溃地址对应 dSYM 符号表中的地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到具体的函数-行数-文件"><span class="nav-text">获取到具体的函数 / 行数 / 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化相关工具"><span class="nav-text">符号化相关工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dwarfdump"><span class="nav-text">dwarfdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symbolicatecrash"><span class="nav-text">symbolicatecrash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#atos"><span class="nav-text">atos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他-1"><span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何符号化系统库符号"><span class="nav-text">如何符号化系统库符号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线符号化"><span class="nav-text">在线符号化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderStar</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        av: AV, 
+        el: '#comments' ,
+        appId: 'FRPNU6p78BNSv2zYHgCzOABk-gzGzoHsz',
+        appKey: 'mlQgBuQz7jHSkjBGcx5d3veb',
+        placeholder: '请输入您的评论',
+    });
+  </script>
+ 
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.json";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

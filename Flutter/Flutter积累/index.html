@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Flutter 四种工程类型 Flutter Application: Flutter 应用，包含标准的 Dart 层与 Native 平台层 Flutter Module: Flutter 与原生混合开发，用于混编到已有的 Android/iOS 工程内 Flutter Plugin: Flutter 插件，包含 Dart 层与 Native 平台层的实现 Flutter Package: 纯">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-09-03T09:35:51.908Z">
+<meta property="og:updated_time" content="2021-09-18T10:26:49.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter积累">
 <meta name="twitter:description" content="Flutter 四种工程类型 Flutter Application: Flutter 应用，包含标准的 Dart 层与 Native 平台层 Flutter Module: Flutter 与原生混合开发，用于混编到已有的 Android/iOS 工程内 Flutter Plugin: Flutter 插件，包含 Dart 层与 Native 平台层的实现 Flutter Package: 纯">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-03T17:35:51+08:00">
-                2021-09-03
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-18T18:26:49+08:00">
+                2021-09-18
               </time>
             
           </span>
@@ -404,7 +404,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  171 字
+                  204 字
                 </span>
               
 
@@ -448,6 +448,7 @@
 <li>Flutter Package: 纯 Dart 组件，仅包含 Dart 层的实现，往往定义一些公共 Widget</li>
 </ul>
 <h2 id="错误积累"><a href="#错误积累" class="headerlink" title="错误积累"></a>错误积累</h2><h3 id="Waiting-for-another-flutter-command-to-release-the-startup-lock…"><a href="#Waiting-for-another-flutter-command-to-release-the-startup-lock…" class="headerlink" title="Waiting for another flutter command to release the startup lock…"></a>Waiting for another flutter command to release the startup lock…</h3><p>进入到你的 flutter sdk 目录中，然后找到 bin/cache/lockfile 文件，删除它即可。</p>
+<h3 id="The-following-assertion-was-thrown-while-applying-parent-data-Incorrect-use-of-ParentDataWidget"><a href="#The-following-assertion-was-thrown-while-applying-parent-data-Incorrect-use-of-ParentDataWidget" class="headerlink" title="The following assertion was thrown while applying parent data.:Incorrect use of ParentDataWidget."></a><code>The following assertion was thrown while applying parent data.:Incorrect use of ParentDataWidget.</code></h3><p>只要记住一点Expanded的上级控件一定是Column或者Row就好了</p>
 <h3 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h3><p>刘海屏屏幕适配，正常顶部20，刘海屏44，正常底部0，刘海34<br>配套Widget，SafeArea</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="built_in">double</span> topPadding = MediaQuery.of(context).padding.top;</span><br><span class="line"><span class="keyword">final</span> <span class="built_in">double</span> bottomPadding = MediaQuery.of(context).padding.bottom;</span><br></pre></td></tr></table></figure>
       
@@ -632,7 +633,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">109</span>
+                  <span class="site-state-item-count">111</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -640,7 +641,7 @@
 
             
               <div class="cat_list">
-                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">75</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">4</span></li></ul>
+                <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/">Flutter</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Flutter/Dart/">Dart</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">76</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/CocoaPods/">CocoaPods</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Hybrid/">Hybrid</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/OC/">OC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/Swift/">Swift</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/UI/">UI</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/优化/">优化</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/基础原理/">基础原理</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/多线程/">多线程</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/提效/">提效</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/架构设计/">架构设计</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/相关/">相关</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/规范/">规范</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/进阶/">进阶</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/JS/">JS</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据库/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/">杂项</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/杂项/装机必备/">装机必备</a><span class="category-list-count">5</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/">父分类</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/父分类/子分类/">子分类</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络/">网络</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">4</span></li></ul>
               </div>
             
 
@@ -649,7 +650,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-count">85</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -718,7 +719,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flutter-四种工程类型"><span class="nav-text">Flutter 四种工程类型</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#错误积累"><span class="nav-text">错误积累</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Waiting-for-another-flutter-command-to-release-the-startup-lock…"><span class="nav-text">Waiting for another flutter command to release the startup lock…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码段"><span class="nav-text">代码段</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flutter-四种工程类型"><span class="nav-text">Flutter 四种工程类型</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#错误积累"><span class="nav-text">错误积累</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Waiting-for-another-flutter-command-to-release-the-startup-lock…"><span class="nav-text">Waiting for another flutter command to release the startup lock…</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-following-assertion-was-thrown-while-applying-parent-data-Incorrect-use-of-ParentDataWidget"><span class="nav-text">The following assertion was thrown while applying parent data.:Incorrect use of ParentDataWidget.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码段"><span class="nav-text">代码段</span></a></li></ol></li></div>
             
 
           </div>
