@@ -54,7 +54,7 @@ Hi Coder，我是 CoderStar！
 
 下列给出简单的代码示例，实际的使用要比这个复杂很多，包含获取`Slide Address`，异常捕获的传递等等。
 
-#### NSSetUncaughtExceptionHandler
+### NSSetUncaughtExceptionHandler
 
 ```swift
 NSSetUncaughtExceptionHandler(CrashHandler.exceptionHandler)
@@ -69,7 +69,7 @@ private static let exceptionHandler: @convention(c) (NSException) -> Void = { ex
 }
 ```
 
-#### signal
+### signal
 
 ```swift
 signal(SIGTRAP, CrashHandler.signalHandler)
@@ -276,8 +276,6 @@ atos -arch arm64 -o  xxx.app.dSYM/Contents/Resources/DWARF/xxx -l 0x00000001c4fe
 符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。
 
 ## 在线符号化
-
-
 
 ## 最后
 
