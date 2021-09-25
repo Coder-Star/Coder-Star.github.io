@@ -91,14 +91,14 @@
 <meta name="description" content="GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。 队列串行、并行是队列的属性； 下列为自定义队列的构造函数 12345public convenie">
 <meta name="keywords" content="iOS,多线程,GCD">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS多线程-GCD">
+<meta property="og:title" content="iOS 多线程 -GCD">
 <meta property="og:url" content="https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。 队列串行、并行是队列的属性； 下列为自定义队列的构造函数 12345public convenie">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-09-23T14:37:30.406Z">
+<meta property="og:updated_time" content="2021-09-25T15:53:32.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS多线程-GCD">
+<meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。 队列串行、并行是队列的属性； 下列为自定义队列的构造函数 12345public convenie">
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>iOS多线程-GCD | CoderStar's Blog</title>
+  <title>iOS 多线程 -GCD | CoderStar's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS多线程-GCD</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 多线程 -GCD</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-23T22:37:30+08:00">
-                2021-09-23
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-25T23:53:32+08:00">
+                2021-09-25
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k 字
+                  2.1k 字
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6 分钟
+                  7 分钟
                 </span>
               
             </div>
@@ -472,7 +472,18 @@
 <h3 id="主队列"><a href="#主队列" class="headerlink" title="主队列"></a>主队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mainQueue = <span class="type">DispatchQueue</span>.main</span><br></pre></td></tr></table></figure>
 
 <p>主队列，是一个特殊的<strong>串行队列</strong>，其永远运行在主线程中，它主要处理 UI 相关任务，也可以处理其他类型的任务。</p>
-<p>同时需要注意一下主队列与主线程之间的区别。主队列一定是运行在主线程中，但是主线程却不只运行主队列。</p>
+<p>同时需要注意一下主队列与主线程之间的区别。主队列一定是运行在主线程中，但是主线程却不只运行主队列，还可以运行其他的队列。</p>
+<p>所以我们一般可以看到下列这样的代码，这段代码在<a href="https://github.com/onevcat/Kingfisher/blob/master/Sources/Utility/CallbackQueue.swift" target="_blank" rel="noopener">Kingfisher</a>中有相应使用。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DispatchQueue</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// 切换队列</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Parameter block: 代码块</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">safeAsync</span><span class="params">(<span class="number">_</span> block: @escaping <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span> === <span class="type">DispatchQueue</span>.main &amp;&amp; <span class="type">Thread</span>.isMainThread &#123;</span><br><span class="line">            block()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            async &#123; block() &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>咋一看，觉得这样写是不是没必要，其实不然，这样写有两个好处</p>
+<ul>
+<li>避免某些情况下切换非主队列到主队列，造成不必要的切换队列的开销；</li>
+<li>同时避免切换队列造成的执行时序问题；</li>
+</ul>
+<p>代码举例，解释见相应注释</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    <span class="comment">/// sync会阻塞当前线程，使任务在当前线程也就是主线程中执行，执行队列却是全局并行队列</span></span><br><span class="line">    <span class="type">DispatchQueue</span>.global().sync &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"主队列代码前"</span>)</span><br><span class="line">        <span class="comment">/// 执行环境为主线程，可以直接执行代码，</span></span><br><span class="line">        <span class="comment">/// 不需要将队列切换到主队列，而是直接在当前队列执行即可，避免切换队列的开销</span></span><br><span class="line">        <span class="comment">///</span></span><br><span class="line">        <span class="comment">/// 不切换到主队列，可以直接执行，先输出 主队列代码内 再输出 主队列代码后</span></span><br><span class="line">        <span class="comment">/// 切换到主队列，会先输出 主队列代码后 再输出 主队列代码内</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.safeAsync &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"主队列代码内"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"主队列代码后"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="全局并行队列"><a href="#全局并行队列" class="headerlink" title="全局并行队列"></a>全局并行队列</h3><p>全局并行队列，存在 5 个不同的 Qos 级别，可以使用默认优先级，也可以单独指定。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">global</span>(<span class="title">qos</span>: <span class="title">DispatchQoS</span>.<span class="title">QoSClass</span> = .<span class="title">default</span>) -&gt; <span class="title">DispatchQueue</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">// 使用方法</span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">globalQueue</span> = <span class="title">DispatchQueue</span>.<span class="title">global</span>() // <span class="title">qos</span>: .<span class="title">default</span></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">globalQueue</span> = <span class="title">DispatchQueue</span>.<span class="title">global</span>(<span class="title">qos</span>: .<span class="title">background</span>) // 后台运行级别</span></span><br></pre></td></tr></table></figure>
 
@@ -592,7 +603,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/" title="iOS多线程-GCD">https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/</a>
+    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/" title="iOS 多线程 -GCD">https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
