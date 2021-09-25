@@ -173,6 +173,10 @@ dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 dwarfdump iOSTest.app.dSYM --lookup 0x100006694
 ```
 
+![dwarfdump_result](../../../img/iOS/进阶/符号化/dwarfdump_result.png)
+
+从上图中我们看到崩溃出现的文件，但是获取到 `line info` 却都是 0，主要原因该崩溃处出现了函数内联，但是 `dwarfdump` 没有很好兼容到多级内联这种场景。
+
 **使用 atos**
 
 使用这种方式，我们不需在手动计算崩溃地址对应 dSYM 符号表中的地址，
@@ -180,16 +184,26 @@ dwarfdump iOSTest.app.dSYM --lookup 0x100006694
 ```shell
 ## 0x0000000100298000为 load address
 ## 0x000000010029e694为 symbol address
-atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694
+atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i
 ```
 
-![](../../../img/iOS/进阶/符号化/atos-result.png)
+命令后跟的 `-i`目的就是显示内联相关信息。
+
+![atos_result](../../../img/iOS/进阶/符号化/atos_result.png)
 
 **使用 DSYMTools**
 
-我们还可以使用开源的[DSYMTools](https://github.com/answer-huang/dSYMTools)，其内部也是使用了atos。
+我们还可以使用开源的[DSYMTools](https://github.com/answer-huang/dSYMTools)，其内部也是使用了`atos`。
 
 ![DSYMTools_result](../../../img/iOS/进阶/符号化/DSYMTools_result.png)
+
+### 组装并格式化
+
+根据上面的流程，我们基本上可以将堆栈信息映射成对应的文件、函数、行号等信息，形成常见的这种形式：
+
+```text
+3 iOSTest 0x000000010029e694  0x0000000100298000 + 26260
+```
 
 ## 符号化相关工具
 

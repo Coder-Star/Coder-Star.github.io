@@ -1,5 +1,5 @@
 ---
-title: iOS多线程-GCD
+title: iOS 多线程 -GCD
 category:
   - iOS
   - 多线程
@@ -66,7 +66,50 @@ let mainQueue = DispatchQueue.main
 
 主队列，是一个特殊的**串行队列**，其永远运行在主线程中，它主要处理 UI 相关任务，也可以处理其他类型的任务。
 
-同时需要注意一下主队列与主线程之间的区别。主队列一定是运行在主线程中，但是主线程却不只运行主队列。
+同时需要注意一下主队列与主线程之间的区别。主队列一定是运行在主线程中，但是主线程却不只运行主队列，还可以运行其他的队列。
+
+所以我们一般可以看到下列这样的代码，这段代码在[Kingfisher](https://github.com/onevcat/Kingfisher/blob/master/Sources/Utility/CallbackQueue.swift)中有相应使用。
+
+```swift
+extension DispatchQueue {
+    /// 切换队列
+    ///
+    /// - Parameter block: 代码块
+    public func safeAsync(_ block: @escaping () -> Void) {
+        if self === DispatchQueue.main && Thread.isMainThread {
+            block()
+        } else {
+            async { block() }
+        }
+    }
+}
+```
+
+咋一看，觉得这样写是不是没必要，其实不然，这样写有两个好处
+
+- 避免某些情况下切换非主队列到主队列，造成不必要的切换队列的开销；
+- 同时避免切换队列造成的执行时序问题；
+
+代码举例，解释见相应注释
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    /// sync会阻塞当前线程，使任务在当前线程也就是主线程中执行，执行队列却是全局并行队列
+    DispatchQueue.global().sync {
+        print("主队列代码前")
+        /// 执行环境为主线程，可以直接执行代码，
+        /// 不需要将队列切换到主队列，而是直接在当前队列执行即可，避免切换队列的开销
+        ///
+        /// 不切换到主队列，可以直接执行，先输出 主队列代码内 再输出 主队列代码后
+        /// 切换到主队列，会先输出 主队列代码后 再输出 主队列代码内
+        DispatchQueue.main.safeAsync {
+            print("主队列代码内")
+        }
+        print("主队列代码后")
+    }
+}
+```
 
 ### 全局并行队列
 
