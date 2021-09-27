@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/符号化/</loc>
+        <lastmod>2021-09-27T04:09:56.419Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-09-27T04:09:56.419Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/GCD/</loc>
         <lastmod>2021-09-25T15:53:32.564Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -12,20 +26,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/多线程/</loc>
         <lastmod>2021-09-25T15:53:32.564Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-09-25T15:53:32.564Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/符号化/</loc>
-        <lastmod>2021-09-24T05:54:44.829Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -355,13 +355,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/命令/</loc>
         <lastmod>2021-07-30T12:21:10.035Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/异常捕获/</loc>
-        <lastmod>2021-07-30T12:19:32.177Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
