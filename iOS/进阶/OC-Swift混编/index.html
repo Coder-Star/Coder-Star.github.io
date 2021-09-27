@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="iOS,OC-Swift混编,">
+  <meta name="keywords" content="iOS,OC-Swift 混编,">
 
 
 
@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="主工程在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。 Swift 调用 OCSwift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过Build Settings 中的 Objective-C Bridging Header 设置桥接文件地址 OC 调用 SwiftOC 调用">
-<meta name="keywords" content="iOS,OC-Swift混编">
+<meta name="description" content="相互调用主工程在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。 Swift 调用 OCSwift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过Build Settings 中的 Objective-C Bridging Header 设置桥接文件地址 OC 调用 SwiftOC">
+<meta name="keywords" content="iOS,OC-Swift 混编">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OC-Swift混编">
+<meta property="og:title" content="OC-Swift 混编">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/OC-Swift混编/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="主工程在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。 Swift 调用 OCSwift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过Build Settings 中的 Objective-C Bridging Header 设置桥接文件地址 OC 调用 SwiftOC 调用">
+<meta property="og:description" content="相互调用主工程在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。 Swift 调用 OCSwift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过Build Settings 中的 Objective-C Bridging Header 设置桥接文件地址 OC 调用 SwiftOC">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-07-30T12:19:22.113Z">
+<meta property="og:updated_time" content="2021-09-27T08:03:28.752Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OC-Swift混编">
-<meta name="twitter:description" content="主工程在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。 Swift 调用 OCSwift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过Build Settings 中的 Objective-C Bridging Header 设置桥接文件地址 OC 调用 SwiftOC 调用">
+<meta name="twitter:title" content="OC-Swift 混编">
+<meta name="twitter:description" content="相互调用主工程在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。 Swift 调用 OCSwift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过Build Settings 中的 Objective-C Bridging Header 设置桥接文件地址 OC 调用 SwiftOC">
 
 
 
@@ -135,7 +135,7 @@
 
 
 
-  <title>OC-Swift混编 | CoderStar's Blog</title>
+  <title>OC-Swift 混编 | CoderStar's Blog</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">OC-Swift混编</h1>
+          <h1 class="post-title" itemprop="name headline">OC-Swift 混编</h1>
         
 
         <div class="post-meta">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-07-30T20:19:22+08:00">
-                2021-07-30
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-27T16:03:28+08:00">
+                2021-09-27
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  544 字
+                  738 字
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2 分钟
+                  3 分钟
                 </span>
               
             </div>
@@ -452,7 +452,7 @@
       
 
       
-        <h2 id="主工程"><a href="#主工程" class="headerlink" title="主工程"></a>主工程</h2><p>在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。</p>
+        <h2 id="相互调用"><a href="#相互调用" class="headerlink" title="相互调用"></a>相互调用</h2><h3 id="主工程"><a href="#主工程" class="headerlink" title="主工程"></a>主工程</h3><p>在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。</p>
 <p><strong>Swift 调用 OC</strong><br>Swift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过<code>Build Settings</code> 中的 <code>Objective-C Bridging Header</code> 设置桥接文件地址</p>
 <p><strong>OC 调用 Swift</strong><br>OC 调用 swift 时，需要在调用的的 OC 文件中引入一个.h 头文件，其格式为 <code>#import &quot;ProductModuleName-Swift.h&quot;</code>。引入后需要重新编译一下。（实际编译会将工程的所有.swift 文件中涉及到的接口以及属性转化成 oc 代码全都整合到这个.h 文件中，进入该文件中就能明白了）。可以通过<code>Build Settings</code> 中的 <code>Objective-C Generated Interface Header Name</code> 自定义头文件名称。</p>
 <ul>
@@ -462,14 +462,30 @@
 </li>
 <li><p>当在类上添加 @objcMembers 修饰时，该类中所有的 非 private 以及非 fileprivate 方法以及变量 都可以在 “Product Name-Swift.h”中 找到；</p>
 </li>
-<li><p>如果需要 OC 与 Swift 中类、方法以及属性的名字不一致，可以在@objc(OCName)这种形式为 OC 单独定义名称，比如当 swift 中的类为中文时；</p>
+<li><p>如果需要 OC 与 Swift 中类、方法以及属性的名字不一致，可以在 @objc(OCName) 这种形式为 OC 单独定义名称，比如当 swift 中的类为中文时；</p>
 </li>
-<li><p>在 swift 4 之前，如果类继承了 NSObject，编译器就会默认给这个类中的所有函数都标记为@objc，支持 OC 调用。苹果在 Swift4 中，修改了自动添加@objc 的逻辑：一个继承 NSObject 的 Swift 类不在默认给所有函数添加@objc。只在实现 OC 接口和重写 OC 方法时，才自动给函数添加@objc 标识。</p>
+<li><p>在 swift 4 之前，如果类继承了 NSObject，编译器就会默认给这个类中的所有函数都标记为 @objc，支持 OC 调用。苹果在 Swift4 中，修改了自动添加 @objc 的逻辑：一个继承 NSObject 的 Swift 类不在默认给所有函数添加 @objc。只在实现 OC 接口和重写 OC 方法时，才自动给函数添加 @objc 标识。</p>
 </li>
 </ul>
-<h2 id="Framework-内部"><a href="#Framework-内部" class="headerlink" title="Framework 内部"></a>Framework 内部</h2><p>在 Framework 中，不允许使用桥接文件，所以我们不能使用桥接文件的形式进行混编。</p>
+<h3 id="Framework-内部"><a href="#Framework-内部" class="headerlink" title="Framework 内部"></a>Framework 内部</h3><p>在 Framework 中，不允许使用桥接文件，所以我们不能使用桥接文件的形式进行混编。</p>
 <p><strong>Swift 调用 OC</strong></p>
-<p>需要将OC头文件放置到Umbrella Header文件中去</p>
+<p>需要将 OC 头文件放置到 Umbrella Header 文件中去</p>
+<h2 id="OC-针对-Swift-的更新"><a href="#OC-针对-Swift-的更新" class="headerlink" title="OC 针对 Swift 的更新"></a>OC 针对 Swift 的更新</h2><h3 id="NS-SWIFT-系列宏"><a href="#NS-SWIFT-系列宏" class="headerlink" title="NS_SWIFT 系列宏"></a>NS_SWIFT 系列宏</h3><h4 id="NS-SWIFT-NAME-name"><a href="#NS-SWIFT-NAME-name" class="headerlink" title="NS_SWIFT_NAME(_name)"></a>NS_SWIFT_NAME(_name)</h4><h4 id="NS-SWIFT-ASYNC-COMPLETION-BLOCK-INDEX"><a href="#NS-SWIFT-ASYNC-COMPLETION-BLOCK-INDEX" class="headerlink" title="NS_SWIFT_ASYNC(COMPLETION_BLOCK_INDEX)"></a>NS_SWIFT_ASYNC(COMPLETION_BLOCK_INDEX)</h4><h4 id="NS-SWIFT-NOTHROW"><a href="#NS-SWIFT-NOTHROW" class="headerlink" title="NS_SWIFT_NOTHROW"></a>NS_SWIFT_NOTHROW</h4><h4 id="NS-SWIFT-UNAVAILABLE-msg"><a href="#NS-SWIFT-UNAVAILABLE-msg" class="headerlink" title="NS_SWIFT_UNAVAILABLE(_msg)"></a>NS_SWIFT_UNAVAILABLE(_msg)</h4><h4 id="NS-SWIFT-UI-ACTOR"><a href="#NS-SWIFT-UI-ACTOR" class="headerlink" title="NS_SWIFT_UI_ACTOR"></a>NS_SWIFT_UI_ACTOR</h4><h4 id="NS-SWIFT-ASYNC-NAME-NAME"><a href="#NS-SWIFT-ASYNC-NAME-NAME" class="headerlink" title="NS_SWIFT_ASYNC_NAME(NAME)"></a>NS_SWIFT_ASYNC_NAME(NAME)</h4><h4 id="NS-SWIFT-ASYNC-NOTHROW"><a href="#NS-SWIFT-ASYNC-NOTHROW" class="headerlink" title="NS_SWIFT_ASYNC_NOTHROW"></a>NS_SWIFT_ASYNC_NOTHROW</h4><h4 id="NS-SWIFT-DISABLE-ASYNC"><a href="#NS-SWIFT-DISABLE-ASYNC" class="headerlink" title="NS_SWIFT_DISABLE_ASYNC"></a>NS_SWIFT_DISABLE_ASYNC</h4><h4 id="NS-SWIFT-BRIDGED-TYPEDEF"><a href="#NS-SWIFT-BRIDGED-TYPEDEF" class="headerlink" title="NS_SWIFT_BRIDGED_TYPEDEF"></a>NS_SWIFT_BRIDGED_TYPEDEF</h4><p>保证 OC 在转成 Swift 对应 API 时被自动转换，比如将 OC 的 NSString 到 Swift，自动变成 String，这个宏在以下情况下会有作用，如</p>
+<p><strong>使用<code>NS_SWIFT_BRIDGED_TYPEDEF</code>之前</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef NSString * ObjcNSString;</span><br><span class="line"></span><br><span class="line">@interface ObjC : NSObject</span><br><span class="line">  + (void)doThingsWithString:(nullable ObjcNSString)mid;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>转换成 Swift 之后会变成</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ObjcNSString</span> = <span class="type">NSString</span></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjC</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">doThings</span>(<span class="title">with</span> <span class="title">mid</span>: <span class="title">String</span>?)</span></span><br><span class="line"><span class="class">&#125;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">str</span>: <span class="title">ObjcNSString</span>? = <span class="title">nil</span></span></span><br><span class="line"><span class="class"><span class="title">ObjC</span>.<span class="title">doThings</span>(<span class="title">with</span>: <span class="title">str</span>)</span></span><br><span class="line"><span class="class">/// 会出现错误 <span class="title">Cannot</span> <span class="title">convert</span> <span class="title">value</span> <span class="title">of</span> <span class="title">type</span> '<span class="title">ObjcNSString</span>?' (<span class="title">aka</span> '<span class="title">Optional</span>&lt;<span class="title">NSString</span>&gt;') <span class="title">to</span> <span class="title">expected</span> <span class="title">argument</span> <span class="title">type</span> '<span class="title">String</span>?'</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用<code>NS_SWIFT_BRIDGED_TYPEDEF</code>之后</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef NSString * ObjcNSString NS_SWIFT_BRIDGED_TYPEDEF;</span><br><span class="line">@interface ObjC : NSObject</span><br><span class="line">  + (void)doThingsWithString:(nullable ObjcNSString)mid;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>转换成 Swift 之后会变成</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ObjcNSString</span> = <span class="type">String</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjC</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">doThings</span>(<span class="title">with</span> <span class="title">mid</span>: <span class="title">ObjcNSString</span>?)</span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="NS-SWIFT-ASYNC-THROWS-ON-TRUE"><a href="#NS-SWIFT-ASYNC-THROWS-ON-TRUE" class="headerlink" title="NS_SWIFT_ASYNC_THROWS_ON_TRUE"></a>NS_SWIFT_ASYNC_THROWS_ON_TRUE</h4><h4 id="NS-SWIFT-ASYNC-THROWS-ON-FALSE"><a href="#NS-SWIFT-ASYNC-THROWS-ON-FALSE" class="headerlink" title="NS_SWIFT_ASYNC_THROWS_ON_FALSE"></a>NS_SWIFT_ASYNC_THROWS_ON_FALSE</h4><ul>
+<li><a href="https://juejin.cn/post/6926720202457497613" target="_blank" rel="noopener">京东App Swift 混编及组件化落地</a></li>
+</ul>
 
       
     </div>
@@ -527,7 +543,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/进阶/OC-Swift混编/" title="OC-Swift混编">https://coder-star.github.io/iOS/进阶/OC-Swift混编/</a>
+    <a href="https://coder-star.github.io/iOS/进阶/OC-Swift混编/" title="OC-Swift 混编">https://coder-star.github.io/iOS/进阶/OC-Swift混编/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -548,7 +564,7 @@
           
             <a href="/tags/iOS/" rel="tag"><i class="fa fa-tags"></i> iOS</a>
           
-            <a href="/tags/OC-Swift混编/" rel="tag"><i class="fa fa-tags"></i> OC-Swift混编</a>
+            <a href="/tags/OC-Swift-混编/" rel="tag"><i class="fa fa-tags"></i> OC-Swift 混编</a>
           
         </div>
       
@@ -672,7 +688,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-count">87</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -741,7 +757,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主工程"><span class="nav-text">主工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Framework-内部"><span class="nav-text">Framework 内部</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相互调用"><span class="nav-text">相互调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主工程"><span class="nav-text">主工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Framework-内部"><span class="nav-text">Framework 内部</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC-针对-Swift-的更新"><span class="nav-text">OC 针对 Swift 的更新</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NS-SWIFT-系列宏"><span class="nav-text">NS_SWIFT 系列宏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-NAME-name"><span class="nav-text">NS_SWIFT_NAME(_name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-ASYNC-COMPLETION-BLOCK-INDEX"><span class="nav-text">NS_SWIFT_ASYNC(COMPLETION_BLOCK_INDEX)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-NOTHROW"><span class="nav-text">NS_SWIFT_NOTHROW</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-UNAVAILABLE-msg"><span class="nav-text">NS_SWIFT_UNAVAILABLE(_msg)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-UI-ACTOR"><span class="nav-text">NS_SWIFT_UI_ACTOR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-ASYNC-NAME-NAME"><span class="nav-text">NS_SWIFT_ASYNC_NAME(NAME)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-ASYNC-NOTHROW"><span class="nav-text">NS_SWIFT_ASYNC_NOTHROW</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-DISABLE-ASYNC"><span class="nav-text">NS_SWIFT_DISABLE_ASYNC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-BRIDGED-TYPEDEF"><span class="nav-text">NS_SWIFT_BRIDGED_TYPEDEF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-ASYNC-THROWS-ON-TRUE"><span class="nav-text">NS_SWIFT_ASYNC_THROWS_ON_TRUE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NS-SWIFT-ASYNC-THROWS-ON-FALSE"><span class="nav-text">NS_SWIFT_ASYNC_THROWS_ON_FALSE</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
