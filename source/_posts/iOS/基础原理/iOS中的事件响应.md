@@ -514,7 +514,9 @@ open func touchesShouldCancel(in view: UIView) -> Bool
 
 通过阅读本文，我想你对下面的问题出现的原因及解决办法应该有了比较深刻的认识。
 
-**UICollectionView 父 view 添加手势，其内部代理 `didSelectItemAt` 不触发**
+###  UICollectionView 父 view 添加手势，其内部代理 `didSelectItemAt` 不触发
+
+> 手势优先级更高，需要根据点击位置判断是否让手势响应。
 
 ```swift
 tapViewGesture.delegate = self
@@ -526,6 +528,16 @@ override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecogni
   /// hitTest返回为父View，则返回true,手势生效；
   /// 如果返回为UICollectionView，则返回false，手势不生效，UICollectionView的didSelectItemAt可以正常触发。
   return v == gestureRecognizer.view
+}
+```
+
+### ScrollView嵌套
+
+核心原理：实现外部ScrollView的UIGestureRecognizerDelegate中的下列方法，使内部ScrollView也可以接收到滑动事件
+
+```swift
+func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true
 }
 ```
 
