@@ -118,7 +118,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 - .h 文件
 
-```OC
+```Objective-C
 #import <UIKit/UIKit.h>
 #define noDisableVerticalScrollTag 836913 //竖向滚动
 #define noDisableHorizontalScrollTag 836914 //横向滚动
@@ -130,7 +130,7 @@ NS_ASSUME_NONNULL_END
 
 - .m 文件
 
-```OC
+```Objective-C
 #import "UIImageView+Scroll.h"
 @implementation UIImageView (ForScrollView)
 - (void)setAlpha:(CGFloat)alpha{

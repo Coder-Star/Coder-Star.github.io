@@ -307,12 +307,9 @@ atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000
 
 ### 系统日志符号化
 
-
+符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。
 
 ### 在线符号化
-
-
-### 其他
 
 不管是 symbolicatecrash 还是 atos 都有两个问题：
 
@@ -323,13 +320,7 @@ atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000
 
 基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号，可以替换 llvm-atosl 的实现，并且可以天然利用 golang 协程的特性实现高并发
 
-## 其他
-
-### 如何符号化系统库符号
-
-符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。
-
-## 在线符号化
+### 其他
 
 ## 最后
 

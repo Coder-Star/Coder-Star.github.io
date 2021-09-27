@@ -34,7 +34,7 @@ OC 的方法调用整体分为三个步骤
 
 开发者可以实现以下方法，来动态添加方法实现
 
-```oc
+```Objective-C
   +resolveInstanceMethod: //实例方法
   +resolveClassMethod: //类方法
 ```

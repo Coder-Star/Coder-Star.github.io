@@ -11,7 +11,7 @@ date: 2021-02-23 23:33:51
 
 ## Method
 
-```objective-c
+```Objective-C
 struct objc_method {
     SEL _Nonnull method_name           OBJC2_UNAVAILABLE;
     char * _Nullable method_types      OBJC2_UNAVAILABLE;

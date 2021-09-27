@@ -113,7 +113,7 @@ LLVM IR 有三种表示形式。
 
 **clang**
 
-```objective-c
+```shell
 // 假设原始文件为LLVMOC.m
 
 // 预编译命令
