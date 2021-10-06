@@ -88,19 +88,19 @@
 
 
 
-<meta name="description" content="Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。 相对GCD的优点：  可">
+<meta name="description" content="前言Hi Coder，我是 CoderStar！ Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 Operation">
 <meta name="keywords" content="iOS,多线程,Operation">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS多线程-Operation">
+<meta property="og:title" content="iOS 多线程 -Operation">
 <meta property="og:url" content="https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。 相对GCD的优点：  可">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 Operation">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD-Operation.png">
-<meta property="og:updated_time" content="2021-09-23T14:38:54.594Z">
+<meta property="og:updated_time" content="2021-09-27T12:22:17.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS多线程-Operation">
-<meta name="twitter:description" content="Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。 相对GCD的优点：  可">
+<meta name="twitter:title" content="iOS 多线程 -Operation">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 Operation">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD-Operation.png">
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>iOS多线程-Operation | CoderStar's Blog</title>
+  <title>iOS 多线程 -Operation | CoderStar's Blog</title>
   
 
 
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS多线程-Operation</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 多线程 -Operation</h1>
         
 
         <div class="post-meta">
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-23T22:38:54+08:00">
-                2021-09-23
+              <time title="更新于" itemprop="dateModified" datetime="2021-09-27T20:22:17+08:00">
+                2021-09-27
               </time>
             
           </span>
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  219 字
+                  238 字
                 </span>
               
 
@@ -454,20 +454,23 @@
       
 
       
-        <p>Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强，</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强，</p>
 <p>相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的</p>
 <p>子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。</p>
-<p>相对GCD的优点：</p>
+<p>相对 GCD 的优点：</p>
 <ul>
 <li>可以对操作之前进行依赖；</li>
 <li>最大并发操作数<code>maxConcurrentOperationCount</code>；<ul>
-<li>maxConcurrentOperationCount 默认情况下为-1，表示不进行限制，可进行并发执行。</li>
-<li>maxConcurrentOperationCount 为1时，队列为串行队列。只能串行执行。</li>
-<li>maxConcurrentOperationCount 大于1时，队列为并发队列。操作并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}。</li>
+<li>maxConcurrentOperationCount 默认情况下为 -1，表示不进行限制，可进行并发执行。</li>
+<li>maxConcurrentOperationCount 为 1 时，队列为串行队列。只能串行执行。</li>
+<li>maxConcurrentOperationCount 大于 1 时，队列为并发队列。操作并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}。</li>
 </ul>
 </li>
 </ul>
 <p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD-Operation.png" alt="GCD-Operation"></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
 
       
     </div>
@@ -525,7 +528,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/" title="iOS多线程-Operation">https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/</a>
+    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/" title="iOS 多线程 -Operation">https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -628,8 +631,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -722,6 +734,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

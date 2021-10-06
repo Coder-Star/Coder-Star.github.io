@@ -103,7 +103,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/atos_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/DSYMTools_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/symbolicatecrash_xcode.png">
-<meta property="og:updated_time" content="2021-09-27T04:23:44.010Z">
+<meta property="og:updated_time" content="2021-10-06T07:21:11.663Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 符号化简析">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
@@ -357,8 +357,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-27T12:23:44+08:00">
-                2021-09-27
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-06T15:21:11+08:00">
+                2021-10-06
               </time>
             
           </span>
@@ -423,7 +423,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3.5k 字
+                  3.8k 字
                 </span>
               
 
@@ -439,7 +439,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  13 分钟
+                  14 分钟
                 </span>
               
             </div>
@@ -586,6 +586,15 @@
 <h3 id="组装并格式化"><a href="#组装并格式化" class="headerlink" title="组装并格式化"></a>组装并格式化</h3><p>根据上面的流程，我们基本上可以将堆栈信息映射成对应的文件、函数、行号等信息，形成常见的这种形式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 iOSTest 0x000000010029e694 DemoListViewController.click(menuModel:) 0x0000000100298000 + 26260 (DemoListViewController.swift:62)</span><br></pre></td></tr></table></figure>
 
+<h2 id="符号化方式"><a href="#符号化方式" class="headerlink" title="符号化方式"></a>符号化方式</h2><p>通过上面的符号化流程，我们可以对符号化的原理及过程有个大致了解，并且从中我们也了解到了不同的符号化方式，比如<code>dwarfdump</code>以及<code>atos</code>等。</p>
+<p>下面我们来看堆栈符号化有哪几种方式：</p>
+<ul>
+<li>symbolicatecrash：可以符号化整个 Crash 文件，线上用的比较少，更多是线下使用，或者使用 Xcode 内置的 Crash -&gt; <code>Xcode-Organizer-Crashes</code>；</li>
+<li>mac 下的 <code>atos</code> 工具：单行堆栈符号化；</li>
+<li>linux 下的 atos 的替代品：如 <a href="https://github.com/facebookarchive/atosl" target="_blank" rel="noopener">atosl</a>、<a href="https://github.com/llvm/llvm-project/blob/main/llvm/include/llvm/DebugInfo/DWARF/DWARFContext.h" target="_blank" rel="noopener">llvm-atosl</a></li>
+<li>通过 dSYM 文件提取地址和符号的对应关系，进行符号还原；</li>
+</ul>
+<p><code>atos</code>方式在一般情况下还比较适用，但是一旦量级上来，其符号化速度便无法满足需要了。目前主流的线上 APM 大部分都是第四种方案，比如 Bugly 以及字节的 APM 等。本节先不做展开，后面章节单独介绍。</p>
 <h2 id="符号化相关工具"><a href="#符号化相关工具" class="headerlink" title="符号化相关工具"></a>符号化相关工具</h2><p>根据上面的符号化流程，我们用到了下列工具。</p>
 <h3 id="dwarfdump"><a href="#dwarfdump" class="headerlink" title="dwarfdump"></a>dwarfdump</h3><p>Crash Log 中会携带一个 UUID（由 32 个字符组成），位置位于<code>Binary Images</code>处，APP 二进制内部也会有一个 UUID，dSYM 也会有一个 UUID，三个对应起来才可以正常解析，否则会解析失败，所以当解析失败时应首先利用 dwarfdump 检查三者的 UUID 是否一致。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
@@ -607,15 +616,16 @@
 <h3 id="atos"><a href="#atos" class="headerlink" title="atos"></a>atos</h3><p>atos 命令将十六进制地址转换为源代码中可识别的函数名称和行号。<br>优点：速度快，可以符号化特定的某一行，方便上层做缓存。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> load adress:可执行指令部分相对镜像文件中的起始加载地址</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> address to symbolicate：调用函数的地址</span></span><br><span class="line">atos -arch &lt;Binary Architecture&gt; -o &lt;Path to dSYM file&gt;/Contents/Resources/DWARF/&lt;binary image name&gt; -l &lt;load address&gt; &lt;address to symbolicate&gt;</span><br><span class="line"></span><br><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure>
 
-<h3 id="系统日志符号化"><a href="#系统日志符号化" class="headerlink" title="系统日志符号化"></a>系统日志符号化</h3><p>符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。</p>
-<h3 id="在线符号化"><a href="#在线符号化" class="headerlink" title="在线符号化"></a>在线符号化</h3><p>不管是 symbolicatecrash 还是 atos 都有两个问题：</p>
-<ul>
-<li>都仅仅是单机的工具，无法作为在线服务提供；</li>
-<li>必须依赖 macOS 系统，这对于部署到 Linux 系统上的符号化服务很不友好；</li>
-</ul>
-<p><a href="https://github.com/facebookarchive/atosl" target="_blank" rel="noopener">atosl</a></p>
-<p>基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号，可以替换 llvm-atosl 的实现，并且可以天然利用 golang 协程的特性实现高并发</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
+<h2 id="系统日志符号化"><a href="#系统日志符号化" class="headerlink" title="系统日志符号化"></a>系统日志符号化</h2><p>符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。</p>
+<p>系统库符号的文件不是通用的，需要对应崩溃所在设备的<strong>系统版本</strong>和 <strong>CPU 型号</strong>。所以说为了符号化所有的符号，我们需要尽可能收集不同版本的系统符号文件。</p>
+<p>下列为我从 Xcode 导出的 Crash Log 顶部信息，从中我们可以拿到产生 Crash 的设备相关信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OS Version:       iPhone OS 15.0 (Build 19A346)</span><br><span class="line">Architecture:     arm64e</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>取到的对应版本的符号文件放到 Mac OS 的 <code>~/Library/Developer/Xcode/iOS DeviceSupport</code> 目录下，就可以使用 Xcode 自带的符号化工具 symbolicatecrash 进行符号化了。这个工具会自动根据崩溃日志中系统库的 UUID 搜索本机系统库的符号文件。</p>
+<h2 id="在线符号化"><a href="#在线符号化" class="headerlink" title="在线符号化"></a>在线符号化</h2><p>在线符号化其实就是上文中提到的符号化最后一种方式，其核心在于使用工具提取地址与符号的对应关系，</p>
+<p><a href="https://docs.rs/gimli/0.25.0/gimli/" target="_blank" rel="noopener">gimli</a></p>
+<p>基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号，</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <p>参考资料</p>
 <ul>
@@ -896,7 +906,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#崩溃日志"><span class="nav-text">崩溃日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NSSetUncaughtExceptionHandler"><span class="nav-text">NSSetUncaughtExceptionHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#signal"><span class="nav-text">signal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDK-异常传递"><span class="nav-text">SDK 异常传递</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dSYM-文件"><span class="nav-text">dSYM 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化流程"><span class="nav-text">符号化流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到崩溃日志-App-关键行信息"><span class="nav-text">获取到崩溃日志 App 关键行信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到偏移量、运行时堆栈地址、运行时-APP-起始地址"><span class="nav-text">获取到偏移量、运行时堆栈地址、运行时 APP 起始地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-dSYM-起始地址"><span class="nav-text">获取 dSYM 起始地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算崩溃地址对应-dSYM-符号表中的地址"><span class="nav-text">计算崩溃地址对应 dSYM 符号表中的地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到具体的函数-行数-文件"><span class="nav-text">获取到具体的函数 / 行数 / 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组装并格式化"><span class="nav-text">组装并格式化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化相关工具"><span class="nav-text">符号化相关工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dwarfdump"><span class="nav-text">dwarfdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symbolicatecrash"><span class="nav-text">symbolicatecrash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#atos"><span class="nav-text">atos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统日志符号化"><span class="nav-text">系统日志符号化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线符号化"><span class="nav-text">在线符号化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#崩溃日志"><span class="nav-text">崩溃日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NSSetUncaughtExceptionHandler"><span class="nav-text">NSSetUncaughtExceptionHandler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#signal"><span class="nav-text">signal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDK-异常传递"><span class="nav-text">SDK 异常传递</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dSYM-文件"><span class="nav-text">dSYM 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化流程"><span class="nav-text">符号化流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到崩溃日志-App-关键行信息"><span class="nav-text">获取到崩溃日志 App 关键行信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到偏移量、运行时堆栈地址、运行时-APP-起始地址"><span class="nav-text">获取到偏移量、运行时堆栈地址、运行时 APP 起始地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-dSYM-起始地址"><span class="nav-text">获取 dSYM 起始地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算崩溃地址对应-dSYM-符号表中的地址"><span class="nav-text">计算崩溃地址对应 dSYM 符号表中的地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取到具体的函数-行数-文件"><span class="nav-text">获取到具体的函数 / 行数 / 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组装并格式化"><span class="nav-text">组装并格式化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化方式"><span class="nav-text">符号化方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号化相关工具"><span class="nav-text">符号化相关工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dwarfdump"><span class="nav-text">dwarfdump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symbolicatecrash"><span class="nav-text">symbolicatecrash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#atos"><span class="nav-text">atos</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统日志符号化"><span class="nav-text">系统日志符号化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线符号化"><span class="nav-text">在线符号化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
