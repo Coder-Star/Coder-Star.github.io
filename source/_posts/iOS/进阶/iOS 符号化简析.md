@@ -348,14 +348,18 @@ Architecture:     arm64e
 
 在线符号化其实就是上文中提到的符号化最后一种方式，其核心在于使用工具提取地址与符号的对应关系，这需要我们对 DWARF 文件结构有所了解，找到其对应关系所在位置，核心是`debug_line`及`debug_info`两段的内容。
 
+相关细节可查看下面《iOS 符号解析重构之路》以及《iOS 符号化：基础与进阶》。
+
 在解析 DWARF 过程中我们可以根据自己的情况选用一些工具。
 
 - [gimli](https://docs.rs/gimli/0.25.0/gimli/)：基于rust的读写 DWARF 调试格式的库
 - `debug/dwarf`：基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号。
 
+当然我们也可以不使用一些现成的库，自己使用文件读取的方式进行解析，如 bugly 的`buglySymboliOS.jar`。
+
 ## 最后
 
-新的一周要更加努力呀！
+要更加努力呀！
 
 Let's be CoderStar!
 
