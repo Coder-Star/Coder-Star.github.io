@@ -234,6 +234,19 @@ atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000
 3 iOSTest 0x000000010029e694 DemoListViewController.click(menuModel:) 0x0000000100298000 + 26260 (DemoListViewController.swift:62)
 ```
 
+## 符号化方式
+
+通过上面的符号化流程，我们可以对符号化的原理及过程有个大致了解，并且从中我们也了解到了不同的符号化方式，比如`dwarfdump`以及`atos`等。
+
+下面我们来看堆栈符号化有哪几种方式：
+
+- symbolicatecrash：可以符号化整个 Crash 文件，线上用的比较少，更多是线下使用，或者使用 Xcode 内置的 Crash -> `Xcode-Organizer-Crashes`；
+- mac 下的 `atos` 工具：单行堆栈符号化；
+- linux 下的 atos 的替代品：如 [atosl](https://github.com/facebookarchive/atosl)、[llvm-atosl](https://github.com/llvm/llvm-project/blob/main/llvm/include/llvm/DebugInfo/DWARF/DWARFContext.h)
+- 通过 dSYM 文件提取地址和符号的对应关系，进行符号还原；
+
+`atos`方式在一般情况下还比较适用，但是一旦量级上来，其符号化速度便无法满足需要了。目前主流的线上 APM 大部分都是第四种方案，比如 Bugly 以及字节的 APM 等。本节先不做展开，后面章节单独介绍。
+
 ## 符号化相关工具
 
 根据上面的符号化流程，我们用到了下列工具。
@@ -305,22 +318,40 @@ atos -arch <Binary Architecture> -o <Path to dSYM file>/Contents/Resources/DWARF
 atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i
 ```
 
-### 系统日志符号化
+## 系统日志符号化
 
 符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。
 
-### 在线符号化
+系统库符号的文件不是通用的，需要对应崩溃所在设备的**系统版本**和 **CPU 型号**。所以说为了符号化所有的符号，我们需要尽可能收集不同版本的系统符号文件。
 
-不管是 symbolicatecrash 还是 atos 都有两个问题：
+下列为我从 Xcode 导出的 Crash Log 顶部信息，从中我们可以拿到产生 Crash 的设备相关信息。
 
-- 都仅仅是单机的工具，无法作为在线服务提供；
-- 必须依赖 macOS 系统，这对于部署到 Linux 系统上的符号化服务很不友好；
+```txt
+OS Version:       iPhone OS 15.0 (Build 19A346)
+Architecture:     arm64e
+...
+```
 
-[atosl](https://github.com/facebookarchive/atosl)
+取到的对应版本的符号文件放到 Mac OS 的 `~/Library/Developer/Xcode/iOS DeviceSupport` 目录下，就可以使用 Xcode 自带的符号化工具 symbolicatecrash 进行符号化了。这个工具会自动根据崩溃日志中系统库的 UUID 搜索本机系统库的符号文件。
 
-基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号，可以替换 llvm-atosl 的实现，并且可以天然利用 golang 协程的特性实现高并发
+**获取系统符号文件的几个方法**
 
-### 其他
+1. 从真机上获取
+当你用 Xcode 第一次连接某台设备进行真机调试时，会看到 Xcode 显示 `Processing symbol files`，这时候就是在拷贝真机上的符号文件到 Mac 系统的 `/Users/xxx/Library/Developer/Xcode/iOS DeviceSupport` 目录下。
+
+2. 从已解密的固件中提取符号文件
+  已经有很多同学给出了方式，如参考资料中`聊聊从iOS固件提取系统库符号`，不再赘述。给出过程中需要用到的地址。[theiphonewiki](https://www.theiphonewiki.com/wiki/Firmware)：固件下载站点，同时也维护固件解密的key--[Firmware_Keys](https://www.theiphonewiki.com/wiki/Firmware_Keys)。
+
+3. 已经收集好的开源项目，如[iOS-System-Symbols](https://github.com/Zuikyo/iOS-System-Symbols)...
+
+## 在线符号化
+
+在线符号化其实就是上文中提到的符号化最后一种方式，其核心在于使用工具提取地址与符号的对应关系，这需要我们对 DWARF 文件结构有所了解，找到其对应关系所在位置，核心是`debug_line`及`debug_info`两段的内容。
+
+在解析 DWARF 过程中我们可以根据自己的情况选用一些工具。
+
+- [gimli](https://docs.rs/gimli/0.25.0/gimli/)：基于rust的读写 DWARF 调试格式的库
+- `debug/dwarf`：基于 golang 原生的系统库 debug/dwarf，可以实现对 DWARF 文件的解析，将地址解析为符号。
 
 ## 最后
 
@@ -328,10 +359,12 @@ atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000
 
 Let's be CoderStar!
 
-参考资料
+参考 & 建议资料
 
 - [你真的了解符号化么？](https://mp.weixin.qq.com/s/6Odq8JTYXL0bA8xyWEO1Og)
 - [iOS 符号解析重构之路](https://mp.weixin.qq.com/s/TVRYXhiOXIsMmXZo9GmEVA)
 - [iOS 符号化：基础与进阶](https://mp.weixin.qq.com/s/iRxvrOsEdW1wPZ3tSPKeIg)
 - [iOS 崩溃日志在线符号化实践](https://mp.weixin.qq.com/s/MIun-eV4_J1hXGDRjGoLaw)
 - [漫谈iOS Crash收集框架](http://www.cocoachina.com/articles/12301)
+- [iOS Crash分析：符号化系统库方法](https://zhuanlan.zhihu.com/p/142322138)
+- [聊聊从iOS固件提取系统库符号](http://crash.163.com/#news/!newsId=31)
