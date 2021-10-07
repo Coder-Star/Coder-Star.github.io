@@ -1,5 +1,5 @@
 ---
-title: iOS 符号化简析
+title: iOS 符号化浅析
 category:
   - iOS
   - 进阶
@@ -114,7 +114,7 @@ private static let signalHandler: @convention(c) (Int32) -> Void = { signal in
 
 一般情况下，我们不会在自己的应用中集成多个 Crash 日志收集服务，但是总有一些情况我们会接入多个，这个时候，我们就非常希望接入的 SDK 是一位`友好型选手`，不会直接吃掉崩溃而不传递了。
 
-如果同时有多方通过 NSSetUncaughtExceptionHandler 注册异常处理程序，和平的作法是：后注册者通过 NSGetUncaughtExceptionHandler 将先前别人注册的 handler 取出并备份，在自己 handler 处理完后自觉把别人的 handler 注册回去，规规矩矩的传递。不传递强行覆盖的后果是，在其之前注册过的日志收集服务写出的 Crash 日志就会因为取不到 NSException 而丢失 Last Exception Backtrace 等信息。（P.S. iOS 系统自带的 Crash Reporter 不受影响）
+如果同时有多方通过 NSSetUncaughtExceptionHandler 注册异常处理程序，和平的做法是：后注册者通过 NSGetUncaughtExceptionHandler 将先前别人注册的 handler 取出并备份，在自己 handler 处理完后自觉把别人的 handler 注册回去，规规矩矩的传递。不传递强行覆盖的后果是，在其之前注册过的日志收集服务写出的 Crash 日志就会因为取不到 NSException 而丢失 Last Exception Backtrace 等信息。（P.S. iOS 系统自带的 Crash Reporter 不受影响）
 
 详细代码请见[KSCrashMonitor_NSException](https://github.com/kstenerud/KSCrash/blob/master/Source/KSCrash/Recording/Monitors/KSCrashMonitor_NSException.m)，有一个`g_previousUncaughtExceptionHandler`属性。
 
@@ -179,7 +179,7 @@ dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对
 
 `otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5`
 
-执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 0x0000000100000000，一般情况下都为这个值。
+执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 `0x0000000100000000`，一般情况下都为这个值。
 
 ![dSYM起始地址](../../../img/iOS/进阶/符号化/dSYM起始地址.png)
 
@@ -271,7 +271,11 @@ dwarfdump --debug-info xx.app.dSYM > debug_info.txt
 #  出debug_line 的信息到文件 debug_line.txt 中
 dwarfdump --debug-line xx.app.dSYM > debug_line.txt
 
+# 查找指定地址的相关信息
 dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
+
+# 校验DWARF的有效性
+dwarfdump --verify iOSTest.app.dSYM
 ```
 
 如果设备上 dSYM 文件很多，可以通过下列命令查找指定 UUID 对应 dSYM 位置
@@ -279,6 +283,11 @@ dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 ```shell
 # UUID改为实际的UUID，并且UUID需要格式转换（增加'-')
 mdfind "com_apple_xcode_dsym_uuids == UUID"
+```
+
+通过 symbols -uuid 来查看 dSYM 文件的 UUID;
+```shell
+symbols -uuid iOSTest.app.dSYM
 ```
 
 ### symbolicatecrash
