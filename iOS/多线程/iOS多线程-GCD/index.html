@@ -96,7 +96,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-09-27T12:56:35.395Z">
+<meta property="og:updated_time" content="2021-10-07T09:15:12.330Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-27T20:56:35+08:00">
-                2021-09-27
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-07T17:15:12+08:00">
+                2021-10-07
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.2k 字
+                  3.3k 字
                 </span>
               
 
@@ -431,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8 分钟
+                  12 分钟
                 </span>
               
             </div>
@@ -455,16 +455,44 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
 <p>今天给大家带来多线程系列的第二篇文章 – <code>GCD</code>，其大概率是我们在使用多线程时最常用的方式了。</p>
 <p>GCD 全称是 <code>Grand Central Dispatch</code>，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。</p>
+<p>本文对一些概念性的东西可能会一笔带过，主要介绍日常开发的一些经验。</p>
 <h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>串行、并行是队列的属性；</p>
-<p>下列为自定义队列的构造函数</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>下列为自定义队列的构造函数</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(label: <span class="type">String</span>,</span><br><span class="line">                        qos: <span class="type">DispatchQoS</span> = .unspecified,</span><br><span class="line">                        attributes: <span class="type">DispatchQueue</span>.<span class="type">Attributes</span> = [],</span><br><span class="line">                        autoreleaseFrequency: <span class="type">DispatchQueue</span>.<span class="type">AutoreleaseFrequency</span> = .inherit,</span><br><span class="line">                        target: <span class="type">DispatchQueue?</span> = <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
 
 <p>介绍一下各个参数的作用：</p>
-<p><strong>label</strong><br><strong>qos</strong><br><strong>attributes</strong><br><strong>autoreleaseFrequency</strong></p>
+<p><strong>label</strong></p>
+<p>附加到队列的字符串标签，方便在调试时对其进行唯一标识，一般使用反向 DNS 的命名样式，如<code>com.star.csQueue</code>.</p>
+<p><strong>qos</strong></p>
+<p>与队列关联的服务质量级别。该值确定系统调度任务执行的优先级，类型为<code>DispatchQoS</code>。</p>
+<p><strong>attributes</strong></p>
+<p>包含两个属性</p>
+<ul>
+<li>concurrent：标识队列为并行队列</li>
+<li>initiallyInactive：标识运行队列中的任务需要动手触发（未添加此标识时，向队列中添加任务会自动运行），触发时通过 <code>queue.activate()</code> 方法。</li>
+</ul>
+<p><strong>autoreleaseFrequency</strong></p>
+<p>这个属性表示 <code>autorelease pool</code> 的自动释放频率， <code>autorelease pool</code> 管理着任务对象的内存周期。包含三个属性：</p>
+<ul>
+<li>inherit：继承目标队列的该属性</li>
+<li>workItem：跟随每个任务的执行周期进行自动创建和释放</li>
+<li>never：不会自动创建 autorelease pool，需要手动管理。</li>
+</ul>
+<p>一般任务采用 <code>.workItem</code> 属性就够了，特殊任务如在任务内部大量重复创建对象的操作可选择 <code>.never</code> 属性手动创建 <code>autorelease pool</code>。</p>
 <p><strong>target</strong></p>
-<p>这个属性设置的是队列的目标队列，即实际上会将该队列的任务放到指定队列中运行。</p>
-<p><a href="https://bugs.swift.org/browse/SR-1859" target="_blank" rel="noopener">DispatchQueue setTarget问题</a></p>
-<p><strong>其实在程序中手动创建的队列，最终都会指向系统自带的主队列或者全局队列。</strong></p>
+<p>这个属性设置的是队列的目标队列，即实际上会将该队列的任务放到指定队列中运行。<strong>其实在程序中手动创建的队列，最终都会指向系统自带的主队列或者全局队列。</strong> 默认情况下，指向的是优先级为<code>default</code>的全局队列。</p>
+<p>需要特别注意的是，在 Swift 3 及之后，对目标队列的设置进行了约束，只有两种情况可以显式地设置目标队列，具体原因可看<a href="https://bugs.swift.org/browse/SR-1859" target="_blank" rel="noopener">DispatchQueue setTarget问题</a></p>
+<ul>
+<li>初始化方法中，指定目标队列。</li>
+<li>初始化方法中，<code>attributes</code> 设定为<code>initiallyInactive</code>，然后在队列执行，<code>activate()</code> 之前可以指定目标队列。</li>
+</ul>
+<blockquote>
+<p>其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。</p>
+</blockquote>
+<p><strong>qos 属性扩展</strong></p>
+<p>如果大家对上次的<a href="../iOS多线程-Thread">iOS多线程-Thread</a>还有印象的话，想必会对<code>Thread</code>的<code>qualityOfService</code>属性有点印象，其类型为<code>QualityOfService</code>;<br><code>Operation</code>也有一个一样的属性。</p>
+<p>至于 GCD，其类似属性便为<code>DispatchQoS</code>类型，其为一个 struct，但是需要注意的是 global 队列创建的时候其 qos 参数类型为<code>DispatchQoS.QoSClass</code>，为<code>DispatchQoS</code>结构体下的一个<code>enum</code>类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。</p>
+<p>该类属性其实都表示服务质量等级，相关具体细节可查看<a href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1" target="_blank" rel="noopener">Prioritize Work with Quality of Service Classes</a></p>
 <h3 id="串行队列"><a href="#串行队列" class="headerlink" title="串行队列"></a>串行队列</h3><p>串行队列主要是保证队列中的任务按照加入顺序依次执行，也就说后加入的任务必须等到同队列前面的任务都执行完毕之后才会执行。串行队列执行任务时候不允许<strong>被当前队列中的任务</strong>阻塞（会发生死锁），但可以被其他队列任务阻塞。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"com.star.serialQueue"</span>)</span><br></pre></td></tr></table></figure>
 
@@ -489,22 +517,26 @@
 <h3 id="全局并行队列"><a href="#全局并行队列" class="headerlink" title="全局并行队列"></a>全局并行队列</h3><p>全局并行队列，存在 5 个不同的 Qos 级别，可以使用默认优先级，也可以单独指定。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">global</span>(<span class="title">qos</span>: <span class="title">DispatchQoS</span>.<span class="title">QoSClass</span> = .<span class="title">default</span>) -&gt; <span class="title">DispatchQueue</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">// 使用方法</span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">globalQueue</span> = <span class="title">DispatchQueue</span>.<span class="title">global</span>() // <span class="title">qos</span>: .<span class="title">default</span></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">globalQueue</span> = <span class="title">DispatchQueue</span>.<span class="title">global</span>(<span class="title">qos</span>: .<span class="title">background</span>) // 后台运行级别</span></span><br></pre></td></tr></table></figure>
 
+<p>类型为：<code>DispatchQoS.QoSClass</code>，下列前五个选项优先级从低到高。</p>
 <ul>
-<li>background</li>
-<li>utility</li>
-<li>default</li>
-<li>userInitiated</li>
-<li>userInteractive</li>
-<li>unspecified</li>
+<li><p>background</p>
+</li>
+<li><p>utility</p>
+</li>
+<li><p>default</p>
+</li>
+<li><p>userInitiated</p>
+</li>
+<li><p>userInteractive</p>
+</li>
+<li><p>unspecified</p>
+</li>
 </ul>
 <h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>同步、异步是对任务的描述，不是对线程的描述。</p>
 <h3 id="同步任务"><a href="#同步任务" class="headerlink" title="同步任务"></a>同步任务</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步任务</span></span><br><span class="line">queue.sync &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>同步任务会阻塞当前线程，不会开辟线程；任务会直接在当前线程执行，任务完成后恢复线程原任务；</p>
-<h3 id="异步任务"><a href="#异步任务" class="headerlink" title="异步任务"></a>异步任务</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步任务</span></span><br><span class="line">queue.async &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>异步任务不会阻塞当前线程，会开辟新的线程（主队列除外）。</p>
-<h2 id="使用-sync-产生死锁的情况"><a href="#使用-sync-产生死锁的情况" class="headerlink" title="使用 sync 产生死锁的情况"></a>使用 sync 产生死锁的情况</h2><p>一般出现错误为<code>EXC_BAD_INSTRUCTION</code></p>
+<p>使用同步任务在一些情况下会出现死锁情况，其表现为出现错误<code>EXC_BAD_INSTRUCTION</code>。</p>
 <ul>
 <li>在主线程使用 sync</li>
 </ul>
@@ -523,28 +555,52 @@
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"serialQueue"</span>)</span><br><span class="line">serialQueue.async &#123;</span><br><span class="line">  serialQueue.sync &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="栅栏函数"><a href="#栅栏函数" class="headerlink" title="栅栏函数"></a>栅栏函数</h2><p>栅栏函数需要放在并行队列中才能发挥其作用。其作用是拦截栅栏函数前的任务，等到栅栏函数执行完后，在执行后面的并发任务。</p>
+<h3 id="异步任务"><a href="#异步任务" class="headerlink" title="异步任务"></a>异步任务</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异步任务</span></span><br><span class="line">queue.async &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>异步任务不会阻塞当前线程，会开辟新的线程（主队列除外）。</p>
+<h2 id="栅栏函数"><a href="#栅栏函数" class="headerlink" title="栅栏函数"></a>栅栏函数</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">queue.async(flags: [.barrier]) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">queue.sync(flags: [.barrier]) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> task = <span class="type">DispatchWorkItem</span>(flags: .barrier) &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line">queue.async(execute: task)</span><br><span class="line">queue.sync(execute: task)</span><br></pre></td></tr></table></figure>
+
+<p>栅栏任务的主要特性是可以对队列中的任务进行阻隔，执行栅栏任务时，它会先等待队列中已有的任务全部执行完成，然后它再执行，在它之后加入的任务也必须等栅栏任务执行完后才能执行。栅栏函数需要放在并行队列中才能真正发挥其作用。</p>
 <p><strong>栅栏函数不能用在全局并发队列中，不起作用，作用会与普通的同步、异步任务相同。苹果官方也规定了不允许在全局并发队列中使用栅栏函数。</strong></p>
+<p>其实这个很好理解，上文已经介绍过，自定义队列最终还是会指向全局队列或者主队列，所以如果栅栏函数对全局队列起作用，你品一下…</p>
+<p>对于栅栏函数，还有一个比较典型的应用场景，也是面试时经常问的，就是<code>多读单写</code>场景，代码示例如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 并行队列，使读的时候可以并行读</span></span><br><span class="line"><span class="keyword">let</span> concurrentQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"concurrentQueue"</span>, attributes: .concurrent)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">read</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">    <span class="comment">// 这里使用同步任务，阻塞进入的线程，保证即读即得</span></span><br><span class="line">    <span class="keyword">var</span> result = <span class="string">""</span></span><br><span class="line">    concurrentQueue.sync &#123;</span><br><span class="line">        result = <span class="string">""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">write</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 这里使用异步任务，因为存入后不需要及时得到反馈结果</span></span><br><span class="line">    concurrentQueue.async(flags: [.barrier]) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
-<p>全局队列是进程内的共享资源。系统框架需要能够依赖于不受未知联锁影响的全局队列，否则低级别框架进程可能会被更高级别的用户活动阻止，可能导致死锁。GCD 使开发人员能够在全局队列之上建立任意并发抽象和互锁，因此抱怨它们不在全局队列中是没有实际意义的。问为什么不能在全局队列上设置障碍就像问为什么抢占式多任务系统上的一个进程不能阻塞所有其他进程。</p>
+<p>当然对于该场景，还有读写锁的方案，后面会有文章单独介绍。</p>
 </blockquote>
-<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><h2 id="使用场景介绍"><a href="#使用场景介绍" class="headerlink" title="使用场景介绍"></a>使用场景介绍</h2><h3 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h3><p>任务组的主要应用场景：当需要一组任务结束后再统一去执行一些操作；如等到几个没有顺序要求的网络请求成功之后再去统一刷新 UI。</p>
-<p>任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是<strong>入组任务数等于出组任务数</strong>。<br>任务组与队列需要关联来实现上述操作，关联方式包括两种：自动关联及手动关联；</p>
-<p>group.enter() 和 group.leave() 需要成对存在。</p>
+<h2 id="DispatchWorkItem"><a href="#DispatchWorkItem" class="headerlink" title="DispatchWorkItem"></a>DispatchWorkItem</h2><p>我们一般往队列中加入任务是直接使用闭包，其实我们还有另外的选择，就是 DispatchWorkItem，即任务对象。</p>
+<h2 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h2><p>任务组的主要应用场景：当需要一组任务结束后再统一去执行一些操作；如等到几个没有顺序要求的网络请求成功之后再去统一刷新 UI。</p>
+<p>任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是<strong>入组任务数等于出组任务数</strong>。并且需要注意的是，<strong>任务组的单位是任务，与队列无关，换句话来说就是任务组是可以跨队列的</strong>。<br>任务组与队列需要关联来实现上述操作，关联方式包括两种：自动关联及手动关联；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queueGroup = <span class="type">DispatchGroup</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自动关联</span></span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">DispatchQueue</span>.global()</span><br><span class="line">queue.async(group: queueGroup) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动关联</span></span><br><span class="line">queueGroup.enter()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    queueGroup.leave()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>group.enter()</code> 和 <code>group.leave()</code> 需要成对存在。</p>
 <ul>
 <li>当组内没有任务时，<code>group.notify</code>会直接执行；</li>
 <li>当任务组的入组数大于出组数，<code>group.notify</code>永远不会执行；</li>
-<li>当出组数大于入组数，<strong>程序会崩溃</strong>。</li>
+<li>当出组数大于入组数，<strong>程序会 Crash</strong>。</li>
 </ul>
 <blockquote>
 <p>group.notify 是异步执行的，如果想要阻塞当前线程，使任务组的任务执行完毕，可以使用 group.wait()。</p>
 </blockquote>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 任务组</span></span><br><span class="line"><span class="keyword">let</span> group = <span class="type">DispatchGroup</span>()</span><br><span class="line"><span class="comment">// 并行队列</span></span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">DispatchQueue</span>(label: <span class="string">"label"</span>,attributes: [.concurrent])</span><br><span class="line">queue.async(group: group) &#123; <span class="comment">//参数传入group</span></span><br><span class="line">    group.enter()  <span class="comment">//调用方法手动管理</span></span><br><span class="line">    <span class="type">Thread</span>.sleep(forTimeInterval: <span class="number">2</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"第二个显示"</span>)</span><br><span class="line">    group.leave()</span><br><span class="line">&#125;</span><br><span class="line">queue.async(group: group) &#123;</span><br><span class="line">    group.enter()</span><br><span class="line">    hread.sleep(forTimeInterval: <span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"第一个显示"</span>)</span><br><span class="line">    group.leave()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">group.notify(queue: queue) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"任务完成"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">group.notify(queue: <span class="type">DispatchQueue</span>.main) &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"在这里刷新UI"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行结果</span></span><br><span class="line">第一个显示</span><br><span class="line">第二个显示</span><br><span class="line">在这里刷新<span class="type">UI</span></span><br><span class="line">任务完成</span><br></pre></td></tr></table></figure>
-
-<h3 id="信号量（控制最大并发数）"><a href="#信号量（控制最大并发数）" class="headerlink" title="信号量（控制最大并发数）"></a>信号量（控制最大并发数）</h3><p>任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量了。</p>
+<p>可能细心的同学会将任务组和栅栏函数进行比较，因为两者之间有一点是相似的，就是等待若干个任务全部执行完毕之后再执行后续操作，确实是这样，在一定场景下，两者是可以互换的，但是也得清楚两者之间的区别。</p>
+<ul>
+<li>栅栏函数针对的是<strong>同一个队列</strong>中的任务，而任务组执行单位为任务，可以跨队列；</li>
+<li>栅栏函数中无法灵活的控制任务完成的时机，如果是普通的任务还好，如果是网络请求这种类似’双任务制’的任务，便不适用了。因为当网络请求成功发出后，队列便会认为任务执行成功，但是实际上网络请求还未成功回调，即任务还未完成。</li>
+</ul>
+<blockquote>
+<p>双任务制可能表述不是很准确，这里就简单理解为网络请求发送为一个任务，网络请求接收为一个任务。</p>
+</blockquote>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>上述任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量了。</p>
+<blockquote>
+<p>控制网络请求的执行顺序这种场景其实比较常见，也是面试比较常见的场景题，那除了信号量的解决方式之外，还可以利用 Operation 的任务依赖（不是简单的使用<code>BlockOperation</code>或者<code>InvocationOperation</code>）。</p>
+</blockquote>
+<p>其实信号量本质是控制最大并发数。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 并行队列</span></span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">DispatchQueue</span>(label: <span class="string">"label"</span>,attributes: [.concurrent])</span><br><span class="line"><span class="keyword">let</span> semaphore = <span class="type">DispatchSemaphore</span>(value: <span class="number">1</span>) <span class="comment">//设置数量为1的信号量，即限制正在运行的任务只有一个</span></span><br><span class="line"></span><br><span class="line">queue.async() &#123;</span><br><span class="line">    semaphore.wait()</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 网络请求并获得回调</span></span><br><span class="line">   semaphore.signal()</span><br><span class="line">&#125;</span><br><span class="line">queue.async() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>使用信号量</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>GCD 中还有一些知识点没有讲到，如<code>DispatchSource</code>、<code>DispatchIO</code>、<code>DispatchData</code>等，还有在定时器中的应用，后面会单独写关于 iOS 中定时器的方式。</p>
+<p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <p>参考资料</p>
 <ul>
@@ -823,7 +879,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列"><span class="nav-text">串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行队列"><span class="nav-text">并行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主队列"><span class="nav-text">主队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局并行队列"><span class="nav-text">全局并行队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-text">任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步任务"><span class="nav-text">同步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步任务"><span class="nav-text">异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-sync-产生死锁的情况"><span class="nav-text">使用 sync 产生死锁的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏函数"><span class="nav-text">栅栏函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景介绍"><span class="nav-text">使用场景介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务组"><span class="nav-text">任务组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号量（控制最大并发数）"><span class="nav-text">信号量（控制最大并发数）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列"><span class="nav-text">串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行队列"><span class="nav-text">并行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主队列"><span class="nav-text">主队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局并行队列"><span class="nav-text">全局并行队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-text">任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步任务"><span class="nav-text">同步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步任务"><span class="nav-text">异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏函数"><span class="nav-text">栅栏函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchWorkItem"><span class="nav-text">DispatchWorkItem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务组"><span class="nav-text">任务组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
