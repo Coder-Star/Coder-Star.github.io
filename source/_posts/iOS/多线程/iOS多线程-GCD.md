@@ -18,9 +18,13 @@ Hi Coder，我是 CoderStar！
 
 GCD 全称是 `Grand Central Dispatch`，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。
 
+本文对一些概念性的东西可能会一笔带过，主要介绍日常开发的一些经验。
+
 ## 队列
 
 串行、并行是队列的属性；
+
+### 构造函数
 
 下列为自定义队列的构造函数
 
@@ -35,17 +39,48 @@ public convenience init(label: String,
 介绍一下各个参数的作用：
 
 **label**
+
+附加到队列的字符串标签，方便在调试时对其进行唯一标识，一般使用反向 DNS 的命名样式，如`com.star.csQueue`.
+
 **qos**
+
+与队列关联的服务质量级别。该值确定系统调度任务执行的优先级，类型为`DispatchQoS`。
+
 **attributes**
+
+包含两个属性
+- concurrent：标识队列为并行队列
+- initiallyInactive：标识运行队列中的任务需要动手触发（未添加此标识时，向队列中添加任务会自动运行），触发时通过 `queue.activate()` 方法。
+
 **autoreleaseFrequency**
+
+这个属性表示 `autorelease pool` 的自动释放频率， `autorelease pool` 管理着任务对象的内存周期。包含三个属性：
+
+* inherit：继承目标队列的该属性
+* workItem：跟随每个任务的执行周期进行自动创建和释放
+* never：不会自动创建 autorelease pool，需要手动管理。
+
+一般任务采用 `.workItem` 属性就够了，特殊任务如在任务内部大量重复创建对象的操作可选择 `.never` 属性手动创建 `autorelease pool`。
 
 **target**
 
-这个属性设置的是队列的目标队列，即实际上会将该队列的任务放到指定队列中运行。
+这个属性设置的是队列的目标队列，即实际上会将该队列的任务放到指定队列中运行。**其实在程序中手动创建的队列，最终都会指向系统自带的主队列或者全局队列。** 默认情况下，指向的是优先级为`default`的全局队列。
 
-[DispatchQueue setTarget问题](https://bugs.swift.org/browse/SR-1859)
+需要特别注意的是，在 Swift 3 及之后，对目标队列的设置进行了约束，只有两种情况可以显式地设置目标队列，具体原因可看[DispatchQueue setTarget问题](https://bugs.swift.org/browse/SR-1859)
 
-**其实在程序中手动创建的队列，最终都会指向系统自带的主队列或者全局队列。**
+- 初始化方法中，指定目标队列。
+- 初始化方法中，`attributes` 设定为`initiallyInactive`，然后在队列执行，`activate()` 之前可以指定目标队列。
+
+> 其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。
+
+**qos 属性扩展**
+
+如果大家对上次的[iOS多线程-Thread](../iOS多线程-Thread)还有印象的话，想必会对`Thread`的`qualityOfService`属性有点印象，其类型为`QualityOfService`;
+`Operation`也有一个一样的属性。
+
+至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 struct，但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。
+
+该类属性其实都表示服务质量等级，相关具体细节可查看[Prioritize Work with Quality of Service Classes](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1)
 
 ### 串行队列
 
@@ -130,11 +165,13 @@ let globalQueue = DispatchQueue.global() // qos: .default
 let globalQueue = DispatchQueue.global(qos: .background) // 后台运行级别
 ```
 
+类型为：`DispatchQoS.QoSClass`，下列前五个选项优先级从低到高。
 * background
 * utility
 * default
 * userInitiated
 * userInteractive
+
 * unspecified
 
 ## 任务
@@ -151,19 +188,7 @@ queue.sync {
 
 同步任务会阻塞当前线程，不会开辟线程；任务会直接在当前线程执行，任务完成后恢复线程原任务；
 
-### 异步任务
-
-```swift
-// 异步任务
-queue.async {
-}
-```
-
-异步任务不会阻塞当前线程，会开辟新的线程（主队列除外）。
-
-## 使用 sync 产生死锁的情况
-
-一般出现错误为`EXC_BAD_INSTRUCTION`
+使用同步任务在一些情况下会出现死锁情况，其表现为出现错误`EXC_BAD_INSTRUCTION`。
 
 - 在主线程使用 sync
 
@@ -199,69 +224,117 @@ serialQueue.async {
 }
 ```
 
+### 异步任务
+
+```swift
+// 异步任务
+queue.async {
+
+}
+```
+
+异步任务不会阻塞当前线程，会开辟新的线程（主队列除外）。
+
 ## 栅栏函数
 
-栅栏函数需要放在并行队列中才能发挥其作用。其作用是拦截栅栏函数前的任务，等到栅栏函数执行完后，在执行后面的并发任务。
+```swift
+queue.async(flags: [.barrier]) {
+
+}
+
+queue.sync(flags: [.barrier]) {
+
+}
+
+let task = DispatchWorkItem(flags: .barrier) {
+    // do something
+}
+queue.async(execute: task)
+queue.sync(execute: task)
+```
+
+栅栏任务的主要特性是可以对队列中的任务进行阻隔，执行栅栏任务时，它会先等待队列中已有的任务全部执行完成，然后它再执行，在它之后加入的任务也必须等栅栏任务执行完后才能执行。栅栏函数需要放在并行队列中才能真正发挥其作用。
 
 **栅栏函数不能用在全局并发队列中，不起作用，作用会与普通的同步、异步任务相同。苹果官方也规定了不允许在全局并发队列中使用栅栏函数。**
 
-> 全局队列是进程内的共享资源。系统框架需要能够依赖于不受未知联锁影响的全局队列，否则低级别框架进程可能会被更高级别的用户活动阻止，可能导致死锁。GCD 使开发人员能够在全局队列之上建立任意并发抽象和互锁，因此抱怨它们不在全局队列中是没有实际意义的。问为什么不能在全局队列上设置障碍就像问为什么抢占式多任务系统上的一个进程不能阻塞所有其他进程。
+其实这个很好理解，上文已经介绍过，自定义队列最终还是会指向全局队列或者主队列，所以如果栅栏函数对全局队列起作用，你品一下...
 
-## 信号量
+对于栅栏函数，还有一个比较典型的应用场景，也是面试时经常问的，就是`多读单写`场景，代码示例如下：
 
-## 使用场景介绍
+```swift
+// 并行队列，使读的时候可以并行读
+let concurrentQueue = DispatchQueue(label: "concurrentQueue", attributes: .concurrent)
 
-### 任务组
+func read() -> String {
+    // 这里使用同步任务，阻塞进入的线程，保证即读即得
+    var result = ""
+    concurrentQueue.sync {
+        result = ""
+    }
+    return result
+}
+
+func write() {
+    // 这里使用异步任务，因为存入后不需要及时得到反馈结果
+    concurrentQueue.async(flags: [.barrier]) {
+
+    }
+}
+```
+
+> 当然对于该场景，还有读写锁的方案，后面会有文章单独介绍。
+
+## DispatchWorkItem
+
+我们一般往队列中加入任务是直接使用闭包，其实我们还有另外的选择，就是 DispatchWorkItem，即任务对象。
+
+## 任务组
 
 任务组的主要应用场景：当需要一组任务结束后再统一去执行一些操作；如等到几个没有顺序要求的网络请求成功之后再去统一刷新 UI。
 
-任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是**入组任务数等于出组任务数**。
+任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是**入组任务数等于出组任务数**。并且需要注意的是，**任务组的单位是任务，与队列无关，换句话来说就是任务组是可以跨队列的**。
 任务组与队列需要关联来实现上述操作，关联方式包括两种：自动关联及手动关联；
 
-group.enter() 和 group.leave() 需要成对存在。
+```swift
+let queueGroup = DispatchGroup()
+
+// 自动关联
+let queue = DispatchQueue.global()
+queue.async(group: queueGroup) {
+
+}
+
+// 手动关联
+queueGroup.enter()
+queue.async {
+    // do something
+    queueGroup.leave()
+}
+
+```
+
+`group.enter()` 和 `group.leave()` 需要成对存在。
 
 - 当组内没有任务时，`group.notify`会直接执行；
 - 当任务组的入组数大于出组数，`group.notify`永远不会执行；
-- 当出组数大于入组数，**程序会崩溃**。
+- 当出组数大于入组数，**程序会 Crash**。
 
 > group.notify 是异步执行的，如果想要阻塞当前线程，使任务组的任务执行完毕，可以使用 group.wait()。
 
-```swift
- // 任务组
-let group = DispatchGroup()
-// 并行队列
-let queue = DispatchQueue(label: "label",attributes: [.concurrent])
-queue.async(group: group) { //参数传入group
-    group.enter()  //调用方法手动管理
-    Thread.sleep(forTimeInterval: 2)
-    print("第二个显示")
-    group.leave()
-}
-queue.async(group: group) {
-    group.enter()
-    hread.sleep(forTimeInterval: 1)
-    print("第一个显示")
-    group.leave()
-}
+可能细心的同学会将任务组和栅栏函数进行比较，因为两者之间有一点是相似的，就是等待若干个任务全部执行完毕之后再执行后续操作，确实是这样，在一定场景下，两者是可以互换的，但是也得清楚两者之间的区别。
 
-group.notify(queue: queue) {
-    print("任务完成")
-}
+- 栅栏函数针对的是**同一个队列**中的任务，而任务组执行单位为任务，可以跨队列；
+- 栅栏函数中无法灵活的控制任务完成的时机，如果是普通的任务还好，如果是网络请求这种类似'双任务制'的任务，便不适用了。因为当网络请求成功发出后，队列便会认为任务执行成功，但是实际上网络请求还未成功回调，即任务还未完成。
 
-group.notify(queue: DispatchQueue.main) {
-    print("在这里刷新UI")
-}
+> 双任务制可能表述不是很准确，这里就简单理解为网络请求发送为一个任务，网络请求接收为一个任务。
 
-//运行结果
-第一个显示
-第二个显示
-在这里刷新UI
-任务完成
-```
+## 信号量
 
-### 信号量（控制最大并发数）
+上述任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量了。
 
-任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量了。
+> 控制网络请求的执行顺序这种场景其实比较常见，也是面试比较常见的场景题，那除了信号量的解决方式之外，还可以利用 Operation 的任务依赖（不是简单的使用`BlockOperation`或者`InvocationOperation`）。
+
+其实信号量本质是控制最大并发数。
 
 ```swift
 // 并行队列
@@ -279,7 +352,11 @@ queue.async() {
 }
 ```
 
+使用信号量
+
 ## 最后
+
+GCD 中还有一些知识点没有讲到，如`DispatchSource`、`DispatchIO`、`DispatchData`等，还有在定时器中的应用，后面会单独写关于 iOS 中定时器的方式。
 
 要更加努力呀！
 

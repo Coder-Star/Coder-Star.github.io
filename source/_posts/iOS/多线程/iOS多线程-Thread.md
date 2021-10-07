@@ -143,7 +143,7 @@ thread 调用 start 方法后，其实并不是马上就开始运行了。实质
 - stackSize：栈区大小，看看线程在栈区占了多大空间
 - isMainThread：是否是主线程，比较常用
 - threadPriority：线程的优先级，由 0.0 到 1.0 之间的浮点数指定，其中 1.0 是最高优先级，因为语义不够清晰，已经即将被弃用了，跟有注释`// To be deprecated; use qualityOfService below`，但是 Swift 源码没有相应注释，只有 OC 中有。
-- qualityOfService：服务质量，一个枚举类型，iOS8.0 推出，为了取代优先级，在 GCD 中也有类型属性。
+- qualityOfService：服务质量，一个枚举类型（`QualityOfService`），iOS8.0 推出，为了取代优先级，在 GCD 中也有类型属性
 - current：当前线程，比较常用
 - callStackSymbols：线程调用堆栈，在异步捕获场景下常用
 - NSThreadWillExit：线程终止通知
