@@ -91,8 +91,8 @@
 <meta name="description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
 <meta name="keywords" content="iOS,符号化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 符号化简析">
-<meta property="og:url" content="https://coder-star.github.io/iOS/进阶/iOS 符号化简析/index.html">
+<meta property="og:title" content="iOS 符号化浅析">
+<meta property="og:url" content="https://coder-star.github.io/iOS/进阶/iOS 符号化浅析/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
 <meta property="og:locale" content="zh-Hans">
@@ -103,9 +103,9 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/atos_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/DSYMTools_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/symbolicatecrash_xcode.png">
-<meta property="og:updated_time" content="2021-10-06T08:10:44.365Z">
+<meta property="og:updated_time" content="2021-10-07T06:03:28.577Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 符号化简析">
+<meta name="twitter:title" content="iOS 符号化浅析">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png">
 
@@ -137,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/iOS 符号化简析/">
+  <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/iOS 符号化浅析/">
 
 
 
 
 
-  <title>iOS 符号化简析 | CoderStar's Blog</title>
+  <title>iOS 符号化浅析 | CoderStar's Blog</title>
   
 
 
@@ -312,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/进阶/iOS 符号化简析/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/进阶/iOS 符号化浅析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderStar">
@@ -329,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS 符号化简析</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 符号化浅析</h1>
         
 
         <div class="post-meta">
@@ -357,8 +357,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-06T16:10:44+08:00">
-                2021-10-06
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-07T14:03:28+08:00">
+                2021-10-07
               </time>
             
           </span>
@@ -522,7 +522,7 @@
 <h3 id="signal"><a href="#signal" class="headerlink" title="signal"></a>signal</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大部分异常就是 SIGTRAP ，OC中的NSException异常对应的也是这个信号。</span></span><br><span class="line">signal(<span class="type">SIGTRAP</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGABRT</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGSEGV</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGBUS</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGILL</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">let</span> signalHandler: <span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">Int32</span>) -&gt; <span class="type">Void</span> = &#123; signal <span class="keyword">in</span></span><br><span class="line">  <span class="comment">/// 异常堆栈</span></span><br><span class="line">  <span class="keyword">for</span> symbol <span class="keyword">in</span> <span class="type">Thread</span>.callStackSymbols &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  exit(signal)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="SDK-异常传递"><a href="#SDK-异常传递" class="headerlink" title="SDK 异常传递"></a>SDK 异常传递</h3><p>一般情况下，我们不会在自己的应用中集成多个 Crash 日志收集服务，但是总有一些情况我们会接入多个，这个时候，我们就非常希望接入的 SDK 是一位<code>友好型选手</code>，不会直接吃掉崩溃而不传递了。</p>
-<p>如果同时有多方通过 NSSetUncaughtExceptionHandler 注册异常处理程序，和平的作法是：后注册者通过 NSGetUncaughtExceptionHandler 将先前别人注册的 handler 取出并备份，在自己 handler 处理完后自觉把别人的 handler 注册回去，规规矩矩的传递。不传递强行覆盖的后果是，在其之前注册过的日志收集服务写出的 Crash 日志就会因为取不到 NSException 而丢失 Last Exception Backtrace 等信息。（P.S. iOS 系统自带的 Crash Reporter 不受影响）</p>
+<p>如果同时有多方通过 NSSetUncaughtExceptionHandler 注册异常处理程序，和平的做法是：后注册者通过 NSGetUncaughtExceptionHandler 将先前别人注册的 handler 取出并备份，在自己 handler 处理完后自觉把别人的 handler 注册回去，规规矩矩的传递。不传递强行覆盖的后果是，在其之前注册过的日志收集服务写出的 Crash 日志就会因为取不到 NSException 而丢失 Last Exception Backtrace 等信息。（P.S. iOS 系统自带的 Crash Reporter 不受影响）</p>
 <p>详细代码请见<a href="https://github.com/kstenerud/KSCrash/blob/master/Source/KSCrash/Recording/Monitors/KSCrashMonitor_NSException.m" target="_blank" rel="noopener">KSCrashMonitor_NSException</a>，有一个<code>g_previousUncaughtExceptionHandler</code>属性。</p>
 <p>signal也是类似，详细代码请见<a href="https://github.com/kstenerud/KSCrash/blob/master/Source/KSCrash/Recording/Monitors/KSCrashMonitor_Signal.c" target="_blank" rel="noopener">KSCrashMonitor_Signal</a>，有一个<code>g_previousSignalHandlers</code>属性。</p>
 <h2 id="dSYM-文件"><a href="#dSYM-文件" class="headerlink" title="dSYM 文件"></a>dSYM 文件</h2><p><strong>DWARF</strong></p>
@@ -562,7 +562,7 @@
 <p> iOS 加载 Mach-O 文件时为了安全使用了 ASLR(Address Space Layout Randomization) 机制，导致二进制 Mach-O 文件每次加载到内存的首地址都会不一样，但是计算规则是一致的，如上图所示。</p>
 </blockquote>
 <h3 id="获取-dSYM-起始地址"><a href="#获取-dSYM-起始地址" class="headerlink" title="获取 dSYM 起始地址"></a>获取 dSYM 起始地址</h3><p><code>otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</code></p>
-<p>执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 0x0000000100000000，一般情况下都为这个值。</p>
+<p>执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 <code>0x0000000100000000</code>，一般情况下都为这个值。</p>
 <p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dSYM%E8%B5%B7%E5%A7%8B%E5%9C%B0%E5%9D%80.png" alt="dSYM起始地址"></p>
 <h3 id="计算崩溃地址对应-dSYM-符号表中的地址"><a href="#计算崩溃地址对应-dSYM-符号表中的地址" class="headerlink" title="计算崩溃地址对应 dSYM 符号表中的地址"></a>计算崩溃地址对应 dSYM 符号表中的地址</h3><ul>
 <li>dSYM 起止地址：0x0000000100000000，16 进制</li>
@@ -597,10 +597,13 @@
 <p><code>atos</code>方式在一般情况下还比较适用，但是一旦量级上来，其符号化速度便无法满足需要了。目前主流的线上 APM 大部分都是第四种方案，比如 Bugly 以及字节的 APM 等。本节先不做展开，后面章节单独介绍。</p>
 <h2 id="符号化相关工具"><a href="#符号化相关工具" class="headerlink" title="符号化相关工具"></a>符号化相关工具</h2><p>根据上面的符号化流程，我们用到了下列工具。</p>
 <h3 id="dwarfdump"><a href="#dwarfdump" class="headerlink" title="dwarfdump"></a>dwarfdump</h3><p>Crash Log 中会携带一个 UUID（由 32 个字符组成），位置位于<code>Binary Images</code>处，APP 二进制内部也会有一个 UUID，dSYM 也会有一个 UUID，三个对应起来才可以正常解析，否则会解析失败，所以当解析失败时应首先利用 dwarfdump 检查三者的 UUID 是否一致。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找指定地址的相关信息</span></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 校验DWARF的有效性</span></span><br><span class="line">dwarfdump --verify iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
 
 <p>如果设备上 dSYM 文件很多，可以通过下列命令查找指定 UUID 对应 dSYM 位置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> UUID改为实际的UUID，并且UUID需要格式转换（增加<span class="string">'-'</span>)</span></span><br><span class="line">mdfind "com_apple_xcode_dsym_uuids == UUID"</span><br></pre></td></tr></table></figure>
+
+<p>通过 symbols -uuid 来查看 dSYM 文件的 UUID;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">symbols -uuid iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
 
 <h3 id="symbolicatecrash"><a href="#symbolicatecrash" class="headerlink" title="symbolicatecrash"></a>symbolicatecrash</h3><p>Xcode 提供的 <code>symbolicatecrash</code>。该命令位于：<code>/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash</code>，是一个<code>perl</code>脚本，里面整合了逐步解析的操作（可以将命令拷贝出来，直接进行调用）。</p>
 <p>使用方式为</p>
@@ -708,7 +711,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/进阶/iOS 符号化简析/" title="iOS 符号化简析">https://coder-star.github.io/iOS/进阶/iOS 符号化简析/</a>
+    <a href="https://coder-star.github.io/iOS/进阶/iOS 符号化浅析/" title="iOS 符号化浅析">https://coder-star.github.io/iOS/进阶/iOS 符号化浅析/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
