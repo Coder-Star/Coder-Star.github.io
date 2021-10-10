@@ -91,15 +91,15 @@
 <meta name="description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta name="keywords" content="iOS,多线程,GCD">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 多线程-GCD">
+<meta property="og:title" content="iOS 多线程 -GCD">
 <meta property="og:url" content="https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png">
-<meta property="og:updated_time" content="2021-10-10T07:55:53.785Z">
+<meta property="og:updated_time" content="2021-10-10T08:26:07.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 多线程-GCD">
+<meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png">
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>iOS 多线程-GCD | CoderStar's Blog</title>
+  <title>iOS 多线程 -GCD | CoderStar's Blog</title>
   
 
 
@@ -323,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS 多线程-GCD</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 多线程 -GCD</h1>
         
 
         <div class="post-meta">
@@ -351,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-10T15:55:53+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-10T16:26:07+08:00">
                 2021-10-10
               </time>
             
@@ -492,11 +492,10 @@
 <blockquote>
 <p>其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。</p>
 </blockquote>
-<p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png" alt></p>
+<p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png" alt="GCD层次图"></p>
 <p><strong>qos 属性扩展</strong></p>
 <p>如果大家对上次的<a href="../iOS多线程-Thread">iOS多线程-Thread</a>还有印象的话，想必会对<code>Thread</code>的<code>qualityOfService</code>属性有点印象，其类型为<code>QualityOfService</code>；iOS 多线程另外一个比较关键的结构<code>Operation</code>也有一个一样的属性。</p>
 <p>至于 GCD，其类似属性便为<code>DispatchQoS</code>类型，其为一个 <code>struct</code>类型，不止队列有这个属性，任务也有这个属性，换句话说，其实这个属性主要是作用在任务上的，具体展开可见下文的<code>DispatchWorkItem</code>节。</p>
-<p>同事</p>
 <p>但是需要注意的是 global 队列创建的时候其 qos 参数类型为<code>DispatchQoS.QoSClass</code>，为<code>DispatchQoS</code>结构体下的一个<code>enum</code>类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。</p>
 <p>该类属性其实都表示服务质量等级，相关具体细节可查看<a href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1" target="_blank" rel="noopener">Prioritize Work with Quality of Service Classes</a></p>
 <h3 id="串行队列"><a href="#串行队列" class="headerlink" title="串行队列"></a>串行队列</h3><p>串行队列主要是保证队列中的任务按照加入顺序依次执行，也就说后加入的任务必须等到同队列前面的任务都执行完毕之后才会执行。串行队列执行任务时候不允许<strong>被当前队列中的任务</strong>阻塞（会发生死锁），但可以被其他队列任务阻塞。</p>
@@ -512,7 +511,7 @@
 <p>所以我们一般可以看到下列这样的代码，这段代码在<a href="https://github.com/onevcat/Kingfisher/blob/master/Sources/Utility/CallbackQueue.swift" target="_blank" rel="noopener">Kingfisher</a>中有相应使用。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DispatchQueue</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// 切换队列</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Parameter block: 代码块</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">safeAsync</span><span class="params">(<span class="number">_</span> block: @escaping <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span> === <span class="type">DispatchQueue</span>.main &amp;&amp; <span class="type">Thread</span>.isMainThread &#123;</span><br><span class="line">            block()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            async &#123; block() &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>咋一看，觉得这样写是不是没必要，其实不然，这样写有两个好处</p>
+<p>乍一看，觉得这样写是不是没必要，其实不然，这样写有两个好处</p>
 <ul>
 <li>避免某些情况下切换非主队列到主队列，造成不必要的切换队列的开销；</li>
 <li>同时避免切换队列造成的执行时序问题；</li>
@@ -640,14 +639,14 @@
 <blockquote>
 <p>双任务制可能表述不是很准确，这里就简单理解为网络请求发送为一个任务，网络请求接收为一个任务。</p>
 </blockquote>
-<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>上述任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量了。</p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>上述任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量（Semaphore）了。</p>
 <blockquote>
 <p>控制网络请求的执行顺序这种场景其实比较常见，也是面试比较常见的场景题，那除了信号量的解决方式之外，还可以利用 Operation 的任务依赖（不是简单的使用<code>BlockOperation</code>或者<code>InvocationOperation</code>）。</p>
 </blockquote>
-<p>其实信号量本质是控制最大并发数。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 并行队列</span></span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">DispatchQueue</span>(label: <span class="string">"label"</span>,attributes: [.concurrent])</span><br><span class="line"><span class="keyword">let</span> semaphore = <span class="type">DispatchSemaphore</span>(value: <span class="number">1</span>) <span class="comment">//设置数量为1的信号量，即限制正在运行的任务只有一个</span></span><br><span class="line"></span><br><span class="line">queue.async() &#123;</span><br><span class="line">    semaphore.wait()</span><br><span class="line"></span><br><span class="line">   <span class="comment">// 网络请求并获得回调</span></span><br><span class="line">   semaphore.signal()</span><br><span class="line">&#125;</span><br><span class="line">queue.async() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实信号量本质是控制最大并发数，但是可以利用其特性可以利用互斥锁的功能，如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> semaphore = <span class="type">DispatchSemaphore</span>(value: <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    semaphare.wait()</span><br><span class="line">    <span class="keyword">defer</span> &#123;</span><br><span class="line">     semaphare.signal()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>GCD 中还有一些知识点没有讲到，如<code>DispatchSource</code>、<code>DispatchIO</code>、<code>DispatchData</code>等，还有在定时器中的应用，后面会单独写关于 iOS 中定时器的方式。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>GCD 中还有一些知识点没有讲到，如<code>DispatchSource</code>、<code>DispatchIO</code>、<code>DispatchData</code>，以及在定时器中的应用等等，后面可能还会再写一个续篇。</p>
 <p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <p>参考资料</p>
@@ -711,7 +710,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/" title="iOS 多线程-GCD">https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/</a>
+    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/" title="iOS 多线程 -GCD">https://coder-star.github.io/iOS/多线程/iOS多线程-GCD/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
