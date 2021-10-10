@@ -28,7 +28,7 @@ GCD 全称是 `Grand Central Dispatch`，翻译过来就是大规模中央调度
 
 ### 构造函数
 
-下列为自定义队列的构造函数
+下列为队列的构造函数
 
 ```swift
 public convenience init(label: String,
@@ -73,7 +73,7 @@ public convenience init(label: String,
 - 初始化方法中，指定目标队列。
 - 初始化方法中，`attributes` 设定为`initiallyInactive`，然后在队列执行，`activate()` 之前可以指定目标队列。
 
-> 其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。
+> 其实利用这个属性，我们可以完成一些所谓的骚操作，比如将多个并行队列的异步任务手动变成同步执行。
 
 ![GCD层次图](../../../img/iOS/多线程/GCD.png)
 
@@ -99,7 +99,7 @@ let serialQueue = DispatchQueue(label: "com.star.serialQueue")
 
 ```swift
 // 并行队列创建
-let concurrentQueue = DispatchQueue(label: "com.star.concurrentQueue", attributes: .concurrent)
+let concurrentQueue = DispatchQueue(label: "com.star.concurrentQueue", attributes: [.concurrent])
 ```
 
 并行队列不需等待之前的任务执行完毕，任务并行执行。
@@ -188,6 +188,7 @@ let globalQueue = DispatchQueue.global(qos: .background) // 后台运行级别
 ```swift
 // 同步任务
 queue.sync {
+
 }
 ```
 
@@ -300,7 +301,7 @@ let task = DispatchWorkItem(flags: .barrier) {
 queue.async(execute: task)
 ```
 
-> **其实闭包方式只是 CGD 提供给开发者的一种便捷使用方式，其内部使用的还是`DispatchWorkItem`**。我们可以通过上面说的CGD源码看出一些端倪。[Queue.swift](https://github.com/apple/swift-corelibs-libdispatch/blob/main/src/swift/Queue.swift),253行-281行。 详情见下列代码及注释。
+> **其实闭包方式只是 CGD 提供给开发者的一种便捷使用方式，其内部使用的还是`DispatchWorkItem`**。我们可以通过上面说的CGD源码看出一些端倪。[Queue.swift](https://github.com/apple/swift-corelibs-libdispatch/blob/main/src/swift/Queue.swift)，253行-281行。 详情见下列代码及注释。
 
 ```swift
 public func async(
@@ -350,7 +351,8 @@ public init(qos: DispatchQoS = .unspecified,
 至于`flags`，其种类按照作用可以分为两组：
 
 - 执行情况
-  * barrier // 比较常用，不再解释
+  * barrier  
+  > 比较常用，不再解释
   * detached
   >表明 DispatchWorkItem 会无视当前执行上下文的参数 (QoS class, os_activity_t 和进程间通信请求参数)。
   如果直接执行 DispatchWorkItem，在复制这些属性给这个 block 前，block 在执行期间会移除在调用线程中的这些属性。
@@ -368,7 +370,7 @@ public init(qos: DispatchQoS = .unspecified,
   * inheritQoS // DispatchWorkItem 会采用队列的 QoS class，而不是当前的。
   * enforceQoS // DispatchWorkItem 会采用当前的 QoS class，而不是队列的。
 
-那`DispatchWorkItem`与普通闭包方式有哪些区别呢？其中比较大的区别是`DispatchWorkItem`因为是对象的原因会比常用的闭包方式多出一个操作方法来，如：
+那`DispatchWorkItem`与普通闭包方式有哪些区别呢？其中比较大的区别是`DispatchWorkItem`因为是对象的原因会比常用的闭包方式多出一些操作方法来，如：
 
 ```swift
 public func cancel()
@@ -380,7 +382,7 @@ public func notify(queue: DispatchQueue, execute: DispatchWorkItem)
 ...
 ```
 
-其中`cancel`方法可以让我们对加入到队列但是还未执行的任务进行取消，跟`Thread`有点类似。还有`notify`可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的`Opertion`中的依赖功能。
+比如`cancel`方法可以让我们对加入到队列但是还未执行的任务进行取消，跟`Thread`有点类似。还有`notify`可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的`Opertion`中的依赖功能。
 
 ## 任务组
 
