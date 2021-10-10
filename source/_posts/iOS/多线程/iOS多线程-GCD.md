@@ -1,5 +1,5 @@
 ---
-title: iOS 多线程-GCD
+title: iOS 多线程 -GCD
 category:
   - iOS
   - 多线程
@@ -75,15 +75,13 @@ public convenience init(label: String,
 
 > 其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。
 
-![](../../../img/iOS/多线程/GCD.png)
+![GCD层次图](../../../img/iOS/多线程/GCD.png)
 
 **qos 属性扩展**
 
 如果大家对上次的[iOS多线程-Thread](../iOS多线程-Thread)还有印象的话，想必会对`Thread`的`qualityOfService`属性有点印象，其类型为`QualityOfService`；iOS 多线程另外一个比较关键的结构`Operation`也有一个一样的属性。
 
 至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 `struct`类型，不止队列有这个属性，任务也有这个属性，换句话说，其实这个属性主要是作用在任务上的，具体展开可见下文的`DispatchWorkItem`节。
-
-同事
 
 但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。
 
@@ -133,7 +131,7 @@ extension DispatchQueue {
 }
 ```
 
-咋一看，觉得这样写是不是没必要，其实不然，这样写有两个好处
+乍一看，觉得这样写是不是没必要，其实不然，这样写有两个好处
 
 - 避免某些情况下切换非主队列到主队列，造成不必要的切换队列的开销；
 - 同时避免切换队列造成的执行时序问题；
@@ -426,31 +424,28 @@ queue.async {
 
 ## 信号量
 
-上述任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量了。
+上述任务组能保证几个网络请求全部完成之后再进行统一的操作，但是无法控制网络请求执行的顺序，如果需要控制网络请求执行的顺序（比如第二个网络请求的参数需要根据第一个网络请求返回值进行控制），我们就需要用到信号量（Semaphore）了。
 
 > 控制网络请求的执行顺序这种场景其实比较常见，也是面试比较常见的场景题，那除了信号量的解决方式之外，还可以利用 Operation 的任务依赖（不是简单的使用`BlockOperation`或者`InvocationOperation`）。
 
-其实信号量本质是控制最大并发数。
+其实信号量本质是控制最大并发数，但是可以利用其特性可以利用互斥锁的功能，如：
 
 ```swift
-// 并行队列
-let queue = DispatchQueue(label: "label",attributes: [.concurrent])
-let semaphore = DispatchSemaphore(value: 1) //设置数量为1的信号量，即限制正在运行的任务只有一个
+let semaphore = DispatchSemaphore(value: 1)
 
-queue.async() {
-    semaphore.wait()
+func doSomething() {
+    semaphare.wait()
+    defer {
+     semaphare.signal()
+    }
 
-   // 网络请求并获得回调
-   semaphore.signal()
-}
-queue.async() {
-
+    // doSomething
 }
 ```
 
 ## 最后
 
-GCD 中还有一些知识点没有讲到，如`DispatchSource`、`DispatchIO`、`DispatchData`等，还有在定时器中的应用，后面会单独写关于 iOS 中定时器的方式。
+GCD 中还有一些知识点没有讲到，如`DispatchSource`、`DispatchIO`、`DispatchData`，以及在定时器中的应用等等，后面可能还会再写一个续篇。
 
 要更加努力呀！
 
