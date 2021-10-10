@@ -1,5 +1,5 @@
 ---
-title: iOS 多线程 -Operation
+title: iOS 多线程-Operation
 category:
   - iOS
   - 多线程

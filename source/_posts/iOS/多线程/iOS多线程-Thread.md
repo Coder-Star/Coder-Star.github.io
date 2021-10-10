@@ -1,5 +1,5 @@
 ---
-title: iOS 多线程 -Thread
+title: iOS 多线程-Thread
 category:
   - iOS
   - 多线程

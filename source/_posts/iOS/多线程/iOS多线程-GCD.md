@@ -1,5 +1,5 @@
 ---
-title: iOS 多线程 -GCD
+title: iOS 多线程-GCD
 category:
   - iOS
   - 多线程
