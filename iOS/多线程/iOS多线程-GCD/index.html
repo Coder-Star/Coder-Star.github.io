@@ -97,7 +97,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png">
-<meta property="og:updated_time" content="2021-10-10T08:26:07.707Z">
+<meta property="og:updated_time" content="2021-10-10T08:36:34.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
@@ -351,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-10T16:26:07+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-10T16:36:34+08:00">
                 2021-10-10
               </time>
             
@@ -460,7 +460,7 @@
 <p>对开发者而言，面对的不再是上一篇文章<a href="../iOS多线程-Thread">iOS多线程-Thread</a>所描述的线程，CGD将线程概念模糊掉，开发者转而面对的是更上层的队列和任务，不再需要考虑线程的周期以及调度等等，这些交由GCD内部处理就好。</p>
 <p>本文对一些概念性的东西可能会一笔带过，主要介绍日常开发的一些经验。同时更多细节大家可以看苹果开源出来关于GCD的源码–<a href="https://github.com/apple/swift-corelibs-libdispatch" target="_blank" rel="noopener">swift-corelibs-libdispatch</a>，同时我们通过源码也能了解到GCD的底层API都是用<code>C</code>写的。</p>
 <h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>一般情况下我们可以将队列分为串行和并行两种，其中主队列是一种特殊的串行队列，全局队列是一组特殊的并行队列。</p>
-<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>下列为自定义队列的构造函数</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>下列为队列的构造函数</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(label: <span class="type">String</span>,</span><br><span class="line">                        qos: <span class="type">DispatchQoS</span> = .unspecified,</span><br><span class="line">                        attributes: <span class="type">DispatchQueue</span>.<span class="type">Attributes</span> = [],</span><br><span class="line">                        autoreleaseFrequency: <span class="type">DispatchQueue</span>.<span class="type">AutoreleaseFrequency</span> = .inherit,</span><br><span class="line">                        target: <span class="type">DispatchQueue?</span> = <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
 
 <p>介绍一下各个参数的作用：</p>
@@ -490,7 +490,7 @@
 <li>初始化方法中，<code>attributes</code> 设定为<code>initiallyInactive</code>，然后在队列执行，<code>activate()</code> 之前可以指定目标队列。</li>
 </ul>
 <blockquote>
-<p>其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。</p>
+<p>其实利用这个属性，我们可以完成一些所谓的骚操作，比如将多个并行队列的异步任务手动变成同步执行。</p>
 </blockquote>
 <p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png" alt="GCD层次图"></p>
 <p><strong>qos 属性扩展</strong></p>
@@ -501,7 +501,7 @@
 <h3 id="串行队列"><a href="#串行队列" class="headerlink" title="串行队列"></a>串行队列</h3><p>串行队列主要是保证队列中的任务按照加入顺序依次执行，也就说后加入的任务必须等到同队列前面的任务都执行完毕之后才会执行。串行队列执行任务时候不允许<strong>被当前队列中的任务</strong>阻塞（会发生死锁），但可以被其他队列任务阻塞。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"com.star.serialQueue"</span>)</span><br></pre></td></tr></table></figure>
 
-<h3 id="并行队列"><a href="#并行队列" class="headerlink" title="并行队列"></a>并行队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 并行队列创建</span></span><br><span class="line"><span class="keyword">let</span> concurrentQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"com.star.concurrentQueue"</span>, attributes: .concurrent)</span><br></pre></td></tr></table></figure>
+<h3 id="并行队列"><a href="#并行队列" class="headerlink" title="并行队列"></a>并行队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 并行队列创建</span></span><br><span class="line"><span class="keyword">let</span> concurrentQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"com.star.concurrentQueue"</span>, attributes: [.concurrent])</span><br></pre></td></tr></table></figure>
 
 <p>并行队列不需等待之前的任务执行完毕，任务并行执行。</p>
 <h3 id="主队列"><a href="#主队列" class="headerlink" title="主队列"></a>主队列</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mainQueue = <span class="type">DispatchQueue</span>.main</span><br></pre></td></tr></table></figure>
@@ -538,7 +538,7 @@
 </li>
 </ul>
 <h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>同步、异步是对任务的描述，不是对线程的描述。在 GCD 中，对开发者而言，任务才是关注的操作单位，上述的队列只是对任务进行管理和调度。</p>
-<h3 id="同步任务"><a href="#同步任务" class="headerlink" title="同步任务"></a>同步任务</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步任务</span></span><br><span class="line">queue.sync &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="同步任务"><a href="#同步任务" class="headerlink" title="同步任务"></a>同步任务</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步任务</span></span><br><span class="line">queue.sync &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>同步任务会阻塞当前线程，不会开辟线程；任务会直接在当前线程执行，任务完成后恢复线程原任务；</p>
 <p>使用同步任务在一些情况下会出现死锁情况，其表现为出现错误<code>EXC_BAD_INSTRUCTION</code>。</p>
@@ -578,7 +578,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> task = <span class="type">DispatchWorkItem</span>(flags: .barrier) &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line">queue.async(execute: task)</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p><strong>其实闭包方式只是 CGD 提供给开发者的一种便捷使用方式，其内部使用的还是<code>DispatchWorkItem</code></strong>。我们可以通过上面说的CGD源码看出一些端倪。<a href="https://github.com/apple/swift-corelibs-libdispatch/blob/main/src/swift/Queue.swift" target="_blank" rel="noopener">Queue.swift</a>,253行-281行。 详情见下列代码及注释。</p>
+<p><strong>其实闭包方式只是 CGD 提供给开发者的一种便捷使用方式，其内部使用的还是<code>DispatchWorkItem</code></strong>。我们可以通过上面说的CGD源码看出一些端倪。<a href="https://github.com/apple/swift-corelibs-libdispatch/blob/main/src/swift/Queue.swift" target="_blank" rel="noopener">Queue.swift</a>，253行-281行。 详情见下列代码及注释。</p>
 </blockquote>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">async</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	group: DispatchGroup? = <span class="literal">nil</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">	qos: DispatchQoS = .unspecified,</span></span></span><br><span class="line"><span class="function"><span class="params">	flags: DispatchWorkItemFlags = [],</span></span></span><br><span class="line"><span class="function"><span class="params">	execute work: @escaping @convention<span class="params">(block)</span></span></span> () -&gt; <span class="type">Void</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> group == <span class="literal">nil</span> &amp;&amp; qos == .unspecified &#123;</span><br><span class="line">		<span class="comment">// Fast-path route for the most common API usage</span></span><br><span class="line">		<span class="keyword">if</span> flags.isEmpty &#123;</span><br><span class="line">			<span class="type">CDispatch</span>.dispatch_async(<span class="keyword">self</span>.__wrapped, work)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> flags == .barrier &#123;</span><br><span class="line">			<span class="type">CDispatch</span>.dispatch_barrier_async(<span class="keyword">self</span>.__wrapped, work)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> block: <span class="meta">@convention</span>(block) () -&gt; <span class="type">Void</span> = work</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 对传入的参数进行包装，包装为DispatchWorkItem</span></span><br><span class="line">	<span class="keyword">if</span> #available(macOS <span class="number">10.10</span>, iOS <span class="number">8.0</span>, *), (qos != .unspecified || !flags.isEmpty) &#123;</span><br><span class="line">		<span class="keyword">let</span> workItem = <span class="type">DispatchWorkItem</span>(qos: qos, flags: flags, block: work)</span><br><span class="line">		block = workItem._block</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">let</span> g = group &#123;</span><br><span class="line">		<span class="type">CDispatch</span>.dispatch_group_async(g.__wrapped, <span class="keyword">self</span>.__wrapped, block)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="type">CDispatch</span>.dispatch_async(<span class="keyword">self</span>.__wrapped, block)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -590,7 +590,10 @@
 <ul>
 <li><p>执行情况</p>
 <ul>
-<li><p>barrier // 比较常用，不再解释</p>
+<li><p>barrier  </p>
+<blockquote>
+<p>比较常用，不再解释</p>
+</blockquote>
 </li>
 <li><p>detached</p>
 <blockquote>
@@ -614,10 +617,10 @@
 </ul>
 </li>
 </ul>
-<p>那<code>DispatchWorkItem</code>与普通闭包方式有哪些区别呢？其中比较大的区别是<code>DispatchWorkItem</code>因为是对象的原因会比常用的闭包方式多出一个操作方法来，如：</p>
+<p>那<code>DispatchWorkItem</code>与普通闭包方式有哪些区别呢？其中比较大的区别是<code>DispatchWorkItem</code>因为是对象的原因会比常用的闭包方式多出一些操作方法来，如：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">cancel</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">wait</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">notify</span><span class="params">(queue: DispatchQueue, execute: DispatchWorkItem)</span></span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-<p>其中<code>cancel</code>方法可以让我们对加入到队列但是还未执行的任务进行取消，跟<code>Thread</code>有点类似。还有<code>notify</code>可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的<code>Opertion</code>中的依赖功能。</p>
+<p>比如<code>cancel</code>方法可以让我们对加入到队列但是还未执行的任务进行取消，跟<code>Thread</code>有点类似。还有<code>notify</code>可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的<code>Opertion</code>中的依赖功能。</p>
 <h2 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h2><p>任务组的主要应用场景：当需要一组任务结束后再统一去执行一些操作；如等到几个没有顺序要求的网络请求成功之后再去统一刷新 UI。</p>
 <p>任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是<strong>入组任务数等于出组任务数</strong>。并且需要注意的是，<strong>任务组的单位是任务，与队列无关，换句话来说就是任务组是可以跨队列的</strong>。<br>任务组与队列需要关联来实现上述操作，关联方式包括两种：自动关联及手动关联；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queueGroup = <span class="type">DispatchGroup</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自动关联</span></span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">DispatchQueue</span>.global()</span><br><span class="line">queue.async(group: queueGroup) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动关联</span></span><br><span class="line">queueGroup.enter()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    queueGroup.leave()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
