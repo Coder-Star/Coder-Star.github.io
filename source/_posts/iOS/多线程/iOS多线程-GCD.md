@@ -18,11 +18,13 @@ Hi Coder，我是 CoderStar！
 
 GCD 全称是 `Grand Central Dispatch`，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。
 
-本文对一些概念性的东西可能会一笔带过，主要介绍日常开发的一些经验。
+对开发者而言，面对的不再是上一篇文章[iOS多线程-Thread](../iOS多线程-Thread)所描述的线程，CGD将线程概念模糊掉，开发者转而面对的是更上层的队列和任务，不再需要考虑线程的周期以及调度等等，这些交由GCD内部处理就好。
+
+本文对一些概念性的东西可能会一笔带过，主要介绍日常开发的一些经验。同时更多细节大家可以看苹果开源出来关于GCD的源码--[swift-corelibs-libdispatch](https://github.com/apple/swift-corelibs-libdispatch)，同时我们通过源码也能了解到GCD的底层API都是用`C`写的。
 
 ## 队列
 
-串行、并行是队列的属性；
+一般情况下我们可以将队列分为串行和并行两种，其中主队列是一种特殊的串行队列，全局队列是一组特殊的并行队列。
 
 ### 构造函数
 
@@ -49,16 +51,16 @@ public convenience init(label: String,
 **attributes**
 
 包含两个属性
-- concurrent：标识队列为并行队列
-- initiallyInactive：标识运行队列中的任务需要动手触发（未添加此标识时，向队列中添加任务会自动运行），触发时通过 `queue.activate()` 方法。
+- `concurrent`：标识队列为并行队列
+- `initiallyInactive`：标识运行队列中的任务需要动手触发（未添加此标识时，向队列中添加任务会自动运行），触发时通过 `queue.activate()` 方法。
 
 **autoreleaseFrequency**
 
 这个属性表示 `autorelease pool` 的自动释放频率， `autorelease pool` 管理着任务对象的内存周期。包含三个属性：
 
-* inherit：继承目标队列的该属性
-* workItem：跟随每个任务的执行周期进行自动创建和释放
-* never：不会自动创建 autorelease pool，需要手动管理。
+* `inherit`：继承目标队列的该属性
+* `workItem`：跟随每个任务的执行周期进行自动创建和释放
+* `never`：不会自动创建 autorelease pool，需要手动管理。
 
 一般任务采用 `.workItem` 属性就够了，特殊任务如在任务内部大量重复创建对象的操作可选择 `.never` 属性手动创建 `autorelease pool`。
 
@@ -73,12 +75,17 @@ public convenience init(label: String,
 
 > 其实利用这个属性，我们可以完成一些所谓的骚操作，比如将并行队列的异步任务手动变成同步执行。
 
+![](../../../img/iOS/多线程/GCD.png)
+
 **qos 属性扩展**
 
-如果大家对上次的[iOS多线程-Thread](../iOS多线程-Thread)还有印象的话，想必会对`Thread`的`qualityOfService`属性有点印象，其类型为`QualityOfService`;
-`Operation`也有一个一样的属性。
+如果大家对上次的[iOS多线程-Thread](../iOS多线程-Thread)还有印象的话，想必会对`Thread`的`qualityOfService`属性有点印象，其类型为`QualityOfService`；iOS 多线程另外一个比较关键的结构`Operation`也有一个一样的属性。
 
-至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 struct，但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。
+至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 `struct`类型，不止队列有这个属性，任务也有这个属性，换句话说，其实这个属性主要是作用在任务上的，具体展开可见下文的`DispatchWorkItem`节。
+
+同事
+
+但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。
 
 该类属性其实都表示服务质量等级，相关具体细节可查看[Prioritize Work with Quality of Service Classes](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1)
 
@@ -176,7 +183,7 @@ let globalQueue = DispatchQueue.global(qos: .background) // 后台运行级别
 
 ## 任务
 
-同步、异步是对任务的描述，不是对线程的描述。
+同步、异步是对任务的描述，不是对线程的描述。在 GCD 中，对开发者而言，任务才是关注的操作单位，上述的队列只是对任务进行管理和调度。
 
 ### 同步任务
 
@@ -255,7 +262,7 @@ queue.sync(execute: task)
 
 栅栏任务的主要特性是可以对队列中的任务进行阻隔，执行栅栏任务时，它会先等待队列中已有的任务全部执行完成，然后它再执行，在它之后加入的任务也必须等栅栏任务执行完后才能执行。栅栏函数需要放在并行队列中才能真正发挥其作用。
 
-**栅栏函数不能用在全局并发队列中，不起作用，作用会与普通的同步、异步任务相同。苹果官方也规定了不允许在全局并发队列中使用栅栏函数。**
+**栅栏函数不能用在全局并发队列中，即使加入不起作用，作用会与普通的同步、异步任务相同。苹果官方也规定了不允许在全局并发队列中使用栅栏函数。**
 
 其实这个很好理解，上文已经介绍过，自定义队列最终还是会指向全局队列或者主队列，所以如果栅栏函数对全局队列起作用，你品一下...
 
@@ -286,7 +293,96 @@ func write() {
 
 ## DispatchWorkItem
 
-我们一般往队列中加入任务是直接使用闭包，其实我们还有另外的选择，就是 DispatchWorkItem，即任务对象。
+我们一般往队列中加入任务是直接使用闭包，其实我们还有另外的选择，就是 `DispatchWorkItem`，即任务对象。比如上述的栅栏函数就有任务对象的写法。
+
+```swift
+let task = DispatchWorkItem(flags: .barrier) {
+    // do something
+}
+queue.async(execute: task)
+```
+
+> **其实闭包方式只是 CGD 提供给开发者的一种便捷使用方式，其内部使用的还是`DispatchWorkItem`**。我们可以通过上面说的CGD源码看出一些端倪。[Queue.swift](https://github.com/apple/swift-corelibs-libdispatch/blob/main/src/swift/Queue.swift),253行-281行。 详情见下列代码及注释。
+
+```swift
+public func async(
+	group: DispatchGroup? = nil,
+	qos: DispatchQoS = .unspecified,
+	flags: DispatchWorkItemFlags = [],
+	execute work: @escaping @convention(block) () -> Void)
+{
+	if group == nil && qos == .unspecified {
+		// Fast-path route for the most common API usage
+		if flags.isEmpty {
+			CDispatch.dispatch_async(self.__wrapped, work)
+			return
+		} else if flags == .barrier {
+			CDispatch.dispatch_barrier_async(self.__wrapped, work)
+			return
+		}
+	}
+
+	var block: @convention(block) () -> Void = work
+
+        // 对传入的参数进行包装，包装为DispatchWorkItem
+	if #available(macOS 10.10, iOS 8.0, *), (qos != .unspecified || !flags.isEmpty) {
+		let workItem = DispatchWorkItem(qos: qos, flags: flags, block: work)
+		block = workItem._block
+	}
+
+	if let g = group {
+		CDispatch.dispatch_group_async(g.__wrapped, self.__wrapped, block)
+	} else {
+		CDispatch.dispatch_async(self.__wrapped, block)
+	}
+}
+
+```
+
+其构造函数为
+
+```swift
+public init(qos: DispatchQoS = .unspecified,
+            flags: DispatchWorkItemFlags = [],
+            block: @escaping @convention(block) () -> Void)
+```
+
+其中`qos`我们在上文中队列部分已经看到了，那看到这里估计有同学会有疑问，那队列的`qos`和任务的`qos`之间是什么关系呢，这个需要大家去看下源码，看一下`_dispatch_continuation_init`这个函数，其内部会根据传入的参数组成一个最终的`qos`，传入的参数包括队列、任务以及上述构造函数中的`flags`。
+
+至于`flags`，其种类按照作用可以分为两组：
+
+- 执行情况
+  * barrier // 比较常用，不再解释
+  * detached
+  >表明 DispatchWorkItem 会无视当前执行上下文的参数 (QoS class, os_activity_t 和进程间通信请求参数)。
+  如果直接执行 DispatchWorkItem，在复制这些属性给这个 block 前，block 在执行期间会移除在调用线程中的这些属性。
+  如果 DispatchWorkItem 被添加到队列中，block 在执行时会采用队列的属性，或者赋值给 block 的属性。
+
+  * assignCurrentContext
+   >表明 DispatchWorkItem 在被创建时，应该被指定执行上下文参数。这些参数包括：QoS class, os_activity_t 和进程间通信请求参数。
+   如果 DispatchWorkItem 被直接调用，DispatchWorkItem 在调用的线程中将采用这些参数。
+   如果 DispatchWorkItem 被提交到队列中，这些参数会被提交时的执行上下文中的参数替代。
+   如果 QoS 类为 DISPATCH_BLOCK_NO_QOS_CLASS 或 dispatch_block_create_with_qos_class 生成的值，那么这个值会取代当前的值。
+
+---
+- QoS 覆盖信息
+  * noQoS // 不指定 QoS，由调用线程或队列来指定。
+  * inheritQoS // DispatchWorkItem 会采用队列的 QoS class，而不是当前的。
+  * enforceQoS // DispatchWorkItem 会采用当前的 QoS class，而不是队列的。
+
+那`DispatchWorkItem`与普通闭包方式有哪些区别呢？其中比较大的区别是`DispatchWorkItem`因为是对象的原因会比常用的闭包方式多出一个操作方法来，如：
+
+```swift
+public func cancel()
+
+public func wait()
+
+public func notify(queue: DispatchQueue, execute: DispatchWorkItem)
+
+...
+```
+
+其中`cancel`方法可以让我们对加入到队列但是还未执行的任务进行取消，跟`Thread`有点类似。还有`notify`可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的`Opertion`中的依赖功能。
 
 ## 任务组
 
@@ -351,8 +447,6 @@ queue.async() {
 
 }
 ```
-
-使用信号量
 
 ## 最后
 
