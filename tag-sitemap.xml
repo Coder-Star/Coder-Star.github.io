@@ -3,29 +3,36 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/GCD/</loc>
-        <lastmod>2021-10-10T07:54:14.854Z</lastmod>
+        <loc>https://coder-star.github.io/tags/Thread/</loc>
+        <lastmod>2021-10-10T07:55:58.931Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/多线程/</loc>
-        <lastmod>2021-10-10T07:54:14.854Z</lastmod>
+        <lastmod>2021-10-10T07:55:58.931Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-10-10T07:54:14.854Z</lastmod>
+        <lastmod>2021-10-10T07:55:58.931Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/Thread/</loc>
-        <lastmod>2021-10-07T07:21:22.538Z</lastmod>
+        <loc>https://coder-star.github.io/tags/GCD/</loc>
+        <lastmod>2021-10-10T07:55:53.785Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Operation/</loc>
+        <lastmod>2021-10-10T07:55:48.384Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -33,13 +40,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/符号化/</loc>
         <lastmod>2021-10-07T06:03:28.577Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Operation/</loc>
-        <lastmod>2021-09-27T12:22:17.878Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
