@@ -97,7 +97,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png">
-<meta property="og:updated_time" content="2021-10-11T05:38:47.110Z">
+<meta property="og:updated_time" content="2021-10-11T05:47:26.318Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
@@ -351,7 +351,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-11T13:38:47+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-11T13:47:26+08:00">
                 2021-10-11
               </time>
             
@@ -648,7 +648,7 @@
 <blockquote>
 <p>控制网络请求的执行顺序这种场景其实比较常见，也是面试比较常见的场景题，那除了信号量的解决方式之外，还可以利用 Operation 的任务依赖（不是简单的使用<code>BlockOperation</code>或者<code>InvocationOperation</code>）。</p>
 </blockquote>
-<p>其实信号量本质是控制最大并发数，但是可以利用其特性可以利用互斥锁的功能，如：</p>
+<p>其实信号量本质是控制最大并发数，但是可以利用其特性可以实现类似互斥锁的功能，如：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> semaphore = <span class="type">DispatchSemaphore</span>(value: <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    semaphare.wait()</span><br><span class="line">    <span class="keyword">defer</span> &#123;</span><br><span class="line">     semaphare.signal()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>GCD 中还有一些知识点没有讲到，如<code>DispatchSource</code>、<code>DispatchIO</code>、<code>DispatchData</code>，以及在定时器中的应用等等，后面可能还会再写一个续篇。</p>
