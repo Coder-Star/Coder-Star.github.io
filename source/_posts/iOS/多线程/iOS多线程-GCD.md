@@ -434,7 +434,7 @@ queue.async {
 
 > 控制网络请求的执行顺序这种场景其实比较常见，也是面试比较常见的场景题，那除了信号量的解决方式之外，还可以利用 Operation 的任务依赖（不是简单的使用`BlockOperation`或者`InvocationOperation`）。
 
-其实信号量本质是控制最大并发数，但是可以利用其特性可以利用互斥锁的功能，如：
+其实信号量本质是控制最大并发数，但是可以利用其特性可以实现类似互斥锁的功能，如：
 
 ```swift
 let semaphore = DispatchSemaphore(value: 1)
