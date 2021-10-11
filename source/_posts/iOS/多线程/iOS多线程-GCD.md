@@ -81,9 +81,13 @@ public convenience init(label: String,
 
 如果大家对上次的[iOS多线程-Thread](../iOS多线程-Thread)还有印象的话，想必会对`Thread`的`qualityOfService`属性有点印象，其类型为`QualityOfService`；iOS 多线程另外一个比较关键的结构`Operation`也有一个一样的属性。
 
-至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 `struct`类型，不止队列有这个属性，任务也有这个属性，换句话说，其实这个属性主要是作用在任务上的，具体展开可见下文的`DispatchWorkItem`节。
+至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 `struct`类型，不止队列有这个属性，任务也有这个属性，换句话说，其实这个属性主要是作用在任务上的，源码解析可见下文的`DispatchWorkItem`节。如果不想阅读源码，我们通过官方文档看下其定义描述也清楚，`The quality of service, or the execution priority, to apply to tasks.`，一个`tasks`概括了一切。
 
-但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，至于为什么没有统一起来，个人猜测应该是 OC 侧的历史原因，如果有清楚的同学，麻烦解惑一下。
+但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，那两者的区别是什么呢？
+
+个人猜测是这样的，不一定正确，有比较清楚的同学还望不吝赐教。
+
+`DispatchQoS.QoSClass`文档定义描述为`Quality-of-service classes that specify the priorities for executing tasks.`，表明为执行任务的优先级，这里是指真正调度任务管理者自身的优先级，也就是全局并行队列，我们也可以看到这个属性目前只应用在`global`队列上。`DispatchQoS.QoSClass`描述的是最终调度队列 -- 全局并行队列的优先级（对应到底层线程池也可能是具体线程的优先级），那`DispatchQoS`描述的是任务项的优先级。
 
 该类属性其实都表示服务质量等级，相关具体细节可查看[Prioritize Work with Quality of Service Classes](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1)
 
@@ -351,7 +355,7 @@ public init(qos: DispatchQoS = .unspecified,
 至于`flags`，其种类按照作用可以分为两组：
 
 - 执行情况
-  * barrier  
+  * barrier
   > 比较常用，不再解释
   * detached
   >表明 DispatchWorkItem 会无视当前执行上下文的参数 (QoS class, os_activity_t 和进程间通信请求参数)。
