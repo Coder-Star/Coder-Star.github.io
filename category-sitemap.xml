@@ -9,14 +9,21 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-        <lastmod>2021-10-11T05:47:26.318Z</lastmod>
+        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
+        <lastmod>2021-10-12T11:56:29.086Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/categories/iOS/</loc>
+        <lastmod>2021-10-12T11:56:29.086Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
         <lastmod>2021-10-11T05:47:26.318Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -32,13 +39,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E6%9D%82%E9%A1%B9/</loc>
         <lastmod>2021-09-27T12:19:35.252Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
-        <lastmod>2021-09-27T07:53:06.434Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
