@@ -1,5 +1,5 @@
 ---
-title: iOS 多线程-Operation
+title: iOS 多线程 -Operation
 category:
   - iOS
   - 多线程
@@ -13,6 +13,10 @@ date: 2021-01-26 23:29:20
 ## 前言
 
 Hi Coder，我是 CoderStar！
+
+## 原理
+
+## 
 
 Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强，
 
@@ -29,6 +33,8 @@ Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 
   - maxConcurrentOperationCount 大于 1 时，队列为并发队列。操作并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}。
 
 ![GCD-Operation](../../../img/iOS/多线程/GCD-Operation.png)
+
+[AsyncOperation](https://github.com/Coder-Star/LTXiOSUtils/blob/master/LTXiOSUtils/Classes/Util/AsyncOperation.swift)
 
 ## 最后
 

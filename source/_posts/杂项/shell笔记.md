@@ -39,3 +39,6 @@ unix与linux在执行sed指令时有些许区别，当使用sed -i 命令时，�
 ## curl命令
 
 
+## shell好用工具
+
+- jq：shell下处理json神器，mac安装命令 `brew install jq`
