@@ -16,6 +16,17 @@ $()与``都是用来做命令替换的，当需要获取命令返回的结果时
 
 $与${}都是用来获取变量内容的
 
+`$?` 来获取上条代码返回值，一般退出状态非0表示执行出错
+
+```
+-eq //equals等于
+-ne //no equals不等于
+-gt //greater than 大于
+-lt //less than小于
+-ge //greater equals大于等于
+-le //less equals小于等于
+```
+
 
 ## 代码段
 

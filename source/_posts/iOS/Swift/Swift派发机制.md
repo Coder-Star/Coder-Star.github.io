@@ -50,9 +50,10 @@ OC 消息派发过程在这不展开说，后续有博文专门说这个。
 分析SIL文件，我们可以分析出Swift中派发方式的规律，关于SIL相关知识，可以参照该文[iOS编译简析](../../进阶/iOS编译简析)，本文只给出关键命令 `swiftc main.swift -emit-sil | xcrun swift-demangle > main.sil` 。
 
 派发方式与 SIL 文件中关键指令对应关系
-* sil_witness_table/sil_vtable：函数表派发
-* objc_method：消息机制派发
-* 不在上述范围内的属于直接派发；
+
+直接派发：`function_ref`关键字（`sil_vtable`下不包含该方法）；
+函数表派发： `class_method`关键字（`sil_vtable`也会包含该方法）；
+消息机制派发：`objc_method`关键字（sil 中还会体现）
 
 Swift 语言支持三种派发方式。采用何种方式跟以下四种因素相关：
 
