@@ -91,6 +91,16 @@ public convenience init(label: String,
 
 该类属性其实都表示服务质量等级，相关具体细节可查看[Prioritize Work with Quality of Service Classes](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1)
 
+
+### 方法、属性
+
+```swift
+// 队列挂起
+public func suspend()
+// 队列恢复
+public func resume()
+```
+
 ### 串行队列
 
 串行队列主要是保证队列中的任务按照加入顺序依次执行，也就说后加入的任务必须等到同队列前面的任务都执行完毕之后才会执行。串行队列执行任务时候不允许**被当前队列中的任务**阻塞（会发生死锁），但可以被其他队列任务阻塞。
@@ -377,6 +387,9 @@ public init(qos: DispatchQoS = .unspecified,
 那`DispatchWorkItem`与普通闭包方式有哪些区别呢？其中比较大的区别是`DispatchWorkItem`因为是对象的原因会比常用的闭包方式多出一些操作方法来，如：
 
 ```swift
+// 在当前队列中执行当前DispatchWorkItem任务
+public func perform()
+
 public func cancel()
 
 public func wait()
@@ -386,7 +399,7 @@ public func notify(queue: DispatchQueue, execute: DispatchWorkItem)
 ...
 ```
 
-比如`cancel`方法可以让我们对加入到队列但是还未执行的任务进行取消，跟`Thread`有点类似。还有`notify`可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的`Opertion`中的依赖功能。
+**比如`cancel`方法可以让我们对加入到队列但是还未执行的任务进行取消，但是无法取消已经在执行中的任务，跟`Thread`有点类似**。还有`notify`可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的`Opertion`中的依赖功能。
 
 ## 任务组
 

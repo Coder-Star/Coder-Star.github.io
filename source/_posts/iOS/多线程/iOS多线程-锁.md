@@ -172,3 +172,6 @@ pthread_mutex_unlock(&lock);
 - 死锁预防 ----- 确保系统永远不会进入死锁状态
 - 避免死锁 ----- 在使用前进行判断，只允许不会产生死锁的进程申请资源
 - 死锁检测与解除 ----- 在检测到运行系统进入死锁，进行恢复
+
+
+- [Threading Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Introduction/Introduction.html#//apple_ref/doc/uid/10000057i)
