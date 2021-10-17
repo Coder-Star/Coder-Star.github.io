@@ -97,7 +97,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没用过这个设计模式的。 单例模式 保证了只有一个对象实例的存在 优点：  节约系统资源 保证对实例对象访问的唯一入口  缺点  不能被继承，不能有子类 不易被重写，扩展性差； 单例对象只要程序运行就会一直占用系统内存，闲置时也会消耗系统内存资源  应用场景  当某项服务暴">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/SingletonUML.png">
-<meta property="og:updated_time" content="2021-10-13T12:42:41.837Z">
+<meta property="og:updated_time" content="2021-10-15T13:40:05.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没用过这个设计模式的。 单例模式 保证了只有一个对象实例的存在 优点：  节约系统资源 保证对实例对象访问的唯一入口  缺点  不能被继承，不能有子类 不易被重写，扩展性差； 单例对象只要程序运行就会一直占用系统内存，闲置时也会消耗系统内存资源  应用场景  当某项服务暴">
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-13T20:42:41+08:00">
-                2021-10-13
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-15T21:40:05+08:00">
+                2021-10-15
               </time>
             
           </span>
@@ -406,7 +406,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  308 字
+                  333 字
                 </span>
               
 
@@ -471,6 +471,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 构造方法必须私有化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Swift中，let本身就线程安全</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">Singleton</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>单例模式与静态属性之间的区别？</p>
+<p>为什么要讨论这个问题呢？因为在我最开始写代码的时候就</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 

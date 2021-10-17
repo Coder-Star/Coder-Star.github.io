@@ -88,20 +88,18 @@
 
 
 
-<meta name="description" content="前言Hi Coder，我是 CoderStar！ 原理##  Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 Ope">
+<meta name="description" content="前言Hi Coder，我是 CoderStar！ 我们之前已经讲过 iOS多线程-Thread 以及 iOS多线程-GCD，我们今天来聊一聊iOS多线程中最后一种比较常用的方式–Operation。 概览对于 Operation 而言，其相关的类比 GCD 要少的多。Operation本身是一个抽象类，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 –Bl">
 <meta name="keywords" content="iOS,多线程,Operation">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS 多线程 -Operation">
+<meta property="og:title" content="iOS 多线程 - Operation">
 <meta property="og:url" content="https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 原理##  Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 Ope">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 我们之前已经讲过 iOS多线程-Thread 以及 iOS多线程-GCD，我们今天来聊一聊iOS多线程中最后一种比较常用的方式–Operation。 概览对于 Operation 而言，其相关的类比 GCD 要少的多。Operation本身是一个抽象类，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 –Bl">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD-Operation.png">
-<meta property="og:updated_time" content="2021-10-13T12:36:37.136Z">
+<meta property="og:updated_time" content="2021-10-17T12:19:56.692Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS 多线程 -Operation">
-<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 原理##  Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强， 相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的 子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 Ope">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD-Operation.png">
+<meta name="twitter:title" content="iOS 多线程 - Operation">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 我们之前已经讲过 iOS多线程-Thread 以及 iOS多线程-GCD，我们今天来聊一聊iOS多线程中最后一种比较常用的方式–Operation。 概览对于 Operation 而言，其相关的类比 GCD 要少的多。Operation本身是一个抽象类，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 –Bl">
 
 
 
@@ -137,7 +135,7 @@
 
 
 
-  <title>iOS 多线程 -Operation | CoderStar's Blog</title>
+  <title>iOS 多线程 - Operation | CoderStar's Blog</title>
   
 
 
@@ -323,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iOS 多线程 -Operation</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 多线程 - Operation</h1>
         
 
         <div class="post-meta">
@@ -351,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-13T20:36:37+08:00">
-                2021-10-13
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-17T20:19:56+08:00">
+                2021-10-17
               </time>
             
           </span>
@@ -417,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  241 字
+                  2k 字
                 </span>
               
 
@@ -433,7 +431,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1 分钟
+                  7 分钟
                 </span>
               
             </div>
@@ -455,24 +453,79 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>## </p>
-<p>Operation 是苹果基于 GCD 封装的，面向对象使用；可控性比 GCD 要强，</p>
-<p>相关的类有 Operation 和 OperationQueue。其中 Operation 是个抽象类，使用它必须用它的子类，可以实现它或者使用它定义好的</p>
-<p>子类：BlockOperation。创建 Operation 子类的对象，把对象添加到 OperationQueue 队列里执行。</p>
-<p>相对 GCD 的优点：</p>
+<p>我们之前已经讲过 <a href="../iOS多线程-Thread">iOS多线程-Thread</a> 以及 <a href="../iOS多线程-GCD">iOS多线程-GCD</a>，我们今天来聊一聊iOS多线程中最后一种比较常用的方式–<code>Operation</code>。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>对于 Operation 而言，其相关的类比 GCD 要少的多。<code>Operation</code>本身是一个<code>抽象类</code>，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 –<code>BlockOperation</code>。（在 OC 中，还有一个是<code>NSInvocationOperation</code>，但在 Swift 中，该子类已经在 Swift4 里去掉，想必去掉的原因大家也很容易理解，因为 Swift 语言本身就不推荐 <code>selector</code> 这种形式）。</p>
+<p><code>Operation</code> 底层建立在<code>GCD</code>之上，是更高一级的抽象，使我们可以面向对象（Cocoa 对象）的方式进行多线程编程。</p>
+<blockquote>
+<p>其实 <code>NSOpertion</code> 是先于<code>GCD</code>引进的，在当时，<code>NSOperationQueue</code> 接收 <code>NSOperation</code> 对象并创建一个线程，并在对应线程上运行 <code>main</code>方法 ，运行完成之后再杀死该线程。那这种方式相对于后面出现的<code>GCD</code>底层的线程池而言，效率就很低，所以在 Mac OS 10.5 以及 iOS 2 开始便对<code>NSOpertion</code>底层在基于<code>GCD</code>的基础上进行完全重写，利用<code>GCD</code>的相关特性提高性能并提供了一些新功能。如果想简单佐证下，可以看到<code>OperationQueue</code>拥有一个<code>unowned(unsafe) open var underlyingQueue: DispatchQueue?</code>属性。</p>
+</blockquote>
+<h2 id="属性-amp-方法"><a href="#属性-amp-方法" class="headerlink" title="属性 &amp; 方法"></a>属性 &amp; 方法</h2><p>先罗列一下<code>Operation</code>及<code>OperationQueue</code>主要的属性及方法。</p>
+<blockquote>
+<p>注释会有相应说明。</p>
+</blockquote>
+<h3 id="Operation"><a href="#Operation" class="headerlink" title="Operation"></a>Operation</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Operation</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - 属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 下列几个属性为Operation的状态，只读属性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isReady: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isExecuting: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isCancelled: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isFinished: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 该属性已经被下列isAsynchronous属性替代</span></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isConcurrent: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 用来标识当前操作是否为异步</span></span><br><span class="line"><span class="comment">/// 需要注意该属性是当直接调用start方法时才会生效，但添加Operation到OperationQueue，队列将忽略该属性的值</span></span><br><span class="line"><span class="comment">/// 默认值为false</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">7.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> isAsynchronous: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 操作优先级</span></span><br><span class="line"><span class="comment">/// 当队列中operation很多时，我们可以通过设置该属性来调整Operation在 同一队列中 的优先级，同时这个前提是Operation都是处于readey状态</span></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> queuePriority: <span class="type">Operation</span>.<span class="type">QueuePriority</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 该属性与Thread所拥有的服务质量等级属性一致</span></span><br><span class="line"><span class="comment">/// 主要用来描述任务在进程中整体的优先级</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">8.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> qualityOfService: <span class="type">QualityOfService</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 任务完成后的回调方法</span></span><br><span class="line"><span class="comment">/// 当isFinished属性设置为YES时才会执行该回调</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">4.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> completionBlock: (() -&gt; <span class="type">Void</span>)?</span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - 方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 启动</span></span><br><span class="line"><span class="comment">/// 并发Operation时需要重写该方法</span></span><br><span class="line"><span class="comment">/// 可以不把operation加入到队列中，手动触发执行，与调用普通方法一样</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">start</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 非并发Operation需要重写该方法</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 取消操作</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">cancel</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 添加依赖</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addDependency</span><span class="params">(<span class="number">_</span> op: Operation)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 移除依赖</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">removeDependency</span><span class="params">(<span class="number">_</span> op: Operation)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>对<code>Operation</code>几个属性、方法再进行详细的说明：</p>
+<p><code>cancel</code>方法<br>如果这个操作正在执行，调用 cancel() 只会将状态 <code>isCanceled</code> 置为 true，但不会影响操作的继续执行。<br>如果操作还没执行，调用 cancel() 会将状态 <code>isCanceled</code> 和 <code>isReady</code> 置为 true, 如果执行取消后的操作，会直接将状态 <code>isFinished</code> 置为 true 而不会执行操作。也会触发<code>completionBlock</code>方法。</p>
+<p><code>addDependency</code>方法</p>
 <ul>
-<li>可以对操作之前进行依赖；</li>
-<li>最大并发操作数<code>maxConcurrentOperationCount</code>；<ul>
-<li>maxConcurrentOperationCount 默认情况下为 -1，表示不进行限制，可进行并发执行。</li>
-<li>maxConcurrentOperationCount 为 1 时，队列为串行队列。只能串行执行。</li>
-<li>maxConcurrentOperationCount 大于 1 时，队列为并发队列。操作并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}。</li>
+<li>需要注意在设置时不要设置成循环依赖，比如 A 依赖 B、B 又依赖 A，这样会形成死锁，导致谁也不会执行。</li>
+<li>可以跨操作队列设置依赖。</li>
+<li>当给某个 Operation 添加依赖的 Operation 后，只有其所依赖的所有 Operation 都执行完毕，当前的 Operation 才能开始执行。不管依赖的 Operation 是执行成功了还是失败了，或者是取消了，都认为是执行完毕了。</li>
 </ul>
+<p><strong>OperationQueue</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Operation</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - 属性</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 最大并发操作数，也就是该队列中最多允许几个Operation在同时运行</span></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> maxConcurrentOperationCount: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - 方法</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 取消所有操作</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">cancelAllOperations</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 调用该方法会阻塞当前线程，等待所有任务完成之后才会执行后续逻辑</span></span><br><span class="line"><span class="comment">/// 和 DispatchGroup 一定条件下是类似的</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">waitUntilAllOperationsAreFinished</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 添加 Operation</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addOperation</span><span class="params">(<span class="number">_</span> op: Operation)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 闭包形式添加 Operation</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">4.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addOperation</span><span class="params">(<span class="number">_</span> block: @escaping <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 类似 GCD 的栅栏函数</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">13.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">addBarrierBlock</span><span class="params">(<span class="number">_</span> barrier: @escaping <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>)</span><br></pre></td></tr></table></figure>
+
+<p>对<code>OperationQueue</code>几个属性、方法再进行详细的说明：</p>
+<p><code>maxConcurrentOperationCount</code>属性</p>
+<ul>
+<li>maxConcurrentOperationCount 如果不设置值时，默认值会取<code>defaultMaxConcurrentOperationCount</code>，也就是 -1，此时默认最大操作数由 <code>OperationQueue</code> 对象根据当前系统条件（系统内存与 CPU）动态确定。</li>
+<li>maxConcurrentOperationCount 为 0 时，队列中的 Operation 不会执行。</li>
+<li>maxConcurrentOperationCount 为 1 时，队列串行执行。</li>
+<li>maxConcurrentOperationCount 大于 1 时，队列并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}，系统默认限制应该是 64。</li>
+</ul>
+<blockquote>
+<p>需要注意，因为有<code>queuePriority</code>的存在，同一个 Queue 的 Operation 之间有优先级，所以先进入 Queue 的 Operation 不一定先运行，所以当<code>maxConcurrentOperationCount</code>设置为 1 时并不是一个真正意义上的串行队列，优先级较高后加入的 Operation 有可能会先执行。</p>
+</blockquote>
+<blockquote>
+<p>64 这个值在 GCD 下应该也是默认最大线程数，但是可以调整目标队列的优先级进行调整。这里涉及到一个线程爆炸的概念，后面可能还会出一篇文章写这些东西。</p>
+</blockquote>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>对于一般的任务，我们可以直接使用<code>BlockOperation</code>。使用示例如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> operation = <span class="type">BlockOperation</span> &#123;</span><br><span class="line">  <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">OperationQueue</span>()</span><br><span class="line">queue.addOperation(operation)</span><br></pre></td></tr></table></figure>
+
+<p>但是很多时候，我们需要继承<code>Operation</code>进行一些自定义操作。</p>
+<h2 id="GCD-VS-Operation"><a href="#GCD-VS-Operation" class="headerlink" title="GCD VS Operation"></a>GCD VS Operation</h2><p>使用 GCD 还是使用 Operation 这个问题其实在社区已经争论了很久，从斯坦福大学的 CS193p 课程推荐使用 GCD，到 WWDC 2012 时演讲者推荐使用<code>Operation</code>，也能看出开发者对该问题的看法不一致，该节我们主要来聊一聊两者各自优势以及差别。</p>
+<blockquote>
+<p>目前网络上的很多文章都是基于没有<code>DispatchWorkItem</code>对象前提下对 GCD 和<code>Operation</code>做的对比，大家阅读时需要注意一下。</p>
+</blockquote>
+<p>1、从两者所在层次来讲：GCD 底层是 C 语言的 API，而 Operation 是 GCD 基础上更高层次的抽象，那 GCD 相对 Operation 来说肯定是又快又轻的；</p>
+<p>但是反过来来说因为 Operation 是更高层次的抽象，按照一般的经验法则来看，<strong>我们应首先使用最高级别的 API，然后在根据需要完成内容进行降级</strong>。从这一角度来看，使用 Operation 抽象度更高，更符合面向对象的思想，也有利于底层的无痕变更。</p>
+<p>2、从两者提供的 API 来讲：其实 GCD 和 Operation 两者之间是很相似的，特别是当<code>DispatchWorkItem</code>对象（@available(macOS 10.10, iOS 8.0, *)）出来之后，从一定意义上讲，<code>DispatchWorkItem</code>可以类比到<code>Operation</code>对象，<code>DispatchQueue</code>可以类比到<code>OperationQueue</code>对象。比如<code>DispatchWorkItem</code>和<code>Operation</code>对象都可以进行<code>cancel</code>等操作，<code>DispatchQueue</code>、<code>OperationQueue</code>对象都可以添加任务或操作（对象以及闭包两种形式），栅栏函数，进行挂起以及恢复（前者是两个对应方法，后者是一个属性）等。但两者还是有一些区别的，比如：</p>
+<ul>
+<li><code>OperationQueue</code>可以设置并发操作的最大数量<code>maxConcurrentOperationCount</code>。<blockquote>
+<p>在一定条件下可以类比到 GCD 的信号量</p>
+</blockquote>
 </li>
+<li>在不同的任务之间建立依赖关系<code>addOperation</code>；<blockquote>
+<p>在一定条件下可以类比到 GCD 的 <code>DispatchWorkItem</code>的<code>public func notify(queue: DispatchQueue, execute: DispatchWorkItem)</code> 方法</p>
+</blockquote>
+</li>
+<li><code>OperationQueue</code>可以取消队列中的所有操作。</li>
+<li>…</li>
 </ul>
-<p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD-Operation.png" alt="GCD-Operation"></p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>应用：Alamofire 中使用 SDWebImage</p>
 <p><a href="https://github.com/Coder-Star/LTXiOSUtils/blob/master/LTXiOSUtils/Classes/Util/AsyncOperation.swift" target="_blank" rel="noopener">AsyncOperation</a></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
+<p>推荐学习资料</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/10373331/nsoperation-vs-grand-central-dispatch/10375616#10375616" target="_blank" rel="noopener">NSOperation vs Grand Central Dispatch</a></li>
+<li><a href="https://cocoasamurai.blogspot.com/2009/09/guide-to-blocks-grand-central-dispatch.html" target="_blank" rel="noopener">guide-to-blocks-grand-central-dispatch</a></li>
+<li><a href="http://eschatologist.net/blog/?p=232" target="_blank" rel="noopener">When to use NSOperation vs. GCD</a></li>
+<li><a href="https://www.raywenderlich.com/5293-operation-and-operationqueue-tutorial-in-swift" target="_blank" rel="noopener">Operation and OperationQueue Tutorial in Swift</a></li>
+<li><a href="https://developer.apple.com/documentation/foundation/operation" target="_blank" rel="noopener">operation</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2015/226/" target="_blank" rel="noopener">Advanced NSOperations</a></li>
+</ul>
 
       
     </div>
@@ -530,7 +583,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/" title="iOS 多线程 -Operation">https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/</a>
+    <a href="https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/" title="iOS 多线程 - Operation">https://coder-star.github.io/iOS/多线程/iOS多线程-Operation/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -746,7 +799,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性-amp-方法"><span class="nav-text">属性 &amp; 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Operation"><span class="nav-text">Operation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GCD-VS-Operation"><span class="nav-text">GCD VS Operation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-text">应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>

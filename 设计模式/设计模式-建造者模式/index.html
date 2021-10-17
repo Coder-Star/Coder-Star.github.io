@@ -88,18 +88,18 @@
 
 
 
-<meta name="description" content="2、建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta name="description" content="建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 建造者模式其实在java中非常常用。 123456789101112131415161718192021222324252627282930313233343">
 <meta name="keywords" content="标签1,标签2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式-建造者模式">
 <meta property="og:url" content="https://coder-star.github.io/设计模式/设计模式-建造者模式/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="2、建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta property="og:description" content="建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 建造者模式其实在java中非常常用。 123456789101112131415161718192021222324252627282930313233343">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-09-23T14:32:35.417Z">
+<meta property="og:updated_time" content="2021-10-16T07:22:44.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式-建造者模式">
-<meta name="twitter:description" content="2、建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 12345678910111213141516171819202122232425262728293031323334353637383940414243">
+<meta name="twitter:description" content="建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 建造者模式其实在java中非常常用。 123456789101112131415161718192021222324252627282930313233343">
 
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-23T22:32:35+08:00">
-                2021-09-23
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-16T15:22:44+08:00">
+                2021-10-16
               </time>
             
           </span>
@@ -415,7 +415,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  262 字
+                  275 字
                 </span>
               
 
@@ -452,9 +452,10 @@
       
 
       
-        <h3 id="2、建造者模式"><a href="#2、建造者模式" class="headerlink" title="2、建造者模式"></a><strong>2、建造者模式</strong></h3><p>应用场景：</p>
+        <h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><p>应用场景：</p>
 <p>当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。</p>
 <p>代码示例<br>在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate</p>
+<p>建造者模式其实在java中非常常用。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> user = <span class="type">LoginUserBuilder</span>(loginName: <span class="string">"loginName"</span>, password: <span class="string">"password"</span>)</span><br><span class="line">            .setAge(age: <span class="string">"18"</span>)</span><br><span class="line">            .setSex(age: <span class="string">"男"</span>)</span><br><span class="line">            .build()</span><br><span class="line">        <span class="built_in">print</span>(user)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginUser</span>: <span class="title">CustomStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 登录名 必填</span></span><br><span class="line">    <span class="keyword">var</span> loginName: <span class="type">String</span></span><br><span class="line">    <span class="comment">/// 密码 必填</span></span><br><span class="line">    <span class="keyword">var</span> password: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 年龄 不必填</span></span><br><span class="line">    <span class="keyword">var</span> age = <span class="string">""</span></span><br><span class="line">    <span class="comment">/// 性别 不必填</span></span><br><span class="line">    <span class="keyword">var</span> sex = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">fileprivate</span> <span class="keyword">init</span>(builder: <span class="type">LoginUserBuilder</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.loginName = builder.loginName</span><br><span class="line">        <span class="keyword">self</span>.password = builder.password</span><br><span class="line">        <span class="keyword">self</span>.age = builder.age</span><br><span class="line">        <span class="keyword">self</span>.sex = builder.sex</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"\(loginName) + \(password) + \(age) + \(sex)"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginUserBuilder</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 登录名 必填</span></span><br><span class="line">    <span class="keyword">var</span> loginName: <span class="type">String</span></span><br><span class="line">    <span class="comment">/// 密码 必填</span></span><br><span class="line">    <span class="keyword">var</span> password: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 年龄 不必填</span></span><br><span class="line">    <span class="keyword">var</span> age = <span class="string">""</span></span><br><span class="line">    <span class="comment">/// 性别 不必填</span></span><br><span class="line">    <span class="keyword">var</span> sex = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(loginName: <span class="type">String</span>, password: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.loginName = loginName</span><br><span class="line">        <span class="keyword">self</span>.password = password</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">setAge</span><span class="params">(age: String)</span></span> -&gt; <span class="type">LoginUserBuilder</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.age = age</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">setSex</span><span class="params">(age: String)</span></span> -&gt; <span class="type">LoginUserBuilder</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.sex = age</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">build</span><span class="params">()</span></span> -&gt; <span class="type">LoginUser</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">LoginUser</span>(builder: <span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -728,7 +729,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2、建造者模式"><span class="nav-text">2、建造者模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建造者模式"><span class="nav-text">建造者模式</span></a></li></ol></div>
             
 
           </div>

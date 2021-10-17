@@ -97,7 +97,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/GCD.png">
-<meta property="og:updated_time" content="2021-10-11T05:47:26.318Z">
+<meta property="og:updated_time" content="2021-10-16T09:43:10.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 – GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
@@ -351,8 +351,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-10-11T13:47:26+08:00">
-                2021-10-11
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-16T17:43:10+08:00">
+                2021-10-16
               </time>
             
           </span>
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4.5k 字
+                  4.6k 字
                 </span>
               
 
@@ -433,7 +433,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  16 分钟
+                  17 分钟
                 </span>
               
             </div>
@@ -500,6 +500,8 @@
 <p>个人猜测是这样的，不一定正确，有比较清楚的同学还望不吝赐教。</p>
 <p><code>DispatchQoS.QoSClass</code>文档定义描述为<code>Quality-of-service classes that specify the priorities for executing tasks.</code>，表明为执行任务的优先级，这里是指真正调度任务管理者自身的优先级，也就是全局并行队列，我们也可以看到这个属性目前只应用在<code>global</code>队列上。<code>DispatchQoS.QoSClass</code>描述的是最终调度队列 – 全局并行队列的优先级（对应到底层线程池也可能是具体线程的优先级），那<code>DispatchQoS</code>描述的是任务项的优先级。</p>
 <p>该类属性其实都表示服务质量等级，相关具体细节可查看<a href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1" target="_blank" rel="noopener">Prioritize Work with Quality of Service Classes</a></p>
+<h3 id="方法、属性"><a href="#方法、属性" class="headerlink" title="方法、属性"></a>方法、属性</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 队列挂起</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">suspend</span><span class="params">()</span></span></span><br><span class="line"><span class="comment">// 队列恢复</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">resume</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
 <h3 id="串行队列"><a href="#串行队列" class="headerlink" title="串行队列"></a>串行队列</h3><p>串行队列主要是保证队列中的任务按照加入顺序依次执行，也就说后加入的任务必须等到同队列前面的任务都执行完毕之后才会执行。串行队列执行任务时候不允许<strong>被当前队列中的任务</strong>阻塞（会发生死锁），但可以被其他队列任务阻塞。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serialQueue = <span class="type">DispatchQueue</span>(label: <span class="string">"com.star.serialQueue"</span>)</span><br></pre></td></tr></table></figure>
 
@@ -620,9 +622,9 @@
 </li>
 </ul>
 <p>那<code>DispatchWorkItem</code>与普通闭包方式有哪些区别呢？其中比较大的区别是<code>DispatchWorkItem</code>因为是对象的原因会比常用的闭包方式多出一些操作方法来，如：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">cancel</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">wait</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">notify</span><span class="params">(queue: DispatchQueue, execute: DispatchWorkItem)</span></span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在当前队列中执行当前DispatchWorkItem任务</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">perform</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">cancel</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">wait</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">notify</span><span class="params">(queue: DispatchQueue, execute: DispatchWorkItem)</span></span></span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
-<p>比如<code>cancel</code>方法可以让我们对加入到队列但是还未执行的任务进行取消，跟<code>Thread</code>有点类似。还有<code>notify</code>可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的<code>Opertion</code>中的依赖功能。</p>
+<p><strong>比如<code>cancel</code>方法可以让我们对加入到队列但是还未执行的任务进行取消，但是无法取消已经在执行中的任务，跟<code>Thread</code>有点类似</strong>。还有<code>notify</code>可以等待一个任务完成之后再开始其他任务，可以实现类似后面要介绍的<code>Opertion</code>中的依赖功能。</p>
 <h2 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h2><p>任务组的主要应用场景：当需要一组任务结束后再统一去执行一些操作；如等到几个没有顺序要求的网络请求成功之后再去统一刷新 UI。</p>
 <p>任务组（DispatchGroup）主要职责：当队列中所有任务都执行完毕之后，会发出一个通知表示任务执行完毕。其中任务组判断任务执行完毕的时机是<strong>入组任务数等于出组任务数</strong>。并且需要注意的是，<strong>任务组的单位是任务，与队列无关，换句话来说就是任务组是可以跨队列的</strong>。<br>任务组与队列需要关联来实现上述操作，关联方式包括两种：自动关联及手动关联；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queueGroup = <span class="type">DispatchGroup</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自动关联</span></span><br><span class="line"><span class="keyword">let</span> queue = <span class="type">DispatchQueue</span>.global()</span><br><span class="line">queue.async(group: queueGroup) &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动关联</span></span><br><span class="line">queueGroup.enter()</span><br><span class="line">queue.async &#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    queueGroup.leave()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -761,8 +763,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/iOS/多线程/iOS多线程-Operation/" rel="prev" title="iOS 多线程 -Operation">
-                iOS 多线程 -Operation <i class="fa fa-chevron-right"></i>
+              <a href="/iOS/多线程/iOS多线程-Operation/" rel="prev" title="iOS 多线程 - Operation">
+                iOS 多线程 - Operation <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -931,7 +933,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列"><span class="nav-text">串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行队列"><span class="nav-text">并行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主队列"><span class="nav-text">主队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局并行队列"><span class="nav-text">全局并行队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-text">任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步任务"><span class="nav-text">同步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步任务"><span class="nav-text">异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏函数"><span class="nav-text">栅栏函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchWorkItem"><span class="nav-text">DispatchWorkItem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务组"><span class="nav-text">任务组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法、属性"><span class="nav-text">方法、属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列"><span class="nav-text">串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行队列"><span class="nav-text">并行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主队列"><span class="nav-text">主队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局并行队列"><span class="nav-text">全局并行队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-text">任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步任务"><span class="nav-text">同步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步任务"><span class="nav-text">异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏函数"><span class="nav-text">栅栏函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchWorkItem"><span class="nav-text">DispatchWorkItem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务组"><span class="nav-text">任务组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
