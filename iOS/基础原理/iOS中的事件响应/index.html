@@ -105,7 +105,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%93%8D%E5%BA%94%E9%93%BE/UIGestureRecognizer.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%93%8D%E5%BA%94%E9%93%BE/gestureRecognizerShouldBegin.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/%E5%93%8D%E5%BA%94%E9%93%BE/button_target_action.png">
-<meta property="og:updated_time" content="2021-09-26T06:36:36.702Z">
+<meta property="og:updated_time" content="2021-10-18T12:39:08.647Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 中的事件响应">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 中的事件响应者主要分为两类，分别为UIResponder及UIGestureRecognizer，其中UIControl是一种比较特殊的UIResponder，所以本文将事件响应者分为以下三种类型进行讨论。  UIResponder UIGestureRecognizer UIControl   下文中所涉及到的Apple官方描述可以通过E">
@@ -359,8 +359,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2021-09-26T14:36:36+08:00">
-                2021-09-26
+              <time title="更新于" itemprop="dateModified" datetime="2021-10-18T20:39:08+08:00">
+                2021-10-18
               </time>
             
           </span>
@@ -425,7 +425,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6.8k 字
+                  6.9k 字
                 </span>
               
 
@@ -441,7 +441,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  26 分钟
+                  27 分钟
                 </span>
               
             </div>
@@ -691,6 +691,9 @@
 <p>If you have a custom subclass of one of these controls and you want to change the default action, attach a gesture recognizer directly to the control instead of to the parent view. Then, the gesture recognizer receives the touch event first. As always, be sure to read the iOS Human Interface Guidelines to ensure that your app offers an intuitive user experience, especially when overriding the default behavior of a standard control.</p>
 </blockquote>
 <p>通过上边的描述我们可以得出原因，<strong>对于系统<code>UIControl</code>（除去开发者自定义的）来说，为了防止 <code>UIControl</code> 默认的手势与其父 View 上的 <code>UIGestureRecognizer</code> 的冲突，系统会默认设定，<code>UIControl</code> 来响应触摸事件。</strong></p>
+<blockquote>
+<p>需要注意，<code>UIControl</code>是一个抽象基类，我们一般需要使用其子类，<code>UIButton</code>等，如果我们直接实例化<code>UIControl</code>，我们会发现其并不能阻断其父 View 上的手势。</p>
+</blockquote>
 <p>原因我们找到了，下面来介绍一下里面涉及到的原理。</p>
 <p>上节<code>UIGestureRecognizer</code>中介绍过<code>gestureRecognizerShouldBegin</code>方法对手势有决定是否响应的作用，<code>UIControl</code>便是利用这一点达到了上述效果。<br><strong><code>UIControl</code> 内部重写了 UIView 提供的的<code>gestureRecognizerShouldBegin</code>方法，返回 <code>false</code>，使父 View 上的手势不参与到事件响应中去，但是不会影响其自身的手势。</strong></p>
 <p><strong>小结</strong></p>
@@ -712,7 +715,7 @@
 </blockquote>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">tapViewGesture.delegate = <span class="keyword">self</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">gestureRecognizerShouldBegin</span><span class="params">(<span class="number">_</span> gestureRecognizer: UIGestureRecognizer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> p = gestureRecognizer.location(<span class="keyword">in</span>: superview)</span><br><span class="line">  <span class="keyword">let</span> v = superview.hitTest(p, with: <span class="literal">nil</span>)</span><br><span class="line">  <span class="comment">/// gestureRecognizer.view为父View。</span></span><br><span class="line">  <span class="comment">/// hitTest返回为父View，则返回true,手势生效；</span></span><br><span class="line">  <span class="comment">/// 如果返回为UICollectionView，则返回false，手势不生效，UICollectionView的didSelectItemAt可以正常触发。</span></span><br><span class="line">  <span class="keyword">return</span> v == gestureRecognizer.view</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="ScrollView嵌套"><a href="#ScrollView嵌套" class="headerlink" title="ScrollView嵌套"></a>ScrollView嵌套</h3><p>核心原理：实现外部ScrollView的UIGestureRecognizerDelegate中的下列方法，使内部ScrollView也可以接收到滑动事件</p>
+<h3 id="ScrollView-嵌套"><a href="#ScrollView-嵌套" class="headerlink" title="ScrollView 嵌套"></a>ScrollView 嵌套</h3><p>核心原理：实现外部 ScrollView 的 UIGestureRecognizerDelegate 中的下列方法，使内部 ScrollView 也可以接收到滑动事件</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">gestureRecognizer</span><span class="params">(<span class="number">_</span> gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后，附上戴铭老师本周博文《我写技术文章的一点心得》中的一段话，我觉得很有共鸣。</p>
@@ -997,7 +1000,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件来由：UITouch-触摸"><span class="nav-text">事件来由：UITouch 触摸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件本身：UIEvent-事件"><span class="nav-text">事件本身：UIEvent 事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件生命周期"><span class="nav-text">事件生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#普通事件响应者：UIResponder"><span class="nav-text">普通事件响应者：UIResponder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hit-Testing"><span class="nav-text">Hit-Testing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送事件"><span class="nav-text">发送事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件响应-Responder-Chain"><span class="nav-text">事件响应 (Responder Chain)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优先级更高事件响应者：UIGestureRecognizer"><span class="nav-text">优先级更高事件响应者：UIGestureRecognizer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级"><span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势之间的依赖关系"><span class="nav-text">手势之间的依赖关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势的禁止与允许"><span class="nav-text">手势的禁止与允许</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊事件响应者：-UIControl"><span class="nav-text">特殊事件响应者： UIControl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件通知方式"><span class="nav-text">事件通知方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级-1"><span class="nav-text">优先级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关问题"><span class="nav-text">相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionView-父-view-添加手势，其内部代理-didSelectItemAt-不触发"><span class="nav-text">UICollectionView 父 view 添加手势，其内部代理 didSelectItemAt 不触发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrollView嵌套"><span class="nav-text">ScrollView嵌套</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件来由：UITouch-触摸"><span class="nav-text">事件来由：UITouch 触摸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件本身：UIEvent-事件"><span class="nav-text">事件本身：UIEvent 事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件生命周期"><span class="nav-text">事件生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#普通事件响应者：UIResponder"><span class="nav-text">普通事件响应者：UIResponder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hit-Testing"><span class="nav-text">Hit-Testing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送事件"><span class="nav-text">发送事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件响应-Responder-Chain"><span class="nav-text">事件响应 (Responder Chain)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优先级更高事件响应者：UIGestureRecognizer"><span class="nav-text">优先级更高事件响应者：UIGestureRecognizer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级"><span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势之间的依赖关系"><span class="nav-text">手势之间的依赖关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势的禁止与允许"><span class="nav-text">手势的禁止与允许</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊事件响应者：-UIControl"><span class="nav-text">特殊事件响应者： UIControl</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事件通知方式"><span class="nav-text">事件通知方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级-1"><span class="nav-text">优先级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关问题"><span class="nav-text">相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UICollectionView-父-view-添加手势，其内部代理-didSelectItemAt-不触发"><span class="nav-text">UICollectionView 父 view 添加手势，其内部代理 didSelectItemAt 不触发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrollView-嵌套"><span class="nav-text">ScrollView 嵌套</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
