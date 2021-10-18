@@ -543,6 +543,10 @@ func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognize
 }
 ```
 
+### UIButton添加一个子View
+
+当UIButton添加一个子View，UIButton的target事件会失效，必须手动将子View的`isUserInteractionEnabled`设置为`false`，可解决问题，但具体原因以及内部实现还未找出来。
+
 ## 最后
 
 最后，附上戴铭老师本周博文《我写技术文章的一点心得》中的一段话，我觉得很有共鸣。
