@@ -473,6 +473,8 @@ func cancelTracking(with event: UIEvent?)
 
 通过上边的描述我们可以得出原因，**对于系统`UIControl`（除去开发者自定义的）来说，为了防止 `UIControl` 默认的手势与其父 View 上的 `UIGestureRecognizer` 的冲突，系统会默认设定，`UIControl` 来响应触摸事件。**
 
+> 需要注意，`UIControl`是一个抽象基类，我们一般需要使用其子类，`UIButton`等，如果我们直接实例化`UIControl`，我们会发现其并不能阻断其父 View 上的手势。
+
 原因我们找到了，下面来介绍一下里面涉及到的原理。
 
 上节`UIGestureRecognizer`中介绍过`gestureRecognizerShouldBegin`方法对手势有决定是否响应的作用，`UIControl`便是利用这一点达到了上述效果。
@@ -514,7 +516,7 @@ open func touchesShouldCancel(in view: UIView) -> Bool
 
 通过阅读本文，我想你对下面的问题出现的原因及解决办法应该有了比较深刻的认识。
 
-###  UICollectionView 父 view 添加手势，其内部代理 `didSelectItemAt` 不触发
+### UICollectionView 父 view 添加手势，其内部代理 `didSelectItemAt` 不触发
 
 > 手势优先级更高，需要根据点击位置判断是否让手势响应。
 
@@ -531,9 +533,9 @@ override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecogni
 }
 ```
 
-### ScrollView嵌套
+### ScrollView 嵌套
 
-核心原理：实现外部ScrollView的UIGestureRecognizerDelegate中的下列方法，使内部ScrollView也可以接收到滑动事件
+核心原理：实现外部 ScrollView 的 UIGestureRecognizerDelegate 中的下列方法，使内部 ScrollView 也可以接收到滑动事件
 
 ```swift
 func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

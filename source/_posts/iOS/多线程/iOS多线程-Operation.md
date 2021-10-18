@@ -24,6 +24,8 @@ Hi Coder，我是 CoderStar！
 
 > 其实 `NSOpertion` 是先于`GCD`引进的，在当时，`NSOperationQueue` 接收 `NSOperation` 对象并创建一个线程，并在对应线程上运行 `main`方法 ，运行完成之后再杀死该线程。那这种方式相对于后面出现的`GCD`底层的线程池而言，效率就很低，所以在 Mac OS 10.5 以及 iOS 2 开始便对`NSOpertion`底层在基于`GCD`的基础上进行完全重写，利用`GCD`的相关特性提高性能并提供了一些新功能。如果想简单佐证下，可以看到`OperationQueue`拥有一个`unowned(unsafe) open var underlyingQueue: DispatchQueue?`属性。
 
+如果大家对Operation底层实现比较有兴趣，可以在开源的Foundtion框架中查看[Operation.swift](https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Operation.swift)。
+
 ## 属性 & 方法
 
 先罗列一下`Operation`及`OperationQueue`主要的属性及方法。
@@ -151,11 +153,23 @@ open func addBarrierBlock(_ barrier: @escaping () -> Void)
 let operation = BlockOperation {
   // do something
 }
+
+// BlockOperation并不是只能执行一个Block，而是可以添加多个，内部会有一个数组进行存储。
+operation.addExecutionBlock {
+   // do something
+}
+
 let queue = OperationQueue()
 queue.addOperation(operation)
 ```
 
-但是很多时候，我们需要继承`Operation`进行一些自定义操作。
+但是很多时候，我们需要继承`Operation`进行一些自定义操作，如网络请求的依赖。这时，我们需要继承`Operation`重写对应的属性与方法来实现。
+
+> 这部分内容，Apple的文档上有详细的介绍，[Operation文档链接](https://developer.apple.com/documentation/foundation/operation)
+
+对于 Operation 的
+
+Operation 本身是多线程安全的，不需要加锁来同步线程操作。如果你自定义子类，在子类里添加的方法必须要保证多线程安全。
 
 ## GCD VS Operation
 
@@ -163,7 +177,7 @@ queue.addOperation(operation)
 
 > 目前网络上的很多文章都是基于没有`DispatchWorkItem`对象前提下对 GCD 和`Operation`做的对比，大家阅读时需要注意一下。
 
-1、从两者所在层次来讲：GCD 底层是 C 语言的 API，而 Operation 是 GCD 基础上更高层次的抽象，那 GCD 相对 Operation 来说肯定是又快又轻的；
+1、从两者所在层次来讲：GCD 底层是 C 语言的 API，而 Operation 是 GCD 基础上更高层次的抽象，那 GCD 相对 Operation 来说肯定是又快又轻的。（Operation 在使用 GCD API 的基础上还会加上一些锁用来保证线程安全）
 
 但是反过来来说因为 Operation 是更高层次的抽象，按照一般的经验法则来看，**我们应首先使用最高级别的 API，然后在根据需要完成内容进行降级**。从这一角度来看，使用 Operation 抽象度更高，更符合面向对象的思想，也有利于底层的无痕变更。
 
@@ -194,5 +208,4 @@ Let's be CoderStar!
 - [guide-to-blocks-grand-central-dispatch](https://cocoasamurai.blogspot.com/2009/09/guide-to-blocks-grand-central-dispatch.html)
 - [When to use NSOperation vs. GCD](http://eschatologist.net/blog/?p=232)
 - [Operation and OperationQueue Tutorial in Swift](https://www.raywenderlich.com/5293-operation-and-operationqueue-tutorial-in-swift)
-- [operation](https://developer.apple.com/documentation/foundation/operation)
 - [Advanced NSOperations](https://developer.apple.com/videos/play/wwdc2015/226/)
