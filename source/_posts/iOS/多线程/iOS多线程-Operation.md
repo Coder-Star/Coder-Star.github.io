@@ -22,7 +22,7 @@ Hi Coder，我是 CoderStar！
 
 `Operation` 底层建立在`GCD`之上，是更高一级的抽象，使我们可以面向对象（Cocoa 对象）的方式进行多线程编程。
 
-> 其实 `NSOpertion` 是先于`GCD`引进的，在当时，`NSOperationQueue` 接收 `NSOperation` 对象并创建一个线程，并在对应线程上运行 `main`方法 ，运行完成之后再杀死该线程。那这种方式相对于后面出现的`GCD`底层的线程池而言，效率就很低，所以在 Mac OS 10.5 以及 iOS 2 开始便对`NSOpertion`底层在基于`GCD`的基础上进行完全重写，利用`GCD`的相关特性提高性能并提供了一些新功能。如果想简单佐证下，可以看到`OperationQueue`拥有一个`unowned(unsafe) open var underlyingQueue: DispatchQueue?`属性。
+> 其实 `NSOpertion` 是先于`GCD`引进的，在当时，`NSOperationQueue` 接收 `NSOperation` 对象并创建一个线程，然后在该线程上运行 `main`方法 ，运行完成之后再杀死该线程。这种方式相对于后面出现的`GCD`底层的线程池而言，效率就很低，所以在 Mac OS 10.5 以及 iOS 2 开始便对`NSOpertion`底层在基于`GCD`的基础上进行完全重写，利用`GCD`的相关特性提高性能并提供了一些新功能。如果想简单佐证下，可以看到`OperationQueue`拥有一个`unowned(unsafe) open var underlyingQueue: DispatchQueue?`属性。
 
 如果大家对Operation底层实现比较有兴趣，可以在开源的Foundtion框架中查看[Operation.swift](https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Operation.swift)。
 
@@ -94,14 +94,14 @@ open func removeDependency(_ op: Operation)
 对`Operation`几个属性、方法再进行详细的说明：
 
 `cancel`方法
-如果这个操作正在执行，调用 cancel() 只会将状态 `isCanceled` 置为 true，但不会影响操作的继续执行。
-如果操作还没执行，调用 cancel() 会将状态 `isCanceled` 和 `isReady` 置为 true, 如果执行取消后的操作，会直接将状态 `isFinished` 置为 true 而不会执行操作。也会触发`completionBlock`方法。
-所以当我们子类化`Operation`的时候在处理耗时以及启动等相关操作时，应先检查是否
+如果这个操作正在执行，调用 `cancel()` 只会将状态 `isCanceled` 置为 `true`，但不会影响操作的继续执行。
+如果操作还没执行，调用 `cancel()` 会将状态 `isCanceled` 和 `isReady` 置为 `true`, 如果执行取消后的操作，会直接将状态 `isFinished` 置为 `true` 而不会执行操作。也会触发`completionBlock`方法。
+所以当我们子类化`Operation`的时候在处理耗时以及启动等相关操作时，应先检查`isCanceled`状态。
 
 `addDependency`方法
 - 需要注意在设置时不要设置成循环依赖，比如 A 依赖 B、B 又依赖 A，这样会形成死锁，导致谁也不会执行。
 - 可以跨操作队列设置依赖。
-- 当给某个 Operation 添加依赖的 Operation 后，只有其所依赖的所有 Operation 都执行完毕，当前的 Operation 才能开始执行。不管依赖的 Operation 是执行成功了还是失败了，或者是取消了，都认为是执行完毕了。
+- 当给某个 `Operation` 添加依赖的 `Operation` 后，只有其所依赖的所有 `Operation` 都执行完毕，当前的 `Operation` 才能开始执行。不管依赖的 `Operation` 是执行成功了还是失败了，或者是取消了，都认为是执行完毕了。
 
 **OperationQueue**
 
@@ -138,15 +138,15 @@ open func addBarrierBlock(_ barrier: @escaping () -> Void)
 
 `maxConcurrentOperationCount`属性
 - maxConcurrentOperationCount 如果不设置值时，默认值会取`defaultMaxConcurrentOperationCount`，也就是 -1，此时默认最大操作数由 `OperationQueue` 对象根据当前系统条件（系统内存与 CPU）动态确定。
-- maxConcurrentOperationCount 为 0 时，队列中的 Operation 不会执行。
-- maxConcurrentOperationCount 为 1 时，队列串行执行。
-- maxConcurrentOperationCount 大于 1 时，队列并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}，系统默认限制应该是 **64**。
+- `maxConcurrentOperationCount` 为 0 时，队列中的 Operation 不会执行。
+- `maxConcurrentOperationCount` 为 1 时，队列串行执行。
+- `maxConcurrentOperationCount` 大于 1 时，队列并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min(自己设定的值，系统设定的默认最大值)，系统默认限制应该是 **64**。
 
-> 需要注意，因为有`queuePriority`的存在，同一个 Queue 的 Operation 之间有优先级，所以先进入 Queue 的 Operation 不一定先运行，所以当`maxConcurrentOperationCount`设置为 1 时并不是一个真正意义上的串行队列，优先级较高后加入的 Operation 有可能会先执行。
+> 需要注意，因为有`queuePriority`的存在，同一个 `Queue` 的 `Operation` 之间有优先级，所以先进入 Queue 的 `Operation` 不一定先运行，所以当`maxConcurrentOperationCount`设置为 1 时并不是一个真正意义上的串行队列，优先级较高后加入的 `Operation` 有可能会先执行。
 
 > 64 这个值在 GCD 下应该也是默认最大线程数，但是可以调整目标队列的优先级进行调整。这里涉及到一个线程爆炸的概念，后面可能还会出一篇文章写这些东西。
 
-从上面 Operation 的几个状态属性我们可以知道 Operation 在程序运行过程中状态会进行相应的流转，其状态图如下所示。
+从上面 `Operation` 的几个状态属性我们可以知道 `Operation` 在程序运行过程中状态会进行相应的流转，其状态图如下所示。
 
 ![OperationState](../../../img/iOS/多线程/OperationState.png)
 
@@ -170,7 +170,7 @@ queue.addOperation(operation)
 
 但是很多时候，我们需要继承`Operation`进行一些自定义操作，如网络请求的依赖。这时，我们需要继承`Operation`重写对应的属性与方法来实现。
 
-> 网络请求的依赖为何需要子类化 Operation：普通的`Operation`等待 main 方法执行完毕之后就会自动将`isFinished`置为`true`，继而执行下一个，但是对于网络请求这种场景，我们需要手动控制，等待网络请求回调之后再将`isFinished`置为`true`。
+> 网络请求的依赖为何需要子类化 Operation：普通的`Operation`等待 `main` 方法执行完毕之后就会自动将`isFinished`置为`true`，继而执行下一个，但是对于网络请求这种场景，我们需要手动控制，等待网络请求回调之后再将`isFinished`置为`true`。
 
 > 这部分内容，Apple的文档上有详细的介绍，[Operation文档链接](https://developer.apple.com/documentation/foundation/operation)
 
@@ -178,13 +178,13 @@ queue.addOperation(operation)
 
 对于第一种方式，`OperationQueue`会自动为`Operation`开辟线程，不需进行额外的处理，对于第二种方式，就需要我们手动进行控制，我们可以将操作设计为同步或者异步的，也就是所谓的非并发`Operation`以及并发`Operation`
 
-> 当然，其实直接调用`start`方法这种方式在日常开发过程中用的比较少的，主要是使用`OperationQueue`这种方式。下列部分主要是给大家拓宽一下 Operation 的使用方式以及了解当子类化 Operation 时我们需要注意的地方。
+> 当然，其实直接调用`start`方法这种方式在日常开发过程中用的比较少的，主要是使用`OperationQueue`这种方式。下列部分主要是给大家拓宽一下 `Operation` 的使用方式以及了解当子类化 `Operation` 时我们需要注意的地方。
 
-Operation 内部本身是线程安全的，当我们子类化 Operation 时，不管是非并发 Operation 还是并发 Operation，我们也需要保证其线程安全，所以需要在一些地方加上互斥锁，如后续操作中的状态切换时。
+`Operation` 内部本身是线程安全的，当我们子类化 `Operation` 时，不管是非并发 `Operation` 还是并发 `Operation`，我们也需要保证其线程安全，所以需要在一些地方加上互斥锁，如后续操作中的状态切换时。
 
-### 非并发 Operation
+### 非并发 `Operation`
 
-对于非并发 Operation，因为 Operation 在默认情况直接调用`start`方法是一个同步操作，所以当我们继承 Operation 来实现一个非并发 Operation 时，我们只需要重写`main`方法。
+对于非并发 `Operation`，因为 `Operation` 在默认情况直接调用`start`方法是一个同步操作，所以当我们继承 `Operation` 来实现一个非并发 `Operation` 时，我们只需要重写`main`方法。
 
 ```swift
 class SyncOperation: Operation {
@@ -194,9 +194,9 @@ class SyncOperation: Operation {
 }
 ```
 
-### 并发 Operation
+### 并发 `Operation`
 
-如果是并发 Operation，则至少需要重写以下属性及方法，并且运行状态更新时需要生成 KVO 通知。
+如果是并发 `Operation`，则至少需要重写以下属性及方法，并且运行状态更新时需要生成 KVO 通知。
 
 - isAsynchronous
 - isExecuting
@@ -310,17 +310,17 @@ extension AsyncOperation {
 
 1. 状态变量切换时，为保证线程安全，我们需要进行加锁；
 2. 虽然官方文档说`main`方法不需要强制进行重写，但为了逻辑性，`start`方法主要负责任务的启动，`main`方法中进行任务的处理，所以重写的`main`方法。
-3. 关于`isAsynchronous`属性，刚开始我以为其可以控制`Operation`是否自动开辟线程，但是根据实验以及查看源码之后，发现其应该只是一个标识当前`Operation`是否是异步操作的一个标志而已，当设置为 true 时，我们需要自己开辟线程进行任务的分发。当我们确定该`Operation`后续都是以`OperationQueue`的形式运行，我们也可以将`isAsynchronous`返回值改为 false，去除内部的队列。
+3. 关于`isAsynchronous`属性，刚开始我以为其可以控制`Operation`是否自动开辟线程，但是根据实验以及查看源码之后，发现其应该只是一个标识当前`Operation`是否是异步操作的一个标志而已，当设置为 `true` 时，我们需要自己开辟线程进行任务的分发。当我们确定该`Operation`后续都是以`OperationQueue`的形式运行，我们也可以将`isAsynchronous`返回值改为 false，去除内部的队列。
 
 ## GCD VS Operation
 
-使用 GCD 还是使用 Operation 这个问题其实在社区已经争论了很久，从斯坦福大学的 CS193p 课程推荐使用 GCD，到 WWDC 2012 时演讲者推荐使用`Operation`，也能看出开发者对该问题的看法不一致，该节我们主要来聊一聊两者各自优势以及差别。
+使用 `GCD` 还是使用 `Operation` 这个问题其实在社区已经争论了很久，从斯坦福大学的 CS193p 课程推荐使用 `GCD`，到 WWDC 2012 时演讲者推荐使用`Operation`，也能看出开发者对该问题的看法不一致，该节我们主要来聊一聊两者各自优势以及差别。
 
 > 目前网络上的很多文章都是基于没有`DispatchWorkItem`对象前提下对 GCD 和`Operation`做的对比，大家阅读时需要注意一下。
 
 1、从两者所在层次来讲：GCD 底层是 C 语言的 API，而 Operation 是 GCD 基础上更高层次的抽象，那 GCD 相对 Operation 来说肯定是又快又轻的。（Operation 在使用 GCD API 的基础上还会加上一些锁用来保证线程安全）
 
-但是反过来来说因为 Operation 是更高层次的抽象，按照一般的经验法则来看，**我们应首先使用最高级别的 API，然后在根据需要完成内容进行降级**。从这一角度来看，使用 Operation 抽象度更高，更符合面向对象的思想，也有利于底层的无痕变更。
+但是反过来说因为 Operation 是更高层次的抽象，按照一般的经验法则来看，**我们应首先使用最高级别的 API，然后在根据需要完成内容进行降级**。从这一角度来看，使用 Operation 抽象度更高，更符合面向对象的思想，也有利于底层的无痕变更。
 
 2、从两者提供的 API 来讲：其实 GCD 和 Operation 两者之间是很相似的，特别是当`DispatchWorkItem`对象（@available(macOS 10.10, iOS 8.0, *)）出来之后，从一定意义上讲，`DispatchWorkItem`可以类比到`Operation`对象，`DispatchQueue`可以类比到`OperationQueue`对象。比如`DispatchWorkItem`和`Operation`对象都可以进行`cancel`等操作，`DispatchQueue`、`OperationQueue`对象都可以添加任务或操作（对象以及闭包两种形式），栅栏函数，进行挂起以及恢复（前者是两个对应方法，后者是一个属性）等。但两者还是有一些区别的，比如：
 
