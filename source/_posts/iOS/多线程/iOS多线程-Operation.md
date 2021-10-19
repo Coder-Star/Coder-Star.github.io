@@ -26,7 +26,7 @@ Hi Coder，我是 CoderStar！
 
 如果大家对Operation底层实现比较有兴趣，可以在开源的Foundtion框架中查看[Operation.swift](https://github.com/apple/swift-corelibs-foundation/blob/main/Sources/Foundation/Operation.swift)。
 
-## 属性 & 方法
+## 基本原理
 
 先罗列一下`Operation`及`OperationQueue`主要的属性及方法。
 
@@ -96,6 +96,7 @@ open func removeDependency(_ op: Operation)
 `cancel`方法
 如果这个操作正在执行，调用 cancel() 只会将状态 `isCanceled` 置为 true，但不会影响操作的继续执行。
 如果操作还没执行，调用 cancel() 会将状态 `isCanceled` 和 `isReady` 置为 true, 如果执行取消后的操作，会直接将状态 `isFinished` 置为 true 而不会执行操作。也会触发`completionBlock`方法。
+所以当我们子类化`Operation`的时候在处理耗时以及启动等相关操作时，应先检查是否
 
 `addDependency`方法
 - 需要注意在设置时不要设置成循环依赖，比如 A 依赖 B、B 又依赖 A，这样会形成死锁，导致谁也不会执行。
@@ -139,11 +140,15 @@ open func addBarrierBlock(_ barrier: @escaping () -> Void)
 - maxConcurrentOperationCount 如果不设置值时，默认值会取`defaultMaxConcurrentOperationCount`，也就是 -1，此时默认最大操作数由 `OperationQueue` 对象根据当前系统条件（系统内存与 CPU）动态确定。
 - maxConcurrentOperationCount 为 0 时，队列中的 Operation 不会执行。
 - maxConcurrentOperationCount 为 1 时，队列串行执行。
-- maxConcurrentOperationCount 大于 1 时，队列并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}，系统默认限制应该是 64。
+- maxConcurrentOperationCount 大于 1 时，队列并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为 min{自己设定的值，系统设定的默认最大值}，系统默认限制应该是 **64**。
 
 > 需要注意，因为有`queuePriority`的存在，同一个 Queue 的 Operation 之间有优先级，所以先进入 Queue 的 Operation 不一定先运行，所以当`maxConcurrentOperationCount`设置为 1 时并不是一个真正意义上的串行队列，优先级较高后加入的 Operation 有可能会先执行。
 
 > 64 这个值在 GCD 下应该也是默认最大线程数，但是可以调整目标队列的优先级进行调整。这里涉及到一个线程爆炸的概念，后面可能还会出一篇文章写这些东西。
+
+从上面 Operation 的几个状态属性我们可以知道 Operation 在程序运行过程中状态会进行相应的流转，其状态图如下所示。
+
+![OperationState](../../../img/iOS/多线程/OperationState.png)
 
 ## 使用
 
@@ -165,11 +170,147 @@ queue.addOperation(operation)
 
 但是很多时候，我们需要继承`Operation`进行一些自定义操作，如网络请求的依赖。这时，我们需要继承`Operation`重写对应的属性与方法来实现。
 
+> 网络请求的依赖为何需要子类化 Operation：普通的`Operation`等待 main 方法执行完毕之后就会自动将`isFinished`置为`true`，继而执行下一个，但是对于网络请求这种场景，我们需要手动控制，等待网络请求回调之后再将`isFinished`置为`true`。
+
 > 这部分内容，Apple的文档上有详细的介绍，[Operation文档链接](https://developer.apple.com/documentation/foundation/operation)
 
-对于 Operation 的
+除了将`Operation`放入`OperationQueue`运行这种方式之外，还可以直接调用`start`方法进行运行。
 
-Operation 本身是多线程安全的，不需要加锁来同步线程操作。如果你自定义子类，在子类里添加的方法必须要保证多线程安全。
+对于第一种方式，`OperationQueue`会自动为`Operation`开辟线程，不需进行额外的处理，对于第二种方式，就需要我们手动进行控制，我们可以将操作设计为同步或者异步的，也就是所谓的非并发`Operation`以及并发`Operation`
+
+> 当然，其实直接调用`start`方法这种方式在日常开发过程中用的比较少的，主要是使用`OperationQueue`这种方式。下列部分主要是给大家拓宽一下 Operation 的使用方式以及了解当子类化 Operation 时我们需要注意的地方。
+
+Operation 内部本身是线程安全的，当我们子类化 Operation 时，不管是非并发 Operation 还是并发 Operation，我们也需要保证其线程安全，所以需要在一些地方加上互斥锁，如后续操作中的状态切换时。
+
+### 非并发 Operation
+
+对于非并发 Operation，因为 Operation 在默认情况直接调用`start`方法是一个同步操作，所以当我们继承 Operation 来实现一个非并发 Operation 时，我们只需要重写`main`方法。
+
+```swift
+class SyncOperation: Operation {
+    override func main() {
+        // do something
+    }
+}
+```
+
+### 并发 Operation
+
+如果是并发 Operation，则至少需要重写以下属性及方法，并且运行状态更新时需要生成 KVO 通知。
+
+- isAsynchronous
+- isExecuting
+- isFinished
+- start()
+
+具体代码如下，请注意阅读注释：
+
+```swift
+public class AsyncOperation: Operation {
+    private var block: ((_ operation: AsyncOperation) -> Void)?
+
+    private let queue = DispatchQueue(label: "async.operation.queue")
+    private let lock = NSLock()
+
+    private var _executing = false
+    private var _finished = false
+
+    /// 数据
+    ///
+    /// 为Operation绑定一下数据，方便被依赖的Operation获取该Operation处理后的一些数据
+    public var data: Any?
+
+    /// 是否执行
+    ///
+    /// 内部加锁保证线程安全
+    public override var isExecuting: Bool {
+        get {
+            lock.lock()
+            let wasExecuting = _executing
+            lock.unlock()
+            return wasExecuting
+        }
+        set {
+            if isExecuting != newValue {
+                willChangeValue(forKey: "isExecuting")
+                lock.lock()
+                _executing = newValue
+                lock.unlock()
+                didChangeValue(forKey: "isExecuting")
+            }
+        }
+    }
+
+    /// 是否结束
+    ///
+    /// 内部加锁保证线程安全
+    /// 需要手动进行KVO，否则completionBlock不会被触发，被依赖的Operation也不会开始
+    public override var isFinished: Bool {
+        get {
+            lock.lock()
+            let wasFinished = _finished
+            lock.unlock()
+            return wasFinished
+        }
+        set {
+            if isFinished != newValue {
+                willChangeValue(forKey: "isFinished")
+                lock.lock()
+                _finished = newValue
+                lock.unlock()
+                didChangeValue(forKey: "isFinished")
+            }
+        }
+    }
+
+    /// 标识该Operation是否以异步形式运行
+    public override var isAsynchronous: Bool {
+        return true
+    }
+
+    public override func start() {
+        /// 启动之前先判断是否已取消，防止浪费操作
+        if isCancelled {
+            isFinished = true
+            return
+        }
+
+        isExecuting = true
+
+        queue.async { [weak self] in
+            self?.main()
+        }
+    }
+
+    public override func main() {
+        if let block = block {
+            block(self)
+        } else {
+            finish()
+        }
+    }
+}
+
+// MARK: - 公开方法
+
+extension AsyncOperation {
+    public convenience init(block: ((_ operation: AsyncOperation) -> Void)?) {
+        self.init()
+        self.block = block
+    }
+
+    public func finish() {
+        isExecuting = false
+        isFinished = true
+    }
+}
+```
+
+代码中几个地方需要特别说明一下：
+
+1. 状态变量切换时，为保证线程安全，我们需要进行加锁；
+2. 虽然官方文档说`main`方法不需要强制进行重写，但为了逻辑性，`start`方法主要负责任务的启动，`main`方法中进行任务的处理，所以重写的`main`方法。
+3. 关于`isAsynchronous`属性，刚开始我以为其可以控制`Operation`是否自动开辟线程，但是根据实验以及查看源码之后，发现其应该只是一个标识当前`Operation`是否是异步操作的一个标志而已，当设置为 true 时，我们需要自己开辟线程进行任务的分发。当我们确定该`Operation`后续都是以`OperationQueue`的形式运行，我们也可以将`isAsynchronous`返回值改为 false，去除内部的队列。
 
 ## GCD VS Operation
 
