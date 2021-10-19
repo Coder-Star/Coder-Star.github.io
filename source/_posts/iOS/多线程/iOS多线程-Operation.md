@@ -299,6 +299,9 @@ extension AsyncOperation {
         self.block = block
     }
 
+    /// 完成任务
+    ///
+    /// 完成一些异步操作后再手动调用完成 Operation
     public func finish() {
         isExecuting = false
         isFinished = true
@@ -311,6 +314,8 @@ extension AsyncOperation {
 1. 状态变量切换时，为保证线程安全，我们需要进行加锁；
 2. 虽然官方文档说`main`方法不需要强制进行重写，但为了逻辑性，`start`方法主要负责任务的启动，`main`方法中进行任务的处理，所以重写的`main`方法。
 3. 关于`isAsynchronous`属性，刚开始我以为其可以控制`Operation`是否自动开辟线程，但是根据实验以及查看源码之后，发现其应该只是一个标识当前`Operation`是否是异步操作的一个标志而已，当设置为 `true` 时，我们需要自己开辟线程进行任务的分发。当我们确定该`Operation`后续都是以`OperationQueue`的形式运行，我们也可以将`isAsynchronous`返回值改为 false，去除内部的队列。
+
+关于 `Operation`的具体应用，大家可以去阅读`Alamofire`或者`SDWebImage`等开源库的源码，内部都有其应用。
 
 ## GCD VS Operation
 
@@ -331,11 +336,7 @@ extension AsyncOperation {
 - `OperationQueue`可以取消队列中的所有操作。
 - ...
 
-## 应用
-
-应用：Alamofire 中使用 SDWebImage
-
-[AsyncOperation](https://github.com/Coder-Star/LTXiOSUtils/blob/master/LTXiOSUtils/Classes/Util/AsyncOperation.swift)
+3、相对 `GCD` 而言，`Operation`可以通过子类化的方式将一些操作内聚，更方便管理。
 
 ## 最后
 
