@@ -3,22 +3,22 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-10-18T14:03:10.891Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Operation/</loc>
-        <lastmod>2021-10-17T14:40:42.656Z</lastmod>
+        <lastmod>2021-10-19T15:50:53.965Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/多线程/</loc>
-        <lastmod>2021-10-17T14:40:42.656Z</lastmod>
+        <lastmod>2021-10-19T15:50:53.965Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-10-19T15:50:53.965Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
