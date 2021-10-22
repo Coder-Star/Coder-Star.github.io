@@ -8,7 +8,7 @@ tags: [Git]
 
 ## 前言
 
-虽然在写这篇笔记之前已经用 Git 很长时间了，而且对于一些操作也比较熟悉，但是还是感觉对于 Git 没有进行系统的学习和梳理，这篇笔记的目的其实就是把 Gi 相关知识进行系统的梳理一下，让 Git 这个果子在我的技能树上成熟。
+虽然在写这篇笔记之前已经用 Git 很长时间了，而且对于一些操作也比较熟悉，但是还是感觉对于 Git 没有进行系统的学习和梳理，这篇笔记的目的其实就是把 Git 相关知识进行系统的梳理一下，让 Git 这个果子在我的技能树上成熟。
 
 ## 基本概念
 
@@ -16,15 +16,9 @@ tags: [Git]
 
 ![Git分区示意图](../../img/杂项/Git/Git分区.jpg)
 
-## 操作
+## 命令
 
-`git pull` 强制覆盖本地文件；使用场景：打包机拉取代码进行打包。
-
-```shell
-git fetch
-git reset --hard origin/branch_name
-git pull
-```
+### 个人配置
 
 生成 ssh 公钥
 
@@ -46,34 +40,48 @@ git config user.name
 git config user.email
 ```
 
-git checkout --track origin/second // 该命令会在本地创建一个 second 分支用于跟踪远端的 second 分支并切换到本地 second 分支，下载多分支代码时，需要手工执行该命令以使本地分支与远程分支一一对应
+## 其他操作
 
-使用 Git 下载指定分支命令为：git clone -b 分支名仓库地址
+`git pull` 强制覆盖本地文件；使用场景：打包机拉取代码进行打包。
 
-git 上传通用流程
+```shell
+git fetch
+git reset --hard origin/branch_name
+git pull
+```
+
+如果想指定某个git项目提交的姓名及邮箱
+可以在 `.git/config`文件中
+
+```shell
+[user]
+	name = CoderStar
+	email = 1340529758@qq.com
+```
+
+### 上传常用流程
+
+```shell
 git init
 git add *
 git commit -m "first commit"
 git remote add origin url 地址
 git push -u origin master
-
-合并分支（如合并 dev 分支到 master 分支）
-git checkout master 切换到 master 分支
-git merge dev 合并 dev 分支到 master 分支
-合并完成之后，会有文件产生冲突，冲突文件中冲突格式为
-
-```text
- <<<<<<< HEAD
- master 分支代码内容
- =======
- dev 分支代码内容
- >>>>>>> dev
 ```
 
-对于简单的合并，手工编辑，然后去掉这些标记，最后像往常的提交一样先 add 再 commit 即可。
-git branch -d dev // 删除分支 dev，删除之前先转到其余分支上，如果要删除的分支已经成功合并到当前分支，删除分支的操作会直接成功；如果要删除的分支没有合并到当前所在分支，则会出现提示。如果确定无须合并而要直接删除，则执行命令：git branch -D dev
-进行强删。
-重命名分支：git branch -m oldname newname　// -m 不会覆盖已有分支名称，即如果名为 newname 的分支已经存在，则会提示已经存在了。如果改成 -M 就可以覆盖已有分支名称了，即会强制覆盖名为 newname 的分支，这种操作要谨慎。
+## 分支
+
+git checkout --track origin/second
+该命令会在本地创建一个 second 分支用于跟踪远端的 second 分支并切换到本地 second 分支，下载多分支代码时，需要手工执行该命令以使本地分支与远程分支一一对应
+
+`git clone -b 分支名仓库地址`
+使用 Git 下载指定分支命令
+
+`git branch -d dev`
+删除分支 dev，删除之前先转到其余分支上，如果要删除的分支已经成功合并到当前分支，删除分支的操作会直接成功；如果要删除的分支没有合并到当前所在分支，则会出现提示。如果确定无须合并而要直接删除，则执行命令：`git branch -D dev` 进行强删。
+
+git branch -m oldname newname　
+重命名分支， -m 不会覆盖已有分支名称，即如果名为 newname 的分支已经存在，则会提示已经存在了。如果改成 -M 就可以覆盖已有分支名称了，即会强制覆盖名为 newname 的分支，这种操作要谨慎。
 
 在本地新建一个分支： git branch newBranch
 切换到你的新分支: git checkout newBranch
