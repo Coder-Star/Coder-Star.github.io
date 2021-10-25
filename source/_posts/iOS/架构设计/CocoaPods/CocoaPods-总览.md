@@ -118,3 +118,16 @@ pod 命令选项
 // 忽略pod命令执行过程中提示的警告信息
 --allow-warnings
 ```
+
+
+## 工具链
+
+ruby：`brew install rbenv`
+rvm/rbenv：使用这个安装指定ruby版本。`rbenv install 2.7.0`
+gem：ruby环境下的包
+Bundler：gem包管理器，`bundle init`生成一个`Gemfile`文件，描述gem及其版本，`Cocoapods`就是其下一个普通的gem。写完之后使用`bundle install`
+Cocoapods：不再使用`pod install`，而是使用`bundle exec pod install`
+
+
+
+推荐阅读冬瓜写的[Cocoapods历险记](https://mp.weixin.qq.com/mp/appmsgalbum?action=getalbum&album_id=1477103239887142918&__biz=MzA5MTM1NTc2Ng==#wechat_redirect)

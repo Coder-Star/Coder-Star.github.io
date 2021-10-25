@@ -16,6 +16,27 @@ tags: [Git]
 
 ![Git分区示意图](../../img/杂项/Git/Git分区.jpg)
 
+## hook
+
+![GitHooks](../../img/杂项/Git/GitHooks.png)
+
+**Client-Side Hooks**
+
+* pre-commit：执行`git commit`命令时触发，常用于检查代码风格
+* prepare-commit-msg：`commit message`编辑器呼起前`default commit message`创建后触发，常用于生成默认的标准化的提交说明。该钩子接收三个参数：存有当前提交信息的文件的路径、提交类型和修补提交的提交的 SHA-1 校验。
+* commit-msg：开发者编写完并确认 commit message 后触发，常用于校验提交说明是否标准。钩子接收一个参数，此参数即上文提到的，存有当前提交信息的临时文件的路径。可以用来检测提交信息是否符合要求；
+
+* post-commit：整个 git commit 完成后触发，常用于邮件通知、提醒
+
+* post-checkout：
+* pre-rebase：
+* post—merge
+
+**Server-Side Hooks**
+* pre-receive：当服务端收到一个push操作请求时触发，可用于检测push的内容
+* update：与pre-receive相似，但当一次push想更新多个分支时，pre-receive只执行一次，而此钩子会为每一分支都执行一次
+* post-receive：当整个push操作完成时触发，常用于服务侧同步、通知
+
 ## 命令
 
 ### 个人配置
@@ -50,7 +71,7 @@ git reset --hard origin/branch_name
 git pull
 ```
 
-如果想指定某个git项目提交的姓名及邮箱
+如果想指定某个 git 项目提交的姓名及邮箱
 可以在 `.git/config`文件中
 
 ```shell
@@ -80,7 +101,7 @@ git checkout --track origin/second
 `git branch -d dev`
 删除分支 dev，删除之前先转到其余分支上，如果要删除的分支已经成功合并到当前分支，删除分支的操作会直接成功；如果要删除的分支没有合并到当前所在分支，则会出现提示。如果确定无须合并而要直接删除，则执行命令：`git branch -D dev` 进行强删。
 
-git branch -m oldname newname　
+git branch -m oldname newname
 重命名分支， -m 不会覆盖已有分支名称，即如果名为 newname 的分支已经存在，则会提示已经存在了。如果改成 -M 就可以覆盖已有分支名称了，即会强制覆盖名为 newname 的分支，这种操作要谨慎。
 
 在本地新建一个分支： git branch newBranch

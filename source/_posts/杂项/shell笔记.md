@@ -14,7 +14,7 @@ date: 2021-05-27 20:59:49
 
 $()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=`cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。
 
-$与${}都是用来获取变量内容的
+`$`与`${}`都是用来获取变量内容的
 
 `$?` 来获取上条代码返回值，一般退出状态非0表示执行出错
 
@@ -41,6 +41,13 @@ fi
 ```shell
 if [ -f "$IPA_FILE" ] ; then
 fi
+```
+
+获取当前路径
+```shell
+CURRENT_PATH=$(cd "$(dirname "$0")";pwd)
+
+CURRENT_PATH=$(dirname $(readlink -f $0 )) 
 ```
 
 ## sed命令
