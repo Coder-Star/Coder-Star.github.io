@@ -1293,6 +1293,36 @@
   </entry>
   
   <entry>
+    <title>iOS持久化方式-总览</title>
+    <link href="https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-%E6%80%BB%E8%A7%88/"/>
+    <id>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-%E6%80%BB%E8%A7%88/</id>
+    <published>2021-02-24T14:43:50.000Z</published>
+    <updated>2021-06-01T09:17:10.307Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="../../../../img/iOS/基础原理/iOS持久化方式.webp" alt="iOS持久化方式.webp"></p><ul><li>UserDefaults<br>这种方式本质上还是 plist 文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的 plist 文件放置在 Library/Preference，生成的 plist 文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密；</li><li>keychain 钥匙串<br>此种方式存储的信息不会随着 APP 的卸载还删除。很安全。</li><li>归档<br>数据对象需要遵守 NSCoding 协议。缺点：只能一次性归档保存或者一次性解压。所以只能针对小量数据，对数据操作比较笨拙，如果想改动数据的某一个小部分，需要解压或者归档整个数据；（NSKeyedArchiver、NSKeyedUnarchiver）。这种方式可以存储自定义对象，如用户 Model 等。相对 UserDefaults 以及 plist 文件来说更安全一些，因为数据归档时候是进行加密的。</li><li>沙盒文件（Sandbox）<br>应用沙盒机制：每个 iOS 应用都有自己的应用沙盒（文件系统目录），与其他文件系统隔离。每个应用必须在自己的沙盒里运行，其他应用不能访问该沙盒。</li><li>plist 文件<br>plist 文件是将某些特定的类，通过 XML 文件的方式保存在目录中，其中还包括 NSArray、NSMutableArray、NSDictionary、NSMutableDictionary、NSData、NSMutableData、NSString、NSMutableString; 可以利用其读写文件方法。(writeToFile 、 WithContentsOfFile)。这种方式不可以保存自定义对象，除非先序列化成 json 文件，再存入。这种方式就是沙盒文件的一种。</li><li>数据库<ul><li>SQLite</li><li>CoreData</li><li>Realm</li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;总览&quot;&gt;&lt;a href=&quot;#总览&quot; class=&quot;headerlink&quot; title=&quot;总览&quot;&gt;&lt;/a&gt;总览&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../../../img/iOS/基础原理/iOS持久化方式.webp&quot; alt=&quot;iOS持久化方式.webp&quot;&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="https://coder-star.github.io/categories/iOS/"/>
+    
+      <category term="基础原理" scheme="https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/"/>
+    
+    
+      <category term="iOS" scheme="https://coder-star.github.io/tags/iOS/"/>
+    
+      <category term="持久化" scheme="https://coder-star.github.io/tags/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>iOS 数据持久化 - Sandbox</title>
     <link href="https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96-Sandbox/"/>
     <id>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%95%B0%E6%8D%AE%E6%8C%81%E4%B9%85%E5%8C%96-Sandbox/</id>
@@ -1338,36 +1368,6 @@
       
       
         &lt;p&gt;iOS 系统的 Keychain 是一个安全的存储容器，它本质上就是一个 sqllite 数据库，它的位置存储在/private/var/Keychains/keychain-2.db。其特性就是存储的所有数据内部都会进行加密，可以用来存储比较敏感的信息，比如密码等。&lt;/p
-      
-    
-    </summary>
-    
-    
-      <category term="iOS" scheme="https://coder-star.github.io/categories/iOS/"/>
-    
-      <category term="基础原理" scheme="https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/"/>
-    
-    
-      <category term="iOS" scheme="https://coder-star.github.io/tags/iOS/"/>
-    
-      <category term="持久化" scheme="https://coder-star.github.io/tags/%E6%8C%81%E4%B9%85%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS持久化方式-总览</title>
-    <link href="https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-%E6%80%BB%E8%A7%88/"/>
-    <id>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E4%B8%AD%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F-%E6%80%BB%E8%A7%88/</id>
-    <published>2021-02-24T14:43:50.000Z</published>
-    <updated>2021-06-01T09:17:10.307Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="../../../../img/iOS/基础原理/iOS持久化方式.webp" alt="iOS持久化方式.webp"></p><ul><li>UserDefaults<br>这种方式本质上还是 plist 文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的 plist 文件放置在 Library/Preference，生成的 plist 文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密；</li><li>keychain 钥匙串<br>此种方式存储的信息不会随着 APP 的卸载还删除。很安全。</li><li>归档<br>数据对象需要遵守 NSCoding 协议。缺点：只能一次性归档保存或者一次性解压。所以只能针对小量数据，对数据操作比较笨拙，如果想改动数据的某一个小部分，需要解压或者归档整个数据；（NSKeyedArchiver、NSKeyedUnarchiver）。这种方式可以存储自定义对象，如用户 Model 等。相对 UserDefaults 以及 plist 文件来说更安全一些，因为数据归档时候是进行加密的。</li><li>沙盒文件（Sandbox）<br>应用沙盒机制：每个 iOS 应用都有自己的应用沙盒（文件系统目录），与其他文件系统隔离。每个应用必须在自己的沙盒里运行，其他应用不能访问该沙盒。</li><li>plist 文件<br>plist 文件是将某些特定的类，通过 XML 文件的方式保存在目录中，其中还包括 NSArray、NSMutableArray、NSDictionary、NSMutableDictionary、NSData、NSMutableData、NSString、NSMutableString; 可以利用其读写文件方法。(writeToFile 、 WithContentsOfFile)。这种方式不可以保存自定义对象，除非先序列化成 json 文件，再存入。这种方式就是沙盒文件的一种。</li><li>数据库<ul><li>SQLite</li><li>CoreData</li><li>Realm</li></ul></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;总览&quot;&gt;&lt;a href=&quot;#总览&quot; class=&quot;headerlink&quot; title=&quot;总览&quot;&gt;&lt;/a&gt;总览&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../../../img/iOS/基础原理/iOS持久化方式.webp&quot; alt=&quot;iOS持久化方式.webp&quot;&gt;
       
     
     </summary>
