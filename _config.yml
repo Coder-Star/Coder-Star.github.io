@@ -8,7 +8,7 @@ subtitle: #博客子标题
 description: Think more, Code less # 作者描述
 keywords: iOS,CoderStar # 站点关键词，用于搜索优化
 author: CoderStar # 博主名
-language: zh-Hans # 站点语言
+language: zh-CN # 站点语言
 timezone: Asia/Shanghai # 时区
 
 # 注意
@@ -78,7 +78,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-theme-next
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -107,3 +107,15 @@ symbols_count_time:
   # 网页底部是否显示
   total_symbols: true
   total_time: true
+
+# SEO 
+sitemap: 
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
+
+excerpt:
+  depth: 5
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true
