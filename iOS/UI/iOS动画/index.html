@@ -276,7 +276,6 @@
       
         <h2 id="CGAffineTransform"><a href="#CGAffineTransform" class="headerlink" title="CGAffineTransform"></a>CGAffineTransform</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="type">UIView</span>(frame: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">100</span>, height: <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缩放出显示出的大小为50*50</span></span><br><span class="line">view.transform = <span class="type">CGAffineTransform</span>.identity.scaledBy(x: <span class="number">0.5</span>, y: <span class="number">0.5</span>)</span><br><span class="line"><span class="comment">// 缩放出显示出的大小为200*200，而不是 50*50 的2倍</span></span><br><span class="line"><span class="comment">// 原因使用 CGAffineTransform.identity 这种方式进行缩放是基于一个常量进行缩放的，这个常量为view真实的frame</span></span><br><span class="line">view.transform = <span class="type">CGAffineTransform</span>.identity.scaledBy(x: <span class="number">2</span>, y: <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
 
-
     </div>
 
     

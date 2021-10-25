@@ -790,8 +790,8 @@
 
       
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<p>我们之前已经讲过 <a href="../iOS多线程-Thread">iOS多线程-Thread</a> 以及 <a href="../iOS多线程-GCD">iOS多线程-GCD</a>，我们今天来聊一聊iOS多线程中最后一种比较常用的方式–<code>Operation</code>。</p>
-<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>对于 Operation 而言，其相关的类比 GCD 要少的多。<code>Operation</code>本身是一个<code>抽象类</code>，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 –<code>BlockOperation</code>。（在 OC 中，还有一个是<code>NSInvocationOperation</code>，但在 Swift 中，该子类已经在 Swift4 里去掉，想必去掉的原因大家也很容易理解，因为 Swift 语言本身就不推荐 <code>selector</code> 这种形式）。</p>
+<p>我们之前已经讲过 <a href="../iOS多线程-Thread">iOS多线程-Thread</a> 以及 <a href="../iOS多线程-GCD">iOS多线程-GCD</a>，我们今天来聊一聊iOS多线程中最后一种比较常用的方式—<code>Operation</code>。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>对于 Operation 而言，其相关的类比 GCD 要少的多。<code>Operation</code>本身是一个<code>抽象类</code>，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 —<code>BlockOperation</code>。（在 OC 中，还有一个是<code>NSInvocationOperation</code>，但在 Swift 中，该子类已经在 Swift4 里去掉，想必去掉的原因大家也很容易理解，因为 Swift 语言本身就不推荐 <code>selector</code> 这种形式）。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/iOS/多线程/iOS多线程-Operation/#more" rel="contents">
@@ -891,7 +891,7 @@
 
       
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<p>今天给大家带来多线程系列的第二篇文章 – <code>GCD</code>，其大概率是我们在使用多线程时最常用的方式了。</p>
+<p>今天给大家带来多线程系列的第二篇文章 — <code>GCD</code>，其大概率是我们在使用多线程时最常用的方式了。</p>
 <p>GCD 全称是 <code>Grand Central Dispatch</code>，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。</p>
 <p>对开发者而言，面对的不再是上一篇文章<a href="../iOS多线程-Thread">iOS多线程-Thread</a>所描述的线程，CGD将线程概念模糊掉，开发者转而面对的是更上层的队列和任务，不再需要考虑线程的周期以及调度等等，这些交由GCD内部处理就好。</p>
           <!--noindex-->
@@ -1100,9 +1100,7 @@
 
       
           <p><strong>info.list中的配置</strong><br>Status bar is initially hidden // 设置全局状态栏是否隐藏</p>
-<p>View controller-based status bar appearance // 设置VC对其所在页面状态栏是否进行控制，当为YES时，则以VC设置为准，当为NO，则以上述配置为准，设置为YES后，拥有的相关设置如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> prefersStatusBarHidden: <span class="type">Bool</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> preferredStatusBarStyle: <span class="type">UIStatusBarStyle</span></span><br><span class="line"><span class="comment">// UINavigationController使用</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController?</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController?</span> </span><br><span class="line">setNeedsStatusBarAppearanceUpdate()  <span class="comment">// 这个方法会通知系统去调用当前UIViewController的preferredStatusBarStyle方法</span></span><br></pre></td></tr></table></figure>
-
+<p>View controller-based status bar appearance // 设置VC对其所在页面状态栏是否进行控制，当为YES时，则以VC设置为准，当为NO，则以上述配置为准，设置为YES后，拥有的相关设置如下：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> prefersStatusBarHidden: <span class="type">Bool</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> preferredStatusBarStyle: <span class="type">UIStatusBarStyle</span></span><br><span class="line"><span class="comment">// UINavigationController使用</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController?</span></span><br><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController?</span> </span><br><span class="line">setNeedsStatusBarAppearanceUpdate()  <span class="comment">// 这个方法会通知系统去调用当前UIViewController的preferredStatusBarStyle方法</span></span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -1192,7 +1190,6 @@
       
           <h2 id="Date-对象"><a href="#Date-对象" class="headerlink" title="Date 对象"></a>Date 对象</h2><p>可以通过下面四种形式创建 Date 对象；</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(); <span class="comment">// 当前日期和时间</span></span><br><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(milliseconds); <span class="comment">// milliseconds指距离 1970 年 1 月 1 日至指定日期的毫秒数</span></span><br><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(dateString);</span><br><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(year, month, day, hours, minutes, seconds, milliseconds);</span><br></pre></td></tr></table></figure>
-
 <p>其中对于第三种，常用的 dateString 形式包含两种格式，一种为<code>yyyy-MM-dd hh:mm:ss</code>，另一种为<code>yyyy/MM/dd hh:mm:ss</code>。其中第一种在 iOS 不兼容，转换出来的 Date 为 NaN。</p>
 <h2 id="input-标签在-disabled-情况下颜色偏淡"><a href="#input-标签在-disabled-情况下颜色偏淡" class="headerlink" title="input 标签在 disabled 情况下颜色偏淡"></a>input 标签在 disabled 情况下颜色偏淡</h2>
           <!--noindex-->

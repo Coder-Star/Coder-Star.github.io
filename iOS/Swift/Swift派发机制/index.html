@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/%E5%87%BD%E6%95%B0%E8%A1%A8%E6%B4%BE%E5%8F%91.jpeg">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/函数表派发.jpeg">
 <meta property="og:updated_time" content="2021-10-15T13:21:16.953Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 派发机制">
 <meta name="twitter:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/%E5%87%BD%E6%95%B0%E8%A1%A8%E6%B4%BE%E5%8F%91.jpeg">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/函数表派发.jpeg">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/Swift/Swift派发机制/">
 
@@ -293,7 +293,7 @@
 <h2 id="函数表派发"><a href="#函数表派发" class="headerlink" title="函数表派发"></a>函数表派发</h2><p>函数表是编译型语言常见的派发方式，函数表使用数组来存储类中声明的每个函数的指针。对于这个表，大部分语言叫 <code>Virtual table(虚函数表)</code> 。，根据 Swift 编译生成的 SIL 文件分析，Swift 中存在两种函数表，其中协议使用的是 <code>witness_table</code> (sil 文件中名为 sil_witness_table)，类使用的是 <code>virtual_table</code>（sil 文件中名为 sil_vtable）。</p>
 <p>每一个类都会维护一个函数表，里面记录着类所有的函数，如果父类函数被 override，表里面只会保存被 override 之后的函数。 一个子类新添加的函数，都会被插入到这个数组的最后。运行时会根据这一个表去决定实际要被调用的函数；</p>
 <p>一个函数被调用时会先去读取对象的函数表（读取第一次），再根据类的地址加上该的函数的偏移量得到函数地址（读取第二次），最后跳到那个地址上去（跳转一次）。 整个过程是两次读取一次跳转，比直接派发慢一些。</p>
-<p><img src="../../../img/iOS/Swift/%E5%87%BD%E6%95%B0%E8%A1%A8%E6%B4%BE%E5%8F%91.jpeg" alt="函数表派发"></p>
+<p><img src="../../../img/iOS/Swift/函数表派发.jpeg" alt="函数表派发"></p>
 <h2 id="消息派发"><a href="#消息派发" class="headerlink" title="消息派发"></a>消息派发</h2><p>消息派发是动态性最强的派发方式，也是性能最差的一种方式；方法调用包装成消息，发给运行时（相当于中间人），运行时会找到类对象，类对象会保存类的数据信息，或通过父类查找，直到命中执行，如果没找到方法，抛出异常，运行时提供了很多动态的方法用于改变消息派发的行为，相比函数表派发有很强的动态性，由于运行时支持的功能很多，方法查找的过程比较长，所以性能比较低；<br>OC 消息派发过程在这不展开说，后续有博文专门说这个。</p>
 <h2 id="Swift-中的函数派发"><a href="#Swift-中的函数派发" class="headerlink" title="Swift 中的函数派发"></a>Swift 中的函数派发</h2><p>分析SIL文件，我们可以分析出Swift中派发方式的规律，关于SIL相关知识，可以参照该文<a href="../../进阶/iOS编译简析">iOS编译简析</a>，本文只给出关键命令 <code>swiftc main.swift -emit-sil | xcrun swift-demangle &gt; main.sil</code> 。</p>
 <p>派发方式与 SIL 文件中关键指令对应关系</p>
@@ -305,46 +305,49 @@
 <li>指定行为</li>
 <li>显式地优化</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center"></th>
-<th align="center"><strong>直接派发</strong></th>
-<th align="center"><strong>函数表派发</strong></th>
-<th align="center"><strong>消息派发</strong></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"><strong>直接派发</strong></th>
+<th style="text-align:center"><strong>函数表派发</strong></th>
+<th style="text-align:center"><strong>消息派发</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">NSObject</td>
-<td align="center">@nonobjc 或者 final 修饰的方法</td>
-<td align="center">声明作用域中方法</td>
-<td align="center">扩展方法及被 dynamic 修饰的方法</td>
+<tbody>
+<tr>
+<td style="text-align:center">NSObject</td>
+<td style="text-align:center">@nonobjc 或者 final 修饰的方法</td>
+<td style="text-align:center">声明作用域中方法</td>
+<td style="text-align:center">扩展方法及被 dynamic 修饰的方法</td>
 </tr>
 <tr>
-<td align="center">Class</td>
-<td align="center">不被 @objc 修饰的扩展方法及被 final 修饰的方法</td>
-<td align="center">声明作用域中方法</td>
-<td align="center">dynamic 修饰的方法或者被 @objc 修饰的扩展方法</td>
+<td style="text-align:center">Class</td>
+<td style="text-align:center">不被 @objc 修饰的扩展方法及被 final 修饰的方法</td>
+<td style="text-align:center">声明作用域中方法</td>
+<td style="text-align:center">dynamic 修饰的方法或者被 @objc 修饰的扩展方法</td>
 </tr>
 <tr>
-<td align="center">Protocol</td>
-<td align="center">扩展方法</td>
-<td align="center">声明作用域中方法</td>
-<td align="center">@objc 修饰的方法或者被 objc 修饰的协议中所有方法</td>
+<td style="text-align:center">Protocol</td>
+<td style="text-align:center">扩展方法</td>
+<td style="text-align:center">声明作用域中方法</td>
+<td style="text-align:center">@objc 修饰的方法或者被 objc 修饰的协议中所有方法</td>
 </tr>
 <tr>
-<td align="center">Value Type</td>
-<td align="center">所有方法</td>
-<td align="center">无</td>
-<td align="center">无</td>
+<td style="text-align:center">Value Type</td>
+<td style="text-align:center">所有方法</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">无</td>
 </tr>
 <tr>
-<td align="center">其他</td>
-<td align="center">全局方法，staic 修饰的方法；使用 final 声明的类里面的所有方法；使用 private 声明的方法和属性会隐式 final 声明；</td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center">其他</td>
+<td style="text-align:center">全局方法，staic 修饰的方法；使用 final 声明的类里面的所有方法；使用 private 声明的方法和属性会隐式 final 声明；</td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>通过该表格你大概就可以理解一下 Swift 语言中的一些限制了：</p>
 <ul>
 <li>extension 中定义的方法如果想 overrite，需要在方法上加上 @objc 修饰符；因为如果不加 @objc，走的是直接派发，无法重写方法。</li>

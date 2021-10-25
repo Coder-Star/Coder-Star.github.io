@@ -464,7 +464,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F.webp" alt="iOS持久化方式.webp"></p>
+          <h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="../../../../img/iOS/基础原理/iOS持久化方式.webp" alt="iOS持久化方式.webp"></p>
 <ul>
 <li>UserDefaults<br>这种方式本质上还是 plist 文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的 plist 文件放置在 Library/Preference，生成的 plist 文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密；</li>
 <li>keychain 钥匙串<br>此种方式存储的信息不会随着 APP 的卸载还删除。很安全。</li>
@@ -550,7 +550,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>432</span>
+              <span>431</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -570,7 +570,6 @@
 
       
           <h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct objc_method &#123;</span><br><span class="line">    SEL _Nonnull method_name           OBJC2_UNAVAILABLE;</span><br><span class="line">    char * _Nullable method_types      OBJC2_UNAVAILABLE;</span><br><span class="line">    IMP _Nonnull method_imp            OBJC2_UNAVAILABLE;</span><br><span class="line">&#125;                                      OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
-
 <p>SEL、IMP 都是 Method 结构体的属性。</p>
 <p><strong>SEL：方法的名称、标识</strong></p>
 <p><strong>获取方式</strong></p>

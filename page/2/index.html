@@ -467,7 +467,6 @@
 
       
           <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">UITableViewDataSourcePrefetching</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])</span></span></span><br><span class="line">    <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cancelPrefetchingForRowsAt indexPaths:</span></span></span><br><span class="line"><span class="function"><span class="params">                            [NSIndexPath])</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UITableView</span> : <span class="title">UIScrollView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> prefetchDataSource: <span class="type">UITableViewDataSourcePrefetching?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="cell-复用"><a href="#cell-复用" class="headerlink" title="cell 复用"></a>cell 复用</h3><p>cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；</p>
 <p>为了使 cell 可以尽可能进行复用，需要尽量减少 tableview 的 cell 种类，可以将几种 cell 集中在一个 cell 上，然后通过控制子视图的显示与隐藏起到展示不同 cell 的效果；同理，尽量少用 addView 给 Cell 动态添加 View，可以初始化时就添加，然后通过 hide 来控制是否显示；</p>
 <h3 id="高度缓存"><a href="#高度缓存" class="headerlink" title="高度缓存"></a>高度缓存</h3>
@@ -873,7 +872,7 @@
       
           <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
 <p>今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没用过这个设计模式的。</p>
-<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p><img src="../../img/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/SingletonUML.png" alt="SingletonUML"></p>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p><img src="../../img/设计模式/SingletonUML.png" alt="SingletonUML"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/设计模式/设计模式-单例模式/#more" rel="contents">
@@ -968,7 +967,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="shell基础"><a href="#shell基础" class="headerlink" title="shell基础"></a>shell基础</h2><p>$()与``都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=<code>cat main.swift</code>，就可以将main.swift中的内容作为字符串赋值给变量RESULT。</p>
+          <h2 id="shell基础"><a href="#shell基础" class="headerlink" title="shell基础"></a>shell基础</h2><p>$()与<code>`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=</code>cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。</p>
 <p><code>$</code>与<code>${}</code>都是用来获取变量内容的</p>
 <p><code>$?</code> 来获取上条代码返回值，一般退出状态非0表示执行出错</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-eq //equals等于</span><br><span class="line">-ne //no equals不等于</span><br><span class="line">-gt //greater than 大于</span><br><span class="line">-lt //less than小于</span><br><span class="line">-ge //greater equals大于等于</span><br><span class="line">-le //less equals小于等于</span><br></pre></td></tr></table></figure>
@@ -1085,18 +1084,14 @@
 </li>
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">field.text = nickName</span><br><span class="line">field.sendActions(<span class="keyword">for</span>: .editingChanged)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p><code>selector-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1415360-addobserver" target="_blank" rel="noopener">addObserver(_:selector:name:object:)</a> 不再需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 方法（iOS 11.2 中测试）;<br><code>block-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1411723-addobserver" target="_blank" rel="noopener">addObserver(forName:object:queue:using:)</a> 还是需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 才能删除 callback Block（在 iOS 11.2 中测试）。</p>
 </li>
 <li><p>UITableCell初始化时Width不管是什么机型都会是320，如果在该时间需要使用Width，需要手动设置一下Width；</p>
 </li>
-<li><p>UILabel设置渐变色后，文字看不见，建议换成UIButton；</p>
-</li>
-<li><p>UILabel设置frame如果数值不为整数时，可能会有一个灰边。</p>
-</li>
-<li><p>UILabel调整基线准值，会导致不换行。</p>
-</li>
+<li>UILabel设置渐变色后，文字看不见，建议换成UIButton；</li>
+<li>UILabel设置frame如果数值不为整数时，可能会有一个灰边。</li>
+<li>UILabel调整基线准值，会导致不换行。</li>
 </ul>
 
       

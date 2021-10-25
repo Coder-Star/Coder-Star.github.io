@@ -371,7 +371,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Swif与OC对比"><a href="#Swif与OC对比" class="headerlink" title="Swif与OC对比"></a>Swif与OC对比</h2><p><img src="../../img/iOS/Swift/Swift-OC%E5%AF%B9%E6%AF%94.png" alt="Swift-Objec数据类型对应"></p>
+          <h2 id="Swif与OC对比"><a href="#Swif与OC对比" class="headerlink" title="Swif与OC对比"></a>Swif与OC对比</h2><p><img src="../../img/iOS/Swift/Swift-OC对比.png" alt="Swift-Objec数据类型对应"></p>
 <h2 id="UIImageView-加载图片相关"><a href="#UIImageView-加载图片相关" class="headerlink" title="UIImageView 加载图片相关"></a>UIImageView 加载图片相关</h2><p><strong>过程</strong></p>
 <ul>
 <li>从磁盘拷贝数据到内核缓冲区域；</li>
@@ -678,7 +678,6 @@
 <p>每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 View 本身，结果就是 Gesture Recognizer 作为 View 处理触控事件的代理。当 Gesture Recognizer 接收到指定的事件时，它就会发送一条动作消息(action message)给 ViewController 并处理。</p>
 </blockquote>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//labelOne点击事件会失效</span></span><br><span class="line"><span class="keyword">let</span> singleTapGesture = <span class="type">UITapGestureRecognizer</span>(target: <span class="keyword">self</span>, action: #selector(changeAgreeState))</span><br><span class="line"></span><br><span class="line">labelOne.addGestureRecognizer(singleTapGesture)</span><br><span class="line">labelOne.isUserInteractionEnabled = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">labelTwo.addGestureRecognizer(singleTapGesture)</span><br><span class="line">labelTwo.isUserInteractionEnabled = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="2、元素被导航栏遮挡"><a href="#2、元素被导航栏遮挡" class="headerlink" title="2、元素被导航栏遮挡"></a>2、元素被导航栏遮挡</h2>
           <!--noindex-->
             <div class="post-button">
@@ -881,7 +880,6 @@
       
           <h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3><p>UITableView 有两种样式（plain，grouped），其中 plain 为普通列表样式，grouped 是分组样式。可以在实例化的时候进行设置，默认是 plain。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//tableview样式</span></span><br><span class="line"><span class="keyword">let</span>  tableView = <span class="type">UITableView</span>()  <span class="comment">//plain形式</span></span><br><span class="line"><span class="keyword">let</span>  tableview = <span class="type">UITableView</span>(frame:frame, style:.grouped) <span class="comment">//grouped形式</span></span><br><span class="line"></span><br><span class="line">tableview.separatorStyle = .singleLine <span class="comment">//设置是否有横线,默认有横线</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//tablecell样式</span></span><br><span class="line">tablecell.selectionStyle = .gray  <span class="comment">//设置cell点击的样式，其中设置为none时候点击时候没有阴影效果</span></span><br><span class="line">tablecell.accessoryType = .disclosureIndicator <span class="comment">//设置cell尾部样式，箭头还是对号等等</span></span><br></pre></td></tr></table></figure>
-
 <h3 id="数据源（UITableViewDataSource）"><a href="#数据源（UITableViewDataSource）" class="headerlink" title="数据源（UITableViewDataSource）"></a>数据源（UITableViewDataSource）</h3>
           <!--noindex-->
             <div class="post-button">
@@ -978,9 +976,7 @@
 
       
           <h2 id="1、下载-Flutter"><a href="#1、下载-Flutter" class="headerlink" title="1、下载 Flutter"></a>1、下载 Flutter</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b master https://github.com/flutter/flutter.git</span><br></pre></td></tr></table></figure>
-
 <h2 id="2、配置环境变量"><a href="#2、配置环境变量" class="headerlink" title="2、配置环境变量"></a>2、配置环境变量</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> ~/.bash_profile</span><br><span class="line"></span><br><span class="line">//加入内容</span><br><span class="line">export PATH=/你的flutter文件夹所在位置/flutter/bin:$PATH</span><br><span class="line">export PUB_HOSTED_URL=http<span class="variable">s:</span>//pub.flutter-io.<span class="keyword">cn</span></span><br><span class="line">export FLUTTER_STORAGE_BASE_URL=http<span class="variable">s:</span>//storage.flutter-io.<span class="keyword">cn</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">source</span> ~/.bash_profile</span><br><span class="line">flutter -h //显示相关帮助</span><br></pre></td></tr></table></figure>
-
 <h2 id="3、flutter-相关命令"><a href="#3、flutter-相关命令" class="headerlink" title="3、flutter 相关命令"></a>3、flutter 相关命令</h2>
           <!--noindex-->
             <div class="post-button">

@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="http OSI 网络模型 tcp 与 udptcp 特点  三次握手、四次挥手 滑动窗口 拥塞控制">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B.png">
+<meta property="og:image" content="https://coder-star.github.io/img/网络/网络模型.png">
 <meta property="og:updated_time" content="2021-06-01T09:17:10.320Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网络相关面试题">
 <meta name="twitter:description" content="http OSI 网络模型 tcp 与 udptcp 特点  三次握手、四次挥手 滑动窗口 拥塞控制">
-<meta name="twitter:image" content="https://coder-star.github.io/img/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/网络/网络模型.png">
 
 <link rel="canonical" href="https://coder-star.github.io/网络/网络相关面试题/">
 
@@ -272,7 +272,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="http-OSI-网络模型"><a href="#http-OSI-网络模型" class="headerlink" title="http OSI 网络模型"></a>http OSI 网络模型</h2><p><img src="../../img/%E7%BD%91%E7%BB%9C/%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B.png" alt="网络模型"></p>
+        <h2 id="http-OSI-网络模型"><a href="#http-OSI-网络模型" class="headerlink" title="http OSI 网络模型"></a>http OSI 网络模型</h2><p><img src="../../img/网络/网络模型.png" alt="网络模型"></p>
 <h2 id="tcp-与-udp"><a href="#tcp-与-udp" class="headerlink" title="tcp 与 udp"></a>tcp 与 udp</h2><p><strong>tcp 特点</strong></p>
 <ol>
 <li>三次握手、四次挥手</li>
@@ -314,14 +314,10 @@
 </li>
 <li><p>Accept: 允许哪些媒体类型。</p>
 </li>
-<li><p>Accept-Charset: 允许哪些字符集。</p>
-</li>
-<li><p>Accept-Encoding: 允许哪些编码。</p>
-</li>
-<li><p>Accept-Language: 允许哪些语言。</p>
-</li>
-<li><p>Authorization： 当客户端接收到来自 WEB 服务器的 WWW-Authenticate 响应时，该头部来回应自己的身份验证信息给 WEB 服务器。</p>
-</li>
+<li>Accept-Charset: 允许哪些字符集。</li>
+<li>Accept-Encoding: 允许哪些编码。</li>
+<li>Accept-Language: 允许哪些语言。</li>
+<li>Authorization： 当客户端接收到来自 WEB 服务器的 WWW-Authenticate 响应时，该头部来回应自己的身份验证信息给 WEB 服务器。</li>
 <li><p>Cache-Control:</p>
 <p>请求：</p>
 <ul>
@@ -341,44 +337,25 @@
 </li>
 <li><p>Connection: 连接选项，例如是否允许代理。</p>
 </li>
-<li><p>Host: 请求的主机。</p>
-</li>
-<li><p>If-None-Match: 判断请求实体的 Etag 是否包含在 If-None-Match 中，如果包含，则返回 304，使用缓存，见 Etag。</p>
-</li>
-<li><p>If-Modified-Since: 判断修改时间是否一致，如果一致，则使用缓存，。 、</p>
-</li>
-<li><p>If-Match: 与 If-None-Match 相反。</p>
-</li>
-<li><p>If-Unmodified-Since: 与 If-Modified-Since 相反。</p>
-</li>
-<li><p>Referer: 表明这个请求发起的源头。</p>
-</li>
-<li><p>User-Agent: 这个大家相信应该很熟悉了，就是经常用来做浏览器检测的 userAgent。</p>
-</li>
-<li><p>Cache-Control: 缓存策略，如 max-age:100，详见官方文档。</p>
-</li>
-<li><p>Connection: 连接选项，例如是否允许代理。</p>
-</li>
-<li><p>Content-Encoding: 返回内容的编码，如 gzip。</p>
-</li>
-<li><p>Content-Language: 返回内容的语言。</p>
-</li>
-<li><p>Content-Length: 返回内容的字节长度。</p>
-</li>
-<li><p>Data: 返回时间。</p>
-</li>
-<li><p>Etag: entity tag，实体标签，给每个实体生成一个单独的值，用于客户端缓存，与 If-None-Match 配合使用。</p>
-</li>
-<li><p>Expires: 设置缓存过期时间，Cache-Control 也会相应变化。</p>
-</li>
-<li><p>Last-Modified: 最近修改时间，用于客户端缓存，与 If-Modified-Since 配合使用。</p>
-</li>
-<li><p>Pragma: 似乎和 Cache-Control 差不多，用于旧的浏览器。</p>
-</li>
-<li><p>Server: 服务器信息。</p>
-</li>
-<li><p>Vary: WEB 服务器用该头部的内容告诉 Cache 服务器，在什么条件下才能用本响应所返回的对象响应后续的请求。假如源 WEB 服务器在接到第一个请求消息时，其响应消息的头部为：Content-Encoding: gzip; Vary: Content-Encoding 那么 Cache 服务器会分析后续请求消息的头部，检查其 Accept-Encoding，是否跟先前响应的 Vary 头部值一致，即是否使用相同的内容编码方法，这样就可以防止 Cache 服务器用自己 Cache 里面压缩后的实体响应给不具备解压能力的浏览器。</p>
-</li>
+<li>Host: 请求的主机。</li>
+<li>If-None-Match: 判断请求实体的 Etag 是否包含在 If-None-Match 中，如果包含，则返回 304，使用缓存，见 Etag。</li>
+<li>If-Modified-Since: 判断修改时间是否一致，如果一致，则使用缓存，。 、</li>
+<li>If-Match: 与 If-None-Match 相反。</li>
+<li>If-Unmodified-Since: 与 If-Modified-Since 相反。</li>
+<li>Referer: 表明这个请求发起的源头。</li>
+<li>User-Agent: 这个大家相信应该很熟悉了，就是经常用来做浏览器检测的 userAgent。</li>
+<li>Cache-Control: 缓存策略，如 max-age:100，详见官方文档。</li>
+<li>Connection: 连接选项，例如是否允许代理。</li>
+<li>Content-Encoding: 返回内容的编码，如 gzip。</li>
+<li>Content-Language: 返回内容的语言。</li>
+<li>Content-Length: 返回内容的字节长度。</li>
+<li>Data: 返回时间。</li>
+<li>Etag: entity tag，实体标签，给每个实体生成一个单独的值，用于客户端缓存，与 If-None-Match 配合使用。</li>
+<li>Expires: 设置缓存过期时间，Cache-Control 也会相应变化。</li>
+<li>Last-Modified: 最近修改时间，用于客户端缓存，与 If-Modified-Since 配合使用。</li>
+<li>Pragma: 似乎和 Cache-Control 差不多，用于旧的浏览器。</li>
+<li>Server: 服务器信息。</li>
+<li>Vary: WEB 服务器用该头部的内容告诉 Cache 服务器，在什么条件下才能用本响应所返回的对象响应后续的请求。假如源 WEB 服务器在接到第一个请求消息时，其响应消息的头部为：Content-Encoding: gzip; Vary: Content-Encoding 那么 Cache 服务器会分析后续请求消息的头部，检查其 Accept-Encoding，是否跟先前响应的 Vary 头部值一致，即是否使用相同的内容编码方法，这样就可以防止 Cache 服务器用自己 Cache 里面压缩后的实体响应给不具备解压能力的浏览器。</li>
 </ul>
 <h2 id="post、get-请求区别"><a href="#post、get-请求区别" class="headerlink" title="post、get 请求区别"></a>post、get 请求区别</h2><h2 id="http0-9、http1-0、http1-1、http2-0、http3-0"><a href="#http0-9、http1-0、http1-1、http2-0、http3-0" class="headerlink" title="http0.9、http1.0、http1.1、http2.0、http3.0"></a>http0.9、http1.0、http1.1、http2.0、http3.0</h2><ul>
 <li>http 0.9: 1991</li>

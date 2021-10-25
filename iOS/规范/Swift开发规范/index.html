@@ -303,7 +303,6 @@
 </li>
 <li><p>【推荐】文件名如果有复数含义，文件名应使用复数形式，如一些工具类；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="type">MessageUtils</span>.swift</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h2 id="二、定义、修饰规约"><a href="#二、定义、修饰规约" class="headerlink" title="二、定义、修饰规约"></a>二、定义、修饰规约</h2><ul>
@@ -320,11 +319,9 @@
 </li>
 <li><p>【推荐】考虑方法是否会被重写。如果不会，标记为 <code>final</code>；<br>说明：Swift 在编译时会优化 <code>final</code> 修饰的方法，派发方式可能由函数表派发优化为直接派发。</p>
 </li>
-<li><p>【推荐】尽可能利用访问限制修饰符控制类、方法等的访问限制，遵循开闭原则；<br>说明：如确定某方法或变量不应该被外部调用，就使用<code>private</code>进行修饰，编译程序阻止外部不合适的调用。同时<code>private</code>在 Swift 中会被隐式加上<code>final</code>修饰，从而得到优化。</p>
-</li>
+<li>【推荐】尽可能利用访问限制修饰符控制类、方法等的访问限制，遵循开闭原则；<br>说明：如确定某方法或变量不应该被外部调用，就使用<code>private</code>进行修饰，编译程序阻止外部不合适的调用。同时<code>private</code>在 Swift 中会被隐式加上<code>final</code>修饰，从而得到优化。</li>
 <li><p>【推荐】表示单例的静态属性，一般命名为 <code>shared</code> 或者 <code>default</code>，并切记将构造函数私有，否则单例毫无意义；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正例：</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ApplicationServiceManager</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared =  <span class="type">ApplicationServiceManager</span>()</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">init</span> &#123;&#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h2 id="三、格式规约"><a href="#三、格式规约" class="headerlink" title="三、格式规约"></a>三、格式规约</h2><ul>
@@ -350,7 +347,6 @@
 </ul>
 <p>代码示例（代码不具有业务含义，只是简单的格式规约示例）</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 涉及规约</span></span><br><span class="line"><span class="comment"> 1、类左大括号不另起一行；</span></span><br><span class="line"><span class="comment"> 2、类继承后跟空格；</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 格式规约示例</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormatSample</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     涉及规约</span></span><br><span class="line"><span class="comment">     1、注释符号与注释内容之前有空格；</span></span><br><span class="line"><span class="comment">     2、每一行只声明一个变量；</span></span><br><span class="line"><span class="comment">     3、不使用分号；</span></span><br><span class="line"><span class="comment">     4、注释另起一行，不放在行尾；</span></span><br><span class="line"><span class="comment">     5、数组、元祖、字典里的逗号后面有一个空格；</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultCode = <span class="string">""</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultArr = [<span class="string">"one"</span>, <span class="string">"two"</span>]</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultDic = [<span class="string">"key"</span>: <span class="string">"name"</span>, <span class="string">"value"</span>: <span class="string">"张三"</span>]</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultTuple = (key: <span class="string">"name"</span>, value: <span class="string">"张三"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 涉及规约</span></span><br><span class="line"><span class="comment"> 1、方法之间空一行；</span></span><br><span class="line"><span class="comment"> 2、重载的声明放在一起，按照按照参数的多少从少到多排序；</span></span><br><span class="line"><span class="comment"> 3、返回值 -&gt; 两遍增加空格；</span></span><br><span class="line"><span class="comment"> 4、参数名与类型之间空格；</span></span><br><span class="line"><span class="comment"> 5、如果大括号内为空，则直接简写为&#123;&#125;，括号内不换行；</span></span><br><span class="line"><span class="comment"> 6、if 后面的 else\else if, 跟着上一个 if\else if 的右括号；</span></span><br><span class="line"><span class="comment"> 7、解包时推荐使用原有名字；</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">FormatSample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">logInfo</span><span class="params">(message: String)</span></span> &#123;</span><br><span class="line">        logInfo(message: message, type: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">logInfo</span><span class="params">(message: String, type: String?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> type = type &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"\(type): \(message)"</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(message)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">canLog</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        #<span class="keyword">if</span> <span class="type">DEBUG</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        #<span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        #endif</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     涉及规约</span></span><br><span class="line"><span class="comment">     1、switch 中, case 跟 switch 左对齐；</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">showSwitchStandardFormat</span><span class="params">()</span></span> &#123;</span><br><span class="line">      <span class="keyword">let</span> <span class="built_in">count</span> = <span class="number">10</span></span><br><span class="line">      <span class="keyword">switch</span> <span class="built_in">count</span> &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">1</span>)</span><br><span class="line">      <span class="comment">// 如case包含所有情况，可不加default，如遍历枚举类型时</span></span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="四、简略规约"><a href="#四、简略规约" class="headerlink" title="四、简略规约"></a>四、简略规约</h2><ul>
 <li><p>【强制】Swift 会被结构体按照自身的成员自动生成一个非 public 的初始化方法，如果这个初始化方法刚好适合，不要自己再声明；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 会自动生成 init(name: String) 这样的构造函数，如果符合使用，不要再手动添加该构造函数</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LoginInfo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -381,14 +377,10 @@
 </li>
 <li><p>【强制】无用的代码及时删除；<br><strong>说明：可能有开发者觉得有些代码可能后续会用到，所以采取了注释的方式。但是这种方式很容易演变成代码会一直放在那，永远不会删掉。即使觉得后续会用到，也请及时删除掉，不然 Git 留着干什么用呢？</strong></p>
 </li>
-<li><p>【推荐】使用闭包时，尽量使用最简写，如优先使用尾随闭包等；</p>
-</li>
-<li><p>【推荐】过滤，转换等，优先使用 filter, map 等高阶函数简化代码，并尽量使用最简写；</p>
-</li>
-<li><p>【推荐】<strong>尽量</strong>使用各种语法糖；<br>说明：语法糖一定程度上会降低代码的可度性，尽量这个度根据各自公司进行调整。</p>
-</li>
-<li><p>【推荐】类似注解的修饰词单独占一行，如<code>@objc</code>，<code>@discardableResult</code> 等；</p>
-</li>
+<li>【推荐】使用闭包时，尽量使用最简写，如优先使用尾随闭包等；</li>
+<li>【推荐】过滤，转换等，优先使用 filter, map 等高阶函数简化代码，并尽量使用最简写；</li>
+<li>【推荐】<strong>尽量</strong>使用各种语法糖；<br>说明：语法糖一定程度上会降低代码的可度性，尽量这个度根据各自公司进行调整。</li>
+<li>【推荐】类似注解的修饰词单独占一行，如<code>@objc</code>，<code>@discardableResult</code> 等；</li>
 </ul>
 <h2 id="五、注释规约"><a href="#五、注释规约" class="headerlink" title="五、注释规约"></a>五、注释规约</h2><ul>
 <li>【强制】文档（API）注释使用单行注释，即<code>///</code>，不使用多行注释，即<code>/** */</code>。 多行注释用于对某一代码段、设计或者复杂业务进行描述；</li>
@@ -398,7 +390,6 @@
 </ul>
 <p>代码示例：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - View子视图操作相关</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIView</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// 同时添加多个视图</span></span><br><span class="line">    <span class="comment">/// - Parameter subviews: 子View可变参数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">addSubviews</span><span class="params">(<span class="number">_</span> subviews: UIView...)</span></span> &#123;</span><br><span class="line">        subviews.forEach(addSubview)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 移除所有子View</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">removeAllSubview</span><span class="params">()</span></span> &#123;</span><br><span class="line">        subviews.forEach &#123;</span><br><span class="line">          $<span class="number">0</span>.removeFromSuperview()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="六、编译效率规约"><a href="#六、编译效率规约" class="headerlink" title="六、编译效率规约"></a>六、编译效率规约</h2><p>该段是提高编译效率，减少编译时间总结提出的规约，对代码可读性及统一风格等影响不大，所以该部分只是作为推荐，不强制一定遵守。</p>
 <ul>
 <li><p>【推荐】数组合并建议使用 append 方法而不是 + 号拼接；</p>
@@ -412,43 +403,28 @@
 </li>
 <li><p>【推荐】不要让可选值使用？? 赋默认值再嵌套其他运算；</p>
 </li>
-<li><p>【推荐】将长计算式代码拆分，最后组合计算；</p>
-</li>
-<li><p>【推荐】尽量不使用 <code>Storyboard</code> 或者 <code>Xib</code>，会增加编译时间；</p>
-</li>
-<li><p>【推荐】减少三目运算符的使用；</p>
-</li>
+<li>【推荐】将长计算式代码拆分，最后组合计算；</li>
+<li>【推荐】尽量不使用 <code>Storyboard</code> 或者 <code>Xib</code>，会增加编译时间；</li>
+<li>【推荐】减少三目运算符的使用；</li>
 </ul>
 <h2 id="七、其他"><a href="#七、其他" class="headerlink" title="七、其他"></a>七、其他</h2><ul>
-<li><p>【强制】函数参数数量最多不得超过 8 个；<br>说明：寄存器数目问题，超过 8 个会影响效率；</p>
-</li>
-<li><p>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用；<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</p>
-</li>
-<li><p>【强制】避免强制解包以及强制类型映射，尽量使用<code>if let</code> 或 <code>guard let</code>进行解包，禁止<code>try！</code>形式处理异常，避免使用隐式解包；</p>
-</li>
-<li><p>【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；</p>
-</li>
-<li><p>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</p>
-</li>
-<li><p>【推荐】实现每个协议时，尽量在单独的 extension 里来实现；</p>
-</li>
-<li><p>【推荐】优先创建函数而不是自定义操作符；</p>
-</li>
-<li><p>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</p>
-</li>
-<li><p>【推荐】赋值数组、字典时每个元素分别占用一行时，最后一个选项后面也添加逗号；这样未来如果有元素加入会更加方便；</p>
-</li>
-<li><p>【推荐】布尔类型属性使用 <code>is</code> 作为属性名前缀，返回值为布尔型类型的方法名使用 <code>is</code> 作为方法名作为前缀；</p>
-</li>
-<li><p>【推荐】使用 guard 来提前结束条件，避免形成判断嵌套；</p>
-</li>
+<li>【强制】函数参数数量最多不得超过 8 个；<br>说明：寄存器数目问题，超过 8 个会影响效率；</li>
+<li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用；<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
+<li>【强制】避免强制解包以及强制类型映射，尽量使用<code>if let</code> 或 <code>guard let</code>进行解包，禁止<code>try！</code>形式处理异常，避免使用隐式解包；</li>
+<li>【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；</li>
+<li>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</li>
+<li>【推荐】实现每个协议时，尽量在单独的 extension 里来实现；</li>
+<li>【推荐】优先创建函数而不是自定义操作符；</li>
+<li>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</li>
+<li>【推荐】赋值数组、字典时每个元素分别占用一行时，最后一个选项后面也添加逗号；这样未来如果有元素加入会更加方便；</li>
+<li>【推荐】布尔类型属性使用 <code>is</code> 作为属性名前缀，返回值为布尔型类型的方法名使用 <code>is</code> 作为方法名作为前缀；</li>
+<li>【推荐】使用 guard 来提前结束条件，避免形成判断嵌套；</li>
 <li><p>【推荐】在闭包中使用 self 时使用捕获列表<code>[weak self]</code>避免循环引用，闭包开始判断 self 的有效性；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正例：</span><br><span class="line">    timer = <span class="type">Timer</span>.scheduledTimer(withTimeInterval: <span class="number">2</span>, repeats: <span class="literal">true</span>) &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> <span class="keyword">self</span> = <span class="keyword">self</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        <span class="keyword">self</span>.timerHandle()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 <code>weak</code> 修饰；</p>
 </li>
-<li><p>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；</p>
-</li>
+<li>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；</li>
 </ul>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://github.com/realm/SwiftLint" target="_blank" rel="noopener">SwiftLint 工具</a> 提示格式错误</p>
 <p><a href="https://github.com/nicklockwood/SwiftFormat" target="_blank" rel="noopener">SwiftFormat 工具</a> 提示并修复格式错误</p>

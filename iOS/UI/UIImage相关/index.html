@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="创建 UIImage 的形式有两种 1234// 简称 named 方法public init?(named name: String)// 简称 contentsOfFile 方法public init?(contentsOfFile path: String)  图片缓存 named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的">
+  <meta name="description" content="创建 UIImage 的形式有两种 1234// 简称 named 方法public init?(named name: String)// 简称 contentsOfFile 方法public init?(contentsOfFile path: String) 图片缓存 named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的 U">
 <meta name="keywords" content="iOS,UIImage">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UIImage相关">
 <meta property="og:url" content="https://coder-star.github.io/iOS/UI/UIImage相关/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="创建 UIImage 的形式有两种 1234// 简称 named 方法public init?(named name: String)// 简称 contentsOfFile 方法public init?(contentsOfFile path: String)  图片缓存 named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的">
+<meta property="og:description" content="创建 UIImage 的形式有两种 1234// 简称 named 方法public init?(named name: String)// 简称 contentsOfFile 方法public init?(contentsOfFile path: String) 图片缓存 named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的 U">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2021-08-02T13:52:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UIImage相关">
-<meta name="twitter:description" content="创建 UIImage 的形式有两种 1234// 简称 named 方法public init?(named name: String)// 简称 contentsOfFile 方法public init?(contentsOfFile path: String)  图片缓存 named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的">
+<meta name="twitter:description" content="创建 UIImage 的形式有两种 1234// 简称 named 方法public init?(named name: String)// 简称 contentsOfFile 方法public init?(contentsOfFile path: String) 图片缓存 named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的 U">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/UI/UIImage相关/">
 
@@ -276,7 +276,6 @@
       
         <p>创建 UIImage 的形式有两种</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 简称 named 方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>?(named name: <span class="type">String</span>)</span><br><span class="line"><span class="comment">// 简称 contentsOfFile 方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>?(contentsOfFile path: <span class="type">String</span>)</span><br></pre></td></tr></table></figure>
-
 <h2 id="图片缓存"><a href="#图片缓存" class="headerlink" title="图片缓存"></a>图片缓存</h2><ul>
 <li><p>named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的 UIImage 对象，如存在，将这个对象返回。如果不存在，则从 bundle 中加载图片数据，创建对象并返回。如果相应的图片数据不存在，返回 nil。<br>这种方式比较适合存放系统常用的，占用内存小的图片资源；</p>
 </li>

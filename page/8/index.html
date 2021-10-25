@@ -371,7 +371,7 @@
 <li>EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flutter 端，原生发送消息,flutter接收，单向通信。</li>
 </ul>
 <p>Channel 提供标准的消息解码器来为我们在发送及接收数据自动进行序列化及序列化；</p>
-<p>支持的数据类型<br><img src="../../img/Flutter/Flutter-Native%E9%80%9A%E4%BF%A1/MethodChannel%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt="支持的数据类型"></p>
+<p>支持的数据类型<br><img src="../../img/Flutter/Flutter-Native通信/MethodChannel数据类型.png" alt="支持的数据类型"></p>
 <p>codec，MessageCodecx 协议</p>
           <!--noindex-->
             <div class="post-button">
@@ -574,7 +574,6 @@
       
           <p>swift 中的关键字被保留，不可将其用作标识符，除非使用反引号``，如</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span> -&gt; `<span class="keyword">default</span>`</span><br></pre></td></tr></table></figure>
-
 <h3 id="声明中的关键字"><a href="#声明中的关键字" class="headerlink" title="声明中的关键字"></a>声明中的关键字</h3><ul>
 <li>class</li>
 <li>enum</li>
@@ -700,7 +699,7 @@
       
           <p>除了图片资源外，Asset Catalogs 也可以存储文本、Data 甚至 AR、apple TV 相关的资源，非常全能。</p>
 <p>先放置一个 Assets.xcassets 中图片的操作选项</p>
-<p><img src="../../../img/iOS/%E7%9B%B8%E5%85%B3/Assets.png" alt="Assets.xcassets"></p>
+<p><img src="../../../img/iOS/相关/Assets.png" alt="Assets.xcassets"></p>
 <h2 id="Render-As-渲染模式"><a href="#Render-As-渲染模式" class="headerlink" title="Render As (渲染模式)"></a>Render As (渲染模式)</h2><p>包含三个选项，分别为</p>
           <!--noindex-->
             <div class="post-button">
@@ -801,7 +800,6 @@
 
       
           <h2 id="CGAffineTransform"><a href="#CGAffineTransform" class="headerlink" title="CGAffineTransform"></a>CGAffineTransform</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> view = <span class="type">UIView</span>(frame: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: <span class="number">100</span>, height: <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 缩放出显示出的大小为50*50</span></span><br><span class="line">view.transform = <span class="type">CGAffineTransform</span>.identity.scaledBy(x: <span class="number">0.5</span>, y: <span class="number">0.5</span>)</span><br><span class="line"><span class="comment">// 缩放出显示出的大小为200*200，而不是 50*50 的2倍</span></span><br><span class="line"><span class="comment">// 原因使用 CGAffineTransform.identity 这种方式进行缩放是基于一个常量进行缩放的，这个常量为view真实的frame</span></span><br><span class="line">view.transform = <span class="type">CGAffineTransform</span>.identity.scaledBy(x: <span class="number">2</span>, y: <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
@@ -996,7 +994,6 @@
       
           <p>创建 UIImage 的形式有两种</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 简称 named 方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>?(named name: <span class="type">String</span>)</span><br><span class="line"><span class="comment">// 简称 contentsOfFile 方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>?(contentsOfFile path: <span class="type">String</span>)</span><br></pre></td></tr></table></figure>
-
 <h2 id="图片缓存"><a href="#图片缓存" class="headerlink" title="图片缓存"></a>图片缓存</h2><ul>
 <li><p>named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的 UIImage 对象，如存在，将这个对象返回。如果不存在，则从 bundle 中加载图片数据，创建对象并返回。如果相应的图片数据不存在，返回 nil。<br>这种方式比较适合存放系统常用的，占用内存小的图片资源；</p>
 </li>
@@ -1107,7 +1104,7 @@
 <li>Swift调用C++是无法直接调用的，需要依赖于C或者OC语言中转一下</li>
 </ul>
 <p>当依赖OC语言来中转调用C++，则OC的.m文件后缀需要改为.mm文件，显式告诉编译器文件内部会包含C++代码。并且需要注意是.mm文件中不允许引入Swift生成的”Product Name-Swift.h”文件，如果引入，该.h文件会报错。</p>
-<p><strong>Swift-C 数据类型对应</strong><br><img src="../../../img/iOS/Swift/Swift-C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AF%B9%E5%BA%94.png" alt="Swift-C数据类型对应"></p>
+<p><strong>Swift-C 数据类型对应</strong><br><img src="../../../img/iOS/Swift/Swift-C数据类型对应.png" alt="Swift-C数据类型对应"></p>
 
       
     </div>
@@ -1201,9 +1198,9 @@
       
           <h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><p><code>KVC</code> 是 <code>Key-Value Coding</code> 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 <code>Setter</code>、<code>Getter</code> 方法访问。KVC 机制是由 <code>NSKeyValueCoding</code> 协议定义的。</p>
 <h3 id="取、赋值流程"><a href="#取、赋值流程" class="headerlink" title="取、赋值流程"></a>取、赋值流程</h3><ul>
-<li><p>KVC 取值<br><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E5%8F%96%E5%80%BC.png" alt="KVC取值.jpg"></p>
+<li><p>KVC 取值<br><img src="../../../../img/iOS/基础原理/Runtime/KVO&amp;KVC/KVC取值.png" alt="KVC取值.jpg"></p>
 </li>
-<li><p>KVC 赋值<br><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E8%B5%8B%E5%80%BC.jpg" alt="KVC赋值.jpg"></p>
+<li><p>KVC 赋值<br><img src="../../../../img/iOS/基础原理/Runtime/KVO&amp;KVC/KVC赋值.jpg" alt="KVC赋值.jpg"></p>
 </li>
 </ul>
 <h3 id="常用-API"><a href="#常用-API" class="headerlink" title="常用 API"></a>常用 API</h3>

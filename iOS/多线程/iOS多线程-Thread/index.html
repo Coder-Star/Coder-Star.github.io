@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/多线程/线程状态.png">
 <meta property="og:updated_time" content="2021-10-10T07:55:58.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程-Thread">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 多线程是 iOS 中一个重要的知识点，常见的技术包含  Thread GCD Operation Pthreads  其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/多线程/线程状态.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/多线程/iOS多线程-Thread/">
 
@@ -289,17 +289,13 @@
 <p>Thread 相对 GCD、Operation 而言使用起来比较轻量级。其管理的基本单位就是线程，每一个 Thread 都对应一个线程。<br>需要自己管理线程的生命周期、线程同步、加锁、睡眠以及唤醒等。</p>
 <h2 id="Thread-的创建方式"><a href="#Thread-的创建方式" class="headerlink" title="Thread 的创建方式"></a>Thread 的创建方式</h2><p>Thread 的创建有多种方式。</p>
 <h3 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(iOS <span class="number">10.0</span>, *)</span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">detachNewThread</span>(<span class="title">_</span> <span class="title">block</span>: @<span class="title">escaping</span> () -&gt; <span class="title">Void</span>)</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">open</span> <span class="title">class</span> <span class="title">func</span> <span class="title">detachNewThreadSelector</span>(<span class="title">_</span> <span class="title">selector</span>: <span class="title">Selector</span>, <span class="title">toTarget</span> <span class="title">target</span>: <span class="title">Any</span>, <span class="title">with</span> <span class="title">argument</span>: <span class="title">Any</span>?)</span></span><br></pre></td></tr></table></figure>
-
 <p>类方法创建的线程自动运行，通过这种方式我们无法对 Thread 属性进行一些自定义的设置，如<code>name</code>、<code>threadPriority</code>等。</p>
 <h3 id="实例方法"><a href="#实例方法" class="headerlink" title="实例方法"></a>实例方法</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">init</span>()</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(target: <span class="type">Any</span>, selector: <span class="type">Selector</span>, object argument: <span class="type">Any?</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">10.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(block: @escaping () -&gt; <span class="type">Void</span>)</span><br></pre></td></tr></table></figure>
-
 <p>实例方法创建的线程需要手动调用 start 方法才能运行，在 start 之前我们可以给 Thread 属性进行一些设置。</p>
 <h3 id="使用-NSObject-的拓展方法"><a href="#使用-NSObject-的拓展方法" class="headerlink" title="使用 NSObject 的拓展方法"></a>使用 NSObject 的拓展方法</h3><p>这也是使用 Thread 进行线程切换的系列方法。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">performSelector</span><span class="params">(onMainThread aSelector: Selector, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool, modes array: [String]?)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">performSelector</span><span class="params">(onMainThread aSelector: Selector, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">perform</span><span class="params">(<span class="number">_</span> aSelector: Selector, on thr: Thread, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool, modes array: [String]?)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">perform</span><span class="params">(<span class="number">_</span> aSelector: Selector, on thr: Thread, with arg: <span class="keyword">Any</span>?, waitUntilDone wait: Bool)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">performSelector</span><span class="params">(inBackground aSelector: Selector, with arg: <span class="keyword">Any</span>?)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="继承-Thread"><a href="#继承-Thread" class="headerlink" title="继承 Thread"></a>继承 Thread</h3><p>Thread 可以进行继承，重写 main 方法，同时不需在 main 方法中调用父类 main 方法。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MyThread</span>().start()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span>: <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// do something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="线程生命周期"><a href="#线程生命周期" class="headerlink" title="线程生命周期"></a>线程生命周期</h2><p>线程的生命周期分为下列几种：</p>
 <ul>
 <li>创建：实例化一个线程对象。</li>
@@ -308,8 +304,9 @@
 <li>堵塞：线程休眠处理。线程 sleep、加了同步锁的对象正在被其他线程操作时，线程也会进入休眠；</li>
 <li>死亡：当线程需要执行的代码块执行完，或者线程强制退出，线程结束。</li>
 </ul>
-<p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png" alt="线程状态"></p>
+<p><img src="../../../img/iOS/多线程/线程状态.png" alt="线程状态"></p>
 <p>类比到 Thread，会有相应的方法与之对应。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -318,7 +315,8 @@
 <th>作用</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>start</td>
 <td>实例方法</td>
 <td>启动</td>
@@ -338,7 +336,9 @@
 <td>类方法</td>
 <td>阻塞</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>补充说明：</p>
 <p><strong>start</strong></p>
 <p>thread 调用 start 方法后，其实并不是马上就开始运行了。实质上是放进了可调度线程池，等待被 CPU 调用。线程执行结束之前，状态可能会在就绪状态 和 运行状态 之间来回的切换。就绪状态 和 运行状态 之间的状态切换由 CPU 来完成, 程序员无法干涉。</p>

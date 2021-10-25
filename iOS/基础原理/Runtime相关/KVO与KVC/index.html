@@ -28,13 +28,13 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="KVCKVC 是 Key-Value Coding 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 Setter、Getter 方法访问。KVC 机制是由 NSKeyValueCoding 协议定义的。 取、赋值流程 KVC 取值  KVC 赋值   常用 API">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E5%8F%96%E5%80%BC.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E8%B5%8B%E5%80%BC.jpg">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC取值.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC赋值.jpg">
 <meta property="og:updated_time" content="2021-10-12T11:57:53.681Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVO&amp;KVC">
 <meta name="twitter:description" content="KVCKVC 是 Key-Value Coding 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 Setter、Getter 方法访问。KVC 机制是由 NSKeyValueCoding 协议定义的。 取、赋值流程 KVC 取值  KVC 赋值   常用 API">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E5%8F%96%E5%80%BC.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC取值.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/Runtime相关/KVO与KVC/">
 
@@ -279,13 +279,12 @@
       
         <h2 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h2><p><code>KVC</code> 是 <code>Key-Value Coding</code> 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 <code>Setter</code>、<code>Getter</code> 方法访问。KVC 机制是由 <code>NSKeyValueCoding</code> 协议定义的。</p>
 <h3 id="取、赋值流程"><a href="#取、赋值流程" class="headerlink" title="取、赋值流程"></a>取、赋值流程</h3><ul>
-<li><p>KVC 取值<br><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E5%8F%96%E5%80%BC.png" alt="KVC取值.jpg"></p>
+<li><p>KVC 取值<br><img src="../../../../img/iOS/基础原理/Runtime/KVO&amp;KVC/KVC取值.png" alt="KVC取值.jpg"></p>
 </li>
-<li><p>KVC 赋值<br><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/KVO&KVC/KVC%E8%B5%8B%E5%80%BC.jpg" alt="KVC赋值.jpg"></p>
+<li><p>KVC 赋值<br><img src="../../../../img/iOS/基础原理/Runtime/KVO&amp;KVC/KVC赋值.jpg" alt="KVC赋值.jpg"></p>
 </li>
 </ul>
 <h3 id="常用-API"><a href="#常用-API" class="headerlink" title="常用 API"></a>常用 API</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 取值</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">value</span><span class="params">(forKey key: String)</span></span> -&gt; <span class="type">Any?</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">value</span><span class="params">(forKeyPath keyPath: String)</span></span> -&gt; <span class="type">Any?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 赋值</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">setValue</span><span class="params">(<span class="number">_</span> value: <span class="keyword">Any</span>?, forKey key: String)</span></span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">setValue</span><span class="params">(<span class="number">_</span> value: <span class="keyword">Any</span>?, forKeyPath keyPath: String)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// NSObject子类重写的方法</span></span><br><span class="line"><span class="comment">// 是否允许直接访问成员变量，默认返回值是YES，如果返回true，则起到类似禁止KVO的效果</span></span><br><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">accessInstanceVariablesDirectly</span>: <span class="title">Bool</span> </span>&#123; <span class="keyword">get</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">value</span><span class="params">(forUndefinedKey key: String)</span></span> -&gt; <span class="type">Any?</span></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">setValue</span><span class="params">(<span class="number">_</span> value: <span class="keyword">Any</span>?, forUndefinedKey key: String)</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">setNilValueForKey</span><span class="params">(<span class="number">_</span> key: String)</span></span></span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>KVO 赋值、取值各有两个方法，一个 key，一个 keyPath；其中 keyPath 方法集成了 key 的所有功能，也就是说对一个对象的一般属性进行赋值、取值，两个方法是通用的，都可以实现。但是对对象中的对象型属性进行赋值，只有 keyPath 能够实现。</p>
 </blockquote>
@@ -325,7 +324,6 @@
 </li>
 </ol>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// user为User对象实例</span></span><br><span class="line"><span class="keyword">let</span> observation = user.observe(\<span class="type">User</span>.name, options: [.new]) &#123; user, change <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// user为修改值后的对象实例，</span></span><br><span class="line">    <span class="comment">// options包含四个选项</span></span><br><span class="line">    * new change字典包括改变后的值</span><br><span class="line">    * old change字典包括改变前的值</span><br><span class="line">    * initial 注册后立刻触发<span class="type">KVO</span>通知</span><br><span class="line">    * prior 值改变前是否也要通知（这个key决定了是否在改变前改变后通知两次）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>实际 Swift 还可以使用<code>didSet</code>这种形式来实现属性值改变观察</strong></p>
 
     </div>

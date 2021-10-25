@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="总览  UserDefaults这种方式本质上还是 plist 文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的 plist 文件放置在 Library/Preference，生成的 plist 文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密； keychain 钥匙串此种方式存储的信息不会随着">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F.webp">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/iOS持久化方式.webp">
 <meta property="og:updated_time" content="2021-06-01T09:17:10.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS持久化方式-总览">
 <meta name="twitter:description" content="总览  UserDefaults这种方式本质上还是 plist 文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的 plist 文件放置在 Library/Preference，生成的 plist 文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密； keychain 钥匙串此种方式存储的信息不会随着">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F.webp">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/iOS持久化方式.webp">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-总览/">
 
@@ -276,7 +276,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="../../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F.webp" alt="iOS持久化方式.webp"></p>
+        <h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><p><img src="../../../../img/iOS/基础原理/iOS持久化方式.webp" alt="iOS持久化方式.webp"></p>
 <ul>
 <li>UserDefaults<br>这种方式本质上还是 plist 文件存储，只不过对操作数据进行了封装，使用上更加方便，其生成的 plist 文件放置在 Library/Preference，生成的 plist 文件为 包名.plist。存储的类型是有限制的，如果想存储自定义类型，如果转换成可存储的类型，可以被获取到，不安全，写入时最好进行加密；</li>
 <li>keychain 钥匙串<br>此种方式存储的信息不会随着 APP 的卸载还删除。很安全。</li>

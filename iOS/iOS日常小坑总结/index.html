@@ -289,18 +289,14 @@
 </li>
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">field.text = nickName</span><br><span class="line">field.sendActions(<span class="keyword">for</span>: .editingChanged)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li><p><code>selector-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1415360-addobserver" target="_blank" rel="noopener">addObserver(_:selector:name:object:)</a> 不再需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 方法（iOS 11.2 中测试）;<br><code>block-based</code> API 即 <a href="https://developer.apple.com/documentation/foundation/notificationcenter/1411723-addobserver" target="_blank" rel="noopener">addObserver(forName:object:queue:using:)</a> 还是需要主动调用 <code>NotificationCenter.removeObserver(_:)</code> 才能删除 callback Block（在 iOS 11.2 中测试）。</p>
 </li>
 <li><p>UITableCell初始化时Width不管是什么机型都会是320，如果在该时间需要使用Width，需要手动设置一下Width；</p>
 </li>
-<li><p>UILabel设置渐变色后，文字看不见，建议换成UIButton；</p>
-</li>
-<li><p>UILabel设置frame如果数值不为整数时，可能会有一个灰边。</p>
-</li>
-<li><p>UILabel调整基线准值，会导致不换行。</p>
-</li>
+<li>UILabel设置渐变色后，文字看不见，建议换成UIButton；</li>
+<li>UILabel设置frame如果数值不为整数时，可能会有一个灰边。</li>
+<li>UILabel调整基线准值，会导致不换行。</li>
 </ul>
 
     </div>

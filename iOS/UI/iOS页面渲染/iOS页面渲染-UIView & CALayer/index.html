@@ -28,17 +28,17 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊 UIView 与 CALayer 的相关知识以及它们之间的关系，其实这部分内容要是引申出来会比较多，今天我们先收敛一下，先讲一些基本的东西，后面还会有系列文章对其进行扩展。关于iOS的UI渲染部分，还是建议大家看看Apple的官方文档核心动画编程指南以及WWDC2011的sessionUnderstanding UIKit Ren">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%20Tree.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E7%A7%8D%E7%B1%BB.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E5%BC%82%E6%AD%A5%E7%BB%98%E5%88%B6.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/bounds%E5%8F%98%E5%8C%96.gif">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/CALayer%20Tree.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/CALayer种类.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/CALayer渲染流程.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/CALayer系统绘制流程.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/异步绘制.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/bounds变化.gif">
 <meta property="og:updated_time" content="2021-08-25T01:53:37.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 -UIView &amp; CALayer">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊 UIView 与 CALayer 的相关知识以及它们之间的关系，其实这部分内容要是引申出来会比较多，今天我们先收敛一下，先讲一些基本的东西，后面还会有系列文章对其进行扩展。关于iOS的UI渲染部分，还是建议大家看看Apple的官方文档核心动画编程指南以及WWDC2011的sessionUnderstanding UIKit Ren">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%20Tree.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/CALayer%20Tree.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-UIView & CALayer/">
 
@@ -292,11 +292,7 @@
 <p>那看到这里可能会有读者有个疑问，为什么要将图像渲染和事件响应这两个功能分别去实现呢？为什么设计时不直接让 UIView 具有图像渲染的能力？</p>
 <blockquote>
 <p>其实上面已经提到 CALayer 和 UIView 其实不属于同一个框架，CALayer 所属的 QuartzCore 框架是可以跨平台使用的，在 iOS 以及 macOS 中都可以使用，但是 UIKit 只在 iOS 中存在，在 macOS 中会有 Application Kit，在这两个系统里，页面绘图框架是可以公用的，但是两个系统的操作方式会有明显的差别，一个是通过触摸事件，另一个是通过鼠标和键盘，这些我想你应该很能明白为什么分为两个结构去实现了吧。这也算是程序设计原则中单一职责原则的体现了。</p>
-</blockquote>
-<blockquote>
 <p>通过上述的描述，我们还可以得出一个结论，Layer 相对 View 来说是更加轻量的，所以当显示部分不需要事件响应时，我们可以优先考虑使用 layer。</p>
-</blockquote>
-<blockquote>
 <p>还有一点需要注意的是 CALayer 虽然没有事件响应的能力，但它包含下列方法，我们可以判断出事件是不是落在 layer 上，从而从侧面为 Layer 添加点击事件。</p>
 <ul>
 <li><code>open func hitTest(_ p: CGPoint) -&gt; CALayer?</code></li>
@@ -304,14 +300,11 @@
 </ul>
 </blockquote>
 <h3 id="UIView"><a href="#UIView" class="headerlink" title="UIView"></a>UIView</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">UIView</span> : <span class="title">UIResponder</span></span></span><br><span class="line"><span class="class">  <span class="title">open</span> <span class="title">var</span> <span class="title">layer</span>: <span class="title">CALayer</span> </span>&#123; <span class="keyword">get</span> &#125;</span><br><span class="line">  <span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">layerClass</span>: <span class="title">AnyClass</span> </span>&#123; <span class="keyword">get</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>如上代码所示，UIView 中有一个 <code>layer</code> 属性还有一个 <code>layerClass</code> 属性，均为只读属性，其中：</p>
 <ul>
-<li><p><code>layer</code> 属性返回的是 UIView 所持有的主 Layer(RootLayer) 实例，我们可以通过其来设置 UIView 没有封装的一些 layer 属性；</p>
-</li>
+<li><code>layer</code> 属性返回的是 UIView 所持有的主 Layer(RootLayer) 实例，我们可以通过其来设置 UIView 没有封装的一些 layer 属性；</li>
 <li><p><code>layerClass</code> 则返回 RootLayer 所使用的类，我们可以通过重写该属性，来让 UIView 使用不同的 CALayer 来显示。如：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyView</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">layerClass</span>: <span class="title">AnyClass</span> </span>&#123;</span><br><span class="line">        <span class="comment">/// 使用GL来进行绘制</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">CAEAGLLayer</span>.<span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 <h3 id="CALayer"><a href="#CALayer" class="headerlink" title="CALayer"></a>CALayer</h3><p>CALayer 视图结构类似 UIView 的子 View 树形结构，它们分别可以有自己的 SubView 和 SubLayer，可以向它的 RootLayer 上添加子 layer，来完成一些页面效果，比如说渐变等。</p>
@@ -321,14 +314,14 @@
 <li>Presentation Tree（表现图层）：<strong>表示动画过程中视图的实时属性值</strong>，我们永远不应该去修改该对象，而是只读取相关属性值。</li>
 <li>Render Tree（渲染图层）：这是系统用来绘制的树，不对外提供属性给我们使用，对我们而言是透明的，可以不用 care。</li>
 </ul>
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%20Tree.png" alt="CALayer Tree"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/CALayer%20Tree.png" alt="CALayer Tree"></p>
 <blockquote>
 <p>其中 layer tree 对应的是 CALayer 的<code>model()</code>方法返回值，presentation tree 对应的是 CALayer 的<code>presentation()</code>方法返回值，两个方法的返回值类型还是 CALayer。</p>
 <p>这部分容易考查一个面试题是 iOS 如何监听动画中 view 的 frame，可能有人会想着使用 KVO 方式进行监听，但尝试下就知道不可行，当我们改变一个图层的属性时，改变的是模型图层对象属性，属性值是立即更新的，但是屏幕上并不会马上发生改变，只是定义了图层动画结束后的值。</p>
 <p>我们可以利用 <code>CADisplayLink</code> + <code>presentation()</code>去获取，大概过程就是在动画开始之前注册 CADisplayLink，然后在其回调里面使用<code>layer.presentation().frame</code>获取到 view 在动画中的 frame 了。</p>
 </blockquote>
 <p><code>CALayer</code> 是所有 layer 的基类，其派生类会有一些特定的功能，比如绘制文本的 <code>CATextLayer</code>、渐变效果的 <code>CAGradientLayer</code> 等等。种类如下图所示。</p>
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E7%A7%8D%E7%B1%BB.png" alt="CALayer种类"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/CALayer种类.png" alt="CALayer种类"></p>
 <p>我们通常见到的 layer 都是依附于一个 UIView，但是也有一些单独的 layer 不需要附加到 UIView 上，就可以直接在屏幕上显示内容，如 <code>AVCaptureVideoPreviewLayer</code>、<code>CAShapeLayer</code> 等。当然附加在 UIView 上的 layer 和单独的 layer 在行为上还是会有不同的。</p>
 <h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>基本上你改变一个单独的 layer 的任何属性的时候，都会触发一个从旧的值过渡到新值的简单动画，这就是所谓的隐式动画，其时长为 <strong>0.25s</strong>。然而，如果你改变的是 view 中 layer 的同一个属性，它只会从这一帧直接跳变到下一帧。尽管两种情况中都有 layer，但是当 layer 附加在 view 上时，它的默认的隐式动画的 layer 行为就不起作用了，那不显示动画的原因是什么呢？</p>
 <p>无论何时一个可动画的 layer 属性改变时，layer 都会寻找并运行合适的 <code>action</code> 来实行这个改变，layer 通过向它的 <code>delegate</code> 发送 <code>actionForLayer:forKey:</code> 消息来询问提供一个对应属性变化的 <code>action</code>。<code>delegate</code> 可以通过返回以下三者之一来进行响应：</p>
@@ -345,7 +338,6 @@
 <h3 id="页面渲染流程"><a href="#页面渲染流程" class="headerlink" title="页面渲染流程"></a>页面渲染流程</h3><p>那么为什么 CALayer 可以呈现可视化内容呢？</p>
 <p>因为 CALayer 基本等同于一个 <strong>纹理</strong>。纹理是 GPU 进行图像渲染的重要依据。纹理本质上就是一张图片，因此如下代码所示， CALayer 也包含一个 <code>contents</code> 属性，指向一块缓存区，称为 <code>backing store</code>，可以存放位图（bitmap）。iOS 中将该缓存区保存的图片称为 <code>寄宿图</code>。而当设备屏幕进行刷新时，会从 CALayer 中读取生成的 <code>bitmap</code>, 进而呈现到屏幕上。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* An object providing the contents of the layer, typically a CGImageRef,</span></span><br><span class="line"><span class="comment">  * but may be something else. (For example, NSImage objects are</span></span><br><span class="line"><span class="comment">  * supported on Mac OS X 10.6 and later.) Default value is nil.</span></span><br><span class="line"><span class="comment">* Animatable. */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** Layer content properties and methods. **/</span></span><br><span class="line"><span class="keyword">open</span> <span class="keyword">var</span> contents: <span class="type">Any?</span></span><br></pre></td></tr></table></figure>
-
 <p>那么绘制页面也有两种方式：</p>
 <ul>
 <li>一种是 手动绘制；</li>
@@ -356,8 +348,7 @@
 <p>其实我们平时使用的 UIImage 其实是 CGImage 的一个轻量级封装, 于是很自然的, 在 UIImageView 中的 UIImage 对象直接将自己的 CGImage 图片数据作为 CALayer 的 Content 即可。但是需要注意我们传给 UIImageView 的 UIImage 中的图片可能是没有解码的，我们渲染流程中会有解码的过程。</p>
 <h4 id="手动绘制"><a href="#手动绘制" class="headerlink" title="手动绘制"></a>手动绘制</h4><p>先附上一份 <code>CALayerDelegate</code> 的定义的相关方法，后面会用到。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">protocol</span> <span class="title">CALayerDelegate</span> : <span class="title">NSObjectProtocol</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">display</span><span class="params">(<span class="number">_</span> layer: CALayer)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">draw</span><span class="params">(<span class="number">_</span> layer: CALayer, <span class="keyword">in</span> ctx: CGContext)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">layerWillDraw</span><span class="params">(<span class="number">_</span> layer: CALayer)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="meta">@available</span>(iOS <span class="number">2.0</span>, *)</span><br><span class="line">  <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">layoutSublayers</span><span class="params">(of layer: CALayer)</span></span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">action</span><span class="params">(<span class="keyword">for</span> layer: CALayer, forKey event: String)</span></span> -&gt; <span class="type">CAAction?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B.png" alt="CALayer渲染流程"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/CALayer渲染流程.png" alt="CALayer渲染流程"></p>
 <p>上图是 CALayer 在渲染之前的流程，我们可以稍微进行归纳一下：</p>
 <ul>
 <li>当调用 <code>[UIView setNeedsDisplay]</code> 时，实际上会直接调用底层 layer 的同名方法 <code>[layer setNeedsDisplay]</code>；该方法相当于在当前 layer 上打上了一个脏标记，标识其发生了变化，需要重新进行渲染，但此时它还显示原来的内容，等到下一轮 RunLoop 修改才会生效。</li>
@@ -368,7 +359,7 @@
 </blockquote>
 <p>下面我们再分别看下上图的系统绘制流程以及异步绘制展开后相关知识。</p>
 <p><strong>系统绘制流程</strong></p>
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/CALayer%E7%B3%BB%E7%BB%9F%E7%BB%98%E5%88%B6%E6%B5%81%E7%A8%8B.png" alt="系统绘制流程"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/CALayer系统绘制流程.png" alt="系统绘制流程"></p>
 <p>上图本质就是创建一个 <code>backing storage</code> 的流程，归纳一下：</p>
 <ul>
 <li>系统绘制时, 会先创建 backing storage(CGContextRef)，我们可以理解为 <code>CGContextRef</code> 上下文；</li>
@@ -387,7 +378,7 @@
 <li>由 delegete 去负责生成 bitmap 位图；</li>
 <li>切换到主线程，将生成的 bitmap 作为 <code>layer.contents</code> 属性的值。</li>
 </ol>
-<p>下图为异步绘制的时序图：<br><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E5%BC%82%E6%AD%A5%E7%BB%98%E5%88%B6.png" alt="异步绘制"></p>
+<p>下图为异步绘制的时序图：<br><img src="../../../../img/iOS/UI/iOS页面渲染/异步绘制.png" alt="异步绘制"></p>
 <p>具体的异步绘制的代码示例可查看第三方库开源库<a href="https://github.com/ibireme/YYAsyncLayer" target="_blank" rel="noopener">YYAsyncLayer</a>。</p>
 <h2 id="frame、bounds-等属性"><a href="#frame、bounds-等属性" class="headerlink" title="frame、bounds 等属性"></a>frame、bounds 等属性</h2><p>先说几个我们常见的结构，方便后续理解。</p>
 <ul>
@@ -396,6 +387,7 @@
 <li><code>CGReact</code>：表示一个矩形区域，其内部包含 origin、size 两个属性，其中 origin (CGPoint 类型) 便是矩形左上角的位置，size (CGSize 类型) 为矩形的尺寸；</li>
 </ul>
 <p>上节我们已经说到 UIView 的视图属性其实本质上就是对其持有的 CALayer 属性的封装而已，下面为几个视图属性的对应关系。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -403,24 +395,27 @@
 <th>CALayer</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>frame</td>
+<tbody>
+<tr>
+<td> frame</td>
 <td>frame</td>
 </tr>
 <tr>
-<td>center</td>
+<td> center</td>
 <td>position</td>
 </tr>
 <tr>
-<td>bounds</td>
+<td> bounds</td>
 <td>bounds</td>
 </tr>
 <tr>
-<td>transform</td>
+<td> transform</td>
 <td>affineTransform</td>
 </tr>
-</tbody></table>
-<p>我们先简单看下上述属性的含义，以及还有 CALayer 一个独有的属性 –<code>anchorPoint</code>。</p>
+</tbody>
+</table>
+</div>
+<p>我们先简单看下上述属性的含义，以及还有 CALayer 一个独有的属性 —<code>anchorPoint</code>。</p>
 <ul>
 <li><code>frame</code>：表示视图在父视图中显示出来的位置和大小，CGReact 类型，其显示位置是相对父视图坐标系而言的；</li>
 <li><code>bounds</code>：表示视图相对于自身显示出来的位置与大小，CGReact 类型，其显示位置是相对自身视图坐标系而言的，属性 <code>size</code> 描述视图本身固有的尺寸，而属性 <code>origin</code> 描述是在自身视图坐标系中圆点的位置；</li>
@@ -465,7 +460,7 @@
 </ul>
 </li>
 </ul>
-<p>效果图如下：<br><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/bounds%E5%8F%98%E5%8C%96.gif" alt="bounds变化"></p>
+<p>效果图如下：<br><img src="../../../../img/iOS/UI/iOS页面渲染/bounds变化.gif" alt="bounds变化"></p>
 <p>简单对变化做个解释：</p>
 <p>我们变化 bounds 的 origin 为 (x: 50, y: 50)，改变了 blueView 在自身坐标系下左上角的坐标，那么对 redLabel 来讲，其 frame 的 origin 也为 (x: 50, y: 50)，所以贴近父视图的左上角。<br>我们变化 bounds 的 size 为 (width: 300, height: 300)，其尺寸会按照中心点为基点向外扩张，尺寸放大 1.5 倍，所以 frame 会变为 (50.0, 50.0, 300.0, 300.0)。</p>
 <p>剩余属性变化对其他属性的影响直接做个总结吧：</p>
@@ -478,7 +473,6 @@
 </ul>
 <p>其实我们可以总结出 frame 与其他属性之间的关系，如下面伪代码所示。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> frame: <span class="type">CGReact</span>: &#123;</span><br><span class="line">  <span class="keyword">get</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">CGRect</span>(</span><br><span class="line">        x: center.x - bounds.size.width * layer.anchorPoint.x,</span><br><span class="line">        y: center.y - bounds.size.height * <span class="keyword">self</span>.layer.anchorPoint.y,</span><br><span class="line">        width: bounds.size.width,</span><br><span class="line">        height: bounds.size.height</span><br><span class="line">      )</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">set</span> &#123;</span><br><span class="line">    bounds.size = frame.size</span><br><span class="line"></span><br><span class="line">    center.x = frame.origin.x + frame.size.width * layer.anchorPoint.x</span><br><span class="line">    center.y = frame.origin.y + frame.size.height * layer.anchorPoint.x</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>当然这个关系是发生在没有 transform 参与的情况下。如果有 transform 参与，情况就又不一样了。</p>
 <blockquote>
 <p>AutoLayout 在完成布局后，所计算出来的位置和尺寸内部修改的值是 center 和 bounds 两个属性，因此最终的展示效果不会因为仿射变换而产生异常。同时这也解释了为什么通过 AutoLayout 设置约束后修改 frame 属性来改变位置和尺寸不会起作用的原因。<br>解释一下就是：在iOS 8之前，AutoLayout完成布局后，直接修改的是frame的值，如果在AutoLayout设置约束后再设置transform，会造成视图异常，在iOS 8之后修复了这个问题，改用修改center 和 bounds 两个属性。</p>

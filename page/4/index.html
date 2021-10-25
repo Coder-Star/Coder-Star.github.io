@@ -272,7 +272,7 @@
 <li>优化器(Optimizer): 对得到的中间代码 IR 进行优化；</li>
 <li>编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。</li>
 </ul>
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%BC%96%E8%AF%91/%E7%BC%96%E8%AF%91%E5%99%A8%E6%9E%B6%E6%9E%84.jpeg" alt="编译器架构.png"></p>
+<p><img src="../../../img/iOS/进阶/编译/编译器架构.jpeg" alt="编译器架构.png"></p>
 <p>从 GCC 到 LLVM 以及大部分编译器都是这种结构。</p>
           <!--noindex-->
             <div class="post-button">
@@ -798,7 +798,7 @@
 <li>RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件).</li>
 <li>RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.</li>
 </ul>
-<p><img src="../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/runloop.png" alt="runloop.png"></p>
+<p><img src="../../../img/iOS/基础原理/runloop.png" alt="runloop.png"></p>
 <ul>
 <li>Entry 进入</li>
 <li>BeforeTimers</li>
@@ -914,7 +914,6 @@
 
       
           <h2 id="使用形式"><a href="#使用形式" class="headerlink" title="使用形式"></a>使用形式</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// OC</span></span><br><span class="line">@autoreleasepool &#123;</span><br><span class="line"><span class="comment">// 生成自动释放对象</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// swift</span></span><br><span class="line">autoreleasepool &#123;</span><br><span class="line"><span class="comment">// 生成自动释放对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>autoreleasepool 包裹的相关代码在编译时，编译器会自动把它编译为如下形式。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void *context = objc_autoreleasepoolPush();</span><br><span class="line">// &#123;&#125; 中的代码</span><br><span class="line">objc_autoreleasepoolPop();</span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -1015,7 +1014,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="../../../img/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/iOS%E9%94%81%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94.png" alt="iOS锁性能对比"></p>
+          <p><img src="../../../img/iOS/多线程/iOS锁性能对比.png" alt="iOS锁性能对比"></p>
 <h2 id="iOS-中锁分析"><a href="#iOS-中锁分析" class="headerlink" title="iOS 中锁分析"></a>iOS 中锁分析</h2><h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><ul>
 <li>pthread_mutex（也是一个递归锁）</li>
 <li>NSLock</li>

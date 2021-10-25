@@ -20,23 +20,23 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题—离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
 <meta name="keywords" content="iOS,UI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 页面渲染 - 离屏渲染">
 <meta property="og:url" content="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题—离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/FrameBuffer.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/OffscreenBuffer.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E7%94%BB%E5%AE%B6%E7%AE%97%E6%B3%95.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/Color%20Off-screen%20.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/FrameBuffer.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/OffscreenBuffer.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/画家算法.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/Color%20Off-screen%20.png">
 <meta property="og:updated_time" content="2021-08-20T05:09:33.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 离屏渲染">
-<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/FrameBuffer.png">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 上周介绍了一下iOS 页面渲染-UIView &amp;amp; CALayer，本周我们来聊一聊iOS页面渲染中的高频面试题—离屏渲染。 其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。 在开始本文之前，我先谈谈上周我们《">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/FrameBuffer.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/">
 
@@ -280,7 +280,7 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<p>上周介绍了一下<a href="../iOS页面渲染-UIView%20&%20CALayer">iOS 页面渲染-UIView &amp; CALayer</a>，本周我们来聊一聊iOS页面渲染中的高频面试题–离屏渲染。</p>
+<p>上周介绍了一下<a href="../iOS页面渲染-UIView%20&amp;%20CALayer">iOS 页面渲染-UIView &amp; CALayer</a>，本周我们来聊一聊iOS页面渲染中的高频面试题—离屏渲染。</p>
 <p>其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。</p>
 <p>在开始本文之前，我先谈谈上周我们《iOS 摸鱼周报》发起人 @zhangferry 访谈我的时候我对访谈问题给的一些答复吧。</p>
 <ul>
@@ -300,8 +300,6 @@
 <li>觉得工作经验已经到了一定的阶段，也是时候将知识梳理一遍，打造自己的知识体系了，融会贯通；</li>
 <li>是想把自己积累的一些技术知识分享出来，大家一起来交流，创造一个好的技术圈子，一个好的技术圈子实在是太重要了。</li>
 </ol>
-</blockquote>
-<blockquote>
 <p>写公众号的好处：</p>
 <ol>
 <li>写文章不仅能让我对一个知识点理解的更透彻，也增强了我的写作能力，对于技术知识而言，自己理解是一个阶段，深入浅出的写出来又是一个更高的阶段；</li>
@@ -327,9 +325,9 @@
 </blockquote>
 <h2 id="离屏渲染概念"><a href="#离屏渲染概念" class="headerlink" title="离屏渲染概念"></a>离屏渲染概念</h2><p>先简单说下 iOS 页面渲染的正常流程。</p>
 <p>如果要在显示屏上显示内容，我们至少需要一块与屏幕像素数据量一样大的 <code>Framebuffer</code>，作为像素数据存储区域，GPU 不停地将渲染完成后的内容放入 <code>Framebuffer</code> 帧缓冲器中，而显示屏幕不断地从 <code>Framebuffer</code> 中获取内容，显示实时的内容。</p>
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/FrameBuffer.png" alt="FrameBuffer"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/FrameBuffer.png" alt="FrameBuffer"></p>
 <p>如果有时因为面临一些限制，无法把渲染结果直接写入 <code>Framebuffer</code>，我们就需要先额外创建离屏渲染缓冲区 <code>Offscreen Buffer</code>，将提前渲染好的内容放入其中，等到合适的时机再将 <code>Offscreen Buffer</code> 中的内容进一步叠加、渲染，完成后将结果切换到 <code>Framebuffer</code> 中，那么这个过程便被称之为<strong>离屏渲染</strong>。</p>
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/OffscreenBuffer.png" alt="OffscreenBuffer"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/OffscreenBuffer.png" alt="OffscreenBuffer"></p>
 <blockquote>
 <p>对于上周文章所提到的利用 <code>Core Graphics</code> 的 API 进行页面绘制的方式有时候也会被称为<code>离屏渲染</code>（因为像素数据是暂时存入了CGContext，而不是直接到了frame buffer），但是按照<a href="https://lobste.rs/s/ckm4uw/performance_minded_take_on_ios_design#c_itdkfh" target="_blank" rel="noopener">苹果工程师说法</a>，这种绘制方式发生在CPU中，并非是真正意义上的离屏渲染，其实通过CPU渲染就是俗称的’软件渲染’，而真正的离屏渲染发生在GPU，我们这里研究的更多是 GPU 的离屏渲染。</p>
 </blockquote>
@@ -362,10 +360,10 @@
 <p>其实除了解决多次离屏渲染的开销，<code>shouldRasterize</code> 在另一个场景中也可以使用：如果 layer 的子结构非常复杂，渲染一次所需时间较长，同样可以打开这个开关，把 layer 绘制到一块缓存，然后在接下来复用这个结果，这样就不需要每次都重新绘制整个 layer 树了。</p>
 </blockquote>
 <h2 id="离屏渲染产生逻辑"><a href="#离屏渲染产生逻辑" class="headerlink" title="离屏渲染产生逻辑"></a>离屏渲染产生逻辑</h2><p>图层的叠加绘制大概遵循<strong>画家算法</strong>，在这种算法下会按层绘制，首先绘制距离较远的场景，然后用绘制距离较近的场景覆盖较远的部分。</p>
-<p><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/%E7%94%BB%E5%AE%B6%E7%AE%97%E6%B3%95.png" alt="画家算法"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/画家算法.png" alt="画家算法"></p>
 <p>在普通的 layer 绘制中，上层的 sublayer 会覆盖下层的 sublayer，下层 sublayer 绘制完之后就可以抛弃了，从而节约空间提高效率。所有 sublayer 依次绘制完毕之后，整个绘制过程完成，就可以进行后续的呈现了。</p>
 <p>而有些场景并没有那么简单。GPU 虽然可以一层一层往画布上进行输出，但是无法在某一层渲染完成之后，再回过头来擦除 / 改变其中的某个部分——因为在这一层之前的若干层 layer 像素数据，已经在渲染中被永久覆盖了。这就意味着，<strong>对于每一层 layer，要么能找到一种通过单次遍历就能完成渲染的算法，要么就不得不另开一块内存，借助这个临时中转区域来完成一些更复杂的、多次的修改 / 剪裁操作。</strong></p>
-<h2 id="离屏渲染发生的场景"><a href="#离屏渲染发生的场景" class="headerlink" title="离屏渲染发生的场景"></a>离屏渲染发生的场景</h2><p>我们先打开模拟器 Debug 下的离屏渲染颜色标记，如左图所示，当出现离屏渲染时，相应控件会出现如右图所示的黄色。<br><img src="../../../../img/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/Color%20Off-screen%20.png" alt="离屏渲染标记"></p>
+<h2 id="离屏渲染发生的场景"><a href="#离屏渲染发生的场景" class="headerlink" title="离屏渲染发生的场景"></a>离屏渲染发生的场景</h2><p>我们先打开模拟器 Debug 下的离屏渲染颜色标记，如左图所示，当出现离屏渲染时，相应控件会出现如右图所示的黄色。<br><img src="../../../../img/iOS/UI/iOS页面渲染/Color%20Off-screen%20.png" alt="离屏渲染标记"></p>
 <p>通过我们上面离屏渲染发生的原因，其实我们可以很简单的归纳出离屏渲染出现的场景。</p>
 <p><strong>只要裁剪的内容需要画家算法未完成之前的内容参与就会触发离屏渲染</strong>。</p>
 <p>总结一下，下面几种情况会触发离屏渲染：</p>
@@ -377,7 +375,7 @@
 <li>绘制了文字的 layer (UILabel, CATextLayer, Core Text 等)</li>
 <li>需要进行裁剪的 layer (layer.masksToBounds / view.clipsToBounds)</li>
 </ul>
-<p>还有一个会触发离屏渲染的场景是我们非常常见的 – 圆角，这个需要着重说明一下。</p>
+<p>还有一个会触发离屏渲染的场景是我们非常常见的 — 圆角，这个需要着重说明一下。</p>
 <p>我们经常看到，圆角会触发离屏渲染。但其实这个说法是不准确的，因为圆角触发离屏渲染也是有条件的！</p>
 <p>我们先看一下苹果官方文档对于<code>cornerRadius</code>的描述：</p>
 <blockquote>
@@ -415,17 +413,9 @@
 </ul>
 <blockquote>
 <p>为什么圆角和裁剪后iOS绘制会触发离屏渲染?</p>
-</blockquote>
-<blockquote>
 <p>答:默认情况下每个视图都是完全独立绘制渲染的。而当某个父视图设置了圆角和裁剪并且又有子视图时，父视图只会对自身进行裁剪绘制和渲染。</p>
-</blockquote>
-<blockquote>
 <p>当子视图绘制时就要考虑被父视图裁剪部分的绘制渲染处理，因此需要反复递归回溯和拷贝父视图的渲染上下文和裁剪信息，再和子视图做合并处理，以便完成最终的裁剪效果。这样势必产生大量的时间和内存的开销。</p>
-</blockquote>
-<blockquote>
 <p>解决的方法是当父视图被裁剪和有圆角并且有子视图时，就单独的开辟一块绘制上下文，把自身和所有子视图的内容都统一绘制在这个上下文中，这样子视图也不需要再单独绘制了，所有裁剪都会统一处理。当父视图绘制完成时再将开辟的缓冲上下文拷贝到屏幕上下文中去。这个过程就是离屏渲染!!</p>
-</blockquote>
-<blockquote>
 <p>所以离屏渲染其实和我们先将内容绘制在位图内存上下文然后再统一拷贝到屏幕上下文中的双缓存技术是非常相似的。使用离屏渲染主要因为ios内部的视图独立绘制技术所导致的一些缺陷而不得不才用的技术。</p>
 </blockquote>
 

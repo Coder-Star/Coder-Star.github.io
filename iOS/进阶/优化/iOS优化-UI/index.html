@@ -277,7 +277,6 @@
         <h2 id="UI-渲染优化"><a href="#UI-渲染优化" class="headerlink" title="UI 渲染优化"></a>UI 渲染优化</h2><p>渲染优化目的就是减少 GPU 的运行压力</p>
 <h3 id="避免图层混合"><a href="#避免图层混合" class="headerlink" title="避免图层混合"></a>避免图层混合</h3><p>当两个 View 叠加时，其中一个 View 含有透明度，那么叠加部分就会出现图层混合，GPU 需要消耗资源去计算最终显示的颜色。计算公式如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">R(C) = (1-alpha)*R(B) + alpha*R(A)</span><br><span class="line">G(C) = (1-alpha)*G(B) + alpha*G(A)</span><br><span class="line">B(C) = (1-alpha)*B(B) + alpha*B(A)</span><br></pre></td></tr></table></figure>
-
 <p>产生图层混合的场景</p>
 <ul>
 <li>开启了图片 alpha 通道；</li>

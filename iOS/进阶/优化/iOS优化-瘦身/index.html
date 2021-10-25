@@ -28,16 +28,16 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/download_install_size.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/pngcrsuh_deal.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/Strip_Swift_Symbols.jpeg">
-<meta property="og:image" content="https://coder-star.github.io/img/%E6%9D%82%E9%A1%B9/%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/LinkMap.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/AppCode_Inspect.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/download_install_size.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/pngcrsuh_deal.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/Strip_Swift_Symbols.jpeg">
+<meta property="og:image" content="https://coder-star.github.io/img/杂项/效率软件/LinkMap.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/AppCode_Inspect.png">
 <meta property="og:updated_time" content="2021-08-11T02:05:47.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/download_install_size.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/download_install_size.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-瘦身/">
 
@@ -288,7 +288,7 @@
 <li>当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就是指压缩包解压后所占用的空间。</li>
 </ul>
 <p>用户在商店看到的大小是安装大小。如果想看安装包在各机型上最准确的下载、安装大小可以在 App Store Connect 后台查看。</p>
-<p><img src="../../../../img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/download_install_size.png" alt="下载及安装大小示意图"></p>
+<p><img src="../../../../img/iOS/进阶/优化/瘦身/download_install_size.png" alt="下载及安装大小示意图"></p>
 <p>其实一般情况来讲，导出的 ipa 文件越小，其下载大小会越小，我们可以将 ipa 文件尺寸作为量化参数，但是更准确的数值还是需要看 App Store Connect 上的下载大小。</p>
 <p><strong>App Store OTA 下载大小限制：</strong></p>
 <p>虽然苹果历年都会调整 App 下载大小，由之前的 100M 到后来的 150M 再到现在的 200M。如今，App 下载大小超出 200 MB 时 ，会出现两种情况：</p>
@@ -344,7 +344,7 @@
 <li>BitCode 在 iOS 开发中是可选的，在 watchOS 开发中是必须要选择的， Mac OS 是不支持 BitCode 的。</li>
 </ul>
 <p>开启方式： <code>Build Settings -&gt; Enable Bitcode -&gt; 设置为 YES</code> 。</p>
-<p>如果想对Bitcode了解更深入一些，可以看下我之前的一篇博文–<a href="../iOS编译简析">iOS编译简析</a>。</p>
+<p>如果想对Bitcode了解更深入一些，可以看下我之前的一篇博文—<a href="../iOS编译简析">iOS编译简析</a>。</p>
 <p><strong>结论：可根据项目实际情况决定是否开启，如果项目混编了 Flutter、依赖的部分库不支持 Bitcode 以及不想处理一遍 DYSM 符号化，就不要进行开启，否则可以选择开启。</strong></p>
 <h3 id="On-Demand-Resources-随需应变资源"><a href="#On-Demand-Resources-随需应变资源" class="headerlink" title="On-Demand Resources(随需应变资源)"></a>On-Demand Resources(随需应变资源)</h3><p>On-Demand Resource 即一部分图片可以被放置在苹果的服务器上，不随着 App 的下载而下载，直到用户真正进入到某个页面时才下载这些资源文件。</p>
 <p>应用场景：相机应用的贴纸或者滤镜、关卡游戏等。</p>
@@ -388,15 +388,13 @@
 <p><strong>PNG 资源</strong></p>
 <p>这一部分涉及前因后果比较多，为保证大家能看懂，会先铺垫一些原理性知识，请耐心阅读。</p>
 <p>Xcode 的 <code>Build Setting</code> 提供的给我们两个编译选项来帮助压缩 PNG 资源。</p>
-<p><code>Remove Text Medadata From PNG Files</code>（默认开启）：能帮助我们移除 PNG 资源的文本字符，比如图像名称、作者、版权、创作时间、注释等信息。<br><code>Compress PNG Files</code>（默认开启）：当设置为 YES 后，打包的时候会利用 <code>pngcrush</code> 工具自动对项目中<strong>所有 PNG 图片</strong>进行无损压缩以及修改文件格式，该工具是开源的–<a href="https://github.com/Kjuly/pngcrush" target="_blank" rel="noopener">pngcrush地址</a>。</p>
+<p><code>Remove Text Medadata From PNG Files</code>（默认开启）：能帮助我们移除 PNG 资源的文本字符，比如图像名称、作者、版权、创作时间、注释等信息。<br><code>Compress PNG Files</code>（默认开启）：当设置为 YES 后，打包的时候会利用 <code>pngcrush</code> 工具自动对项目中<strong>所有 PNG 图片</strong>进行无损压缩以及修改文件格式，该工具是开源的—<a href="https://github.com/Kjuly/pngcrush" target="_blank" rel="noopener">pngcrush地址</a>。</p>
 <p><code>Compress PNG Files</code> 设置为 YES 后，XCode 会调用该路径的脚本<br> <code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/iphoneos-optimize</code>。</p>
 <p><code>pngcrush</code> 工具在其同级目录存放，iphoneos-optimize 脚本中关于 PNG 压缩的内容如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sub optimizePNGs &#123;</span><br><span class="line">    my $name = $<span class="built_in">File</span>::Find::name;</span><br><span class="line">    <span class="keyword">if</span> ( -f $name &amp;&amp; $name =~ /^(.*)\.png$/i) &#123;</span><br><span class="line">        my $crushedname = <span class="string">"$1-pngcrush.png"</span>;</span><br><span class="line">        <span class="comment">// $PNGCRUSH便是pngcrush工具路径</span></span><br><span class="line">        my @args = ( $PNGCRUSH, <span class="string">"-q"</span>, <span class="string">"-iphone"</span>, <span class="string">"-f"</span>, <span class="string">"0"</span> );</span><br><span class="line">        <span class="keyword">if</span> ( $stripPNGText ) &#123;</span><br><span class="line">             push ( @args, <span class="string">"-rem"</span>, <span class="string">"text"</span> );</span><br><span class="line">        &#125;</span><br><span class="line">        push ( @args, $name, $crushedname );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (system(@args) != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">print</span> STDERR <span class="string">"$SCRIPT_NAME: Unable to convert $name to an optimized png!\n"</span>;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        unlink $name <span class="keyword">or</span> die <span class="string">"Unable to delete original file: $name"</span>;</span><br><span class="line">        rename($crushedname, $name) <span class="keyword">or</span> die <span class="string">"Unable to rename $crushedname to $name"</span>;</span><br><span class="line">        <span class="built_in">print</span> <span class="string">"$SCRIPT_NAME: Optimized PNG: $name\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>从内容上来看，脚本是通过<strong>png 后缀名</strong>来判断是否为 png 图片，如果图片改变后缀名，则该图片则不会被 <code>pngcrush</code> 工具进行处理。</p>
 <p>我们可以通过下面命令手动使用 <code>pngcrush</code> 工具。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> image.png 经编码后 生成 image1.png</span></span><br><span class="line">xcrun -sdk iphoneos pngcrush -iphone -f 0 image.png image1.png</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> image.png 经解码后 还原成 image1.png</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 即使还原回去与原图片也不会完全一致，这里就不展开描述了</span></span><br><span class="line">xcrun -sdk iphoneos pngcrush -revert-iphone-optimizations image.png image1.png</span><br></pre></td></tr></table></figure>
-
 <p><code>pngcrush</code> 工具编码结果主要变化内容如下：</p>
 <ul>
 <li>在 IHDR 块之前插入了 CgBI 块来表示这种格式</li>
@@ -409,7 +407,7 @@
 <p><strong>其本质是使正常的 png 图片变成了一个优化后的 CgBI 格式的 png</strong>。可以利用<a href="http://www.libpng.org/pub/png/apps/pngcheck.html" target="_blank" rel="noopener">pngcheck</a>查看处理前的图片信息，利用<a href="http://www.jongware.com/pngdefry.html" target="_blank" rel="noopener">pngdefry</a>查看处理后的图片信息（其还可以将 CgBI 格式的 png还原回去，这个功能跟pngcrush工具解码功能类似）。</p>
 <p>从上述变化内容来看， <code>pngcrush</code> 工具编码过程并不是简单的压缩数据，更重要的是对文件格式做了修改。<strong>因为 iPhone 中，图像是以 BGRA 格式在内存中处理的，所以修改后的格式变成了 iPhone 能更方便处理的格式，加快处理速度。</strong></p>
 <p>根据我自己测试的压缩效果来看，对于 Bundle 中放置的 png 图片，经过 <code>pngcrush</code> 的处理，大小不降反增，目前暂时没有找到哪些具体因素影响其压缩效果。</p>
-<p><img src="../../../../img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/pngcrsuh_deal.png" alt="pngcrsuh测试效果对比图"></p>
+<p><img src="../../../../img/iOS/进阶/优化/瘦身/pngcrsuh_deal.png" alt="pngcrsuh测试效果对比图"></p>
 <p><strong>结论：Compress PNG Files 虽然是压缩 PNG，但其最主要的目的并不是为了压缩图片大小， 而是将 PNG 转换成 iOS 更容易处理、更快速度的去识别的格式，可以根据项目在开启、关闭两种情况下的打包大小，自行取舍。</strong></p>
 <p><strong>非 PNG 资源</strong></p>
 <p>非 PNG 资源压缩包含两种方式：</p>
@@ -446,12 +444,12 @@
 </li>
 </ul>
 <blockquote>
-<p>RGB with palette 编码的得到的字节流首先维护了一个颜色数组。颜色数组每个成员用 RGBA 四个分量维护一个颜色。图像中的每个像素点则存储颜色数组的下标代表该点的颜色。颜色数组维护的颜色种类和数量由图片决定，同时可以人为的限制颜色数组维护颜色的种类的上限，默认为最大值 256 种，具体原理详见底部相关链接 –【Palette Images】；</p>
+<p>RGB with palette 编码的得到的字节流首先维护了一个颜色数组。颜色数组每个成员用 RGBA 四个分量维护一个颜色。图像中的每个像素点则存储颜色数组的下标代表该点的颜色。颜色数组维护的颜色种类和数量由图片决定，同时可以人为的限制颜色数组维护颜色的种类的上限，默认为最大值 256 种，具体原理详见底部相关链接 —【Palette Images】；</p>
 </blockquote>
 <p>使用下文提到的 ImageOptim-CLI 工具，我们可以改变图片的编码方式为 <code>RGB with palette</code>，命令如下：</p>
 <p> <code>imageoptim -Q --no-imageoptim --imagealpha --number-of-colors 16 --quality 40-80 ./1.png</code></p>
 <blockquote>
-<p>–number-of-colors：控制颜色数组维护颜色的数量；<br>–quality：控制图片的质量变为原来的百分比；<br>命令中的数值可以在显著减少包大小的同时维持肉眼看不到的质量变化。</p>
+<p>—number-of-colors：控制颜色数组维护颜色的数量；<br>—quality：控制图片的质量变为原来的百分比；<br>命令中的数值可以在显著减少包大小的同时维持肉眼看不到的质量变化。</p>
 </blockquote>
 <p>以图片资源举例，我们可以使用工具对其进行压缩，推荐几款工具如下：</p>
 <ul>
@@ -473,7 +471,7 @@
 <p>推荐二种转 WebP 格式的方法</p>
 <ul>
 <li><a href="http://isparta.github.io/" target="_blank" rel="noopener">iSpart</a>：腾讯出品，GUI工具；</li>
-<li><a href="https://developers.google.com/speed/webp/docs/using" target="_blank" rel="noopener">webp工具</a>: 在Mac下，可以使用Homebrew安装WebP工具–<code>brew install webp</code>；</li>
+<li><a href="https://developers.google.com/speed/webp/docs/using" target="_blank" rel="noopener">webp工具</a>: 在Mac下，可以使用Homebrew安装WebP工具—<code>brew install webp</code>；</li>
 </ul>
 <p>iOS 原生并不支持 WebP 格式加载，需要借助一些三方库的支持，或者进行自研；</p>
 <ul>
@@ -509,6 +507,7 @@
 <li>真机 32 位处理器需要 <code>armv7</code>, 或者 <code>armv7s</code> 架构；</li>
 <li>真机 64 位处理器需要 <code>arm64</code> 架构。</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -518,13 +517,16 @@
 <th>arm64</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>iPhone<br>iPhone2<br>iPhone3G<br>第一代和第二代 iPod Touch</td>
 <td>iPhone4<br>iPhone4S<br>iPad1-iPad3，3、4 代 iPod Touch<br>iPad mini</td>
 <td>iPhone5<br>iPhone5C<br>iPad4</td>
 <td>iPhone 5S 等剩余全部机型</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <blockquote>
 <p>顺便说下，如果将iOS最低版本调整到iOS 11，则xocde自动保留架构只有arm64。</p>
 </blockquote>
@@ -604,22 +606,21 @@
 </blockquote>
 <p><strong>结论：<code>Strip Debug Symbols During Copy</code>在<code>Release</code> 模式下设置为<code>YES</code>，在<code>Debug</code>模式下设置为<code>false</code>。</strong></p>
 <h4 id="Strip-Swift-Symbols"><a href="#Strip-Swift-Symbols" class="headerlink" title="Strip Swift Symbols"></a>Strip Swift Symbols</h4><p>开启 <code>Strip Swift Symbols</code> 能帮助我们移除相应 Target 中的所有的 Swift 符号，这个选项也是默认打开的。<br>这一选项是出现 Xcode 将 xcarchive 包导出成 ipa 文件过程中出现的，不是通过<code>Build Setting</code>设置的。</p>
-<p><img src="../../../../img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/Strip_Swift_Symbols.jpeg" alt="Strip_Swift_Symbols"></p>
+<p><img src="../../../../img/iOS/进阶/优化/瘦身/Strip_Swift_Symbols.jpeg" alt="Strip_Swift_Symbols"></p>
 <p><strong>结论：一般默认勾选，如果没勾选请手动勾选。</strong></p>
 <h3 id="选项设置方式优化"><a href="#选项设置方式优化" class="headerlink" title="选项设置方式优化"></a>选项设置方式优化</h3><p>大部分项目都会使用 Cocoapods 工具进行管理，Cocoapods 的 project 文件在每次 <code>pod install</code> 或者 <code>pod update</code> 会重置，所以需要 <code>hook pod install</code> 来设置 Pods 中每个 Target 的编译选项。</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">post_install <span class="keyword">do</span> <span class="params">|installer|</span></span><br><span class="line">    installer.pods_project.targets.each <span class="keyword">do</span> <span class="params">|target|</span></span><br><span class="line">        target.build_configurations.each <span class="keyword">do</span> <span class="params">|config|</span></span><br><span class="line">            config.build_settings[<span class="string">'ENABLE_BITCODE'</span>] = <span class="string">'NO'</span></span><br><span class="line">            config.build_settings[<span class="string">'STRIP_INSTALLED_PRODUCT'</span>] = <span class="string">'YES'</span></span><br><span class="line">            config.build_settings[<span class="string">'SWIFT_COMPILATION_MODE'</span>] = <span class="string">'wholemodule'</span></span><br><span class="line">            <span class="keyword">if</span> config.name == <span class="string">'Debug'</span></span><br><span class="line">                config.build_settings[<span class="string">'SWIFT_OPTIMIZATION_LEVEL'</span>] = <span class="string">'-Onone'</span></span><br><span class="line">                config.build_settings[<span class="string">'GCC_OPTIMIZATION_LEVEL'</span>] = <span class="string">'0'</span></span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                config.build_settings[<span class="string">'SWIFT_OPTIMIZATION_LEVEL'</span>] = <span class="string">'-Osize'</span></span><br><span class="line">                config.build_settings[<span class="string">'GCC_OPTIMIZATION_LEVEL'</span>] = <span class="string">'s'</span></span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="Mach-O-可执行文件瘦身"><a href="#Mach-O-可执行文件瘦身" class="headerlink" title="Mach-O 可执行文件瘦身"></a>Mach-O 可执行文件瘦身</h2><p>在对 Mach-O 文件进行瘦身优化时，我们可以通过分析 Link Map 文件来给我们一定的数据参考，帮助我们分析 Mach-O 文件的构成。</p>
 <p>Link Map 是编译链接时可以生成的一个 txt 文件，它生成目的就是帮助程序员分析包大小。Link Map 记录了每个方法在当前的二进制架构下占据的空间。通过分析 Link Map，我们可以了解每个类甚至每个方法占据了多少安装包空间。</p>
 <p>开启 <code>Build setting</code> 中的 <code>Write Link Map File</code> 开关，Xcode 就会生成一份 Link Map 文件。其中生成的 Link Map 文件路径如下：<br> <code>~/Developer/Xcode/DerivedData/项目/Build/Intermediates.noindex/项目.build/Debug-iphonesimulator/项目.build/项目-LinkMap-normal-x86_64.txt</code></p>
 <p>如果直接阅读 Link Map 文件，效率会比较低，也不直观，我们可以使用一些工具帮助我们分析。</p>
 <p><a href="https://github.com/huanxsd/LinkMap" target="_blank" rel="noopener">LinkMap工具地址</a></p>
-<p><img src="../../../../img/%E6%9D%82%E9%A1%B9/%E6%95%88%E7%8E%87%E8%BD%AF%E4%BB%B6/LinkMap.png" alt="LinkMap效果图"></p>
+<p><img src="../../../../img/杂项/效率软件/LinkMap.png" alt="LinkMap效果图"></p>
 <h3 id="清除无用代码"><a href="#清除无用代码" class="headerlink" title="清除无用代码"></a>清除无用代码</h3><h4 id="通过-AppCode-查找无用代码"><a href="#通过-AppCode-查找无用代码" class="headerlink" title="通过 AppCode 查找无用代码"></a>通过 AppCode 查找无用代码</h4><p>AppCode 提供了非常强大的代码静态检查工具，使用 Inspect Code，可以找到很多代码优化的地方；</p>
-<p><img src="../../../../img/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/%E7%98%A6%E8%BA%AB/AppCode_Inspect.png" alt="AppCode_Inspect"></p>
+<p><img src="../../../../img/iOS/进阶/优化/瘦身/AppCode_Inspect.png" alt="AppCode_Inspect"></p>
 <p>但是需要注意的是，AppCode 的静态检查还存在很多问题，对一些使用的代码可能会判断成没有使用，所以使用 AppCode 检查出来的无用代码，还需要人工二次确认才能进行最后的删除。</p>
 <h4 id="基于源码扫描"><a href="#基于源码扫描" class="headerlink" title="基于源码扫描"></a>基于源码扫描</h4><p>一般都是对源码文件进行字符串匹配。例如将 A *a、[A xxx]、NSStringFromClass(“A”)、objc_getClass(“A”) 等归类为使用的类，@interface A : B 归类为定义的类，然后计算差集。</p>
-<p>基于源码扫描 有个已经实现的工具 – <a href="https://github.com/dblock/fui" target="_blank" rel="noopener">fui</a>，它的实现原理是查找所有 #import “A” 和所有的文件进行比对。</p>
+<p>基于源码扫描 有个已经实现的工具 — <a href="https://github.com/dblock/fui" target="_blank" rel="noopener">fui</a>，它的实现原理是查找所有 #import “A” 和所有的文件进行比对。</p>
 <h4 id="手动去除"><a href="#手动去除" class="headerlink" title="手动去除"></a>手动去除</h4><ul>
 <li>已经下线的陈旧代码，AB 试验已经下线的代码；</li>
 <li>通过转 H5、Hybrid 或者 RN 实现的 Native 功能，可以定期清理；</li>
@@ -644,7 +645,7 @@
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>还有一些优化方式，如二进制段压缩，__TEXT 段迁移等方式，大家可以去寻找相关的资料查看，这里只简单介绍相关的原理。</p>
 <ul>
 <li>二进制段压缩：Mach-O 文件中并不是每个段 / 节在程序启动的第一时间都要被用到。可以在构建过程中将 Mach-O 文件中的这部分段 / 节压缩，然后只要在这些段被使用到之前将其解压到内存中，就能达到了减少包大小的效果，同时也能保证程序正常运行；</li>
-<li>__TEXT 段迁移：将可执行文件的 __TEXT 段中的部分节移动到其它的段，提高了可执行文件的压缩效率。具体可见相关链接中【今日头条优化实践：iOS 包大小二进制优化，一行代码减少 60 MB 下载大小】；</li>
+<li><strong>TEXT 段迁移：将可执行文件的 </strong>TEXT 段中的部分节移动到其它的段，提高了可执行文件的压缩效率。具体可见相关链接中【今日头条优化实践：iOS 包大小二进制优化，一行代码减少 60 MB 下载大小】；</li>
 <li>…</li>
 </ul>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>本文主要归纳总结了一些常用的瘦身方法，当然不同的项目需求以及业务场景都会产生一些对应的瘦身方法，大家可以根据自己的业务特性去寻找一些更好更优的瘦身技巧。</p>

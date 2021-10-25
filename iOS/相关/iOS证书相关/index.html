@@ -275,7 +275,6 @@
 
       
         <h4 id="检查-App-证书过期时间信息"><a href="#检查-App-证书过期时间信息" class="headerlink" title="检查 App 证书过期时间信息"></a>检查 App 证书过期时间信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">unzip -q XXXXXXXXX.ipa</span><br><span class="line">codesign -d --extract-certificates Payload/*.app</span><br><span class="line">openssl x509 -inform DER -in codesign0 -noout -nameopt -oneline -dates //获取签名有效日期</span><br><span class="line"></span><br><span class="line">codesign -dv --verbose=4 Payload/*.app //获取签名详细信息</span><br></pre></td></tr></table></figure>
-
 <h4 id="mobileprovision-文件位置"><a href="#mobileprovision-文件位置" class="headerlink" title="mobileprovision 文件位置"></a>mobileprovision 文件位置</h4><p>/Users/XXXXXXXXX/Library/MobileDevice/Provisioning Profiles</p>
 
     </div>

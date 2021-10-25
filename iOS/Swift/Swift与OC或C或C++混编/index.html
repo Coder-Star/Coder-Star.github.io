@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Swift调用其他语言 Swift调用OC或者Swift调用C的方式都是通过桥接文件的形式（如果oc库添加了modulemap文件，则可以在swift中直接使用import的方式导入）。 Swift调用C++是无法直接调用的，需要依赖于C或者OC语言中转一下  当依赖OC语言来中转调用C++，则OC的.m文件后缀需要改为.mm文件，显式告诉编译器文件内部会包含C++代码。并且需要注意是.mm文件中">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AF%B9%E5%BA%94.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-C数据类型对应.png">
 <meta property="og:updated_time" content="2021-07-30T12:02:16.098Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift与OC或C或C++混编">
 <meta name="twitter:description" content="Swift调用其他语言 Swift调用OC或者Swift调用C的方式都是通过桥接文件的形式（如果oc库添加了modulemap文件，则可以在swift中直接使用import的方式导入）。 Swift调用C++是无法直接调用的，需要依赖于C或者OC语言中转一下  当依赖OC语言来中转调用C++，则OC的.m文件后缀需要改为.mm文件，显式告诉编译器文件内部会包含C++代码。并且需要注意是.mm文件中">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AF%B9%E5%BA%94.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-C数据类型对应.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/Swift/Swift与OC或C或C++混编/">
 
@@ -281,7 +281,7 @@
 <li>Swift调用C++是无法直接调用的，需要依赖于C或者OC语言中转一下</li>
 </ul>
 <p>当依赖OC语言来中转调用C++，则OC的.m文件后缀需要改为.mm文件，显式告诉编译器文件内部会包含C++代码。并且需要注意是.mm文件中不允许引入Swift生成的”Product Name-Swift.h”文件，如果引入，该.h文件会报错。</p>
-<p><strong>Swift-C 数据类型对应</strong><br><img src="../../../img/iOS/Swift/Swift-C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AF%B9%E5%BA%94.png" alt="Swift-C数据类型对应"></p>
+<p><strong>Swift-C 数据类型对应</strong><br><img src="../../../img/iOS/Swift/Swift-C数据类型对应.png" alt="Swift-C数据类型对应"></p>
 
     </div>
 

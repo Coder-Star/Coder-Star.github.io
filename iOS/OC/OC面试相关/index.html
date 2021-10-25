@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
 <meta property="og:updated_time" content="2021-09-12T07:52:24.280Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/OC/OC面试相关/">
 
@@ -292,10 +292,8 @@
 </ul>
 <p>怎么用呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .h文件</span><br><span class="line">@property (nonatomic, readonly, unsafe_unretained) int i;</span><br><span class="line"></span><br><span class="line">// .m文件</span><br><span class="line">@synthesize i = __i; // __i为指定的实例变量，@synthesize i相当于 @synthesize i = i;</span><br></pre></td></tr></table></figure>
-
 <h3 id="property-属性修饰符"><a href="#property-属性修饰符" class="headerlink" title="@property 属性修饰符"></a>@property 属性修饰符</h3><p><strong>setter、getter</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, readonly, getter=isFinalized) BOOL finalized;</span><br><span class="line">@property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;</span><br></pre></td></tr></table></figure>
-
 <p><strong>内存管理</strong></p>
 <ul>
 <li>retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用</li>
@@ -329,7 +327,6 @@
 <li>_Null_unspecified 不确定是否为空</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// nonnull</span><br><span class="line">@property (nonatomic, copy, nonnull) NSString *name;</span><br><span class="line">@property (nonatomic, copy) NSString * _Nonnull name;</span><br><span class="line">@property (nonatomic, copy) NSString * __nonnull name;</span><br><span class="line">// 方法时使用</span><br><span class="line">- (nonnull NSString *)test:(nonnull NSString *)name;</span><br><span class="line">- (NSString * _Nonnull)test1:(NSString * _Nonnull)name;</span><br><span class="line"></span><br><span class="line">// nullable</span><br><span class="line">@property (nonatomic, copy, nullable) NSString *name;</span><br><span class="line">@property (nonatomic, copy) NSString *_Nullable name;</span><br><span class="line">@property (nonatomic, copy) NSString *__nullable name;</span><br><span class="line"></span><br><span class="line">// null_resettable</span><br><span class="line">@property (nonatomic, copy, null_resettable) NSString *name;</span><br><span class="line"></span><br><span class="line">// _Null_unspecified</span><br><span class="line">@property (nonatomic, strong) NSString *_Null_unspecified name;</span><br><span class="line">@property (nonatomic, strong) NSString *__null_unspecified name;</span><br></pre></td></tr></table></figure>
-
 <p>关于 ARC 下，不显示指定属性关键字时，默认关键字：</p>
 <ul>
 <li>基本数据类型：atomic readwrite assign</li>
@@ -395,7 +392,7 @@
 <li>可变对象调用 mutableCopy，生成新对象，可变对象的修改不应影响到原对象，所以会生成新对象。</li>
 </ul>
 <h2 id="isa-指针"><a href="#isa-指针" class="headerlink" title="isa 指针"></a>isa 指针</h2><p>isa 指针是一个联合体，</p>
-<p><img src="../../../img/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime/isa.png" alt="isa指针"></p>
+<p><img src="../../../img/iOS/基础原理/Runtime/isa.png" alt="isa指针"></p>
 <ul>
 <li>每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。</li>
 <li>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。</li>

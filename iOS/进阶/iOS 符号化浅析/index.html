@@ -28,18 +28,18 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E6%B5%81%E7%A8%8B.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dSYM%E8%B5%B7%E5%A7%8B%E5%9C%B0%E5%9D%80.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dwarfdump_result.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/atos_result.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/DSYMTools_result.png">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/symbolicatecrash_xcode.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/符号化程度.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/符号化流程.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/dSYM起始地址.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/dwarfdump_result.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/atos_result.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/DSYMTools_result.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/symbolicatecrash_xcode.png">
 <meta property="og:updated_time" content="2021-10-07T06:03:28.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 符号化浅析">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/符号化程度.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/iOS 符号化浅析/">
 
@@ -291,7 +291,7 @@
 <li>部分符号化</li>
 <li>完全符号化</li>
 </ul>
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E7%A8%8B%E5%BA%A6.png" alt="符号化程度"></p>
+<p><img src="../../../img/iOS/进阶/符号化/符号化程度.png" alt="符号化程度"></p>
 <p>符号化一般情况会需要下面三个部分</p>
 <ul>
 <li>崩溃日志</li>
@@ -328,7 +328,6 @@
 <li><a href="https://github.com/kaler/CrashKit" target="_blank" rel="noopener">CrashKit</a></li>
 </ul>
 <h3 id="NSSetUncaughtExceptionHandler"><a href="#NSSetUncaughtExceptionHandler" class="headerlink" title="NSSetUncaughtExceptionHandler"></a>NSSetUncaughtExceptionHandler</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSSetUncaughtExceptionHandler</span>(<span class="type">CrashHandler</span>.exceptionHandler)</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">let</span> exceptionHandler: <span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">NSException</span>) -&gt; <span class="type">Void</span> = &#123; exception <span class="keyword">in</span></span><br><span class="line">   <span class="comment">/// 异常堆栈</span></span><br><span class="line">  <span class="keyword">let</span> arr = exception.callStackSymbols</span><br><span class="line">  <span class="comment">/// 异常原因</span></span><br><span class="line">  <span class="keyword">let</span> reason = exception.reason</span><br><span class="line">  <span class="comment">/// 异常名称</span></span><br><span class="line">  <span class="keyword">let</span> name = exception.name.rawValue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p><strong>异常类型：</strong></p>
 <ul>
 <li>NSInvalidArgumentException： 非法参数异常，如 NSDictionary 不能添加 nil 的对象</li>
@@ -340,9 +339,8 @@
 <li>KVO Crash：重复移除观察者</li>
 <li>unrecognized selector send to instance</li>
 </ul>
-<p>针对上述异常，网易17年提出过一套大白健康系统–<a href="https://neyoufan.github.io/2017/01/13/ios/BayMax_HTSafetyGuard/" target="_blank" rel="noopener">大白健康系统–iOS APP运行时Crash自动修复系统</a>，也有一个对应开源框架<a href="https://github.com/jezzmemo/JJException" target="_blank" rel="noopener">JJException</a>，也就是我们常说的安全气垫。</p>
+<p>针对上述异常，网易17年提出过一套大白健康系统—<a href="https://neyoufan.github.io/2017/01/13/ios/BayMax_HTSafetyGuard/" target="_blank" rel="noopener">大白健康系统—iOS APP运行时Crash自动修复系统</a>，也有一个对应开源框架<a href="https://github.com/jezzmemo/JJException" target="_blank" rel="noopener">JJException</a>，也就是我们常说的安全气垫。</p>
 <h3 id="signal"><a href="#signal" class="headerlink" title="signal"></a>signal</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大部分异常就是 SIGTRAP ，OC中的NSException异常对应的也是这个信号。</span></span><br><span class="line">signal(<span class="type">SIGTRAP</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGABRT</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGSEGV</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGBUS</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line">signal(<span class="type">SIGILL</span>, <span class="type">CrashHandler</span>.signalHandler)</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">let</span> signalHandler: <span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">Int32</span>) -&gt; <span class="type">Void</span> = &#123; signal <span class="keyword">in</span></span><br><span class="line">  <span class="comment">/// 异常堆栈</span></span><br><span class="line">  <span class="keyword">for</span> symbol <span class="keyword">in</span> <span class="type">Thread</span>.callStackSymbols &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  exit(signal)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="SDK-异常传递"><a href="#SDK-异常传递" class="headerlink" title="SDK 异常传递"></a>SDK 异常传递</h3><p>一般情况下，我们不会在自己的应用中集成多个 Crash 日志收集服务，但是总有一些情况我们会接入多个，这个时候，我们就非常希望接入的 SDK 是一位<code>友好型选手</code>，不会直接吃掉崩溃而不传递了。</p>
 <p>如果同时有多方通过 NSSetUncaughtExceptionHandler 注册异常处理程序，和平的做法是：后注册者通过 NSGetUncaughtExceptionHandler 将先前别人注册的 handler 取出并备份，在自己 handler 处理完后自觉把别人的 handler 注册回去，规规矩矩的传递。不传递强行覆盖的后果是，在其之前注册过的日志收集服务写出的 Crash 日志就会因为取不到 NSException 而丢失 Last Exception Backtrace 等信息。（P.S. iOS 系统自带的 Crash Reporter 不受影响）</p>
 <p>详细代码请见<a href="https://github.com/kstenerud/KSCrash/blob/master/Source/KSCrash/Recording/Monitors/KSCrashMonitor_NSException.m" target="_blank" rel="noopener">KSCrashMonitor_NSException</a>，有一个<code>g_previousUncaughtExceptionHandler</code>属性。</p>
@@ -364,10 +362,9 @@
 <blockquote>
 <p>虽然没有dSYM 文件时也有其他办法（可见<a href="https://www.cnblogs.com/ciml/p/7422872.html" target="_blank" rel="noopener">详解没有dSYM文件 如何解析iOS崩溃日志</a>）可以帮助我们将Crash抓出来，但是还是不如有dSYM文件时来的简单快捷。</p>
 </blockquote>
-<h2 id="符号化流程"><a href="#符号化流程" class="headerlink" title="符号化流程"></a>符号化流程</h2><p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/%E7%AC%A6%E5%8F%B7%E5%8C%96%E6%B5%81%E7%A8%8B.png" alt="符号化流程"></p>
+<h2 id="符号化流程"><a href="#符号化流程" class="headerlink" title="符号化流程"></a>符号化流程</h2><p><img src="../../../img/iOS/进阶/符号化/符号化流程.png" alt="符号化流程"></p>
 <h3 id="获取到崩溃日志-App-关键行信息"><a href="#获取到崩溃日志-App-关键行信息" class="headerlink" title="获取到崩溃日志 App 关键行信息"></a>获取到崩溃日志 App 关键行信息</h3><p>不管是完整的崩溃文件还是堆栈信息，我们最终需要的其实是关键的崩溃行信息，长下面这样：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 没有显示的堆栈信息</span><br><span class="line">3 iOSTest  0x000000010029e694 iOSTest + 26260</span><br><span class="line"></span><br><span class="line">// 显示偏移量的堆栈信息</span><br><span class="line">3 iOSTest 0x000000010029e694 0x0000000100298000 + 26260</span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <p>当然对于完整的 Crash 日志文件，我们可以利用<code>symbolicatecrash</code>工具比较方便的将整份日志文件进行符号化，这节暂时不对其进行介绍，详情请见下节。</p>
 </blockquote>
@@ -385,7 +382,7 @@
 </blockquote>
 <h3 id="获取-dSYM-起始地址"><a href="#获取-dSYM-起始地址" class="headerlink" title="获取 dSYM 起始地址"></a>获取 dSYM 起始地址</h3><p><code>otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</code></p>
 <p>执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 <code>0x0000000100000000</code>，一般情况下都为这个值。</p>
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dSYM%E8%B5%B7%E5%A7%8B%E5%9C%B0%E5%9D%80.png" alt="dSYM起始地址"></p>
+<p><img src="../../../img/iOS/进阶/符号化/dSYM起始地址.png" alt="dSYM起始地址"></p>
 <h3 id="计算崩溃地址对应-dSYM-符号表中的地址"><a href="#计算崩溃地址对应-dSYM-符号表中的地址" class="headerlink" title="计算崩溃地址对应 dSYM 符号表中的地址"></a>计算崩溃地址对应 dSYM 符号表中的地址</h3><ul>
 <li>dSYM 起止地址：0x0000000100000000，16 进制</li>
 <li>函数偏移量：26260，10 进制</li>
@@ -393,21 +390,18 @@
 <p>所以我们可以拿到 stack address（0x000000010029e694） 在 dSYM 中对应的地址为 <strong>0x0000000100000000 + 26260 = 0x100006694</strong></p>
 <h3 id="获取到具体的函数-行数-文件"><a href="#获取到具体的函数-行数-文件" class="headerlink" title="获取到具体的函数 / 行数 / 文件"></a>获取到具体的函数 / 行数 / 文件</h3><p><strong>使用 dwarfdump</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">dwarfdump iOSTest.app.dSYM --lookup 0x100006694</span><br></pre></td></tr></table></figure>
-
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/dwarfdump_result.png" alt="dwarfdump_result"></p>
+<p><img src="../../../img/iOS/进阶/符号化/dwarfdump_result.png" alt="dwarfdump_result"></p>
 <p>从上图中我们看到崩溃出现的文件，但是获取到 <code>line info</code> 却都是 0，主要原因该崩溃处出现了函数内联，但是 <code>dwarfdump</code> 没有很好兼容到多级内联这种场景，实际上<code>dwarfdump</code>这种方式相对还是受限，所以一般情况下使用下列方式<code>atos</code>居多。</p>
 <p><strong>使用 atos</strong></p>
 <p>使用这种方式，我们不需在手动计算崩溃地址对应 dSYM 符号表中的地址，</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 0x0000000100298000为 load address</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 0x000000010029e694为 symbol address</span></span></span><br><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure>
-
 <p>命令后跟的 <code>-i</code>目的就是显示内联相关信息。</p>
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/atos_result.png" alt="atos_result"></p>
+<p><img src="../../../img/iOS/进阶/符号化/atos_result.png" alt="atos_result"></p>
 <p><strong>使用 DSYMTools</strong></p>
 <p>我们还可以使用开源的<a href="https://github.com/answer-huang/dSYMTools" target="_blank" rel="noopener">DSYMTools</a>，其内部也是使用了<code>atos</code>，图形化页面更方便操作。</p>
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/DSYMTools_result.png" alt="DSYMTools_result"></p>
+<p><img src="../../../img/iOS/进阶/符号化/DSYMTools_result.png" alt="DSYMTools_result"></p>
 <h3 id="组装并格式化"><a href="#组装并格式化" class="headerlink" title="组装并格式化"></a>组装并格式化</h3><p>根据上面的流程，我们基本上可以将堆栈信息映射成对应的文件、函数、行号等信息，形成常见的这种形式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 iOSTest 0x000000010029e694 DemoListViewController.click(menuModel:) 0x0000000100298000 + 26260 (DemoListViewController.swift:62)</span><br></pre></td></tr></table></figure>
-
 <h2 id="符号化方式"><a href="#符号化方式" class="headerlink" title="符号化方式"></a>符号化方式</h2><p>通过上面的符号化流程，我们可以对符号化的原理及过程有个大致了解，并且从中我们也了解到了不同的符号化方式，比如<code>dwarfdump</code>以及<code>atos</code>等。</p>
 <p>下面我们来看堆栈符号化有哪几种方式：</p>
 <ul>
@@ -420,38 +414,31 @@
 <h2 id="符号化相关工具"><a href="#符号化相关工具" class="headerlink" title="符号化相关工具"></a>符号化相关工具</h2><p>根据上面的符号化流程，我们用到了下列工具。</p>
 <h3 id="dwarfdump"><a href="#dwarfdump" class="headerlink" title="dwarfdump"></a>dwarfdump</h3><p>Crash Log 中会携带一个 UUID（由 32 个字符组成），位置位于<code>Binary Images</code>处，APP 二进制内部也会有一个 UUID，dSYM 也会有一个 UUID，三个对应起来才可以正常解析，否则会解析失败，所以当解析失败时应首先利用 dwarfdump 检查三者的 UUID 是否一致。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找指定地址的相关信息</span></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 校验DWARF的有效性</span></span><br><span class="line">dwarfdump --verify iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
-
 <p>如果设备上 dSYM 文件很多，可以通过下列命令查找指定 UUID 对应 dSYM 位置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> UUID改为实际的UUID，并且UUID需要格式转换（增加<span class="string">'-'</span>)</span></span><br><span class="line">mdfind "com_apple_xcode_dsym_uuids == UUID"</span><br></pre></td></tr></table></figure>
-
-<p>通过 symbols -uuid 来查看 dSYM 文件的 UUID;</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">symbols -uuid iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
-
+<p>通过 symbols -uuid 来查看 dSYM 文件的 UUID;<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">symbols -uuid iOSTest.app.dSYM</span><br></pre></td></tr></table></figure></p>
 <h3 id="symbolicatecrash"><a href="#symbolicatecrash" class="headerlink" title="symbolicatecrash"></a>symbolicatecrash</h3><p>Xcode 提供的 <code>symbolicatecrash</code>。该命令位于：<code>/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash</code>，是一个<code>perl</code>脚本，里面整合了逐步解析的操作（可以将命令拷贝出来，直接进行调用）。</p>
 <p>使用方式为</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 需要先运行该命令，不然下面 symbolicatecrash命令会出现</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Error: <span class="string">"DEVELOPER_DIR"</span> is not defined at ./symbolicatecrash line 69.</span></span><br><span class="line">export DEVELOPER_DIR="/Applications/XCode.App/Contents/Developer"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行命令前需要将崩溃日志、 dSYM 以及 symbolicatecrash 复制到同一个目录下</span></span><br><span class="line">symbolicatecrash log.crash -d xxx.app.dSYM &gt; symbol.log</span><br></pre></td></tr></table></figure>
-
 <p>优点：能非常方便的符号化整份 crash 日志。<br>缺点：</p>
 <ul>
 <li>耗时比较久。</li>
 <li>粒度比较粗，无法符号化特定的某一行。</li>
 </ul>
 <p>其实在该方式的基础上，Xcode 可以可视化的进行崩溃文件符号化，将崩溃日志、 dSYM 文件和可执行文件放在同一目录下，然后将崩溃日志拖拽至 Devicelog 中，右键 <code>symbolicate Log</code> 或者 <code>Re-symbolicate Log</code>就能符号化。</p>
-<p><img src="../../../img/iOS/%E8%BF%9B%E9%98%B6/%E7%AC%A6%E5%8F%B7%E5%8C%96/symbolicatecrash_xcode.png" alt="symbolicatecrash_xcode"></p>
+<p><img src="../../../img/iOS/进阶/符号化/symbolicatecrash_xcode.png" alt="symbolicatecrash_xcode"></p>
 <h3 id="atos"><a href="#atos" class="headerlink" title="atos"></a>atos</h3><p>atos 命令将十六进制地址转换为源代码中可识别的函数名称和行号。<br>优点：速度快，可以符号化特定的某一行，方便上层做缓存。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> load adress:可执行指令部分相对镜像文件中的起始加载地址</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> address to symbolicate：调用函数的地址</span></span><br><span class="line">atos -arch &lt;Binary Architecture&gt; -o &lt;Path to dSYM file&gt;/Contents/Resources/DWARF/&lt;binary image name&gt; -l &lt;load address&gt; &lt;address to symbolicate&gt;</span><br><span class="line"></span><br><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure>
-
 <h2 id="系统日志符号化"><a href="#系统日志符号化" class="headerlink" title="系统日志符号化"></a>系统日志符号化</h2><p>符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。</p>
 <p>系统库符号的文件不是通用的，需要对应崩溃所在设备的<strong>系统版本</strong>和 <strong>CPU 型号</strong>。所以说为了符号化所有的符号，我们需要尽可能收集不同版本的系统符号文件。</p>
 <p>下列为我从 Xcode 导出的 Crash Log 顶部信息，从中我们可以拿到产生 Crash 的设备相关信息。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OS Version:       iPhone OS 15.0 (Build 19A346)</span><br><span class="line">Architecture:     arm64e</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
 <p>取到的对应版本的符号文件放到 Mac OS 的 <code>~/Library/Developer/Xcode/iOS DeviceSupport</code> 目录下，就可以使用 Xcode 自带的符号化工具 symbolicatecrash 进行符号化了。这个工具会自动根据崩溃日志中系统库的 UUID 搜索本机系统库的符号文件。</p>
 <p><strong>获取系统符号文件的几个方法</strong></p>
 <ol>
 <li><p>从真机上获取<br>当你用 Xcode 第一次连接某台设备进行真机调试时，会看到 Xcode 显示 <code>Processing symbol files</code>，这时候就是在拷贝真机上的符号文件到 Mac 系统的 <code>/Users/xxx/Library/Developer/Xcode/iOS DeviceSupport</code> 目录下。</p>
 </li>
-<li><p>从已解密的固件中提取符号文件<br>已经有很多同学给出了方式，如参考资料中<code>聊聊从iOS固件提取系统库符号</code>，不再赘述。给出过程中需要用到的地址。<a href="https://www.theiphonewiki.com/wiki/Firmware" target="_blank" rel="noopener">theiphonewiki</a>：固件下载站点，同时也维护固件解密的key–<a href="https://www.theiphonewiki.com/wiki/Firmware_Keys" target="_blank" rel="noopener">Firmware_Keys</a>。</p>
+<li><p>从已解密的固件中提取符号文件<br>已经有很多同学给出了方式，如参考资料中<code>聊聊从iOS固件提取系统库符号</code>，不再赘述。给出过程中需要用到的地址。<a href="https://www.theiphonewiki.com/wiki/Firmware" target="_blank" rel="noopener">theiphonewiki</a>：固件下载站点，同时也维护固件解密的key—<a href="https://www.theiphonewiki.com/wiki/Firmware_Keys" target="_blank" rel="noopener">Firmware_Keys</a>。</p>
 </li>
 <li><p>已经收集好的开源项目，如<a href="https://github.com/Zuikyo/iOS-System-Symbols" target="_blank" rel="noopener">iOS-System-Symbols</a>…</p>
 </li>

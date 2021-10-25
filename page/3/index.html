@@ -492,7 +492,7 @@
 </ul>
 <p>swift 中的引用类型除 class 之外还有 func 以及 closure。</p>
 <p>延伸一下：</p>
-<p>引用类型与值类型区别其实可以与深拷贝与浅拷贝对应起来，值类型在赋给另一个变量时会对值进行一次拷贝，而引用类型赋给另一个变量是将引用地址赋给它。值类型如果每次赋值时候都进行拷贝的话会增大内存开销，实际上只有值类型发生改变的时候才会进行真正的拷贝 –“写时复制（Copy-On-Write）”的特性，当没有改变时，两者共享同一个内存地址。</p>
+<p>引用类型与值类型区别其实可以与深拷贝与浅拷贝对应起来，值类型在赋给另一个变量时会对值进行一次拷贝，而引用类型赋给另一个变量是将引用地址赋给它。值类型如果每次赋值时候都进行拷贝的话会增大内存开销，实际上只有值类型发生改变的时候才会进行真正的拷贝 —“写时复制（Copy-On-Write）”的特性，当没有改变时，两者共享同一个内存地址。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/iOS/Swift/Swift知识/#more" rel="contents">
@@ -812,7 +812,6 @@
 </li>
 <li><p>【推荐】文件名如果有复数含义，文件名应使用复数形式，如一些工具类；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="type">MessageUtils</span>.swift</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
           <!--noindex-->
@@ -1025,7 +1024,7 @@
 <li><strong>LICENSE 文件</strong> 默认一般选择 MIT</li>
 <li><strong>podspec 文件</strong> 本库的各项信息描述, 需要提交给 CocoaPods, pod 通过这个文件查找到你共享的库</li>
 </ul>
-<p>目录如下<br><img src="../../../../img/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95.png" alt="工程目录.png"></p>
+<p>目录如下<br><img src="../../../../img/iOS/架构设计/工程目录.png" alt="工程目录.png"></p>
 <p>生成这样的目录结构可以利用 CocoaPods 的命令自动生成</p>
           <!--noindex-->
             <div class="post-button">
@@ -1127,7 +1126,7 @@
       
           <p><strong>CocoaPods 系列博客</strong><br><a href="../CocoaPods-总览">CocoaPods-总览</a><br><a href="../CocoaPods-项目使用">CocoaPods-项目使用</a><br><a href="../CocoaPods-封装自己的Pod库">CocoaPods-封装自己的 Pod 库</a></p>
 <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(cocoapods-repo-svn).我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库.这样委托 pod 来管理.</p>
-<p>远程索引库，本地索引库，远程代码库、本地代码库相关概念如下：<br><img src="../../../../img/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/CocoaPods/CocoaPods%E6%A6%82%E5%BF%B5%E5%9B%BE.png" alt="CocoaPods概念图"></p>
+<p>远程索引库，本地索引库，远程代码库、本地代码库相关概念如下：<br><img src="../../../../img/iOS/架构设计/CocoaPods/CocoaPods概念图.png" alt="CocoaPods概念图"></p>
 <p>远程索引库地址为<code>https://github.com/CocoaPods/Specs.git</code></p>
           <!--noindex-->
             <div class="post-button">

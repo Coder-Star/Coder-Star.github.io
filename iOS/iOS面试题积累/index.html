@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Swif与OC对比 UIImageView 加载图片相关过程  从磁盘拷贝数据到内核缓冲区域； 从内核缓存区域复制数据到用户内存； UIImage 赋值给 UIImageView 的 image 时，图像数据会被解码，变成位图数，内存大小为 width height 4bytes （4bytes:每个像素点的大小)； CTTransaction 捕捉到 UIImageView layer 树的变化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-OC%E5%AF%B9%E6%AF%94.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-OC对比.png">
 <meta property="og:updated_time" content="2021-08-21T05:22:13.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS面试题积累">
 <meta name="twitter:description" content="Swif与OC对比 UIImageView 加载图片相关过程  从磁盘拷贝数据到内核缓冲区域； 从内核缓存区域复制数据到用户内存； UIImage 赋值给 UIImageView 的 image 时，图像数据会被解码，变成位图数，内存大小为 width height 4bytes （4bytes:每个像素点的大小)； CTTransaction 捕捉到 UIImageView layer 树的变化">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-OC%E5%AF%B9%E6%AF%94.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-OC对比.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/iOS面试题积累/">
 
@@ -272,7 +272,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Swif与OC对比"><a href="#Swif与OC对比" class="headerlink" title="Swif与OC对比"></a>Swif与OC对比</h2><p><img src="../../img/iOS/Swift/Swift-OC%E5%AF%B9%E6%AF%94.png" alt="Swift-Objec数据类型对应"></p>
+        <h2 id="Swif与OC对比"><a href="#Swif与OC对比" class="headerlink" title="Swif与OC对比"></a>Swif与OC对比</h2><p><img src="../../img/iOS/Swift/Swift-OC对比.png" alt="Swift-Objec数据类型对应"></p>
 <h2 id="UIImageView-加载图片相关"><a href="#UIImageView-加载图片相关" class="headerlink" title="UIImageView 加载图片相关"></a>UIImageView 加载图片相关</h2><p><strong>过程</strong></p>
 <ul>
 <li>从磁盘拷贝数据到内核缓冲区域；</li>
@@ -295,7 +295,6 @@
 <p><strong>block、delegate</strong></p>
 <p>一般使用 Weak、unowned 修饰可以解决问题，unowned 要比 weak 少一些性能消耗。<br>block 产生循环引用的原因是闭包表达式对用到的外层对象产生额外的强引用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[weak self]  =&gt;   __weak typeof(self) weakSelf;</span><br><span class="line">[unowned self] =&gt;  __unsafe_unretained typeof(self) weakSelf;</span><br></pre></td></tr></table></figure>
-
 <h2 id="iOS-自身的设计模式"><a href="#iOS-自身的设计模式" class="headerlink" title="iOS 自身的设计模式"></a>iOS 自身的设计模式</h2><ul>
 <li>代理模式：tableview 的 delegate、datasource</li>
 <li>观察者模式：KVO，Notification</li>

@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="一、前言APP 组件化的过程我觉得主要分为下面几个部分。  APP 架构设计 我们在将 APP 进行组件化搭建之前，我们首先得有一个整体的架构设计，哪些功能下沉，哪些功能归为一块，功能的颗粒度怎么设计，这都是我们需要考虑的问题。当然，架构肯定需要根据我们的业务来设计，脱离业务需求的架构肯定不是好架构。 APP 组件之间的通信 将 APP 拆分成组件之后，我们就要考虑组件之间的通信问题。其实组件之间">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/iOS%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/架构设计/iOS架构设计.png">
 <meta property="og:updated_time" content="2021-06-01T09:17:10.311Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS组件化相关">
 <meta name="twitter:description" content="一、前言APP 组件化的过程我觉得主要分为下面几个部分。  APP 架构设计 我们在将 APP 进行组件化搭建之前，我们首先得有一个整体的架构设计，哪些功能下沉，哪些功能归为一块，功能的颗粒度怎么设计，这都是我们需要考虑的问题。当然，架构肯定需要根据我们的业务来设计，脱离业务需求的架构肯定不是好架构。 APP 组件之间的通信 将 APP 拆分成组件之后，我们就要考虑组件之间的通信问题。其实组件之间">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/iOS%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/架构设计/iOS架构设计.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/架构设计/iOS组件化相关/">
 
@@ -277,7 +277,7 @@
 <li><strong>APP 架构设计</strong><br> 我们在将 APP 进行组件化搭建之前，我们首先得有一个整体的架构设计，哪些功能下沉，哪些功能归为一块，功能的颗粒度怎么设计，这都是我们需要考虑的问题。当然，架构肯定需要根据我们的业务来设计，脱离业务需求的架构肯定不是好架构。</li>
 <li><strong>APP 组件之间的通信</strong><br> 将 APP 拆分成组件之后，我们就要考虑组件之间的通信问题。其实组件之间的通信问题说到底就是 APP 中的路由方案设计问题。</li>
 </ul>
-<h3 id="二、架构设计、组件拆分"><a href="#二、架构设计、组件拆分" class="headerlink" title="二、架构设计、组件拆分"></a>二、架构设计、组件拆分</h3><p><img src="../../../img/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/iOS%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1.png" alt="iOS架构设计"></p>
+<h3 id="二、架构设计、组件拆分"><a href="#二、架构设计、组件拆分" class="headerlink" title="二、架构设计、组件拆分"></a>二、架构设计、组件拆分</h3><p><img src="../../../img/iOS/架构设计/iOS架构设计.png" alt="iOS架构设计"></p>
 <h4 id="1、基础支撑层"><a href="#1、基础支撑层" class="headerlink" title="1、基础支撑层"></a>1、基础支撑层</h4><h4 id="2、基础模块及-UI-组件层"><a href="#2、基础模块及-UI-组件层" class="headerlink" title="2、基础模块及 UI 组件层"></a>2、基础模块及 UI 组件层</h4><h4 id="3、业务模块层"><a href="#3、业务模块层" class="headerlink" title="3、业务模块层"></a>3、业务模块层</h4><h4 id="4、APP-应用层"><a href="#4、APP-应用层" class="headerlink" title="4、APP 应用层"></a>4、APP 应用层</h4><p>如果项目业务不涉及到系列 APP，这一层可以忽略；</p>
 <h3 id="三、组件间通信-路由方案"><a href="#三、组件间通信-路由方案" class="headerlink" title="三、组件间通信(路由方案)"></a>三、组件间通信(路由方案)</h3><p>目前存在的组件间路由方案大概有四种，分别是</p>
 <ul>
@@ -312,7 +312,6 @@
 </ul>
 <p>为了解决 MGJRouter 本身的传值麻烦问题以及部分不适合用 URL 传值的方式，就可以通过注册 protocol 的方式来实现。核心代码如下。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ModuleManager</span>.register(className: <span class="type">AnyObject</span>, forProtocol: <span class="type">Protocol</span>)</span><br></pre></td></tr></table></figure>
-
 <p><strong>记录在使用 MGJRouter 过程中遇到的问题</strong></p>
 <ul>
 <li>如果 url 中含有中文，想要使用 canOpenURL 这个方法，需要对 url 进行编码，否则会引起代码 Crash，因为其函数实现未对 url 进行编码；这一点已经在 MGJRouter 提交了 pr，不过根据上次 pr 还没有处理的情况来看，这个库很有可能不再进行维护了；网上也有很多这个库的 swift 翻译版本；</li>
@@ -322,14 +321,12 @@
 <p>大致思想如下：（假定 B 模块需要与 A 模块通信）</p>
 <p>A 模块在开发完成之后需要对外提供基于 Target-Action 的调用方式，根据框架源码的阅读，需要给我们提供的类以及方法加上指定前缀，其中，类名前面需要加上 Target<em>，方法名前面需要加上 Action</em>。这部分代码我们可以封装成一个单独的 pod（起名为 A)。理论上我们做完这部分工作后就可以通过 CTMediator 调用模块，但是调用模块时需要进行一定的硬编码，如类名、方法名以及方法参数等等，这样在程序编译时进行检查；于是我们可以进行下一步操作；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Target对象必须要继承自NSObject，因为框架中生成的类实例是以NSObject接收的</span></span><br><span class="line"><span class="comment">// Action方法必须带@objc前缀</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Target_A</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 方法参数只允许有一个，并且类型为NSDictionary，Action方法第一个参数不能有Argument Label</span></span><br><span class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">Action_Extension_ViewController</span><span class="params">(<span class="number">_</span> params: NSDictionary)</span></span> -&gt; <span class="type">UIViewController</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> callback = params[<span class="string">"callback"</span>] <span class="keyword">as</span>? (<span class="type">String</span>) -&gt; <span class="type">Void</span> &#123;</span><br><span class="line">            callback(<span class="string">"success"</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> aViewController = <span class="type">ViewController</span>()</span><br><span class="line">        <span class="keyword">return</span> aViewController</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>我们可以通过给 CTMediator 类（单例）提供扩展的方式，将硬编码的部分写入这部分中，这样外部调用时就可以知道我们需要什么参数了，这部分工作也是由编码 A 模块的人提供；可以也将该部分单独作为一个 pod（起名 A_Extension），这里解释下这部分代码不与之前 A 模块的业务代码放入一个 pod 的好处：</p>
 <ul>
 <li>A 模块业务代码不需要集成 CTMediator；</li>
 <li>团队合作的时候 A 模块的开发方早期不用提供 A 模块代码，先只提供 A_Extension 这个 pod 包即可，类似先定义接口，后期进行实现；</li>
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">extension</span> <span class="title">CTMediator</span> </span>&#123;</span><br><span class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">A_showSwift</span><span class="params">(callback:@escaping <span class="params">(String)</span></span></span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">UIViewController?</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> params = [</span><br><span class="line">            <span class="string">"callback"</span>:callback,</span><br><span class="line">            kCTMediatorParamsKeySwiftTargetModuleName:<span class="string">"A_swift"</span></span><br><span class="line">            ] <span class="keyword">as</span> [<span class="type">AnyHashable</span> : <span class="type">Any</span>]</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> viewController = <span class="keyword">self</span>.performTarget(<span class="string">"A"</span>, action: <span class="string">"Extension_ViewController"</span>, params: params, shouldCacheTarget: <span class="literal">false</span>) <span class="keyword">as</span>? <span class="type">UIViewController</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> viewController</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h4 id="3、完整的组件解耦以及通信方案"><a href="#3、完整的组件解耦以及通信方案" class="headerlink" title="3、完整的组件解耦以及通信方案"></a>3、完整的组件解耦以及通信方案</h4><p><strong><a href="https://github.com/alibaba/BeeHive" target="_blank" rel="noopener">BeeHive</a></strong></p>
 <p>BeeHive 是阿里开源的一个 APP 模块化编程框架的实现方案，其吸收了 Spring 框架 Service 的理念来实现模块间的 API 解构，路由方面，本质上与蘑菇街后来推出的 Protocol 方案类似，也加入了 url Router 的方式，不过 readme.md 没有对这种方式进行体现，但是在源码中可以看出；其中这种 Protocol 方法在思想上跟 spring 的 service 注入类似；</p>
 <p><strong>这种方式决定了业务模块需要引入公共的协议；</strong></p>
@@ -345,7 +342,7 @@
 <li><a href="https://www.tuicool.com/articles/QneYvmi" target="_blank" rel="noopener">蘑菇街 App 的组件化之路·续</a></li>
 <li><a href="https://casatwy.com/iOS-Modulization.html" target="_blank" rel="noopener">iOS 应用架构谈组件化方案</a></li>
 <li><a href="http://blog.cnbang.net/tech/3080/" target="_blank" rel="noopener">iOS 组件化方案探索</a></li>
-<li><a href="https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&mid=2247488305&idx=1&sn=0f0a2e4d5febe3024adf0578f092b020&source=41#wechat_redirect" target="_blank" rel="noopener">BeeHive，一次 iOS 模块化解耦实践</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzUxMzcxMzE5Ng==&amp;mid=2247488305&amp;idx=1&amp;sn=0f0a2e4d5febe3024adf0578f092b020&amp;source=41#wechat_redirect" target="_blank" rel="noopener">BeeHive，一次 iOS 模块化解耦实践</a></li>
 <li><a href="https://xiaozhuanlan.com/topic/4052613897" target="_blank" rel="noopener">BeeHive 框架全面解析——iOS 开发主流方案比较</a></li>
 <li><a href="https://www.jianshu.com/p/24f6299ebe82" target="_blank" rel="noopener">BeeHive —— 一个优雅但还在完善中的解耦框架</a></li>
 </ul>

@@ -28,12 +28,12 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="Flutter 与 Native 通信方式 BasicMessageChannel：用于传递字符串和半结构化的信息,这个用的比较少，相互调用 MethodChannel：用于传递方法调用（method invocation）通常用来调用 native 中某个方法，相互调用 EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/Flutter/Flutter-Native%E9%80%9A%E4%BF%A1/MethodChannel%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
+<meta property="og:image" content="https://coder-star.github.io/img/Flutter/Flutter-Native通信/MethodChannel数据类型.png">
 <meta property="og:updated_time" content="2021-06-01T09:17:10.296Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter-Native通信">
 <meta name="twitter:description" content="Flutter 与 Native 通信方式 BasicMessageChannel：用于传递字符串和半结构化的信息,这个用的比较少，相互调用 MethodChannel：用于传递方法调用（method invocation）通常用来调用 native 中某个方法，相互调用 EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flu">
-<meta name="twitter:image" content="https://coder-star.github.io/img/Flutter/Flutter-Native%E9%80%9A%E4%BF%A1/MethodChannel%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/Flutter/Flutter-Native通信/MethodChannel数据类型.png">
 
 <link rel="canonical" href="https://coder-star.github.io/Flutter/Flutter-Native通信/">
 
@@ -278,7 +278,7 @@
 <li>EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flutter 端，原生发送消息,flutter接收，单向通信。</li>
 </ul>
 <p>Channel 提供标准的消息解码器来为我们在发送及接收数据自动进行序列化及序列化；</p>
-<p>支持的数据类型<br><img src="../../img/Flutter/Flutter-Native%E9%80%9A%E4%BF%A1/MethodChannel%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt="支持的数据类型"></p>
+<p>支持的数据类型<br><img src="../../img/Flutter/Flutter-Native通信/MethodChannel数据类型.png" alt="支持的数据类型"></p>
 <p>codec，MessageCodecx 协议</p>
 <ul>
 <li>JSONMessageCodec<br>JSONMessageCodec 用于基础数据与二进制数据之间的编解码，其支持基础数据类型以及列表、字典。其在 iOS 端使用了 NSJSONSerialization 作为序列化的工具，而在 Android 端则使用了其自定义的 JSONUtil 与 StringCodec 作为序列化工具</li>
