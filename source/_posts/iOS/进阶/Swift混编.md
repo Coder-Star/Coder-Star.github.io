@@ -1,5 +1,5 @@
 ---
-title: OC-Swift 混编
+title: Swift 混编
 category:
   - iOS
   - 进阶
@@ -10,6 +10,11 @@ date: 2021-03-25 11:19:56
 ---
 
 ## 相互调用
+
+### Swift反射
+
+我们一般是通过`NSClassFromString`函数来对类进行反射，在Swift中因为命名空间的缘故在Macho中的类名实际上是混淆的，混淆规则具体函数见：[copySwiftV1MangledName函数](https://github.com/opensource-apple/objc4/blob/cd5e62a5597ea7a31dccef089317abb3a661c154/runtime/objc-runtime-new.mm#L859)，可以通过桥接文件看下Swift类对应生成的类名，如果在类上加上@objc(className)，可以使生成的类名与className一致，也就是不会再有混淆了
+但这样处理命名空间也就失去了意义，不同Module之间类名不能重复了。
 
 ### 主工程
 
@@ -105,5 +110,19 @@ open class ObjC : NSObject {
 #### NS_SWIFT_ASYNC_THROWS_ON_TRUE
 
 #### NS_SWIFT_ASYNC_THROWS_ON_FALSE
+
+
+## Swift调用其他语言
+
+* Swift调用OC或者Swift调用C的方式都是通过桥接文件的形式（如果oc库添加了modulemap文件，则可以在swift中直接使用import的方式导入）。
+* Swift调用C++是无法直接调用的，需要依赖于C或者OC语言中转一下
+
+当依赖OC语言来中转调用C++，则OC的.m文件后缀需要改为.mm文件，显式告诉编译器文件内部会包含C++代码。并且需要注意是.mm文件中不允许引入Swift生成的"Product Name-Swift.h"文件，如果引入，该.h文件会报错。
+
+
+**Swift-C 数据类型对应**
+![Swift-C数据类型对应](../../../img/iOS/Swift/Swift-C数据类型对应.png)
+
+
 
 - [京东App Swift 混编及组件化落地](https://juejin.cn/post/6926720202457497613)
