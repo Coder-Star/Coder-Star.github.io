@@ -24,7 +24,7 @@ minify: false
 custom_file_path:
   #head: source/_data/head.swig
   #header: source/_data/header.swig
-  #sidebar: source/_data/sidebar.swig
+  sidebar: source/_data/sidebar.swig
   #postMeta: source/_data/post-meta.swig
   #postBodyEnd: source/_data/post-body-end.swig
   #footer: source/_data/footer.swig
@@ -178,12 +178,12 @@ site_state: true
 # Key is the link label showing to end users.
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
+  掘金: https://juejin.im/user/5d3120ae5188254cbc32a2e1 || fa fa-heartbeat
   GitHub: https://github.com/Coder-Star || fab fa-github
   E-Mail: mailto:1340529758@qq.com || fa fa-envelope
-  # 掘金: https://juejin.im/user/5d3120ae5188254cbc32a2e1 || fab fa-stack-overflow
+  Weibo: https://weibo.com/u/5328016032 || fab fa-weibo
   #GitHub: https://github.com/yourname || fab fa-github
   #E-Mail: mailto:yourname@gmail.com || fa fa-envelope
-  #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Google: https://plus.google.com/yourname || fab fa-google
   #Twitter: https://twitter.com/yourname || fab fa-twitter
   #FB Page: https://www.facebook.com/yourname || fab fa-facebook
@@ -195,7 +195,7 @@ social:
 social_icons:
   enable: true
   icons_only: false
-  transition: false
+  transition: true
 
 # Blog rolls
 links_settings:
@@ -426,7 +426,7 @@ font:
   global:
     external: true
     family: Lato
-    size: 0.9
+    size: 1
 
   # Font settings for site title (.site-title).
   title:
