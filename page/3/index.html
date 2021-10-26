@@ -100,6 +100,7 @@
       <h1 class="site-title">CoderStar's Blog</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
+      <p class="site-subtitle" itemprop="description">坚持更文</p>
   </div>
 
   <div class="site-nav-right">
@@ -519,7 +520,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/进阶/OC-Swift混编/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/进阶/Swift混编/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -533,7 +534,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/iOS/进阶/OC-Swift混编/" class="post-title-link" itemprop="url">OC-Swift 混编</a>
+            <a href="/iOS/进阶/Swift混编/" class="post-title-link" itemprop="url">Swift 混编</a>
         </h2>
 
         <div class="post-meta">
@@ -550,7 +551,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-27 16:03:28" itemprop="dateModified" datetime="2021-09-27T16:03:28+08:00">2021-09-27</time>
+                <time title="修改时间：2021-10-26 22:17:58" itemprop="dateModified" datetime="2021-10-26T22:17:58+08:00">2021-10-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -572,7 +573,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -591,12 +592,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="相互调用"><a href="#相互调用" class="headerlink" title="相互调用"></a>相互调用</h2><h3 id="主工程"><a href="#主工程" class="headerlink" title="主工程"></a>主工程</h3><p>在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。</p>
-<p><strong>Swift 调用 OC</strong><br>Swift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过<code>Build Settings</code> 中的 <code>Objective-C Bridging Header</code> 设置桥接文件地址</p>
-<p><strong>OC 调用 Swift</strong><br>OC 调用 swift 时，需要在调用的的 OC 文件中引入一个.h 头文件，其格式为 <code>#import &quot;ProductModuleName-Swift.h&quot;</code>。引入后需要重新编译一下。（实际编译会将工程的所有.swift 文件中涉及到的接口以及属性转化成 oc 代码全都整合到这个.h 文件中，进入该文件中就能明白了）。可以通过<code>Build Settings</code> 中的 <code>Objective-C Generated Interface Header Name</code> 自定义头文件名称。</p>
+          <h2 id="相互调用"><a href="#相互调用" class="headerlink" title="相互调用"></a>相互调用</h2><h3 id="Swift反射"><a href="#Swift反射" class="headerlink" title="Swift反射"></a>Swift反射</h3><p>我们一般是通过<code>NSClassFromString</code>函数来对类进行反射，在Swift中因为命名空间的缘故在Macho中的类名实际上是混淆的，混淆规则具体函数见：<a href="https://github.com/opensource-apple/objc4/blob/cd5e62a5597ea7a31dccef089317abb3a661c154/runtime/objc-runtime-new.mm#L859" target="_blank" rel="noopener">copySwiftV1MangledName函数</a>，可以通过桥接文件看下Swift类对应生成的类名，如果在类上加上@objc(className)，可以使生成的类名与className一致，也就是不会再有混淆了<br>但这样处理命名空间也就失去了意义，不同Module之间类名不能重复了。</p>
+<h3 id="主工程"><a href="#主工程" class="headerlink" title="主工程"></a>主工程</h3><p>在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/iOS/进阶/OC-Swift混编/#more" rel="contents">
+              <a class="btn" href="/iOS/进阶/Swift混编/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1255,7 +1255,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1323,7 +1323,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1343,15 +1343,23 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
+        <a href="https://juejin.im/user/5d3120ae5188254cbc32a2e1" title="掘金 → https://juejin.im/user/5d3120ae5188254cbc32a2e1" rel="noopener" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>掘金</a>
+      </span>
+      <span class="links-of-author-item">
         <a href="https://github.com/Coder-Star" title="GitHub → https://github.com/Coder-Star" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
         <a href="mailto:1340529758@qq.com" title="E-Mail → mailto:1340529758@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5328016032" title="Weibo → https://weibo.com/u/5328016032" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
   </div>
 
 
-
+<div>
+    <image src="/images/WeChatOfficialAccountLogoBeautify.png"/>
+</div>
       </div>
 
     </div>
@@ -1380,7 +1388,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">277k</span>
+    <span title="站点总字数">278k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
