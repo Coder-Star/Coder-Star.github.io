@@ -35,6 +35,95 @@ NetworkProcess 也是通过封装的 NSURLSession 发起并管理网络请求的
 
 ![WkWebView进程间通信图](../../../img/iOS/UI/WkWebView.jpg)
 
+## 与 Native 通信
+
+### Swift 调用 Native
+
+`evaluateJavaScript`方式，使用这种方式去执行 js 时，为了保证调用时 js 已经加载完成，我们一般是在`didFinish`时机后进行调用。
+
+```swift
+webView.evaluateJavaScript("showJSInfo('\(info)')") { result, error in
+  /// result是调用showJSInfo()这个js方法的返回值
+  Log.d(result)
+
+  // 如果调用方法出现错误，error会显示出来
+   Log.d(error)
+}
+```
+
+使用WKUserScript这种方式我们可以控制注入时机。
+```swift
+let source = "function captureLog(msg) { window.webkit.messageHandlers.logHandler.postMessage(msg); } window.console.log = captureLog;"
+// injectionTime参数还可以设置为 atDocumentStart
+let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+// 执行自定义js
+webView.configuration.userContentController.addUserScript(script)
+```
+
+### JS 调用 Native
+
+在 WKWebView 中，一般使用的通信方式为`postMessage`。在iOS14之前，JS调用Native获得返回值这么一个流程：
+1. js使用`postMessage`函数传递信息到Native，并附带后续Native调用js的方法或标识
+2. Native收到消息后，再调用`evaluateJavaScript`方式去将返回值传给js
+```swift
+/// 这种方式会循环引用，所以需要进行及时移除
+webView.configuration.userContentController.add(self, name: "showInfoFromNative")
+
+webView.configuration.userContentController.removeScriptMessageHandler(forName: "showInfoFromNative")
+
+extension WkWebViewController: WKScriptMessageHandler {
+    final func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+         // 函数名称
+         let name = message.name
+         // 函数传递过来内容
+         let body = message.body
+    }
+}
+```
+
+```js
+window.webkit.messageHandlers.showInfoFromNative.postMessage("我是js通过messageHandlers传递过来的数据")
+```
+
+其实`postMessage`返回的是一个Promise，但是在iOS 14之前，其结果是没法进行`resolve`的，但这里注意一下的是，其结果then会等到Native端代理方法执行完毕（不可异步）之后才会执行。所以我们可以将代理方法体中将js侧一个全局变量设值，然后在then内部获取，间接实现直接通信。
+
+在iOS 14之后，出现了一个WKScriptMessageHandlerWithReply代理，我们便可以直接在代理回调里面设置返回值，然后js侧直接在代理中获取到返回值。
+
+```swift
+if #available(iOS 14.0, *) {
+  webView.configuration.userContentController.addScriptMessageHandler(self, contentWorld: .page, name: "showInfoFromNativeWithReply")
+}
+
+
+if #available(iOS 14.0, *) {
+  webView.configuration.userContentController.removeScriptMessageHandler(forName: "showInfoFromNativeWithReply", contentWorld: .page)
+}
+
+extension WkWebViewController: WKScriptMessageHandlerWithReply {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage, replyHandler: @escaping (Any?, String?) -> Void) {
+        if message.name == "showInfoFromNativeWithReply" {
+            Log.d(message.body)
+            DispatchQueue.global().asyncAfter(deadline: 2) {
+                // 第一个参数为resolve值，第二个为reject值
+                replyHandler("123", nil)
+            }
+        }
+    }
+}
+
+```
+
+```js
+window.webkit.messageHandlers.showInfoFromNativeWithReply.postMessage("我是js通过messageHandlers传递过来的数据")
+.then((result) => {
+  console.log("result:");
+  console.log(result);
+}).catch((error) => {
+  console.log("error:");
+  console.log(error);
+})
+```
+
 ## 代理方法
 
 WKWebview 代理主要是 WKUIDelegate 以及 WKNavigationDelegate 两部分。
