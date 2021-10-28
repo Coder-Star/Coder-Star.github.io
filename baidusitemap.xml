@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://coder-star.github.io/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/iOS%E4%B8%AD%E7%9A%84%E5%BA%93/</loc>
+    <lastmod>2021-10-28</lastmod>
+  </url>
+  <url>
     <loc>https://coder-star.github.io/iOS/UI/%E5%85%B3%E4%BA%8EWKWebView/</loc>
     <lastmod>2021-10-27</lastmod>
   </url>
@@ -211,10 +215,6 @@
   <url>
     <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E7%98%A6%E8%BA%AB/</loc>
     <lastmod>2021-08-11</lastmod>
-  </url>
-  <url>
-    <loc>https://coder-star.github.io/iOS/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/iOS%E4%B8%AD%E7%9A%84%E5%BA%93/</loc>
-    <lastmod>2021-08-10</lastmod>
   </url>
   <url>
     <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E5%86%85%E5%AD%98/</loc>

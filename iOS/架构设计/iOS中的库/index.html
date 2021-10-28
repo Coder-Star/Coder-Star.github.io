@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="概念静态库： 静态库即静态链接库（Windows 下的 .lib，Linux 和 Mac 下的 .a/.framework）。之所以叫做静态，是因为静态库在编译的时候会被直接拷贝一份，复制到目标程序里，这段代码在目标程序里就不会再改变了； 静态库的好处很明显，编译完成之后，库文件实际上就没有作用了。目标程序没有外部依赖，直接就可以运行。当然其缺点也很明显，就是会使用目标程序的体积增大 动态库： 即">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-08-10T15:29:37.496Z">
+<meta property="og:updated_time" content="2021-10-28T12:02:29.941Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS中的库">
 <meta name="twitter:description" content="概念静态库： 静态库即静态链接库（Windows 下的 .lib，Linux 和 Mac 下的 .a/.framework）。之所以叫做静态，是因为静态库在编译的时候会被直接拷贝一份，复制到目标程序里，这段代码在目标程序里就不会再改变了； 静态库的好处很明显，编译完成之后，库文件实际上就没有作用了。目标程序没有外部依赖，直接就可以运行。当然其缺点也很明显，就是会使用目标程序的体积增大 动态库： 即">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-10 23:29:37" itemprop="dateModified" datetime="2021-08-10T23:29:37+08:00">2021-08-10</time>
+                <time title="修改时间：2021-10-28 20:02:29" itemprop="dateModified" datetime="2021-10-28T20:02:29+08:00">2021-10-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.1k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -283,10 +283,14 @@
 <p>framework 实际上是一种打包方式，是将库的二进制文件、头文件、资源文件等打包在一起。可以直接拿来使用。</p>
 <p>静态库在打包时会直接打包进 app 的二进制文件中，而动态库会放入沙盒中，Frameworks 文件夹下</p>
 <p>iOS 8 之前是不允许自己创建动态 Framework，只有系统提供的动态 framework，如 UIKit.Framework，Foundation.Framework 等，iOS 8 后出现了 extension，为了 app 及 extension 之间可以共享代码，允许了动态 framework，但是这种也和系统库的有区别。系统的 Framework 不需要拷贝到目标程序中，我们自己做出来的 Framework 哪怕是动态的，最后也还是要拷贝到 App 中（App 和 Extension 的 Bundle 是共享的），因此苹果又把这种 Framework 称为 Embedded Framework。</p>
-<p>Swift 不可以创建.a 库，如果需要创建静态库，是将 framework 里面的 Mach-O Type 改为 Static Library。<br>共享可执行文件 iOS 有沙箱机制，不能跨 App 间共享共态库，但 Apple 开放了 App Extension，可以在 App 和 Extension 间共间动态库（这也许是 Apple 开放动态链接库的唯一原因了）。</p>
+<p>Swift 不可以创建.a 库，如果需要创建静态库，是将 framework 里面的 <code>Mach-O Type</code> 改为 <code>Static Library</code>。<br>共享可执行文件 iOS 有沙箱机制，不能跨 App 间共享共态库，但 Apple 开放了 App Extension，可以在 App 和 Extension 间共间动态库（这也许是 Apple 开放动态链接库的唯一原因了）。</p>
 <blockquote>
 <p>Tips: Xcode12 打出的模拟器版 Release 模式下的 framework 会包括 x86_64、arm64 两种架构，但是模拟器的 arm64 与真机的 arm64 并不等同，所以需要对此架构进行擦除或者在打包时进行排除，排除方式为将 Build Setting 的 Excluded Architectures 下的 Any iOS Simulator SDK 中加上 arm64，注意这里一定要加上 Any iOS Simulator SDK 限制，否则也会把真机 build 时的 arm64 架构去掉。</p>
 </blockquote>
+<p>我们可以使用<code>file</code>命令来区分动态库与静态库。</p>
+<p>如<code>file Flutter</code>得到，我们可以很容易看到<code>dynamically</code>关键字，其为一个动态库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Flutter: Mach-O 64-bit dynamically linked shared library arm64</span><br></pre></td></tr></table></figure>
+<p>如 <code>file CSPickerView</code>，得到结果如下：<a href="https://github.com/Coder-Star/CSPickerView" target="_blank" rel="noopener">CSPickerView</a>为一个静态库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CSPickerView: Mach-O universal binary with 5 architectures: [i386:current ar archive] [arm_v7] [arm_v7s] [x86_64] [arm64]</span><br><span class="line">CSPickerView (for architecture i386):	current ar archive</span><br><span class="line">CSPickerView (for architecture armv7):	current ar archive</span><br><span class="line">CSPickerView (for architecture armv7s):	current ar archive</span><br><span class="line">CSPickerView (for architecture x86_64):	current ar archive</span><br><span class="line">CSPickerView (for architecture arm64):	current ar archive</span><br></pre></td></tr></table></figure></p>
 <h2 id="静态库、动态库之间的组合"><a href="#静态库、动态库之间的组合" class="headerlink" title="静态库、动态库之间的组合"></a>静态库、动态库之间的组合</h2><h2 id="Module-机制"><a href="#Module-机制" class="headerlink" title="Module 机制"></a>Module 机制</h2><p>如果要支持 Module，必须提供一个 module.modulemap 文件，用来声明模块与头文件之间的映射关系</p>
 <p>module.modulemap 文件格式</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">framework module moduleName &#123;</span><br><span class="line">	umbrella header &quot;moduleName-umbrella.h&quot; // moduleName-umbrella.h中放置的就是要公开的头文件</span><br><span class="line"></span><br><span class="line">	export *</span><br><span class="line">	module * &#123; export * &#125;</span><br><span class="line"></span><br><span class="line">  // 子Module</span><br><span class="line">  explicit module SubModuleName &#123;</span><br><span class="line">    header &quot;SubModuleName.h&quot;</span><br><span class="line">    export *</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">	link framework &quot;Foundation&quot; // 目前这个地方只能link SDK内置的框架</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -525,7 +529,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">280k</span>
+    <span title="站点总字数">281k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
