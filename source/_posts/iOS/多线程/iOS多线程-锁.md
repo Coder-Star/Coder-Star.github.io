@@ -128,7 +128,11 @@ class FileTest: XCTestCase {
 
 ```
 
-### 信号量
+### 其他类型
+
+我们可以借助一些其他的数据结果来实现锁；
+
+如`DispatchSemaphore`、串行队列、OperationQueue将最大操作数设置为1。
 
 ```swift
 let lock = DispatchSemaphore(value: 1)

@@ -14,7 +14,7 @@ state: 已发
 
 开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该[博文链接](https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/)。
 
-规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范；
+规约分为【强制】、【推荐】两大类。`说明` 对内容做了引申和解释；`正例` 给出正确的代码示例；`反例` 给出错误的代码示范；
 
 ## 一、命名规约
 
@@ -59,7 +59,7 @@ state: 已发
   正例：kMaxLocaolStoreCount
   ```
 
-- 【推荐】扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如果扩展文件中功能不属于同一类，也可使用“原生类型名 +Extensions”的形式；
+- 【推荐】扩展文件，用`原始类型名＋扩展名`作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如果扩展文件中功能不属于同一类，也可使用`原生类型名 +Extensions`的形式；
 
   ```swift
   正例：UIView+Frame.swift / MessageViewController+Request.swift / UIViewExtensions.swift
@@ -362,8 +362,8 @@ extension UIView {
     ```swift
    var resultArr = ["1", "2"]
    let extraArr = ["3", "4"]
-   正例：resultArr.append(contentsOf: extraArr)
-   反例：resultArr += extraArr
+   正例：resultArr.append(contentsOf: extraArr) / let newArray = [resultArr, extraArr].joined()
+   反例：resultArr += extraArr  / let newArray = resultArr + extraArr
    ```
 
 - 【推荐】字符串合并避免使用 + 号而是多采用`"\(str1)\(str2)"`的形式；
@@ -391,7 +391,7 @@ extension UIView {
 
 - 【强制】函数参数数量最多不得超过 8 个；
   说明：寄存器数目问题，超过 8 个会影响效率；
-- 【强制】图形化的字面量，`#colorLiteral(...)`, `#imageLiteral(...)`只能用在 playground 当做自我练习使用，禁止在项目工程中使用；
+- 【强制】图形化的字面量，`#colorLiteral(...)`, `#imageLiteral(...)`只能用在 playground 当做自我练习使用，禁止在项目工程中使用，这会让维护者在后期维护时无法第一眼了解到颜色的hex值或者图片的名称。
   说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。
 - 【强制】避免强制解包以及强制类型映射，尽量使用`if let` 或 `guard let`进行解包，禁止`try！`形式处理异常，避免使用隐式解包；
 - 【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；
@@ -413,6 +413,7 @@ extension UIView {
 - 【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 `weak` 修饰；
 - 【推荐】能用`struct`解决的，尽量使用`struct`而不是`class`；
   说明：`struct` 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；
+- 【推荐】委托性质的协议，第一个参数应尽量保证为代理源，类似`UITableViewDatasoure`；
 
 ## 工具
 
@@ -424,6 +425,8 @@ extension UIView {
 
 ## 相关规范
 
-[Swift 官方 API 设计指南](https://swift.org/documentation/api-design-guidelines/)
-
-[Google 发布的 Swift 编码规范](https://google.github.io/swift/#apples-markup-format)
+- [Swift 官方 API 设计指南](https://swift.org/documentation/api-design-guidelines/)
+- [Google 发布的 Swift 编码规范](https://google.github.io/swift/#apples-markup-format)
+- [linkedin编码规范](https://github.com/linkedin/swift-style-guide)
+- [raywenderlich编码规范](https://github.com/raywenderlich/swift-style-guide)
+- [airbnb编码规范](https://github.com/airbnb/swift)

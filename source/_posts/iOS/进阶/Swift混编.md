@@ -13,7 +13,7 @@ date: 2021-03-25 11:19:56
 
 ### Swift反射
 
-我们一般是通过`NSClassFromString`函数来对类进行反射，在Swift中因为命名空间的缘故在Macho中的类名实际上是混淆的，混淆规则具体函数见：[copySwiftV1MangledName函数](https://github.com/opensource-apple/objc4/blob/cd5e62a5597ea7a31dccef089317abb3a661c154/runtime/objc-runtime-new.mm#L859)，可以通过桥接文件看下Swift类对应生成的类名，如果在类上加上@objc(className)，可以使生成的类名与className一致，也就是不会再有混淆了
+我们一般是通过`NSClassFromString`函数来对类进行反射，在Swift中因为命名空间的缘故在Macho中的类名实际上是混淆的，混淆规则具体函数见：[copySwiftV1MangledName函数](https://github.com/opensource-apple/objc4/blob/cd5e62a5597ea7a31dccef089317abb3a661c154/runtime/objc-runtime-new.mm#L859)，反混淆函数[copySwiftV1DemangledName](https://github.com/opensource-apple/objc4/blob/cd5e62a5597ea7a31dccef089317abb3a661c154/runtime/objc-runtime-new.mm#L813)可以通过桥接文件看下Swift类对应生成的类名，如果在类上加上@objc(className)，可以使生成的类名与className一致，也就是不会再有混淆了
 但这样处理命名空间也就失去了意义，不同Module之间类名不能重复了。
 
 ### 主工程
