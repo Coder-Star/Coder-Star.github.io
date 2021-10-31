@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/函数表派发.jpeg">
-<meta property="og:updated_time" content="2021-10-15T13:21:16.953Z">
+<meta property="og:updated_time" content="2021-10-30T15:50:07.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 派发机制">
 <meta name="twitter:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-15 21:21:16" itemprop="dateModified" datetime="2021-10-15T21:21:16+08:00">2021-10-15</time>
+                <time title="修改时间：2021-10-30 23:50:07" itemprop="dateModified" datetime="2021-10-30T23:50:07+08:00">2021-10-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -368,7 +368,18 @@
 <blockquote>
 <p>内联除了可以提高运行效率这个优点之外，还有另外一个好处，将部分关键函数进行内联优化，可以增大逆向难度。</p>
 </blockquote>
-<h3 id="尽量直接派发"><a href="#尽量直接派发" class="headerlink" title="尽量直接派发"></a>尽量直接派发</h3><p>Swift 会尽可能的优化派发方式，一些函数表派发方法会优化成直接派发。编译器可以通过 <code>whole module optimization</code> 检查继承关系，对某些没有标记 final 的类通过计算，如果能在编译期确定执行的方法，则使用直接派发。比如一个函数没有 override，Swift 就可能会使用直接派发的方式。</p>
+<h3 id="WHO优化"><a href="#WHO优化" class="headerlink" title="WHO优化"></a>WHO优化</h3><p>Swift 会尽可能的优化派发方式，一些函数表派发方法会优化成直接派发。编译器可以通过 <code>whole module optimization</code> 进行一些全局优化。比如：</p>
+<ul>
+<li>对某些没有标记 final 的类通过计算，如果能在编译期确定执行的方法，则使用直接派发。比如一个函数没有 override，Swift 就可能会使用直接派发的方式。</li>
+<li><p>泛型特化；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span>&lt;T:Comparable&gt;<span class="params">(x:T, y:T)</span></span> -&gt; <span class="type">T</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> y &lt; x ? y : x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型特化后</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span>&lt;Int&gt;<span class="params">(x:Int, y:Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> y &lt; x ? y :x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移除没有被使用的方法；</p>
+</li>
+<li>内联优化；</li>
+</ul>
+<p>其实这其中泛型特化和方法内联等都属于SIL优化，这也是出现SIL中间语言的原因之一。</p>
+<p>但需要注意是WHO需要依赖于全局的源码，所以很多二进制的库文件无法进行全局优化。</p>
 
     </div>
 
@@ -504,7 +515,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接派发"><span class="nav-number">2.</span> <span class="nav-text">直接派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数表派发"><span class="nav-number">3.</span> <span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息派发"><span class="nav-number">4.</span> <span class="nav-text">消息派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-中的函数派发"><span class="nav-number">5.</span> <span class="nav-text">Swift 中的函数派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-派发优化"><span class="nav-number">6.</span> <span class="nav-text">Swift 派发优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内联优化"><span class="nav-number">6.1.</span> <span class="nav-text">内联优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尽量直接派发"><span class="nav-number">6.2.</span> <span class="nav-text">尽量直接派发</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接派发"><span class="nav-number">2.</span> <span class="nav-text">直接派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数表派发"><span class="nav-number">3.</span> <span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息派发"><span class="nav-number">4.</span> <span class="nav-text">消息派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-中的函数派发"><span class="nav-number">5.</span> <span class="nav-text">Swift 中的函数派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-派发优化"><span class="nav-number">6.</span> <span class="nav-text">Swift 派发优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内联优化"><span class="nav-number">6.1.</span> <span class="nav-text">内联优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WHO优化"><span class="nav-number">6.2.</span> <span class="nav-text">WHO优化</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -533,7 +544,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">86</span>
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -590,7 +601,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:15</span>
+    <span title="站点阅读时长">4:16</span>
 </div>
 
         

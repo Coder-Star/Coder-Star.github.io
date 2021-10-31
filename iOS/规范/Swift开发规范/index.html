@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
+  <meta name="description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。说明 对内容做了引申和解释；正例 给出正确的代码示例；反例 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线">
 <meta name="keywords" content="iOS,Swift 开发规范">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift 开发规范">
 <meta property="og:url" content="https://coder-star.github.io/iOS/规范/Swift开发规范/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
+<meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。说明 对内容做了引申和解释；正例 给出正确的代码示例；反例 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-30T12:06:35.041Z">
+<meta property="og:updated_time" content="2021-10-31T02:14:21.838Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
-<meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不">
+<meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。说明 对内容做了引申和解释；正例 给出正确的代码示例；反例 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/规范/Swift开发规范/">
 
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-30 20:06:35" itemprop="dateModified" datetime="2021-07-30T20:06:35+08:00">2021-07-30</time>
+                <time title="修改时间：2021-10-31 10:14:21" itemprop="dateModified" datetime="2021-10-31T10:14:21+08:00">2021-10-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.3k</span>
+              <span>7.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -276,7 +276,7 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该<a href="https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">博文链接</a>。</p>
-<p>规约分为【强制】、【推荐】两大类。“说明” 对内容做了引申和解释；“正例” 给出正确的代码示例；“反例” 给出错误的代码示范；</p>
+<p>规约分为【强制】、【推荐】两大类。<code>说明</code> 对内容做了引申和解释；<code>正例</code> 给出正确的代码示例；<code>反例</code> 给出错误的代码示范；</p>
 <h2 id="一、命名规约"><a href="#一、命名规约" class="headerlink" title="一、命名规约"></a>一、命名规约</h2><ul>
 <li><p>【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线或者美元符号开头；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">反例：_name $name / 学生 / getPingfenByName()[评分]</span><br></pre></td></tr></table></figure>
@@ -296,7 +296,7 @@
 <li><p>【推荐】全局常量命名使用 k 前缀 + UpperCamelCase 命名；<br>说明：本质上是不推荐使用全局常量的，主要原因是会散落到代码各处，不方便管理</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：kMaxLocaolStoreCount</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>【推荐】扩展文件，用“原始类型名＋扩展名”作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如果扩展文件中功能不属于同一类，也可使用“原生类型名 +Extensions”的形式；</p>
+<li><p>【推荐】扩展文件，用<code>原始类型名＋扩展名</code>作为扩展文件名，其中原始类型名及扩展名也使用 UpperCamelCase 风格，如果扩展文件中功能不属于同一类，也可使用<code>原生类型名 +Extensions</code>的形式；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="type">UIView</span>+<span class="type">Frame</span>.swift / <span class="type">MessageViewController</span>+<span class="type">Request</span>.swift / <span class="type">UIViewExtensions</span>.swift</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】工程中文件夹或者 Group 统一使用 UpperCamelCase 风格，一律使用单数形式；</p>
@@ -394,7 +394,7 @@
 <h2 id="六、编译效率规约"><a href="#六、编译效率规约" class="headerlink" title="六、编译效率规约"></a>六、编译效率规约</h2><p>该段是提高编译效率，减少编译时间总结提出的规约，对代码可读性及统一风格等影响不大，所以该部分只是作为推荐，不强制一定遵守。</p>
 <ul>
 <li><p>【推荐】数组合并建议使用 append 方法而不是 + 号拼接；</p>
-  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> resultArr = [<span class="string">"1"</span>, <span class="string">"2"</span>]</span><br><span class="line"><span class="keyword">let</span> extraArr = [<span class="string">"3"</span>, <span class="string">"4"</span>]</span><br><span class="line">正例：resultArr.append(contentsOf: extraArr)</span><br><span class="line">反例：resultArr += extraArr</span><br></pre></td></tr></table></figure>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> resultArr = [<span class="string">"1"</span>, <span class="string">"2"</span>]</span><br><span class="line"><span class="keyword">let</span> extraArr = [<span class="string">"3"</span>, <span class="string">"4"</span>]</span><br><span class="line">正例：resultArr.append(contentsOf: extraArr) / <span class="keyword">let</span> newArray = [resultArr, extraArr].joined()</span><br><span class="line">反例：resultArr += extraArr  / <span class="keyword">let</span> newArray = resultArr + extraArr</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】字符串合并避免使用 + 号而是多采用<code>&quot;\(str1)\(str2)&quot;</code>的形式；</p>
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">let</span> code = <span class="string">"200"</span></span><br><span class="line">   <span class="keyword">let</span> message = <span class="string">"success"</span></span><br><span class="line">正例：<span class="keyword">let</span> result = <span class="string">"\(code)\(message)"</span></span><br><span class="line">反例：<span class="keyword">let</span> result = code + message</span><br></pre></td></tr></table></figure>
@@ -410,7 +410,7 @@
 </ul>
 <h2 id="七、其他"><a href="#七、其他" class="headerlink" title="七、其他"></a>七、其他</h2><ul>
 <li>【强制】函数参数数量最多不得超过 8 个；<br>说明：寄存器数目问题，超过 8 个会影响效率；</li>
-<li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用；<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
+<li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用，这会让维护者在后期维护时无法第一眼了解到颜色的hex值或者图片的名称。<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
 <li>【强制】避免强制解包以及强制类型映射，尽量使用<code>if let</code> 或 <code>guard let</code>进行解包，禁止<code>try！</code>形式处理异常，避免使用隐式解包；</li>
 <li>【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；</li>
 <li>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</li>
@@ -426,12 +426,18 @@
 <li><p>【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 <code>weak</code> 修饰；</p>
 </li>
 <li>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；</li>
+<li>【推荐】委托性质的协议，第一个参数应尽量保证为代理源，类似<code>UITableViewDatasoure</code>；</li>
 </ul>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://github.com/realm/SwiftLint" target="_blank" rel="noopener">SwiftLint 工具</a> 提示格式错误</p>
 <p><a href="https://github.com/nicklockwood/SwiftFormat" target="_blank" rel="noopener">SwiftFormat 工具</a> 提示并修复格式错误</p>
 <p>两者大部分格式规范都是一致的，少许规范不一致，两个工具之间使用不冲突，可以在项目中共存。我们通过配置文件可以控制启用或者关闭相应的规则，具体使用规则参照对应仓库的 REAMME.md 文件。</p>
-<h2 id="相关规范"><a href="#相关规范" class="headerlink" title="相关规范"></a>相关规范</h2><p><a href="https://swift.org/documentation/api-design-guidelines/" target="_blank" rel="noopener">Swift 官方 API 设计指南</a></p>
-<p><a href="https://google.github.io/swift/#apples-markup-format" target="_blank" rel="noopener">Google 发布的 Swift 编码规范</a></p>
+<h2 id="相关规范"><a href="#相关规范" class="headerlink" title="相关规范"></a>相关规范</h2><ul>
+<li><a href="https://swift.org/documentation/api-design-guidelines/" target="_blank" rel="noopener">Swift 官方 API 设计指南</a></li>
+<li><a href="https://google.github.io/swift/#apples-markup-format" target="_blank" rel="noopener">Google 发布的 Swift 编码规范</a></li>
+<li><a href="https://github.com/linkedin/swift-style-guide" target="_blank" rel="noopener">linkedin编码规范</a></li>
+<li><a href="https://github.com/raywenderlich/swift-style-guide" target="_blank" rel="noopener">raywenderlich编码规范</a></li>
+<li><a href="https://github.com/airbnb/swift" target="_blank" rel="noopener">airbnb编码规范</a></li>
+</ul>
 
     </div>
 
@@ -596,7 +602,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">86</span>
+        <span class="site-state-item-count">84</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -653,7 +659,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:15</span>
+    <span title="站点阅读时长">4:16</span>
 </div>
 
         
