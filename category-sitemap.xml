@@ -9,14 +9,28 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
-        <lastmod>2021-10-31T05:24:29.440Z</lastmod>
+        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
+        <lastmod>2021-11-02T10:33:19.430Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/categories/iOS/</loc>
+        <lastmod>2021-11-02T10:33:19.430Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/Swift/</loc>
+        <lastmod>2021-11-02T07:49:06.262Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
         <lastmod>2021-10-31T05:24:29.440Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -25,13 +39,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/iOS/%E8%A7%84%E8%8C%83/</loc>
         <lastmod>2021-10-31T02:14:21.838Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/Swift/</loc>
-        <lastmod>2021-10-30T15:50:07.710Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -67,13 +74,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E6%9D%82%E9%A1%B9/</loc>
         <lastmod>2021-10-23T16:06:36.901Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
-        <lastmod>2021-10-18T14:03:10.891Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

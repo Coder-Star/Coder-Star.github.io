@@ -3,14 +3,28 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/多线程/</loc>
-        <lastmod>2021-10-31T05:24:29.440Z</lastmod>
+        <loc>https://coder-star.github.io/tags/定时/</loc>
+        <lastmod>2021-11-02T10:33:19.430Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2021-11-02T10:33:19.430Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Swift/</loc>
+        <lastmod>2021-11-02T07:49:06.262Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/多线程/</loc>
         <lastmod>2021-10-31T05:24:29.440Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -25,13 +39,6 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/方法派发/</loc>
-        <lastmod>2021-10-30T15:50:07.710Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Swift/</loc>
         <lastmod>2021-10-30T15:50:07.710Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -369,13 +376,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/动画/</loc>
         <lastmod>2021-08-02T13:51:56.012Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/定时/</loc>
-        <lastmod>2021-07-30T13:08:35.252Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
