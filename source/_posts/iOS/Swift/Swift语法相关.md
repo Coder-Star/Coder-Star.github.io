@@ -504,18 +504,71 @@ class Student{
 **Block 转为 Closure**
 
 ```swift
-// block为获取的oc Block，后面(String) -> Void 为Block的类型 callback为转换后的Closure
-typealias CallbackType = @convention(block) (String) -> Void
+/*
+1) 拿到原始 block
+*/
+let block = params["reslutBlock"]
+    
+/*
+2) 定义对应类型的 block 别名，用 @convention(block) 修饰
+@convention(swift) block类型 ：声明这是swift block
+@convention(block) block类型 ：声明这是兼容swift | oc 的 block
+@convention(c)     block类型 ：声明这是c block
+ 
+BlockType       : 别名
+(NSString) -> Void : 传入的 block 类型
+*/
+typealias BlockType = @convention(block) (NSString) -> Void
+ 
+/*
+ 3) 获取 block 的内存地址
+Unmanaged: 用于传播非托管对象引用的类型(不用ARC)
+Unmanaged.passRetained       : 如果这个非托管对象的使用全程，能够保障被封装对象一直存活，我们就可以使用 passUnretained 方法，对象的生命周期还归编译器管理
+Unmanaged.passUnretained     : 如果非托管对象使用周期超过了编译器认为的生命周期，比如超出作用域，编译器自动插入 release 的 ARC 语义，那么这个非托管对象就是一个野指针了，此时我们必须手动 retain 这个对象，也就是使用 passRetained 方法
+一旦你手动 retain 了一个对象，就不要忘记 release 掉它，方法就是调用非托管对象的 release 方法，或者用 takeRetainedValue 取出封装的对象，并将其管理权交回 ARC。但注意，一定不要对一个用 passUnretained 构造的非托管对象调用 release 或者 takeRetainedValue，这会导致原来的对象被 release 掉，从而引发异常。
+*/
 let blockPtr = UnsafeRawPointer(Unmanaged<AnyObject>.passUnretained(block as AnyObject).toOpaque())
-let callback = unsafeBitCast(blockPtr, to: CallbackType.self)
+ 
+/*
+4) 根据 2.3 的内存地址将内存里的内容转为 2.2 定义的类型
+unsafeBitCast(x, to: type) ：将x内存地址的内容强转为 type 类型的内容
+ 
+blockPtr     : 地址
+BlockType : block 类型
+*/
+let newBlock = unsafeBitCast(blockPtr, to: BlockType.self)
 ```
 
 **Closure 转为 Block**
 
 ```swift
-// callback为swift的Closure，block为一个常量，不太明白为什么要这么写
-let callbackBlock = callback as @convention(block) (String) -> Void
-let callbackBlockObject = unsafeBitCast(callbackBlock, to: AnyObject.self)
+/*
+1) 定义 block
+(String) -> Void    :自定义类型
+*/
+let block: (String) -> Void = { param in
+        // 业务逻辑
+}
+    
+/*
+2) 将 block 转化为兼容 Swift | OC 的 block
+     
+(String) -> Void   : block 类型
+注意: 这里的 block 类型需要与 2.1 定义时的类型一致
+ */
+let compatibilityBlock = block as @convention(block) (String) -> Void
+ 
+/*
+3) 将兼容 block 转化为 AnyObject
+*/
+let compatibilityBlockObject = unsafeBitCast(compatibilityBlock, to: AnyObject.self)
+ 
+/*
+4) 作为参数保存
+*/
+let param = [
+    "reslutBlock" : compatibilityBlockObject,
+] as [String : Any]
 ```
 
 ## 18、protocol 相关
