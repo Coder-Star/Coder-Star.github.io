@@ -28,7 +28,7 @@ date: 2021-02-02 20:25:06
 
 怎么用呢？
 
-```
+```objective-c
 // .h文件
 @property (nonatomic, readonly, unsafe_unretained) int i;
 
@@ -40,7 +40,7 @@ date: 2021-02-02 20:25:06
 
 **setter、getter**
 
-```
+```objective-c
 @property (nonatomic, readonly, getter=isFinalized) BOOL finalized;
 @property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;
 ```
@@ -131,25 +131,36 @@ category：分类
 
 ## [self class] 和 [super class] 区别
 
-两者打印出来的内容相同.
+两者打印出来的内容相同，我们首先了解一下 class 方法的作用，其就是返回 receiver 的类别。
 
 `[self class]`就是发送消息 `objc_msgSend`，消息接收者 `self`，方法编号 `class`
 `[super class]`本质就是 `objc_msgSendSuper`，消息的接收者还是 `self`，方法编号 `class`。只是调用 `objc_msgSendSuper` 的时候会直接跳过 `self` 查找，直接在从 `super` 出现的在的方法所在的类的父类开始查找进行查找。
 
-class 方法的作用就是返回 receiver 的类别。
-
 ## load 与 initialize
 
+### load
 
-load方法的调用分为两种情况，系统自动调用和手动调用。其中系统自动调用直接通过函数地址调用，而手动调用是使用的消息机制，与正常的方法调用无异。
+当一个类或者分类被加载到 Objectie-C 的 Runtime 运行环境中时，会调用它对应的 +load 方法。对于所有静态库中和动态库中实现了 +load 方法的类和分类都有效。当应用启动时，首先要 fork 进程，然后进行动态链接。+load 方法的调用就是在动态链接这个阶段进行的。动态链接结束之后，会执行程序的 main 函数。
 
-自动调用load方法执行顺序
++load 方法的调用分为两种情况，系统自动调用和手动调用。**其中系统自动调用直接通过函数地址调用，而手动调用是使用的消息机制，与正常的方法调用无异。**
 
-* 父类的 +load 方法执行在前，子类的 +load 方法在后
-* 所有类的 +load 方法执行在前，所有分类的 +load 方法执行在后
-* 同级别类及分类的执行顺序与编译顺序有关系，先编译先调用。
+自动调用 +load 方法执行顺序：
 
-initialize：当类或子类第一次收到消息时被调用只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕，子类和父类同时实现 initialize，父类的先被调用，然后调用子类的。本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。
+父类与子类：**有继承关系的类的 +load 方法的执行顺序，是从基类到子类的；没有继承关系的两个类的 +load 方法的执行顺序是与编译顺序有关的（Build Phases -> Compile Sources 中的顺序）。**
+类与分类：**所有分类的 +load 方法都在所有类 +load 方法之后执行，同时所有分类的 +load 方法的执行顺序与编译顺序有关，与是谁的分类无关，也与一个类有几个分类无关。**
+
+- 动态库的 +load 方法都要在主工程的 +load 方法之前执行，多个动态库的 +load 方法的执行顺序编译顺序有关（Link Binary With Libraries 中的顺序）
+- 主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序），并且静态库中的类的 +load 方法，是必须要有代码调用（访问静态库任意属性和方法都行）才能加载链接。
+
+手动调用：
+
+当手动调用时，使用的是消息机制，会遵循普通方法的调用方式，比如在 load 方法中手动调用`[super load]`，其最终可能执行到分类中去。
+
+load 方法中我们一般会做 模块注册、方法交换 等操作；
+
+### initialize
+
+initialize：当类或子类第一次收到消息时被调用（不管是静态方法还是构造函数还是实例方法），只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕。子类和父类同时实现 initialize，父类的先被调用，然后调用子类的。本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。
 
 load 方法里面可以调用 category 中声明的方法，因为附加 category 到类的工作会先于 +load 方法的执行。
 
