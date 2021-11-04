@@ -16,6 +16,8 @@ date: 2021-05-27 14:51:08
 
 - UIButton 通过 textLabel 设置颜色、标题不生效，因为这两个属性跟按钮本身状态挂钩，UIButton 只会显示跟状态对应的标题和颜色。
 
+- `system`类型的UIButton点击高亮时表面会有一层灰色，修改为`custom`类型可解决；
+
 - attributedText 设置后，text、lineBreakMode、textAlignment 等属性会被重置，虽然文档上说 font，textColor 也会被重置，但是根据我的测试，结果显示这两个属性不会被重置。
 
 - UICollectionViewFlowLayout 设置`estimatedItemSize`后`sizeForItemAt`代理虽然会走，但是设置的值不会起效果

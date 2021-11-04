@@ -150,7 +150,7 @@ category：分类
 类与分类：**所有分类的 +load 方法都在所有类 +load 方法之后执行，同时所有分类的 +load 方法的执行顺序与编译顺序有关，与是谁的分类无关，也与一个类有几个分类无关。**
 
 - 动态库的 +load 方法都要在主工程的 +load 方法之前执行，多个动态库的 +load 方法的执行顺序编译顺序有关（Link Binary With Libraries 中的顺序）
-- 主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序），并且静态库中的类的 +load 方法，是必须要有代码调用（访问静态库任意属性和方法都行）才能加载链接。
+- 主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序）。
 
 手动调用：
 
@@ -160,7 +160,17 @@ load 方法中我们一般会做 模块注册、方法交换 等操作；
 
 ### initialize
 
-initialize：当类或子类第一次收到消息时被调用（不管是静态方法还是构造函数还是实例方法），只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕。子类和父类同时实现 initialize，父类的先被调用，然后调用子类的。本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。
+initialize：当类或子类第一次收到消息时被调用（不管是静态方法还是构造函数还是实例方法），只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕。
+子类和父类同时实现 initialize，父类的先被调用，然后调用子类的；
+当子类没有实现 initialize，第一次调用使用子类，也会触发一次父类的 initialize（如果父类之前没有使用，会先调用一下父类的，也就说会调用两次），所以说父类的 initialize 是有可能触发多次的。所以我们一般使用下列方式：
+```objective-c
++（void）initialize {
+  if（self == [ClassName self]）{
+    // todo
+  }
+}
+```
+本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。
 
 load 方法里面可以调用 category 中声明的方法，因为附加 category 到类的工作会先于 +load 方法的执行。
 
