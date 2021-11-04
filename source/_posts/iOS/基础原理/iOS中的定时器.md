@@ -292,14 +292,30 @@ extension FPSUtils {
 `Timer` 与 `CADisplayLink` 背后都跟 `Runloop` 息息相关，后续会对 `Runloop` 进行单独介绍，这里就不单独展开了，那`Timer` 与 `CADisplayLink`之间有什么区别呢？
 
 - 设置周期方式不同：一个通过`preferredFramesPerSecond`进行间接设置，一个直接通过`timeInterval`参数设置，后者更直接一些；
-- 灵敏度不同：`CADisplayLink`受限于`maximumFramesPerSecond`的限制，不可以超过，而 Timer 的受限则是`Runloop`的周期，其灵敏度相对`CADisplayLink`大的多；
+- 灵敏度不同：`CADisplayLink`受限于`maximumFramesPerSecond`的限制，不可以超过，也就是最大为 `1/60 s` 或者 `1/120 s` ；而 Timer 的受限则是`Runloop`的周期，其灵敏度相对`CADisplayLink`大的多，
 - 适用场景不同：`CADisplayLink`直接跟渲染挂钩，更适合用在 UI 方便，比如平滑动画或者上述提到的 FPS，而`Timer`使用范围则更大一些。
 ...
 
 ## DispatchSourceTimer(GCD)
 
+```swift
+@available(swift 4)
+public func schedule(deadline: DispatchTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds(0))
+
+@available(swift 4)
+public func schedule(deadline: DispatchTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds(0))
+
+@available(swift 4)
+public func schedule(wallDeadline: DispatchWallTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds(0))
+
+@available(swift 4)
+public func schedule(wallDeadline: DispatchWallTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds(0))
+```
+
 `mach_absolute_time`
 
+
+[iOS / OS X 中的高精度计时器](https://developer.apple.com/library/archive/technotes/tn2169/NaN)
 ## 最后
 
 要更加努力呀！
