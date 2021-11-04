@@ -29,7 +29,7 @@
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
-<meta property="og:updated_time" content="2021-11-03T05:32:09.634Z">
+<meta property="og:updated_time" content="2021-11-03T13:11:23.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-03 13:32:09" itemprop="dateModified" datetime="2021-11-03T13:32:09+08:00">2021-11-03</time>
+                <time title="修改时间：2021-11-03 21:11:23" itemprop="dateModified" datetime="2021-11-03T21:11:23+08:00">2021-11-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,14 +258,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.9k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>5 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -358,12 +358,13 @@
 <p>父类与子类：<strong>有继承关系的类的 +load 方法的执行顺序，是从基类到子类的；没有继承关系的两个类的 +load 方法的执行顺序是与编译顺序有关的（Build Phases -&gt; Compile Sources 中的顺序）。</strong><br>类与分类：<strong>所有分类的 +load 方法都在所有类 +load 方法之后执行，同时所有分类的 +load 方法的执行顺序与编译顺序有关，与是谁的分类无关，也与一个类有几个分类无关。</strong></p>
 <ul>
 <li>动态库的 +load 方法都要在主工程的 +load 方法之前执行，多个动态库的 +load 方法的执行顺序编译顺序有关（Link Binary With Libraries 中的顺序）</li>
-<li>主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序），并且静态库中的类的 +load 方法，是必须要有代码调用（访问静态库任意属性和方法都行）才能加载链接。</li>
+<li>主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序）。</li>
 </ul>
 <p>手动调用：</p>
 <p>当手动调用时，使用的是消息机制，会遵循普通方法的调用方式，比如在 load 方法中手动调用<code>[super load]</code>，其最终可能执行到分类中去。</p>
 <p>load 方法中我们一般会做 模块注册、方法交换 等操作；</p>
-<h3 id="initialize"><a href="#initialize" class="headerlink" title="initialize"></a>initialize</h3><p>initialize：当类或子类第一次收到消息时被调用（不管是静态方法还是构造函数还是实例方法），只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕。子类和父类同时实现 initialize，父类的先被调用，然后调用子类的。本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。</p>
+<h3 id="initialize"><a href="#initialize" class="headerlink" title="initialize"></a>initialize</h3><p>initialize：当类或子类第一次收到消息时被调用（不管是静态方法还是构造函数还是实例方法），只调用一次，调用方式是通过 runtime 的 objc_msgSend 的方式调用的，此时所有的类都已经装载完毕。<br>子类和父类同时实现 initialize，父类的先被调用，然后调用子类的；<br>当子类没有实现 initialize，第一次调用使用子类，也会触发一次父类的 initialize（如果父类之前没有使用，会先调用一下父类的，也就说会调用两次），所以说父类的 initialize 是有可能触发多次的。所以我们一般使用下列方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+（void）initialize &#123;</span><br><span class="line">  if（self == [ClassName self]）&#123;</span><br><span class="line">    // todo</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>本类与 category 同时实现 initialize，category 会覆盖本类的方法，只调用 category 的。</p>
 <p>load 方法里面可以调用 category 中声明的方法，因为附加 category 到类的工作会先于 +load 方法的执行。</p>
 <h2 id="OC-中的-block"><a href="#OC-中的-block" class="headerlink" title="OC 中的 block"></a>OC 中的 block</h2><p>OC 中的 block 本质是一个 OC 对象，内部也会有一个 isa 指针。有三种类型。</p>
 <ul>
@@ -625,12 +626,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">288k</span>
+    <span title="站点总字数">290k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:21</span>
+    <span title="站点阅读时长">4:24</span>
 </div>
 
         
