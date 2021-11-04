@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。 iOS 中的定时器一般会包含三种：  Timer CADisplayLink DispatchSourceTimer">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-04T05:39:14.861Z">
+<meta property="og:updated_time" content="2021-11-04T15:04:17.230Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 中的定时器">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。 iOS 中的定时器一般会包含三种：  Timer CADisplayLink DispatchSourceTimer">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-04 13:39:14" itemprop="dateModified" datetime="2021-11-04T13:39:14+08:00">2021-11-04</time>
+                <time title="修改时间：2021-11-04 23:04:17" itemprop="dateModified" datetime="2021-11-04T23:04:17+08:00">2021-11-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.3k</span>
+              <span>8.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -330,10 +330,12 @@
 <p><code>Timer</code> 与 <code>CADisplayLink</code> 背后都跟 <code>Runloop</code> 息息相关，后续会对 <code>Runloop</code> 进行单独介绍，这里就不单独展开了，那<code>Timer</code> 与 <code>CADisplayLink</code>之间有什么区别呢？</p>
 <ul>
 <li>设置周期方式不同：一个通过<code>preferredFramesPerSecond</code>进行间接设置，一个直接通过<code>timeInterval</code>参数设置，后者更直接一些；</li>
-<li>灵敏度不同：<code>CADisplayLink</code>受限于<code>maximumFramesPerSecond</code>的限制，不可以超过，而 Timer 的受限则是<code>Runloop</code>的周期，其灵敏度相对<code>CADisplayLink</code>大的多；</li>
+<li>灵敏度不同：<code>CADisplayLink</code>受限于<code>maximumFramesPerSecond</code>的限制，不可以超过，也就是最大为 <code>1/60 s</code> 或者 <code>1/120 s</code> ；而 Timer 的受限则是<code>Runloop</code>的周期，其灵敏度相对<code>CADisplayLink</code>大的多，</li>
 <li>适用场景不同：<code>CADisplayLink</code>直接跟渲染挂钩，更适合用在 UI 方便，比如平滑动画或者上述提到的 FPS，而<code>Timer</code>使用范围则更大一些。<br>…</li>
 </ul>
-<h2 id="DispatchSourceTimer-GCD"><a href="#DispatchSourceTimer-GCD" class="headerlink" title="DispatchSourceTimer(GCD)"></a>DispatchSourceTimer(GCD)</h2><p><code>mach_absolute_time</code></p>
+<h2 id="DispatchSourceTimer-GCD"><a href="#DispatchSourceTimer-GCD" class="headerlink" title="DispatchSourceTimer(GCD)"></a>DispatchSourceTimer(GCD)</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(deadline: DispatchTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(deadline: DispatchTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(wallDeadline: DispatchWallTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(wallDeadline: DispatchWallTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br></pre></td></tr></table></figure>
+<p><code>mach_absolute_time</code></p>
+<p><a href="https://developer.apple.com/library/archive/technotes/tn2169/NaN" target="_blank" rel="noopener">iOS / OS X 中的高精度计时器</a></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <p>参考资料</p>
@@ -556,12 +558,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">290k</span>
+    <span title="站点总字数">291k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:24</span>
+    <span title="站点阅读时长">4:25</span>
 </div>
 
         
