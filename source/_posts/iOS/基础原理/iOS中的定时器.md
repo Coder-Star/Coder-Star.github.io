@@ -177,19 +177,40 @@ extension WeakProxy {
 
 **同时需要注意一定要在触发`Timer`的线程去进行`invalidate`，否则并不会终止。**
 
-**引申**
-
-当调用 NSObject 的 `performSelecter:afterDelay:` 方法，实际上其内部会创建一个 `Timer` 并添加到当前线程的 `RunLoop` 中。**所以如果当前线程没有 RunLoop，则这个方法会失效。**
-
-`performSelector:onThread:`方法同理。
-
 Timer 的定时并不是绝对精确，其取决于所在线程的空闲情况。当线程在进行大量计算时，这期间有可能会错过很多次 Timer 的循环周期，但是 Timer 并不会将前面错过的执行次数在后面都执行一遍，而是继续执行后面的循环，也就是在一个循环周期内只会执行一次循环。无论循环延迟的多离谱，循环间隔都不会发生变化，在进行完大数据处理之后，有可能会立即执行一次 Timer 循环，但是后面的循环间隔始终和第一次添加循环时的间隔相同。
 
 Timer 会有一个`tolerance`属性 -- `时间宽容度`，指定该属性时意味着系统可以在原有时间附加该宽容度内的任意时刻触发 Timer。例如，如果你要 timer 1 秒后运行，并有 0.5 秒的时间宽容度，实际就可能是 1 秒，1.5 秒或 1.3 秒等等时刻执行。默认的时间宽容度是 0，但即使是 0，系统内部也会自动添加一个很小的宽容度。
 这个属性是起到什么作用呢？按照开发者文档上的说法，设置该属性可以起到省电和优化系统响应性的作用。其可以允许系统协同运行多个 Timer，把多个 Timer 事件合并到一起，节省电池寿命。
 
 从性能方面考虑，对于实时性要求不是特别高的`Timer`，我们都可以设置一下`tolerance`属性。并且我们应在保证需求前提下尽量少的设置定时器，比如可以定义全局定时器供各业务使用。
-还有因为主线程需要处理UI相关的事情，所以我们将`Timer`注册到子线程对应的`Runloop`可从一定程度上保证其更加精确。
+还有因为主线程需要处理 UI 相关的事情，所以我们将`Timer`注册到子线程对应的`Runloop`可从一定程度上保证其更加精确。
+
+> 设置了 `tolerance` 的 `Timer`，对于 iOS 和 MacOS 系统，实质上会采用 `GCD timer` 的形式注册到内核中，`GCD timer` 触发后，再由 `RunLoop` 处理其回调逻辑。对于没有设置 `tolerance` 的 `timer`，则是用 `mk_timer` 的形式注册。
+
+`Timer`理论上最小精度为 0.1 毫秒。不过由于受 Runloop 的影响，会有 50 ~ 100 毫秒的误差，所以，实际精度可以认为是 0.1 秒。
+
+**引申**
+
+当调用 NSObject 的 `performSelecter:afterDelay:` 方法，实际上其内部会创建一个 `Timer` 并添加到当前线程的 `RunLoop` 中。**所以如果当前线程没有 RunLoop，则这个方法会失效。**
+
+`performSelector:onThread:`方法同理。
+
+在编写这篇文章时发现了一个有意思的小玩意。
+
+```swift
+/// 正常
+Timer.scheduledTimer(withTimeInterval: 0.000000001, repeats: true) { _ in
+  // todo
+}
+
+/// 比上面高一个精度
+/// 不正常，会死锁
+Timer.scheduledTimer(withTimeInterval: 0.0000000001, repeats: true) { _ in
+  // todo
+}
+```
+
+如果了解该问题原因可以私我交流一下。
 
 ## CADisplayLink
 
@@ -292,11 +313,30 @@ extension FPSUtils {
 `Timer` 与 `CADisplayLink` 背后都跟 `Runloop` 息息相关，后续会对 `Runloop` 进行单独介绍，这里就不单独展开了，那`Timer` 与 `CADisplayLink`之间有什么区别呢？
 
 - 设置周期方式不同：一个通过`preferredFramesPerSecond`进行间接设置，一个直接通过`timeInterval`参数设置，后者更直接一些；
-- 灵敏度不同：`CADisplayLink`受限于`maximumFramesPerSecond`的限制，不可以超过，也就是最大为 `1/60 s` 或者 `1/120 s` ；而 Timer 的受限则是`Runloop`的周期，其灵敏度相对`CADisplayLink`大的多，
+- 灵敏度不同：`CADisplayLink`受限于`maximumFramesPerSecond`的限制，不可以超过，也就是最大为 `1/60 s` 或者 `1/120 s`，如果 UI 渲染处理时间过长，出现丢帧现象，`CADisplayLink`的精度也会下降；而 Timer 的受限则是`Runloop`的周期，其灵敏度相对`CADisplayLink`大的多。
 - 适用场景不同：`CADisplayLink`直接跟渲染挂钩，更适合用在 UI 方便，比如平滑动画或者上述提到的 FPS，而`Timer`使用范围则更大一些。
 ...
 
-## DispatchSourceTimer(GCD)
+## DispatchSourceTimer
+
+`DispatchSourceTimer`，也就是我们常说的`GCD Timer`，其不再依赖于 `Runloop`，而是依赖于 GCD，相反`Runloop`底层还会依赖`GCD`能力。
+
+`DispatchSourceTimer`其实属于`DispatchSource`系列，`DispatchSource`可以帮我们监听系统底层一些对象的活动，除上述的`DispatchSourceTimer`之外还有`DispatchSourceSignal`(对应 Unix signal)、`DispatchSourceFileSystemObject`(对应 VFS node) 等等，并允许我们在这些活动发生时，向队列提交一个任务以进行异步处理。
+
+我们先看一下涉及的 API，注意看注释。
+
+1、使用 `DispatchSource` 创建一个 `DispatchSourceTimer`
+
+```swift
+/// DispatchSource类
+
+/// 创建一个 DispatchSourceTimer
+/// TimerFlags类型目前已经一个为 strict，设置该falg会影响后续定时的准确性，
+/// 如果设置为 trict ，则系统会尽量按照预定时间进行计时，否则系统可以推迟定时器事件的传递以提高功耗和系统性能
+class func makeTimerSource(flags: DispatchSource.TimerFlags = [], queue: DispatchQueue? = nil) -> DispatchSourceTimer
+```
+
+2、`DispatchSourceTimer`协议派发方式，其继承 `DispatchSourceProtocol` 协议
 
 ```swift
 @available(swift 4)
@@ -312,11 +352,64 @@ public func schedule(wallDeadline: DispatchWallTime, repeating interval: Dispatc
 public func schedule(wallDeadline: DispatchWallTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds(0))
 ```
 
-`mach_absolute_time`
+上述几个构造函数看起来很像，其实核心差别在几个参数对应结构之间的差别上：
 
+- `DispatchTime` 与 `DispatchWallTime`：含义为定时起止时间。前者表示一个相对时间，后者表示一个绝对时间，核心影响因素为系统休眠。举个🌰：设置为 1 个小时，期间系统休眠了，系统结束休眠后，第一个的触发时间会变成结束休眠的时刻再加上那 1 个小时，但是第二个计算的起始点还是原先设置的起始点，不受休眠影响。
 
-[iOS / OS X 中的高精度计时器](https://developer.apple.com/library/archive/technotes/tn2169/NaN)
+- `repeating`参数：一个参数类型为`DispatchTimeInterval`，一个为`Double`，其中前者可以设置成 `.never`，表示只执行一次，并且还可以设置成其他不同层级精度的数值，后者表示的单位为秒。
+
+- `leeway`参数：表示设置的容忍误差精度。
+
+3、DispatchSourceProtocol 协议，注册事件，并管理状态
+
+```swift
+/// 给Timer设置要执行的任务，包括一次性任务和定时重复的任务。
+public func setEventHandler(qos: DispatchQoS = .unspecified, flags: DispatchWorkItemFlags = [], handler: Self.DispatchSourceHandler?)
+
+public func setCancelHandler(qos: DispatchQoS = .unspecified, flags: DispatchWorkItemFlags = [], handler: Self.DispatchSourceHandler?)
+
+/// 这个方法设置的任务只会执行一次，也就是在Timer就绪后开始运行的时候执行，类似于Timer开始的一个通知回调。
+public func setRegistrationHandler(qos: DispatchQoS = .unspecified, flags: DispatchWorkItemFlags = [], handler: Self.DispatchSourceHandler?)
+
+/// 当创建完一个Timer之后，其处于未激活的状态，所以要执行Timer，需要调用该方法。
+@available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
+public func activate()
+
+/// 调用该方法后，Timer将会被取消，被取消的Timer如果想再执行任务，则需要重新创建。
+public func cancel()
+
+/// 当Timer被挂起后，调用该方法便会将Timer继续运行。
+public func resume()
+
+/// 当Timer开始运行后，调用该方法便会将Timer挂起，即暂停。
+public func suspend()
+
+public var isCancelled: Bool { get }
+```
+
+补充几个注意事项：
+
+- 几个 `Handler` 回调方法执行线程取决于`makeTimerSource`时设置的队列类型；
+- 当 `Timer` 创建完后，建议调用 `activate()` 方法开始运行。如果直接调用 `resume()` 也可以开始运行；
+- `suspend()`的时候，并不会停止当前正在执行的 event 事件，而是会停止下一次 event 事件；
+- `suspend()`和`resume()`需要成对出现，挂起一次，恢复一次，如果 `Timer` 开始运行后，在没有 `suspend()` 的时候，直接调用`resume()`，会导致 APP 崩溃；
+
+使用示例
+
+```swift
+let timer = DispatchSource.makeTimerSource(flags: [.strict])
+timer.schedule(deadline: .now(), repeating: 1, leeway: .milliseconds(1))
+timer.setEventHandler {
+  // todo
+}
+timer.activate()
+```
+
+其实从构造时相关参数，我们可以看出 `DispatchSourceTimer`精度为纳秒，但是根据实际情况，可能会有些许出入，但肯定是这三种定时器精度最高的了。
+
 ## 最后
+
+上述我们可以看到 `GCD Timer` 是精度最高的定时器，那还有更高精度的定时器吗？那自然是有的，只不过我们平时需求很少需要用到，高精度计时器相对于常规定时器，核心区别在于发出计时器请求的线程的调度类，前者调度类会得到系统更优先级的处理，详情可见参考资料中的【High Precision Timers in iOS / OS X】，还可以了解`Mach`相关的 API，如`mach_wait_until()`、`mach_absolute_time()`以及`mach_continuous_time()`等。
 
 要更加努力呀！
 
@@ -325,3 +418,7 @@ Let's be CoderStar!
 参考资料
 
 - [Timer使用指南](http://www.cocoachina.com/articles/23890)
+- [High Precision Timers in iOS / OS X](https://developer.apple.com/library/archive/technotes/tn2169/_index.html)
+- [Mach Absolute Time Units](https://developer.apple.com/library/archive/qa/qa1398/_index.html)
+- [iOS开发之三大计时器（Timer、DispatchSourceTimer、CADisplayLink）](https://blog.csdn.net/guoyongming925/article/details/110224064)
+- [从 RunLoop 源码探索 NSTimer 的实现原理（iOS）](https://toutiao.io/posts/4330zh/preview)
