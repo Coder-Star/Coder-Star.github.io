@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。 iOS 中的定时器一般会包含三种：  Timer CADisplayLink DispatchSourceTimer">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-04T15:04:17.230Z">
+<meta property="og:updated_time" content="2021-11-05T15:50:13.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 中的定时器">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。 iOS 中的定时器一般会包含三种：  Timer CADisplayLink DispatchSourceTimer">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-04 23:04:17" itemprop="dateModified" datetime="2021-11-04T23:04:17+08:00">2021-11-04</time>
+                <time title="修改时间：2021-11-05 23:50:13" itemprop="dateModified" datetime="2021-11-05T23:50:13+08:00">2021-11-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,14 +256,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.9k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>11 分钟</span>
             </span>
 
         </div>
@@ -309,12 +309,19 @@
 <p><strong>Runloop 会强引用 Timer</strong></p>
 <p>如果是一次性调用的 <code>Timer</code>(即<code>repeats</code>参数设置为<code>false</code>)，会在调用完毕之后自动 <code>invalidate</code> 掉自身，当然一次性调用这种使用场景也是比较少见，对此场景，我们可能更多的是使用<code>GCD</code>的<code>asyncAfter</code>方法。<br>但是如果是多次重复调用的 <code>Timer</code>，就需要我们就需要我们自己在某个特定的时刻来 <code>invalidate</code> 掉 <code>Timer</code>，这个时刻一般是根据我们业务的实际情况去处理，常见的便是<code>deinit</code>时刻。</p>
 <p><strong>同时需要注意一定要在触发<code>Timer</code>的线程去进行<code>invalidate</code>，否则并不会终止。</strong></p>
+<p>Timer 的定时并不是绝对精确，其取决于所在线程的空闲情况。当线程在进行大量计算时，这期间有可能会错过很多次 Timer 的循环周期，但是 Timer 并不会将前面错过的执行次数在后面都执行一遍，而是继续执行后面的循环，也就是在一个循环周期内只会执行一次循环。无论循环延迟的多离谱，循环间隔都不会发生变化，在进行完大数据处理之后，有可能会立即执行一次 Timer 循环，但是后面的循环间隔始终和第一次添加循环时的间隔相同。</p>
+<p>Timer 会有一个<code>tolerance</code>属性 — <code>时间宽容度</code>，指定该属性时意味着系统可以在原有时间附加该宽容度内的任意时刻触发 Timer。例如，如果你要 timer 1 秒后运行，并有 0.5 秒的时间宽容度，实际就可能是 1 秒，1.5 秒或 1.3 秒等等时刻执行。默认的时间宽容度是 0，但即使是 0，系统内部也会自动添加一个很小的宽容度。<br>这个属性是起到什么作用呢？按照开发者文档上的说法，设置该属性可以起到省电和优化系统响应性的作用。其可以允许系统协同运行多个 Timer，把多个 Timer 事件合并到一起，节省电池寿命。</p>
+<p>从性能方面考虑，对于实时性要求不是特别高的<code>Timer</code>，我们都可以设置一下<code>tolerance</code>属性。并且我们应在保证需求前提下尽量少的设置定时器，比如可以定义全局定时器供各业务使用。<br>还有因为主线程需要处理 UI 相关的事情，所以我们将<code>Timer</code>注册到子线程对应的<code>Runloop</code>可从一定程度上保证其更加精确。</p>
+<blockquote>
+<p>设置了 <code>tolerance</code> 的 <code>Timer</code>，对于 iOS 和 MacOS 系统，实质上会采用 <code>GCD timer</code> 的形式注册到内核中，<code>GCD timer</code> 触发后，再由 <code>RunLoop</code> 处理其回调逻辑。对于没有设置 <code>tolerance</code> 的 <code>timer</code>，则是用 <code>mk_timer</code> 的形式注册。</p>
+</blockquote>
+<p><code>Timer</code>理论上最小精度为 0.1 毫秒。不过由于受 Runloop 的影响，会有 50 ~ 100 毫秒的误差，所以，实际精度可以认为是 0.1 秒。</p>
 <p><strong>引申</strong></p>
 <p>当调用 NSObject 的 <code>performSelecter:afterDelay:</code> 方法，实际上其内部会创建一个 <code>Timer</code> 并添加到当前线程的 <code>RunLoop</code> 中。<strong>所以如果当前线程没有 RunLoop，则这个方法会失效。</strong></p>
 <p><code>performSelector:onThread:</code>方法同理。</p>
-<p>Timer 的定时并不是绝对精确，其取决于所在线程的空闲情况。当线程在进行大量计算时，这期间有可能会错过很多次 Timer 的循环周期，但是 Timer 并不会将前面错过的执行次数在后面都执行一遍，而是继续执行后面的循环，也就是在一个循环周期内只会执行一次循环。无论循环延迟的多离谱，循环间隔都不会发生变化，在进行完大数据处理之后，有可能会立即执行一次 Timer 循环，但是后面的循环间隔始终和第一次添加循环时的间隔相同。</p>
-<p>Timer 会有一个<code>tolerance</code>属性 — <code>时间宽容度</code>，指定该属性时意味着系统可以在原有时间附加该宽容度内的任意时刻触发 Timer。例如，如果你要 timer 1 秒后运行，并有 0.5 秒的时间宽容度，实际就可能是 1 秒，1.5 秒或 1.3 秒等等时刻执行。默认的时间宽容度是 0，但即使是 0，系统内部也会自动添加一个很小的宽容度。<br>这个属性是起到什么作用呢？按照开发者文档上的说法，设置该属性可以起到省电和优化系统响应性的作用。其可以允许系统协同运行多个 Timer，把多个 Timer 事件合并到一起，节省电池寿命。</p>
-<p>从性能方面考虑，对于实时性要求不是特别高的<code>Timer</code>，我们都可以设置一下<code>tolerance</code>属性。并且我们应在保证需求前提下尽量少的设置定时器，比如可以定义全局定时器供各业务使用。<br>还有因为主线程需要处理UI相关的事情，所以我们将<code>Timer</code>注册到子线程对应的<code>Runloop</code>可从一定程度上保证其更加精确。</p>
+<p>在编写这篇文章时发现了一个有意思的小玩意。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 正常</span></span><br><span class="line"><span class="type">Timer</span>.scheduledTimer(withTimeInterval: <span class="number">0.000000001</span>, repeats: <span class="literal">true</span>) &#123; <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">  <span class="comment">// todo</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// 比上面高一个精度</span></span><br><span class="line"><span class="comment">/// 不正常，会死锁</span></span><br><span class="line"><span class="type">Timer</span>.scheduledTimer(withTimeInterval: <span class="number">0.0000000001</span>, repeats: <span class="literal">true</span>) &#123; <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">  <span class="comment">// todo</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果了解该问题原因可以私我交流一下。</p>
 <h2 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h2><p><code>CADisplayLink</code>简单来说就是一个能让我们以和屏幕刷新率相同的频率将内容画到屏幕上的定时器，不过，与其说它是一个定时器，不如说它是一个观察者，其回调由事件触发而非计时器。简单描述就是设备屏幕每刷新一次，该对象绑定的方法就会调用一次。</p>
 <p><code>CADisplayLink</code>与<code>Timer</code>一样都需要<code>Runloop</code>的支持，并且虽然其没有被定义成<code>final</code>类型，但是开发者文档告知我们不应该继承<code>CADisplayLink</code>。</p>
 <p>我们先来看下其属性及方法，注意查看注释。</p>
@@ -330,17 +337,47 @@
 <p><code>Timer</code> 与 <code>CADisplayLink</code> 背后都跟 <code>Runloop</code> 息息相关，后续会对 <code>Runloop</code> 进行单独介绍，这里就不单独展开了，那<code>Timer</code> 与 <code>CADisplayLink</code>之间有什么区别呢？</p>
 <ul>
 <li>设置周期方式不同：一个通过<code>preferredFramesPerSecond</code>进行间接设置，一个直接通过<code>timeInterval</code>参数设置，后者更直接一些；</li>
-<li>灵敏度不同：<code>CADisplayLink</code>受限于<code>maximumFramesPerSecond</code>的限制，不可以超过，也就是最大为 <code>1/60 s</code> 或者 <code>1/120 s</code> ；而 Timer 的受限则是<code>Runloop</code>的周期，其灵敏度相对<code>CADisplayLink</code>大的多，</li>
+<li>灵敏度不同：<code>CADisplayLink</code>受限于<code>maximumFramesPerSecond</code>的限制，不可以超过，也就是最大为 <code>1/60 s</code> 或者 <code>1/120 s</code>，如果 UI 渲染处理时间过长，出现丢帧现象，<code>CADisplayLink</code>的精度也会下降；而 Timer 的受限则是<code>Runloop</code>的周期，其灵敏度相对<code>CADisplayLink</code>大的多。</li>
 <li>适用场景不同：<code>CADisplayLink</code>直接跟渲染挂钩，更适合用在 UI 方便，比如平滑动画或者上述提到的 FPS，而<code>Timer</code>使用范围则更大一些。<br>…</li>
 </ul>
-<h2 id="DispatchSourceTimer-GCD"><a href="#DispatchSourceTimer-GCD" class="headerlink" title="DispatchSourceTimer(GCD)"></a>DispatchSourceTimer(GCD)</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(deadline: DispatchTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(deadline: DispatchTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(wallDeadline: DispatchWallTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(wallDeadline: DispatchWallTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br></pre></td></tr></table></figure>
-<p><code>mach_absolute_time</code></p>
-<p><a href="https://developer.apple.com/library/archive/technotes/tn2169/NaN" target="_blank" rel="noopener">iOS / OS X 中的高精度计时器</a></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<h2 id="DispatchSourceTimer"><a href="#DispatchSourceTimer" class="headerlink" title="DispatchSourceTimer"></a>DispatchSourceTimer</h2><p><code>DispatchSourceTimer</code>，也就是我们常说的<code>GCD Timer</code>，其不再依赖于 <code>Runloop</code>，而是依赖于 GCD，相反<code>Runloop</code>底层还会依赖<code>GCD</code>能力。</p>
+<p><code>DispatchSourceTimer</code>其实属于<code>DispatchSource</code>系列，<code>DispatchSource</code>可以帮我们监听系统底层一些对象的活动，除上述的<code>DispatchSourceTimer</code>之外还有<code>DispatchSourceSignal</code>(对应 Unix signal)、<code>DispatchSourceFileSystemObject</code>(对应 VFS node) 等等，并允许我们在这些活动发生时，向队列提交一个任务以进行异步处理。</p>
+<p>我们先看一下涉及的 API，注意看注释。</p>
+<p>1、使用 <code>DispatchSource</code> 创建一个 <code>DispatchSourceTimer</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// DispatchSource类</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 创建一个 DispatchSourceTimer</span></span><br><span class="line"><span class="comment">/// TimerFlags类型目前已经一个为 strict，设置该falg会影响后续定时的准确性，</span></span><br><span class="line"><span class="comment">/// 如果设置为 trict ，则系统会尽量按照预定时间进行计时，否则系统可以推迟定时器事件的传递以提高功耗和系统性能</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">func</span> <span class="title">makeTimerSource</span>(<span class="title">flags</span>: <span class="title">DispatchSource</span>.<span class="title">TimerFlags</span> = [], <span class="title">queue</span>: <span class="title">DispatchQueue</span>? = <span class="title">nil</span>) -&gt; <span class="title">DispatchSourceTimer</span></span></span><br></pre></td></tr></table></figure>
+<p>2、<code>DispatchSourceTimer</code>协议派发方式，其继承 <code>DispatchSourceProtocol</code> 协议</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(deadline: DispatchTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(deadline: DispatchTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(wallDeadline: DispatchWallTime, repeating interval: DispatchTimeInterval = .never, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(swift <span class="number">4</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">(wallDeadline: DispatchWallTime, repeating interval: Double, leeway: DispatchTimeInterval = .nanoseconds<span class="params">(<span class="number">0</span>)</span></span></span>)</span><br></pre></td></tr></table></figure>
+<p>上述几个构造函数看起来很像，其实核心差别在几个参数对应结构之间的差别上：</p>
+<ul>
+<li><p><code>DispatchTime</code> 与 <code>DispatchWallTime</code>：含义为定时起止时间。前者表示一个相对时间，后者表示一个绝对时间，核心影响因素为系统休眠。举个🌰：设置为 1 个小时，期间系统休眠了，系统结束休眠后，第一个的触发时间会变成结束休眠的时刻再加上那 1 个小时，但是第二个计算的起始点还是原先设置的起始点，不受休眠影响。</p>
+</li>
+<li><p><code>repeating</code>参数：一个参数类型为<code>DispatchTimeInterval</code>，一个为<code>Double</code>，其中前者可以设置成 <code>.never</code>，表示只执行一次，并且还可以设置成其他不同层级精度的数值，后者表示的单位为秒。</p>
+</li>
+<li><p><code>leeway</code>参数：表示设置的容忍误差精度。</p>
+</li>
+</ul>
+<p>3、DispatchSourceProtocol 协议，注册事件，并管理状态</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 给Timer设置要执行的任务，包括一次性任务和定时重复的任务。</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">setEventHandler</span><span class="params">(qos: DispatchQoS = .unspecified, flags: DispatchWorkItemFlags = [], handler: <span class="keyword">Self</span>.DispatchSourceHandler?)</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">setCancelHandler</span><span class="params">(qos: DispatchQoS = .unspecified, flags: DispatchWorkItemFlags = [], handler: <span class="keyword">Self</span>.DispatchSourceHandler?)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 这个方法设置的任务只会执行一次，也就是在Timer就绪后开始运行的时候执行，类似于Timer开始的一个通知回调。</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">setRegistrationHandler</span><span class="params">(qos: DispatchQoS = .unspecified, flags: DispatchWorkItemFlags = [], handler: <span class="keyword">Self</span>.DispatchSourceHandler?)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 当创建完一个Timer之后，其处于未激活的状态，所以要执行Timer，需要调用该方法。</span></span><br><span class="line"><span class="meta">@available</span>(macOS <span class="number">10.12</span>, iOS <span class="number">10.0</span>, tvOS <span class="number">10.0</span>, watchOS <span class="number">3.0</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">activate</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 调用该方法后，Timer将会被取消，被取消的Timer如果想再执行任务，则需要重新创建。</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">cancel</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 当Timer被挂起后，调用该方法便会将Timer继续运行。</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">resume</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 当Timer开始运行后，调用该方法便会将Timer挂起，即暂停。</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">suspend</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">var</span> isCancelled: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>补充几个注意事项：</p>
+<ul>
+<li>几个 <code>Handler</code> 回调方法执行线程取决于<code>makeTimerSource</code>时设置的队列类型；</li>
+<li>当 <code>Timer</code> 创建完后，建议调用 <code>activate()</code> 方法开始运行。如果直接调用 <code>resume()</code> 也可以开始运行；</li>
+<li><code>suspend()</code>的时候，并不会停止当前正在执行的 event 事件，而是会停止下一次 event 事件；</li>
+<li><code>suspend()</code>和<code>resume()</code>需要成对出现，挂起一次，恢复一次，如果 <code>Timer</code> 开始运行后，在没有 <code>suspend()</code> 的时候，直接调用<code>resume()</code>，会导致 APP 崩溃；</li>
+</ul>
+<p>使用示例</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> timer = <span class="type">DispatchSource</span>.makeTimerSource(flags: [.strict])</span><br><span class="line">timer.schedule(deadline: .now(), repeating: <span class="number">1</span>, leeway: .milliseconds(<span class="number">1</span>))</span><br><span class="line">timer.setEventHandler &#123;</span><br><span class="line">  <span class="comment">// todo</span></span><br><span class="line">&#125;</span><br><span class="line">timer.activate()</span><br></pre></td></tr></table></figure>
+<p>其实从构造时相关参数，我们可以看出 <code>DispatchSourceTimer</code>精度为纳秒，但是根据实际情况，可能会有些许出入，但肯定是这三种定时器精度最高的了。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>上述我们可以看到 <code>GCD Timer</code> 是精度最高的定时器，那还有更高精度的定时器吗？那自然是有的，只不过我们平时需求很少需要用到，高精度计时器相对于常规定时器，核心区别在于发出计时器请求的线程的调度类，前者调度类会得到系统更优先级的处理，详情可见参考资料中的【High Precision Timers in iOS / OS X】，还可以了解<code>Mach</code>相关的 API，如<code>mach_wait_until()</code>、<code>mach_absolute_time()</code>以及<code>mach_continuous_time()</code>等。</p>
+<p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <p>参考资料</p>
 <ul>
 <li><a href="http://www.cocoachina.com/articles/23890" target="_blank" rel="noopener">Timer使用指南</a></li>
+<li><a href="https://developer.apple.com/library/archive/technotes/tn2169/_index.html" target="_blank" rel="noopener">High Precision Timers in iOS / OS X</a></li>
+<li><a href="https://developer.apple.com/library/archive/qa/qa1398/_index.html" target="_blank" rel="noopener">Mach Absolute Time Units</a></li>
+<li><a href="https://blog.csdn.net/guoyongming925/article/details/110224064" target="_blank" rel="noopener">iOS开发之三大计时器（Timer、DispatchSourceTimer、CADisplayLink）</a></li>
+<li><a href="https://toutiao.io/posts/4330zh/preview" target="_blank" rel="noopener">从 RunLoop 源码探索 NSTimer 的实现原理（iOS）</a></li>
 </ul>
 
     </div>
@@ -477,7 +514,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Timer"><span class="nav-number">2.</span> <span class="nav-text">Timer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CADisplayLink"><span class="nav-number">3.</span> <span class="nav-text">CADisplayLink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchSourceTimer-GCD"><span class="nav-number">4.</span> <span class="nav-text">DispatchSourceTimer(GCD)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Timer"><span class="nav-number">2.</span> <span class="nav-text">Timer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CADisplayLink"><span class="nav-number">3.</span> <span class="nav-text">CADisplayLink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchSourceTimer"><span class="nav-number">4.</span> <span class="nav-text">DispatchSourceTimer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -493,20 +530,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-count">111</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">31</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">84</span>
+        <span class="site-state-item-count">85</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -558,12 +595,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">291k</span>
+    <span title="站点总字数">295k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:25</span>
+    <span title="站点阅读时长">4:28</span>
 </div>
 
         
