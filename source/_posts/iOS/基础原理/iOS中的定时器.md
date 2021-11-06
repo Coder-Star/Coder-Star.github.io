@@ -15,14 +15,14 @@ Hi Coder，我是 CoderStar！
 
 我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。
 
-iOS 中的定时器一般会包含三种：
+iOS 中的定时器常用的包含三种：
 - Timer
 - CADisplayLink
 - DispatchSourceTimer
 
 ## Timer
 
-老规矩，我们先罗列一下 Timer 常用的方法及属性。
+老规矩，我们先罗列一下 `Timer` 常用的方法及属性。
 
 ```swift
 // MARK: - 构造函数
@@ -65,21 +65,21 @@ open func fire()
 open func invalidate()
 ```
 
-> 上述 interval 参数如果小于 0，则会使用 0.1 毫秒来代替。
+> 上述 `interval` 参数如果小于 0，则会使用 0.1 毫秒来代替，其中这个也侧面反映出 `Timer`的精度。
 
-从上述代码我们可以发现 Timer 生成实例的方式有八种，除了可以设置触发起止时间的两个之外，剩余六个为`Block`、`Target-Action`以及`NSInvocation`三种形式并且都提供`类方法`以及`构造函数`两种形式。我们可以根据自己的需求选择合适的构造函数。
+从上述代码我们可以发现 `Timer` 生成实例的方式有八种，除了可以设置触发起止时间的两个之外，剩余六个为`Block`、`Target-Action`以及`NSInvocation`三种形式并且都提供`类方法`以及`构造函数`两种形式。我们可以根据自己的需求选择合适的构造函数。
 
 1、`NSInvocation`在 Swift 中已经被禁止使用了，所以一般很少使用，如果非得使用需要借助 OC 进行中转；
 2、`Block`方式是在 iOS 10 之后的，目的就是方便使用，并且避免了`Target-Action`这种方式惯有的循环引用问题，建议大家优先使用这种形式；
-3、`Target-Action`方式最开始就存在，所以使用也比较频繁。
+3、`Target-Action`方式最开始就存在，所以项目中使用也比较多。
 
 > `NSInvocation`的禁止其实也会影响到 `NSProxy` 在 Swift 中的使用，在 OC 中，我们一般会采用继承 `NSProxy`中的方式实现一个弱代理来解决常见的循环引用问题，比如常用的`YYKit`中的 [YYWeakProxy](https://github.com/ibireme/YYKit/blob/master/YYKit/Utility/YYWeakProxy.h)，但是在 Swift 中这种方式是不行的，需要继承`NSObject`来进行实现，这个具体后面会有介绍。
 
-Timer 的运行需要依赖于 Runloop，如果 Timer 所处线程没有开启 Runloop，Timer 也是无法正常启动的，普通构造函数与类方法创建的 Timer 两者在这部分会有差异，`init`创建的 Timer 不会自动加入到 Runloop 中，需要再手动进行添加，而`scheduledTimer`形式会自动加入到当前线程对应的`Runloop`中。
+`Timer` 的运行需要依赖于 `Runloop`，如果 `Timer` 所处线程没有开启 `Runloop`，`Timer` 也是无法正常启动的，普通构造函数与类方法创建的 `Timer` 两者在这部分会有差异，`init`创建的 `Timer` 不会自动加入到 `Runloop` 中，需要再手动进行添加，而`scheduledTimer`形式会自动加入到当前线程对应的`Runloop`中。
 
-> `scheduledTimer`形式自动加入的是`Runloop`的`default`模式，如果在滚动状态下仍然需要保持计时，则需要再手动加入到`eventTracking`或者`common`模式下，如果在子线程中，因为其 Runloop 没有默认启动，所以还是需要自己手动加入。
+> `scheduledTimer`形式自动加入的是`Runloop`的`default`模式，如果在滚动状态下仍然需要保持计时，则需要再手动加入到`eventTracking`或者`common`模式下，如果在子线程中，因为其 `Runloop` 没有默认启动，所以还是需要自己手动加入。
 >
-> 这样就涉及到一个比较典型的面试题：Timer 在滚动视图滚动时不进行响应。答案已经在上面了。
+> 这样就涉及到一个比较典型的面试题：`Timer` 在滚动视图滚动时不进行响应。答案已经在上面了。
 
 ```Swift
 let timer = Timer(timeInterval: 1, repeats: true) { _ in
@@ -101,11 +101,12 @@ DispatchQueue.global().async {
 }
 ```
 
-因为 Timer 依赖 Runloop 的特殊性，所以其对应的 Target 释放不了的原因会包含两方面：
+因为 `Timer` 依赖 `Runloop` 的特殊性，所以其对应的 `Target` 释放不了的原因会包含两方面：
 
-**Timer 与 Target 存在循环引用**
+**`Timer` 与 `Target` 存在循环引用**
 
 对于这个问题，我们通常会使用一个 [WeakProxy](https://github.com/Coder-Star/LTXiOSUtils/blob/master/LTXiOSUtils/Classes/Util/WeakProxy.swift) 来 `Warp` 一下`Target`。对于这个`WeakProxy`，我们需要注意重写一些父类方法。本质就是切断`Timer`对`Target`的强引用。
+
 > 其实平时为了避免该问题，我们还是尽量使用`Block`这种形式。
 
 ```swift
@@ -172,14 +173,15 @@ extension WeakProxy {
 
 **Runloop 会强引用 Timer**
 
-如果是一次性调用的 `Timer`(即`repeats`参数设置为`false`)，会在调用完毕之后自动 `invalidate` 掉自身，当然一次性调用这种使用场景也是比较少见，对此场景，我们可能更多的是使用`GCD`的`asyncAfter`方法。
-但是如果是多次重复调用的 `Timer`，就需要我们就需要我们自己在某个特定的时刻来 `invalidate` 掉 `Timer`，这个时刻一般是根据我们业务的实际情况去处理，常见的便是`deinit`时刻。
+- 如果是一次性调用的 `Timer`(即`repeats`参数设置为`false`)，会在调用完毕之后自动 `invalidate` 掉自身，当然一次性调用这种使用场景也是比较少见，对此场景，我们可能更多的是使用`GCD`的`asyncAfter`方法。
+
+- 但是如果是多次重复调用的 `Timer`，就需要我们就需要我们自己在某个特定的时刻来 `invalidate` 掉 `Timer`，这个时刻一般是根据我们业务的实际情况去处理，常见的便是`deinit`时刻。
 
 **同时需要注意一定要在触发`Timer`的线程去进行`invalidate`，否则并不会终止。**
 
-Timer 的定时并不是绝对精确，其取决于所在线程的空闲情况。当线程在进行大量计算时，这期间有可能会错过很多次 Timer 的循环周期，但是 Timer 并不会将前面错过的执行次数在后面都执行一遍，而是继续执行后面的循环，也就是在一个循环周期内只会执行一次循环。无论循环延迟的多离谱，循环间隔都不会发生变化，在进行完大数据处理之后，有可能会立即执行一次 Timer 循环，但是后面的循环间隔始终和第一次添加循环时的间隔相同。
+`Timer` 的定时并不是绝对精确，其取决于所在线程的空闲情况。当线程在进行大量计算时，这期间有可能会错过很多次 `Timer` 的循环周期，但是 `Timer` 并不会将前面错过的执行次数在后面都执行一遍，而是继续执行后面的循环，也就是在一个循环周期内只会执行一次循环。无论循环延迟的多离谱，循环间隔都不会发生变化，在进行完大数据处理之后，有可能会立即执行一次 `Timer` 循环，但是后面的循环间隔始终和第一次添加循环时的间隔相同。
 
-Timer 会有一个`tolerance`属性 -- `时间宽容度`，指定该属性时意味着系统可以在原有时间附加该宽容度内的任意时刻触发 Timer。例如，如果你要 timer 1 秒后运行，并有 0.5 秒的时间宽容度，实际就可能是 1 秒，1.5 秒或 1.3 秒等等时刻执行。默认的时间宽容度是 0，但即使是 0，系统内部也会自动添加一个很小的宽容度。
+Timer 会有一个`tolerance`属性 -- `时间宽容度`，指定该属性时意味着系统可以在原有时间附加该宽容度内的任意时刻触发 `Timer`。例如，如果你要 `Timer` 1 秒后运行，并有 0.5 秒的时间宽容度，实际就可能是 1 秒，1.5 秒或 1.3 秒等等时刻执行。默认的时间宽容度是 0，但即使是 0，系统内部也会自动添加一个很小的宽容度。
 这个属性是起到什么作用呢？按照开发者文档上的说法，设置该属性可以起到省电和优化系统响应性的作用。其可以允许系统协同运行多个 Timer，把多个 Timer 事件合并到一起，节省电池寿命。
 
 从性能方面考虑，对于实时性要求不是特别高的`Timer`，我们都可以设置一下`tolerance`属性。并且我们应在保证需求前提下尽量少的设置定时器，比如可以定义全局定时器供各业务使用。
@@ -187,11 +189,11 @@ Timer 会有一个`tolerance`属性 -- `时间宽容度`，指定该属性时意
 
 > 设置了 `tolerance` 的 `Timer`，对于 iOS 和 MacOS 系统，实质上会采用 `GCD timer` 的形式注册到内核中，`GCD timer` 触发后，再由 `RunLoop` 处理其回调逻辑。对于没有设置 `tolerance` 的 `timer`，则是用 `mk_timer` 的形式注册。
 
-`Timer`理论上最小精度为 0.1 毫秒。不过由于受 Runloop 的影响，会有 50 ~ 100 毫秒的误差，所以，实际精度可以认为是 0.1 秒。
+`Timer`理论上最小精度为 **0.1 毫秒**。不过由于受 `Runloop` 的影响，会有 50 ~ 100 毫秒的误差，所以，实际精度可以认为是 0.1 秒。
 
 **引申**
 
-当调用 NSObject 的 `performSelecter:afterDelay:` 方法，实际上其内部会创建一个 `Timer` 并添加到当前线程的 `RunLoop` 中。**所以如果当前线程没有 RunLoop，则这个方法会失效。**
+当调用 `NSObject` 的 `performSelecter:afterDelay:` 方法，实际上其内部会创建一个 `Timer` 并添加到当前线程的 `RunLoop` 中。**所以如果当前线程没有 RunLoop，则这个方法会失效。**
 
 `performSelector:onThread:`方法同理。
 
@@ -313,7 +315,7 @@ extension FPSUtils {
 `Timer` 与 `CADisplayLink` 背后都跟 `Runloop` 息息相关，后续会对 `Runloop` 进行单独介绍，这里就不单独展开了，那`Timer` 与 `CADisplayLink`之间有什么区别呢？
 
 - 设置周期方式不同：一个通过`preferredFramesPerSecond`进行间接设置，一个直接通过`timeInterval`参数设置，后者更直接一些；
-- 灵敏度不同：`CADisplayLink`受限于`maximumFramesPerSecond`的限制，不可以超过，也就是最大为 `1/60 s` 或者 `1/120 s`，如果 UI 渲染处理时间过长，出现丢帧现象，`CADisplayLink`的精度也会下降；而 Timer 的受限则是`Runloop`的周期，其灵敏度相对`CADisplayLink`大的多。
+- 灵敏度不同：**`CADisplayLink`受限于`maximumFramesPerSecond`的限制，不可以超过，也就是最大为 `1/60 s` 或者 `1/120 s`**，如果 UI 渲染处理时间过长，出现丢帧现象，`CADisplayLink`的精度也会下降；而 Timer 的受限则是`Runloop`的周期，其灵敏度相对`CADisplayLink`大的多。
 - 适用场景不同：`CADisplayLink`直接跟渲染挂钩，更适合用在 UI 方便，比如平滑动画或者上述提到的 FPS，而`Timer`使用范围则更大一些。
 ...
 
@@ -360,7 +362,7 @@ public func schedule(wallDeadline: DispatchWallTime, repeating interval: Double,
 
 - `leeway`参数：表示设置的容忍误差精度。
 
-3、DispatchSourceProtocol 协议，注册事件，并管理状态
+3、`DispatchSourceProtocol` 协议，注册事件，并管理状态
 
 ```swift
 /// 给Timer设置要执行的任务，包括一次性任务和定时重复的任务。
@@ -393,7 +395,7 @@ public var isCancelled: Bool { get }
 - 当 `Timer` 创建完后，建议调用 `activate()` 方法开始运行。如果直接调用 `resume()` 也可以开始运行；
 - `suspend()`的时候，并不会停止当前正在执行的 event 事件，而是会停止下一次 event 事件；
 - `suspend()`和`resume()`需要成对出现，挂起一次，恢复一次，如果 `Timer` 开始运行后，在没有 `suspend()` 的时候，直接调用`resume()`，会导致 APP 崩溃；
-- 当 `Timer` 处于 `suspend` 的状态时，如果销毁 Timer 或其所属的控制器，会导致 APP 崩溃。
+- 当 `Timer` 处于 `suspend` 的状态时，如果销毁 `Timer` 或其所属的控制器，会导致 APP 崩溃。
 
 使用示例
 
