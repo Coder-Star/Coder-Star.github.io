@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言Hi Coder，我是 CoderStar！ mach_absolute_time12345678910let beginTime = mach_absolute_time()// do something...var baseInfo = mach_timebase_info_data_t(numer: 0, denom: 0)if mach_timebase_info(&amp;amp;baseI">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ Date 或 CFAbsoluteTimeGetCurrent() 返回网络时间同步的时钟时间。 mach_absolute_time() 和 CACurrentMediaTime() 是系统时间，是基于内建时钟的，能够更精确更原子化地测量， 并且不会因为外部时间变化而变化（例如时区变化、夏时制、秒突变等）, 但它和系统的 uptime 有关, 系">
 <meta name="keywords" content="iOS,时间">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS中的时间">
+<meta property="og:title" content="iOS 中的时间">
 <meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/iOS中的时间/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ mach_absolute_time12345678910let beginTime = mach_absolute_time()// do something...var baseInfo = mach_timebase_info_data_t(numer: 0, denom: 0)if mach_timebase_info(&amp;amp;baseI">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ Date 或 CFAbsoluteTimeGetCurrent() 返回网络时间同步的时钟时间。 mach_absolute_time() 和 CACurrentMediaTime() 是系统时间，是基于内建时钟的，能够更精确更原子化地测量， 并且不会因为外部时间变化而变化（例如时区变化、夏时制、秒突变等）, 但它和系统的 uptime 有关, 系">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-05T15:11:41.852Z">
+<meta property="og:updated_time" content="2021-11-06T09:38:57.228Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS中的时间">
-<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ mach_absolute_time12345678910let beginTime = mach_absolute_time()// do something...var baseInfo = mach_timebase_info_data_t(numer: 0, denom: 0)if mach_timebase_info(&amp;amp;baseI">
+<meta name="twitter:title" content="iOS 中的时间">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ Date 或 CFAbsoluteTimeGetCurrent() 返回网络时间同步的时钟时间。 mach_absolute_time() 和 CACurrentMediaTime() 是系统时间，是基于内建时钟的，能够更精确更原子化地测量， 并且不会因为外部时间变化而变化（例如时区变化、夏时制、秒突变等）, 但它和系统的 uptime 有关, 系">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/iOS中的时间/">
 
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>iOS中的时间 | CoderStar's Blog</title>
+  <title>iOS 中的时间 | CoderStar's Blog</title>
   
 
 
@@ -210,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          iOS中的时间
+          iOS 中的时间
         </h1>
 
         <div class="post-meta">
@@ -219,10 +219,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-11-05 07:45:27 / 修改时间：23:11:41" itemprop="dateCreated datePublished" datetime="2021-11-05T07:45:27+08:00">2021-11-05</time>
+              <time title="创建时间：2021-11-05 07:45:27" itemprop="dateCreated datePublished" datetime="2021-11-05T07:45:27+08:00">2021-11-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-06 17:38:57" itemprop="dateModified" datetime="2021-11-06T17:38:57+08:00">2021-11-06</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -250,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>419</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -270,8 +276,22 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<h2 id="mach-absolute-time"><a href="#mach-absolute-time" class="headerlink" title="mach_absolute_time"></a>mach_absolute_time</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let beginTime = mach_absolute_time()</span><br><span class="line"></span><br><span class="line">// do something...</span><br><span class="line"></span><br><span class="line">var baseInfo = mach_timebase_info_data_t(numer: 0, denom: 0)</span><br><span class="line">if mach_timebase_info(&amp;baseInfo) == KERN_SUCCESS &#123;</span><br><span class="line">    let finiTime = mach_absolute_time()</span><br><span class="line"></span><br><span class="line">    let nano = (finiTime - beginTime) * UInt64(baseInfo.numer) / UInt64(baseInfo.denom)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="mach-continuous-time"><a href="#mach-continuous-time" class="headerlink" title="mach_continuous_time()"></a>mach_continuous_time()</h3><h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><h2 id="CFAbsoluteTimeGetCurrent"><a href="#CFAbsoluteTimeGetCurrent" class="headerlink" title="CFAbsoluteTimeGetCurrent"></a>CFAbsoluteTimeGetCurrent</h2><h2 id="CACurrentMediaTime"><a href="#CACurrentMediaTime" class="headerlink" title="CACurrentMediaTime"></a>CACurrentMediaTime</h2><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Date 或 CFAbsoluteTimeGetCurrent() 返回网络时间同步的时钟时间。</p>
+<p>mach_absolute_time() 和 CACurrentMediaTime() 是系统时间，是基于内建时钟的，能够更精确更原子化地测量，</p>
+<p>并且不会因为外部时间变化而变化（例如时区变化、夏时制、秒突变等）, 但它和系统的 uptime 有关, 系统重启后 CACurrentMediaTime() 会被重置。</p>
+<p>NSDate 属于Foundation框架</p>
+<p>CFAbsoluteTimeGetCurrent（）属于CoreFoundation框架</p>
+<p>CACurrentMediaTime（）属于QuartzCore框架</p>
+<h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><h2 id="CFAbsoluteTimeGetCurrent"><a href="#CFAbsoluteTimeGetCurrent" class="headerlink" title="CFAbsoluteTimeGetCurrent"></a>CFAbsoluteTimeGetCurrent</h2><p>相当于<code>Date().timeIntervalSinceReferenceDate</code></p>
+<h3 id="gettimeofday"><a href="#gettimeofday" class="headerlink" title="gettimeofday"></a>gettimeofday</h3><h2 id="mach-absolute-time"><a href="#mach-absolute-time" class="headerlink" title="mach_absolute_time"></a>mach_absolute_time</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> beginTime = mach_absolute_time()</span><br><span class="line"></span><br><span class="line"><span class="comment">// do something...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> baseInfo = mach_timebase_info_data_t(numer: <span class="number">0</span>, denom: <span class="number">0</span>)</span><br><span class="line"><span class="keyword">if</span> mach_timebase_info(&amp;baseInfo) == <span class="type">KERN_SUCCESS</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> finiTime = mach_absolute_time()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> nano = (finiTime - beginTime) * <span class="type">UInt64</span>(baseInfo.numer) / <span class="type">UInt64</span>(baseInfo.denom)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回一个基于系统启动后的时钟嘀嗒数，是一个 CPU/ 总线依赖函数。在 macOS 上可以确保它的行为，并且它包含系统时钟所拥有的全部时间区域，精度达到纳秒级。</p>
+<p><strong>时钟嘀嗒数在每次手机重启后，都会重新开始计数，而且 iPhone 锁屏进入休眠之后，tick 也会暂停计数。</strong></p>
+<p>一般应用场景是 作为耗时的测量工具。</p>
+<p>不会受系统时间影响，只受设备重启和休眠行为影响。</p>
+<p>我们知道 mach_absolute_time() 在系统锁屏的时候是处于暂停状态，如果我们想统计包含锁屏时间，那么该如何处理呢？</p>
+<p>答案是 iOS 10 以后，官方为我们提供的<code>mach_continuous_time()</code>函数，供我们使用。</p>
+<h2 id="CACurrentMediaTime"><a href="#CACurrentMediaTime" class="headerlink" title="CACurrentMediaTime"></a>CACurrentMediaTime</h2><p>其实底层就是<code>mach_absolute_time()</code>，只不过将结果转换为了秒。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <ul>
 <li><a href="https://www.freesion.com/article/868922153/" target="_blank" rel="noopener">时间间隔</a></li>
@@ -408,7 +428,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mach-absolute-time"><span class="nav-number">2.</span> <span class="nav-text">mach_absolute_time</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mach-continuous-time"><span class="nav-number">2.1.</span> <span class="nav-text">mach_continuous_time()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date"><span class="nav-number">3.</span> <span class="nav-text">Date</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CFAbsoluteTimeGetCurrent"><span class="nav-number">4.</span> <span class="nav-text">CFAbsoluteTimeGetCurrent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CACurrentMediaTime"><span class="nav-number">5.</span> <span class="nav-text">CACurrentMediaTime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date"><span class="nav-number">2.</span> <span class="nav-text">Date</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CFAbsoluteTimeGetCurrent"><span class="nav-number">3.</span> <span class="nav-text">CFAbsoluteTimeGetCurrent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gettimeofday"><span class="nav-number">3.1.</span> <span class="nav-text">gettimeofday</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mach-absolute-time"><span class="nav-number">4.</span> <span class="nav-text">mach_absolute_time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CACurrentMediaTime"><span class="nav-number">5.</span> <span class="nav-text">CACurrentMediaTime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -489,12 +509,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">295k</span>
+    <span title="站点总字数">296k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:28</span>
+    <span title="站点阅读时长">4:29</span>
 </div>
 
         

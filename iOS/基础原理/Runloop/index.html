@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件). RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.    Entry 进入 BeforeTimers BeforeSources BeforeWaiting 准备进入休眠 AfterWaiting Exit 退">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 Runloop">
 <meta name="keywords" content="iOS,基础原理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Runloop">
 <meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/Runloop/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件). RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.    Entry 进入 BeforeTimers BeforeSources BeforeWaiting 准备进入休眠 AfterWaiting Exit 退">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 Runloop">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/runloop.png">
-<meta property="og:updated_time" content="2021-08-16T13:44:28.809Z">
+<meta property="og:updated_time" content="2021-11-06T08:53:00.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runloop">
-<meta name="twitter:description" content="RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件). RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.    Entry 进入 BeforeTimers BeforeSources BeforeWaiting 准备进入休眠 AfterWaiting Exit 退">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 Runloop">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/runloop.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/Runloop/">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-16 21:44:28" itemprop="dateModified" datetime="2021-08-16T21:44:28+08:00">2021-08-16</time>
+                <time title="修改时间：2021-11-06 16:53:00" itemprop="dateModified" datetime="2021-11-06T16:53:00+08:00">2021-11-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,14 +258,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -277,13 +277,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <ul>
-<li>RunLoop 本质上是一个对象,这个对象可以保持程序的持续运行并且处理程序中的各种事件(如触摸事件,定时器时间,selector 事件).</li>
-<li>RunLoop 没有事情处理时就会使线程进入睡眠状态.这样可以节省 CPU 资源,提高程序性能.</li>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>今天我们来看看<code>Runloop</code>，其实我们在实际开发过程中已经或多或少用到过这个了。</p>
+<p>其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。</p>
+<h2 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h2><ul>
+<li>RunLoop 本质上是一个对象, 这个对象可以保持程序的持续运行并且处理程序中的各种事件 (如触摸事件, 定时器时间,selector 事件).</li>
+<li>RunLoop 没有事情处理时就会使线程进入睡眠状态. 这样可以节省 CPU 资源, 提高程序性能.</li>
 </ul>
 <p><img src="../../../img/iOS/基础原理/runloop.png" alt="runloop.png"></p>
 <ul>
-<li>Entry 进入</li>
+<li>Timer：就是我们常用的<code>Timer</code>。</li>
+<li>Source0：</li>
+<li><p>Source1：</p>
+</li>
+<li><p>Entry 进入</p>
+</li>
 <li>BeforeTimers</li>
 <li>BeforeSources</li>
 <li>BeforeWaiting 准备进入休眠</li>
@@ -314,15 +322,15 @@
 </ul>
 <ul>
 <li>每一条线程都有一个 Runloop 对应；但 Runloop 可以嵌套子 Runloop。</li>
-<li>主线程的 Runloop 的对象系统已经自动帮我们创建好了,并且只有主线程结束时即程序结束时才会销毁；</li>
-<li>子线程的 Runloop 对象需要我们主动创建并维护,子线程的 Runloop 对象在第一次获取时就会创建,销毁则是在子线程结束时. 并且创建出来的 runLoop 对象默认是不开启的,必须手动开启 RunLoop；</li>
-<li>Runloop 并不保证线程安全,我们只能在当前线程内部操作当前线程的 Runloop 对象,而不能在当前线程中去操作其他线程的 RunLoop 对象；</li>
+<li>主线程的 Runloop 的对象系统已经自动帮我们创建好了, 并且只有主线程结束时即程序结束时才会销毁；</li>
+<li>子线程的 Runloop 对象需要我们主动创建并维护, 子线程的 Runloop 对象在第一次获取时就会创建, 销毁则是在子线程结束时. 并且创建出来的 runLoop 对象默认是不开启的, 必须手动开启 RunLoop；</li>
+<li>Runloop 并不保证线程安全, 我们只能在当前线程内部操作当前线程的 Runloop 对象, 而不能在当前线程中去操作其他线程的 RunLoop 对象；</li>
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取当前线程的RunLoop对象,在子线程中调用时如果是第一次获取内部会帮我们创建RunLoop对象</span></span><br><span class="line"><span class="keyword">let</span> runloop = <span class="type">RunLoop</span>.current</span><br><span class="line"><span class="comment">// 运行runloop</span></span><br><span class="line">runloop.run()</span><br></pre></td></tr></table></figure>
 <p>配合 CADisplayLink 监听 FPS，基本原理就是统计每一秒中 CADisplayLink 执行的次数就 OK 啦</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let displayLink = CADisplayLink(target: self, selector: #selector(displayLinkAction(displayLink:)))</span><br><span class="line">displayLink.add(to: .current, forMode: .common)</span><br></pre></td></tr></table></figure>
-<blockquote>
-</blockquote>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
 
     </div>
 
@@ -458,6 +466,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop"><span class="nav-number">2.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -538,12 +547,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">295k</span>
+    <span title="站点总字数">296k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:28</span>
+    <span title="站点阅读时长">4:29</span>
 </div>
 
         
