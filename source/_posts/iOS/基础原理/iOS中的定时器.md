@@ -321,7 +321,7 @@ extension FPSUtils {
 
 ## DispatchSourceTimer
 
-`DispatchSourceTimer`，也就是我们常说的`GCD Timer`，其不再依赖于 `Runloop`，而是依赖于 GCD，相反`Runloop`底层还会依赖`GCD`能力。
+`DispatchSourceTimer`，也就是我们常说的`GCD Timer`，其不再依赖于 `Runloop`，而是依赖于 `GCD`，相反`Runloop`底层还会依赖`GCD`能力。
 
 `DispatchSourceTimer`其实属于`DispatchSource`系列，`DispatchSource`可以帮我们监听系统底层一些对象的活动，除上述的`DispatchSourceTimer`之外还有`DispatchSourceSignal`(对应 Unix signal)、`DispatchSourceFileSystemObject`(对应 VFS node) 等等，并允许我们在这些活动发生时，向队列提交一个任务以进行异步处理。
 
@@ -333,7 +333,7 @@ extension FPSUtils {
 /// DispatchSource类
 
 /// 创建一个 DispatchSourceTimer
-/// TimerFlags类型目前已经一个为 strict，设置该falg会影响后续定时的准确性，
+/// TimerFlags类型目前已经一个为 strict，设置该flag会影响后续定时的准确性，
 /// 如果设置为 trict ，则系统会尽量按照预定时间进行计时，否则系统可以推迟定时器事件的传递以提高功耗和系统性能
 class func makeTimerSource(flags: DispatchSource.TimerFlags = [], queue: DispatchQueue? = nil) -> DispatchSourceTimer
 ```
