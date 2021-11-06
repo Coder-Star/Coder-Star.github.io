@@ -473,3 +473,5 @@ Let's be CoderStar!
 参考资料
 
 - [DispatchQueueTest](https://github.com/pmtao/DispatchQueueTest)
+- [libdispatch 下载地址](https://opensource.apple.com/tarballs/libdispatch/)
+- [libdispatch 查看地址](https://opensource.apple.com/source/libdispatch/)

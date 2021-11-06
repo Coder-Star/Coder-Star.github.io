@@ -354,7 +354,7 @@ public func schedule(wallDeadline: DispatchWallTime, repeating interval: Double,
 
 上述几个构造函数看起来很像，其实核心差别在几个参数对应结构之间的差别上：
 
-- `DispatchTime` 与 `DispatchWallTime`：含义为定时起止时间。前者表示一个相对时间，后者表示一个绝对时间，核心影响因素为系统休眠。举个🌰：设置为 1 个小时，期间系统休眠了，系统结束休眠后，第一个的触发时间会变成结束休眠的时刻再加上那 1 个小时，但是第二个计算的起始点还是原先设置的起始点，不受休眠影响。
+- `DispatchTime` 与 `DispatchWallTime`：含义为定时起止时间。`DispatchTime`底层使用的是`mach_absolute_time()`函数，`DispatchWallTime`底层使用的是`gettimeofday()`函数。上层结构的区别其实也就是下层结构的区别。主要区别其实是前者是一个相对时间会受到关机或者休眠的影响，而不受系统时间的影响，而后者则是一个绝对时间，会受到系统时间的影响。具体细节可以看下stackoverflow的回答--[what-does-dispatchwalltime-do-on-ios](https://stackoverflow.com/questions/51863940/what-does-dispatchwalltime-do-on-ios)。
 
 - `repeating`参数：一个参数类型为`DispatchTimeInterval`，一个为`Double`，其中前者可以设置成 `.never`，表示只执行一次，并且还可以设置成其他不同层级精度的数值，后者表示的单位为秒。
 
@@ -393,6 +393,7 @@ public var isCancelled: Bool { get }
 - 当 `Timer` 创建完后，建议调用 `activate()` 方法开始运行。如果直接调用 `resume()` 也可以开始运行；
 - `suspend()`的时候，并不会停止当前正在执行的 event 事件，而是会停止下一次 event 事件；
 - `suspend()`和`resume()`需要成对出现，挂起一次，恢复一次，如果 `Timer` 开始运行后，在没有 `suspend()` 的时候，直接调用`resume()`，会导致 APP 崩溃；
+- 当 `Timer` 处于 `suspend` 的状态时，如果销毁 Timer 或其所属的控制器，会导致 APP 崩溃。
 
 使用示例
 
