@@ -29,7 +29,7 @@
 <meta property="og:description" content="Core Animation：Core Graphics：UIkit：   Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。 Commit Transaction：此时 app 会通过 CPU 处理显示内容的前置计算，比如布局计算、图片解码等任务，接下来会进行详细的讲解。之后将计算好的图层进行打包发给 Render Server。 Decod">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/Core%20Animation%20Pipeline.jpeg">
-<meta property="og:updated_time" content="2021-11-07T00:18:08.981Z">
+<meta property="og:updated_time" content="2021-11-07T07:39:23.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 流程">
 <meta name="twitter:description" content="Core Animation：Core Graphics：UIkit：   Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。 Commit Transaction：此时 app 会通过 CPU 处理显示内容的前置计算，比如布局计算、图片解码等任务，接下来会进行详细的讲解。之后将计算好的图层进行打包发给 Render Server。 Decod">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-07 08:18:08" itemprop="dateModified" datetime="2021-11-07T08:18:08+08:00">2021-11-07</time>
+                <time title="修改时间：2021-11-07 15:39:23" itemprop="dateModified" datetime="2021-11-07T15:39:23+08:00">2021-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,6 +296,10 @@
 <p>注意正常情况下 Display 阶段只会得到图元 primitives 信息，而位图 bitmap 是在 GPU 中根据图元信息绘制得到的。但是如果重写了 drawRect: 方法，这个方法会直接调用 Core Graphics 绘制方法得到 bitmap 数据，同时系统会额外申请一块内存，用于暂存绘制好的 bitmap。<br>由于重写了  drawRect: 方法，导致绘制过程从 GPU 转移到了 CPU，这就导致了一定的效率损失。与此同时，这个过程会额外使用 CPU 和内存，因此需要高效绘制，否则容易造成 CPU 卡顿或者内存爆炸。</p>
 <p><strong>Prepare：Core Animation 额外的工作</strong><br>这一步主要是：图片解码和转换</p>
 <p><strong>Commit：打包并发送</strong><br>这一步主要是：图层打包并发送到 Render Server。<br>注意 commit 操作是依赖图层树递归执行的，所以如果图层树过于复杂，commit 的开销就会很大。这也是我们希望减少视图层级，从而降低图层树复杂度的原因。</p>
+<ul>
+<li><a href="http://chuquan.me/2018/08/26/graphics-rending-principle-gpu/" target="_blank" rel="noopener">计算机那些事(8)——图形图像渲染原理</a></li>
+<li><a href="https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/" target="_blank" rel="noopener">iOS 保持界面流畅的技巧</a></li>
+</ul>
 
     </div>
 
@@ -515,7 +519,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:29</span>
+    <span title="站点阅读时长">4:30</span>
 </div>
 
         
