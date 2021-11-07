@@ -189,13 +189,11 @@ Timer 会有一个`tolerance`属性 -- `时间宽容度`，指定该属性时意
 
 > 设置了 `tolerance` 的 `Timer`，对于 iOS 和 MacOS 系统，实质上会采用 `GCD timer` 的形式注册到内核中，`GCD timer` 触发后，再由 `RunLoop` 处理其回调逻辑。对于没有设置 `tolerance` 的 `timer`，则是用 `mk_timer` 的形式注册。
 
-`Timer`理论上最小精度为 **0.1 毫秒**。不过由于受 `Runloop` 的影响，会有 50 ~ 100 毫秒的误差，所以，实际精度可以认为是 0.1 秒。
+`Timer`理论上最小精度为 **0.1 毫秒**。从上述`interval`参数的默认值就能看出端倪，但是在实际开发中，因为线程处理以及`RunLoop`底层派发等方面因素，精度远远达不到理论精度，有效精度可能到**0.1秒**就不错了，日常开发还是尽量将`Timer`用在秒级单位计时场景下吧。
 
 **引申**
 
 当调用 `NSObject` 的 `performSelecter:afterDelay:` 方法，实际上其内部会创建一个 `Timer` 并添加到当前线程的 `RunLoop` 中。**所以如果当前线程没有 RunLoop，则这个方法会失效。**
-
-`performSelector:onThread:`方法同理。
 
 在编写这篇文章时发现了一个有意思的小玩意。
 
@@ -333,8 +331,8 @@ extension FPSUtils {
 /// DispatchSource类
 
 /// 创建一个 DispatchSourceTimer
-/// TimerFlags类型目前已经一个为 strict，设置该flag会影响后续定时的准确性，
-/// 如果设置为 trict ，则系统会尽量按照预定时间进行计时，否则系统可以推迟定时器事件的传递以提高功耗和系统性能
+/// TimerFlags类型目前只有一个为 strict，设置该flag会影响后续定时的准确性，
+/// 如果设置为 strict ，则系统会尽量按照预定时间进行计时，否则系统可以推迟定时器事件的传递以提高功耗和系统性能
 class func makeTimerSource(flags: DispatchSource.TimerFlags = [], queue: DispatchQueue? = nil) -> DispatchSourceTimer
 ```
 
@@ -425,3 +423,4 @@ Let's be CoderStar!
 - [Mach Absolute Time Units](https://developer.apple.com/library/archive/qa/qa1398/_index.html)
 - [iOS开发之三大计时器（Timer、DispatchSourceTimer、CADisplayLink）](https://blog.csdn.net/guoyongming925/article/details/110224064)
 - [从 RunLoop 源码探索 NSTimer 的实现原理（iOS）](https://toutiao.io/posts/4330zh/preview)
+- [Timer Programming Topics](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Timers/Articles/timerConcepts.html)

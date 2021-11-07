@@ -139,6 +139,8 @@ iOS 平台中， `dSYM` 文件是指具有调试信息的目标文件，dSYM 中
 
 一般情况下我们`Debug环境下`使用`DWARF`方式，方便我们进行调试，那对于`Release`环境我们使用第二种方式，选择第二种方式便可以将符号表从二进制文件中进行剥离，改为使用 dSYM 文件进行存储。开启之后我们就可以在 Xcode 打包出来的文件 xcarchive 里面看到它。另外，如果开启了 bitcode 优化的话，苹果会做二次编译优化，所以最终的 dSYM 就需要在 Apple Connect 手动下载了。
 
+> 对于开启`bitcode`优化的dysm文件，如果我们不进行处理，解析出来的符号会是`hidden#9276`这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。`xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM`
+
 dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对 dSYM 文件的备份保存是非常必要的。
 
 > 虽然没有dSYM 文件时也有其他办法（可见[详解没有dSYM文件 如何解析iOS崩溃日志](https://www.cnblogs.com/ciml/p/7422872.html)）可以帮助我们将Crash抓出来，但是还是不如有dSYM文件时来的简单快捷。

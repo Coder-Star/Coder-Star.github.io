@@ -8,6 +8,11 @@ tags:
 date: 2021-08-15 19:03:40
 ---
 
+`Core Animation`：
+`Core Graphics`：
+`UIkit`：
+
+
 ![Core Animation Pipeline](../../../../img/iOS/UI/iOS页面渲染/Core%20Animation%20Pipeline.jpeg)
 
 * Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。

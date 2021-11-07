@@ -26,7 +26,9 @@ Hi Coder，我是 CoderStar！
 
 - Timer：就是我们常用的`Timer`。
 - Source0：
-- Source1：
+- Source1：底层基于手势、
+
+Runloop可供Observe的阶段
 
 - Entry 进入
 - BeforeTimers
@@ -85,3 +87,5 @@ displayLink.add(to: .current, forMode: .common)
 要更加努力呀！
 
 Let's be CoderStar!
+
+- [深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop)
