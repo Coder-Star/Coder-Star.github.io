@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/atos_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/DSYMTools_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/symbolicatecrash_xcode.png">
-<meta property="og:updated_time" content="2021-10-07T06:03:28.577Z">
+<meta property="og:updated_time" content="2021-11-07T04:17:13.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 符号化浅析">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-07 14:03:28" itemprop="dateModified" datetime="2021-10-07T14:03:28+08:00">2021-10-07</time>
+                <time title="修改时间：2021-11-07 12:17:13" itemprop="dateModified" datetime="2021-11-07T12:17:13+08:00">2021-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,7 +264,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.7k</span>
+              <span>8.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -359,6 +359,9 @@
 <li><code>DWARF DWARF With dSYM File</code></li>
 </ul>
 <p>一般情况下我们<code>Debug环境下</code>使用<code>DWARF</code>方式，方便我们进行调试，那对于<code>Release</code>环境我们使用第二种方式，选择第二种方式便可以将符号表从二进制文件中进行剥离，改为使用 dSYM 文件进行存储。开启之后我们就可以在 Xcode 打包出来的文件 xcarchive 里面看到它。另外，如果开启了 bitcode 优化的话，苹果会做二次编译优化，所以最终的 dSYM 就需要在 Apple Connect 手动下载了。</p>
+<blockquote>
+<p>对于开启<code>bitcode</code>优化的dysm文件，如果我们不进行处理，解析出来的符号会是<code>hidden#9276</code>这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。<code>xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM</code></p>
+</blockquote>
 <p>dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对 dSYM 文件的备份保存是非常必要的。</p>
 <blockquote>
 <p>虽然没有dSYM 文件时也有其他办法（可见<a href="https://www.cnblogs.com/ciml/p/7422872.html" target="_blank" rel="noopener">详解没有dSYM文件 如何解析iOS崩溃日志</a>）可以帮助我们将Crash抓出来，但是还是不如有dSYM文件时来的简单快捷。</p>
