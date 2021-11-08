@@ -54,7 +54,7 @@ public init?(suiteName suitename: String?)
 
 ### `UserDefaults`的存储范围
 
-因为`UserDefaults`底层使用的`plist`文件，所以`plist`文件支持的数据类型就是`UserDefaults`的存储范围，其中包括`Array`、`Data`、`Dictionary`、`String`、`Int`、`Bool`、`Float`、`Double`、`Date`等基础数据类型。并且对于`Array`、`Dictionary`这两个容器对象，其包含的内容也必须是上述类型，并且`Dictionary`的key必须是`String`类型。
+因为`UserDefaults`底层使用的`plist`文件，所以`plist`文件支持的数据类型就是`UserDefaults`的存储范围，其中包括`Array`、`Data`、`Dictionary`、`String`、`Int`、`Bool`、`Float`、`Double`、`Date`等基础数据类型。并且对于`Array`、`Dictionary`这两个容器对象，其包含的内容也必须是上述类型，并且`Dictionary`的 key 必须是`String`类型。
 
 对于不是基本数据类型的数据结构，需要自己通过`JSONEncoder`、`NSKeyedArchiver`等方式将其转换为 Data，然后再将其存入`UserDefaults`中。
 
@@ -106,6 +106,8 @@ open func synchronize() -> Bool
 ```
 
 > 本质上，我们是可以通过文件操作的方式对 `UserDefaults` 的最终产物 `plist` 文件进行操作的，但这是有风险的，最好不要这么操作。
+
+> 其实 iOS 的`UserDefaults`和 Android 的`SharedPreferences`两者很像，都分为内存、磁盘两级存储，其中Android磁盘使用的是XML形式存储，内存使用的是HashMap结构。而iOS磁盘使用的是plist文件，其本质其实还是一个XML文件，而内存使用的是C实现结构体，源码可见[UserDefaults底层存储结构](https://github.com/apple/swift-corelibs-foundation/blob/34887cb/CoreFoundation/Base.subproj/ForFoundationOnly.h#L193)
 
 ## 使用管理
 
