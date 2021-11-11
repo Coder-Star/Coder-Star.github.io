@@ -107,7 +107,31 @@ open func synchronize() -> Bool
 
 > 本质上，我们是可以通过文件操作的方式对 `UserDefaults` 的最终产物 `plist` 文件进行操作的，但这是有风险的，最好不要这么操作。
 
-> 其实 iOS 的`UserDefaults`和 Android 的`SharedPreferences`两者很像，都分为内存、磁盘两级存储，其中Android磁盘使用的是XML形式存储，内存使用的是HashMap结构。而iOS磁盘使用的是plist文件，其本质其实还是一个XML文件，而内存使用的是C实现结构体，源码可见[UserDefaults底层存储结构](https://github.com/apple/swift-corelibs-foundation/blob/34887cb/CoreFoundation/Base.subproj/ForFoundationOnly.h#L193)
+### `UserDefaults`中的`domain`
+
+`UserDefaults`中存在了域的概念，按照搜索顺序依次为：
+
+- NSArgumentDomain：代表的是命令行参数，可以在`Edit Scheme->Arguments->Arguments Passed On Launch`中添加，格式是`-key value`；
+- Application：应用程序域，设置的方法默认数据保存是在这里，名字为 APP 的`Bundle Identifier`；
+- NSGlobalDomain：全局域，所有应用程序都将公用该域；
+- Languages：国际化语言版本域；
+- NSRegistrationDomain：临时域，`registerDefaults` 相关方法被调用是数据是保存在这里。
+
+我们可以利用读取时的搜索顺序，做一些实际应用，比如说有些环境变量存储在`UserDefaults`，比如说主题色，因为`NSArgumentDomain`比`Application`先搜索，我们就可以在`Arguments Passed On Launch`配置，避免进行切换。
+
+### 源码查看
+
+> 其实 iOS 的`UserDefaults`和 Android 的`SharedPreferences`两者很像，都分为内存、磁盘两级存储，其中 Android 磁盘使用的是 XML 形式存储，内存使用的是 HashMap 结构。而 iOS 磁盘使用的是 plist 文件，其本质其实还是一个 XML 文件，而内存使用的是 C 实现结构体。
+
+并且`UserDefaults`是线程安全的，存值时加锁的方式为 CF 对象加锁。
+
+相关源码关键函数
+
+- [UserDefaults.swift](https://github.com/apple/swift-corelibs-foundation/blob/34887cb261/Sources/Foundation/UserDefaults.swift)
+- [_CFApplicationPreferencesSet 存](https://github.com/apple/swift-corelibs-foundation/blob/f43d45dff240824310d5dc25039dd41f1df2f59c/CoreFoundation/Preferences.subproj/CFApplicationPreferences.c#L326)
+- [_CFApplicationPreferencesCreateValueForKey2 取](https://github.com/apple/swift-corelibs-foundation/blob/f43d45dff240824310d5dc25039dd41f1df2f59c/CoreFoundation/Preferences.subproj/CFApplicationPreferences.c#L311)
+
+- [UserDefaults底层存储结构](https://github.com/apple/swift-corelibs-foundation/blob/34887cb/CoreFoundation/Base.subproj/ForFoundationOnly.h#L193)
 
 ## 使用管理
 

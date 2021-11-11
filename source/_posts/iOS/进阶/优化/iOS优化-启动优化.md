@@ -34,7 +34,7 @@ date: 2021-02-05 22:03:03
      - 初始化 Objective-C Runtime（包括 ObjC 相关 Class 的注册、category 注册、selector 唯一性检查等），category 注册会将 category 定义的方法插入到主类中。
    - initializer
      - 调用 ObjC 的 +load 函数
-     - 执行声明为 attribute((constructor)) 的 C/C++ 函数
+     - 执行声明为 __attribute__((constructor)) 的 C/C++ 函数
      - 创建 C++ 静态全局变量
 ### 调用 `main` 函数执行。（main -> applicationDidFinishLaunching）
   该阶段是指 main 函数执行之后到 AppDelegate 类中的 applicationDidFinishLaunching:withOptions: 方法执行结束前这段时间。

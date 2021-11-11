@@ -91,7 +91,6 @@ public convenience init(label: String,
 
 该类属性其实都表示服务质量等级，相关具体细节可查看[Prioritize Work with Quality of Service Classes](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1)
 
-
 ### 方法、属性
 
 ```swift
@@ -461,6 +460,14 @@ func doSomething() {
     // doSomething
 }
 ```
+
+### 线程数
+
+GCD 的全局队列会自动将线程数量限制在一个比较合理的数量，比如CPU比较忙，线程数量会比较少，比如比较闲，线程数量会比较多，最多为 **64** 个。
+
+与之相比，自建队列创建的线程数量会偏大，最多为**512**个。
+
+[从一道面试题分析 GCD 的常见使用误区](https://mp.weixin.qq.com/s/RPORluWdu5Uuc3M6kWoZNg)
 
 ## 最后
 
