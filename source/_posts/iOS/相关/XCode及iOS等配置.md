@@ -77,6 +77,8 @@ Xcode 代码片段路径
 - Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8 之前 Swift 环境下的条件编译变量，加上`-D XXX`
 - Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8 之后 Swift 环境下的条件编译变量，一般 Debug 模式下会配置 DEBUG，这样才可以使用 #if DEBUG 的写法，不需要加 D；
 
+Swift 内置了几种平台和架构的组合，如下所示，当然我们也可通过上述方式进行自定义配置
+
 ```swift
 // 操作系统: macOS\iOS\tvOS\watchOS\Linux\Android\Windows\FreeBSD
 #if os(macOS) || os(iOS)
@@ -88,7 +90,7 @@ Xcode 代码片段路径
 #elseif swift(<5) && swift(>=3)
 
 // 模拟器
-#elseif targetEnvironment(simulator) 
+#elseif targetEnvironment(simulator)
 
 // 可以导入某模块
 #elseif canImport(Foundation)
@@ -98,10 +100,6 @@ Xcode 代码片段路径
 #endif
 
 ```
-
-Swift内置了几种平台和架构的组合
-
-- 
 
 **通用**
 
