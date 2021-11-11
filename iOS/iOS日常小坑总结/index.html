@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="iOS 请求权限回调，第一次用户选择时回调会发生在非主线程，如果在回调中进行 UI 操作，请注意切换到主线程。  Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB，  WkWebview 字体过小，注入一段 js var meta = document.createElement">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-04T11:12:38.410Z">
+<meta property="og:updated_time" content="2021-11-11T09:57:55.246Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 日常小坑总结">
 <meta name="twitter:description" content="iOS 请求权限回调，第一次用户选择时回调会发生在非主线程，如果在回调中进行 UI 操作，请注意切换到主线程。  Xib 设置设置颜色使用的色域是 Generic RGB，而 API 设置颜色以及吸色计等大部分都是使用的 sRGB，所以我们需要注意将 xib 的色域换成 sRGB，  WkWebview 字体过小，注入一段 js var meta = document.createElement">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-04 19:12:38" itemprop="dateModified" datetime="2021-11-04T19:12:38+08:00">2021-11-04</time>
+                <time title="修改时间：2021-11-11 17:57:55" itemprop="dateModified" datetime="2021-11-11T17:57:55+08:00">2021-11-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,6 +300,7 @@
 <li>UILabel设置渐变色后，文字看不见，建议换成UIButton；</li>
 <li>UILabel设置frame如果数值不为整数时，可能会有一个灰边。</li>
 <li>UILabel调整基线准值，会导致不换行。</li>
+<li>子vc也会影响父vc的导航栏样式</li>
 </ul>
 
     </div>
@@ -516,12 +517,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">298k</span>
+    <span title="站点总字数">299k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:31</span>
+    <span title="站点阅读时长">4:32</span>
 </div>
 
         
