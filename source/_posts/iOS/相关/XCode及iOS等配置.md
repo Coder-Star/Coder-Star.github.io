@@ -74,8 +74,34 @@ Xcode 代码片段路径
   - -force_load 跟 all_load 作用类似，但是需要指定要进行全部加载的库文件的路径
 
 - Preprocessor Macros(GCC_PREPROCESSOR_DEFINITIONS)：OC 环境的宏定义，一般 Debug 模式下会配置 DEBUG=1，这样才可以使用 #if DEBUG 的写法
-- Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8 之后 Swift 环境下的条件编译变量，加上`-D XXX`
+- Other Swift Flags(OTHER_SWIFT_FLAGS)：Xcode8 之前 Swift 环境下的条件编译变量，加上`-D XXX`
 - Active Compilation Conditions(SWIFT_ACTIVE_COMPILATION_CONDITIONS)：Xcode8 之后 Swift 环境下的条件编译变量，一般 Debug 模式下会配置 DEBUG，这样才可以使用 #if DEBUG 的写法，不需要加 D；
+
+```swift
+// 操作系统: macOS\iOS\tvOS\watchOS\Linux\Android\Windows\FreeBSD
+#if os(macOS) || os(iOS)
+
+// CPU架构:i386\x86_64\arm\arm64
+#elseif arch(x86_64) || arch(arm64)
+
+// swift版本
+#elseif swift(<5) && swift(>=3)
+
+// 模拟器
+#elseif targetEnvironment(simulator) 
+
+// 可以导入某模块
+#elseif canImport(Foundation)
+
+#elseif DEBUG
+
+#endif
+
+```
+
+Swift内置了几种平台和架构的组合
+
+- 
 
 **通用**
 
