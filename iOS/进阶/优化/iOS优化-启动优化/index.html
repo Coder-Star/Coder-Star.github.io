@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-08-14T00:51:24.210Z">
+<meta property="og:updated_time" content="2021-11-08T13:54:25.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-14 08:51:24" itemprop="dateModified" datetime="2021-08-14T08:51:24+08:00">2021-08-14</time>
+                <time title="修改时间：2021-11-08 21:54:25" itemprop="dateModified" datetime="2021-11-08T21:54:25+08:00">2021-11-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -298,7 +298,7 @@
 </li>
 <li>initializer<ul>
 <li>调用 ObjC 的 +load 函数</li>
-<li>执行声明为 attribute((constructor)) 的 C/C++ 函数</li>
+<li>执行声明为 <strong>attribute</strong>((constructor)) 的 C/C++ 函数</li>
 <li>创建 C++ 静态全局变量<h3 id="调用-main-函数执行。（main-gt-applicationDidFinishLaunching）"><a href="#调用-main-函数执行。（main-gt-applicationDidFinishLaunching）" class="headerlink" title="调用 main 函数执行。（main -&gt; applicationDidFinishLaunching）"></a>调用 <code>main</code> 函数执行。（main -&gt; applicationDidFinishLaunching）</h3>该阶段是指 main 函数执行之后到 AppDelegate 类中的 applicationDidFinishLaunching:withOptions: 方法执行结束前这段时间。<br>这是 APP 启动优化的重点</li>
 </ul>
 </li>
@@ -502,7 +502,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">112</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -567,12 +567,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">297k</span>
+    <span title="站点总字数">298k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:30</span>
+    <span title="站点阅读时长">4:31</span>
 </div>
 
         

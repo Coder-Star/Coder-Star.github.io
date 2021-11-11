@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="shell基础$()与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非0表示执行出错 123456-eq //equals等于-ne //no equals不等于-gt //greater">
+  <meta name="description" content="shell 基础$() 与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非 0 表示执行出错 判断整数">
 <meta name="keywords" content="shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shell笔记">
+<meta property="og:title" content="Shell 笔记">
 <meta property="og:url" content="https://coder-star.github.io/杂项/Shell笔记/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="shell基础$()与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非0表示执行出错 123456-eq //equals等于-ne //no equals不等于-gt //greater">
+<meta property="og:description" content="shell 基础$() 与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非 0 表示执行出错 判断整数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-10-23T16:06:36.901Z">
+<meta property="og:updated_time" content="2021-11-08T14:07:50.723Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shell笔记">
-<meta name="twitter:description" content="shell基础$()与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非0表示执行出错 123456-eq //equals等于-ne //no equals不等于-gt //greater">
+<meta name="twitter:title" content="Shell 笔记">
+<meta name="twitter:description" content="shell 基础$() 与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非 0 表示执行出错 判断整数">
 
 <link rel="canonical" href="https://coder-star.github.io/杂项/Shell笔记/">
 
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>Shell笔记 | CoderStar's Blog</title>
+  <title>Shell 笔记 | CoderStar's Blog</title>
   
 
 
@@ -210,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Shell笔记
+          Shell 笔记
         </h1>
 
         <div class="post-meta">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-24 00:06:36" itemprop="dateModified" datetime="2021-10-24T00:06:36+08:00">2021-10-24</time>
+                <time title="修改时间：2021-11-08 22:07:50" itemprop="dateModified" datetime="2021-11-08T22:07:50+08:00">2021-11-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,7 +252,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>622</span>
+              <span>831</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -271,16 +271,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="shell基础"><a href="#shell基础" class="headerlink" title="shell基础"></a>shell基础</h2><p>$()与<code>`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如RESULT=</code>cat main.swift`，就可以将main.swift中的内容作为字符串赋值给变量RESULT。</p>
+        <h2 id="shell-基础"><a href="#shell-基础" class="headerlink" title="shell 基础"></a>shell 基础</h2><p>$() 与<code>`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=</code>cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。</p>
 <p><code>$</code>与<code>${}</code>都是用来获取变量内容的</p>
-<p><code>$?</code> 来获取上条代码返回值，一般退出状态非0表示执行出错</p>
+<p><code>$?</code> 来获取上条代码返回值，一般退出状态非 0 表示执行出错</p>
+<p>判断整数</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-eq //equals等于</span><br><span class="line">-ne //no equals不等于</span><br><span class="line">-gt //greater than 大于</span><br><span class="line">-lt //less than小于</span><br><span class="line">-ge //greater equals大于等于</span><br><span class="line">-le //less equals小于等于</span><br></pre></td></tr></table></figure>
-<h2 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h2><p>判断上行代码是否执行成功，如果命令执行成功，则返回0，否则返回1<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 上一行命令执行结果不为0，表示执行失败</span></span><br><span class="line">if [ $? -ne 0 ]; then</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
-<p>判断文件是否存在<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if [ -f "$IPA_FILE" ] ; then</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></p>
-<p>获取当前路径<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CURRENT_PATH=$(cd "$(dirname "$0")";pwd)</span><br><span class="line"></span><br><span class="line">CURRENT_PATH=$(dirname $(readlink -f $0 ))</span><br></pre></td></tr></table></figure></p>
-<h2 id="sed命令"><a href="#sed命令" class="headerlink" title="sed命令"></a>sed命令</h2><p>unix与linux在执行sed指令时有些许区别，当使用sed -i 命令时，需要在-i指令后面多加一段 “”, 即 <code>sed -i &quot;&quot; &quot;s/192.168.0.2/192.168.0.3/g&quot; filePath</code></p>
-<h2 id="curl命令"><a href="#curl命令" class="headerlink" title="curl命令"></a>curl命令</h2><h2 id="shell好用工具"><a href="#shell好用工具" class="headerlink" title="shell好用工具"></a>shell好用工具</h2><ul>
-<li>jq：shell下处理json神器，mac安装命令 <code>brew install jq</code></li>
+<p>文件描述符是与打开文件或者数据流相关联的整数，0、1、2 是系统保留的三个文件描述符，分别对应标准输入（stdin）、标准输出（stdout）、标准错误（stderr）。Linux Shell 使用 “ &gt; “ “&gt;&gt;” 进行对文件描述符进行重定位。</p>
+<p><code>RESULT=$(git rev-parse --is-inside-work-tree 2&gt;&amp;1)</code></p>
+<p><code>2&gt;&amp;1</code>  将原先标准错误调整到标准输出</p>
+<h2 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h2><p>判断上行代码是否执行成功，如果命令执行成功，则返回 0，否则返回 1</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 上一行命令执行结果不为0，表示执行失败</span></span><br><span class="line">if [ $? -ne 0 ]; then</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>判断文件是否存在</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if [ -f "$IPA_FILE" ] ; then</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>获取当前路径</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CURRENT_PATH=$(cd "$(dirname "$0")";pwd)</span><br><span class="line"></span><br><span class="line">CURRENT_PATH=$(dirname $(readlink -f $0 ))</span><br></pre></td></tr></table></figure>
+<h2 id="sed-命令"><a href="#sed-命令" class="headerlink" title="sed 命令"></a>sed 命令</h2><p>unix 与 linux 在执行 sed 指令时有些许区别，当使用 sed -i 命令时，需要在 -i 指令后面多加一段 “”, 即 <code>sed -i &quot;&quot; &quot;s/192.168.0.2/192.168.0.3/g&quot; filePath</code></p>
+<h2 id="curl-命令"><a href="#curl-命令" class="headerlink" title="curl 命令"></a>curl 命令</h2><h2 id="shell-好用工具"><a href="#shell-好用工具" class="headerlink" title="shell 好用工具"></a>shell 好用工具</h2><ul>
+<li>jq：shell 下处理 json 神器，mac 安装命令 <code>brew install jq</code></li>
 </ul>
 
     </div>
@@ -416,7 +423,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shell基础"><span class="nav-number">1.</span> <span class="nav-text">shell基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码段"><span class="nav-number">2.</span> <span class="nav-text">代码段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sed命令"><span class="nav-number">3.</span> <span class="nav-text">sed命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#curl命令"><span class="nav-number">4.</span> <span class="nav-text">curl命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell好用工具"><span class="nav-number">5.</span> <span class="nav-text">shell好用工具</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-基础"><span class="nav-number">1.</span> <span class="nav-text">shell 基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码段"><span class="nav-number">2.</span> <span class="nav-text">代码段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sed-命令"><span class="nav-number">3.</span> <span class="nav-text">sed 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#curl-命令"><span class="nav-number">4.</span> <span class="nav-text">curl 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-好用工具"><span class="nav-number">5.</span> <span class="nav-text">shell 好用工具</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -432,7 +439,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">112</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -497,12 +504,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">297k</span>
+    <span title="站点总字数">298k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:30</span>
+    <span title="站点阅读时长">4:31</span>
 </div>
 
         

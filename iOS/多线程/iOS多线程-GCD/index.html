@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 — GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/多线程/GCD.png">
-<meta property="og:updated_time" content="2021-11-06T09:06:28.521Z">
+<meta property="og:updated_time" content="2021-11-10T14:41:12.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 多线程 -GCD">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天给大家带来多线程系列的第二篇文章 — GCD，其大概率是我们在使用多线程时最常用的方式了。 GCD 全称是 Grand Central Dispatch，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-06 17:06:28" itemprop="dateModified" datetime="2021-11-06T17:06:28+08:00">2021-11-06</time>
+                <time title="修改时间：2021-11-10 22:41:12" itemprop="dateModified" datetime="2021-11-10T22:41:12+08:00">2021-11-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.5k</span>
+              <span>9.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -450,6 +450,9 @@
 </blockquote>
 <p>其实信号量本质是控制最大并发数，但是可以利用其特性可以实现类似互斥锁的功能，如：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> semaphore = <span class="type">DispatchSemaphore</span>(value: <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    semaphare.wait()</span><br><span class="line">    <span class="keyword">defer</span> &#123;</span><br><span class="line">     semaphare.signal()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// doSomething</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="线程数"><a href="#线程数" class="headerlink" title="线程数"></a>线程数</h3><p>GCD 的全局队列会自动将线程数量限制在一个比较合理的数量，比如CPU比较忙，线程数量会比较少，比如比较闲，线程数量会比较多，最多为 <strong>64</strong> 个。</p>
+<p>与之相比，自建队列创建的线程数量会偏大，最多为<strong>512</strong>个。</p>
+<p><a href="https://mp.weixin.qq.com/s/RPORluWdu5Uuc3M6kWoZNg" target="_blank" rel="noopener">从一道面试题分析 GCD 的常见使用误区</a></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>GCD 中还有一些知识点没有讲到，如<code>DispatchSource</code>、<code>DispatchIO</code>、<code>DispatchData</code>，以及在定时器中的应用等等，后面可能还会再写一个续篇。</p>
 <p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
@@ -595,7 +598,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">2.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法、属性"><span class="nav-number">2.2.</span> <span class="nav-text">方法、属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列"><span class="nav-number">2.3.</span> <span class="nav-text">串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行队列"><span class="nav-number">2.4.</span> <span class="nav-text">并行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主队列"><span class="nav-number">2.5.</span> <span class="nav-text">主队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局并行队列"><span class="nav-number">2.6.</span> <span class="nav-text">全局并行队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-number">3.</span> <span class="nav-text">任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步任务"><span class="nav-number">3.1.</span> <span class="nav-text">同步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步任务"><span class="nav-number">3.2.</span> <span class="nav-text">异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏函数"><span class="nav-number">4.</span> <span class="nav-text">栅栏函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchWorkItem"><span class="nav-number">5.</span> <span class="nav-text">DispatchWorkItem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务组"><span class="nav-number">6.</span> <span class="nav-text">任务组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-number">7.</span> <span class="nav-text">信号量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">8.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#队列"><span class="nav-number">2.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法、属性"><span class="nav-number">2.2.</span> <span class="nav-text">方法、属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串行队列"><span class="nav-number">2.3.</span> <span class="nav-text">串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并行队列"><span class="nav-number">2.4.</span> <span class="nav-text">并行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主队列"><span class="nav-number">2.5.</span> <span class="nav-text">主队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局并行队列"><span class="nav-number">2.6.</span> <span class="nav-text">全局并行队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-number">3.</span> <span class="nav-text">任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步任务"><span class="nav-number">3.1.</span> <span class="nav-text">同步任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步任务"><span class="nav-number">3.2.</span> <span class="nav-text">异步任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#栅栏函数"><span class="nav-number">4.</span> <span class="nav-text">栅栏函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DispatchWorkItem"><span class="nav-number">5.</span> <span class="nav-text">DispatchWorkItem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务组"><span class="nav-number">6.</span> <span class="nav-text">任务组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-number">7.</span> <span class="nav-text">信号量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程数"><span class="nav-number">7.1.</span> <span class="nav-text">线程数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">8.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -611,7 +614,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">112</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -676,12 +679,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">297k</span>
+    <span title="站点总字数">298k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:30</span>
+    <span title="站点阅读时长">4:31</span>
 </div>
 
         

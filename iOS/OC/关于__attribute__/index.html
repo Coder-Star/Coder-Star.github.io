@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 建造者模式其实在java中非常常用。">
-<meta name="keywords" content="标签1,标签2">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ attribute((format(archetype, string-index, first-to-check)))第一参数需要传递 archetype 指定是哪种风格，这里是 NSString；string-index 指定传入函数的第几个参数是格式化字符串；first-to-check 指定第一个可变参数所在的索引。 attribute((">
+<meta name="keywords" content="iOS,OC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式-建造者模式">
-<meta property="og:url" content="https://coder-star.github.io/设计模式/设计模式-建造者模式/index.html">
+<meta property="og:title" content="关于__attribute__">
+<meta property="og:url" content="https://coder-star.github.io/iOS/OC/关于__attribute__/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 建造者模式其实在java中非常常用。">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ attribute((format(archetype, string-index, first-to-check)))第一参数需要传递 archetype 指定是哪种风格，这里是 NSString；string-index 指定传入函数的第几个参数是格式化字符串；first-to-check 指定第一个可变参数所在的索引。 attribute((">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-10-16T07:22:44.194Z">
+<meta property="og:updated_time" content="2021-11-08T14:00:14.602Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式-建造者模式">
-<meta name="twitter:description" content="建造者模式应用场景： 当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。 代码示例在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate 建造者模式其实在java中非常常用。">
+<meta name="twitter:title" content="关于__attribute__">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ attribute((format(archetype, string-index, first-to-check)))第一参数需要传递 archetype 指定是哪种风格，这里是 NSString；string-index 指定传入函数的第几个参数是格式化字符串；first-to-check 指定第一个可变参数所在的索引。 attribute((">
 
-<link rel="canonical" href="https://coder-star.github.io/设计模式/设计模式-建造者模式/">
+<link rel="canonical" href="https://coder-star.github.io/iOS/OC/关于__attribute__/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>设计模式-建造者模式 | CoderStar's Blog</title>
+  <title>关于__attribute__ | CoderStar's Blog</title>
   
 
 
@@ -197,7 +197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/设计模式/设计模式-建造者模式/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/OC/关于__attribute__/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -210,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          设计模式-建造者模式
+          关于__attribute__
         </h1>
 
         <div class="post-meta">
@@ -219,27 +219,21 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-08-15 16:31:42" itemprop="dateCreated datePublished" datetime="2021-08-15T16:31:42+08:00">2021-08-15</time>
+              <time title="创建时间：2021-11-08 21:57:18 / 修改时间：22:00:14" itemprop="dateCreated datePublished" datetime="2021-11-08T21:57:18+08:00">2021-11-08</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-16 15:22:44" itemprop="dateModified" datetime="2021-10-16T15:22:44+08:00">2021-10-16</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/父分类/" itemprop="url" rel="index"><span itemprop="name">父分类</span></a>
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/父分类/子分类/" itemprop="url" rel="index"><span itemprop="name">子分类</span></a>
+                  <a href="/categories/iOS/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
                 </span>
             </span>
 
@@ -256,7 +250,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.2k</span>
+              <span>271</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -275,11 +269,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><p>应用场景：</p>
-<p>当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。</p>
-<p>代码示例<br>在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate</p>
-<p>建造者模式其实在java中非常常用。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> user = <span class="type">LoginUserBuilder</span>(loginName: <span class="string">"loginName"</span>, password: <span class="string">"password"</span>)</span><br><span class="line">            .setAge(age: <span class="string">"18"</span>)</span><br><span class="line">            .setSex(age: <span class="string">"男"</span>)</span><br><span class="line">            .build()</span><br><span class="line">        <span class="built_in">print</span>(user)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginUser</span>: <span class="title">CustomStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 登录名 必填</span></span><br><span class="line">    <span class="keyword">var</span> loginName: <span class="type">String</span></span><br><span class="line">    <span class="comment">/// 密码 必填</span></span><br><span class="line">    <span class="keyword">var</span> password: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 年龄 不必填</span></span><br><span class="line">    <span class="keyword">var</span> age = <span class="string">""</span></span><br><span class="line">    <span class="comment">/// 性别 不必填</span></span><br><span class="line">    <span class="keyword">var</span> sex = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">fileprivate</span> <span class="keyword">init</span>(builder: <span class="type">LoginUserBuilder</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.loginName = builder.loginName</span><br><span class="line">        <span class="keyword">self</span>.password = builder.password</span><br><span class="line">        <span class="keyword">self</span>.age = builder.age</span><br><span class="line">        <span class="keyword">self</span>.sex = builder.sex</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"\(loginName) + \(password) + \(age) + \(sex)"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LoginUserBuilder</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 登录名 必填</span></span><br><span class="line">    <span class="keyword">var</span> loginName: <span class="type">String</span></span><br><span class="line">    <span class="comment">/// 密码 必填</span></span><br><span class="line">    <span class="keyword">var</span> password: <span class="type">String</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 年龄 不必填</span></span><br><span class="line">    <span class="keyword">var</span> age = <span class="string">""</span></span><br><span class="line">    <span class="comment">/// 性别 不必填</span></span><br><span class="line">    <span class="keyword">var</span> sex = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(loginName: <span class="type">String</span>, password: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.loginName = loginName</span><br><span class="line">        <span class="keyword">self</span>.password = password</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">setAge</span><span class="params">(age: String)</span></span> -&gt; <span class="type">LoginUserBuilder</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.age = age</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">setSex</span><span class="params">(age: String)</span></span> -&gt; <span class="type">LoginUserBuilder</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.sex = age</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">build</span><span class="params">()</span></span> -&gt; <span class="type">LoginUser</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">LoginUser</span>(builder: <span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<h2 id="attribute-format-archetype-string-index-first-to-check"><a href="#attribute-format-archetype-string-index-first-to-check" class="headerlink" title="attribute((format(archetype, string-index, first-to-check)))"></a><strong>attribute</strong>((format(archetype, string-index, first-to-check)))</h2><p>第一参数需要传递 archetype 指定是哪种风格，这里是 NSString；<br>string-index 指定传入函数的第几个参数是格式化字符串；<br>first-to-check 指定第一个可变参数所在的索引。</p>
+<h2 id="attribute-constructor"><a href="#attribute-constructor" class="headerlink" title="attribute((constructor))"></a><strong>attribute</strong>((constructor))</h2><h2 id="attribute-destructor"><a href="#attribute-destructor" class="headerlink" title="attribute((destructor))"></a><strong>attribute</strong>((destructor))</h2><h2 id="attribute-cleanup"><a href="#attribute-cleanup" class="headerlink" title="attribute((cleanup))"></a><strong>attribute</strong>((cleanup))</h2><h2 id><a href="#" class="headerlink" title=" "></a> </h2><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
 
     </div>
 
@@ -339,8 +332,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/标签1/" rel="tag"><i class="fa fa-tag"></i> 标签1</a>
-              <a href="/tags/标签2/" rel="tag"><i class="fa fa-tag"></i> 标签2</a>
+              <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+              <a href="/tags/OC/" rel="tag"><i class="fa fa-tag"></i> OC</a>
           </div>
 
         
@@ -349,13 +342,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/设计模式/设计模式-责任链模式&策略模式~扫码场景下的落地/" rel="prev" title="设计模式-责任链模式&策略模式~扫码场景下的落地">
-      <i class="fa fa-chevron-left"></i> 设计模式-责任链模式&策略模式~扫码场景下的落地
+    <a href="/iOS/基础原理/iOS中的时间/" rel="prev" title="iOS 中的时间">
+      <i class="fa fa-chevron-left"></i> iOS 中的时间
     </a></div>
-      <div class="post-nav-item">
-    <a href="/iOS/UI/iOS页面渲染/iOS页面渲染-离屏渲染/" rel="next" title="iOS 页面渲染 - 离屏渲染">
-      iOS 页面渲染 - 离屏渲染 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -415,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#建造者模式"><span class="nav-number">1.</span> <span class="nav-text">建造者模式</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attribute-format-archetype-string-index-first-to-check"><span class="nav-number">2.</span> <span class="nav-text">attribute((format(archetype, string-index, first-to-check)))</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attribute-constructor"><span class="nav-number">3.</span> <span class="nav-text">attribute((constructor))</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attribute-destructor"><span class="nav-number">4.</span> <span class="nav-text">attribute((destructor))</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#attribute-cleanup"><span class="nav-number">5.</span> <span class="nav-text">attribute((cleanup))</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">6.</span> <span class="nav-text"> </span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -605,7 +595,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'BlogTalk',
       owner       : 'Coder-Star',
       admin       : ['Coder-Star'],
-      id          : 'ef9acceb33c160991874ba7307113c7e',
+      id          : 'ff675eb5ee2a68da6d1243ff8c7fe8c5',
         language: 'zh-CN',
       distractionFreeMode: true
     });
