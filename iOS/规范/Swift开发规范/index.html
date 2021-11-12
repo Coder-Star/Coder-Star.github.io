@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。说明 对内容做了引申和解释；正例 给出正确的代码示例；反例 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-10-31T02:14:21.838Z">
+<meta property="og:updated_time" content="2021-11-12T11:26:25.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言开发规范的目的是保证统一项目成员的编码风格，并使代码美观，每个公司对于代码的规范也不尽相同，希望该份规范能给大家起到借鉴作用。该开发规范会持续更新，请关注该博文链接。 规约分为【强制】、【推荐】两大类。说明 对内容做了引申和解释；正例 给出正确的代码示例；反例 给出错误的代码示范； 一、命名规约 【强制】代码中的命名严禁使用拼音及英文混合的方式，更不允许直接出现中文的方式，最好也不要使用下划线">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-31 10:14:21" itemprop="dateModified" datetime="2021-10-31T10:14:21+08:00">2021-10-31</time>
+                <time title="修改时间：2021-11-12 19:26:25" itemprop="dateModified" datetime="2021-11-12T19:26:25+08:00">2021-11-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.4k</span>
+              <span>7.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -305,6 +305,8 @@
 <li><p>【推荐】文件名如果有复数含义，文件名应使用复数形式，如一些工具类；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="type">MessageUtils</span>.swift</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>【推荐】布尔类型属性使用 <code>is</code> 作为属性名前缀，返回值为布尔型类型的方法名使用 <code>is</code> 作为方法名作为前缀；</p>
+</li>
 </ul>
 <h2 id="二、定义、修饰规约"><a href="#二、定义、修饰规约" class="headerlink" title="二、定义、修饰规约"></a>二、定义、修饰规约</h2><ul>
 <li><p>【强制】不要使用魔法值（即未经定义的常量）；</p>
@@ -345,6 +347,7 @@
 <li>【推荐】每行代码长度应小于 100 个字符，或者阅读时候不应该需要滚动屏幕，在正常范围内可以看到完整代码；</li>
 <li>【推荐】解包时推荐使用原有名字，前提是解包后的名字与解包前的名字在作用域上不会形成冲突；</li>
 <li>【推荐】实现每个协议时，在单独的 <code>extension</code> 里来实现；</li>
+<li>【推荐】赋值数组、字典时每个元素分别占用一行时，最后一个选项后面也添加逗号；<br> 说明：这样未来如果有元素加入会更加方便；</li>
 </ul>
 <p>代码示例（代码不具有业务含义，只是简单的格式规约示例）</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 涉及规约</span></span><br><span class="line"><span class="comment"> 1、类左大括号不另起一行；</span></span><br><span class="line"><span class="comment"> 2、类继承后跟空格；</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 格式规约示例</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FormatSample</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     涉及规约</span></span><br><span class="line"><span class="comment">     1、注释符号与注释内容之前有空格；</span></span><br><span class="line"><span class="comment">     2、每一行只声明一个变量；</span></span><br><span class="line"><span class="comment">     3、不使用分号；</span></span><br><span class="line"><span class="comment">     4、注释另起一行，不放在行尾；</span></span><br><span class="line"><span class="comment">     5、数组、元祖、字典里的逗号后面有一个空格；</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultCode = <span class="string">""</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultArr = [<span class="string">"one"</span>, <span class="string">"two"</span>]</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultDic = [<span class="string">"key"</span>: <span class="string">"name"</span>, <span class="string">"value"</span>: <span class="string">"张三"</span>]</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> resultTuple = (key: <span class="string">"name"</span>, value: <span class="string">"张三"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 涉及规约</span></span><br><span class="line"><span class="comment"> 1、方法之间空一行；</span></span><br><span class="line"><span class="comment"> 2、重载的声明放在一起，按照按照参数的多少从少到多排序；</span></span><br><span class="line"><span class="comment"> 3、返回值 -&gt; 两遍增加空格；</span></span><br><span class="line"><span class="comment"> 4、参数名与类型之间空格；</span></span><br><span class="line"><span class="comment"> 5、如果大括号内为空，则直接简写为&#123;&#125;，括号内不换行；</span></span><br><span class="line"><span class="comment"> 6、if 后面的 else\else if, 跟着上一个 if\else if 的右括号；</span></span><br><span class="line"><span class="comment"> 7、解包时推荐使用原有名字；</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">FormatSample</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">logInfo</span><span class="params">(message: String)</span></span> &#123;</span><br><span class="line">        logInfo(message: message, type: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">logInfo</span><span class="params">(message: String, type: String?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> type = type &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"\(type): \(message)"</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(message)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">canLog</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        #<span class="keyword">if</span> <span class="type">DEBUG</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        #<span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        #endif</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     涉及规约</span></span><br><span class="line"><span class="comment">     1、switch 中, case 跟 switch 左对齐；</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">showSwitchStandardFormat</span><span class="params">()</span></span> &#123;</span><br><span class="line">      <span class="keyword">let</span> <span class="built_in">count</span> = <span class="number">10</span></span><br><span class="line">      <span class="keyword">switch</span> <span class="built_in">count</span> &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">1</span>)</span><br><span class="line">      <span class="comment">// 如case包含所有情况，可不加default，如遍历枚举类型时</span></span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -380,16 +383,17 @@
 </li>
 <li>【推荐】使用闭包时，尽量使用最简写，如优先使用尾随闭包等；</li>
 <li>【推荐】过滤，转换等，优先使用 filter, map 等高阶函数简化代码，并尽量使用最简写；</li>
-<li>【推荐】<strong>尽量</strong>使用各种语法糖；<br>说明：语法糖一定程度上会降低代码的可度性，尽量这个度根据各自公司进行调整。</li>
+<li>【推荐】<strong>尽量</strong>使用各种语法糖；<br> 说明：语法糖一定程度上会降低代码的可度性，尽量这个度根据各自公司进行调整。</li>
 <li>【推荐】类似注解的修饰词单独占一行，如<code>@objc</code>，<code>@discardableResult</code> 等；</li>
+<li>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</li>
 </ul>
-<h2 id="五、注释规约"><a href="#五、注释规约" class="headerlink" title="五、注释规约"></a>五、注释规约</h2><ul>
+<h2 id="五、注释、可读规约"><a href="#五、注释、可读规约" class="headerlink" title="五、注释、可读规约"></a>五、注释、可读规约</h2><ul>
 <li>【强制】文档（API）注释使用单行注释，即<code>///</code>，不使用多行注释，即<code>/** */</code>。 多行注释用于对某一代码段、设计或者复杂业务进行描述；</li>
 <li>【强制】对于公开的类、方法以及属性等必须加上文档（API）注释，方法需要加上对应的<code>Parameter（s）</code>、<code>Returns</code>、<code>Throws</code> 等标签，建议使用<code>⌥ ⌘ /</code>自动生成文档模板；</li>
 <li>【强制】将注释放在代码上一行，而不是放在代码后；<br>说明：放在代码后有两个弊端，一是当代码稍微长一点后，注释可能需要横向滚动后才能看全；另一个弊端是，当代码修改，极易将注释删除，或者由于后面有注释，前面的代码修改起来有些许不方便。</li>
 <li>【推荐】在代码中灵活的使用一些地标注释，如<code>MARK</code>、<code>FIXME</code>、<code>TODO</code>，当同一文件中存在多种类型定义或者多种逻辑时，可以使用<code>Mark</code>进行分组注释，方便通过<code>Xcode</code>顶部面包屑进行切换；</li>
+<li>【推荐】实现每个协议时，尽量在单独的 extension 里来实现；<br>代码示例：</li>
 </ul>
-<p>代码示例：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: - View子视图操作相关</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UIView</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// 同时添加多个视图</span></span><br><span class="line">    <span class="comment">/// - Parameter subviews: 子View可变参数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">addSubviews</span><span class="params">(<span class="number">_</span> subviews: UIView...)</span></span> &#123;</span><br><span class="line">        subviews.forEach(addSubview)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 移除所有子View</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">removeAllSubview</span><span class="params">()</span></span> &#123;</span><br><span class="line">        subviews.forEach &#123;</span><br><span class="line">          $<span class="number">0</span>.removeFromSuperview()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="六、编译效率规约"><a href="#六、编译效率规约" class="headerlink" title="六、编译效率规约"></a>六、编译效率规约</h2><p>该段是提高编译效率，减少编译时间总结提出的规约，对代码可读性及统一风格等影响不大，所以该部分只是作为推荐，不强制一定遵守。</p>
 <ul>
@@ -408,25 +412,28 @@
 <li>【推荐】尽量不使用 <code>Storyboard</code> 或者 <code>Xib</code>，会增加编译时间；</li>
 <li>【推荐】减少三目运算符的使用；</li>
 </ul>
-<h2 id="七、其他"><a href="#七、其他" class="headerlink" title="七、其他"></a>七、其他</h2><ul>
+<h2 id="七-优化规约"><a href="#七-优化规约" class="headerlink" title="七 优化规约"></a>七 优化规约</h2><ul>
 <li>【强制】函数参数数量最多不得超过 8 个；<br>说明：寄存器数目问题，超过 8 个会影响效率；</li>
-<li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用，这会让维护者在后期维护时无法第一眼了解到颜色的hex值或者图片的名称。<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
 <li>【强制】避免强制解包以及强制类型映射，尽量使用<code>if let</code> 或 <code>guard let</code>进行解包，禁止<code>try！</code>形式处理异常，避免使用隐式解包；</li>
 <li>【强制】避免判断语句嵌套层次太深，使用 guard 提前返回；</li>
-<li>【推荐】如果 for 循环在函数体中只有一个 if 判断，使用 <code>for where</code> 进行替换；</li>
-<li>【推荐】实现每个协议时，尽量在单独的 extension 里来实现；</li>
-<li>【推荐】优先创建函数而不是自定义操作符；</li>
-<li>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</li>
-<li>【推荐】赋值数组、字典时每个元素分别占用一行时，最后一个选项后面也添加逗号；这样未来如果有元素加入会更加方便；</li>
-<li>【推荐】布尔类型属性使用 <code>is</code> 作为属性名前缀，返回值为布尔型类型的方法名使用 <code>is</code> 作为方法名作为前缀；</li>
-<li>【推荐】使用 guard 来提前结束条件，避免形成判断嵌套；</li>
 <li><p>【推荐】在闭包中使用 self 时使用捕获列表<code>[weak self]</code>避免循环引用，闭包开始判断 self 的有效性；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">正例：</span><br><span class="line">    timer = <span class="type">Timer</span>.scheduledTimer(withTimeInterval: <span class="number">2</span>, repeats: <span class="literal">true</span>) &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> <span class="keyword">self</span> = <span class="keyword">self</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        <span class="keyword">self</span>.timerHandle()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 <code>weak</code> 修饰；</p>
 </li>
 <li>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；</li>
+<li>【推荐】对 String 判空时优先采用 <code>isEmpty</code><br>说明：Swift 里面的 String 的 <code>index</code> 和 <code>count</code> 不是一一对应的（兼容 <code>Unicode</code>），所以 <code>stirng.count == 0</code> 的效率不如 <code>string.isEmpty</code>。</li>
+<li>【推荐】善用<code>func</code>嵌套；<br>说明：比如一段逻辑需要在方法内复用，可以在方法中定义方法，比如闭包中以及正常方法体中需要执行同一段逻辑；</li>
+</ul>
+<h2 id="八、设计规约"><a href="#八、设计规约" class="headerlink" title="八、设计规约"></a>八、设计规约</h2><ul>
 <li>【推荐】委托性质的协议，第一个参数应尽量保证为代理源，类似<code>UITableViewDatasoure</code>；</li>
+<li>【推荐】在方法设计时，其需要返回值，但是大部分情况业务方不需要使用返回值，可使用<code>@discardableResult</code>来对该方法进行标注，防止出现大量 Warning；</li>
+<li>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</li>
+<li>【推荐】优先创建函数而不是自定义操作符；</li>
+<li>【推荐】Swift中的协议和泛型十分强大，设计时应优先考虑面向协议编程；</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用，这会让维护者在后期维护时无法第一眼了解到颜色的 hex 值或者图片的名称。<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
 </ul>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://github.com/realm/SwiftLint" target="_blank" rel="noopener">SwiftLint 工具</a> 提示格式错误</p>
 <p><a href="https://github.com/nicklockwood/SwiftFormat" target="_blank" rel="noopener">SwiftFormat 工具</a> 提示并修复格式错误</p>
@@ -573,7 +580,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、命名规约"><span class="nav-number">2.</span> <span class="nav-text">一、命名规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、定义、修饰规约"><span class="nav-number">3.</span> <span class="nav-text">二、定义、修饰规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、格式规约"><span class="nav-number">4.</span> <span class="nav-text">三、格式规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、简略规约"><span class="nav-number">5.</span> <span class="nav-text">四、简略规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、注释规约"><span class="nav-number">6.</span> <span class="nav-text">五、注释规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、编译效率规约"><span class="nav-number">7.</span> <span class="nav-text">六、编译效率规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、其他"><span class="nav-number">8.</span> <span class="nav-text">七、其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">9.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关规范"><span class="nav-number">10.</span> <span class="nav-text">相关规范</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、命名规约"><span class="nav-number">2.</span> <span class="nav-text">一、命名规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、定义、修饰规约"><span class="nav-number">3.</span> <span class="nav-text">二、定义、修饰规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、格式规约"><span class="nav-number">4.</span> <span class="nav-text">三、格式规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、简略规约"><span class="nav-number">5.</span> <span class="nav-text">四、简略规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、注释、可读规约"><span class="nav-number">6.</span> <span class="nav-text">五、注释、可读规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、编译效率规约"><span class="nav-number">7.</span> <span class="nav-text">六、编译效率规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七-优化规约"><span class="nav-number">8.</span> <span class="nav-text">七 优化规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、设计规约"><span class="nav-number">9.</span> <span class="nav-text">八、设计规约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">10.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">11.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关规范"><span class="nav-number">12.</span> <span class="nav-text">相关规范</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
