@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="1、字符串1、subString 与 String subString 是一个全新的类型，看类名像是 String 的子类，但是大家千万别被误导了，Substring 并不是 String 的子类，这是两个不同的类型，但是它们都继承了 StringProtocol 协议，因此存在一些共性；在开发中 Substring 并不常用 (一般会在分割 String 中见到)，所以往往要转成 String。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-02T07:49:06.262Z">
+<meta property="og:updated_time" content="2021-11-13T08:12:47.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 语法相关">
 <meta name="twitter:description" content="1、字符串1、subString 与 String subString 是一个全新的类型，看类名像是 String 的子类，但是大家千万别被误导了，Substring 并不是 String 的子类，这是两个不同的类型，但是它们都继承了 StringProtocol 协议，因此存在一些共性；在开发中 Substring 并不常用 (一般会在分割 String 中见到)，所以往往要转成 String。">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-02 15:49:06" itemprop="dateModified" datetime="2021-11-02T15:49:06+08:00">2021-11-02</time>
+                <time title="修改时间：2021-11-13 16:12:47" itemprop="dateModified" datetime="2021-11-13T16:12:47+08:00">2021-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -409,7 +409,7 @@
 <h3 id="3、可选-protocol"><a href="#3、可选-protocol" class="headerlink" title="3、可选 protocol"></a>3、可选 protocol</h3><p>OC 方法</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">requiredFunc</span><span class="params">()</span></span></span><br><span class="line">    <span class="meta">@objc</span> <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">optionalFunc</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Swift 方法，利用 extension 为 protocol 的方法添加默认实现</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">requiredFunc</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">optionalFunc</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SomeProtocol</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">optionalFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">       <span class="built_in">print</span>(“<span class="type">Dumb</span> <span class="type">Implementation</span>”)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">SomeProtocol</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">requiredFunc</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">optionalFunc</span><span class="params">()</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">SomeProtocol</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">optionalFunc</span><span class="params">()</span></span> &#123;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -625,7 +625,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">299k</span>
+    <span title="站点总字数">300k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

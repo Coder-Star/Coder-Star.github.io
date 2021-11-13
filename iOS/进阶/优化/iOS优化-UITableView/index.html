@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="12345678protocol UITableViewDataSourcePrefetching &amp;#123;    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])    optional func tableView(_ tableView: UITableView, canc">
+  <meta name="description" content="前言UI方面的通用优化也会是具体控件内部优化。 优化预加载12345678protocol UITableViewDataSourcePrefetching &amp;#123;    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])    optional func tableView(_">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 优化 -UITableView">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-UITableView/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="12345678protocol UITableViewDataSourcePrefetching &amp;#123;    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])    optional func tableView(_ tableView: UITableView, canc">
+<meta property="og:description" content="前言UI方面的通用优化也会是具体控件内部优化。 优化预加载12345678protocol UITableViewDataSourcePrefetching &amp;#123;    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])    optional func tableView(_">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-08-04T02:21:59.075Z">
+<meta property="og:updated_time" content="2021-11-13T09:42:23.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 -UITableView">
-<meta name="twitter:description" content="12345678protocol UITableViewDataSourcePrefetching &amp;#123;    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])    optional func tableView(_ tableView: UITableView, canc">
+<meta name="twitter:description" content="前言UI方面的通用优化也会是具体控件内部优化。 优化预加载12345678protocol UITableViewDataSourcePrefetching &amp;#123;    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])    optional func tableView(_">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-UITableView/">
 
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-04 10:21:59" itemprop="dateModified" datetime="2021-08-04T10:21:59+08:00">2021-08-04</time>
+                <time title="修改时间：2021-11-13 17:42:23" itemprop="dateModified" datetime="2021-11-13T17:42:23+08:00">2021-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>719</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -275,14 +275,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">UITableViewDataSourcePrefetching</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])</span></span></span><br><span class="line">    <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cancelPrefetchingForRowsAt indexPaths:</span></span></span><br><span class="line"><span class="function"><span class="params">                            [NSIndexPath])</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UITableView</span> : <span class="title">UIScrollView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> prefetchDataSource: <span class="type">UITableViewDataSourcePrefetching?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UI方面的通用优化也会是具体控件内部优化。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">UITableViewDataSourcePrefetching</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])</span></span></span><br><span class="line">    <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cancelPrefetchingForRowsAt indexPaths:</span></span></span><br><span class="line"><span class="function"><span class="params">                            [NSIndexPath])</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UITableView</span> : <span class="title">UIScrollView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> prefetchDataSource: <span class="type">UITableViewDataSourcePrefetching?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mjrefresh也会有一个属性，用来设置其底部滚动时的偏移量。</p>
 <h3 id="cell-复用"><a href="#cell-复用" class="headerlink" title="cell 复用"></a>cell 复用</h3><p>cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；</p>
 <p>为了使 cell 可以尽可能进行复用，需要尽量减少 tableview 的 cell 种类，可以将几种 cell 集中在一个 cell 上，然后通过控制子视图的显示与隐藏起到展示不同 cell 的效果；同理，尽量少用 addView 给 Cell 动态添加 View，可以初始化时就添加，然后通过 hide 来控制是否显示；</p>
 <h3 id="高度缓存"><a href="#高度缓存" class="headerlink" title="高度缓存"></a>高度缓存</h3><ul>
 <li>对于固定高度的 cell，我们可以直接给定 cell 高度；</li>
 <li>对于高度不固定的 cell，我们需要将计算后的高度缓存下来，下次展示这个 cell 时，直接使用缓存的高度，减少高度计算</li>
 </ul>
-<h3 id="设计统一规格的-Cell，不要动态的-add-或者-remove-子控件，最好在初始化时就添加完，然后通过-hidden-来控制是否显示；"><a href="#设计统一规格的-Cell，不要动态的-add-或者-remove-子控件，最好在初始化时就添加完，然后通过-hidden-来控制是否显示；" class="headerlink" title="设计统一规格的 Cell，不要动态的 add 或者 remove 子控件，最好在初始化时就添加完，然后通过 hidden 来控制是否显示；"></a>设计统一规格的 Cell，不要动态的 add 或者 remove 子控件，最好在初始化时就添加完，然后通过 hidden 来控制是否显示；</h3><h3 id="异步绘制"><a href="#异步绘制" class="headerlink" title="异步绘制"></a>异步绘制</h3><h3 id="滑动时，按需加载"><a href="#滑动时，按需加载" class="headerlink" title="滑动时，按需加载"></a>滑动时，按需加载</h3><p>根据 runloop 的 mode，使图片下载等过程在 default 模式下再加载，滚动过程中不加载</p>
+<h3 id="设计统一规格的-Cell，不要动态的-add-或者-remove-子控件，最好在初始化时就添加完，然后通过-hidden-来控制是否显示；"><a href="#设计统一规格的-Cell，不要动态的-add-或者-remove-子控件，最好在初始化时就添加完，然后通过-hidden-来控制是否显示；" class="headerlink" title="设计统一规格的 Cell，不要动态的 add 或者 remove 子控件，最好在初始化时就添加完，然后通过 hidden 来控制是否显示；"></a>设计统一规格的 Cell，不要动态的 add 或者 remove 子控件，最好在初始化时就添加完，然后通过 hidden 来控制是否显示；</h3><h3 id="异步绘制"><a href="#异步绘制" class="headerlink" title="异步绘制"></a>异步绘制</h3><ul>
+<li>AsyncDisplayKit</li>
+</ul>
+<h3 id="滑动时，按需加载"><a href="#滑动时，按需加载" class="headerlink" title="滑动时，按需加载"></a>滑动时，按需加载</h3><p>根据 runloop 的 mode，使图片下载等过程在 default 模式下再加载，滚动过程中不加载</p>
+<h3 id="提前布局"><a href="#提前布局" class="headerlink" title="提前布局"></a>提前布局</h3><p>其实在从服务端拿到 JSON 数据的时候，关于视图的布局就已经确定了，包括每个控件的 frame、cell 的高度以及文本排版结果等等，在这个时候完全可以在后台线程计算并封装为对应的布局对象 XXXTableViewCellLayout，每个 cellLayout 的内存占用并不是很多，所以直接全部缓存到内存中。当列表滚动到某个 cell 的时候，直接拿到对应的 cellLayout 配置这个 cell 的对应属性即可。当然，该有的计算是免不了的，只是提前算好并缓存，免去了在滚动的时候计算和重复的计算。</p>
 
     </div>
 
@@ -418,7 +424,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#cell-复用"><span class="nav-number">1.</span> <span class="nav-text">cell 复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高度缓存"><span class="nav-number">2.</span> <span class="nav-text">高度缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计统一规格的-Cell，不要动态的-add-或者-remove-子控件，最好在初始化时就添加完，然后通过-hidden-来控制是否显示；"><span class="nav-number">3.</span> <span class="nav-text">设计统一规格的 Cell，不要动态的 add 或者 remove 子控件，最好在初始化时就添加完，然后通过 hidden 来控制是否显示；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步绘制"><span class="nav-number">4.</span> <span class="nav-text">异步绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滑动时，按需加载"><span class="nav-number">5.</span> <span class="nav-text">滑动时，按需加载</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化"><span class="nav-number">2.</span> <span class="nav-text">优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预加载"><span class="nav-number">2.1.</span> <span class="nav-text">预加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cell-复用"><span class="nav-number">2.2.</span> <span class="nav-text">cell 复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高度缓存"><span class="nav-number">2.3.</span> <span class="nav-text">高度缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计统一规格的-Cell，不要动态的-add-或者-remove-子控件，最好在初始化时就添加完，然后通过-hidden-来控制是否显示；"><span class="nav-number">2.4.</span> <span class="nav-text">设计统一规格的 Cell，不要动态的 add 或者 remove 子控件，最好在初始化时就添加完，然后通过 hidden 来控制是否显示；</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步绘制"><span class="nav-number">2.5.</span> <span class="nav-text">异步绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滑动时，按需加载"><span class="nav-number">2.6.</span> <span class="nav-text">滑动时，按需加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提前布局"><span class="nav-number">2.7.</span> <span class="nav-text">提前布局</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -499,7 +505,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">299k</span>
+    <span title="站点总字数">300k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

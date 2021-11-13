@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="class 与 struct 之间的区别 class 是引用类型，struct 是值类型;（补充一点，不是所有的 struct 都是值类型） struct 不能继承，class 可以继承 class 需要自己定义构造器，而 struct 不需要；(struct 默认生成的构造器必须包括所有成员参数，只有当所有参数都为可选型时，可直接不用传入参数直接简单构造) 举一反三：class 中的属性必须都有">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-30T12:02:21.497Z">
+<meta property="og:updated_time" content="2021-11-13T09:14:56.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 知识">
 <meta name="twitter:description" content="class 与 struct 之间的区别 class 是引用类型，struct 是值类型;（补充一点，不是所有的 struct 都是值类型） struct 不能继承，class 可以继承 class 需要自己定义构造器，而 struct 不需要；(struct 默认生成的构造器必须包括所有成员参数，只有当所有参数都为可选型时，可直接不用传入参数直接简单构造) 举一反三：class 中的属性必须都有">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-30 20:02:21" itemprop="dateModified" datetime="2021-07-30T20:02:21+08:00">2021-07-30</time>
+                <time title="修改时间：2021-11-13 17:14:56" itemprop="dateModified" datetime="2021-11-13T17:14:56+08:00">2021-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -292,7 +292,8 @@
 <li>分配和释放：堆在分配和释放时都要调用函数（MALLOC,FREE)，比如分配时会到堆空间去寻找足够大小的空间（因为多次分配释放后会造成空洞），这些都会花费一定的时间，而栈却不需要这些；</li>
 <li>访问时间：访问堆的一个具体单元，需要两次访问内存，第一次得取得指针，第二次才是真正得数据，而栈只需访问一次；</li>
 </ul>
-<h2 id="值类型的-Copy-On-Write-机制"><a href="#值类型的-Copy-On-Write-机制" class="headerlink" title="值类型的 Copy On Write 机制"></a>值类型的 Copy On Write 机制</h2><p>Swift 标准库中，为了提升性能，String、Array、Dictionary、Set 采取了 <code>Copy On Write</code> 的技术。<strong>Copy On Write 只对 Swift 标准库起作用，对于自定义值类型，不起作用。</strong></p>
+<p>说到这里，我们就需要聊一下值类型的 <code>Copy On Write</code> 机制。</p>
+<p>Swift 标准库中，为了提升性能，String、Array、Dictionary、Set 采取了 <code>Copy On Write</code> 的技术。<strong>Copy On Write 只对 Swift 标准库起作用，对于自定义值类型，不起作用。</strong></p>
 <h2 id="autoclosure-的好处"><a href="#autoclosure-的好处" class="headerlink" title="@autoclosure 的好处"></a>@autoclosure 的好处</h2><ul>
 <li>使用 @autoclosure 关键字能简化闭包调用形式；</li>
 <li>使用 @autoclosure 关键字能延迟闭包的执行。<blockquote>
@@ -440,7 +441,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#class-与-struct-之间的区别"><span class="nav-number">1.</span> <span class="nav-text">class 与 struct 之间的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#值类型的-Copy-On-Write-机制"><span class="nav-number">2.</span> <span class="nav-text">值类型的 Copy On Write 机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#autoclosure-的好处"><span class="nav-number">3.</span> <span class="nav-text">@autoclosure 的好处</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#class-与-struct-之间的区别"><span class="nav-number">1.</span> <span class="nav-text">class 与 struct 之间的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#autoclosure-的好处"><span class="nav-number">2.</span> <span class="nav-text">@autoclosure 的好处</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -521,7 +522,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">299k</span>
+    <span title="站点总字数">300k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

@@ -638,7 +638,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-04 10:21:59" itemprop="dateModified" datetime="2021-08-04T10:21:59+08:00">2021-08-04</time>
+                <time title="修改时间：2021-11-13 17:42:23" itemprop="dateModified" datetime="2021-11-13T17:42:23+08:00">2021-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -660,7 +660,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>719</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -679,10 +679,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">UITableViewDataSourcePrefetching</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])</span></span></span><br><span class="line">    <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cancelPrefetchingForRowsAt indexPaths:</span></span></span><br><span class="line"><span class="function"><span class="params">                            [NSIndexPath])</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UITableView</span> : <span class="title">UIScrollView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> prefetchDataSource: <span class="type">UITableViewDataSourcePrefetching?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="cell-复用"><a href="#cell-复用" class="headerlink" title="cell 复用"></a>cell 复用</h3><p>cell 复用时需要注意在 cell 上添加子视图导致重叠的问题；</p>
-<p>为了使 cell 可以尽可能进行复用，需要尽量减少 tableview 的 cell 种类，可以将几种 cell 集中在一个 cell 上，然后通过控制子视图的显示与隐藏起到展示不同 cell 的效果；同理，尽量少用 addView 给 Cell 动态添加 View，可以初始化时就添加，然后通过 hide 来控制是否显示；</p>
-<h3 id="高度缓存"><a href="#高度缓存" class="headerlink" title="高度缓存"></a>高度缓存</h3>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>UI方面的通用优化也会是具体控件内部优化。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><h3 id="预加载"><a href="#预加载" class="headerlink" title="预加载"></a>预加载</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">UITableViewDataSourcePrefetching</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])</span></span></span><br><span class="line">    <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cancelPrefetchingForRowsAt indexPaths:</span></span></span><br><span class="line"><span class="function"><span class="params">                            [NSIndexPath])</span></span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UITableView</span> : <span class="title">UIScrollView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> prefetchDataSource: <span class="type">UITableViewDataSourcePrefetching?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/iOS/进阶/优化/iOS优化-UITableView/#more" rel="contents">
@@ -1342,7 +1340,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">299k</span>
+    <span title="站点总字数">300k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
