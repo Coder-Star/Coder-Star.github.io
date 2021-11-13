@@ -30,7 +30,7 @@ swift 中的引用类型除 class 之外还有 func 以及 closure。
 - 分配和释放：堆在分配和释放时都要调用函数（MALLOC,FREE)，比如分配时会到堆空间去寻找足够大小的空间（因为多次分配释放后会造成空洞），这些都会花费一定的时间，而栈却不需要这些；
 - 访问时间：访问堆的一个具体单元，需要两次访问内存，第一次得取得指针，第二次才是真正得数据，而栈只需访问一次；
 
-## 值类型的 Copy On Write 机制
+说到这里，我们就需要聊一下值类型的 `Copy On Write` 机制。
 
 Swift 标准库中，为了提升性能，String、Array、Dictionary、Set 采取了 `Copy On Write` 的技术。**Copy On Write 只对 Swift 标准库起作用，对于自定义值类型，不起作用。**
 

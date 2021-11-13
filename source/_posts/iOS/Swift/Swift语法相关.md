@@ -613,7 +613,7 @@ protocol SomeProtocol {
 }
 extension SomeProtocol {
     func optionalFunc() {
-       print(“Dumb Implementation”)
+       
     }
 }
 ```

@@ -13,7 +13,7 @@ date: 2021-11-08 21:57:18
 
 Hi Coder，我是 CoderStar！
 
-__attribute__ 是 GNU C 的一大特色。
+__attribute__ 是 编译器提供的机制。
 
 [Function-attribute](https://developer.arm.com/documentation/dui0774/k/Compiler-specific-Function--Variable--and-Type-Attributes/Function-attributes?lang=en)
 

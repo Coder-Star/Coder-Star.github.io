@@ -140,6 +140,9 @@ default -> `default`
 - @autoclosure
 - @escaping
 - @convention
+- @_functionBuilder
+- @dynamicMemberLookup
+- @propertyWrapper
 
 ### @available
 
