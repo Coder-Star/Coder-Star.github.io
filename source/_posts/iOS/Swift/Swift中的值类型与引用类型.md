@@ -68,14 +68,28 @@ Hi Coder，我是 CoderStar！
 
 值类型默认存储在栈区，栈区内存是连续的，通过出栈入栈进行分配和销毁，速度很快，而且每个线程都有自己的栈空间，所以不需要考虑线程安全问题；访问存储内容时一次就可以拿到值。
 
-引用类型，只在栈区存储了对象的指针，指针指向的对象的内存是分配在堆区的。堆在分配和释放时都要调用函数（MALLOC,FREE)，这些都会花费一些时间，而且因为堆空间被所有线程共享，所以在使用时要考虑线程安全。访问存储内容时，需要两次访问内存，第一次得取得指针，第二次才是真正的数据。
-> 其中对64位系统上，iOS加入了`Tagged Pointer`优化方式，即直接在指针中存储值，比如`NSNumber`以及`NSString`结构。
+引用类型，只在栈区存储了对象的指针，指针指向的对象的内存是分配在堆区的。堆在分配和释放时都要调用函数（MALLOC,FREE) 动态申请 / 释放内存，这些都会花费一些时间，而且因为堆空间被所有线程共享，所以在使用时要考虑线程安全。访问存储内容时，需要两次访问内存，第一次得取得指针，第二次才是真正的数据。
+> 其中对 64 位系统上，iOS 加入了`Tagged Pointer`优化方式，即直接在指针中存储值，比如`NSNumber`以及`NSString`结构。
 
 从描述来看，我们得到的最重要的结论是使用值类型比使用引用类型更快，具体技术指标可查看[why-choose-struct-over-class](https://stackoverflow.com/questions/24232799/why-choose-struct-over-class/24243626#24243626)，还有一个测试项目[StructVsClassPerformance](https://github.com/knguyen2708/StructVsClassPerformance)。
 
 通过上面的描述，我们可以有一个问题，就是所有的`class`都存储在堆上，所有的`struct`都存储在栈上吗？这也是本篇文章的重点。
 
-对于纯粹的`class`或`struct`，这显然是毫无疑问的，那
+对于纯粹的`class`或`struct`，这显然是毫无疑问的，那还有一些特殊的情况，我们需要考虑。
+
+在阅读下文之前，我们先看一下，如何判断对象是在栈分配还是在堆分配。对于这些问题我们可以在[SIL.rst](https://github.com/apple/swift/blob/main/docs/SIL.rst)中找到答案。我们可以通过SIL文件判断，SIL中，有[alloc-stack](https://github.com/apple/swift/blob/main/docs/SIL.rst#alloc-stack)和[alloc-box](https://github.com/apple/swift/blob/main/docs/SIL.rst#alloc-box)命令，其中前者就是来栈上分类内存的指令，而后者就是在堆上分配任务的指令。
+
+我们先来看看[Guaranteed Optimization and Diagnostic Passes](https://github.com/apple/swift/blob/main/docs/SIL.rst#guaranteed-optimization-and-diagnostic-passes)章节中的一句话。
+
+> Memory promotion is implemented as two optimization phases, the first of which performs capture analysis to promote alloc_box instructions to alloc_stack, and the second of which promotes non-address-exposed alloc_stack instructions to SSA registers.
+
+大致意思是就是SIL优化阶段会尽量
+
+我们先看看
+
+引用类型在栈上分配：
+
+值类型在堆上分配：
 
 虽然我个人不知道苹果是否会把一些简单的类优化到在栈上存储，但是结构体一般情况下是会被优化到栈上面存储的，除非这个结构体的生命周期被延长，函数结束还没释放 (比如被类持有或者被函数闭合)，不过如果这个结构体占用空间太大，则不会被优化到栈上面。
 
@@ -118,9 +132,11 @@ struct Box<T> {
 }
 ```
 
-Swift 标准库中，String、Array、Dictionary、Set 等默认实现了`COW`，对于自定义对象，我们需要自己实现。
+Swift 标准库中，`String`、`Array`、`Dictionary`、`Set` 等默认实现了`COW`，对于自定义对象，我们需要自己实现。
 
 ## 最后
+
+在编写本地文章过程中，查看了Swift开源仓库 [docs](https://github.com/apple/swift/tree/main/docs) 目录下的一些文档，学到了很多，也建议各位读者同学enjoy！
 
 要更加努力呀！
 
