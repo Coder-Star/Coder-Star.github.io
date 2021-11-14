@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-13T08:16:37.549Z">
+<meta property="og:updated_time" content="2021-11-13T10:38:04.484Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-13 16:16:37" itemprop="dateModified" datetime="2021-11-13T16:16:37+08:00">2021-11-13</time>
+                <time title="修改时间：2021-11-13 18:38:04" itemprop="dateModified" datetime="2021-11-13T18:38:04+08:00">2021-11-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.9k</span>
+              <span>8.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -422,11 +422,15 @@
 </li>
 <li><p>【推荐】使用委托和协议时，避免循环引用，定义属性的时候使用 <code>weak</code> 修饰；</p>
 </li>
-<li>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，并且运行在栈上，使用其有两个好处：一是效率高，二是不需担心循环引用问题；</li>
-<li>【推荐】对 String 判空时优先采用 <code>isEmpty</code><br>说明：Swift 里面的 String 的 <code>index</code> 和 <code>count</code> 不是一一对应的（兼容 <code>Unicode</code>），所以 <code>stirng.count == 0</code> 的效率不如 <code>string.isEmpty</code>。</li>
-<li>【推荐】善用<code>func</code>嵌套；<br>说明：比如一段逻辑需要在方法内复用，可以在方法中定义方法，比如闭包中以及正常方法体中需要执行同一段逻辑；</li>
+<li>【推荐】能用<code>struct</code>解决的，尽量使用<code>struct</code>而不是<code>class</code>；<br>说明：<code>struct</code> 属于值类型，使用其有很多好处：效率高、不需担心循环引用问题、线程安全等。</li>
+<li>【推荐】对 String 判空时优先采用 <code>isEmpty</code><br>说明：Swift 里面的 String 的 <code>index</code> 和 <code>count</code> 不是一一对应的（兼容 <code>Unicode</code>），所以 <code>stirng.count == 0</code> 的效率不如 <code>string.isEmpty</code>；</li>
+<li><p>【推荐】如果协议只会被类使用，建议加上<code>AnyObject</code>限制；<br>说明：编译器可以对此进行优化，其可以明确在处理一个类，继而进行引用计数，而不用考虑结构体以及其带来的额外的逻辑及结构。</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="class"><span class="keyword">protocol</span> <span class="title">Pingable</span>: <span class="title">AnyObject</span> </span>&#123; <span class="function"><span class="keyword">func</span> <span class="title">ping</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li></li>
 </ul>
 <h2 id="八、设计规约"><a href="#八、设计规约" class="headerlink" title="八、设计规约"></a>八、设计规约</h2><ul>
+<li>【推荐】善用<code>func</code>嵌套；<br>说明：比如一段逻辑需要在方法内复用，可以在方法中定义方法，比如闭包中以及正常方法体中需要执行同一段逻辑；</li>
 <li>【推荐】委托性质的协议，第一个参数应尽量保证为代理源，类似<code>UITableViewDatasoure</code>；</li>
 <li>【推荐】在方法设计时，其需要返回值，但是大部分情况业务方不需要使用返回值，可使用<code>@discardableResult</code>来对该方法进行标注，防止出现大量 Warning；</li>
 <li>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</li>
@@ -662,12 +666,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">300k</span>
+    <span title="站点总字数">302k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:32</span>
+    <span title="站点阅读时长">4:35</span>
 </div>
 
         
