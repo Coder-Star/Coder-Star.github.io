@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对其问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-14T09:25:24.955Z">
+<meta property="og:updated_time" content="2021-11-14T09:47:16.981Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 中的值类型与引用类型">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对其问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
@@ -221,7 +221,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-14 11:01:17 / 修改时间：17:25:24" itemprop="dateCreated datePublished" datetime="2021-11-14T11:01:17+08:00">2021-11-14</time>
+              <time title="创建时间：2021-11-14 11:01:17 / 修改时间：17:47:16" itemprop="dateCreated datePublished" datetime="2021-11-14T11:01:17+08:00">2021-11-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -337,8 +337,8 @@
 <blockquote>
 <p>Memory promotion is implemented as two optimization phases, the first of which performs capture analysis to promote alloc_box instructions to alloc_stack, and the second of which promotes non-address-exposed alloc_stack instructions to SSA registers.</p>
 </blockquote>
-<p>大致意思是就是SIL优化阶段会尽量</p>
-<p>我们先看看</p>
+<p>大致意思是就是 SIL 阶段会尽量进行内存提升，将原来堆内存提升为栈内存，栈内存提升为 SSA 寄存器内存。</p>
+<p>其实</p>
 <p>引用类型在栈上分配：</p>
 <p>值类型在堆上分配：</p>
 <p>虽然我个人不知道苹果是否会把一些简单的类优化到在栈上存储，但是结构体一般情况下是会被优化到栈上面存储的，除非这个结构体的生命周期被延长，函数结束还没释放 (比如被类持有或者被函数闭合)，不过如果这个结构体占用空间太大，则不会被优化到栈上面。</p>
