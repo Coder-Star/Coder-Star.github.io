@@ -83,9 +83,9 @@ Hi Coder，我是 CoderStar！
 
 > Memory promotion is implemented as two optimization phases, the first of which performs capture analysis to promote alloc_box instructions to alloc_stack, and the second of which promotes non-address-exposed alloc_stack instructions to SSA registers.
 
-大致意思是就是SIL优化阶段会尽量
+大致意思是就是 SIL 阶段会尽量进行内存提升，将原来堆内存提升为栈内存，栈内存提升为 SSA 寄存器内存。
 
-我们先看看
+其实
 
 引用类型在栈上分配：
 
