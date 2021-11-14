@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对其问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-14T07:00:49.351Z">
+<meta property="og:updated_time" content="2021-11-14T09:25:24.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 中的值类型与引用类型">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对其问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
@@ -221,7 +221,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-14 11:01:17 / 修改时间：15:00:49" itemprop="dateCreated datePublished" datetime="2021-11-14T11:01:17+08:00">2021-11-14</time>
+              <time title="创建时间：2021-11-14 11:01:17 / 修改时间：17:25:24" itemprop="dateCreated datePublished" datetime="2021-11-14T11:01:17+08:00">2021-11-14</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -250,7 +250,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -325,13 +325,22 @@
 <h3 id="存储方式及位置"><a href="#存储方式及位置" class="headerlink" title="存储方式及位置"></a>存储方式及位置</h3><p>上文说的’堆’和’栈’是程序运行中的不同内存空间，在一个进程中。</p>
 <p>关于堆、栈存储原理，美团的这篇<a href="https://tech.meituan.com/2018/11/01/swift-compile-performance-optimization.html" target="_blank" rel="noopener">【基本功】深入剖析Swift性能优化</a>给出了细节说明，这里就不再赘述了，大概说下结论。</p>
 <p>值类型默认存储在栈区，栈区内存是连续的，通过出栈入栈进行分配和销毁，速度很快，而且每个线程都有自己的栈空间，所以不需要考虑线程安全问题；访问存储内容时一次就可以拿到值。</p>
-<p>引用类型，只在栈区存储了对象的指针，指针指向的对象的内存是分配在堆区的。堆在分配和释放时都要调用函数（MALLOC,FREE)，这些都会花费一些时间，而且因为堆空间被所有线程共享，所以在使用时要考虑线程安全。访问存储内容时，需要两次访问内存，第一次得取得指针，第二次才是真正的数据。</p>
+<p>引用类型，只在栈区存储了对象的指针，指针指向的对象的内存是分配在堆区的。堆在分配和释放时都要调用函数（MALLOC,FREE) 动态申请 / 释放内存，这些都会花费一些时间，而且因为堆空间被所有线程共享，所以在使用时要考虑线程安全。访问存储内容时，需要两次访问内存，第一次得取得指针，第二次才是真正的数据。</p>
 <blockquote>
-<p>其中对64位系统上，iOS加入了<code>Tagged Pointer</code>优化方式，即直接在指针中存储值，比如<code>NSNumber</code>以及<code>NSString</code>结构。</p>
+<p>其中对 64 位系统上，iOS 加入了<code>Tagged Pointer</code>优化方式，即直接在指针中存储值，比如<code>NSNumber</code>以及<code>NSString</code>结构。</p>
 </blockquote>
 <p>从描述来看，我们得到的最重要的结论是使用值类型比使用引用类型更快，具体技术指标可查看<a href="https://stackoverflow.com/questions/24232799/why-choose-struct-over-class/24243626#24243626" target="_blank" rel="noopener">why-choose-struct-over-class</a>，还有一个测试项目<a href="https://github.com/knguyen2708/StructVsClassPerformance" target="_blank" rel="noopener">StructVsClassPerformance</a>。</p>
 <p>通过上面的描述，我们可以有一个问题，就是所有的<code>class</code>都存储在堆上，所有的<code>struct</code>都存储在栈上吗？这也是本篇文章的重点。</p>
-<p>对于纯粹的<code>class</code>或<code>struct</code>，这显然是毫无疑问的，那</p>
+<p>对于纯粹的<code>class</code>或<code>struct</code>，这显然是毫无疑问的，那还有一些特殊的情况，我们需要考虑。</p>
+<p>在阅读下文之前，我们先看一下，如何判断对象是在栈分配还是在堆分配。对于这些问题我们可以在<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst" target="_blank" rel="noopener">SIL.rst</a>中找到答案。我们可以通过SIL文件判断，SIL中，有<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst#alloc-stack" target="_blank" rel="noopener">alloc-stack</a>和<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst#alloc-box" target="_blank" rel="noopener">alloc-box</a>命令，其中前者就是来栈上分类内存的指令，而后者就是在堆上分配任务的指令。</p>
+<p>我们先来看看<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst#guaranteed-optimization-and-diagnostic-passes" target="_blank" rel="noopener">Guaranteed Optimization and Diagnostic Passes</a>章节中的一句话。</p>
+<blockquote>
+<p>Memory promotion is implemented as two optimization phases, the first of which performs capture analysis to promote alloc_box instructions to alloc_stack, and the second of which promotes non-address-exposed alloc_stack instructions to SSA registers.</p>
+</blockquote>
+<p>大致意思是就是SIL优化阶段会尽量</p>
+<p>我们先看看</p>
+<p>引用类型在栈上分配：</p>
+<p>值类型在堆上分配：</p>
 <p>虽然我个人不知道苹果是否会把一些简单的类优化到在栈上存储，但是结构体一般情况下是会被优化到栈上面存储的，除非这个结构体的生命周期被延长，函数结束还没释放 (比如被类持有或者被函数闭合)，不过如果这个结构体占用空间太大，则不会被优化到栈上面。</p>
 <p>Swift 的结构体一般被存储在栈上，而非堆上。不过对于可变结构体，这其实是一种优化：<br>默认情况下结构体是存储在堆上的，但是在绝大多数时候，这个优化会生效，并将结构体存储到栈上。<br>编译器这么做是因为那些被逃逸闭包捕获的变量需要在栈帧之外依然存在。<br>编译器侦测到结构体变量被一个函数闭合的时候，优化将不再生效，此时这个结构体将存储在堆上。</p>
 <h3 id="拷贝方式"><a href="#拷贝方式" class="headerlink" title="拷贝方式"></a>拷贝方式</h3><p>引用类型，在拷贝时，实际上拷贝的只是栈区存储的对象的指针；值类型拷贝的是实际的值。</p>
@@ -341,8 +350,9 @@
 <p>该文中有一些 Apple 给出的优化方式，比如减少动态派发的方式等等，建议 enjoy。</p>
 </blockquote>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Ref</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> val: <span class="type">T</span></span><br><span class="line">  <span class="keyword">init</span>(<span class="number">_</span> v: <span class="type">T</span>) &#123;val = v&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Box</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> ref: <span class="type">Ref</span>&lt;<span class="type">T</span>&gt;</span><br><span class="line">    <span class="keyword">init</span>(<span class="number">_</span> x: <span class="type">T</span>) &#123; ref = <span class="type">Ref</span>(x) &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> value: <span class="type">T</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> ref.val &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">          <span class="comment">/// 判断当前对象是否只有一个引用，如果不是才进行拷贝</span></span><br><span class="line">          <span class="keyword">if</span> !isKnownUniquelyReferenced(&amp;ref) &#123;</span><br><span class="line">            ref = <span class="type">Ref</span>(newValue)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">          &#125;</span><br><span class="line">          ref.val = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Swift 标准库中，String、Array、Dictionary、Set 等默认实现了<code>COW</code>，对于自定义对象，我们需要自己实现。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Swift 标准库中，<code>String</code>、<code>Array</code>、<code>Dictionary</code>、<code>Set</code> 等默认实现了<code>COW</code>，对于自定义对象，我们需要自己实现。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>在编写本地文章过程中，查看了Swift开源仓库 <a href="https://github.com/apple/swift/tree/main/docs" target="_blank" rel="noopener">docs</a> 目录下的一些文档，学到了很多，也建议各位读者同学enjoy！</p>
+<p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <ul>
 <li><a href="https://juejin.cn/post/6933231394227240967#heading-7" target="_blank" rel="noopener">iOS Swift5：浅析结构体（struct）与类（class）</a></li>
@@ -565,7 +575,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">302k</span>
+    <span title="站点总字数">303k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

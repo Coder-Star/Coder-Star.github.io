@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://coder-star.github.io/iOS/Swift/Swift%E4%B8%AD%E7%9A%84%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</loc>
+    <lastmod>2021-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2021-11-14</lastmod>
+  </url>
+  <url>
     <loc>https://coder-star.github.io/iOS/Swift/Swift%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2021-11-14</lastmod>
   </url>
   <url>
     <loc>https://coder-star.github.io/iOS/Swift/Swift%E4%B8%AD%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97/</loc>
-    <lastmod>2021-11-14</lastmod>
-  </url>
-  <url>
-    <loc>https://coder-star.github.io/iOS/Swift/Swift%E4%B8%AD%E7%9A%84%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</loc>
     <lastmod>2021-11-14</lastmod>
   </url>
   <url>
@@ -42,10 +46,6 @@
   </url>
   <url>
     <loc>https://coder-star.github.io/iOS/%E5%A4%9A%E7%BA%BF%E7%A8%8B/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B-GCD/</loc>
-    <lastmod>2021-11-10</lastmod>
-  </url>
-  <url>
-    <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</loc>
     <lastmod>2021-11-10</lastmod>
   </url>
   <url>
