@@ -83,7 +83,7 @@ Hi Coder，我是 CoderStar！
 
 大致意思是就是 SIL 阶段会尽量进行内存提升，将原来堆内存提升为栈内存，栈内存提升为 SSA 寄存器内存。
 
-具体场景我们可以在[CapturePromotion.cpp)](https://github.com/apple/swift/blob/31b167468793ec5b25a6c4e0769e2883d6125049/lib/SILOptimizer/IPO/CapturePromotion.cpp)文件顶部注释中看到。
+具体优化部分代码我们可以在[AllocBoxToStack.cpp](https://github.com/apple/swift/blob/main/lib/SILOptimizer/Transforms/AllocBoxToStack.cpp)中看到。
 
 **堆上的值类型**
 
@@ -175,7 +175,7 @@ bb0(%0 : $@thin Test.Type):
 
 我们很明显看到`alloc_stack`字眼。
 
-相信大家已经明白发生了什么，`struct` 在生成原始的 SIL 文件中实际上会使用堆指令，然后在 SIL 优化阶段会根据代码上下文环境判断是否可以优化到栈上继而对指令进行修改。那大部分情况下是都可以优化到栈上的。
+相信大家已经明白发生了什么，`struct` 在生成原始的 SIL 文件中实际上会使用堆指令，然后在 SIL 优化阶段会根据代码上下文环境判断是否可以优化到栈上继而对指令进行修改。那大部分情况下是都可以优化到栈上的。这个过程就有上述`AllocBoxToStack.cpp`文件的参与。
 
 当然，那肯定还有另外的少部分情况。比如说：
 
@@ -236,7 +236,7 @@ bb0:
 } // end sil function 'main.uniqueIntegerProvider() -> () -> Swift.Int'
 ```
 
-可以很明显的看出，无论是优化前还是优化后，使用的都是`alloc_box`指令，也就是说此时的变量`i`是存储在堆上的。其实原因也很好理解，其实就是变量 `i` 被函数闭合了，即使在退出作用域的情况下，仍然得保持 i 的存在。
+可以很明显的看出，无论是优化前还是优化后，使用的都是`alloc_box`指令，也就是说此时的变量`i`是存储在堆上的。其实原因也很好理解，其实就是变量 `i` 被函数闭合了，即使在退出作用域的情况下，仍然得保持 i 的存在。当然这只是一种情况，还会有其他的情况。
 
 **总结：所以说在 Swift 中所有的`class`都存储在堆上，所有的`struct`都存储在栈上这种说法是有问题的，只能说大部分情况是如此的，总有些情况会跟你淘气，具体存储位置还得结合结构所在上下文以及 SIL 优化手段等等因素综合分析。**
 
