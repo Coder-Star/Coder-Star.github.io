@@ -139,7 +139,7 @@ iOS 平台中， `dSYM` 文件是指具有调试信息的目标文件，dSYM 中
 
 一般情况下我们`Debug环境下`使用`DWARF`方式，方便我们进行调试，那对于`Release`环境我们使用第二种方式，选择第二种方式便可以将符号表从二进制文件中进行剥离，改为使用 dSYM 文件进行存储。开启之后我们就可以在 Xcode 打包出来的文件 xcarchive 里面看到它。另外，如果开启了 bitcode 优化的话，苹果会做二次编译优化，所以最终的 dSYM 就需要在 Apple Connect 手动下载了。
 
-> 对于开启`bitcode`优化的dysm文件，如果我们不进行处理，解析出来的符号会是`hidden#9276`这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。`xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM`
+> 对于开启`bitcode`优化的 dysm 文件，如果我们不进行处理，解析出来的符号会是`hidden#9276`这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。`xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM`
 
 dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对 dSYM 文件的备份保存是非常必要的。
 
@@ -288,6 +288,7 @@ mdfind "com_apple_xcode_dsym_uuids == UUID"
 ```
 
 通过 symbols -uuid 来查看 dSYM 文件的 UUID;
+
 ```shell
 symbols -uuid iOSTest.app.dSYM
 ```
@@ -295,8 +296,6 @@ symbols -uuid iOSTest.app.dSYM
 ### symbolicatecrash
 
 Xcode 提供的 `symbolicatecrash`。该命令位于：`/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash`，是一个`perl`脚本，里面整合了逐步解析的操作（可以将命令拷贝出来，直接进行调用）。
-
-使用方式为
 
 ```shell
 # 需要先运行该命令，不然下面 symbolicatecrash命令会出现
@@ -315,6 +314,24 @@ symbolicatecrash log.crash -d xxx.app.dSYM > symbol.log
 其实在该方式的基础上，Xcode 可以可视化的进行崩溃文件符号化，将崩溃日志、 dSYM 文件和可执行文件放在同一目录下，然后将崩溃日志拖拽至 Devicelog 中，右键 `symbolicate Log` 或者 `Re-symbolicate Log `就能符号化。
 
 ![symbolicatecrash_xcode](../../../img/iOS/进阶/符号化/symbolicatecrash_xcode.png)
+
+iOS 15 之后，崩溃日志的格式为 JSON 形式，新的脚本地址为`/Applications/Xcode.app/Contents/SharedFrameworks/CoreSymbolicationDT.framework/Versions/A/Resources/CrashSymbolicator.py`
+
+这个 py 脚本为 python3 写的，所有也需要 python3 环境下去调用，命令为
+
+```shell
+python3 /Applications/Xcode.app/Contents/SharedFrameworks/CoreSymbolicationDT.framework/Versions/A/Resources/CrashSymbolicator.py 要解析的崩溃日志 -d dSYM所在路径 -o 解析后的日志地址
+```
+
+解析之后的结果也是 JSON 形式的。
+
+当然我们也可以将其拷贝出来使用，但是需要在首行加上下列代码
+
+```shell
+import sys
+
+sys.path.append("/Applications/Xcode.app/Contents/SharedFrameworks/CoreSymbolicationDT.framework/Versions/A/Resources/")
+```
 
 ### atos
 
