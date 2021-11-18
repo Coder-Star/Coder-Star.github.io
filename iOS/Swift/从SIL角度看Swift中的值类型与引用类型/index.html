@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对这个问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
+<meta name="keywords" content="iOS,Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 SIL 角度看 Swift 中的值类型与引用类型">
+<meta property="og:url" content="https://coder-star.github.io/iOS/Swift/从SIL角度看Swift中的值类型与引用类型/index.html">
+<meta property="og:site_name" content="CoderStar&#39;s Blog">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对这个问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-11-17T03:00:36.337Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从 SIL 角度看 Swift 中的值类型与引用类型">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 Swift 开发过程中，你很可能至少问过自己一次struct与class之间的区别，即使你自己没问过，你的面试官应该也问过。对这个问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。 那在介绍值类型与引用类型之前，我们还是先来回顾一下struct与class之间的区别这个问题。 class &amp;amp;">
+
+<link rel="canonical" href="https://coder-star.github.io/iOS/Swift/从SIL角度看Swift中的值类型与引用类型/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>从 SIL 角度看 Swift 中的值类型与引用类型 | CoderStar's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="CoderStar's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">CoderStar's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">坚持更文</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/Swift/从SIL角度看Swift中的值类型与引用类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="CoderStar">
+      <meta itemprop="description" content="Think more, Code less">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CoderStar's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从 SIL 角度看 Swift 中的值类型与引用类型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-14 11:01:17" itemprop="dateCreated datePublished" datetime="2021-11-14T11:01:17+08:00">2021-11-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-17 11:00:36" itemprop="dateModified" datetime="2021-11-17T11:00:36+08:00">2021-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>在 Swift 开发过程中，你很可能至少问过自己一次<code>struct</code>与<code>class</code>之间的区别，即使你自己没问过，你的面试官应该也问过。对这个问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。</p>
+<p>那在介绍值类型与引用类型之前，我们还是先来回顾一下<code>struct</code>与<code>class</code>之间的区别这个问题。</p>
+<h2 id="class-amp-struct"><a href="#class-amp-struct" class="headerlink" title="class &amp; struct"></a><code>class</code> &amp; <code>struct</code></h2><p>在 Swift 中，其实<code>class</code> 与 <code>struct</code>之间的核心区别不是很多，有很多区别是值类型与引用类型这个区别隐形带来的天然的区别。</p>
+<ul>
+<li><code>class</code> 可以继承，<code>struct</code> 不能继承（当然<code>struct</code>可以利用<code>protocol</code>来实现类似继承的效果。）；受此影响的区别有：<ul>
+<li><code>struct</code>中方法的派发方式全都是直接派发，而<code>class</code>中根据实际情况有多种派发方式，详情可看<a href="../Swift派发机制">Swift派发机制</a>；</li>
+</ul>
+</li>
+<li><code>class</code> 需要自己定义构造函数，<code>struct</code> 默认生成；<blockquote>
+<p><code>struct</code> 默认生成的构造函数必须包括所有成员参数，只有当所有参数都为可选型时，可直接不用传入参数直接简单构造，<code>class</code> 中的属性必须都有默认值，否则编译错误, 可以通过声明时赋值或者构造函数赋值两种方式给属性设置默认值。</p>
+</blockquote>
+</li>
+<li><code>class</code> 是引用类型，<code>struct</code> 是值类型；受此影响的区别有：<ul>
+<li><code>struct</code> 改变其属性受修饰符 let 影响，不可改变，<code>class</code> 不受影响；</li>
+<li><code>struct</code> 方法中需要修改自身属性时 (非 <code>init</code> 方法)，方法需要前缀修饰符 <code>mutating</code>；</li>
+<li><code>struct</code> 因为是值类型的原因，所以自动线程安全，而且也不存在循环引用导致内存泄漏的风险；</li>
+<li>…</li>
+<li>更多看下一章节</li>
+</ul>
+</li>
+<li>…</li>
+</ul>
+<p>在 Swift 中，很多基础类型，如<code>String</code>，<code>Int</code>等等，都是使用<code>Struct</code>来定义。对于如何选择两者这个问题上，Apple 在一些官方文档中也给出了它们之间的区别以及官方建议。</p>
+<ul>
+<li><a href="https://developer.apple.com/cn/documentation/swift/choosing_between_structures_and_classes/" target="_blank" rel="noopener">choosing_between_structures_and_classes</a></li>
+<li><a href="https://developer.apple.com/swift/blog/?id=10" target="_blank" rel="noopener">Value and Reference Types</a></li>
+<li><a href="https://docs.swift.org/swift-book/LanguageGuide/ClassesAndStructures.html" target="_blank" rel="noopener">ClassesAndStructures</a></li>
+</ul>
+<blockquote>
+<p>来自《choosing_between_structures_and_classes》</p>
+<p>在向 app 中添加新数据类型时，您不妨考虑以下建议来帮助自己做出合理的选择。</p>
+<ul>
+<li>默认使用结构。</li>
+<li>在需要 Objective-C 互操作性时使用类。</li>
+<li>在需要控制建模数据的恒等性时使用类。</li>
+<li>将结构与协议搭配，通过共享实现来采用行为。</li>
+</ul>
+</blockquote>
+<h2 id="值类型-amp-引用类型"><a href="#值类型-amp-引用类型" class="headerlink" title="值类型 &amp; 引用类型"></a>值类型 &amp; 引用类型</h2><p>那在 Swift 中，值类型与引用类型之间的区别有哪些呢？</p>
+<ul>
+<li>存储方式及位置：大部分值类型存储在栈上，大部分引用类型存储在堆上；</li>
+<li>内存：值类型没有引用计数，也不会存在循环引用以及内存泄漏等问题；</li>
+<li>线程安全：值类型天然线程安全，而引用类型需要开发者通过加锁等方式来保证；</li>
+<li>拷贝方式：值类型拷贝的是内容，而引用类型拷贝的是指针，从一定意义上讲就是所谓的深拷贝及浅拷贝；</li>
+</ul>
+<blockquote>
+<p>在 Swift 中，值类型除了<code>struct</code>之外还有<code>enum</code>、<code>tuple</code>，引用类型除了<code>class</code>之外还有<code>closure</code>/<code>func</code>。</p>
+</blockquote>
+<h3 id="存储方式及位置"><a href="#存储方式及位置" class="headerlink" title="存储方式及位置"></a>存储方式及位置</h3><p>上文说的’堆’和’栈’是程序运行中的不同内存空间。</p>
+<p>关于堆、栈存储原理，美团的这篇<a href="https://tech.meituan.com/2018/11/01/swift-compile-performance-optimization.html" target="_blank" rel="noopener">【基本功】深入剖析Swift性能优化</a>给出了细节说明，这里就不再赘述了，大概说下结论。</p>
+<p>值类型默认存储在栈区，栈区内存是连续的，通过出栈入栈进行分配和销毁，速度很快，而且每个线程都有自己的栈空间，所以不需要考虑线程安全问题；访问存储内容时一次就可以拿到值。</p>
+<p>引用类型，只在栈区存储了对象的指针，指针指向的对象的内存是分配在堆区的。堆在分配和释放时都要调用函数（MALLOC,FREE) 动态申请 / 释放内存，这些都会花费一些时间，而且因为堆空间被所有线程共享，所以在使用时要考虑线程安全。访问存储内容时，需要两次访问内存，第一次得取得指针，第二次才是真正的数据。</p>
+<blockquote>
+<p>其中在 64 位系统上，iOS 加入了<code>Tagged Pointer</code>优化方式，即直接在指针中存储值，比如<code>NSNumber</code>、<code>NSString</code>以及<code>NSDate</code>结构，也就是所谓的</p>
+</blockquote>
+<p>从描述来看，我们得到的最重要的结论是使用值类型比使用引用类型更快，具体技术指标可查看<a href="https://stackoverflow.com/questions/24232799/why-choose-struct-over-class/24243626#24243626" target="_blank" rel="noopener">why-choose-struct-over-class</a>，还有一个测试项目<a href="https://github.com/knguyen2708/StructVsClassPerformance" target="_blank" rel="noopener">StructVsClassPerformance</a>。</p>
+<p>通过上面的描述，我们可以有一个问题，就是所有的<code>class</code>都存储在堆上，所有的<code>struct</code>都存储在栈上吗？这也是本篇文章的重点。其实对于绝大多数情况而言，这种说法都是没问题的，但是总会有些特殊情况。</p>
+<p>在阅读下文之前，我们先看一下，如何判断对象是在栈分配还是在堆分配。对于这个问题我们可以在<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst" target="_blank" rel="noopener">SIL.rst</a>中找到答案。Swift编译生成的SIL文件中，会包含派发指令，与内存分配相关的命令中，有<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst#alloc-stack" target="_blank" rel="noopener">alloc-stack</a>和<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst#alloc-box" target="_blank" rel="noopener">alloc-box</a>命令可以来帮助我们解决这个问题，简单来说前者就是来栈上分类内存的指令，而后者就是在堆上分配任务的指令。</p>
+<p><strong>栈上的引用类型</strong></p>
+<p>堆栈上的分配和释放成本远低于堆上的分配和释放，因此有时编译器可能会提升引用类型也存储在堆栈上，这个过程实际发生在 SIL 优化阶段，官方术语叫做<code>Memory promotion</code>。关于这一说法，我们可以在<a href="https://github.com/apple/swift/blob/main/docs/SIL.rst#guaranteed-optimization-and-diagnostic-passes" target="_blank" rel="noopener">Guaranteed Optimization and Diagnostic Passes</a>找到支撑。</p>
+<blockquote>
+<p>Memory promotion is implemented as two optimization phases, the first of which performs capture analysis to promote alloc_box instructions to alloc_stack, and the second of which promotes non-address-exposed alloc_stack instructions to SSA registers.</p>
+</blockquote>
+<p>大致意思是就是 SIL 阶段会尽量进行内存提升，将原来堆内存提升为栈内存，栈内存提升为 SSA 寄存器内存。</p>
+<p>具体优化部分代码我们可以在<a href="https://github.com/apple/swift/blob/main/lib/SILOptimizer/Transforms/AllocBoxToStack.cpp" target="_blank" rel="noopener">AllocBoxToStack.cpp</a>中看到。</p>
+<p><strong>堆上的值类型</strong></p>
+<p>在《Swift 进阶》书中有过这么一段话，（在 3.0 版本中出现，5.0 版本删除掉了）：</p>
+<blockquote>
+<p>Swift 的结构体一般被存储在栈上，而非堆上。不过这其实是一种优化: 默认情况下结构体是存储在堆上的，但是在绝大多数时候，这个优化会生效，并将结构体存储到栈上。当结构体变量被一个函数闭合的时候，优化将不再生效，此时这个结构体将存储在堆上。</p>
+</blockquote>
+<p>看到这句话有些同学会有点摸不着头脑，为什么默认情况结构体会存在堆上，然后经过优化时候才存储到栈上。下面我们来看<code>struct</code>编译生成的相关 SIL 文件。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Test</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个非常简单的<code>struct</code>结构体，简单到连属性都没了，我们使用<code>swiftc</code>命令生成 SIL 文件，命令如下：</p>
+<p><code>swiftc Test.swift -emit-silgen | xcrun swift-demangle &gt; TestSILGen.sil</code></p>
+<p>其含义就是生成<code>Raw SIL</code>，也就是原生SIL文件，没有经过任何优化和处理。更多命令可以看之前输出的一篇文章<a href="../../进阶/iOS编译简析">iOS编译简析</a>。</p>
+<p>生成的 SIL 文件内容如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sil_stage raw</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Builtin</span><br><span class="line"><span class="keyword">import</span> Swift</span><br><span class="line"><span class="keyword">import</span> SwiftShims</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main</span></span><br><span class="line">sil [ossa] @main : $<span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">Int32</span>, <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Optional</span>&lt;<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int8</span>&gt;&gt;&gt;) -&gt; <span class="type">Int32</span> &#123;</span><br><span class="line">bb0(%<span class="number">0</span> : $<span class="type">Int32</span>, %<span class="number">1</span> : $<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Optional</span>&lt;<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int8</span>&gt;&gt;&gt;):</span><br><span class="line">  %<span class="number">2</span> = integer_literal $<span class="type">Builtin</span>.<span class="type">Int32</span>, <span class="number">0</span>          <span class="comment">// user: %3</span></span><br><span class="line">  %<span class="number">3</span> = <span class="class"><span class="keyword">struct</span> <span class="title">$Int32</span> (%2 : <span class="title">$Builtin</span>.<span class="title">Int32</span>)        // <span class="title">user</span>: %4</span></span><br><span class="line"><span class="class">  <span class="title">return</span> %3 : <span class="title">$Int32</span>                              // <span class="title">id</span>: %4</span></span><br><span class="line"><span class="class">&#125; // <span class="title">end</span> <span class="title">sil</span> <span class="title">function</span> '<span class="title">main</span>'</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">// <span class="title">Test</span>.<span class="title">init</span>()</span></span><br><span class="line"><span class="class"><span class="title">sil</span> <span class="title">hidden</span> [<span class="title">ossa</span>] @<span class="title">$s4main4TestVACycfC</span> : <span class="title">$</span>@<span class="title">convention</span>(<span class="title">method</span>) (@<span class="title">thin</span> <span class="title">Test</span>.<span class="title">Type</span>) -&gt; <span class="title">Test</span> </span>&#123;</span><br><span class="line"><span class="comment">// %0 "$metatype"</span></span><br><span class="line">bb0(%<span class="number">0</span> : $@thin <span class="type">Test</span>.<span class="type">Type</span>):</span><br><span class="line">  %<span class="number">1</span> = alloc_box $&#123; <span class="keyword">var</span> <span class="type">Test</span> &#125;, <span class="keyword">let</span>, name <span class="string">"self"</span>  <span class="comment">// user: %2</span></span><br><span class="line">  %<span class="number">2</span> = mark_uninitialized [rootself] %<span class="number">1</span> : $&#123; <span class="keyword">var</span> <span class="type">Test</span> &#125; <span class="comment">// users: %5, %3</span></span><br><span class="line">  %<span class="number">3</span> = project_box %<span class="number">2</span> : $&#123; <span class="keyword">var</span> <span class="type">Test</span> &#125;, <span class="number">0</span>          <span class="comment">// user: %4</span></span><br><span class="line">  %<span class="number">4</span> = load [trivial] %<span class="number">3</span> : $*<span class="type">Test</span>                 <span class="comment">// user: %6</span></span><br><span class="line">  destroy_value %<span class="number">2</span> : $&#123; <span class="keyword">var</span> <span class="type">Test</span> &#125;                <span class="comment">// id: %5</span></span><br><span class="line">  <span class="keyword">return</span> %<span class="number">4</span> : $<span class="type">Test</span>                               <span class="comment">// id: %6</span></span><br><span class="line">&#125; <span class="comment">// end sil function '$s4main4TestVACycfC'</span></span><br></pre></td></tr></table></figure>
+<p>我们可以很明显的看到<code>alloc_box</code>字眼。</p>
+<p>然后我们再使用生成优化后 SIL 文件的命令，如下：</p>
+<p><code>swiftc Test.swift -emit-sil | xcrun swift-demangle &gt; TestSIL.sil</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">sil_stage canonical</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Builtin</span><br><span class="line"><span class="keyword">import</span> Swift</span><br><span class="line"><span class="keyword">import</span> SwiftShims</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">  <span class="keyword">init</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// main</span></span><br><span class="line">sil @main : $<span class="meta">@convention</span>(<span class="built_in">c</span>) (<span class="type">Int32</span>, <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Optional</span>&lt;<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int8</span>&gt;&gt;&gt;) -&gt; <span class="type">Int32</span> &#123;</span><br><span class="line">bb0(%<span class="number">0</span> : $<span class="type">Int32</span>, %<span class="number">1</span> : $<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Optional</span>&lt;<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int8</span>&gt;&gt;&gt;):</span><br><span class="line">  %<span class="number">2</span> = integer_literal $<span class="type">Builtin</span>.<span class="type">Int32</span>, <span class="number">0</span>          <span class="comment">// user: %3</span></span><br><span class="line">  %<span class="number">3</span> = <span class="class"><span class="keyword">struct</span> <span class="title">$Int32</span> (%2 : <span class="title">$Builtin</span>.<span class="title">Int32</span>)        // <span class="title">user</span>: %4</span></span><br><span class="line"><span class="class">  <span class="title">return</span> %3 : <span class="title">$Int32</span>                              // <span class="title">id</span>: %4</span></span><br><span class="line"><span class="class">&#125; // <span class="title">end</span> <span class="title">sil</span> <span class="title">function</span> '<span class="title">main</span>'</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">// <span class="title">Test</span>.<span class="title">init</span>()</span></span><br><span class="line"><span class="class"><span class="title">sil</span> <span class="title">hidden</span> @<span class="title">$s4main4TestVACycfC</span> : <span class="title">$</span>@<span class="title">convention</span>(<span class="title">method</span>) (@<span class="title">thin</span> <span class="title">Test</span>.<span class="title">Type</span>) -&gt; <span class="title">Test</span> </span>&#123;</span><br><span class="line"><span class="comment">// %0 "$metatype"</span></span><br><span class="line">bb0(%<span class="number">0</span> : $@thin <span class="type">Test</span>.<span class="type">Type</span>):</span><br><span class="line">  %<span class="number">1</span> = alloc_stack $<span class="type">Test</span>, <span class="keyword">let</span>, name <span class="string">"self"</span>        <span class="comment">// user: %3</span></span><br><span class="line">  %<span class="number">2</span> = <span class="class"><span class="keyword">struct</span> <span class="title">$Test</span> ()                            // <span class="title">user</span>: %4</span></span><br><span class="line"><span class="class">  <span class="title">dealloc_stack</span> %1 : <span class="title">$</span>*<span class="title">Test</span>                       // <span class="title">id</span>: %3</span></span><br><span class="line"><span class="class">  <span class="title">return</span> %2 : <span class="title">$Test</span>                               // <span class="title">id</span>: %4</span></span><br><span class="line"><span class="class">&#125; // <span class="title">end</span> <span class="title">sil</span> <span class="title">function</span> '<span class="title">$s4main4TestVACycfC</span>'</span></span><br></pre></td></tr></table></figure>
+<p>我们很明显看到<code>alloc_stack</code>字眼。</p>
+<p>相信大家已经明白发生了什么，<code>struct</code> 在生成原始的 SIL 文件中实际上会使用堆指令，然后在 SIL 优化阶段会根据代码上下文环境判断是否可以优化到栈上继而对指令进行修改。那大部分情况下是都可以优化到栈上的。这个过程就有上述<code>AllocBoxToStack.cpp</code>文件的参与。</p>
+<p>当然，那肯定还有另外的少部分情况。比如说：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">uniqueIntegerProvider</span><span class="params">()</span></span> -&gt; () -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    <span class="comment">// i是Int类型，本质也是一个结构体</span></span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        i+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> i</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对此代码生成的两份 SIL 文件，核心部分如下：</p>
+<p><strong>优化前：</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// uniqueIntegerProvider()</span></span><br><span class="line">sil hidden [ossa] @main.uniqueIntegerProvider() -&gt; () -&gt; <span class="type">Swift</span>.<span class="type">Int</span> : $<span class="meta">@convention</span>(thin) () -&gt; @owned @callee_guaranteed () -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">bb0:</span><br><span class="line">  %<span class="number">0</span> = alloc_box $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;, <span class="keyword">var</span>, name <span class="string">"i"</span>      <span class="comment">// users: %11, %8, %1</span></span><br><span class="line">  %<span class="number">1</span> = project_box %<span class="number">0</span> : $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;, <span class="number">0</span>           <span class="comment">// users: %9, %6</span></span><br><span class="line">  %<span class="number">2</span> = integer_literal $<span class="type">Builtin</span>.<span class="type">IntLiteral</span>, <span class="number">0</span>     <span class="comment">// user: %5</span></span><br><span class="line">  %<span class="number">3</span> = metatype $@thin <span class="type">Int</span>.<span class="type">Type</span>                   <span class="comment">// user: %5</span></span><br><span class="line">  <span class="comment">// function_ref Int.init(_builtinIntegerLiteral:)</span></span><br><span class="line">  %<span class="number">4</span> = function_ref @<span class="type">Swift</span>.<span class="type">Int</span>.<span class="keyword">init</span>(_builtinIntegerLiteral: <span class="type">Builtin</span>.<span class="type">IntLiteral</span>) -&gt; <span class="type">Swift</span>.<span class="type">Int</span> : $<span class="meta">@convention</span>(method) (<span class="type">Builtin</span>.<span class="type">IntLiteral</span>, @thin <span class="type">Int</span>.<span class="type">Type</span>) -&gt; <span class="type">Int</span> <span class="comment">// user: %5</span></span><br><span class="line">  %<span class="number">5</span> = apply %<span class="number">4</span>(%<span class="number">2</span>, %<span class="number">3</span>) : $<span class="meta">@convention</span>(method) (<span class="type">Builtin</span>.<span class="type">IntLiteral</span>, @thin <span class="type">Int</span>.<span class="type">Type</span>) -&gt; <span class="type">Int</span> <span class="comment">// user: %6</span></span><br><span class="line">  store %<span class="number">5</span> to [trivial] %<span class="number">1</span> : $*<span class="type">Int</span>                <span class="comment">// id: %6</span></span><br><span class="line">  <span class="comment">// function_ref closure #1 in uniqueIntegerProvider()</span></span><br><span class="line">  %<span class="number">7</span> = function_ref @closure #<span class="number">1</span> () -&gt; <span class="type">Swift</span>.<span class="type">Int</span> <span class="keyword">in</span> main.uniqueIntegerProvider() -&gt; () -&gt; <span class="type">Swift</span>.<span class="type">Int</span> : $<span class="meta">@convention</span>(thin) (@guaranteed &#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;) -&gt; <span class="type">Int</span> <span class="comment">// user: %10</span></span><br><span class="line">  %<span class="number">8</span> = copy_value %<span class="number">0</span> : $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;               <span class="comment">// user: %10</span></span><br><span class="line">  mark_function_escape %<span class="number">1</span> : $*<span class="type">Int</span>                 <span class="comment">// id: %9</span></span><br><span class="line">  %<span class="number">10</span> = partial_apply [callee_guaranteed] %<span class="number">7</span>(%<span class="number">8</span>) : $<span class="meta">@convention</span>(thin) (@guaranteed &#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;) -&gt; <span class="type">Int</span> <span class="comment">// user: %12</span></span><br><span class="line">  destroy_value %<span class="number">0</span> : $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;                 <span class="comment">// id: %11</span></span><br><span class="line">  <span class="keyword">return</span> %<span class="number">10</span> : $@callee_guaranteed () -&gt; <span class="type">Int</span>      <span class="comment">// id: %12</span></span><br><span class="line">&#125; <span class="comment">// end sil function 'main.uniqueIntegerProvider() -&gt; () -&gt; Swift.Int'</span></span><br></pre></td></tr></table></figure>
+<p><strong>优化后：</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// uniqueIntegerProvider()</span></span><br><span class="line">sil hidden @main.uniqueIntegerProvider() -&gt; () -&gt; <span class="type">Swift</span>.<span class="type">Int</span> : $<span class="meta">@convention</span>(thin) () -&gt; @owned @callee_guaranteed () -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">bb0:</span><br><span class="line">  %<span class="number">0</span> = alloc_box $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;, <span class="keyword">var</span>, name <span class="string">"i"</span>      <span class="comment">// users: %8, %7, %6, %1</span></span><br><span class="line">  %<span class="number">1</span> = project_box %<span class="number">0</span> : $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;, <span class="number">0</span>           <span class="comment">// user: %4</span></span><br><span class="line">  %<span class="number">2</span> = integer_literal $<span class="type">Builtin</span>.<span class="type">Int64</span>, <span class="number">0</span>          <span class="comment">// user: %3</span></span><br><span class="line">  %<span class="number">3</span> = <span class="class"><span class="keyword">struct</span> <span class="title">$Int</span> (%2 : <span class="title">$Builtin</span>.<span class="title">Int64</span>)          // <span class="title">user</span>: %4</span></span><br><span class="line"><span class="class">  <span class="title">store</span> %3 <span class="title">to</span> %1 : <span class="title">$</span>*<span class="title">Int</span>                          // <span class="title">id</span>: %4</span></span><br><span class="line"><span class="class">  // <span class="title">function_ref</span> <span class="title">closure</span> #1 <span class="title">in</span> <span class="title">uniqueIntegerProvider</span>()</span></span><br><span class="line"><span class="class">  %5 = <span class="title">function_ref</span> @<span class="title">closure</span> #1 () -&gt; <span class="title">Swift</span>.<span class="title">Int</span> <span class="title">in</span> <span class="title">main</span>.<span class="title">uniqueIntegerProvider</span>() -&gt; () -&gt; <span class="title">Swift</span>.<span class="title">Int</span> : <span class="title">$</span>@<span class="title">convention</span>(<span class="title">thin</span>) (@<span class="title">guaranteed</span> </span>&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;) -&gt; <span class="type">Int</span> <span class="comment">// user: %7</span></span><br><span class="line">  strong_retain %<span class="number">0</span> : $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;                 <span class="comment">// id: %6</span></span><br><span class="line">  %<span class="number">7</span> = partial_apply [callee_guaranteed] %<span class="number">5</span>(%<span class="number">0</span>) : $<span class="meta">@convention</span>(thin) (@guaranteed &#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;) -&gt; <span class="type">Int</span> <span class="comment">// user: %9</span></span><br><span class="line">  strong_release %<span class="number">0</span> : $&#123; <span class="keyword">var</span> <span class="type">Int</span> &#125;                <span class="comment">// id: %8</span></span><br><span class="line">  <span class="keyword">return</span> %<span class="number">7</span> : $@callee_guaranteed () -&gt; <span class="type">Int</span>       <span class="comment">// id: %9</span></span><br><span class="line">&#125; <span class="comment">// end sil function 'main.uniqueIntegerProvider() -&gt; () -&gt; Swift.Int'</span></span><br></pre></td></tr></table></figure>
+<p>可以很明显的看出，无论是优化前还是优化后，使用的都是<code>alloc_box</code>指令，也就是说此时的变量<code>i</code>是存储在堆上的。其实原因也很好理解，其实就是变量 <code>i</code> 被函数闭合了，即使在退出作用域的情况下，仍然得保持 i 的存在。当然这只是一种情况，还会有其他的情况。</p>
+<p><strong>总结：所以说在 Swift 中所有的<code>class</code>都存储在堆上，所有的<code>struct</code>都存储在栈上这种说法是有问题的，只能说大部分情况是如此的，总有些情况会跟你淘气，具体存储位置还得结合结构所在上下文以及 SIL 优化手段等等因素综合分析。</strong></p>
+<h3 id="拷贝方式"><a href="#拷贝方式" class="headerlink" title="拷贝方式"></a>拷贝方式</h3><p>引用类型，在拷贝时，实际上拷贝的只是栈区存储的对象的指针；值类型拷贝的是实际的值。</p>
+<p>对于值类型拷贝，Swift 有一套 <strong>写时复制 COW（Copy-On-Write）</strong> 优化机制，即只有赋值后值类型发生改变的时候才会进行真正的拷贝，当没有改变时，两者共享同一个内存地址。</p>
+<p>Apple在 <a href="https://github.com/apple/swift/blob/main/docs/OptimizationTips.rst#advice-use-copy-on-write-semantics-for-large-values" target="_blank" rel="noopener">OptimizationTips</a> 中，给出了一个示例，代码很简单，相信大家一下就能明白。</p>
+<blockquote>
+<p>该文档中还有一些 Apple 给出的另外的优化方式，比如减少动态派发的方式等等，建议 enjoy。</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Ref</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> val: <span class="type">T</span></span><br><span class="line">  <span class="keyword">init</span>(<span class="number">_</span> v: <span class="type">T</span>) &#123;val = v&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Box</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> ref: <span class="type">Ref</span>&lt;<span class="type">T</span>&gt;</span><br><span class="line">    <span class="keyword">init</span>(<span class="number">_</span> x: <span class="type">T</span>) &#123; ref = <span class="type">Ref</span>(x) &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> value: <span class="type">T</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> ref.val &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">          <span class="comment">/// 判断当前对象是否只有一个引用，如果不是才进行拷贝</span></span><br><span class="line">          <span class="keyword">if</span> !isKnownUniquelyReferenced(&amp;ref) &#123;</span><br><span class="line">            ref = <span class="type">Ref</span>(newValue)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">          &#125;</span><br><span class="line">          ref.val = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Swift 标准库中，<code>String</code>、<code>Array</code>、<code>Dictionary</code>、<code>Set</code> 等默认实现了<code>COW</code>，对于自定义对象，我们需要自己实现。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>在编写本地文章过程中，查看了Swift开源仓库 <a href="https://github.com/apple/swift/tree/main/docs" target="_blank" rel="noopener">docs</a> 目录下的一些文档，学到了很多，也建议各位读者同学enjoy！</p>
+<p>要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
+<p>更多资料</p>
+<ul>
+<li><a href="https://juejin.cn/post/6933231394227240967#heading-7" target="_blank" rel="noopener">iOS Swift5：浅析结构体（struct）与类（class）</a></li>
+<li><a href="https://stackoverflow.com/questions/24232799/why-choose-struct-over-class/24243626#24243626" target="_blank" rel="noopener">Why Choose Struct Over Class?</a></li>
+<li><a href="https://swiftrocks.com/memory-management-and-performance-of-value-types" target="_blank" rel="noopener">Memory Management and Performance of Value Types</a></li>
+<li><a href="https://www.vadimbulavin.com/value-types-and-reference-types-in-swift/" target="_blank" rel="noopener">Value Types and Reference Types in Swift</a></li>
+<li><a href="https://stackoverflow.com/questions/24232799/why-choose-struct-over-class/24243626#24243626" target="_blank" rel="noopener">why-choose-struct-over-class</a></li>
+<li><a href="https://www.raywenderlich.com/9481-reference-vs-value-types-in-swift" target="_blank" rel="noopener">reference-vs-value-types-in-swift</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpg" alt="CoderStar 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpg" alt="CoderStar 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/WeChatOfficialAccountLogoBeautify.png">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+              <a href="/tags/Swift/" rel="tag"><i class="fa fa-tag"></i> Swift</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/iOS/OC/关于__attribute__/" rel="prev" title="关于__attribute__">
+      <i class="fa fa-chevron-left"></i> 关于__attribute__
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/iOS/进阶/iOS调试相关/" rel="next" title="iOS调试相关">
+      iOS调试相关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class-amp-struct"><span class="nav-number">2.</span> <span class="nav-text">class &amp; struct</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#值类型-amp-引用类型"><span class="nav-number">3.</span> <span class="nav-text">值类型 &amp; 引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#存储方式及位置"><span class="nav-number">3.1.</span> <span class="nav-text">存储方式及位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拷贝方式"><span class="nav-number">3.2.</span> <span class="nav-text">拷贝方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CoderStar"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">CoderStar</p>
+  <div class="site-description" itemprop="description">Think more, Code less</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">113</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">86</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://juejin.im/user/5d3120ae5188254cbc32a2e1" title="掘金 → https://juejin.im/user/5d3120ae5188254cbc32a2e1" rel="noopener" target="_blank"><i class="fa fa-heartbeat fa-fw"></i>掘金</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/Coder-Star" title="GitHub → https://github.com/Coder-Star" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1340529758@qq.com" title="E-Mail → mailto:1340529758@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5328016032" title="Weibo → https://weibo.com/u/5328016032" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+<div>
+    <image src="/images/WeChatOfficialAccountLogoBeautify.png"/>
+</div>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderStar</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">308k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">4:40</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '5f96126d46f87a466491',
+      clientSecret: '3504665f1b9832b309d35b684ec4c034ac526d04',
+      repo        : 'BlogTalk',
+      owner       : 'Coder-Star',
+      admin       : ['Coder-Star'],
+      id          : '7652d15c5cab5d287d7c1f6766a4c60b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

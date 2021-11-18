@@ -29,7 +29,7 @@
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
-<meta property="og:updated_time" content="2021-11-03T13:11:23.124Z">
+<meta property="og:updated_time" content="2021-11-16T13:12:31.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-03 21:11:23" itemprop="dateModified" datetime="2021-11-03T21:11:23+08:00">2021-11-03</time>
+                <time title="修改时间：2021-11-16 21:12:31" itemprop="dateModified" datetime="2021-11-16T21:12:31+08:00">2021-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.1k</span>
+              <span>6.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -404,7 +404,12 @@
 <li>所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。</li>
 </ul>
 <p>引用计数会存储在 isa 指针上，当引用计数超过 255 时，引用计数会存储在 SideTable 的属性中。</p>
-<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>数据成员对⻬规则:</p>
+<h2 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h2><p>对齐原因</p>
+<ul>
+<li>平台原因(移植原因)：不是所有的硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常。</li>
+<li>性能原因：数据结构（尤其是栈）应该尽可能地在自然边界上对齐。原因在于，对于访问未对齐的内存，处理器需要作两次内存访问；而对齐的内存访问仅需要一次访问。</li>
+</ul>
+<p>数据成员对⻬规则:</p>
 <ul>
 <li>结构 (struct)(或联合 (union)) 的数据成员，第一个数据成员放在 offset 为 0 的地方 (即首地址的位置），以后每个数据成员存储的起始位置要从该成员大小或者成员的子成员大小 (只要该成员有子成员，比如说是数组，结构体等) 的整数倍开始 (比如 int 为 4 字节, 则要从 4 的整数倍地址开始存储。</li>
 <li>结构体作为成员: 如果一个结构里有某些结构体成员, 则结构体成员要从其内部最大元素大小的整数倍地址开始存储.(struct a 里存有 struct b,b 里有 char、int 、double 等元素, 那 b 应该从 8 的整数倍开始存储.)</li>
@@ -561,20 +566,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">112</span>
+          <span class="site-state-item-count">113</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-count">86</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

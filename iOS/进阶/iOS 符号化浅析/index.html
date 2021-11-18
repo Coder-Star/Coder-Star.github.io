@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/atos_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/DSYMTools_result.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/符号化/symbolicatecrash_xcode.png">
-<meta property="og:updated_time" content="2021-11-07T04:17:13.704Z">
+<meta property="og:updated_time" content="2021-11-16T13:06:21.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 符号化浅析">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。 符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac O">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-07 12:17:13" itemprop="dateModified" datetime="2021-11-07T12:17:13+08:00">2021-11-07</time>
+                <time title="修改时间：2021-11-16 21:06:21" itemprop="dateModified" datetime="2021-11-16T21:06:21+08:00">2021-11-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,14 +264,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.9k</span>
+              <span>9.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>9 分钟</span>
             </span>
 
         </div>
@@ -360,7 +360,7 @@
 </ul>
 <p>一般情况下我们<code>Debug环境下</code>使用<code>DWARF</code>方式，方便我们进行调试，那对于<code>Release</code>环境我们使用第二种方式，选择第二种方式便可以将符号表从二进制文件中进行剥离，改为使用 dSYM 文件进行存储。开启之后我们就可以在 Xcode 打包出来的文件 xcarchive 里面看到它。另外，如果开启了 bitcode 优化的话，苹果会做二次编译优化，所以最终的 dSYM 就需要在 Apple Connect 手动下载了。</p>
 <blockquote>
-<p>对于开启<code>bitcode</code>优化的dysm文件，如果我们不进行处理，解析出来的符号会是<code>hidden#9276</code>这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。<code>xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM</code></p>
+<p>对于开启<code>bitcode</code>优化的 dysm 文件，如果我们不进行处理，解析出来的符号会是<code>hidden#9276</code>这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。<code>xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM</code></p>
 </blockquote>
 <p>dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对 dSYM 文件的备份保存是非常必要的。</p>
 <blockquote>
@@ -420,9 +420,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找指定地址的相关信息</span></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 校验DWARF的有效性</span></span><br><span class="line">dwarfdump --verify iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
 <p>如果设备上 dSYM 文件很多，可以通过下列命令查找指定 UUID 对应 dSYM 位置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> UUID改为实际的UUID，并且UUID需要格式转换（增加<span class="string">'-'</span>)</span></span><br><span class="line">mdfind "com_apple_xcode_dsym_uuids == UUID"</span><br></pre></td></tr></table></figure>
-<p>通过 symbols -uuid 来查看 dSYM 文件的 UUID;<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">symbols -uuid iOSTest.app.dSYM</span><br></pre></td></tr></table></figure></p>
+<p>通过 symbols -uuid 来查看 dSYM 文件的 UUID;</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">symbols -uuid iOSTest.app.dSYM</span><br></pre></td></tr></table></figure>
 <h3 id="symbolicatecrash"><a href="#symbolicatecrash" class="headerlink" title="symbolicatecrash"></a>symbolicatecrash</h3><p>Xcode 提供的 <code>symbolicatecrash</code>。该命令位于：<code>/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash</code>，是一个<code>perl</code>脚本，里面整合了逐步解析的操作（可以将命令拷贝出来，直接进行调用）。</p>
-<p>使用方式为</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 需要先运行该命令，不然下面 symbolicatecrash命令会出现</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Error: <span class="string">"DEVELOPER_DIR"</span> is not defined at ./symbolicatecrash line 69.</span></span><br><span class="line">export DEVELOPER_DIR="/Applications/XCode.App/Contents/Developer"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行命令前需要将崩溃日志、 dSYM 以及 symbolicatecrash 复制到同一个目录下</span></span><br><span class="line">symbolicatecrash log.crash -d xxx.app.dSYM &gt; symbol.log</span><br></pre></td></tr></table></figure>
 <p>优点：能非常方便的符号化整份 crash 日志。<br>缺点：</p>
 <ul>
@@ -431,6 +431,12 @@
 </ul>
 <p>其实在该方式的基础上，Xcode 可以可视化的进行崩溃文件符号化，将崩溃日志、 dSYM 文件和可执行文件放在同一目录下，然后将崩溃日志拖拽至 Devicelog 中，右键 <code>symbolicate Log</code> 或者 <code>Re-symbolicate Log</code>就能符号化。</p>
 <p><img src="../../../img/iOS/进阶/符号化/symbolicatecrash_xcode.png" alt="symbolicatecrash_xcode"></p>
+<p>iOS 15 之后，崩溃日志的格式为 JSON 形式，新的脚本地址为<code>/Applications/Xcode.app/Contents/SharedFrameworks/CoreSymbolicationDT.framework/Versions/A/Resources/CrashSymbolicator.py</code></p>
+<p>这个 py 脚本为 python3 写的，所有也需要 python3 环境下去调用，命令为</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 /Applications/Xcode.app/Contents/SharedFrameworks/CoreSymbolicationDT.framework/Versions/A/Resources/CrashSymbolicator.py 要解析的崩溃日志 -d dSYM所在路径 -o 解析后的日志地址</span><br></pre></td></tr></table></figure>
+<p>解析之后的结果也是 JSON 形式的。</p>
+<p>当然我们也可以将其拷贝出来使用，但是需要在首行加上下列代码</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line"></span><br><span class="line">sys.path.append("/Applications/Xcode.app/Contents/SharedFrameworks/CoreSymbolicationDT.framework/Versions/A/Resources/")</span><br></pre></td></tr></table></figure>
 <h3 id="atos"><a href="#atos" class="headerlink" title="atos"></a>atos</h3><p>atos 命令将十六进制地址转换为源代码中可识别的函数名称和行号。<br>优点：速度快，可以符号化特定的某一行，方便上层做缓存。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> load adress:可执行指令部分相对镜像文件中的起始加载地址</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> address to symbolicate：调用函数的地址</span></span><br><span class="line">atos -arch &lt;Binary Architecture&gt; -o &lt;Path to dSYM file&gt;/Contents/Resources/DWARF/&lt;binary image name&gt; -l &lt;load address&gt; &lt;address to symbolicate&gt;</span><br><span class="line"></span><br><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure>
 <h2 id="系统日志符号化"><a href="#系统日志符号化" class="headerlink" title="系统日志符号化"></a>系统日志符号化</h2><p>符号化自己 App 的方法名，需要编译生成的 dSYM 文件。而要将系统库的符号化为完整的方法名，也需要 iOS 各系统库的符号文件。</p>
@@ -618,20 +624,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">112</span>
+          <span class="site-state-item-count">113</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">31</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">85</span>
+        <span class="site-state-item-count">86</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
