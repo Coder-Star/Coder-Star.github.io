@@ -42,6 +42,8 @@ B(C) = (1-alpha)*B(B) + alpha*B(A)
 
 ### 避免离屏渲染
 
+### 图片异步解码
+
 ## 整体优化
 
 - 不要使用太复杂的 XIB/Storyboard

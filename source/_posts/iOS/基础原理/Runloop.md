@@ -24,9 +24,14 @@ Hi Coder，我是 CoderStar！
 
 ![runloop.png](../../../img/iOS/基础原理/runloop.png)
 
+RunLoop处理六类事件
+
+- Observer事件，runloop中状态变化时进行通知。
+- Block事件，非延迟的NSObject PerformSelector立即调用，dispatch_after立即调用，block回调。
+- Main_Dispatch_Queue事件：GCD中dispatch到main queue的block会被dispatch到main loop执行。
 - Timer：就是我们常用的`Timer`。
-- Source0：
-- Source1：底层基于手势、
+- Source0：处理如UIEvent，CFSocket这类事件。需要手动触发。
+- Source1：处理系统内核的mach_msg事件;
 
 Runloop可供Observe的阶段
 
@@ -89,3 +94,4 @@ displayLink.add(to: .current, forMode: .common)
 Let's be CoderStar!
 
 - [深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop)
+- [iOS 事件处理机制与图像渲染过程](https://www.cnblogs.com/yulang314/p/5091894.html)

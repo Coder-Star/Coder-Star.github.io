@@ -50,7 +50,7 @@ open func setNilValueForKey(_ key: String)
 - 修改系统的只读变量
 - 可以任意修改一个对象的属性和变量 (包括私有变量)
 
-通过 KVC 改变属性会触发 KVO，是因为通过 KVC 赋值时内部会触发 setter 方法；
+通过 KVC 改变属性会触发 KVO，对于没有 setter 方法的合法属性，kvc 会自己给属性赋值，赋值的时候调用的是 _NSSetValueAndNotifyForKeyInIvar 看名字不难理解，边赋值边通知值的变化，方法里面调用了 willChangeValueForKey 和 didChangeValueForKey 这样 kvo 就接上了
 
 ### 在 Swift 中使用 KVC
 
@@ -111,3 +111,5 @@ let observation = user.observe(\User.name, options: [.new]) { user, change in
 ```
 
 **实际 Swift 还可以使用`didSet`这种形式来实现属性值改变观察**
+
+-[KVO原理分析介绍](https://mp.weixin.qq.com/s/BeIQMwa28xX0MjZGk4fWYg)
