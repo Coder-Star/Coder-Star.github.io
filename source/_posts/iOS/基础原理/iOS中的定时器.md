@@ -189,11 +189,13 @@ Timer 会有一个`tolerance`属性 -- `时间宽容度`，指定该属性时意
 
 > 设置了 `tolerance` 的 `Timer`，对于 iOS 和 MacOS 系统，实质上会采用 `GCD timer` 的形式注册到内核中，`GCD timer` 触发后，再由 `RunLoop` 处理其回调逻辑。对于没有设置 `tolerance` 的 `timer`，则是用 `mk_timer` 的形式注册。
 
-`Timer`理论上最小精度为 **0.1 毫秒**。从上述`interval`参数的默认值就能看出端倪，但是在实际开发中，因为线程处理以及`RunLoop`底层派发等方面因素，精度远远达不到理论精度，有效精度可能到**0.1秒**就不错了，日常开发还是尽量将`Timer`用在秒级单位计时场景下吧。
+`Timer`理论上最小精度为 **0.1 毫秒**。从上述`interval`参数的默认值就能看出端倪，但是在实际开发中，因为线程处理以及`RunLoop`底层派发等方面因素，精度远远达不到理论精度，有效精度可能到**0.1 秒**就不错了，日常开发还是尽量将`Timer`用在秒级单位计时场景下吧。
 
 **引申**
 
 当调用 `NSObject` 的 `performSelecter:afterDelay:` 方法，实际上其内部会创建一个 `Timer` 并添加到当前线程的 `RunLoop` 中。**所以如果当前线程没有 RunLoop，则这个方法会失效。**
+
+> `Timer` 的本质是在 `RunLoop` 中注册时间点，该时间的参照标准是来自内核的`uint64_t mach_absolute_time(void)`函数。时间点注册则是间接调用了 `dispatch_time`。
 
 在编写这篇文章时发现了一个有意思的小玩意。
 

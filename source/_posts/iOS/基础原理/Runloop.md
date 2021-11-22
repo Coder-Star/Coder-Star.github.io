@@ -22,18 +22,25 @@ Hi Coder，我是 CoderStar！
 - RunLoop 本质上是一个对象, 这个对象可以保持程序的持续运行并且处理程序中的各种事件 (如触摸事件, 定时器时间,selector 事件).
 - RunLoop 没有事情处理时就会使线程进入睡眠状态. 这样可以节省 CPU 资源, 提高程序性能.
 
-![runloop.png](../../../img/iOS/基础原理/runloop.png)
+![RunLoop流程](../../../img/iOS/基础原理/Runloop/RunLoop流程.png)
 
-RunLoop处理六类事件
+![RunLoop关系](../../../img/iOS/基础原理/Runloop/RunLoop关系.png)
 
-- Observer事件，runloop中状态变化时进行通知。
-- Block事件，非延迟的NSObject PerformSelector立即调用，dispatch_after立即调用，block回调。
-- Main_Dispatch_Queue事件：GCD中dispatch到main queue的block会被dispatch到main loop执行。
+RunLoop 处理六类事件
+
+- Observer 事件，runloop 中状态变化时进行通知。
+- Block 事件，非延迟的 NSObject PerformSelector 立即调用，dispatch_after 立即调用，block 回调。
+- Main_Dispatch_Queue 事件：GCD 中 dispatch 到 main queue 的 block 会被 dispatch 到 main loop 执行。
 - Timer：就是我们常用的`Timer`。
-- Source0：处理如UIEvent，CFSocket这类事件。需要手动触发。
-- Source1：处理系统内核的mach_msg事件;
+- Source0：处理如 UIEvent，CFSocket 这类事件，需要手动触发，一般是内部源。是经过 CFRunLoopSourceSignal 发送事件信号
+- Source1：处理系统内核的 mach_msg 事件，一般是外部源，基于 Port(端口) 的线程间通信，比如 CFMachPort 和 CFMessagePort。
 
-Runloop可供Observe的阶段
+> Source0：source0 是 App 内部事件，由 App 自己管理的，像 UIEvent、CFSocket 都是 source0。source0 并不能主动触发事件，当一个 source0 事件准备处理时，要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理。然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。框架已经帮我们做好了这些调用，比如网络请求的回调、滑动触摸的回调，我们不需要自己处理。
+> Source1：由 RunLoop 和内核管理，Mach port 驱动，如 CFMachPort、CFMessagePort。source1 包含了一个 mach_port 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 Source 能主动唤醒 RunLoop 的线程。
+
+> 用户交互事件首先在 IOHID 层生成 HIDEvent，然后向事件处理线程的 Source1 的 mach port 发送 HIDEvent 消息，Source1 的回调函数将事件转化为 UIEvent 并筛选需要处理的事件推入待处理事件队列，向主线程的事件处理 Source0 发送信号，并唤醒主线程，主线程检查到事件处理 Source0 有待处理信号后，触发 Source0 的回调函数，从待处理事件队列中提取 UIEvent，最后进入 hit-test 等 UIEvent 事件响应流程。
+
+Runloop 可供 Observer 的阶段
 
 - Entry 进入
 - BeforeTimers
@@ -95,3 +102,5 @@ Let's be CoderStar!
 
 - [深入理解RunLoop](https://blog.ibireme.com/2015/05/18/runloop)
 - [iOS 事件处理机制与图像渲染过程](https://www.cnblogs.com/yulang314/p/5091894.html)
+- [RunLoop与事件响应](https://juejin.cn/post/6844904105656188935)
+- [一份走心的runloop源码分析](https://www.jianshu.com/p/aa0fae8c491b)
