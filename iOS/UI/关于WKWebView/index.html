@@ -29,7 +29,7 @@
 <meta property="og:description" content="WebKit 进程在 iOS 系统中，通常一个应用对应一个进程，但是在 WebKit 的发展过程中，基于稳定性与安全性考虑，引入了多进程的概念，避免单一页面的异常影响整体 app 运行，首先本文简单介绍下几个常见的 WebKit 进程，如下所示。 UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的进程空间中；主要负责与 WebContent 进行交互，与">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/WkWebView.jpg">
-<meta property="og:updated_time" content="2021-10-27T12:39:08.585Z">
+<meta property="og:updated_time" content="2021-11-21T11:07:40.982Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 WKWebView">
 <meta name="twitter:description" content="WebKit 进程在 iOS 系统中，通常一个应用对应一个进程，但是在 WebKit 的发展过程中，基于稳定性与安全性考虑，引入了多进程的概念，避免单一页面的异常影响整体 app 运行，首先本文简单介绍下几个常见的 WebKit 进程，如下所示。 UIProcessAPP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的进程空间中；主要负责与 WebContent 进行交互，与">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-27 20:39:08" itemprop="dateModified" datetime="2021-10-27T20:39:08+08:00">2021-10-27</time>
+                <time title="修改时间：2021-11-21 19:07:40" itemprop="dateModified" datetime="2021-11-21T19:07:40+08:00">2021-11-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.6k</span>
+              <span>5.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -304,6 +304,9 @@
 <h3 id="WKNavigationDelegate"><a href="#WKNavigationDelegate" class="headerlink" title="WKNavigationDelegate"></a>WKNavigationDelegate</h3><p>WKNavigationDelegate 可以分为页面请求以及页面渲染两部分。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//页面请求部分</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//发送请求前执行，决定是否允许发送请求</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping <span class="params">(WKNavigationActionPolicy)</span></span></span> -&gt; <span class="type">Void</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果需要证书验证，进行验证</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping <span class="params">(URLSession.AuthChallengeDisposition, URLCredential?)</span></span></span> -&gt; <span class="type">Void</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//收到回应，决定是否允许载入</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping <span class="params">(WKNavigationResponsePolicy)</span></span></span> -&gt; <span class="type">Void</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//后台重定向</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//失败，一般是网络错误</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//页面渲染</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//网页开始加载时调用</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//网页正在加载</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didCommit navigation: WKNavigation!)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//网页加载完成</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didFinish navigation: WKNavigation!)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//网页加载失败</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webView</span><span class="params">(<span class="number">_</span> webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭</span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">webViewWebContentProcessDidTerminate</span><span class="params">(<span class="number">_</span> webView: WKWebView)</span></span></span><br></pre></td></tr></table></figure>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="js-注入相关"><a href="#js-注入相关" class="headerlink" title="js 注入相关"></a>js 注入相关</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注入宽度自适应标签</span></span><br><span class="line"> <span class="keyword">let</span> js = <span class="string">"var oMeta = document.createElement('meta');oMeta.content = 'initial-scale=0.6,minimum-scale=0.5';oMeta.name = 'viewport';document.getElementsByTagName('head')[0].appendChild(oMeta);"</span></span><br><span class="line">webView.evaluateJavaScript(js, completionHandler: <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//body滚动到顶部</span></span><br><span class="line">webView.evaluateJavaScript(<span class="string">"document.body.scrollTop = document.documentElement.scrollTop = 0;"</span>, completionHandler: <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//禁止长按出现菜单</span></span><br><span class="line">webView.evaluateJavaScript(<span class="string">"document.documentElement.style.webkitUserSelect='none';"</span>, completionHandler: <span class="literal">nil</span>)</span><br><span class="line">webView.evaluateJavaScript(<span class="string">"document.documentElement.style.webkitTouchCallout='none';"</span>, completionHandler: <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//放大文字</span></span><br><span class="line">webView.evaluateJavaScript(<span class="string">"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '266%'"</span>,completionHandler: <span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/VdkVBIQwj7WkAk8-5wppmQ" target="_blank" rel="noopener">深入理解 WKWebView（入门篇）—— WebKit 源码调试与分析</a></li>
+</ul>
 
     </div>
 
@@ -454,7 +457,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -519,12 +522,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">308k</span>
+    <span title="站点总字数">312k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:40</span>
+    <span title="站点阅读时长">4:44</span>
 </div>
 
         

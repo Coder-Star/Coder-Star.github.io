@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），如果 retainCount 为 0，则释放该对象">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），">
 <meta name="keywords" content="iOS,内存管理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 内存管理">
 <meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/iOS内存管理/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），如果 retainCount 为 0，则释放该对象">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/内存管理/MemoryManagement.png">
-<meta property="og:updated_time" content="2021-11-14T09:16:07.615Z">
+<meta property="og:updated_time" content="2021-11-19T14:15:28.880Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 内存管理">
-<meta name="twitter:description" content="iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），如果 retainCount 为 0，则释放该对象">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/内存管理/MemoryManagement.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/iOS内存管理/">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-14 17:16:07" itemprop="dateModified" datetime="2021-11-14T17:16:07+08:00">2021-11-14</time>
+                <time title="修改时间：2021-11-19 22:15:28" itemprop="dateModified" datetime="2021-11-19T22:15:28+08:00">2021-11-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>639</span>
+              <span>760</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -277,23 +277,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。</p>
 <p>当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），如果 retainCount 为 0，则释放该对象。</p>
 <p>引用计数这种方式只面向 class 这类引用类型，不适用于值类型。</p>
 <p>其中 Swift 固定使用 ARC，而 OC 可以自己设置是否 ARC，通过设置 Xcode 的<code>Build Settings</code>中的<code>将Objective-C Automatic  Counting</code>来控制 OC 是否开启 ARC。</p>
 <h2 id="内存管理区"><a href="#内存管理区" class="headerlink" title="内存管理区"></a>内存管理区</h2><p><img src="../../../img/iOS/基础原理/内存管理/MemoryManagement.png" alt="MemoryManagement"></p>
 <p>iOS 内存管理区分为栈、堆、全局区、常量区、代码区。这几个区内存地址由高到低。其中栈、堆在运行过程中会动态增长，其他在编译器确定。</p>
 <ul>
-<li>栈：存储非对象类型；存放函数的参数值、局部变量值；对象指针也属于局部变量。存储空间有限（512k），地址连续，运行时分配，编译器自动分配释放，访问速度快。</li>
-<li>堆： 存储对象；开发者自己去分配及释放，地址不连续，速度没有栈快。</li>
-<li>全局区：<ul>
-<li>全局 / 静态区（.bss）：编译时分配，存储未初始化的全局变量和静态变量</li>
-<li>全局 / 静态区（.data）：编译时分配，存储初始化的全局变量与静态变量</li>
+<li>栈：存储非对象类型；存放函数的参数值、局部变量值；对象指针也属于局部变量。存储空间有限（512k），地址连续，运行时分配，编译器自动分配释放，访问速度快。内存地址一般以0x7开头。</li>
+<li>堆： 存储对象；开发者自己去分配及释放，地址不连续，速度没有栈快。内存地址一般以0x6开头。</li>
+<li>全局区：内存地址一般以0x1开头。<ul>
+<li>全局 / 静态区（.bss，对应macho文件_common区）：编译时分配，存储未初始化的全局变量和静态变量</li>
+<li>全局 / 静态区（.data，对应macho文件_data区）：编译时分配，存储初始化的全局变量与静态变量</li>
 </ul>
 </li>
 <li>常量区（_Data）：只读，编译时分配，存储常量字符串；程序结束后系统释放。</li>
 <li>代码区（_Text）：只读，编译时分配，二进制文件。程序结束后系统释放。</li>
 </ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
 
     </div>
 
@@ -429,7 +432,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理区"><span class="nav-number">1.</span> <span class="nav-text">内存管理区</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理区"><span class="nav-number">2.</span> <span class="nav-text">内存管理区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -445,7 +448,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -510,12 +513,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">308k</span>
+    <span title="站点总字数">312k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:40</span>
+    <span title="站点阅读时长">4:44</span>
 </div>
 
         

@@ -28,12 +28,13 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 Runloop">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/runloop.png">
-<meta property="og:updated_time" content="2021-11-06T15:19:08.016Z">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop流程.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop关系.png">
+<meta property="og:updated_time" content="2021-11-21T14:39:04.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runloop">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 Runloop">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/runloop.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop流程.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/Runloop/">
 
@@ -229,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-06 23:19:08" itemprop="dateModified" datetime="2021-11-06T23:19:08+08:00">2021-11-06</time>
+                <time title="修改时间：2021-11-21 22:39:04" itemprop="dateModified" datetime="2021-11-21T22:39:04+08:00">2021-11-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +259,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -284,13 +285,22 @@
 <li>RunLoop 本质上是一个对象, 这个对象可以保持程序的持续运行并且处理程序中的各种事件 (如触摸事件, 定时器时间,selector 事件).</li>
 <li>RunLoop 没有事情处理时就会使线程进入睡眠状态. 这样可以节省 CPU 资源, 提高程序性能.</li>
 </ul>
-<p><img src="../../../img/iOS/基础原理/runloop.png" alt="runloop.png"></p>
+<p><img src="../../../img/iOS/基础原理/Runloop/RunLoop流程.png" alt="RunLoop流程"></p>
+<p><img src="../../../img/iOS/基础原理/Runloop/RunLoop关系.png" alt="RunLoop关系"></p>
+<p>RunLoop 处理六类事件</p>
 <ul>
+<li>Observer 事件，runloop 中状态变化时进行通知。</li>
+<li>Block 事件，非延迟的 NSObject PerformSelector 立即调用，dispatch_after 立即调用，block 回调。</li>
+<li>Main_Dispatch_Queue 事件：GCD 中 dispatch 到 main queue 的 block 会被 dispatch 到 main loop 执行。</li>
 <li>Timer：就是我们常用的<code>Timer</code>。</li>
-<li>Source0：</li>
-<li>Source1：底层基于手势、</li>
+<li>Source0：处理如 UIEvent，CFSocket 这类事件，需要手动触发，一般是内部源。是经过 CFRunLoopSourceSignal 发送事件信号</li>
+<li>Source1：处理系统内核的 mach_msg 事件，一般是外部源，基于 Port(端口) 的线程间通信，比如 CFMachPort 和 CFMessagePort。</li>
 </ul>
-<p>Runloop可供Observe的阶段</p>
+<blockquote>
+<p>Source0：source0 是 App 内部事件，由 App 自己管理的，像 UIEvent、CFSocket 都是 source0。source0 并不能主动触发事件，当一个 source0 事件准备处理时，要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理。然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。框架已经帮我们做好了这些调用，比如网络请求的回调、滑动触摸的回调，我们不需要自己处理。<br>Source1：由 RunLoop 和内核管理，Mach port 驱动，如 CFMachPort、CFMessagePort。source1 包含了一个 mach_port 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。这种 Source 能主动唤醒 RunLoop 的线程。</p>
+<p>用户交互事件首先在 IOHID 层生成 HIDEvent，然后向事件处理线程的 Source1 的 mach port 发送 HIDEvent 消息，Source1 的回调函数将事件转化为 UIEvent 并筛选需要处理的事件推入待处理事件队列，向主线程的事件处理 Source0 发送信号，并唤醒主线程，主线程检查到事件处理 Source0 有待处理信号后，触发 Source0 的回调函数，从待处理事件队列中提取 UIEvent，最后进入 hit-test 等 UIEvent 事件响应流程。</p>
+</blockquote>
+<p>Runloop 可供 Observer 的阶段</p>
 <ul>
 <li>Entry 进入</li>
 <li>BeforeTimers</li>
@@ -334,6 +344,9 @@
 <p>Let’s be CoderStar!</p>
 <ul>
 <li><a href="https://blog.ibireme.com/2015/05/18/runloop" target="_blank" rel="noopener">深入理解RunLoop</a></li>
+<li><a href="https://www.cnblogs.com/yulang314/p/5091894.html" target="_blank" rel="noopener">iOS 事件处理机制与图像渲染过程</a></li>
+<li><a href="https://juejin.cn/post/6844904105656188935" target="_blank" rel="noopener">RunLoop与事件响应</a></li>
+<li><a href="https://www.jianshu.com/p/aa0fae8c491b" target="_blank" rel="noopener">一份走心的runloop源码分析</a></li>
 </ul>
 
     </div>
@@ -486,7 +499,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -551,12 +564,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">308k</span>
+    <span title="站点总字数">312k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:40</span>
+    <span title="站点阅读时长">4:44</span>
 </div>
 
         

@@ -20,20 +20,24 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="Core Animation：Core Graphics：UIkit：   Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。 Commit Transaction：此时 app 会通过 CPU 处理显示内容的前置计算，比如布局计算、图片解码等任务，接下来会进行详细的讲解。之后将计算好的图层进行打包发给 Render Server。 Decod">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 整体流程">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 页面渲染 - 流程">
 <meta property="og:url" content="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-流程/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="Core Animation：Core Graphics：UIkit：   Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。 Commit Transaction：此时 app 会通过 CPU 处理显示内容的前置计算，比如布局计算、图片解码等任务，接下来会进行详细的讲解。之后将计算好的图层进行打包发给 Render Server。 Decod">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 整体流程">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/Core%20Animation%20Pipeline.jpeg">
-<meta property="og:updated_time" content="2021-11-07T07:39:23.595Z">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/渲染流程.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/UI渲染架构.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.jpeg">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Render%20Server.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png">
+<meta property="og:updated_time" content="2021-11-21T13:10:40.147Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 流程">
-<meta name="twitter:description" content="Core Animation：Core Graphics：UIkit：   Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。 Commit Transaction：此时 app 会通过 CPU 处理显示内容的前置计算，比如布局计算、图片解码等任务，接下来会进行详细的讲解。之后将计算好的图层进行打包发给 Render Server。 Decod">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/Core%20Animation%20Pipeline.jpeg">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 整体流程">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/渲染流程.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/UI/iOS页面渲染/iOS页面渲染-流程/">
 
@@ -229,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-07 15:39:23" itemprop="dateModified" datetime="2021-11-07T15:39:23+08:00">2021-11-07</time>
+                <time title="修改时间：2021-11-21 21:10:40" itemprop="dateModified" datetime="2021-11-21T21:10:40+08:00">2021-11-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,14 +262,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -277,28 +281,73 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><code>Core Animation</code>：<br><code>Core Graphics</code>：<br><code>UIkit</code>：</p>
-<p><img src="../../../../img/iOS/UI/iOS页面渲染/Core%20Animation%20Pipeline.jpeg" alt="Core Animation Pipeline"></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<h2 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h2><p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/渲染流程.png" alt="渲染流程"></p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/UI渲染架构.png" alt="层级"></p>
+<p>通过上面两幅图，我们整体了解一下整体 UI 渲染的技术栈。</p>
 <ul>
-<li>Handle Events：这个过程中会先处理点击事件，这个过程中有可能会需要改变页面的布局和界面层次。</li>
-<li>Commit Transaction：此时 app 会通过 CPU 处理显示内容的前置计算，比如布局计算、图片解码等任务，接下来会进行详细的讲解。之后将计算好的图层进行打包发给 Render Server。</li>
+<li><p><code>UIkit</code>：<br><code>UIKit</code> 自身并不具备在屏幕成像的能力，其主要负责对用户操作事件的响应（<code>UIView</code> 继承自 <code>UIResponder</code>），事件响应的传递大体是经过逐层的 视图树 遍历实现的。其中<code>iOS</code>上对应的是<code>UIKit</code>，<code>Mac OS</code>对应的是<code>AppKit</code>；</p>
+</li>
+<li><p><code>Core Animation</code>：<br><code>Core Animation</code>为<strong>核心动画</strong>，提供强大的 2D 和 3D 动画效果。但对应到系统中不是这个名字，而是<code>QuartzCore</code>，以 CA 开头的都是他的类，其中带 layer 的类是构成 UIView 的基石，用来呈现内容。</p>
+</li>
+<li><p><code>Core Graphics</code>：<br><code>Core Graphics</code>主要用于<strong>运行时绘制图像</strong>，纯 C 的 API。CoreGraphics 的类名都是以 CG 开头的，平时所用的 CGRect、CGPoint 就在 CGGeometry 这个几何相关的类中定义，CGFont 类则被封装成了 UIFont，CGImage 构成了 UIImage，CGContext 是绘图的上下文等等。所以 CoreGraphics 是系统绘制界面、文字、图像等 UI 的基础。</p>
+</li>
+<li><p><code>Core Image</code><br> <code>Core Image</code> 是用来<strong>处理运行前创建的图像</strong> 的。<code>Core Image</code> 框架拥有一系列现成的图像过滤器，能对已存在的图像进行高效的处理。给图片提供各种滤镜处理，比如高斯模糊、锐化等。在没有这个官方库之前，一般使用的是<code>GNUImage</code>的三方库。</p>
+</li>
+<li><p><code>OpenGL(ES)</code>：<br>OpenGL ES（OpenGL for Embedded Systems，简称 GLES），是 OpenGL 的子集。它是一组调用<code>GPU</code>功能的 API 规范，具体由设备制造商实现。</p>
+</li>
+<li><p><code>Metal</code>：<br>Metal 类似于 OpenGL ES，也是一套第三方标准，具体实现由苹果实现。</p>
+</li>
+</ul>
+<h2 id="Core-Animation-Pipeline"><a href="#Core-Animation-Pipeline" class="headerlink" title="Core Animation Pipeline"></a>Core Animation Pipeline</h2><p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.jpeg" alt="Core Animation Pipeline"></p>
+<h3 id="App-Process"><a href="#App-Process" class="headerlink" title="App Process"></a>App Process</h3><p>这个过程是我们开发过程中可以控制的阶段，UI 优化也是在这一阶段去处理。这个阶段发生在 APP 自己的进程中。其中包括视图的创建、布局计算、图片解码、文本绘制等等。</p>
+<p>此阶段渲染优化的措施可以查看<a href="https://www.jianshu.com/p/748f9abafff8" target="_blank" rel="noopener">iOS开发-视图渲染与性能优化</a></p>
+<p><strong>Layout：构建视图</strong><br>这个阶段主要处理视图的构建和布局，具体步骤包括：</p>
+<p>调用重载的 <code>layoutSubviews</code> 方法<br>创建视图，并通过 <code>addSubview</code> 方法添加子视图<br>计算视图布局，即所有的 <code>Layout Constraint</code></p>
+<blockquote>
+<p>由于这个阶段是在 CPU 中进行，通常是 CPU 限制或者 IO 限制，所以我们应该尽量高效轻量地操作，减少这部分的时间，比如减少非必要的视图创建、简化布局计算、减少视图层级等。</p>
+</blockquote>
+<p><strong>Display：绘制视图</strong><br>这个阶段主要是交给 Core Graphics 进行视图的绘制，注意不是真正的显示，而是得到前文所说的图元 primitives 数据：</p>
+<ol>
+<li>根据上一阶段 Layout 的结果创建得到图元信息。</li>
+<li>如果重写了 drawRect: 方法，那么会调用重载的 drawRect: 方法，在 drawRect: 方法中手动绘制得到 bitmap 数据，从而自定义视图的绘制。</li>
+</ol>
+<p>注意正常情况下 Display 阶段只会得到图元 primitives 信息，而位图 bitmap 是在 GPU 中根据图元信息绘制得到的。但是如果重写了 drawRect: 方法，这个方法会直接调用 Core Graphics 绘制方法得到 bitmap 数据，同时系统会额外申请一块内存，用于暂存绘制好的 bitmap。<br>由于重写了  drawRect: 方法，导致绘制过程从 GPU 转移到了 CPU，这就导致了一定的效率损失。与此同时，这个过程会额外使用 CPU 和内存，因此需要高效绘制，否则容易造成 CPU 卡顿或者内存爆炸。</p>
+<p><strong>Prepare：Core Animation 额外的工作</strong><br>这一步主要是：图片解码和转换</p>
+<p><strong>Commit：打包并发送</strong><br>这一步主要是：图层打包并以<strong>IPC</strong>的形式发送到 Render Server。</p>
+<blockquote>
+<p>注意 commit 操作是依赖图层树递归执行的，所以如果图层树过于复杂，commit 的开销就会很大。这也是我们希望减少视图层级，从而降低图层树复杂度的原因。</p>
+</blockquote>
+<h3 id="Render-Server-Process"><a href="#Render-Server-Process" class="headerlink" title="Render Server Process"></a>Render Server Process</h3><p>这个阶段发生在专门的<strong>渲染进程</strong>里。交给 GPU 去渲染。</p>
+<blockquote>
+<p>在 iOS 5 以前这个进程叫 <code>SpringBoard</code>，在 iOS 6 之后叫 <code>BackBoard</code> 或者 <code>backboardd</code>；</p>
+</blockquote>
+<p>Render Server 渲染进程注册 Source 监听 VSync 信号来驱动图层的渲染，进而提交至 GPU。</p>
+<p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/Render%20Server.png" alt="Render Server"></p>
+<ul>
 <li>Decode：打包好的图层被传输到 Render Server 之后，首先会进行解码。注意完成解码之后需要等待下一个 RunLoop 才会执行下一步 Draw Calls。</li>
 <li>Draw Calls：解码完成后，Core Animation 会调用下层渲染框架（比如 OpenGL 或者 Metal）的方法进行绘制，进而调用到 GPU。</li>
+</ul>
+<blockquote>
+<p><strong>动画是由 <code>Render Server Process</code> 处理计算插值然后计算每一帧</strong>。但是 scrollview 实时滑动的时候就不是这么操作了，他的每一帧都是实时计算的，这个时候就需要 vsync 信号通知 runloop 去处理了，这也是为什么滑动时 mode 要切换为 tracking 的原因，因为实时计算太耗 cpu 只能尽量把其他任务停止。</p>
+</blockquote>
+<h3 id="GPU-amp-Display"><a href="#GPU-amp-Display" class="headerlink" title="GPU &amp; Display"></a>GPU &amp; Display</h3><ul>
 <li>Render：这一阶段主要由 GPU 进行渲染。</li>
 <li>Display：显示阶段，需要等 render 结束的下一个 RunLoop 触发显示。</li>
 </ul>
-<p>一般开发当中能影响到的就是 Handle Events 和 Commit Transaction 这两个阶段，这也是开发者接触最多的部分。Handle Events 就是处理触摸事件，而 Commit Transaction 这部分中主要进行的是：Layout、Display、Prepare、Commit 等四个具体的操作。</p>
-<p><strong>Layout：构建视图</strong><br>这个阶段主要处理视图的构建和布局，具体步骤包括：</p>
-<p>调用重载的 layoutSubviews 方法<br>创建视图，并通过 addSubview 方法添加子视图<br>计算视图布局，即所有的 Layout Constraint</p>
-<p>由于这个阶段是在 CPU 中进行，通常是 CPU 限制或者 IO 限制，所以我们应该尽量高效轻量地操作，减少这部分的时间，比如减少非必要的视图创建、简化布局计算、减少视图层级等。</p>
-<p><strong>Display：绘制视图</strong><br>这个阶段主要是交给 Core Graphics 进行视图的绘制，注意不是真正的显示，而是得到前文所说的图元 primitives 数据：</p>
-<p>根据上一阶段 Layout 的结果创建得到图元信息。<br>如果重写了 drawRect: 方法，那么会调用重载的 drawRect: 方法，在 drawRect: 方法中手动绘制得到 bitmap 数据，从而自定义视图的绘制。</p>
-<p>注意正常情况下 Display 阶段只会得到图元 primitives 信息，而位图 bitmap 是在 GPU 中根据图元信息绘制得到的。但是如果重写了 drawRect: 方法，这个方法会直接调用 Core Graphics 绘制方法得到 bitmap 数据，同时系统会额外申请一块内存，用于暂存绘制好的 bitmap。<br>由于重写了  drawRect: 方法，导致绘制过程从 GPU 转移到了 CPU，这就导致了一定的效率损失。与此同时，这个过程会额外使用 CPU 和内存，因此需要高效绘制，否则容易造成 CPU 卡顿或者内存爆炸。</p>
-<p><strong>Prepare：Core Animation 额外的工作</strong><br>这一步主要是：图片解码和转换</p>
-<p><strong>Commit：打包并发送</strong><br>这一步主要是：图层打包并发送到 Render Server。<br>注意 commit 操作是依赖图层树递归执行的，所以如果图层树过于复杂，commit 的开销就会很大。这也是我们希望减少视图层级，从而降低图层树复杂度的原因。</p>
+<h2 id="Runloop-与渲染"><a href="#Runloop-与渲染" class="headerlink" title="Runloop 与渲染"></a>Runloop 与渲染</h2><p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png" alt="VSync-Runloop"></p>
+<p>iOS 的显示系统是由 VSync 信号驱动的，VSync 信号由硬件时钟生成，每秒钟发出 60 次（这个值取决设备硬件，比如 iPhone 真机上通常是 59.97）。iOS 图形服务接收到 VSync 信号后</p>
+<p>主 RunLoop 默认并没有接收外部屏幕刷新的 source，还是等到 CADisplayLink 加入后才会有相应 source。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
+<p>Let’s be CoderStar!</p>
 <ul>
 <li><a href="http://chuquan.me/2018/08/26/graphics-rending-principle-gpu/" target="_blank" rel="noopener">计算机那些事(8)——图形图像渲染原理</a></li>
 <li><a href="https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/" target="_blank" rel="noopener">iOS 保持界面流畅的技巧</a></li>
+<li><a href="https://juejin.cn/post/6850418111976964109" target="_blank" rel="noopener">一文读懂iOS图像显示原理与优化</a></li>
+<li><a href="https://www.jianshu.com/p/d315b0a18e01" target="_blank" rel="noopener">runloop与Vsync 信号</a></li>
+<li><a href="https://juejin.cn/post/6844903591510048775" target="_blank" rel="noopener">深入理解 iOS Rendering Process</a></li>
+<li><a href="https://www.jianshu.com/p/1172415850be" target="_blank" rel="noopener">iOS Rendering 渲染全解析（长文干货）</a></li>
+<li><a href="https://www.cnblogs.com/yulang314/p/5091894.html" target="_blank" rel="noopener"></a></li>
 </ul>
 
     </div>
@@ -434,6 +483,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整体流程"><span class="nav-number">2.</span> <span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Core-Animation-Pipeline"><span class="nav-number">3.</span> <span class="nav-text">Core Animation Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Process"><span class="nav-number">3.1.</span> <span class="nav-text">App Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Render-Server-Process"><span class="nav-number">3.2.</span> <span class="nav-text">Render Server Process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GPU-amp-Display"><span class="nav-number">3.3.</span> <span class="nav-text">GPU &amp; Display</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop-与渲染"><span class="nav-number">4.</span> <span class="nav-text">Runloop 与渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -449,7 +499,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -514,12 +564,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">308k</span>
+    <span title="站点总字数">312k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:40</span>
+    <span title="站点阅读时长">4:44</span>
 </div>
 
         

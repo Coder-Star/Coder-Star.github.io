@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/函数表派发.jpeg">
-<meta property="og:updated_time" content="2021-11-13T10:28:29.049Z">
+<meta property="og:updated_time" content="2021-11-18T15:54:01.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 派发机制">
 <meta name="twitter:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-13 18:28:29" itemprop="dateModified" datetime="2021-11-13T18:28:29+08:00">2021-11-13</time>
+                <time title="修改时间：2021-11-18 23:54:01" itemprop="dateModified" datetime="2021-11-18T23:54:01+08:00">2021-11-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,14 +258,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.5k</span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -350,9 +350,9 @@
 </table>
 </div>
 <p>通过该表格你大概就可以理解一下 Swift 语言中的一些限制了：</p>
-<ul>
-<li>extension 中定义的方法如果想 overrite，需要在方法上加上 @objc 修饰符；因为如果不加 @objc，走的是直接派发，无法重写方法。</li>
-</ul>
+<p>extension 中定义的方法如果想 overrite，需要在方法上加上 @objc 修饰符；因为如果不加 @objc，走的是直接派发，无法重写方法，加了的话会走直接派发。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Info</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Info</span> </span>&#123;</span><br><span class="line">    <span class="meta">@objc</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">printInfo</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubInfo</span>: <span class="title">Info</span> </span>&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">printInfo</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">2</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应SIL文件中相关代码为<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @objc Info.printInfo()</span></span><br><span class="line">sil hidden [thunk] @<span class="meta">@objc</span> main.<span class="type">Info</span>.printInfo() -&gt; () : $<span class="meta">@convention</span>(objc_method) (<span class="type">Info</span>) -&gt; () &#123;</span><br><span class="line"><span class="comment">// %0                                             // users: %4, %3, %1</span></span><br><span class="line">bb0(%<span class="number">0</span> : $<span class="type">Info</span>):</span><br><span class="line">  strong_retain %<span class="number">0</span> : $<span class="type">Info</span>                        <span class="comment">// id: %1</span></span><br><span class="line">  <span class="comment">// function_ref Info.printInfo()</span></span><br><span class="line">  %<span class="number">2</span> = function_ref @main.<span class="type">Info</span>.printInfo() -&gt; () : $<span class="meta">@convention</span>(method) (@guaranteed <span class="type">Info</span>) -&gt; () <span class="comment">// user: %3</span></span><br><span class="line">  %<span class="number">3</span> = apply %<span class="number">2</span>(%<span class="number">0</span>) : $<span class="meta">@convention</span>(method) (@guaranteed <span class="type">Info</span>) -&gt; () <span class="comment">// user: %5</span></span><br><span class="line">  strong_release %<span class="number">0</span> : $<span class="type">Info</span>                       <span class="comment">// id: %4</span></span><br><span class="line">  <span class="keyword">return</span> %<span class="number">3</span> : $()                                 <span class="comment">// id: %5</span></span><br><span class="line">&#125; <span class="comment">// end sil function '@objc main.Info.printInfo() -&gt; ()'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// @objc SubInfo.printInfo()</span></span><br><span class="line">sil hidden [thunk] @<span class="meta">@objc</span> main.<span class="type">SubInfo</span>.printInfo() -&gt; () : $<span class="meta">@convention</span>(objc_method) (<span class="type">SubInfo</span>) -&gt; () &#123;</span><br><span class="line"><span class="comment">// %0                                             // users: %4, %3, %1</span></span><br><span class="line">bb0(%<span class="number">0</span> : $<span class="type">SubInfo</span>):</span><br><span class="line">  strong_retain %<span class="number">0</span> : $<span class="type">SubInfo</span>                     <span class="comment">// id: %1</span></span><br><span class="line">  <span class="comment">// function_ref SubInfo.printInfo()</span></span><br><span class="line">  %<span class="number">2</span> = function_ref @main.<span class="type">SubInfo</span>.printInfo() -&gt; () : $<span class="meta">@convention</span>(method) (@guaranteed <span class="type">SubInfo</span>) -&gt; () <span class="comment">// user: %3</span></span><br><span class="line">  %<span class="number">3</span> = apply %<span class="number">2</span>(%<span class="number">0</span>) : $<span class="meta">@convention</span>(method) (@guaranteed <span class="type">SubInfo</span>) -&gt; () <span class="comment">// user: %5</span></span><br><span class="line">  strong_release %<span class="number">0</span> : $<span class="type">SubInfo</span>                    <span class="comment">// id: %4</span></span><br><span class="line">  <span class="keyword">return</span> %<span class="number">3</span> : $()                                 <span class="comment">// id: %5</span></span><br><span class="line">&#125; <span class="comment">// end sil function '@objc main.SubInfo.printInfo() -&gt; ()'</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="Swift-派发优化"><a href="#Swift-派发优化" class="headerlink" title="Swift 派发优化"></a>Swift 派发优化</h2><h3 id="内联优化"><a href="#内联优化" class="headerlink" title="内联优化"></a>内联优化</h3><p>Swift 编译时在直接派发方式的基础上还可以进行优化，如函数内联。</p>
 <p>内联主要原理是：将一些函数的实现直接编译入调用函数的位置中去，减少函数指针的栈调用，提高运行效率。<br>当开启编译优化 (Optimization Level) 时，编译器会在直接派发方式基础上根据函数实际情况进行内联优化。下列情况编译器默认不会进行内联优化：</p>
 <ul>
@@ -531,7 +531,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -596,12 +596,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">308k</span>
+    <span title="站点总字数">312k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:40</span>
+    <span title="站点阅读时长">4:44</span>
 </div>
 
         

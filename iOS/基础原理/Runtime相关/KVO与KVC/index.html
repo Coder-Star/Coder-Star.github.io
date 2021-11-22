@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC取值.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC赋值.jpg">
-<meta property="og:updated_time" content="2021-10-12T11:57:53.681Z">
+<meta property="og:updated_time" content="2021-11-18T15:24:33.474Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVO&amp;KVC">
 <meta name="twitter:description" content="KVCKVC 是 Key-Value Coding 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 Setter、Getter 方法访问。KVC 机制是由 NSKeyValueCoding 协议定义的。 取、赋值流程 KVC 取值  KVC 赋值   常用 API">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-12 19:57:53" itemprop="dateModified" datetime="2021-10-12T19:57:53+08:00">2021-10-12</time>
+                <time title="修改时间：2021-11-18 23:24:33" itemprop="dateModified" datetime="2021-11-18T23:24:33+08:00">2021-11-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,7 +259,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.4k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -294,7 +294,7 @@
 <li>修改系统的只读变量</li>
 <li>可以任意修改一个对象的属性和变量 (包括私有变量)</li>
 </ul>
-<p>通过 KVC 改变属性会触发 KVO，是因为通过 KVC 赋值时内部会触发 setter 方法；</p>
+<p>通过 KVC 改变属性会触发 KVO，对于没有 setter 方法的合法属性，kvc 会自己给属性赋值，赋值的时候调用的是 _NSSetValueAndNotifyForKeyInIvar 看名字不难理解，边赋值边通知值的变化，方法里面调用了 willChangeValueForKey 和 didChangeValueForKey 这样 kvo 就接上了</p>
 <h3 id="在-Swift-中使用-KVC"><a href="#在-Swift-中使用-KVC" class="headerlink" title="在 Swift 中使用 KVC"></a>在 Swift 中使用 KVC</h3><ol>
 <li>类继承自 NSObject</li>
 <li>需要 KVC 的属性使用 @objc 进行修饰</li>
@@ -326,6 +326,7 @@
 </ol>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// user为User对象实例</span></span><br><span class="line"><span class="keyword">let</span> observation = user.observe(\<span class="type">User</span>.name, options: [.new]) &#123; user, change <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// user为修改值后的对象实例，</span></span><br><span class="line">    <span class="comment">// options包含四个选项</span></span><br><span class="line">    * new change字典包括改变后的值</span><br><span class="line">    * old change字典包括改变前的值</span><br><span class="line">    * initial 注册后立刻触发<span class="type">KVO</span>通知</span><br><span class="line">    * prior 值改变前是否也要通知（这个key决定了是否在改变前改变后通知两次）</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>实际 Swift 还可以使用<code>didSet</code>这种形式来实现属性值改变观察</strong></p>
+<p>-<a href="https://mp.weixin.qq.com/s/BeIQMwa28xX0MjZGk4fWYg" target="_blank" rel="noopener">KVO原理分析介绍</a></p>
 
     </div>
 
@@ -478,7 +479,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -543,12 +544,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">308k</span>
+    <span title="站点总字数">312k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:40</span>
+    <span title="站点阅读时长">4:44</span>
 </div>
 
         
