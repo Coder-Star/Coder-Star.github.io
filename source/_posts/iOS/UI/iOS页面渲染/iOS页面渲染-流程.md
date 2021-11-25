@@ -12,7 +12,9 @@ date: 2021-08-15 19:03:40
 
 Hi Coder，我是 CoderStar！
 
-## 整体流程
+作为一名专业的iOS页面仔，画UI是我们的家常便饭，那UI背后的渲染流程是什么样的呢？今天我们一起来看一下。
+
+## 图形渲染技术栈
 
 ![渲染流程](../../../../img/iOS/UI/iOS页面渲染/流程/渲染流程.png)
 
@@ -40,11 +42,13 @@ Hi Coder，我是 CoderStar！
 
 ## Core Animation Pipeline
 
-![Core Animation Pipeline](../../../../img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.jpeg)
+![Core Animation Pipeline](../../../../img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.png)
 
 ### App Process
 
 这个过程是我们开发过程中可以控制的阶段，UI 优化也是在这一阶段去处理。这个阶段发生在 APP 自己的进程中。其中包括视图的创建、布局计算、图片解码、文本绘制等等。
+
+CoreAnimation会在Runloop注册一个Observer(名为`_ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv`)**监听触摸事件**，当点击事件到来的时候，Runloop会被唤醒处理相关的业务逻辑(UIView的创建，修改，添加动画等)
 
 此阶段渲染优化的措施可以查看[iOS开发-视图渲染与性能优化](https://www.jianshu.com/p/748f9abafff8)
 
@@ -76,11 +80,11 @@ Hi Coder，我是 CoderStar！
 
 ### Render Server Process
 
-这个阶段发生在专门的**渲染进程**里。交给 GPU 去渲染。
+这个阶段发生在专门的**渲染进程**里。
 
 > 在 iOS 5 以前这个进程叫 `SpringBoard`，在 iOS 6 之后叫 `BackBoard` 或者 `backboardd`；
 
-Render Server 渲染进程注册 Source 监听 VSync 信号来驱动图层的渲染，进而提交至 GPU。
+Render Server 渲染进程注册 Source **监听 VSync 信号**来驱动图层的渲染，进而提交至 GPU。
 
 ![Render Server](../../../../img/iOS/UI/iOS页面渲染/流程/Render%20Server.png)
 
@@ -115,3 +119,4 @@ Let's be CoderStar!
 - [深入理解 iOS Rendering Process](https://juejin.cn/post/6844903591510048775)
 - [iOS Rendering 渲染全解析（长文干货）](https://www.jianshu.com/p/1172415850be)
 - [](https://www.cnblogs.com/yulang314/p/5091894.html)
+- [Core Animation Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html)
