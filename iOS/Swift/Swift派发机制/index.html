@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/函数表派发.jpeg">
-<meta property="og:updated_time" content="2021-11-18T15:54:01.748Z">
+<meta property="og:updated_time" content="2021-11-25T13:53:23.303Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 派发机制">
 <meta name="twitter:description" content="前言对于编译型语言来看，有主要三种类型的函数派发方式，分别为：  Direct Dispatch： 直接派发 Table Dispatch： 函数表派发 Message Dispatch： 消息派发  分析三种派发方式主要从性能及动态性两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-18 23:54:01" itemprop="dateModified" datetime="2021-11-18T23:54:01+08:00">2021-11-18</time>
+                <time title="修改时间：2021-11-25 21:53:23" itemprop="dateModified" datetime="2021-11-25T21:53:23+08:00">2021-11-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -368,7 +368,7 @@
 <blockquote>
 <p>内联除了可以提高运行效率这个优点之外，还有另外一个好处，将部分关键函数进行内联优化，可以增大逆向难度。</p>
 </blockquote>
-<h3 id="WHO优化"><a href="#WHO优化" class="headerlink" title="WHO优化"></a>WHO优化</h3><p>Swift 会尽可能的优化派发方式，一些函数表派发方法会优化成直接派发。编译器可以通过 <code>whole module optimization</code> 进行一些全局优化。比如：</p>
+<h3 id="WMO优化"><a href="#WMO优化" class="headerlink" title="WMO优化"></a>WMO优化</h3><p>Swift 会尽可能的优化派发方式，一些函数表派发方法会优化成直接派发。编译器可以通过 <code>whole module optimization</code> 进行一些全局优化。比如：</p>
 <ul>
 <li>对某些没有标记 final 的类通过计算，如果能在编译期确定执行的方法，则使用直接派发。比如一个函数没有 override，Swift 就可能会使用直接派发的方式。</li>
 <li><p>泛型特化；<br>其</p>
@@ -515,7 +515,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接派发"><span class="nav-number">2.</span> <span class="nav-text">直接派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数表派发"><span class="nav-number">3.</span> <span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息派发"><span class="nav-number">4.</span> <span class="nav-text">消息派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-中的函数派发"><span class="nav-number">5.</span> <span class="nav-text">Swift 中的函数派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-派发优化"><span class="nav-number">6.</span> <span class="nav-text">Swift 派发优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内联优化"><span class="nav-number">6.1.</span> <span class="nav-text">内联优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WHO优化"><span class="nav-number">6.2.</span> <span class="nav-text">WHO优化</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接派发"><span class="nav-number">2.</span> <span class="nav-text">直接派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数表派发"><span class="nav-number">3.</span> <span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息派发"><span class="nav-number">4.</span> <span class="nav-text">消息派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-中的函数派发"><span class="nav-number">5.</span> <span class="nav-text">Swift 中的函数派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-派发优化"><span class="nav-number">6.</span> <span class="nav-text">Swift 派发优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内联优化"><span class="nav-number">6.1.</span> <span class="nav-text">内联优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WMO优化"><span class="nav-number">6.2.</span> <span class="nav-text">WMO优化</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -531,7 +531,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">115</span>
+          <span class="site-state-item-count">117</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -596,12 +596,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">314k</span>
+    <span title="站点总字数">315k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:45</span>
+    <span title="站点阅读时长">4:46</span>
 </div>
 
         
