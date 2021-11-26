@@ -569,6 +569,7 @@ Let's be CoderStar!
 * [今日头条 iOS 安装包大小优化 - 新阶段，新实践](https://zhuanlan.zhihu.com/p/358002160)
 * [干货|今日头条iOS端安装包大小优化—思路与实践](https://mp.weixin.qq.com/s/PufNDzf9VfrEZdJbNcpwNQ)
 * [今日头条优化实践： iOS 包大小二进制优化，一行代码减少 60 MB 下载大小](https://mp.weixin.qq.com/s/TnqAqpmuXsGFfpcSUqZ9GQ)
+* [今日头条 iOS 安装包大小优化 - 新阶段、新实践](https://mp.weixin.qq.com/s/oyqAa8wKdioI5ZDG5LjkfA)
 * [探究WebP一些事儿](https://jelly.jd.com/article/6006b1035b6c6a01506c87a9)
 * [Palette Images](http://www.manifold.net/doc/mfd9/palette_images.htm)
 * [iOS PNG 使用指南](https://mp.weixin.qq.com/s/6KW-5ZaThLP_weIPnkR6CA)
