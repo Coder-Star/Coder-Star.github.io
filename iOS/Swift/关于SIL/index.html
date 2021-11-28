@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言Hi Coder，我是 CoderStar！ SILSIL优化 泛型特化(Generic Specialization)：需要WMO的支持 去虚拟化(VTable Devirtualization) 性能内联 引用计数优化 内存提升/优化 高级域特定优化：在基本 Swift 容器（如 Array 或 String）上实现高级优化。HighLevelSILOptimizations">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ SIL最后要更加努力呀！">
 <meta name="keywords" content="iOS,Swift">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于SIL">
 <meta property="og:url" content="https://coder-star.github.io/iOS/Swift/关于SIL/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ SILSIL优化 泛型特化(Generic Specialization)：需要WMO的支持 去虚拟化(VTable Devirtualization) 性能内联 引用计数优化 内存提升/优化 高级域特定优化：在基本 Swift 容器（如 Array 或 String）上实现高级优化。HighLevelSILOptimizations">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ SIL最后要更加努力呀！">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-25T14:06:53.771Z">
+<meta property="og:updated_time" content="2021-11-26T14:40:57.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于SIL">
-<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ SILSIL优化 泛型特化(Generic Specialization)：需要WMO的支持 去虚拟化(VTable Devirtualization) 性能内联 引用计数优化 内存提升/优化 高级域特定优化：在基本 Swift 容器（如 Array 或 String）上实现高级优化。HighLevelSILOptimizations">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ SIL最后要更加努力呀！">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/Swift/关于SIL/">
 
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-25 22:06:53" itemprop="dateModified" datetime="2021-11-25T22:06:53+08:00">2021-11-25</time>
+                <time title="修改时间：2021-11-26 22:40:57" itemprop="dateModified" datetime="2021-11-26T22:40:57+08:00">2021-11-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>850</span>
+              <span>74</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -276,34 +276,7 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<h2 id="SIL"><a href="#SIL" class="headerlink" title="SIL"></a>SIL</h2><h2 id="SIL优化"><a href="#SIL优化" class="headerlink" title="SIL优化"></a>SIL优化</h2><ul>
-<li>泛型特化(Generic Specialization)：需要WMO的支持</li>
-<li>去虚拟化(VTable Devirtualization)</li>
-<li>性能内联</li>
-<li>引用计数优化</li>
-<li>内存提升/优化</li>
-<li>高级域特定优化：在基本 Swift 容器（如 Array 或 String）上实现高级优化。<a href="https://github.com/apple/swift/blob/main/docs/HighLevelSILOptimizations.rst" target="_blank" rel="noopener">HighLevelSILOptimizations</a></li>
-</ul>
-<p>LTO 能带来的优化有：</p>
-<ul>
-<li><strong>将一些函数內联化</strong>：不用进行调用函数前的压栈、调用函数后的出栈操作，提高运行效率与栈空间利用率；</li>
-<li><strong>去除了一些无用代码</strong>：如果一段代码分布在多个文件中，但是从来没有被使用，普通的 -O3 优化方法不能发现跨中间代码文件的多余代码，因此是一个局部优化。但是 <code>Link-Time Optimization</code> 技术可以在 link 时发现跨中间代码文件的多余代码；</li>
-<li><strong>对程序有全局的优化作用</strong>：这是一个相对广泛的概念。举个例子来说，如果一个 if 方法的某个分支永不可能执行，那么在最后生成的二进制文件中就不应该有这个分支的代码。</li>
-</ul>
-<p>WMO优化</p>
-<p>Swift专属。</p>
-<p><a href="https://www.swift.org/blog/whole-module-optimizations/" target="_blank" rel="noopener">whole-module-optimizations</a></p>
-<p>Swift 会尽可能的优化派发方式，一些函数表派发方法会优化成直接派发。编译器可以通过 <code>whole module optimization</code> 进行一些全局优化。比如：</p>
-<ul>
-<li>对某些没有标记 final 的类通过计算，如果能在编译期确定执行的方法，则使用直接派发。比如一个函数没有 override，Swift 就可能会使用直接派发的方式。</li>
-<li><p>泛型特化；<br>其</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span>&lt;T:Comparable&gt;<span class="params">(x:T, y:T)</span></span> -&gt; <span class="type">T</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> y &lt; x ? y : x</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型特化后</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">min</span>&lt;Int&gt;<span class="params">(x:Int, y:Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> y &lt; x ? y :x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>移除没有被使用的方法；</p>
-</li>
-<li>内联优化；</li>
-</ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
+<h2 id="SIL"><a href="#SIL" class="headerlink" title="SIL"></a>SIL</h2><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <ul>
 <li><a href="https://www.jianshu.com/p/c2880460c6cd" target="_blank" rel="noopener">Swift的高级中间语言：SIL</a></li>
@@ -444,7 +417,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SIL"><span class="nav-number">2.</span> <span class="nav-text">SIL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SIL优化"><span class="nav-number">3.</span> <span class="nav-text">SIL优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SIL"><span class="nav-number">2.</span> <span class="nav-text">SIL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -460,7 +433,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">119</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -473,7 +446,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">86</span>
+        <span class="site-state-item-count">88</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -525,12 +498,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">315k</span>
+    <span title="站点总字数">318k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:46</span>
+    <span title="站点阅读时长">4:49</span>
 </div>
 
         
