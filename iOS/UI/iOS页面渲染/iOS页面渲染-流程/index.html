@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Render%20Server.png">
-<meta property="og:updated_time" content="2021-11-28T10:38:45.427Z">
+<meta property="og:updated_time" content="2021-11-28T11:59:26.548Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 流程">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 作为一名专业的 iOS 页面仔，画 UI 是我们的家常便饭，那不知道你在开发过程中有没有思考过这样一些问题：  App 静止不动时，页面是否还进行刷新？ 页面渲染和 RunLoop 是什么关系？ 主 RunLoop 周期与屏幕刷新率（VSync）之间有关系吗？ …  不知道你有没有过这些疑问？如果有，请耐心看完本文，我们一起来逐步走进这些问题的答案">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-28 18:38:45" itemprop="dateModified" datetime="2021-11-28T18:38:45+08:00">2021-11-28</time>
+                <time title="修改时间：2021-11-28 19:59:26" itemprop="dateModified" datetime="2021-11-28T19:59:26+08:00">2021-11-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -315,14 +315,16 @@
 </li>
 </ul>
 <h2 id="图像显示原理"><a href="#图像显示原理" class="headerlink" title="图像显示原理"></a>图像显示原理</h2><p>介绍屏幕图像显示的原理，需要先从 CRT 显示器原理说起，如下图所示。CRT 的电子枪从上到下逐行扫描，扫描完成后显示器就呈现一帧画面。然后电子枪回到初始位置进行下一次扫描。为了同步显示器的显示过程和系统的视频控制器，显示器会用<strong>硬件时钟</strong>产生一系列的定时信号。当电子枪换行进行扫描时，显示器会发出一个水平同步信号（horizonal synchronization），简称 <code>HSync</code>；而当一帧画面绘制完成后，电子枪回复到原位，准备画下一帧前，显示器会发出一个垂直同步信号（vertical synchronization），简称 <code>VSync</code>。<strong>显示器通常以固定频率进行刷新，这个刷新率就是 <code>VSync</code> 信号产生的频率</strong>。虽然现在的显示器基本都是液晶显示屏了，但其原理基本一致。</p>
+<blockquote>
+<p><code>VSync</code> 信号由屏幕显示器硬件产生，是物理属性，不会改变。不同显示器的<code>VSync</code>信号评率也会不同，如 iOS 的 60HZ，iPad Pro 的 120HZ，以及 PC 显示器的 144HZ 等等。</p>
+</blockquote>
 <p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/ios-screen-scan.png" alt="屏幕扫描原理"></p>
 <p>下图所示为常见的 CPU、GPU、显示器工作方式。CPU 计算好显示内容提交到 GPU，GPU 渲染完成后将渲染结果放入帧缓冲区，随后视频控制器会按照 VSync 信号逐行读取帧缓冲区的数据，经过可能的数模转换传递给显示器显示。</p>
 <p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/ios-renderIng-gpu-internal-structure.png" alt="CPU、GPU、显示器协同"></p>
-<p>最简单的情况下，帧缓冲区只有一个。此时，帧缓冲区的读取和刷新都都会有比较大的效率问题。为了解决效率问题，GPU 通常会引入两个缓冲区，即 <strong>双缓冲</strong> 机制。<strong>在这种情况下，GPU 会预先渲染一帧放入一个缓冲区中，用于视频控制器的读取。当下一帧渲染完毕后，GPU 会直接把视频控制器的指针指向第二个缓冲器。</strong></p>
-<p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/gpu-double-buffer.png" alt="双缓存机制"></p>
-<p>双缓冲虽然能解决效率问题，但会引入一个新的问题。当视频控制器还未读取完成时，即屏幕内容刚显示一半时，GPU 将新的一帧内容提交到帧缓冲区并把两个缓冲区进行交换后，视频控制器就会把新的一帧数据的下半段显示到屏幕上，造成画面撕裂现象，如下图：</p>
+<p>最简单的情况下，帧缓冲区只有一个。此时，帧缓冲区的读取和刷新都都会有比较大的效率问题。为了解决效率问题，GPU 通常会引入两个缓冲区，即 <strong>双缓冲</strong> 机制。即 GPU 渲染完第一帧后将数据放入 <code>前帧缓存</code>, 视频控制器开始读取 <code>前帧缓存</code>, 与此同时 GPU 开始渲染下一帧, 渲染好后将数据存入 <code>后帧缓存</code>, 然后立刻将 <code>前后帧缓存</code> 进行调换 (在整个过程中视频控制器只会对 <code>前帧缓存</code> 进行读取)。<br><img src="../../../../img/iOS/UI/iOS页面渲染/流程/gpu-double-buffer.png" alt="双缓存机制"></p>
+<p>双缓冲虽然能解决效率问题，但会引入一个新的问题。当 GPU 处理速度较快或者视频控制器读取较慢, 以至于第一帧还没有读取完的时候就被调换 帧缓存的话, 那么就会造成同一画面上下两个部分是由 <code>前帧缓存</code> 和 <code>后帧缓存</code> 共同组成的. 那么画面就会出现撕裂效果.</p>
 <p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/ios-vsync-off.jpeg" alt="画面撕裂"></p>
-<p>为了解决这个问题，GPU 通常有一个机制叫做垂直同步（简写也是 <code>V-Sync</code>），当开启垂直同步后，GPU 会等待显示器的 <code>VSync</code> 信号发出后，才进行新的一帧渲染和缓冲区更新。这样能解决画面撕裂现象，也增加了画面流畅度，但需要消费更多的计算资源，也会带来部分延迟。</p>
+<p>为了解决这个问题，GPU 通常有一个机制叫做垂直同步（简写也是 <code>V-Sync</code>），当开启垂直同步后，GPU 会等待显示器的 <code>VSync</code> 信号发出后，才进行新的一帧渲染和缓冲区更新。</p>
 <p>虽然<code>V-Sync</code>解决了画面撕裂问题，但是如果在一个 <code>VSync</code> 时间内，CPU 或者 GPU 没有完成内容提交，则那一帧就会被丢弃，等待下一次机会再显示，而这时显示屏会保留之前的内容不变。这就是界面卡顿的原因，也就是我们常说的掉帧。</p>
 <h2 id="Core-Animation-Pipeline"><a href="#Core-Animation-Pipeline" class="headerlink" title="Core Animation Pipeline"></a>Core Animation Pipeline</h2><p>同系列文章<a href="../iOS页面渲染-UIView&amp;CALayer">iOS页面渲染-UIView &amp; CALayer</a>中已经介绍过iOS页面的渲染流程，我们知道最终显示的内容实际上是<code>CALayer</code>的<code>contents</code>属性设置的那张<code>寄宿图</code>。同系列文章还有<a href="../iOS页面渲染-UIView&amp;CALayer">iOS页面渲染-UIView&amp;CALayer</a>。</p>
 <p>我们知道了 CALayer 成像的本质， 那么它是如何调用 GPU 并显示可视化内容的呢？下面我们就需要看下 <code>Core Animation</code> 流水线的工作原理。</p>
@@ -365,13 +367,13 @@
 <blockquote>
 <p>注意 commit 操作是依赖图层树递归执行的，所以如果图层树过于复杂，commit 的开销就会很大。这也是我们希望减少视图层级，从而降低图层树复杂度的原因。</p>
 </blockquote>
-<h3 id="Render-Server"><a href="#Render-Server" class="headerlink" title="Render Server"></a>Render Server</h3><p>这个阶段发生在专门的<strong>渲染进程</strong>里。</p>
+<h3 id="Render-Server"><a href="#Render-Server" class="headerlink" title="Render Server"></a>Render Server</h3><p>我们可以看到这个阶段发生在专门的 <strong>渲染进程</strong> 里。</p>
 <blockquote>
 <p>在 iOS 5 以前这个进程叫 <code>SpringBoard</code>，在 iOS 6 之后叫 <code>BackBoard</code> 或者 <code>backboardd</code>；</p>
 </blockquote>
 <p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png" alt="VSync-Runloop"></p>
 <p>通过上面章节我们已经知道<code>VSync</code> 信号由<strong>硬件时钟</strong>生成，每秒钟发出 60 次（这个值取决设备硬件，比如 iPhone 真机上通常是 59.97）。iOS 图形服务接收到 <code>VSync</code> 信号后，会通过 <code>IPC</code> 通知到 对应 App 内。</p>
-<p><strong>APP 的<code>Render Server</code> 渲染进程会在启动后注册对应的 <code>CFRunLoopSource</code> 通过 <code>mach_port</code> 接收传过来的<code>VSync</code>信号通知来驱动图层的渲染，进而提交至 GPU。</strong></p>
+<p><strong><code>Render Server</code> 渲染进程会在启动后注册对应的 <code>CFRunLoopSource</code> 通过 <code>mach_port</code> 接收传过来的<code>VSync</code>信号通知来驱动图层的渲染，进而提交至 GPU。</strong></p>
 <p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/Render%20Server.png" alt="Render Server"></p>
 <ul>
 <li><code>Decode</code>：打包好的图层被传输到 <code>Render Server</code> 之后，首先会进行解码。注意完成解码之后需要等待下一个 <code>RunLoop</code> 才会执行下一步 <code>Draw Calls</code>。</li>
@@ -406,6 +408,7 @@
 <h1 id><a href="#" class="headerlink" title="#"></a>#</h1><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>新的一周要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <ul>
+<li><a href="谈 UIKit 和 CoreAnimation 在 iOS 渲染中的角色（上）"></a></li>
 <li><a href="http://chuquan.me/2018/08/26/graphics-rending-principle-gpu/" target="_blank" rel="noopener">计算机那些事(8)——图形图像渲染原理</a></li>
 <li><a href="https://www.jianshu.com/p/748f9abafff8" target="_blank" rel="noopener">iOS开发-视图渲染与性能优化</a></li>
 <li><a href="http://chuquan.me/2018/09/25/ios-graphics-render-principle/" target="_blank" rel="noopener">iOS 图像渲染原理</a></li>
@@ -417,6 +420,7 @@
 <li><a href="https://www.cnblogs.com/yulang314/p/5091894.html" target="_blank" rel="noopener">iOS 事件处理机制与图像渲染过程</a></li>
 <li><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html" target="_blank" rel="noopener">Core Animation Programming Guide</a></li>
 <li><a href="https://mp.weixin.qq.com/s/6ckRnyAALbCsXfZu56kTDw" target="_blank" rel="noopener">iOS 渲染原理解析</a></li>
+<li><a href="https://www.hanleylee.com/principle-of-graphic-rendering-in-ios.html" target="_blank" rel="noopener">iOS 的图形绘制原理</a></li>
 </ul>
 
     </div>
