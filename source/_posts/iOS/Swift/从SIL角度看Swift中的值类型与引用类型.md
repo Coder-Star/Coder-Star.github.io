@@ -190,6 +190,8 @@ func uniqueIntegerProvider() -> () -> Int {
 }
 ```
 
+> 如果这个i不修改，情况又会不同，具体可看 [CapturePromotion.cpp](https://github.com/apple/swift/blob/31b167468793ec5b25a6c4e0769e2883d6125049/lib/SILOptimizer/IPO/CapturePromotion.cpp) 开头注释。
+
 对此代码生成的两份 SIL 文件，核心部分如下：
 
 **优化前：**
@@ -237,6 +239,67 @@ bb0:
 ```
 
 可以很明显的看出，无论是优化前还是优化后，使用的都是`alloc_box`指令，也就是说此时的变量`i`是存储在堆上的。其实原因也很好理解，其实就是变量 `i` 被函数闭合了，即使在退出作用域的情况下，仍然得保持 i 的存在。当然这只是一种情况，还会有其他的情况。
+
+当然，这个举例可能会有些特殊，因为涉及到了closure，可以再换个例子，比如说:
+```swift
+struct Content {
+    var str = ""
+}
+
+class Info {
+    var content = Content()
+}
+
+func test() {
+    print(Info().content.str)
+}
+```
+
+其实就是struct值类型对class引用类型包含，这种情况下其实`content`所处位置也是在在堆上。
+
+看一下相关核心的SIL文件片段
+
+```swift
+// Info.init()
+sil hidden @main.Info.init() -> main.Info : $@convention(method) (@owned Info) -> @owned Info {
+// %0 "self"                                      // users: %2, %7, %1
+bb0(%0 : $Info):
+  debug_value %0 : $Info, let, name "self", argno 1 // id: %1
+  %2 = ref_element_addr %0 : $Info, #Info.content // user: %6
+  %3 = metatype $@thin Content.Type               // user: %5
+  // function_ref Content.init()
+  %4 = function_ref @main.Content.init() -> main.Content : $@convention(method) (@thin Content.Type) -> @owned Content // user: %5
+  %5 = apply %4(%3) : $@convention(method) (@thin Content.Type) -> @owned Content // user: %6
+  store %5 to %2 : $*Content                      // id: %6
+  return %0 : $Info                               // id: %7
+} // end sil function 'main.Info.init() -> main.Info'
+
+
+// Content.init()
+sil hidden @main.Content.init() -> main.Content : $@convention(method) (@thin Content.Type) -> @owned Content {
+// %0 "$metatype"
+bb0(%0 : $@thin Content.Type):
+  %1 = alloc_stack $Content, let, name "self"     // users: %10, %11, %12
+  %2 = string_literal utf8 ""                     // user: %7
+  %3 = integer_literal $Builtin.Word, 0           // user: %7
+  %4 = integer_literal $Builtin.Int1, -1          // user: %7
+  %5 = metatype $@thin String.Type                // user: %7
+  // function_ref String.init(_builtinStringLiteral:utf8CodeUnitCount:isASCII:)
+  %6 = function_ref @Swift.String.init(_builtinStringLiteral: Builtin.RawPointer, utf8CodeUnitCount: Builtin.Word, isASCII: Builtin.Int1) -> Swift.String : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %7
+  %7 = apply %6(%2, %3, %4, %5) : $@convention(method) (Builtin.RawPointer, Builtin.Word, Builtin.Int1, @thin String.Type) -> @owned String // user: %8
+  %8 = struct $Content (%7 : $String)             // users: %10, %13, %9
+  retain_value %8 : $Content                      // id: %9
+  store %8 to %1 : $*Content                      // id: %10
+  destroy_addr %1 : $*Content                     // id: %11
+  dealloc_stack %1 : $*Content                    // id: %12
+  return %8 : $Content                            // id: %13
+} // end sil function 'main.Content.init() -> main.Content'
+```
+
+我想你肯定能看出点啥，其实`Content`构造时还是使用`alloc_stack`指令，但是在`Info`构造时实际上会进行一次拷贝，就是上面的`store %5 to %2 : $*Content`。
+
+那除此之外，还会有其他的吗？当然还有，可以自己再去发现。
+
 
 **总结：所以说在 Swift 中所有的`class`都存储在堆上，所有的`struct`都存储在栈上这种说法是有问题的，只能说大部分情况是如此的，总有些情况会跟你淘气，具体存储位置还得结合结构所在上下文以及 SIL 优化手段等等因素综合分析。**
 

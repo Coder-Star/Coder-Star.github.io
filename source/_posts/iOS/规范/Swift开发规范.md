@@ -414,7 +414,7 @@ extension UIView {
 - 【推荐】能用`struct`解决的，尽量使用`struct`而不是`class`；
   说明：`struct` 属于值类型，使用其有很多好处：效率高、不需担心循环引用问题、线程安全等。
 - 【推荐】对 String 判空时优先采用 `isEmpty`
-  说明：Swift 里面的 String 的 `index` 和 `count` 不是一一对应的（兼容 `Unicode`），所以 `stirng.count == 0` 的效率不如 `string.isEmpty`；
+  说明：Swift 里面的 String 的 `index` 和 `count` 不是一一对应的（兼容 `Unicode`），所以 `stirng.count == 0` 的效率不如 `string.isEmpty`；[Why using isEmpty is faster than checking count == 0](https://www.hackingwithswift.com/articles/181/why-using-isempty-is-faster-than-checking-count-0)
 - 【推荐】如果协议只会被类使用，建议加上`AnyObject`限制；
   说明：编译器可以对此进行优化，其可以明确在处理一个类，继而进行引用计数，而不用考虑结构体以及其带来的额外的逻辑及结构。
    ```swift
