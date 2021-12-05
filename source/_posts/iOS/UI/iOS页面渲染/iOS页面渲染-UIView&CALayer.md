@@ -64,7 +64,7 @@ open class UIView : UIResponder
 CALayer 视图结构类似 UIView 的子 View 树形结构，它们分别可以有自己的 SubView 和 SubLayer，可以向它的 RootLayer 上添加子 layer，来完成一些页面效果，比如说渐变等。
 
 Layer 内部其实三份 layer tree，分别是：
-* Layer Tree（模型图层）：此树中的对象是存储**任何动画的目标值**的模型对象, 比如常见的 `frame`, `affineTransform`, `backgroundColor` 等等，我们可以在开发中对属性进行设置。
+* Model Tree（模型图层）：此树中的对象是存储**任何动画的目标值**的模型对象, 比如常见的 `frame`, `affineTransform`, `backgroundColor` 等等，我们可以在开发中对属性进行设置。
 * Presentation Tree（表现图层）：**表示动画过程中视图的实时属性值**，我们永远不应该去修改该对象，而是只读取相关属性值。
 * Render Tree（渲染图层）：这是系统用来绘制的树，不对外提供属性给我们使用，对我们而言是透明的，可以不用 care。
 
@@ -74,7 +74,7 @@ Layer 内部其实三份 layer tree，分别是：
 >
 > 这部分容易考查一个面试题是 iOS 如何监听动画中 view 的 frame，可能有人会想着使用 KVO 方式进行监听，但尝试下就知道不可行，当我们改变一个图层的属性时，改变的是模型图层对象属性，属性值是立即更新的，但是屏幕上并不会马上发生改变，只是定义了图层动画结束后的值。
 >
-> 我们可以利用 `CADisplayLink` + `presentation()`去获取，大概过程就是在动画开始之前注册 CADisplayLink，然后在其回调里面使用`layer.presentation().frame`获取到 view 在动画中的 frame 了。
+> 我们可以利用 `CADisplayLink` + `presentation()`去获取，大概过程就是在动画开始之前注册 `CADisplayLink`，然后在其回调里面使用`layer.presentation().frame`获取到 view 在动画中的 frame 了。并且当我们去获取时，`CoreAnimation`  就需要与 `Render Server` 进行一次 IPC，通过 `Render Server` 回复的信息构建一个新的 `CALayer` 对象，这个新的对象就表达了 `CoreAnimation` 框架目前认为某个 layer 的状态。
 
 `CALayer` 是所有 layer 的基类，其派生类会有一些特定的功能，比如绘制文本的 `CATextLayer`、渐变效果的 `CAGradientLayer` 等等。种类如下图所示。
 
@@ -275,7 +275,7 @@ var frame: CGReact: {
 当然这个关系是发生在没有 transform 参与的情况下。如果有 transform 参与，情况就又不一样了。
 
 > AutoLayout 在完成布局后，所计算出来的位置和尺寸内部修改的值是 center 和 bounds 两个属性，因此最终的展示效果不会因为仿射变换而产生异常。同时这也解释了为什么通过 AutoLayout 设置约束后修改 frame 属性来改变位置和尺寸不会起作用的原因。
-> 解释一下就是：在iOS 8之前，AutoLayout完成布局后，直接修改的是frame的值，如果在AutoLayout设置约束后再设置transform，会造成视图异常，在iOS 8之后修复了这个问题，改用修改center 和 bounds 两个属性。
+> 解释一下就是：在 iOS 8 之前，AutoLayout 完成布局后，直接修改的是 frame 的值，如果在 AutoLayout 设置约束后再设置 transform，会造成视图异常，在 iOS 8 之后修复了这个问题，改用修改 center 和 bounds 两个属性。
 
 ## 最后
 
