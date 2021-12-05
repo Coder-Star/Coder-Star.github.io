@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Render%20Server.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png">
-<meta property="og:updated_time" content="2021-12-05T10:43:17.230Z">
+<meta property="og:updated_time" content="2021-12-05T10:56:35.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 流程">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 作为一名专业的 iOS 页面仔，画 UI 是我们的家常便饭，那不知道你在开发过程中有没有思考过这样一些问题：  App 静止不动时，页面是否还进行刷新？ 页面渲染和 RunLoop 之间是什么关系？ 主 RunLoop 周期与屏幕刷新率（VSync）之间有关系吗？如果有，是什么关系？ …  不知道你有没有过这些疑问？如果有，请耐心看完本文，我们一起">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-05 18:43:17" itemprop="dateModified" datetime="2021-12-05T18:43:17+08:00">2021-12-05</time>
+                <time title="修改时间：2021-12-05 18:56:35" itemprop="dateModified" datetime="2021-12-05T18:56:35+08:00">2021-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -340,7 +340,7 @@
 <p>整个图形渲染过程是 CPU 与 GPU 共同处理的结果，不管是哪部分卡顿，都会造成最终的掉帧</p>
 </blockquote>
 <h2 id="Core-Animation-Pipeline"><a href="#Core-Animation-Pipeline" class="headerlink" title="Core Animation Pipeline"></a>Core Animation Pipeline</h2><p>同系列文章 <a href="../iOS页面渲染-UIView&amp;CALayer">iOS页面渲染-UIView &amp; CALayer</a> 中已经介绍过<code>CALayer</code>的相关细节，我们可以知道：<code>CALayer</code> 中的 <code>contents</code> 属性保存了由设备渲染流水线渲染好的位图 <code>bitmap</code>（通常也被称为 <code>backing store</code>），而当设备屏幕进行刷新时，会从 <code>CALayer</code> 中读取生成好的 <code>bitmap</code>，进而呈现到屏幕上。</p>
-<p>同系列文章还有 <a href="../iOS页面渲染-UIView&amp;CALayer">iOS页面渲染-UIView&amp;CALayer</a> 。</p>
+<p>同系列文章还有 <a href="../iOS页面渲染-离屏渲染">iOS页面渲染-离屏渲染</a> 。</p>
 <p>我们知道了 <code>CALayer</code> 成像的过程， 那么它是如何调用 GPU 并显示可视化内容的呢？下面我们就需要看下 <code>Core Animation</code> 流水线的工作流程。</p>
 <p><img src="../../../../img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.png" alt="Core Animation Pipeline"></p>
 <h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>这个过程发生在 APP 自身的进程中，其过程包括包括视图的创建、布局计算、图片解码、文本绘制等等。</p>
