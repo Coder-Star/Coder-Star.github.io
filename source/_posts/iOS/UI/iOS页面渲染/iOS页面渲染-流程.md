@@ -88,7 +88,7 @@ Hi Coder，我是 CoderStar！
 
 同系列文章 [iOS页面渲染-UIView & CALayer](../iOS页面渲染-UIView&CALayer) 中已经介绍过`CALayer`的相关细节，我们可以知道：`CALayer` 中的 `contents` 属性保存了由设备渲染流水线渲染好的位图 `bitmap`（通常也被称为 `backing store`），而当设备屏幕进行刷新时，会从 `CALayer` 中读取生成好的 `bitmap`，进而呈现到屏幕上。
 
-同系列文章还有 [iOS页面渲染-UIView&CALayer](../iOS页面渲染-UIView&CALayer) 。
+同系列文章还有 [iOS页面渲染-离屏渲染](../iOS页面渲染-离屏渲染) 。
 
 我们知道了 `CALayer` 成像的过程， 那么它是如何调用 GPU 并显示可视化内容的呢？下面我们就需要看下 `Core Animation` 流水线的工作流程。
 
