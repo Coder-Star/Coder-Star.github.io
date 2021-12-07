@@ -40,8 +40,8 @@ Hi Coder，我是 CoderStar！
 - `Core Graphics`：
   `Core Graphics`主要用于**运行时绘制图像**，纯 C 的 API。`CoreGraphics` 的类名都是以 `CG` 开头的，平时所用的 `CGRect`、`CGPoint` 就在 `CGGeometry` 这个几何相关的类中定义，`CGFont` 类则被封装成了 `UIFont`，`CGImage` 构成了 `UIImage`，`CGContext` 是绘图的上下文等等。所以 `CoreGraphics` 是系统绘制界面、文字、图像等 UI 的基础。
 
-- `Core Image`
-   `Core Image` 是用来**处理运行前创建的图像** 的。`Core Image` 框架拥有一系列现成的图像过滤器，能对已存在的图像进行高效的处理。给图片提供各种滤镜处理，比如高斯模糊、锐化等。在没有这个官方库之前，一般使用的是`GNUImage`的三方库。
+- `Core Image`：
+   `Core Image` 是用来**处理运行前创建的图像** 的。`Core Image` 框架拥有一系列现成的图像过滤器，能对已存在的图像进行高效的处理。给图片提供各种滤镜处理，比如高斯模糊、锐化等。在没有这个官方库之前，一般使用的是`GPUImage`的三方库。
    大部分情况下，`Core Image` 会在 `GPU` 中完成工作，但如果 `GPU` 忙，会使用 `CPU` 进行处理。
 
 - `OpenGL(ES)`：
@@ -49,7 +49,7 @@ Hi Coder，我是 CoderStar！
 
   `OpenGL ES`（OpenGL for Embedded Systems，简称 GLES），是 OpenGL 的子集。用在移动嵌入式设备上，iOS 使用的是该标准。
 
-  > 需要人机界面的嵌入式应用，由于受环境受环境因素的影响，一般不能提供有缘电源，在有限的电能限制下工作，如何以更低的功耗完成人机交互界面，成为 `OpenGL` 必须要面对的问题，进而推出了 `OpenGL ES` 标准。应该说在高效完成 2D/3D 界面的同时，达到了降低功耗的效果。
+  > 需要人机界面的嵌入式应用，由于受环境因素的影响，一般不能提供有缘电源，在有限的电能限制下工作，如何以更低的功耗完成人机交互界面，成为 `OpenGL` 必须要面对的问题，进而推出了 `OpenGL ES` 标准。应该说在高效完成 2D/3D 界面的同时，达到了降低功耗的效果。
 
 - `Metal`：
   `Metal` 类似于`OpenGL ES`，也是一套标准，具体实现由苹果实现。`Core Animation`、`Core Image`、`SceneKit`、`SpriteKit` 等等渲染框架都是构建于 `Metal` 之上的。
