@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Render%20Server.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png">
-<meta property="og:updated_time" content="2021-12-05T10:56:35.651Z">
+<meta property="og:updated_time" content="2021-12-07T02:01:26.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 流程">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 作为一名专业的 iOS 页面仔，画 UI 是我们的家常便饭，那不知道你在开发过程中有没有思考过这样一些问题：  App 静止不动时，页面是否还进行刷新？ 页面渲染和 RunLoop 之间是什么关系？ 主 RunLoop 周期与屏幕刷新率（VSync）之间有关系吗？如果有，是什么关系？ …  不知道你有没有过这些疑问？如果有，请耐心看完本文，我们一起">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-05 18:56:35" itemprop="dateModified" datetime="2021-12-05T18:56:35+08:00">2021-12-05</time>
+                <time title="修改时间：2021-12-07 10:01:26" itemprop="dateModified" datetime="2021-12-07T10:01:26+08:00">2021-12-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -306,12 +306,12 @@
 </li>
 <li><p><code>Core Graphics</code>：<br><code>Core Graphics</code>主要用于<strong>运行时绘制图像</strong>，纯 C 的 API。<code>CoreGraphics</code> 的类名都是以 <code>CG</code> 开头的，平时所用的 <code>CGRect</code>、<code>CGPoint</code> 就在 <code>CGGeometry</code> 这个几何相关的类中定义，<code>CGFont</code> 类则被封装成了 <code>UIFont</code>，<code>CGImage</code> 构成了 <code>UIImage</code>，<code>CGContext</code> 是绘图的上下文等等。所以 <code>CoreGraphics</code> 是系统绘制界面、文字、图像等 UI 的基础。</p>
 </li>
-<li><p><code>Core Image</code><br> <code>Core Image</code> 是用来<strong>处理运行前创建的图像</strong> 的。<code>Core Image</code> 框架拥有一系列现成的图像过滤器，能对已存在的图像进行高效的处理。给图片提供各种滤镜处理，比如高斯模糊、锐化等。在没有这个官方库之前，一般使用的是<code>GNUImage</code>的三方库。<br> 大部分情况下，<code>Core Image</code> 会在 <code>GPU</code> 中完成工作，但如果 <code>GPU</code> 忙，会使用 <code>CPU</code> 进行处理。</p>
+<li><p><code>Core Image</code>：<br> <code>Core Image</code> 是用来<strong>处理运行前创建的图像</strong> 的。<code>Core Image</code> 框架拥有一系列现成的图像过滤器，能对已存在的图像进行高效的处理。给图片提供各种滤镜处理，比如高斯模糊、锐化等。在没有这个官方库之前，一般使用的是<code>GPUImage</code>的三方库。<br> 大部分情况下，<code>Core Image</code> 会在 <code>GPU</code> 中完成工作，但如果 <code>GPU</code> 忙，会使用 <code>CPU</code> 进行处理。</p>
 </li>
 <li><p><code>OpenGL(ES)</code>：<br><code>OpenGL</code>不是常规意义上的 API，而是一个第三方标准（由 <code>khronos</code> 组织制定并维护），其严格定义了每个函数该如何执行，以及它们的输出值。至于每个函数内部具体是如何实现的，则由 <code>OpenGL</code> 库的开发者自行决定。实际 <code>OpenGL</code> 库的开发者通常是显卡的生产商。类似的标准还有<code>DirectX</code>，由<code>Microsoft</code>提供。用在 PC 机上。</p>
 <p><code>OpenGL ES</code>（OpenGL for Embedded Systems，简称 GLES），是 OpenGL 的子集。用在移动嵌入式设备上，iOS 使用的是该标准。</p>
 <blockquote>
-<p>需要人机界面的嵌入式应用，由于受环境受环境因素的影响，一般不能提供有缘电源，在有限的电能限制下工作，如何以更低的功耗完成人机交互界面，成为 <code>OpenGL</code> 必须要面对的问题，进而推出了 <code>OpenGL ES</code> 标准。应该说在高效完成 2D/3D 界面的同时，达到了降低功耗的效果。</p>
+<p>需要人机界面的嵌入式应用，由于受环境因素的影响，一般不能提供有缘电源，在有限的电能限制下工作，如何以更低的功耗完成人机交互界面，成为 <code>OpenGL</code> 必须要面对的问题，进而推出了 <code>OpenGL ES</code> 标准。应该说在高效完成 2D/3D 界面的同时，达到了降低功耗的效果。</p>
 </blockquote>
 </li>
 <li><p><code>Metal</code>：<br><code>Metal</code> 类似于<code>OpenGL ES</code>，也是一套标准，具体实现由苹果实现。<code>Core Animation</code>、<code>Core Image</code>、<code>SceneKit</code>、<code>SpriteKit</code> 等等渲染框架都是构建于 <code>Metal</code> 之上的。</p>
@@ -610,7 +610,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -675,12 +675,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">323k</span>
+    <span title="站点总字数">325k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:53</span>
+    <span title="站点阅读时长">4:56</span>
 </div>
 
         
