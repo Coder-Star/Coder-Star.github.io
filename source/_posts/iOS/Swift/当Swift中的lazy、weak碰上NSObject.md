@@ -1,5 +1,5 @@
 ---
-title: 当 Swift 中的 lazy 与 weak 碰撞
+title: 当 Swift 中的 lazy、weak 碰上 NSObject
 category:
   - iOS
   - Swift
