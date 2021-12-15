@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop流程.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop关系.png">
-<meta property="og:updated_time" content="2021-11-24T16:12:01.876Z">
+<meta property="og:updated_time" content="2021-12-14T05:22:57.094Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runloop">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 RunLoop休眠的原理：通过mach_msg()">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-25 00:12:01" itemprop="dateModified" datetime="2021-11-25T00:12:01+08:00">2021-11-25</time>
+                <time title="修改时间：2021-12-14 13:22:57" itemprop="dateModified" datetime="2021-12-14T13:22:57+08:00">2021-12-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -331,7 +331,7 @@
 <li>控制线程生命周期（线程保活、线程永驻）</li>
 <li>TableView 延迟加载图片<br>把 setImage 放到 NSDefaultRunLoopMode 去做，也就是在滑动的时候并不会去调用赋值图片的方法，而是会等到滑动完毕切换到 NSDefaultRunLoopMode 下面才会调用 <code>imageView.perform(#selector(setImage), with: nil, afterDelay: 0, inModes: [.default])</code></li>
 <li>解决 NSTimer 在滑动时停止工作的问题<br>将 Timer 添加到 CommonMode 里面即可，<code>RunLoop.current.add(timer, forMode: .common)</code></li>
-<li>监测 RunLoop 的状态监测应用卡顿<br>根据 //TODO</li>
+<li>监测 RunLoop 的状态监测应用卡顿<br>监控<code>BeforeSources</code>以及<code>BeforeWaiting</code>之间的执行时间来监控卡顿，</li>
 </ul>
 <ul>
 <li>每一条线程都有一个 Runloop 对应；但 Runloop 可以嵌套子 Runloop。</li>
@@ -347,6 +347,7 @@
 <p>第二个 Observer 监视了两个事件： BeforeWaiting(准备进入休眠) 时调用_objc_autoreleasePoolPop() 和 _objc_autoreleasePoolPush() 释放旧的池并创建新池；Exit(即将退出 Loop) 时调用 _objc_autoreleasePoolPop() 来释放自动释放池。这个 Observer 的 order 是 2147483647，优先级最低，保证其释放池子发生在其他所有回调之后。</p>
 <p>在主线程执行的代码，通常是写在诸如事件回调、Timer 回调内的。这些回调会被 RunLoop 创建好的 AutoreleasePool 环绕着，所以不会出现内存泄漏，开发者也不必显示创建 Pool 了。</p>
 <h3 id="UI-绘制"><a href="#UI-绘制" class="headerlink" title="UI 绘制"></a>UI 绘制</h3><p><code>_ZN2CA11Transaction17observer_callbackEP19__CFRunLoopObservermPv</code></p>
+<p>优先级为<code>2000000</code></p>
 <h3 id="手势识别"><a href="#手势识别" class="headerlink" title="手势识别"></a>手势识别</h3><p>当上面的 _UIApplicationHandleEventQueue() 识别了一个手势时，其首先会调用 Cancel 将当前的 touchesBegin/Move/End 系列回调打断。随后系统将对应的 UIGestureRecognizer 标记为待处理。</p>
 <p>苹果注册了一个 Observer 监测 BeforeWaiting (Loop即将进入休眠) 事件，这个Observer的回调函数是 <code>_UIGestureRecognizerUpdateObserver()</code>，其内部会获取所有刚被标记为待处理的 GestureRecognizer，并执行GestureRecognizer的回调。</p>
 <p>当有 UIGestureRecognizer 的变化(创建/销毁/状态改变)时，这个回调都会进行相应处理。</p>
@@ -576,12 +577,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">325k</span>
+    <span title="站点总字数">327k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:56</span>
+    <span title="站点阅读时长">4:58</span>
 </div>
 
         
