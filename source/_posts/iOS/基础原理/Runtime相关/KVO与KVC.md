@@ -87,7 +87,7 @@ open func setNilValueForKey(_ key: String)
 
 ### KVC触发KVO
 
-
+会触发，即使观察的属性没有set方法也会触发，内部应该有特殊的兼容，不会走`_NSSetObjectValueAndNotify`方法，直接调用`willChangeValueForkey`、`didChangeValueForKey`方法。
 
 
 ### 在 Swift 中使用 KVO

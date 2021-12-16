@@ -81,7 +81,7 @@ public convenience init(label: String,
 
 如果大家对上次的[iOS多线程-Thread](../iOS多线程-Thread)还有印象的话，想必会对`Thread`的`qualityOfService`属性有点印象，其类型为`QualityOfService`；iOS 多线程另外一个比较关键的结构`Operation`也有一个一样的属性。
 
-至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 `struct`类型，不止队列有这个属性，任务也有这个属性，换句话说，其实这个属性主要是作用在任务上的，源码解析可见下文的`DispatchWorkItem`节。如果不想阅读源码，我们通过官方文档看下其定义描述也清楚，`The quality of service, or the execution priority, to apply to tasks.`，一个`tasks`概括了一切。
+至于 GCD，其类似属性便为`DispatchQoS`类型，其为一个 `struct`类型，不止队列有这个属性，任务也有这个属性，换句话说，**其实这个属性主要是作用在任务上的**，源码解析可见下文的`DispatchWorkItem`节。如果不想阅读源码，我们通过官方文档看下其定义描述也清楚，`The quality of service, or the execution priority, to apply to tasks.`，一个`tasks`概括了一切。
 
 但是需要注意的是 global 队列创建的时候其 qos 参数类型为`DispatchQoS.QoSClass`，为`DispatchQoS`结构体下的一个`enum`类型，那两者的区别是什么呢？
 
