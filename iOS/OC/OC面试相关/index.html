@@ -29,7 +29,7 @@
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
-<meta property="og:updated_time" content="2021-11-27T10:25:35.071Z">
+<meta property="og:updated_time" content="2021-12-15T15:00:35.266Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-27 18:25:35" itemprop="dateModified" datetime="2021-11-27T18:25:35+08:00">2021-11-27</time>
+                <time title="修改时间：2021-12-15 23:00:35" itemprop="dateModified" datetime="2021-12-15T23:00:35+08:00">2021-12-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.7k</span>
+              <span>5.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -334,8 +334,7 @@
 <li>普通 OC 对象： atomic readwrite strong</li>
 </ul>
 <h2 id="import、-import、-include、-class"><a href="#import、-import、-include、-class" class="headerlink" title="@import、#import、 #include、@class"></a>@import、#import、 #include、@class</h2><p>@class 用在 .h 文件中，作用是创建一个向前引用，是解决两个.h 文件互相引用的解决办法。</p>
-<p>import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。</p>
-<h2 id="Extension-amp-Category：分类"><a href="#Extension-amp-Category：分类" class="headerlink" title="Extension &amp; Category：分类"></a>Extension &amp; Category：分类</h2><p>extension：扩展</p>
+<h1 id="import-是-OC-导入头文件的关键字；-include-是-C-C-导入头文件的关键字；-import-比起-include-的好处就是不会引起重复包含。"><a href="#import-是-OC-导入头文件的关键字；-include-是-C-C-导入头文件的关键字；-import-比起-include-的好处就是不会引起重复包含。" class="headerlink" title="import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。"></a>import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。</h1><h2 id="Extension-amp-Category：分类"><a href="#Extension-amp-Category：分类" class="headerlink" title="Extension &amp; Category：分类"></a>Extension &amp; Category：分类</h2><p>extension：扩展</p>
 <ul>
 <li>可以给类添加成员变量及方法</li>
 <li>添加的属性和方法是类的一部分，在编译期就决定的。在编译器和头文件的 @interface 和实现文件里的 @implement 一起形成了一个完整的类</li>
@@ -349,13 +348,15 @@
 <li>通过 @property 定义的变量，只能生成对应的 getter 和 setter 的方法声明，但是不能实现 getter 和 setter 方法，同时也不能生成带下划线的成员属性</li>
 <li>是运行期决定的，这也是没法添加成员变量的原因，因为在运行期，对象的内存布局已经确定，所以不允许再添加成员变量去修改内存布局。</li>
 </ul>
-<p>分类同名方法会优先主类的方法使用。<br>多个分类中的同名方法会只执行一个, 即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。</p>
+<p>分类同名方法会优先主类的方法使用。</p>
+<p>多个分类中的同名方法会只执行一个, 即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。</p>
 <h2 id="self-class-和-super-class-区别"><a href="#self-class-和-super-class-区别" class="headerlink" title="[self class] 和 [super class] 区别"></a>[self class] 和 [super class] 区别</h2><p>两者打印出来的内容相同，我们首先了解一下 class 方法的作用，其就是返回 receiver 的类别。</p>
 <p><code>[self class]</code>就是发送消息 <code>objc_msgSend</code>，消息接收者 <code>self</code>，方法编号 <code>class</code><br><code>[super class]</code>本质就是 <code>objc_msgSendSuper</code>，消息的接收者还是 <code>self</code>，方法编号 <code>class</code>。只是调用 <code>objc_msgSendSuper</code> 的时候会直接跳过 <code>self</code> 查找，直接在从 <code>super</code> 出现的在的方法所在的类的父类开始查找进行查找。</p>
 <h2 id="load-与-initialize"><a href="#load-与-initialize" class="headerlink" title="load 与 initialize"></a>load 与 initialize</h2><h3 id="load"><a href="#load" class="headerlink" title="load"></a>load</h3><p>当一个类或者分类被加载到 Objectie-C 的 Runtime 运行环境中时，会调用它对应的 +load 方法。对于所有静态库中和动态库中实现了 +load 方法的类和分类都有效。当应用启动时，首先要 fork 进程，然后进行动态链接。+load 方法的调用就是在动态链接这个阶段进行的。动态链接结束之后，会执行程序的 main 函数。</p>
 <p>+load 方法的调用分为两种情况，系统自动调用和手动调用。<strong>其中系统自动调用直接通过函数地址调用，而手动调用是使用的消息机制，与正常的方法调用无异。</strong></p>
 <p>自动调用 +load 方法执行顺序：</p>
 <p>父类与子类：<strong>有继承关系的类的 +load 方法的执行顺序，是从基类到子类的；没有继承关系的两个类的 +load 方法的执行顺序是与编译顺序有关的（Build Phases -&gt; Compile Sources 中的顺序）。</strong><br>类与分类：<strong>所有分类的 +load 方法都在所有类 +load 方法之后执行，同时所有分类的 +load 方法的执行顺序与编译顺序有关，与是谁的分类无关，也与一个类有几个分类无关。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@interface Person : NSObject</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface Student : Person</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface Animal : NSObject</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">// 编译顺序为： Student、Animal、Person</span><br><span class="line"></span><br><span class="line">// load顺序为：Person、Student、Animal</span><br></pre></td></tr></table></figure>
 <ul>
 <li>动态库的 +load 方法都要在主工程的 +load 方法之前执行，多个动态库的 +load 方法的执行顺序编译顺序有关（Link Binary With Libraries 中的顺序）</li>
 <li>主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序）。</li>
@@ -539,7 +540,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-number">1.</span> <span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#property-属性修饰符"><span class="nav-number">1.1.</span> <span class="nav-text">@property 属性修饰符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import、-import、-include、-class"><span class="nav-number">2.</span> <span class="nav-text">@import、#import、 #include、@class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Extension-amp-Category：分类"><span class="nav-number">3.</span> <span class="nav-text">Extension &amp; Category：分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-class-和-super-class-区别"><span class="nav-number">4.</span> <span class="nav-text">[self class] 和 [super class] 区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-与-initialize"><span class="nav-number">5.</span> <span class="nav-text">load 与 initialize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#load"><span class="nav-number">5.1.</span> <span class="nav-text">load</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initialize"><span class="nav-number">5.2.</span> <span class="nav-text">initialize</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC-中的-block"><span class="nav-number">6.</span> <span class="nav-text">OC 中的 block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy-mutableCopy"><span class="nav-number">7.</span> <span class="nav-text">copy / mutableCopy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isa-指针"><span class="nav-number">8.</span> <span class="nav-text">isa 指针</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-number">1.</span> <span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#property-属性修饰符"><span class="nav-number">1.1.</span> <span class="nav-text">@property 属性修饰符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import、-import、-include、-class"><span class="nav-number">2.</span> <span class="nav-text">@import、#import、 #include、@class</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import-是-OC-导入头文件的关键字；-include-是-C-C-导入头文件的关键字；-import-比起-include-的好处就是不会引起重复包含。"><span class="nav-number"></span> <span class="nav-text">import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Extension-amp-Category：分类"><span class="nav-number">1.</span> <span class="nav-text">Extension &amp; Category：分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-class-和-super-class-区别"><span class="nav-number">2.</span> <span class="nav-text">[self class] 和 [super class] 区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-与-initialize"><span class="nav-number">3.</span> <span class="nav-text">load 与 initialize</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#load"><span class="nav-number">3.1.</span> <span class="nav-text">load</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initialize"><span class="nav-number">3.2.</span> <span class="nav-text">initialize</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC-中的-block"><span class="nav-number">4.</span> <span class="nav-text">OC 中的 block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#copy-mutableCopy"><span class="nav-number">5.</span> <span class="nav-text">copy / mutableCopy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isa-指针"><span class="nav-number">6.</span> <span class="nav-text">isa 指针</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -620,7 +621,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">327k</span>
+    <span title="站点总字数">328k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
