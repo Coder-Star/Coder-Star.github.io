@@ -13,16 +13,48 @@ date: 2021-02-05 22:03:03
 
 该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。
 
-苹果建议的pre-main启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。
+苹果建议的 pre-main 启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。
 
 ## APP 启动过程
+
+### dyld
+
+dyld（the dynamic link editor）是苹果的动态链接器。
+
+* 设置运行环境。
+  这一步主要是设置运行参数、环境变量等。比如获取 Xcode 设置的`Environment Variables`。
+* 加载共享缓存。
+  加载系统级别的动态库，比如`UIKit`等。
+* 实例化主程序。
+  这一步将主程序的 Mach-O 加载进内存，并实例化一个 ImageLoader。
+* 加载插入的动态库。
+  这一步是加载环境变量`DYLD_INSERT_LIBRARIES`中配置的动态库。
+* 链接主程序。
+  这一步调用 link() 函数将实例化后的主程序进行动态修正，让二进制变为可正常执行的状态。
+* 链接插入的动态库。
+* 执行弱符号绑定
+* 执行初始化方法。
+* 查找入口点并返回。
+
+### 扩展
+
+dyld2 和 dyld3 的加载方式略有不同。dyld2 是纯粹的 in-process，也就是在程序进程内执行的，也就意味着只有当应用程序被启动的时候，dyld2 才能开始执行任务。dyld3 则是部分 out-of-process，部分 in-process。
+
+dyld2 的过程是：加载 dyld 到 App 进程，加载动态库（包括所依赖的所有动态库），Rebase，Bind，初始化 Objective C Runtime 和其它的初始化代码。
+
+dyld3 的 out-of-process 会做如下事情：分析 Mach-O Headers，分析依赖的动态库，查找需要 Rebase & Bind 之类的符号，把上述结果写入缓存。这样，在应用启动的时候，就可以直接从缓存中读取数据，加快加载速度。
+
+### 过程
 
 我们需要先了解 APP 的启动过程，才能对过程中的一些步骤进行优化，减少时间。
 
 ### 解析 `Info.plist`
+
    - 加载相关信息，例如如闪屏；
    - 沙箱建立、权限检查；
+
 ### `Mach-O` 加载（`main` 函数执行前，也被成为 **`pre-main`** 阶段）
+
    - dylib loading
      - 加载所有依赖的 Mach-O 文件（递归调用 Mach-O 加载的方法）
      - 加载动态链接库加载器 dyld(dynamic loader)
@@ -36,14 +68,18 @@ date: 2021-02-05 22:03:03
      - 调用 ObjC 的 +load 函数
      - 执行声明为 __attribute__((constructor)) 的 C/C++ 函数
      - 创建 C++ 静态全局变量
+
 ### 调用 `main` 函数执行。（main -> applicationDidFinishLaunching）
+
   该阶段是指 main 函数执行之后到 AppDelegate 类中的 applicationDidFinishLaunching:withOptions: 方法执行结束前这段时间。
   这是 APP 启动优化的重点
 
 ### applicationDidFinishLaunching -> 首页渲染完成
+
    - 尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂
    - 在 viewDidLoad 以及 viewWillAppear 方法中少做逻辑，或者采用异步的方式去做
 
+- [dyld详解](https://www.dllhook.com/post/238.html)
 
 ## 量化手段
 
@@ -52,7 +88,7 @@ date: 2021-02-05 22:03:03
 ## pre-main 阶段优化
 
 - 减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。
-  > linkage的符号internal更多了，external更少了。dyld bind的时间必然能变少。比如两个动态库都依赖了objc_msgsend，要bind两次；但是一个库的话只需要一次，我是这么理解的。
+  > linkage 的符号 internal 更多了，external 更少了。dyld bind 的时间必然能变少。比如两个动态库都依赖了 objc_msgsend，要 bind 两次；但是一个库的话只需要一次，我是这么理解的。
 - 尽量不使用 C++ 虚函数；这样可以节约 rebase/binding 的时间
 - 清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间
 - 将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者 +initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间
@@ -90,7 +126,6 @@ clang 插桩
    - `-sanitize=undefined`
 
 获取启动过程中的执行方法：[AppOrderFiles](https://github.com/yulingtianxia/AppOrderFiles)
-
 
 - [58 同城 App 性能治理实践-iOS 启动时间优化](https://mp.weixin.qq.com/s/wkK2UBvuUZW3Pf0Yd_3XTA)
 - [iOS 优化篇 - 启动优化之Clang插桩实现二进制重排](https://juejin.cn/post/6844904130406793224)

@@ -108,7 +108,7 @@ date: 2021-02-02 20:25:06
 
 @class 用在 .h 文件中，作用是创建一个向前引用，是解决两个.h 文件互相引用的解决办法。
 
-import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。
+#import 是 OC 导入头文件的关键字； #include 是 C/C++ 导入头文件的关键字； #import 比起 #include 的好处就是不会引起重复包含。
 
 ## Extension & Category：分类
 
@@ -127,6 +127,7 @@ category：分类
 - 是运行期决定的，这也是没法添加成员变量的原因，因为在运行期，对象的内存布局已经确定，所以不允许再添加成员变量去修改内存布局。
 
 分类同名方法会优先主类的方法使用。
+
 多个分类中的同名方法会只执行一个, 即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。
 
 ## [self class] 和 [super class] 区别
@@ -148,6 +149,21 @@ category：分类
 
 父类与子类：**有继承关系的类的 +load 方法的执行顺序，是从基类到子类的；没有继承关系的两个类的 +load 方法的执行顺序是与编译顺序有关的（Build Phases -> Compile Sources 中的顺序）。**
 类与分类：**所有分类的 +load 方法都在所有类 +load 方法之后执行，同时所有分类的 +load 方法的执行顺序与编译顺序有关，与是谁的分类无关，也与一个类有几个分类无关。**
+
+```objective-c
+@interface Person : NSObject
+@end
+
+@interface Student : Person
+@end
+
+@interface Animal : NSObject
+@end
+
+// 编译顺序为： Student、Animal、Person
+
+// load顺序为：Person、Student、Animal
+```
 
 - 动态库的 +load 方法都要在主工程的 +load 方法之前执行，多个动态库的 +load 方法的执行顺序编译顺序有关（Link Binary With Libraries 中的顺序）
 - 主工程的 +load 方法执行在前，静态库的 +load 方法执行在后。有多个静态库时，静态库之间的执行顺序与编译顺序有关（Link Binary With Libraries 中的顺序）。

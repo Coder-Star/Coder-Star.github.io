@@ -7,25 +7,19 @@ category:
 tags: [iOS, Xcode]
 ---
 
-## Xcode
+## `Environment Variables`
 
-### 控制台输出 Core Data 执行过程及结果
+进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables
 
-进入 Product > Scheme > Edit Scheme... > Run > Arguments > Arguments Passed On Launch，在其中添加 `-com.apple.CoreData.SQLDebug 3`
+- `OS_ACTIVITY_MODE`值置为`Disable`：禁止控制台打印 NSLog
+  **注意此种方式不禁止 swift 的 print()**
+- 增加`DYLD_PRINT_STATISTICS`，值为`1`
+如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS：控制台输出 APP main() 函数执行之前的耗时
+- 增加`DYLD_PRINT_ENV`，值为`1`：控制台输入动态链接库相关信息
 
-### 禁止控制台打印 NSLog
+## `Arguments Passed On Launch`
 
-进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`OS_ACTIVITY_MODE`，值为`Disable`
-**注意此种方式不禁止 swift 的 print()**
-
-### 控制台输出 APP main() 函数执行之前的耗时
-
-进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`DYLD_PRINT_STATISTICS`，值为`1`
-如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS
-
-### 控制台输入动态链接库相关信息
-
-进入 Product > Scheme > Edit Scheme... > Run > Arguments > Environment Variables，在其中增加`DYLD_PRINT_ENV`，值为`1`
+- 添加 `-com.apple.CoreData.SQLDebug 3`：控制台输出 Core Data 执行过程及结果
 
 ### Swift 代码编译时间相关
 

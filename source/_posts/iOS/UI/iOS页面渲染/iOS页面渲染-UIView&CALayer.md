@@ -102,7 +102,7 @@ Layer 内部其实三份 layer tree，分别是：
 
 那么为什么 CALayer 可以呈现可视化内容呢？
 
-因为 CALayer 基本等同于一个 **纹理**。纹理是 GPU 进行图像渲染的重要依据。纹理本质上就是一张图片，因此如下代码所示， CALayer 也包含一个 `contents` 属性，指向一块缓存区，称为 `backing store`，可以存放位图（bitmap）。iOS 中将该缓存区保存的图片称为 `寄宿图`。而当设备屏幕进行刷新时，会从 CALayer 中读取生成的 `bitmap`, 进而呈现到屏幕上。
+因为 CALayer 基本等同于一个 **纹理**。纹理是 GPU 进行图像渲染的重要依据。纹理本质上就是一张**图片**，因此如下代码所示， CALayer 也包含一个 `contents` 属性，指向一块缓存区，称为 `backing store`，可以存放位图（bitmap）。iOS 中将该缓存区保存的图片称为 `寄宿图`。而当设备屏幕进行刷新时，会从 CALayer 中读取生成的 `bitmap`, 进而呈现到屏幕上。
 
 ```swift
 /* An object providing the contents of the layer, typically a CGImageRef,

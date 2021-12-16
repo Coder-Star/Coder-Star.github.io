@@ -75,21 +75,20 @@ open func setNilValueForKey(_ key: String)
 * 重写 dealloc 方法当观察对象移除所有的监听后，会将观察对象的 isa 指向原来的类，但是动态生成的类不会注销，而是留在下次观察再使用，避免反馈创建中间子类。当观察者释放了，但是被观察者没有移除该观察者，isa 指针不会回归原类，这时候发送通知会发生野指针引起 Crash。
 * 重写_isKVOA 方法，如果是动态生成的子类，返回 Yes，正常情况下返回 NO；
 
+* 重写 set 方法，内部会调用`_NSSetObjectValueAndNotify`方法，该方法内部封装`willChangeValueForkey`、调用父类set方法、`didChangeValueForKey`方法相关逻辑，同时，还会根据属性类型调用不同函数。同`_NSSetObjectValueAndNotify`方法类似的方法还有`_NSSetIntValueAndNotify`、`__NSSetBoolValueAndNotify`等等，`Foundation`框架中几乎为所有类型都支持了类似方法。
+
 如果直接给属性赋值，不调用 set 方法赋值是不会触发 KVO 的。
 
 我们可以手动调用 KVO，也就是在值改变之前手动调用 willChangeValueForKey 方法，在值改变之后手动调用 didChangeValueForKey 方法。
 
-### 使用场景
-
-监听某个值的变化从而进行相应的操作，如更新 UI 等。
-
-### 手动 KVO
-
 实现属性的 setter 方法，并在设置操作的前后分别调用 `willChangeValueForKey:` 和 `didChangeValueForKey 方法，这两个方法用于通知系统该 key 的属性值即将和已经变更了
 
-### 禁止 KVO
+如果想控制属性不被KVO，可以通过类方法`automaticallyNotifiesObserversForKey` 返回 `false`，如果想控制具体属性不允许，该方法会传入 key，可以根据 key 值进行处理。
 
-类方法，`automaticallyNotifiesObserversForKey` 返回 `false`
+### KVC触发KVO
+
+
+
 
 ### 在 Swift 中使用 KVO
 
@@ -99,7 +98,7 @@ open func setNilValueForKey(_ key: String)
 
 ```Swift
 // user为User对象实例
-let observation = user.observe(\User.name, options: [.new]) { user, change in
+let observation = user.observe(\.name, options: [.new]) { user, change in
     // user为修改值后的对象实例，
     // options包含四个选项
     * new change字典包括改变后的值
@@ -113,3 +112,4 @@ let observation = user.observe(\User.name, options: [.new]) { user, change in
 **实际 Swift 还可以使用`didSet`这种形式来实现属性值改变观察**
 
 -[KVO原理分析介绍](https://mp.weixin.qq.com/s/BeIQMwa28xX0MjZGk4fWYg)
+-[Key-Value Observing Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html)
