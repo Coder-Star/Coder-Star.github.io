@@ -130,6 +130,37 @@ category：分类
 
 多个分类中的同名方法会只执行一个, 即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。
 
+怎么调用到原来类中被category覆盖掉的方法？ 对于这个问题，我们已经知道category其实并不是完全替换掉原来类的同名方法，只是category在方法列表的前面而已，所以我们只要顺着方法列表找到最后一个对应名字的方法，就可以调用原来类的方法：
+
+```objective-c
+Class currentClass = [MyClass class];
+MyClass *my = [[MyClass alloc] init];
+
+if (currentClass) {
+    unsigned int methodCount;
+    Method *methodList = class_copyMethodList(currentClass, &methodCount);
+    IMP lastImp = NULL;
+    SEL lastSel = NULL;
+    for (NSInteger i = 0; i < methodCount; i++) {
+        Method method = methodList[i];
+        NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method)) 
+        								encoding:NSUTF8StringEncoding];
+        if ([@"printName" isEqualToString:methodName]) {
+            lastImp = method_getImplementation(method);
+            lastSel = method_getName(method);
+        }
+    }
+    typedef void (*fn)(id,SEL);
+    
+    if (lastImp != NULL) {
+        fn f = (fn)lastImp;
+        f(my,lastSel);
+    }
+    free(methodList);
+}   
+```
+
+
 ## [self class] 和 [super class] 区别
 
 两者打印出来的内容相同，我们首先了解一下 class 方法的作用，其就是返回 receiver 的类别。
@@ -170,7 +201,7 @@ category：分类
 
 手动调用：
 
-当手动调用时，使用的是消息机制，会遵循普通方法的调用方式，比如在 load 方法中手动调用`[super load]`，其最终可能执行到分类中去。
+当手动调用时，使用的是消息机制，会遵循普通方法的调用方式，比如在 load 方法中手动调用`[super load]`，其最终会执行到分类中去。
 
 load 方法中我们一般会做 模块注册、方法交换 等操作；
 

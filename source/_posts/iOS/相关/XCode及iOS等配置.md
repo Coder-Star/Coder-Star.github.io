@@ -16,6 +16,7 @@ tags: [iOS, Xcode]
 - 增加`DYLD_PRINT_STATISTICS`，值为`1`
 如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS：控制台输出 APP main() 函数执行之前的耗时
 - 增加`DYLD_PRINT_ENV`，值为`1`：控制台输入动态链接库相关信息
+- `DYLD_PRINT_OPTS`：值为1
 
 ## `Arguments Passed On Launch`
 
