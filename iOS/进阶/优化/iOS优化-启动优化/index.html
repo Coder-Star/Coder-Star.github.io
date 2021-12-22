@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的 pre-main 启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程dyld">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-12-16T02:03:19.062Z">
+<meta property="og:updated_time" content="2021-12-18T00:54:21.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 苹果建议的 pre-main 启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP 启动过程dyld">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-16 10:03:19" itemprop="dateModified" datetime="2021-12-16T10:03:19+08:00">2021-12-16</time>
+                <time title="修改时间：2021-12-18 08:54:21" itemprop="dateModified" datetime="2021-12-18T08:54:21+08:00">2021-12-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.9k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -280,14 +280,19 @@
 <h2 id="APP-启动过程"><a href="#APP-启动过程" class="headerlink" title="APP 启动过程"></a>APP 启动过程</h2><h3 id="dyld"><a href="#dyld" class="headerlink" title="dyld"></a>dyld</h3><p>dyld（the dynamic link editor）是苹果的动态链接器。</p>
 <ul>
 <li>设置运行环境。<br>这一步主要是设置运行参数、环境变量等。比如获取 Xcode 设置的<code>Environment Variables</code>。</li>
-<li>加载共享缓存。<br>加载系统级别的动态库，比如<code>UIKit</code>等。</li>
-<li>实例化主程序。<br>这一步将主程序的 Mach-O 加载进内存，并实例化一个 ImageLoader。</li>
-<li>加载插入的动态库。<br>这一步是加载环境变量<code>DYLD_INSERT_LIBRARIES</code>中配置的动态库。</li>
-<li>链接主程序。<br>这一步调用 link() 函数将实例化后的主程序进行动态修正，让二进制变为可正常执行的状态。</li>
+<li>加载共享缓存。<br>加载系统级别的动态库，比如<code>UIKit</code>等，位于<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv64</code></li>
+<li>实例化主程序。<br>这一步将主程序的 Mach-O 加载进内存，并实例化一个 ImageLoader。内核加载的主程序。</li>
+<li><p>加载插入的动态库。<br>这一步是加载环境变量<code>DYLD_INSERT_LIBRARIES</code>中配置的动态库。dyld负责。</p>
+</li>
+<li><p>链接主程序。<br>这一步调用 link() 函数将实例化后的主程序进行动态修正，让二进制变为可正常执行的状态。对应下面<code>rebase（偏移修正）/binding（符号绑定）</code>阶段</p>
+</li>
 <li>链接插入的动态库。</li>
-<li>执行弱符号绑定</li>
-<li>执行初始化方法。</li>
-<li>查找入口点并返回。</li>
+<li><p>执行弱符号绑定</p>
+</li>
+<li><p>执行初始化方法。<br>dyld会优先初始化动态库，然后初始化主程序。</p>
+</li>
+<li><p>查找入口点并返回。<br>执行main函数</p>
+</li>
 </ul>
 <h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>dyld2 和 dyld3 的加载方式略有不同。dyld2 是纯粹的 in-process，也就是在程序进程内执行的，也就意味着只有当应用程序被启动的时候，dyld2 才能开始执行任务。dyld3 则是部分 out-of-process，部分 in-process。</p>
 <p>dyld2 的过程是：加载 dyld 到 App 进程，加载动态库（包括所依赖的所有动态库），Rebase，Bind，初始化 Objective C Runtime 和其它的初始化代码。</p>
@@ -320,6 +325,14 @@
 </ul>
 </li>
 </ul>
+<blockquote>
+<p>为什么需要Rebase 和 Bind？</p>
+<p>ASLR：全称是Address space layout randomization，翻译过来就是”地址空间布局随机化”。</p>
+<p>App被启动的时候，程序会被影射到逻辑的地址空间，这个逻辑的地址空间有一个起始地址，而ASLR技术使得这个起始地址是随机的。如果是固定的，那么黑客很容易就可以由起始地址+偏移量找到函数的地址。</p>
+<p>是因为刚刚提到的ASLR使得地址随机化，导致起始地址不固定，App和每个dylib加载到的都是随机地址空间，代码中原来的函数地址跟真实的函数地址会有差异。修复这个差异的过程就是rebasing和binding。</p>
+<p>Rebase：Rebasing过程就是从<strong>LINKEDIT取出函数指针，根据偏移量修改函数指针，存入</strong>DATA中，Rebase解决了<strong>内部的符号引用</strong>问题。</p>
+<p>Binding：当引用动态库其他的函数或者变量时，当前mach-o文件会指向其他dylib。这时候就需要Binding操作，dyld会根据符号表去找到相应函数和变量地址，Binding解决了<strong>修正外部指针指向</strong>的问题。</p>
+</blockquote>
 <h3 id="调用-main-函数执行。（main-gt-applicationDidFinishLaunching）"><a href="#调用-main-函数执行。（main-gt-applicationDidFinishLaunching）" class="headerlink" title="调用 main 函数执行。（main -&gt; applicationDidFinishLaunching）"></a>调用 <code>main</code> 函数执行。（main -&gt; applicationDidFinishLaunching）</h3><p>  该阶段是指 main 函数执行之后到 AppDelegate 类中的 applicationDidFinishLaunching:withOptions: 方法执行结束前这段时间。<br>  这是 APP 启动优化的重点</p>
 <h3 id="applicationDidFinishLaunching-gt-首页渲染完成"><a href="#applicationDidFinishLaunching-gt-首页渲染完成" class="headerlink" title="applicationDidFinishLaunching -&gt; 首页渲染完成"></a>applicationDidFinishLaunching -&gt; 首页渲染完成</h3><ul>
 <li>尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂</li>
@@ -328,7 +341,7 @@
 <ul>
 <li><a href="https://www.dllhook.com/post/238.html" target="_blank" rel="noopener">dyld详解</a></li>
 </ul>
-<h2 id="量化手段"><a href="#量化手段" class="headerlink" title="量化手段"></a>量化手段</h2><p>一般而言</p>
+<h2 id="量化手段"><a href="#量化手段" class="headerlink" title="量化手段"></a>量化手段</h2><p>进入 Product &gt; Scheme &gt; Edit Scheme… &gt; Run &gt; Arguments &gt; Environment Variables。增加<code>DYLD_PRINT_STATISTICS</code>，值为<code>1</code>。如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS：控制台输出 APP main() 函数执行之前的耗时。</p>
 <h2 id="pre-main-阶段优化"><a href="#pre-main-阶段优化" class="headerlink" title="pre-main 阶段优化"></a>pre-main 阶段优化</h2><ul>
 <li>减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。<blockquote>
 <p>linkage 的符号 internal 更多了，external 更少了。dyld bind 的时间必然能变少。比如两个动态库都依赖了 objc_msgsend，要 bind 两次；但是一个库的话只需要一次，我是这么理解的。</p>
@@ -371,6 +384,7 @@
 <li><a href="https://mp.weixin.qq.com/s/wkK2UBvuUZW3Pf0Yd_3XTA" target="_blank" rel="noopener">58 同城 App 性能治理实践-iOS 启动时间优化</a></li>
 <li><a href="https://juejin.cn/post/6844904130406793224" target="_blank" rel="noopener">iOS 优化篇 - 启动优化之Clang插桩实现二进制重排</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/396550853" target="_blank" rel="noopener">脉脉iOS如何启动秒开</a></li>
+<li><a href="https://blog.csdn.net/zjpjay/article/details/116001128" target="_blank" rel="noopener"></a></li>
 </ul>
 
     </div>
@@ -588,12 +602,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">328k</span>
+    <span title="站点总字数">330k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:58</span>
+    <span title="站点阅读时长">5:01</span>
 </div>
 
         
