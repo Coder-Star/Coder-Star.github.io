@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-30T02:11:57.535Z">
+<meta property="og:updated_time" content="2021-12-23T08:47:46.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-30 10:11:57" itemprop="dateModified" datetime="2021-11-30T10:11:57+08:00">2021-11-30</time>
+                <time title="修改时间：2021-12-23 16:47:46" itemprop="dateModified" datetime="2021-12-23T16:47:46+08:00">2021-12-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -432,10 +432,11 @@
 <h2 id="八、设计规约"><a href="#八、设计规约" class="headerlink" title="八、设计规约"></a>八、设计规约</h2><ul>
 <li>【推荐】善用<code>func</code>嵌套；<br>说明：比如一段逻辑需要在方法内复用，可以在方法中定义方法，比如闭包中以及正常方法体中需要执行同一段逻辑；</li>
 <li>【推荐】委托性质的协议，第一个参数应尽量保证为代理源，类似<code>UITableViewDatasoure</code>；</li>
-<li>【推荐】在方法设计时，其需要返回值，但是大部分情况业务方不需要使用返回值，可使用<code>@discardableResult</code>来对该方法进行标注，防止出现大量 Warning；</li>
+<li>【推荐】在方法设计时，其需要返回值，但是大部分情况业务方不需要使用返回值，可使用<code>@discardableResult</code>来对该方法进行标注，防止出现大量 <code>Warning</code>；</li>
 <li>【推荐】尽可能少的使用全局命名空间，如常量、变量、方法等；</li>
 <li>【推荐】优先创建函数而不是自定义操作符；</li>
 <li>【推荐】Swift 中的协议和泛型十分强大，设计时应优先考虑面向协议编程；</li>
+<li>【推荐】尽量不使用<code>Bool？</code>或者<code>Array?</code>这两者类型，会造成使用模糊。</li>
 </ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
 <li>【强制】图形化的字面量，<code>#colorLiteral(...)</code>, <code>#imageLiteral(...)</code>只能用在 playground 当做自我练习使用，禁止在项目工程中使用，这会让维护者在后期维护时无法第一眼了解到颜色的 hex 值或者图片的名称。<br>说明：图形化的字面量不仅不方便直观的查看其颜色值或者图片名字，也不利于颜色、图片统一配置、管理。</li>
