@@ -72,10 +72,11 @@ open func setNilValueForKey(_ key: String)
 自动生成的子类会重写父类的 `setter`、`class`、`dealloc`、`_isKVOA` 方法。
 
 * 重写 class 方法返回的不是子类，而是父类。（通过该情景，我们通过 isa 指针获取类的类型是不可靠的，通过 class 方法获取的才可靠）
-* 重写 dealloc 方法当观察对象移除所有的监听后，会将观察对象的 isa 指向原来的类，但是动态生成的类不会注销，而是留在下次观察再使用，避免反馈创建中间子类。当观察者释放了，但是被观察者没有移除该观察者，isa 指针不会回归原类，这时候发送通知会发生野指针引起 Crash。
+* 重写 dealloc 方法：去除KVO过程中产生的一些东西，比如去除所有的观察者。
 * 重写_isKVOA 方法，如果是动态生成的子类，返回 Yes，正常情况下返回 NO；
+* 重写 set 方法，内部会调用`_NSSetObjectValueAndNotify`方法，该方法内部封装`willChangeValueForkey`、调用父类 set 方法、`didChangeValueForKey`方法相关逻辑，同时，还会根据属性类型调用不同函数。同`_NSSetObjectValueAndNotify`方法类似的方法还有`_NSSetIntValueAndNotify`、`__NSSetBoolValueAndNotify`等等，`Foundation`框架中几乎为所有类型都支持了类似方法。
 
-* 重写 set 方法，内部会调用`_NSSetObjectValueAndNotify`方法，该方法内部封装`willChangeValueForkey`、调用父类set方法、`didChangeValueForKey`方法相关逻辑，同时，还会根据属性类型调用不同函数。同`_NSSetObjectValueAndNotify`方法类似的方法还有`_NSSetIntValueAndNotify`、`__NSSetBoolValueAndNotify`等等，`Foundation`框架中几乎为所有类型都支持了类似方法。
+当观察对象移除所有的监听后，会将被观察对象的 isa 指向原来的类，**但是动态生成的类不会注销，而是留在下次观察再使用**，避免反复创建中间子类。当观察者释放了，但是被观察者没有移除该观察者，isa 指针不会回归原类，这时候发送通知会发生野指针引起 Crash。
 
 如果直接给属性赋值，不调用 set 方法赋值是不会触发 KVO 的。
 
@@ -83,12 +84,11 @@ open func setNilValueForKey(_ key: String)
 
 实现属性的 setter 方法，并在设置操作的前后分别调用 `willChangeValueForKey:` 和 `didChangeValueForKey 方法，这两个方法用于通知系统该 key 的属性值即将和已经变更了
 
-如果想控制属性不被KVO，可以通过类方法`automaticallyNotifiesObserversForKey` 返回 `false`，如果想控制具体属性不允许，该方法会传入 key，可以根据 key 值进行处理。
+如果想控制属性不被 KVO，可以通过类方法`automaticallyNotifiesObserversForKey` 返回 `false`，如果想控制具体属性不允许，该方法会传入 key，可以根据 key 值进行处理。
 
-### KVC触发KVO
+### KVC 触发 KVO
 
-会触发，即使观察的属性没有set方法也会触发，内部应该有特殊的兼容，不会走`_NSSetObjectValueAndNotify`方法，直接调用`willChangeValueForkey`、`didChangeValueForKey`方法。
-
+会触发，即使观察的属性没有 set 方法也会触发，内部应该有特殊的兼容，不会走`_NSSetObjectValueAndNotify`方法，直接调用`willChangeValueForkey`、`didChangeValueForKey`方法。
 
 ### 在 Swift 中使用 KVO
 
