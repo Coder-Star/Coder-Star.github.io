@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2021-12-28</lastmod>
+  </url>
+  <url>
+    <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E7%98%A6%E8%BA%AB/</loc>
+    <lastmod>2021-12-28</lastmod>
+  </url>
+  <url>
     <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime%E7%9B%B8%E5%85%B3/KVO%E4%B8%8EKVC/</loc>
     <lastmod>2021-12-26</lastmod>
   </url>
@@ -11,14 +19,6 @@
   <url>
     <loc>https://coder-star.github.io/Android/Android%E4%B8%89%E6%96%B9%E5%BA%93%E6%94%B6%E9%9B%86/</loc>
     <lastmod>2021-12-20</lastmod>
-  </url>
-  <url>
-    <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/</loc>
-    <lastmod>2021-12-18</lastmod>
-  </url>
-  <url>
-    <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E7%98%A6%E8%BA%AB/</loc>
-    <lastmod>2021-12-18</lastmod>
   </url>
   <url>
     <loc>https://coder-star.github.io/iOS/%E7%9B%B8%E5%85%B3/XCode%E5%8F%8AiOS%E7%AD%89%E9%85%8D%E7%BD%AE/</loc>
