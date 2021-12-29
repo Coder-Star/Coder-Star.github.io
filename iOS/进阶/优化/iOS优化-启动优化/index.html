@@ -20,21 +20,22 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 苹果建议的 pre-main 启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP">
+  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 优化 - 启动优化">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 苹果建议的 pre-main 启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP">
+<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
-<meta property="og:updated_time" content="2021-12-28T13:49:04.008Z">
+<meta property="og:updated_time" content="2021-12-29T12:50:26.359Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
-<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 苹果建议的 pre-main 启动时间不要超过 400ms，也就是从点击图标到启动图消失这段时间不能超过 400ms，并且启动时间超过 20s 将会被系统直接杀死。 APP">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS.png">
+<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/">
 
@@ -230,7 +231,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-28 21:49:04" itemprop="dateModified" datetime="2021-12-28T21:49:04+08:00">2021-12-28</time>
+                <time title="修改时间：2021-12-29 20:50:26" itemprop="dateModified" datetime="2021-12-29T20:50:26+08:00">2021-12-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,14 +260,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.4k</span>
+              <span>6.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>6 分钟</span>
             </span>
 
         </div>
@@ -280,15 +281,18 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。</p>
 <p>其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。</p>
-<p>苹果建议的 <code>pre-main</code> 启动时间不要超过 <code>400ms</code>，也就是从点击图标到启动图消失这段时间不能超过 <code>400ms</code>，并且启动时间超过 <code>20s</code> 将会被系统直接杀死。</p>
-<h2 id="APP-启动过程"><a href="#APP-启动过程" class="headerlink" title="APP 启动过程"></a>APP 启动过程</h2><p>APP 的启动过程大部分情况都会被分成两部分，即<code>pre-main</code>以及<code>main</code>，其实还可以分的更细一点，分为三步：</p>
+<h2 id="App-启动过程"><a href="#App-启动过程" class="headerlink" title="App 启动过程"></a>App 启动过程</h2><p>在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。</p>
+<p>APP 的启动过程大部分情况都会被分成两部分，即<code>pre-main</code>以及<code>main</code>，其实还可以分的更细一点，分为三步：</p>
 <ul>
 <li><code>pre-main</code>：main() 函数之前，即操作系统加载 App 可执行文件到内存，然后执行一系列的加载 &amp; 链接等工作，最后执行至 App 的 <code>main()</code> 函数；</li>
 <li><code>main</code>：<code>main()</code>函数之后，即从<code>main()</code>开始，到<code>appDelegate</code>的<code>didFinishLaunchingWithOptions</code>方法执行完毕；</li>
 <li>首屏渲染：首批构建完成可浏览 / 可操作页面；</li>
 </ul>
+<p><img src="../../../../img/iOS/进阶/优化/启动优化/流程.jpeg" alt="启动流程"></p>
 <h3 id="pre-main"><a href="#pre-main" class="headerlink" title="pre-main"></a><code>pre-main</code></h3><p>在这个阶段，基本所有的工作都是由操作系统完成的，开发者能够插手的地方不多，所以如果想要优化这段时间，就必须先了解一下，操作系统在<code>main()</code>函数之前做了什么。<code>main()</code>函数之前操作系统所做的工作就是把可执行文件（Mach-O 格式）加载到内存空间，然后加载动态链接库 <code>dyld</code>，再执行一系列动态链接操作和初始化操作的过程（加载、绑定、及初始化方法）。</p>
-<h3 id="dyld"><a href="#dyld" class="headerlink" title="dyld"></a>dyld</h3><p>dyld（the dynamic link editor）是苹果的动态链接器。</p>
+<p>程序的加载是从<code>exec()</code>函数开始，exec() 是一个系统调用。操作系统首先为进程分配一段内存空间。</p>
+<h3 id="dyld"><a href="#dyld" class="headerlink" title="dyld"></a>dyld</h3><p>dyld（the dynamic link editor）是苹果的动态链接器。是一个专门用来加载动态链接库的库，它是开源的。在 xnu 内核为程序启动做好准备后，执行由内核态切换到用户态，由 dyld 完成后面的加载工作，dyld 的主要是初始化运行环境，开启缓存策略，加载程序依赖的动态库 (其中也包含我们的可执行文件)，并对这些库进行链接（主要是 rebaseing 和 binding），最后调用每个依赖库的初始化方法，在这一步，runtime 被初始化。</p>
+<p>dyld 会首先读取 mach-o 文件的 Header 和 load commands。接着就知道了这个可执行文件依赖的动态库。例如加载动态库 A 到内存，接着检查 A 所依赖的动态库，就这样的递归加载，直到所有的动态库加载完毕。通常一个 App 所依赖的动态库在 100-400 个左右，其中大多数都是系统的动态库，它们会被缓存到 dyld shared cache，这样读取的效率会很高。</p>
 <ul>
 <li>设置运行环境。<br>这一步主要是设置运行参数、环境变量等。比如获取 Xcode 设置的<code>Environment Variables</code>。</li>
 <li>加载共享缓存。<br>加载系统级别的动态库，比如<code>UIKit</code>等，位于<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv64</code></li>
@@ -338,9 +342,7 @@
 </ul>
 <blockquote>
 <p>为什么需要 Rebase 和 Bind？</p>
-<p>ASLR：全称是 Address space layout randomization，翻译过来就是”地址空间布局随机化”。</p>
-<p>App 被启动的时候，程序会被影射到逻辑的地址空间，这个逻辑的地址空间有一个起始地址，而 ASLR 技术使得这个起始地址是随机的。如果是固定的，那么黑客很容易就可以由起始地址 + 偏移量找到函数的地址。</p>
-<p>是因为刚刚提到的 ASLR 使得地址随机化，导致起始地址不固定，App 和每个 dylib 加载到的都是随机地址空间，代码中原来的函数地址跟真实的函数地址会有差异。修复这个差异的过程就是 rebasing 和 binding。</p>
+<p>ASLR（Address Space Layout Randomization），地址空间布局随机化。在 ASLR 技术出现之前，程序都是在固定的地址加载的，这样 hacker 可以知道程序里面某个函数的具体地址，植入某些恶意代码，修改函数的地址等，带来了很多的危险性。ASLR 就是为了解决这个的，程序每次启动后地址都会随机变化，这样程序里所有的代码地址都需要需要重新对进行计算修复才能正常访问。</p>
 <p>Rebase：Rebasing 过程就是从<strong>LINKEDIT 取出函数指针，根据偏移量修改函数指针，存入</strong>DATA 中，Rebase 解决了<strong>内部的符号引用</strong>问题。</p>
 <p>Binding：当引用动态库其他的函数或者变量时，当前 mach-o 文件会指向其他 dylib。这时候就需要 Binding 操作，dyld 会根据符号表去找到相应函数和变量地址，Binding 解决了<strong>修正外部指针指向</strong>的问题。</p>
 </blockquote>
@@ -353,7 +355,8 @@
 <ul>
 <li><a href="https://www.dllhook.com/post/238.html" target="_blank" rel="noopener">dyld详解</a></li>
 </ul>
-<h2 id="量化手段"><a href="#量化手段" class="headerlink" title="量化手段"></a>量化手段</h2><h3 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><p>进入 <code>Product &gt; Scheme &gt; Edit Scheme... &gt; Run &gt; Arguments &gt; Environment Variables</code>，增加<code>DYLD_PRINT_STATISTICS</code>，设置值为<code>1</code>，如果获取更详细的信息，可以使用 <code>DYLD_PRINT_STATISTICS_DETAILS</code>。</p>
+<h2 id="指标及量化手段"><a href="#指标及量化手段" class="headerlink" title="指标及量化手段"></a>指标及量化手段</h2><p>苹果建议的 <code>pre-main</code> 启动时间不要超过 <code>400ms</code>，也就是从点击图标到启动图消失这段时间不能超过 <code>400ms</code>，并且启动时间超过 <code>20s</code> 将会被系统直接杀死。</p>
+<h3 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><p>进入 <code>Product &gt; Scheme &gt; Edit Scheme... &gt; Run &gt; Arguments &gt; Environment Variables</code>，增加<code>DYLD_PRINT_STATISTICS</code>，设置值为<code>1</code>，如果获取更详细的信息，可以使用 <code>DYLD_PRINT_STATISTICS_DETAILS</code>。</p>
 <p>加入<code>DYLD_PRINT_STATISTICS</code>后，显示信息如下：</p>
 <p><img src="../../../../img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS.png" alt="DYLD_PRINT_STATISTICS"></p>
 <p>加入<code>DYLD_PRINT_STATISTICS_DETAILS</code>后</p>
@@ -363,17 +366,23 @@
 <li>这种方式在我测试过程中发现并不支持真机，只支持模拟器。（当然可能是我打开姿势不对，有了解的小伙伴可以私信告知我）</li>
 <li>在 Debug 环境下拿到的数据会有<code>debugger pause time</code>的影响，为排除该因素影响，我们可以将<code>scheme</code>中的<code>debug executable</code>进行关闭。</li>
 </ul>
-<h3 id="App-Launch"><a href="#App-Launch" class="headerlink" title="App Launch"></a>App Launch</h3><h2 id="pre-main-阶段优化"><a href="#pre-main-阶段优化" class="headerlink" title="pre-main 阶段优化"></a>pre-main 阶段优化</h2><ul>
+<h3 id="App-Launch"><a href="#App-Launch" class="headerlink" title="App Launch"></a>App Launch</h3><h3 id="埋点"><a href="#埋点" class="headerlink" title="埋点"></a>埋点</h3><h4 id="进程启动时间"><a href="#进程启动时间" class="headerlink" title="进程启动时间"></a>进程启动时间</h4><p>这种方式据小伙伴说会有一定的偏差。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;sys/sysctl.h&gt;</span><br><span class="line">#import &lt;mach/mach.h&gt;</span><br><span class="line"></span><br><span class="line">+ (BOOL)processInfoForPID:(int)pid procInfo:(struct kinfo_proc*)procInfo</span><br><span class="line">&#123;</span><br><span class="line">    int cmd[4] = &#123;CTL_KERN, KERN_PROC, KERN_PROC_PID, pid&#125;;</span><br><span class="line">    size_t size = sizeof(*procInfo);</span><br><span class="line">    return sysctl(cmd, sizeof(cmd)/sizeof(*cmd), procInfo, &amp;size, NULL, 0) == 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSTimeInterval)processStartTime</span><br><span class="line">&#123;</span><br><span class="line">    struct kinfo_proc kProcInfo;</span><br><span class="line">    if ([self processInfoForPID:[[NSProcessInfo processInfo] processIdentifier] procInfo:&amp;kProcInfo]) &#123;</span><br><span class="line">        return kProcInfo.kp_proc.p_un.__p_starttime.tv_sec * 1000.0 + kProcInfo.kp_proc.p_un.__p_starttime.tv_usec / 1000.0;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        NSAssert(NO, @&quot;无法取得进程的信息&quot;);</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">ProcessInfo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> uptime: <span class="type">TimeInterval</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">Date</span>().timeIntervalSince(startTime)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> startTime: <span class="type">Date</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> processStartTime(<span class="keyword">for</span>: processIdentifier)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">processStartTime</span><span class="params">(<span class="keyword">for</span> pid: Int32)</span></span> -&gt; <span class="type">Date</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> mib = [<span class="type">CTL_KERN</span>, <span class="type">KERN_PROC</span>, <span class="type">KERN_PROC_PID</span>, pid]</span><br><span class="line">        <span class="keyword">var</span> proc = kinfo_proc()</span><br><span class="line">        <span class="keyword">var</span> size = <span class="type">MemoryLayout</span>.size(ofValue: proc)</span><br><span class="line">        mib.withUnsafeMutableBufferPointer &#123; p <span class="keyword">in</span></span><br><span class="line">            <span class="number">_</span> = sysctl(p.baseAddress, <span class="number">4</span>, &amp;proc, &amp;size, <span class="literal">nil</span>, <span class="number">0</span>)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> time = proc.kp_proc.p_starttime</span><br><span class="line">        <span class="keyword">let</span> seconds = <span class="type">Double</span>(time.tv_sec) + <span class="type">Double</span>(time.tv_usec) / <span class="type">Double</span>(<span class="type">NSEC_PER_SEC</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="type">Date</span>(timeIntervalSince1970: seconds)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="pre-main-结束时间"><a href="#pre-main-结束时间" class="headerlink" title="pre-main 结束时间"></a>pre-main 结束时间</h4><p>推荐使用<strong>attribute</strong>((constructor)) 构建器函数的被调用时间点作为 pre-main() 阶段结束时间点：__t2 能最大程度实现解耦。为什么不用最后一个 load 方法执行时间作为 pre-main() 阶段的结束时间点？因为在超大型工程中我们没办法确定哪个名称 load 方法是最后一个被执行 load 方法。。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void static __attribute__((constructor)) before_main() &#123;</span><br><span class="line">    // 获取时间</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="pre-main-阶段优化"><a href="#pre-main-阶段优化" class="headerlink" title="pre-main 阶段优化"></a>pre-main 阶段优化</h2><ul>
+<li>动态库转静态库</li>
 <li>减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。<blockquote>
 <p>linkage 的符号 internal 更多了，external 更少了。dyld bind 的时间必然能变少。比如两个动态库都依赖了 objc_msgsend，要 bind 两次；但是一个库的话只需要一次，我是这么理解的。</p>
 </blockquote>
 </li>
+<li>动态库懒加载</li>
 <li>尽量不使用 C++ 虚函数；这样可以节约 rebase/binding 的时间</li>
-<li>清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间</li>
+<li>清理项目中未用到的类、类别、方法等，这样可以节约 Objc setup 的时间。这个过程会影响很多方面，代码减少会降低 fixup 的次数，如果减少的是分类，也会降低<code>Objc setup</code>的时间</li>
 <li>将 load 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者 +initialize 执行；控制 C++ 全局变量的数量；这样可以节约 initializer 的时间</li>
 <li>二进制重排（主要是节省加载 Mach-O 文件的时间）</li>
 <li>多使用 swift structs，利用 swift 静态分发的特性。</li>
-<li>动态库懒加载</li>
 </ul>
 <h2 id="main-阶段优化"><a href="#main-阶段优化" class="headerlink" title="main 阶段优化"></a>main 阶段优化</h2><ul>
 <li>启动阶段的网络请求，是否都放到异步请求</li>
@@ -406,7 +415,7 @@
 <li><a href="https://mp.weixin.qq.com/s/wkK2UBvuUZW3Pf0Yd_3XTA" target="_blank" rel="noopener">58 同城 App 性能治理实践-iOS 启动时间优化</a></li>
 <li><a href="https://juejin.cn/post/6844904130406793224" target="_blank" rel="noopener">iOS 优化篇 - 启动优化之Clang插桩实现二进制重排</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/396550853" target="_blank" rel="noopener">脉脉iOS如何启动秒开</a></li>
-<li><a href="https://blog.csdn.net/zjpjay/article/details/116001128" target="_blank" rel="noopener">iOS 应用的启动流程和优化详解</a></li>
+<li><a href="https://juejin.cn/post/6951591401528229895" target="_blank" rel="noopener">iOS 应用的启动流程和优化详解</a></li>
 <li><a href="https://mp.weixin.qq.com/s/3-Sbqe9gxdV6eI1f435BDg" target="_blank" rel="noopener">抖音品质建设 - iOS启动优化《原理篇》</a></li>
 <li><a href="https://developer.apple.com/videos/play/wwdc2019/423/" target="_blank" rel="noopener">Optimizing App Launch</a></li>
 <li><a href="https://tech.meituan.com/2018/12/06/waimai-ios-optimizing-startup.html" target="_blank" rel="noopener">美团外卖iOS App冷启动治理</a></li>
@@ -546,7 +555,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APP-启动过程"><span class="nav-number">2.</span> <span class="nav-text">APP 启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main"><span class="nav-number">2.1.</span> <span class="nav-text">pre-main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dyld"><span class="nav-number">2.2.</span> <span class="nav-text">dyld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">2.3.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">2.4.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析-Info-plist"><span class="nav-number">2.5.</span> <span class="nav-text">解析 Info.plist</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mach-O-加载（main-函数执行前，也被成为-pre-main-阶段）"><span class="nav-number">2.6.</span> <span class="nav-text">Mach-O 加载（main 函数执行前，也被成为 pre-main 阶段）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用-main-函数执行。（main-gt-applicationDidFinishLaunching）"><span class="nav-number">2.7.</span> <span class="nav-text">调用 main 函数执行。（main -&gt; applicationDidFinishLaunching）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#applicationDidFinishLaunching-gt-首页渲染完成"><span class="nav-number">2.8.</span> <span class="nav-text">applicationDidFinishLaunching -&gt; 首页渲染完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#量化手段"><span class="nav-number">3.</span> <span class="nav-text">量化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Variables"><span class="nav-number">3.1.</span> <span class="nav-text">Environment Variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Launch"><span class="nav-number">3.2.</span> <span class="nav-text">App Launch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pre-main-阶段优化"><span class="nav-number">4.</span> <span class="nav-text">pre-main 阶段优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-阶段优化"><span class="nav-number">5.</span> <span class="nav-text">main 阶段优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制重排"><span class="nav-number">6.</span> <span class="nav-text">二进制重排</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动过程"><span class="nav-number">2.</span> <span class="nav-text">App 启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main"><span class="nav-number">2.1.</span> <span class="nav-text">pre-main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dyld"><span class="nav-number">2.2.</span> <span class="nav-text">dyld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">2.3.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过程"><span class="nav-number">2.4.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析-Info-plist"><span class="nav-number">2.5.</span> <span class="nav-text">解析 Info.plist</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mach-O-加载（main-函数执行前，也被成为-pre-main-阶段）"><span class="nav-number">2.6.</span> <span class="nav-text">Mach-O 加载（main 函数执行前，也被成为 pre-main 阶段）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用-main-函数执行。（main-gt-applicationDidFinishLaunching）"><span class="nav-number">2.7.</span> <span class="nav-text">调用 main 函数执行。（main -&gt; applicationDidFinishLaunching）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#applicationDidFinishLaunching-gt-首页渲染完成"><span class="nav-number">2.8.</span> <span class="nav-text">applicationDidFinishLaunching -&gt; 首页渲染完成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指标及量化手段"><span class="nav-number">3.</span> <span class="nav-text">指标及量化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Variables"><span class="nav-number">3.1.</span> <span class="nav-text">Environment Variables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#App-Launch"><span class="nav-number">3.2.</span> <span class="nav-text">App Launch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#埋点"><span class="nav-number">3.3.</span> <span class="nav-text">埋点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程启动时间"><span class="nav-number">3.3.1.</span> <span class="nav-text">进程启动时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pre-main-结束时间"><span class="nav-number">3.3.2.</span> <span class="nav-text">pre-main 结束时间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pre-main-阶段优化"><span class="nav-number">4.</span> <span class="nav-text">pre-main 阶段优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-阶段优化"><span class="nav-number">5.</span> <span class="nav-text">main 阶段优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制重排"><span class="nav-number">6.</span> <span class="nav-text">二进制重排</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -627,12 +636,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">331k</span>
+    <span title="站点总字数">333k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:01</span>
+    <span title="站点阅读时长">5:03</span>
 </div>
 
         
