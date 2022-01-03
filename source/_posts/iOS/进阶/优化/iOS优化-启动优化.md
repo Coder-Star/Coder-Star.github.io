@@ -205,7 +205,9 @@ void static __attribute__((constructor)) before_main() {
 }
 ```
 
-## pre-main 阶段优化
+## 优化措施
+
+### pre-main 阶段优化
 
 - 动态库转静态库
 - 减少动态库（使用静态库）的个数如果太多就使用合并（最多支持 6 个非系统动态库合成一个）的方式控制；这样可以节约 dylib loading 的时间。比如可以将 XXTableView, XXHUD, XXLabel 这些分散的库合并成一个 XXUIKit 来提高加载速度。
@@ -217,12 +219,12 @@ void static __attribute__((constructor)) before_main() {
 - 二进制重排（主要是节省加载 Mach-O 文件的时间）
 - 多使用 swift structs，利用 swift 静态分发的特性。
 
-## main 阶段优化
+### main 阶段优化
 
 - 启动阶段的网络请求，是否都放到异步请求
 - 一些耗时的操作是否可以放到后面去执行，或异步执行等
 
-## 二进制重排
+### 二进制重排
 
 核心步骤
 
