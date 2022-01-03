@@ -145,7 +145,8 @@ default -> `default`
 - @propertyWrapper
 - @frozen
 - @inlinable
-
+- @_dynamicReplacement
+- @_transparent // 是为了告诉编译器在需要的时候可以将声明的函数内联，即使在 -Onone 下也是如此。@_transparent 实际上是比 @_inlineable 更强的存在，所有的 @_transparent 声明其实也隐式包含了 @_inlineable
 
 [Attributes](https://docs.swift.org/swift-book/ReferenceManual/Attributes.html)
 
@@ -215,6 +216,18 @@ public func info() { }
 @available(iOS 12, macOS 10.14 ,*)
 public func info() { }
 ```
+
+
+### @_ silgen_name
+
+@_ silgen_name是Swift中间语言SIL的一个属性
+
+* 第一个是指定函数符号，为了让C调用；
+* 第二个可以只声明一个函数符号，没有函数体，真正的函数实现是对应C的函数符号实现；
+
+第一个场景可以是这样，加在Swift函数上，这样可以将该函数符号暴露出去，外部可以通过不直接引用的方式直接访问到该函数，用在组件路由上。
+
+第二个场景可以是这样，获取iOS或者Swift底层函数的实现，进而获取到一些Swift层没有的东西。
 
 ## 其他
 

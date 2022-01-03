@@ -37,6 +37,10 @@ date: 2021-03-22 10:58:25
 全部格式请见 [官方文档](https://guides.cocoapods.org/syntax/podfile.html)
 
 ```Ruby
+def rn_dependency
+  pod "Yoga", :path => "node_modules/react-native/ReactCommon/yoga"
+end 
+
 target 'BaseIOSProject' do
   source 'https://github.com/Coder-Star/LTXSpecs.git' #自己的私有库，在前面
   source 'https://github.com/CocoaPods/Specs.git' #公有库
@@ -72,6 +76,9 @@ target 'BaseIOSProject' do
   pod 'LTXiOSUtils',:path => '../' # 本地pod库，会寻找该路径下LTXiOSUtils.podspec文件
 
   pod 'LookinServer', :configurations => ['Debug'] # 查看UI，只编译进debug版本， :configurations => ['Debug','Test']
+
+  # 公有pod使用
+  rn_dependency
 
   target 'BaseIOSProjectTests' do
     inherit! :search_paths
