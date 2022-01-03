@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="swift 中的关键字被保留，不可将其用作标识符，除非使用反引号``，如 1default -&amp;gt; `default` 声明中的关键字 class enum protocol struct let var init deinit private fileprivate internal public open extension func import inout operator stati">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-12-07T08:09:16.589Z">
+<meta property="og:updated_time" content="2022-01-01T07:30:56.588Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 中的关键字">
 <meta name="twitter:description" content="swift 中的关键字被保留，不可将其用作标识符，除非使用反引号``，如 1default -&amp;gt; `default` 声明中的关键字 class enum protocol struct let var init deinit private fileprivate internal public open extension func import inout operator stati">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-07 16:09:16" itemprop="dateModified" datetime="2021-12-07T16:09:16+08:00">2021-12-07</time>
+                <time title="修改时间：2022-01-01 15:30:56" itemprop="dateModified" datetime="2022-01-01T15:30:56+08:00">2022-01-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -402,6 +402,8 @@
 <li>@propertyWrapper</li>
 <li>@frozen</li>
 <li>@inlinable</li>
+<li>@_dynamicReplacement</li>
+<li>@_transparent // 是为了告诉编译器在需要的时候可以将声明的函数内联，即使在 -Onone 下也是如此。@_transparent 实际上是比 @_inlineable 更强的存在，所有的 @_transparent 声明其实也隐式包含了 @_inlineable</li>
 </ul>
 <p><a href="https://docs.swift.org/swift-book/ReferenceManual/Attributes.html" target="_blank" rel="noopener">Attributes</a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@frozen 和 @inlinable 是保证这个<span class="class"><span class="keyword">enum</span>, <span class="title">struct</span>, <span class="title">function</span>的结构不变</span></span><br><span class="line"><span class="class">@<span class="title">frozen</span> 是对 <span class="title">enum</span>, <span class="title">struct</span> 使用</span></span><br><span class="line"><span class="class">@<span class="title">inlinable</span> 是对 <span class="title">function</span> 使用</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">可以保证在项目中引用的某 <span class="title">framework</span> 替换后仍然不需要重新编译,</span></span><br><span class="line"><span class="class">因为 <span class="title">enum</span>, <span class="title">struct</span>, <span class="title">function</span> 的链接没有发生改变</span></span><br></pre></td></tr></table></figure>
@@ -435,6 +437,13 @@
 </ul>
 <p>完成使用可以如下：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@available</span>(iOS, introduced: <span class="number">1.0</span>, deprecated: <span class="number">2.0</span>, obsoleted: <span class="number">3.0</span>, renamed: <span class="string">"new</span></span><br><span class="line"><span class="string">Info"</span>, message: <span class="string">"use newInfo"</span>)</span><br><span class="line"><span class="meta">@available</span>(macOS, unavailable)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">info</span><span class="params">()</span></span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果除了平台参数外，只指定了一个introduced参数，可简写为如下</span></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">12</span>, *)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">info</span><span class="params">()</span></span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@available</span>(iOS <span class="number">12</span>, macOS <span class="number">10.14</span> ,*)</span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">info</span><span class="params">()</span></span> &#123; &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="silgen-name"><a href="#silgen-name" class="headerlink" title="@_ silgen_name"></a>@_ silgen_name</h3><p>@_ silgen_name是Swift中间语言SIL的一个属性</p>
+<ul>
+<li>第一个是指定函数符号，为了让C调用；</li>
+<li>第二个可以只声明一个函数符号，没有函数体，真正的函数实现是对应C的函数符号实现；</li>
+</ul>
+<p>第一个场景可以是这样，加在Swift函数上，这样可以将该函数符号暴露出去，外部可以通过不直接引用的方式直接访问到该函数，用在组件路由上。</p>
+<p>第二个场景可以是这样，获取iOS或者Swift底层函数的实现，进而获取到一些Swift层没有的东西。</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
 <li>@inline(never) 声明这个函数 never 永远不被编译成 inline 的形式</li>
 <li>@inline(__always) 声明这个函数总是编译成 inline 的形式， 这种方式对防止反编译拿到核心方法逻辑有帮助。</li>
@@ -574,7 +583,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明中的关键字"><span class="nav-number">1.</span> <span class="nav-text">声明中的关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语句中的关键字"><span class="nav-number">2.</span> <span class="nav-text">语句中的关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表达式和类型中的关键字"><span class="nav-number">3.</span> <span class="nav-text">表达式和类型中的关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起始于-的关键字"><span class="nav-number">4.</span> <span class="nav-text">起始于#的关键字</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#available、"><span class="nav-number"></span> <span class="nav-text">available、</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#if"><span class="nav-number"></span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#elseif"><span class="nav-number"></span> <span class="nav-text">elseif</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#else"><span class="nav-number"></span> <span class="nav-text">else</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#endif"><span class="nav-number"></span> <span class="nav-text">endif</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file"><span class="nav-number"></span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#line"><span class="nav-number"></span> <span class="nav-text">line</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#column"><span class="nav-number"></span> <span class="nav-text">column</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#function"><span class="nav-number"></span> <span class="nav-text">function</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#selector"><span class="nav-number"></span> <span class="nav-text">selector</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sourceLocation"><span class="nav-number"></span> <span class="nav-text">sourceLocation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起始于-的关键字-1"><span class="nav-number">1.</span> <span class="nav-text">起始于 @的关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#available"><span class="nav-number">1.1.</span> <span class="nav-text">@available</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">2.</span> <span class="nav-text">其他</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#声明中的关键字"><span class="nav-number">1.</span> <span class="nav-text">声明中的关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语句中的关键字"><span class="nav-number">2.</span> <span class="nav-text">语句中的关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表达式和类型中的关键字"><span class="nav-number">3.</span> <span class="nav-text">表达式和类型中的关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#起始于-的关键字"><span class="nav-number">4.</span> <span class="nav-text">起始于#的关键字</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#available、"><span class="nav-number"></span> <span class="nav-text">available、</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#if"><span class="nav-number"></span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#elseif"><span class="nav-number"></span> <span class="nav-text">elseif</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#else"><span class="nav-number"></span> <span class="nav-text">else</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#endif"><span class="nav-number"></span> <span class="nav-text">endif</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#file"><span class="nav-number"></span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#line"><span class="nav-number"></span> <span class="nav-text">line</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#column"><span class="nav-number"></span> <span class="nav-text">column</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#function"><span class="nav-number"></span> <span class="nav-text">function</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#selector"><span class="nav-number"></span> <span class="nav-text">selector</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sourceLocation"><span class="nav-number"></span> <span class="nav-text">sourceLocation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起始于-的关键字-1"><span class="nav-number">1.</span> <span class="nav-text">起始于 @的关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#available"><span class="nav-number">1.1.</span> <span class="nav-text">@available</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#silgen-name"><span class="nav-number">1.2.</span> <span class="nav-text">@_ silgen_name</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">2.</span> <span class="nav-text">其他</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -590,7 +599,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -646,7 +655,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="user"></i>
   </span>
@@ -655,12 +664,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">333k</span>
+    <span title="站点总字数">335k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:03</span>
+    <span title="站点阅读时长">5:04</span>
 </div>
 
         

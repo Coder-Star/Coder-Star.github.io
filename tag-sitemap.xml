@@ -4,14 +4,49 @@
 
     <url>
         <loc>https://coder-star.github.io/tags/优化/</loc>
-        <lastmod>2021-12-29T12:50:26.359Z</lastmod>
+        <lastmod>2022-01-03T07:34:50.922Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2021-12-29T12:50:26.359Z</lastmod>
+        <lastmod>2022-01-03T07:34:50.922Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/标签-2/</loc>
+        <lastmod>2022-01-03T05:31:28.322Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/标签-1/</loc>
+        <lastmod>2022-01-03T05:31:28.322Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/关键字/</loc>
+        <lastmod>2022-01-01T07:30:56.588Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Swift/</loc>
+        <lastmod>2022-01-01T07:30:56.588Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/CocoaPods/</loc>
+        <lastmod>2021-12-31T07:37:01.208Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -94,13 +129,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/Swift/</loc>
-        <lastmod>2021-12-14T03:12:55.674Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/网络/</loc>
         <lastmod>2021-12-12T07:26:59.126Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -110,27 +138,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/坑/</loc>
         <lastmod>2021-12-09T07:07:03.604Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/关键字/</loc>
-        <lastmod>2021-12-07T08:09:16.589Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/标签-2/</loc>
-        <lastmod>2021-11-26T14:55:48.775Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/标签-1/</loc>
-        <lastmod>2021-11-26T14:55:48.775Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -236,13 +243,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/Thread/</loc>
         <lastmod>2021-10-26T05:35:05.997Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/CocoaPods/</loc>
-        <lastmod>2021-10-24T13:29:34.986Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
