@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/Clang.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/swiftc.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/LLVM后端.png">
-<meta property="og:updated_time" content="2021-09-27T07:50:34.549Z">
+<meta property="og:updated_time" content="2022-01-06T00:04:50.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS编译简析">
 <meta name="twitter:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端(FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器(Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及大部分">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-27 15:50:34" itemprop="dateModified" datetime="2021-09-27T15:50:34+08:00">2021-09-27</time>
+                <time title="修改时间：2022-01-06 08:04:50" itemprop="dateModified" datetime="2022-01-06T08:04:50+08:00">2022-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -262,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.1k</span>
+              <span>4.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -317,21 +317,21 @@
 <p><strong>主要流程</strong><br><img src="../../../img/iOS/进阶/编译/Clang.png" alt="Clang.png"></p>
 <ul>
 <li>预处理（Pre-process）：include 扩展、标记化处理、去除注释、条件编译、宏删除、宏替换。 对<code>C</code>输出<code>.i</code>, 对<code>C++</code>输出 <code>.ii</code>, 对 OC 输出 <code>.mi</code>, 对<code>Objective-C++</code>输出 <code>.mii</code>；</li>
-<li>词法分析 （Lexical Analysis）：将代码切成一个个 token，比如大小括号，等于号还有字符串等。是计算机科学中将字符序列转换为标记序列的过程；</li>
-<li>语法分析（Semantic Analysis）：验证语法是否正确，然后将所有节点组成抽象语法树 AST 。由 Clang 中 Parser 和 Sema 配合完成；</li>
-<li>静态分析（Static Analysis）：使用它来表示用于分析源代码以便自动发现错误；</li>
+<li>词法分析 （Lexical Analysis）：将代码切成一个个 token，比如大小括号，等于号还有字符串等，<strong>输出token流</strong>。是计算机科学中将字符序列转换为标记序列的过程；</li>
+<li>语法分析（Semantic Analysis）：验证语法是否正确，然后将所有节点组成<strong>抽象语法树 AST</strong> 。由 Clang 中 Parser 和 Sema 配合完成；</li>
+<li>静态分析/语义分析（Static Analysis）：使用它来表示用于分析源代码以便自动发现错误；</li>
 <li>中间代码生成（Code Generation）：开始 IR 中间代码的生成了，CodeGen 会负责将语法树自顶向下遍历逐步翻译成 LLVM IR。</li>
 </ul>
 <h3 id="SwiftC"><a href="#SwiftC" class="headerlink" title="SwiftC"></a>SwiftC</h3><p>SwiftC 是 Swift 语言的编译器前端。</p>
 <p><strong>主要流程</strong></p>
 <p><img src="../../../img/iOS/进阶/编译/swiftc.png" alt="编译器架构.png"></p>
 <ul>
-<li>Parse: 词法分析组件，生成 AST；</li>
-<li>Sema（Semantic Analysis）：对 AST 进行类型检查，转换为格式正确且类型检查完备的 AST；</li>
-<li>Clang Importer: 负责导入 Clang 模块，并将导出的 C 或 Objective-C API 映射到相应的 Swift API 中。最终导入的 AST 可以被语义分析引用。</li>
-<li>SIL Gen：由 AST 生成 Raw SIL（原生 SIL，代码量很大，不会进行类型检查）；</li>
-<li>SIL 保证转换：SIL 保证转换阶段负责执行额外且影响程序正确性的数据流诊断，转换后的最终结果是规范的 SIL；</li>
-<li>SIL 优化：该阶段负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化；</li>
+<li>Parse ：解析器是一个简易的递归下降解析器（在 lib/Parse 中实现），并带有完整手动编码的词法分析器。通过parse进行词法分析；</li>
+<li>Semantic Analysis： 语义分析阶段（在 lib/Sema 中实现）负责获取已解析的 AST（抽象语法树）并将其转换为格式正确且类型检查完备的 AST，以及在源代码中提示出现语义问题的警告或错误。语义分析包含类型推断，如果可以成功推导出类型，则表明此时从已经经过类型检查的最终 AST 生成代码是安全的；</li>
+<li>Clang Importer:Clang 导入器（Clang Importer）：Clang 导入器（在 lib/ClangImporter 中实现）负责导入 Clang 模块，并将导出的 C 或 Objective-C API 映射到相应的 Swift API 中。最终导入的 AST 可以被语义分析引用。</li>
+<li>SIL 生成（SIL Generation）：Swift 中间语言（Swift Intermediate Language，SIL）是一门高级且专用于 Swift 的中间语言，适用于对 Swift 代码的进一步分析和优化。SIL 生成阶段（在 lib/SILGen 中实现）将经过类型检查的 AST 弱化为所谓的「原始」SIL（Raw SIL）。SIL 的设计在 docs/SIL.rst 有所描述。这个过程生成RAW SIL（原生SIL，代码量很大，不会进行类型检查，代码优化）</li>
+<li>SIL 保证转换（SIL Guaranteed Transformations）：SIL 保证转换阶段（在 lib/SILOptimizer/Mandatory中实现）负责执行额外且影响程序正确性的数据流诊断（比如使用未初始化的变量）。这些转换的最终结果是「规范」SIL（Canonical SIL）。</li>
+<li>SIL 优化（SIL Optimizations）：SIL 优化阶段（在 lib/Analysis、lib/ARC、lib/LoopTransforms 以及 lib/Transforms 中实现）负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化。通过<code>-emit-sil</code>命令生成优化过后的 <code>SIL Opt Canonical SIL</code>。这个也是我们一般阅读的SIL代码；</li>
 </ul>
 <p>Swift引入SIL的目的是希望弥补一些Clang编译器的缺陷，如无法执行一些高级分析，可靠的诊断和优化。</p>
 <p>Swift 编译过程引入 SIL 有几个优点：</p>
@@ -582,7 +582,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:04</span>
+    <span title="站点阅读时长">5:05</span>
 </div>
 
         
