@@ -62,9 +62,9 @@ Clang 是 LLVM 项目的一个子项目，是 C 系列(C、C++、OC)的编译器
 ![Clang.png](../../../img/iOS/进阶/编译/Clang.png)
 
 - 预处理（Pre-process）：include 扩展、标记化处理、去除注释、条件编译、宏删除、宏替换。 对`C`输出`.i`, 对`C++`输出 `.ii`, 对 OC 输出 `.mi`, 对`Objective-C++ `输出 `.mii`；
-- 词法分析 （Lexical Analysis）：将代码切成一个个 token，比如大小括号，等于号还有字符串等。是计算机科学中将字符序列转换为标记序列的过程；
-- 语法分析（Semantic Analysis）：验证语法是否正确，然后将所有节点组成抽象语法树 AST 。由 Clang 中 Parser 和 Sema 配合完成；
-- 静态分析（Static Analysis）：使用它来表示用于分析源代码以便自动发现错误；
+- 词法分析 （Lexical Analysis）：将代码切成一个个 token，比如大小括号，等于号还有字符串等，**输出token流**。是计算机科学中将字符序列转换为标记序列的过程；
+- 语法分析（Semantic Analysis）：验证语法是否正确，然后将所有节点组成**抽象语法树 AST** 。由 Clang 中 Parser 和 Sema 配合完成；
+- 静态分析/语义分析（Static Analysis）：使用它来表示用于分析源代码以便自动发现错误；
 - 中间代码生成（Code Generation）：开始 IR 中间代码的生成了，CodeGen 会负责将语法树自顶向下遍历逐步翻译成 LLVM IR。
 
 ### SwiftC
@@ -75,12 +75,12 @@ SwiftC 是 Swift 语言的编译器前端。
 
 ![编译器架构.png](../../../img/iOS/进阶/编译/swiftc.png)
 
-- Parse: 词法分析组件，生成 AST；
-- Sema（Semantic Analysis）：对 AST 进行类型检查，转换为格式正确且类型检查完备的 AST；
-- Clang Importer: 负责导入 Clang 模块，并将导出的 C 或 Objective-C API 映射到相应的 Swift API 中。最终导入的 AST 可以被语义分析引用。
-- SIL Gen：由 AST 生成 Raw SIL（原生 SIL，代码量很大，不会进行类型检查）；
-- SIL 保证转换：SIL 保证转换阶段负责执行额外且影响程序正确性的数据流诊断，转换后的最终结果是规范的 SIL；
-- SIL 优化：该阶段负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化；
+* Parse ：解析器是一个简易的递归下降解析器（在 lib/Parse 中实现），并带有完整手动编码的词法分析器。通过parse进行词法分析；
+* Semantic Analysis： 语义分析阶段（在 lib/Sema 中实现）负责获取已解析的 AST（抽象语法树）并将其转换为格式正确且类型检查完备的 AST，以及在源代码中提示出现语义问题的警告或错误。语义分析包含类型推断，如果可以成功推导出类型，则表明此时从已经经过类型检查的最终 AST 生成代码是安全的；
+* Clang Importer:Clang 导入器（Clang Importer）：Clang 导入器（在 lib/ClangImporter 中实现）负责导入 Clang 模块，并将导出的 C 或 Objective-C API 映射到相应的 Swift API 中。最终导入的 AST 可以被语义分析引用。
+* SIL 生成（SIL Generation）：Swift 中间语言（Swift Intermediate Language，SIL）是一门高级且专用于 Swift 的中间语言，适用于对 Swift 代码的进一步分析和优化。SIL 生成阶段（在 lib/SILGen 中实现）将经过类型检查的 AST 弱化为所谓的「原始」SIL（Raw SIL）。SIL 的设计在 docs/SIL.rst 有所描述。这个过程生成RAW SIL（原生SIL，代码量很大，不会进行类型检查，代码优化）
+* SIL 保证转换（SIL Guaranteed Transformations）：SIL 保证转换阶段（在 lib/SILOptimizer/Mandatory中实现）负责执行额外且影响程序正确性的数据流诊断（比如使用未初始化的变量）。这些转换的最终结果是「规范」SIL（Canonical SIL）。
+* SIL 优化（SIL Optimizations）：SIL 优化阶段（在 lib/Analysis、lib/ARC、lib/LoopTransforms 以及 lib/Transforms 中实现）负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化。通过`-emit-sil`命令生成优化过后的 `SIL Opt Canonical SIL`。这个也是我们一般阅读的SIL代码；
 
 Swift引入SIL的目的是希望弥补一些Clang编译器的缺陷，如无法执行一些高级分析，可靠的诊断和优化。
 
