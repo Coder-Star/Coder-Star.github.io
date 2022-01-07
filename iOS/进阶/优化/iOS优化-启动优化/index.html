@@ -20,22 +20,22 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
+  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 优化 - 启动优化">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
+<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/dyld流程图.webp">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
-<meta property="og:updated_time" content="2022-01-03T07:35:27.860Z">
+<meta property="og:updated_time" content="2022-01-07T06:17:41.372Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
-<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
+<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。 App 启动过程在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 ROI 最高。">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/">
@@ -232,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-03 15:35:27" itemprop="dateModified" datetime="2022-01-03T15:35:27+08:00">2022-01-03</time>
+                <time title="修改时间：2022-01-07 14:17:41" itemprop="dateModified" datetime="2022-01-07T14:17:41+08:00">2022-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>6.9k</span>
+              <span>7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -281,13 +281,13 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。</p>
-<p>其实关于这块，网上的资料已经很多了，也已经有了很多成熟的优化方案，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。</p>
+<p>其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。</p>
 <h2 id="App-启动过程"><a href="#App-启动过程" class="headerlink" title="App 启动过程"></a>App 启动过程</h2><p>在优化之前，我们需要对 App 的完整启动过程有个了解，这样我们才能知道启动耗时分布的阶段、哪一个阶段可以被优化以及优化哪一个阶段 <code>ROI</code> 最高。</p>
 <p>APP 的启动过程大部分情况都会被分成两部分，即<code>pre-main</code>以及<code>main</code>，其实还可以分的更细一点，分为三步：</p>
 <ul>
 <li><code>pre-main</code>：main() 函数之前，即操作系统加载 App 可执行文件到内存，然后执行一系列的加载 &amp; 链接等工作，最后执行至 App 的 <code>main()</code> 函数；</li>
 <li><code>main</code>：<code>main()</code>函数之后，即从<code>main()</code>开始，到<code>appDelegate</code>的<code>didFinishLaunchingWithOptions</code>方法执行完毕；</li>
-<li>首屏渲染：首批构建完成可浏览 / 可操作页面；</li>
+<li>首屏渲染：首屏构建完成可浏览 / 可操作页面；</li>
 </ul>
 <p><img src="../../../../img/iOS/进阶/优化/启动优化/流程.jpeg" alt="启动流程"></p>
 <h3 id="pre-main"><a href="#pre-main" class="headerlink" title="pre-main"></a><code>pre-main</code></h3><p>在这个阶段，基本所有的工作都是由操作系统完成的，开发者能够插手的地方不多，所以如果想要优化这段时间，就必须先了解一下，操作系统在<code>main()</code>函数之前做了什么。<code>main()</code>函数之前操作系统所做的工作就是把可执行文件（Mach-O 格式）加载到内存空间，然后加载动态链接库 <code>dyld</code>，再执行一系列动态链接操作和初始化操作的过程（加载、绑定、及初始化方法）。</p>
@@ -299,7 +299,7 @@
 <ol>
 <li>dylib loading<ul>
 <li>设置运行环境。<br>这一步主要是设置运行参数、环境变量等。也就是我们常通过 Xcode 设置的<code>Environment Variables</code>、<code>Arguments Passed On Launch</code>等。</li>
-<li>加载共享缓存。<br>加载系统级别的动态库，比如<code>UIKit</code>等，位于<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armv64</code></li>
+<li>加载共享缓存。<br>加载系统级别的动态库，比如<code>UIKit</code>等，位于<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_armX</code>，X 为 ARM 处理器指令集架构。</li>
 <li>实例化主程序。<br>这一步将主程序的 <code>Mach-O</code> 加载进内存，并实例化一个 <code>ImageLoader</code>，内核加载的主程序。</li>
 <li>加载插入的动态库。<br>这一步是加载环境变量<code>DYLD_INSERT_LIBRARIES</code>中配置的动态库，dyld 负责。</li>
 </ul>
@@ -330,7 +330,11 @@
 </li>
 </ol>
 <p>上述过程将我们常见的 App <code>pre-main</code>时期的启动过程与<code>dyld</code>的流程结合起来梳理一遍。</p>
-<h4 id="dyld-迭代"><a href="#dyld-迭代" class="headerlink" title="dyld 迭代"></a>dyld 迭代</h4><p>dyld2 和 dyld3 的加载方式略有不同。dyld2 是纯粹的 in-process，也就是在程序进程内执行的，也就意味着只有当应用程序被启动的时候，dyld2 才能开始执行任务。dyld3 则是部分 out-of-process，部分 in-process。</p>
+<h4 id="dyld-迭代"><a href="#dyld-迭代" class="headerlink" title="dyld 迭代"></a>dyld 迭代</h4><p>我们对<code>dyld</code>展开讲一下，其是开源的，我们可以<a href="https://opensource.apple.com/tarballs/dyld/" target="_blank" rel="noopener">官网下载</a>后阅读其源码。</p>
+<p>一、dyld 1.0（1996-2004）</p>
+<p>二、dyld 2（2004-2017）</p>
+<p>三、dyld 3（2017- 至今）</p>
+<p>dyld2 和 dyld3 的加载方式略有不同。dyld2 是纯粹的 in-process，也就是在程序进程内执行的，也就意味着只有当应用程序被启动的时候，dyld2 才能开始执行任务。dyld3 则是部分 out-of-process，部分 in-process。</p>
 <p>dyld2 的过程是：加载 dyld 到 App 进程，加载动态库（包括所依赖的所有动态库），Rebase，Bind，初始化 Objective C Runtime 和其它的初始化代码。</p>
 <p>dyld3 的 out-of-process 会做如下事情：分析 Mach-O Headers，分析依赖的动态库，查找需要 Rebase &amp; Bind 之类的符号，把上述结果写入缓存。这样，在应用启动的时候，就可以直接从缓存中读取数据，加快加载速度。</p>
 <ul>
@@ -355,16 +359,16 @@
 <li>尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂</li>
 <li>在 viewDidLoad 以及 viewWillAppear 方法中少做逻辑，或者采用异步的方式去做</li>
 </ul>
-<h2 id="指标及量化手段"><a href="#指标及量化手段" class="headerlink" title="指标及量化手段"></a>指标及量化手段</h2><p>苹果建议的 <code>pre-main</code> 启动时间不要超过 <code>400ms</code>，也就是从点击图标到启动图消失这段时间不能超过 <code>400ms</code>(启动动画为 400ms)，并且启动时间超过 <code>20s</code> 将会被系统直接杀死。</p>
+<h2 id="指标及量化手段"><a href="#指标及量化手段" class="headerlink" title="指标及量化手段"></a>指标及量化手段</h2><p>苹果建议的 <code>pre-main</code> 启动时间不要超过 <code>400ms</code>，也就是从点击图标到启动图消失这段时间不能超过 <code>400ms</code>(启动动画为 <code>400ms</code>)，并且启动时间超过 <code>20s</code> 将会被系统直接杀死。</p>
 <h3 id="Environment-Variables"><a href="#Environment-Variables" class="headerlink" title="Environment Variables"></a>Environment Variables</h3><p>进入 <code>Product &gt; Scheme &gt; Edit Scheme... &gt; Run &gt; Arguments &gt; Environment Variables</code>，增加<code>DYLD_PRINT_STATISTICS</code>，设置值为<code>1</code>，如果获取更详细的信息，可以使用 <code>DYLD_PRINT_STATISTICS_DETAILS</code>。</p>
 <p>加入<code>DYLD_PRINT_STATISTICS</code>后，显示信息如下：</p>
 <p><img src="../../../../img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS.png" alt="DYLD_PRINT_STATISTICS"></p>
 <p>加入<code>DYLD_PRINT_STATISTICS_DETAILS</code>后</p>
 <p><img src="../../../../img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png" alt="DYLD_PRINT_STATISTICS_DETAILS"></p>
-<p>在使用这种方式时，需要注意两个地方</p>
+<p>在使用这种方式时，需要注意两个地方：</p>
 <ul>
-<li>这种方式在我测试过程中发现并不支持真机，只支持模拟器。（当然可能是我打开姿势不对，有了解的小伙伴可以私信告知我）</li>
-<li>在 Debug 环境下拿到的数据会有<code>debugger pause time</code>的影响，为排除该因素影响，我们可以将<code>scheme</code>中的<code>debug executable</code>进行关闭。</li>
+<li>iOS 15 以上的真机不再支持打印相关耗时数据。</li>
+<li>在 Debug 环境下拿到的数据会有<code>debugger pause time</code>的影响，我们可以将<code>scheme</code>中的<code>debug executable</code>进行关闭来去除该影响因素。</li>
 </ul>
 <h3 id="App-Launch"><a href="#App-Launch" class="headerlink" title="App Launch"></a>App Launch</h3><h3 id="埋点"><a href="#埋点" class="headerlink" title="埋点"></a>埋点</h3><h4 id="进程启动时间"><a href="#进程启动时间" class="headerlink" title="进程启动时间"></a>进程启动时间</h4><p>这种方式据小伙伴说会有一定的偏差。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;sys/sysctl.h&gt;</span><br><span class="line">#import &lt;mach/mach.h&gt;</span><br><span class="line"></span><br><span class="line">+ (BOOL)processInfoForPID:(int)pid procInfo:(struct kinfo_proc*)procInfo</span><br><span class="line">&#123;</span><br><span class="line">    int cmd[4] = &#123;CTL_KERN, KERN_PROC, KERN_PROC_PID, pid&#125;;</span><br><span class="line">    size_t size = sizeof(*procInfo);</span><br><span class="line">    return sysctl(cmd, sizeof(cmd)/sizeof(*cmd), procInfo, &amp;size, NULL, 0) == 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSTimeInterval)processStartTime</span><br><span class="line">&#123;</span><br><span class="line">    struct kinfo_proc kProcInfo;</span><br><span class="line">    if ([self processInfoForPID:[[NSProcessInfo processInfo] processIdentifier] procInfo:&amp;kProcInfo]) &#123;</span><br><span class="line">        return kProcInfo.kp_proc.p_un.__p_starttime.tv_sec * 1000.0 + kProcInfo.kp_proc.p_un.__p_starttime.tv_usec / 1000.0;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        NSAssert(NO, @&quot;无法取得进程的信息&quot;);</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -412,6 +416,7 @@
 </ol>
 <p>获取启动过程中的执行方法：<a href="https://github.com/yulingtianxia/AppOrderFiles" target="_blank" rel="noopener">AppOrderFiles</a></p>
 <ul>
+<li><a href="https://developer.apple.com/videos/play/wwdc2019/423" target="_blank" rel="noopener">Optimizing App Launch</a></li>
 <li><a href="https://mp.weixin.qq.com/s/wkK2UBvuUZW3Pf0Yd_3XTA" target="_blank" rel="noopener">58 同城 App 性能治理实践-iOS 启动时间优化</a></li>
 <li><a href="https://juejin.cn/post/6844904130406793224" target="_blank" rel="noopener">iOS 优化篇 - 启动优化之Clang插桩实现二进制重排</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/396550853" target="_blank" rel="noopener">脉脉iOS如何启动秒开</a></li>
@@ -420,6 +425,7 @@
 <li><a href="https://developer.apple.com/videos/play/wwdc2019/423/" target="_blank" rel="noopener">Optimizing App Launch</a></li>
 <li><a href="https://tech.meituan.com/2018/12/06/waimai-ios-optimizing-startup.html" target="_blank" rel="noopener">美团外卖iOS App冷启动治理</a></li>
 <li><a href="https://www.dllhook.com/post/238.html" target="_blank" rel="noopener">dyld详解</a></li>
+<li><a href="https://www.jianshu.com/p/ee6a8ebc5bec" target="_blank" rel="noopener">iOS-底层原理 15：dyld发展史</a></li>
 </ul>
 
     </div>
@@ -572,7 +578,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -637,12 +643,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">335k</span>
+    <span title="站点总字数">337k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:05</span>
+    <span title="站点阅读时长">5:06</span>
 </div>
 
         

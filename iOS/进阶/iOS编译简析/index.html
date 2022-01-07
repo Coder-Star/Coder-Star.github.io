@@ -20,23 +20,23 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端(FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器(Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及大部分">
+  <meta name="description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端 (FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器 (Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端 (BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及">
 <meta name="keywords" content="iOS,编译过程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS编译简析">
+<meta property="og:title" content="iOS 编译简析">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/iOS编译简析/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端(FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器(Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及大部分">
+<meta property="og:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端 (FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器 (Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端 (BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/编译器架构.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/LLVM.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/Clang.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/swiftc.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/LLVM后端.png">
-<meta property="og:updated_time" content="2022-01-06T00:04:50.438Z">
+<meta property="og:updated_time" content="2022-01-07T00:46:55.718Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS编译简析">
-<meta name="twitter:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端(FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器(Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及大部分">
+<meta name="twitter:title" content="iOS 编译简析">
+<meta name="twitter:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端 (FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器 (Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端 (BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/编译/编译器架构.jpeg">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/iOS编译简析/">
@@ -52,7 +52,7 @@
   };
 </script>
 
-  <title>iOS编译简析 | CoderStar's Blog</title>
+  <title>iOS 编译简析 | CoderStar's Blog</title>
   
 
 
@@ -216,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          iOS编译简析
+          iOS 编译简析
         </h1>
 
         <div class="post-meta">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-06 08:04:50" itemprop="dateModified" datetime="2022-01-06T08:04:50+08:00">2022-01-06</time>
+                <time title="修改时间：2022-01-07 08:46:55" itemprop="dateModified" datetime="2022-01-07T08:46:55+08:00">2022-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -262,14 +262,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.8k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -283,18 +283,18 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。</p>
 <ul>
-<li>编译器前端(FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR；</li>
-<li>优化器(Optimizer): 对得到的中间代码 IR 进行优化；</li>
-<li>编译器后端(BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。</li>
+<li>编译器前端 (FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR；</li>
+<li>优化器 (Optimizer): 对得到的中间代码 IR 进行优化；</li>
+<li>编译器后端 (BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。</li>
 </ul>
 <p><img src="../../../img/iOS/进阶/编译/编译器架构.jpeg" alt="编译器架构.png"></p>
 <p>从 GCC 到 LLVM 以及大部分编译器都是这种结构。</p>
-<h2 id="LLVM-历史"><a href="#LLVM-历史" class="headerlink" title="LLVM 历史"></a>LLVM 历史</h2><p>早期 iOS 选用的是当时一家独大的 GCC 编译器作为 OC 语言的前端，但是随着时间的推移，Apple 为 OC 增加了很多特性，想要 GCC 给与实现，但是 GCC 却并没有支持，并且 GCC 本身代码耦合度较高，模块独立性比较差，并且《GCC运行环境豁免条款》从根本上限制了LLVM-GCC的开发。这种背景下，Apple 就想找到一个高效、模块化的且开源的替换品，LLVM 进入了苹果的视线。</p>
-<p>LLVM 最早来源于伊利诺伊大学厄巴纳-香槟分校维克拉姆·艾夫（Vikram Adve）与克里斯·拉特纳（Chris Lattner）的研究，本来目的是写一个底层的虚拟机，这也是 LLVM 名字的由来（Low Level Virtual Machine）。LLVM 是以 BSD 授权来发展的开源软件。在进入到苹果视线后，苹果公司并邀请 Chris Lattner 及其团队加入苹果，并为 LLVM 提供赞助支持。</p>
+<h2 id="LLVM-历史"><a href="#LLVM-历史" class="headerlink" title="LLVM 历史"></a>LLVM 历史</h2><p>早期 iOS 选用的是当时一家独大的 GCC 编译器作为 OC 语言的前端，但是随着时间的推移，Apple 为 OC 增加了很多特性，想要 GCC 给与实现，但是 GCC 却并没有支持，并且 GCC 本身代码耦合度较高，模块独立性比较差，并且《GCC 运行环境豁免条款》从根本上限制了 LLVM-GCC 的开发。这种背景下，Apple 就想找到一个高效、模块化的且开源的替换品，LLVM 进入了苹果的视线。</p>
+<p>LLVM 最早来源于伊利诺伊大学厄巴纳 - 香槟分校维克拉姆·艾夫（Vikram Adve）与克里斯·拉特纳（Chris Lattner）的研究，本来目的是写一个底层的虚拟机，这也是 LLVM 名字的由来（Low Level Virtual Machine）。LLVM 是以 BSD 授权来发展的开源软件。在进入到苹果视线后，苹果公司并邀请 Chris Lattner 及其团队加入苹果，并为 LLVM 提供赞助支持。</p>
 <blockquote>
 <p>Chris Lattner 是一个名副其实的大神，LLVM 之父，Swift 之父，Clang 主要贡献者。2005-2017 年供职苹果，前开发部高级总监，架构师；2017.1-2017.6，担任特斯拉软件副总裁，负责自动驾驶。2017.8-2020.1，加入 Google Brain 团队，加入后编写了 Swift 版的 TensorFlow。目前加入芯片创业公司 SiFive 负责其平台工程。</p>
 </blockquote>
-<p>iOS 在 Xcode 5 版本前使用的是 GCC ，在 Xcode 5 中将 GCC 彻底抛弃，替换为了 LLVM ，这期间也是慢慢过渡过来的，由开始使用 GCC 编译-&gt;GCC 与 LLVM 共存-&gt;LLVM 编译器。</p>
+<p>iOS 在 Xcode 5 版本前使用的是 GCC ，在 Xcode 5 中将 GCC 彻底抛弃，替换为了 LLVM ，这期间也是慢慢过渡过来的，由开始使用 GCC 编译 -&gt;GCC 与 LLVM 共存 -&gt;LLVM 编译器。</p>
 <h2 id="LLVM"><a href="#LLVM" class="headerlink" title="LLVM"></a>LLVM</h2><p>LLVM 广义上是指整个 LLVM 架构，也就是整个编译器三部分，但是狭义上讲，是指 LLVM 后端。</p>
 <p><img src="../../../img/iOS/进阶/编译/LLVM.png" alt="LLVM架构.png"></p>
 <p>如图所示，不同的前端后端使用统一的中间代码 LLVM Intermediate Representation (LLVM IR)，如果需要支持一种新的编程语言，那么只需要实现一个新的前端，如果需要支持一种新的硬件设备，那么只需要实现一个新的后端，优化阶段是一个通用的阶段，它针对的是统一的 LLVM IR，不论是支持新的编程语言，还是支持新的硬件设备，都不需要对优化阶段做修改。</p>
@@ -303,10 +303,10 @@
 <li>LLVM 核心库</li>
 <li>编译器前端 Clang</li>
 <li>LLDB</li>
-<li>libc ++和 libc++</li>
+<li>libc ++ 和 libc++</li>
 <li>lld</li>
 </ul>
-<h3 id="Clang"><a href="#Clang" class="headerlink" title="Clang"></a>Clang</h3><p>Clang 是 LLVM 项目的一个子项目，是 C 系列(C、C++、OC)的编译器前端。相对于 GCC，Clang 具有以下优点</p>
+<h3 id="Clang"><a href="#Clang" class="headerlink" title="Clang"></a>Clang</h3><p>Clang 是 LLVM 项目的一个子项目，是 C 系列 (C、C++、OC) 的编译器前端。相对于 GCC，Clang 具有以下优点</p>
 <ul>
 <li>编译速度快：在某些平台上，Clang 的编译速度显著的快过 GCC(Debug 模式下编译 OC 速度比 GGC 快 3 倍)</li>
 <li>占用内存小：Clang 生成的 AST 所占用的内存是 GCC 的五分之一左右</li>
@@ -317,49 +317,50 @@
 <p><strong>主要流程</strong><br><img src="../../../img/iOS/进阶/编译/Clang.png" alt="Clang.png"></p>
 <ul>
 <li>预处理（Pre-process）：include 扩展、标记化处理、去除注释、条件编译、宏删除、宏替换。 对<code>C</code>输出<code>.i</code>, 对<code>C++</code>输出 <code>.ii</code>, 对 OC 输出 <code>.mi</code>, 对<code>Objective-C++</code>输出 <code>.mii</code>；</li>
-<li>词法分析 （Lexical Analysis）：将代码切成一个个 token，比如大小括号，等于号还有字符串等，<strong>输出token流</strong>。是计算机科学中将字符序列转换为标记序列的过程；</li>
+<li>词法分析 （Lexical Analysis）：将代码切成一个个 token，比如大小括号，等于号还有字符串等，<strong>输出 token 流</strong>。是计算机科学中将字符序列转换为标记序列的过程；</li>
 <li>语法分析（Semantic Analysis）：验证语法是否正确，然后将所有节点组成<strong>抽象语法树 AST</strong> 。由 Clang 中 Parser 和 Sema 配合完成；</li>
-<li>静态分析/语义分析（Static Analysis）：使用它来表示用于分析源代码以便自动发现错误；</li>
+<li>静态分析 / 语义分析（Static Analysis）：使用它来表示用于分析源代码以便自动发现错误；</li>
 <li>中间代码生成（Code Generation）：开始 IR 中间代码的生成了，CodeGen 会负责将语法树自顶向下遍历逐步翻译成 LLVM IR。</li>
 </ul>
 <h3 id="SwiftC"><a href="#SwiftC" class="headerlink" title="SwiftC"></a>SwiftC</h3><p>SwiftC 是 Swift 语言的编译器前端。</p>
 <p><strong>主要流程</strong></p>
 <p><img src="../../../img/iOS/进阶/编译/swiftc.png" alt="编译器架构.png"></p>
 <ul>
-<li>Parse ：解析器是一个简易的递归下降解析器（在 lib/Parse 中实现），并带有完整手动编码的词法分析器。通过parse进行词法分析；</li>
-<li>Semantic Analysis： 语义分析阶段（在 lib/Sema 中实现）负责获取已解析的 AST（抽象语法树）并将其转换为格式正确且类型检查完备的 AST，以及在源代码中提示出现语义问题的警告或错误。语义分析包含类型推断，如果可以成功推导出类型，则表明此时从已经经过类型检查的最终 AST 生成代码是安全的；</li>
+<li>Parse ：解析器是一个简易的递归下降解析器（在 lib/Parse 中实现），并带有完整手动编码的词法分析器。通过 parse 进行词法分析；</li>
+<li>Semantic Analysis：语义分析阶段（在 lib/Sema 中实现）负责获取已解析的 AST（抽象语法树）并将其转换为格式正确且类型检查完备的 AST，以及在源代码中提示出现语义问题的警告或错误。语义分析包含类型推断，如果可以成功推导出类型，则表明此时从已经经过类型检查的最终 AST 生成代码是安全的；</li>
 <li>Clang Importer:Clang 导入器（Clang Importer）：Clang 导入器（在 lib/ClangImporter 中实现）负责导入 Clang 模块，并将导出的 C 或 Objective-C API 映射到相应的 Swift API 中。最终导入的 AST 可以被语义分析引用。</li>
-<li>SIL 生成（SIL Generation）：Swift 中间语言（Swift Intermediate Language，SIL）是一门高级且专用于 Swift 的中间语言，适用于对 Swift 代码的进一步分析和优化。SIL 生成阶段（在 lib/SILGen 中实现）将经过类型检查的 AST 弱化为所谓的「原始」SIL（Raw SIL）。SIL 的设计在 docs/SIL.rst 有所描述。这个过程生成RAW SIL（原生SIL，代码量很大，不会进行类型检查，代码优化）</li>
-<li>SIL 保证转换（SIL Guaranteed Transformations）：SIL 保证转换阶段（在 lib/SILOptimizer/Mandatory中实现）负责执行额外且影响程序正确性的数据流诊断（比如使用未初始化的变量）。这些转换的最终结果是「规范」SIL（Canonical SIL）。</li>
-<li>SIL 优化（SIL Optimizations）：SIL 优化阶段（在 lib/Analysis、lib/ARC、lib/LoopTransforms 以及 lib/Transforms 中实现）负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化。通过<code>-emit-sil</code>命令生成优化过后的 <code>SIL Opt Canonical SIL</code>。这个也是我们一般阅读的SIL代码；</li>
+<li>SIL 生成（SIL Generation）：Swift 中间语言（Swift Intermediate Language，SIL）是一门高级且专用于 Swift 的中间语言，适用于对 Swift 代码的进一步分析和优化。SIL 生成阶段（在 lib/SILGen 中实现）将经过类型检查的 AST 弱化为所谓的「原始」SIL（Raw SIL）。SIL 的设计在 docs/SIL.rst 有所描述。这个过程生成 RAW SIL（原生 SIL，代码量很大，不会进行类型检查，代码优化）</li>
+<li>SIL 保证转换（SIL Guaranteed Transformations）：SIL 保证转换阶段（在 lib/SILOptimizer/Mandatory 中实现）负责执行额外且影响程序正确性的数据流诊断（比如使用未初始化的变量）。这些转换的最终结果是「规范」SIL（Canonical SIL）。</li>
+<li>SIL 优化（SIL Optimizations）：SIL 优化阶段（在 lib/Analysis、lib/ARC、lib/LoopTransforms 以及 lib/Transforms 中实现）负责对程序执行额外的高级且专用于 Swift 的优化，包括（例如）自动引用计数优化、去虚拟化、以及通用的专业化。通过<code>-emit-sil</code>命令生成优化过后的 <code>SIL Opt Canonical SIL</code>。这个也是我们一般阅读的 SIL 代码；</li>
 </ul>
-<p>Swift引入SIL的目的是希望弥补一些Clang编译器的缺陷，如无法执行一些高级分析，可靠的诊断和优化。</p>
+<p>Swift 引入 SIL 的目的是希望弥补一些 Clang 编译器的缺陷，如无法执行一些高级分析，可靠的诊断和优化。</p>
 <p>Swift 编译过程引入 SIL 有几个优点：</p>
 <ul>
-<li>完成的变数程序的语义(Fully represents program semantics );</li>
-<li>既能进行代码的生成，又能进行代码分析(Designed for both code generation and analysis );</li>
-<li>处在编译管线的主通道(Sits on the hot path of the compiler pipeline );</li>
-<li>架起桥梁连接源码与 LLVM，减少源码与 LLVM 之间的抽象鸿沟(Bridges the abstraction gap between source and LLVM)</li>
+<li>完成的变数程序的语义 (Fully represents program semantics );</li>
+<li>既能进行代码的生成，又能进行代码分析 (Designed for both code generation and analysis );</li>
+<li>处在编译管线的主通道 (Sits on the hot path of the compiler pipeline );</li>
+<li>架起桥梁连接源码与 LLVM，减少源码与 LLVM 之间的抽象鸿沟 (Bridges the abstraction gap between source and LLVM)</li>
 </ul>
 <h3 id="IR"><a href="#IR" class="headerlink" title="IR"></a>IR</h3><p>LLVM IR 有三种表示形式。</p>
 <ul>
-<li>text:便于阅读的文本格式，类似于汇编语言，拓展名<code>.ll</code>；</li>
-<li>bitcode:二进制格式，拓展名<code>.bc</code>；</li>
-<li>memory:内存格式</li>
+<li>text: 便于阅读的文本格式，类似于汇编语言，拓展名<code>.ll</code>；</li>
+<li>bitcode: 二进制格式，拓展名<code>.bc</code>；</li>
+<li>memory: 内存格式</li>
 </ul>
 <h3 id="LLVM-后端"><a href="#LLVM-后端" class="headerlink" title="LLVM 后端"></a>LLVM 后端</h3><p><strong>主要流程</strong></p>
 <p><img src="../../../img/iOS/进阶/编译/LLVM后端.png" alt="LLVM后端"></p>
 <ul>
-<li>优化（Optimize）：LLVM 会去做些优化工作；在 Xcode 的编译设置里也可以设置优化级别-01，-03，-0s；优化级参数位于参数位于<code>Build Settings</code> -&gt; <code>Apple Clang - Code Generation</code> -&gt;<code>Optimization Level</code>。是利用 LLVM 的 Pass 去处理的，我们可以自己去自定义 Pass。</li>
+<li>优化（Optimize）：LLVM 会去做些优化工作；在 Xcode 的编译设置里也可以设置优化级别 -01，-03，-0s；优化级参数位于参数位于<code>Build Settings</code> -&gt; <code>Apple Clang - Code Generation</code> -&gt;<code>Optimization Level</code>。是利用 LLVM 的 Pass 去处理的，我们可以自己去自定义 Pass。</li>
 <li>生成目标文件（Assemble）：生成 Target 相关 Object(Mach-o)；</li>
 <li>链接（Link）：生成 Executable 可执行文件。</li>
 </ul>
 <h3 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h3><p><strong>clang</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 假设原始文件为LLVMOC.m</span><br><span class="line"></span><br><span class="line">// 预编译命令</span><br><span class="line">clang -E LLVMOC.m -o LLVMOC.mi</span><br><span class="line"></span><br><span class="line">// 生成AST语法树</span><br><span class="line">clang -Xclang -ast-dump -fsyntax-only LLVMOC.m</span><br><span class="line"></span><br><span class="line">// 生成IR中间代码</span><br><span class="line">clang -S -emit-llvm LLVMOC.m -o LLVMOC.ll</span><br><span class="line"></span><br><span class="line">// 生成IR中间代码并优化，</span><br><span class="line">clang -O3 -S -emit-llvm LLVMOC.m -o LLVMOC.ll</span><br><span class="line"></span><br><span class="line">// 如果开启bitcode，生成.bc文件，这也是中间码的一种形式</span><br><span class="line">clang -emit-llvm -c LLVMOC.m -o LLVMOC.bc</span><br><span class="line"></span><br><span class="line">// 产生汇编命令</span><br><span class="line">clang -S LLVMOC.m -o LLVMOC.s</span><br><span class="line"></span><br><span class="line">// 生成目标.O文件</span><br><span class="line">clang -c LLVMOC.m -o LLVMOC.o</span><br></pre></td></tr></table></figure>
 <p><strong>swiftc</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设原始文件为LLVMSwift.swift</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 分析输出AST</span></span><br><span class="line">swiftc maLLVMSwiftin.swift -<span class="built_in">dump</span>-parse</span><br><span class="line"></span><br><span class="line"><span class="comment">// 分析并且检查类型输出AST</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -<span class="built_in">dump</span>-ast</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成中间体语言（SIL），未优化</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-silgen</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成中间体语言（SIL），优化后的</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-sil</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成优化后的中间体语言（SIL）,并将结果导入到LLVMSwift.sil文件中</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-sil  -o <span class="type">LLVMSwift</span>.sil </span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成优化后的中间体语言（SIL），并将sil文件中的乱码字符串进行还原，并将结果导入到LLVMSwift.sil文件中</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-sil | xcrun swift-demangle &gt; <span class="type">LLVMSwift</span>.sil</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成LLVM中间体语言 （.ll文件）</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-ir</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成LLVM中间体语言 （.bc文件）</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-bc</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成汇编</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-assembly</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译生成可执行.out文件</span></span><br><span class="line">swiftc -o <span class="type">LLVMSwift</span>.o <span class="type">LLVMSwift</span>.swift</span><br></pre></td></tr></table></figure>
+<p>我们可以利用<code>swiftc -h</code>命令查看<code>swiftc</code>支持的一些命令，下面简单介绍一下支持的<code>Modes</code>。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 假设原始文件为LLVMSwift.swift</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对原始文件进行操作，xxx表示操作后缀</span></span><br><span class="line">swiftc maLLVMSwiftin.swift xxx</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析文件</span></span><br><span class="line">-parse</span><br><span class="line"></span><br><span class="line"><span class="comment">// 分析输出AST</span></span><br><span class="line">-<span class="built_in">dump</span>-parse</span><br><span class="line"></span><br><span class="line"><span class="comment">// 语法和类型检查，打印AST语法树</span></span><br><span class="line">-<span class="built_in">dump</span>-ast</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转储有关预编译Clang模块的调试信息</span></span><br><span class="line">-<span class="built_in">dump</span>-pcm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析文件并打印（漂亮/简洁的）语法树</span></span><br><span class="line">-<span class="built_in">print</span>-ast</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解析import导入的文件</span></span><br><span class="line">-resolve-imports</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查文件类型</span></span><br><span class="line">-typecheck</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出一个.sib的原始SIL文件</span></span><br><span class="line">-emit-sibgen</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出一个.sib的标准SIL文件</span></span><br><span class="line">-emit-sib</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成中间体语言（SIL），未优化</span></span><br><span class="line">-emit-silgen</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成中间体语言（SIL），优化后的</span></span><br><span class="line">-emit-sil</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成LLVM中间体语言 （.ll文件）</span></span><br><span class="line">-emit-ir</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成LLVM中间体语言 （.bc文件）</span></span><br><span class="line">-emit-bc</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成汇编</span></span><br><span class="line">-emit-assembly</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出一个可执行文件</span></span><br><span class="line">-emit-executable</span><br><span class="line"></span><br><span class="line"><span class="comment">// 展示导入的模块列表</span></span><br><span class="line">-emit-imported-modules</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出一个dylib动态库</span></span><br><span class="line">-emit-library</span><br><span class="line"></span><br><span class="line"><span class="comment">//  输出一个.o机器文件</span></span><br><span class="line">-emit-object</span><br><span class="line"></span><br><span class="line"><span class="comment">//  从模块映射中输出预编译Clang模块</span></span><br><span class="line">-emit-pcm</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为源文件生成索引数据</span></span><br><span class="line">-index-file</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成优化后的中间体语言（SIL）,并将结果导入到LLVMSwift.sil文件中</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-sil  -o <span class="type">LLVMSwift</span>.sil</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生成优化后的中间体语言（SIL），并将sil文件中的乱码字符串进行还原，并将结果导入到LLVMSwift.sil文件中</span></span><br><span class="line">swiftc <span class="type">LLVMSwift</span>.swift -emit-sil | xcrun swift-demangle &gt; <span class="type">LLVMSwift</span>.sil</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译生成可执行.out文件</span></span><br><span class="line">swiftc -o <span class="type">LLVMSwift</span>.o <span class="type">LLVMSwift</span>.swift</span><br></pre></td></tr></table></figure>
 <h2 id="扩展一下"><a href="#扩展一下" class="headerlink" title="扩展一下"></a>扩展一下</h2><p>既然讲到了 LLVM，那就顺便讲一下 BitCode，上文也讲到了 BitCode 其实就是 IR 代码的一种编码形式。</p>
-<p>需要说明的是 BitCode 是以 section 形式保存在可执行文件中。当我们把携带 BitCode 的 App 提交到 AppStore 后，苹果会提取出可执行文件中的 BitCode 段，然后针对不同的 CPU 架构编译和链接成不同的可执行文件变体(Variant)，不同 CPU 架构的设备会自动选择合适的架构的变体进行下载。而在 BitCode 之前，我们都是把所有需要的 CPU 架构集合打包成一个 Fat Binary，结果就是用户最终下载的安装包之中有很多冗余的 CPU 架构支持代码。开启 BitCode 之后，编译器后端(Backend)的工作都由 Apple 接管。</p>
+<p>需要说明的是 BitCode 是以 section 形式保存在可执行文件中。当我们把携带 BitCode 的 App 提交到 AppStore 后，苹果会提取出可执行文件中的 BitCode 段，然后针对不同的 CPU 架构编译和链接成不同的可执行文件变体 (Variant)，不同 CPU 架构的设备会自动选择合适的架构的变体进行下载。而在 BitCode 之前，我们都是把所有需要的 CPU 架构集合打包成一个 Fat Binary，结果就是用户最终下载的安装包之中有很多冗余的 CPU 架构支持代码。开启 BitCode 之后，编译器后端 (Backend) 的工作都由 Apple 接管。</p>
 <p>BitCode 的一些具体说明及注意事项后面会在 iOS 瘦身优化中专门去讲解。</p>
 
     </div>
@@ -512,7 +513,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -577,12 +578,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">335k</span>
+    <span title="站点总字数">337k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:05</span>
+    <span title="站点阅读时长">5:06</span>
 </div>
 
         
