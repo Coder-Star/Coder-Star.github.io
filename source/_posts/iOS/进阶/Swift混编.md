@@ -22,7 +22,9 @@ date: 2021-03-25 11:19:56
 可以通过桥接文件看下 Swift 类对应生成的类名，如果在类上加上 @objc(className)，可以使生成的类名与 className 一致，也就是不会再有混淆了。
 但这样处理命名空间也就失去了意义，不同 Module 之间类名不能重复了。
 
-> 将 C++ 源程序标识符 (`original C++ source identifier`) 转换成 C++ ABI 标识符 (`C++ ABI identifier`) 的过程为`mangle`，反过来的过程称为`demangle`。
+> 这个根据 Swift 的版本的不同，可能会有不同。
+
+> 将 C++ 源程序标识符 (`original C++ source identifier`) 转换成 C++ ABI 标识符 (`C++ ABI identifier`) 的过程为`mangle`，反过来的过程称为`demangle`。C++ 中有`c++filt`这个工具。
 
 ### 主工程
 
