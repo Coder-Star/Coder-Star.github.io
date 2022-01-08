@@ -29,7 +29,7 @@
 <meta property="og:description" content="相互调用Swift 反射我们一般是通过NSClassFromString函数来对类进行反射，在 Swift 中因为命名空间的缘故在 Macho 中的类名实际上是混淆的。 mangle：copySwiftV1MangledName函数， demangle函数copySwiftV1DemangledName">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/Swift-C数据类型对应.png">
-<meta property="og:updated_time" content="2022-01-07T14:53:10.283Z">
+<meta property="og:updated_time" content="2022-01-07T15:03:00.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 混编">
 <meta name="twitter:description" content="相互调用Swift 反射我们一般是通过NSClassFromString函数来对类进行反射，在 Swift 中因为命名空间的缘故在 Macho 中的类名实际上是混淆的。 mangle：copySwiftV1MangledName函数， demangle函数copySwiftV1DemangledName">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-07 22:53:10" itemprop="dateModified" datetime="2022-01-07T22:53:10+08:00">2022-01-07</time>
+                <time title="修改时间：2022-01-07 23:03:00" itemprop="dateModified" datetime="2022-01-07T23:03:00+08:00">2022-01-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,7 +282,8 @@
 <p><code>demangle</code>函数<a href="https://github.com/opensource-apple/objc4/blob/cd5e62a5597ea7a31dccef089317abb3a661c154/runtime/objc-runtime-new.mm#L813" target="_blank" rel="noopener">copySwiftV1DemangledName</a></p>
 <p>可以通过桥接文件看下 Swift 类对应生成的类名，如果在类上加上 @objc(className)，可以使生成的类名与 className 一致，也就是不会再有混淆了。<br>但这样处理命名空间也就失去了意义，不同 Module 之间类名不能重复了。</p>
 <blockquote>
-<p>将 C++ 源程序标识符 (<code>original C++ source identifier</code>) 转换成 C++ ABI 标识符 (<code>C++ ABI identifier</code>) 的过程为<code>mangle</code>，反过来的过程称为<code>demangle</code>。</p>
+<p>这个根据 Swift 的版本的不同，可能会有不同。</p>
+<p>将 C++ 源程序标识符 (<code>original C++ source identifier</code>) 转换成 C++ ABI 标识符 (<code>C++ ABI identifier</code>) 的过程为<code>mangle</code>，反过来的过程称为<code>demangle</code>。C++ 中有<code>c++filt</code>这个工具。</p>
 </blockquote>
 <h3 id="主工程"><a href="#主工程" class="headerlink" title="主工程"></a>主工程</h3><p>在主工程中，我们可以利用桥接文件实现 OC、swift 代码的混编。</p>
 <p><strong>Swift 调用 OC</strong><br>Swift 调用 OC 需要借助桥接文件，将 OC 的.h 文件在桥接文件中引入，然后 swift 就可以直接使用在.h 文件中定义的接口以及属性了；可以通过<code>Build Settings</code> 中的 <code>Objective-C Bridging Header</code> 设置桥接文件地址</p>

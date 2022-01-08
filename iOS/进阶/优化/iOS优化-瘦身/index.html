@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/Strip_Swift_Symbols.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/效率软件/LinkMap.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/AppCode_Inspect.png">
-<meta property="og:updated_time" content="2021-12-28T12:41:32.379Z">
+<meta property="og:updated_time" content="2022-01-08T11:09:50.476Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-28 20:41:32" itemprop="dateModified" datetime="2021-12-28T20:41:32+08:00">2021-12-28</time>
+                <time title="修改时间：2022-01-08 19:09:50" itemprop="dateModified" datetime="2022-01-08T19:09:50+08:00">2022-01-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -592,9 +592,12 @@
 <h4 id="Strip-Style"><a href="#Strip-Style" class="headerlink" title="Strip Style"></a>Strip Style</h4><p><code>Strip Style</code> 表示的是我们需要去除的符号的类型的选项，其分为三个选择项：</p>
 <ul>
 <li>All Symbols: 去除所有符号，一般是在主工程中开启；</li>
-<li>Non-Global Symbols: 去除一些非全局的 Symbol（保留全局符号，Debug Symbols 同样会被去除），链接时会被重定向的那些符号不会被去除，此选项是静态库 / 动态库的建议选项；</li>
+<li>Non-Global Symbols: 去除一些非全局的 Symbol（保留全局符号，Debug Symbols 同样会被去除），链接时会被重定向的那些符号不会被去除，此选项是静态库 (二进制) / 动态库的建议选项；</li>
 <li>Debug Symbols: 去除调试符号，去除之后将无法断点调试。</li>
 </ul>
+<blockquote>
+<p>当使用 Cocoapods 去管理项目时，对于各 pod 设置的<code>Strip Style</code>都为<code>Debug Symbols</code>，默认情况下，因为动态库是生成各个库的 Framework，会使用默认的<code>Debug Symbols</code>，如果是静态库，实际上是会使用主工程的<code>Strip Style</code>，也就是<code>All Symbols</code>。所以在 Swift 工程中使用动态库的方式打出的包会比静态库大一些。</p>
+</blockquote>
 <p><strong>结论：主工程选择<code>All Symbols</code>，静、动态库选择<code>Non-Global Symbols</code>。</strong></p>
 <h4 id="Strip-Linked-Product"><a href="#Strip-Linked-Product" class="headerlink" title="Strip Linked Product"></a>Strip Linked Product</h4><p>并不是所有的符号都是必须的，比如 <code>Debug Map</code>，所以 Xcode 提供给我们 <code>Strip Linked Product</code> 来去除不需要的符号信息 (<strong>Strip Style 中选择的选项相应的符号</strong>），去除了符号信息之后我们就只能使用 <code>dSYM</code> 来进行符号化了，所以需要将 <code>Debug Information Format</code> 修改为 <code>DWARF with dSYM file</code>。</p>
 <blockquote>
@@ -623,7 +626,7 @@
 <h4 id="基于源码扫描"><a href="#基于源码扫描" class="headerlink" title="基于源码扫描"></a>基于源码扫描</h4><p>一般都是对源码文件进行字符串匹配。例如将 A *a、[A xxx]、NSStringFromClass(“A”)、objc_getClass(“A”) 等归类为使用的类，@interface A : B 归类为定义的类，然后计算差集。</p>
 <p>基于源码扫描 有个已经实现的工具 — <a href="https://github.com/dblock/fui" target="_blank" rel="noopener">fui</a>，它的实现原理是查找所有 #import “A” 和所有的文件进行比对。</p>
 <h4 id="手动去除"><a href="#手动去除" class="headerlink" title="手动去除"></a>手动去除</h4><ul>
-<li>已经下线的陈旧代码，AB 试验已经下线的代码； </li>
+<li>已经下线的陈旧代码，AB 试验已经下线的代码；</li>
 <li>通过转 H5、Hybrid 或者 RN 实现的 Native 功能，可以定期清理；</li>
 <li>将部分功能进行重构，以此去除一定的代码。</li>
 </ul>
