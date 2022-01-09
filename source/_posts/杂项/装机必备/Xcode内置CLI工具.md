@@ -72,3 +72,4 @@ Let's be CoderStar!
 
 - [iOS开发中常用命令工具（xcode-select、lipo、xcrun等](https://www.jianshu.com/p/a4731527ca73)
 - [Xcode 相关终端工具使用](https://www.hanleylee.com/usage-of-xcode-terminal-tools.html)
+- [Building from the Command Line with Xcode FAQ](https://developer.apple.com/library/archive/technotes/tn2339/_index.html)
