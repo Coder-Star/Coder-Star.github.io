@@ -175,7 +175,7 @@ dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对
 
 上述三个地址之间的关系为 **symbol_address = stack_address - load_address**
 
->  iOS 加载 Mach-O 文件时为了安全使用了 ASLR(Address Space Layout Randomization) 机制，导致二进制 Mach-O 文件每次加载到内存的首地址都会不一样，但是计算规则是一致的，如上图所示。
+>  iOS 加载 Mach-O 文件时为了安全使用了 ASLR(Address Space Layout Randomization) 机制，导致二进制 Mach-O 文件每次加载到内存的首地址都会不一样，但是计算规则是一致的，如上所示。
 
 ### 获取 dSYM 起始地址
 

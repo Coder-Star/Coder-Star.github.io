@@ -13,7 +13,25 @@ date: 2021-02-05 22:03:03
 
 该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。
 
-其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。
+其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 -- [Optimizing App Launch](https://developer.apple.com/videos/play/wwdc2019/423)，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。
+
+## App 启动类型
+
+App 启动过程有三种：冷启动、温启动 / 暖启动、热启动 (恢复)
+
+Cold |  Warm |  Resume
+---------|----------|---------
+After reboot | Recently terminated | App is suspended
+App is not in memory | App is partially in memory | App is fully in memory
+No process exists | No process exists | Process exists
+
+下面简单介绍一下，这几种启动之间的区别：
+
+冷启动：设备重启或者 App 很长时间未启动时会发生；这个过程需要建立进程并且启动支持 App 的系统端服务；
+温启动：这个过程相对冷启动而言不会再重新建立系统端服务；
+热启动：严格意义上，这不是启动，只是一个从后台到前台状态的改变。
+
+我们在实际测量启动时间应该是测量**温启动**类型，主要是冷启动状态不好统一，因为不好确定一些系统端服务的运行状态或者一些缓存的使用。
 
 ## App 启动过程
 
@@ -69,66 +87,36 @@ dyld 会首先读取 `mach-o` 文件的 `Header` 和 `load commands`，就知道
 4. 执行 main 函数
      * 查找入口点并返回，执行 `main` 函数
 
-上述过程将我们常见的 App `pre-main`时期的启动过程与`dyld`的流程结合起来梳理一遍。
-
-#### dyld 迭代
-
-我们对`dyld`展开讲一下，其是开源的，我们可以[官网下载](https://opensource.apple.com/tarballs/dyld/)后阅读其源码。
-
-一、dyld 1.0（1996-2004）
-
-二、dyld 2（2004-2017）
-
-三、dyld 3（2017- 至今）
-
-dyld2 和 dyld3 的加载方式略有不同。dyld2 是纯粹的 in-process，也就是在程序进程内执行的，也就意味着只有当应用程序被启动的时候，dyld2 才能开始执行任务。dyld3 则是部分 out-of-process，部分 in-process。
-
-dyld2 的过程是：加载 dyld 到 App 进程，加载动态库（包括所依赖的所有动态库），Rebase，Bind，初始化 Objective C Runtime 和其它的初始化代码。
-
-dyld3 的 out-of-process 会做如下事情：分析 Mach-O Headers，分析依赖的动态库，查找需要 Rebase & Bind 之类的符号，把上述结果写入缓存。这样，在应用启动的时候，就可以直接从缓存中读取数据，加快加载速度。
-
-* 分析 Mach-o Headers
-* 分析依赖的动态库
-* 查找需要 Rebase & Bind 之类的符号
-* 把上述结果写入缓存
-
-dyld2 是从 iOS 3.1 引入，一直持续到 iOS 12。dyld2 有个比较大的优化是 dyld shared cache[1]，什么是 shared cache 呢？
-
-shared cache 就是把系统库 (UIKit 等) 合成一个大的文件，提高加载性能的缓存文件。
-iOS 13 开始 Apple 对三方 App 启用了 dyld3，dyld3 的最重要的特性就是启动闭包，闭包里包含了启动所需要的缓存信息，从而提高启动速度。
+上述过程将我们常见的 App `pre-main`时期的启动过程与`dyld`的流程结合起来梳理一遍。其实我们也可以看到这个阶段主要也是`dyld`的一个加载流程。所以 Apple 工程师也会对`dyld`的加载过程进行优化，比如`dyld3`相对于`dyld2`就有一些优化手段，比如启动闭包等，后续也会单独出一篇文章介绍一下`dyld`的迭代过程。
 
 #### Rebase & Bind
 
-> 为什么需要 Rebase 和 Bind？
-> ASLR（Address Space Layout Randomization），地址空间布局随机化。在 ASLR 技术出现之前，程序都是在固定的地址加载的，这样 hacker 可以知道程序里面某个函数的具体地址，植入某些恶意代码，修改函数的地址等，带来了很多的危险性。ASLR 就是为了解决这个的，程序每次启动后地址都会随机变化，这样程序里所有的代码地址都需要需要重新对进行计算修复才能正常访问。
-> Rebase：Rebasing 过程就是从__LINKEDIT 取出函数指针，根据偏移量修改函数指针，存入__DATA 中，Rebase 解决了**内部的符号引用**问题。
->  Binding：当引用动态库其他的函数或者变量时，当前 mach-o 文件会指向其他 dylib。这时候就需要 Binding 操作，dyld 会根据符号表去找到相应函数和变量地址，Binding 解决了**修正外部指针指向**的问题。
-> rebase（偏移修正）: 任何一个 app 生成的二进制文件，在二进制文件内部所有的方法、函数调用，都有一个地址，这个地址是在当前二进制文件中的偏移地址。一旦在运行时刻（即运行到内存中），每次系统都会随机分配一个 ASLR（Address Space Layout Randomization，地址空间布局随机化）地址值（是一个安全机制，会分配一个随机的数值，插入在二进制文件的开头），例如，二进制文件中有一个 test 方法，偏移值是 0x0001，而随机分配的 ASLR 是 0x1f00，如果想访问 test 方法，其内存地址（即真实地址）变为 ASLR+ 偏移值 = 运行时确定的内存地址（即 0x1f00+0x0001 = 0x1f01）
-> binding（绑定）：，例如 NSLog 方法，在编译时期生成的 mach-o 文件中，会创建一个符号 NSLog（目前指向一个随机的地址），然后在运行时（从磁盘加载到内存中，是一个镜像文件），会将真正的地址给符号（即在内存中将地址与符号进行绑定，是 dyld 做的，也称为动态库符号绑定），一句话概括：绑定就是给符号赋值的过程。
+可能有小伙伴对上面的 `Rebase` 以及 `Bind `过程有些疑问，这里就额外说下。
+
+任何一个 App 生成的二进制文件，在二进制文件内部所有的方法、函数调用，都有一个地址，这个地址是在当前二进制文件中的偏移地址。在 ASLR（Address Space Layout Randomization，地址空间布局随机化） 技术出现之前（dyld2 时出现的），程序都是在固定的地址加载的，这样 hacker 可以知道程序里面某个函数的具体地址，植入某些恶意代码，修改函数的地址等，带来了很多的危险性。
+
+ASLR 技术就是每次 App 启动时，系统都会随机分配一个 ASLR 地址值（是一个安全机制，会分配一个随机的数值，插入在二进制文件的开头），例如，二进制文件中有一个 test 方法，偏移值是 0x0001，而随机分配的 ASLR 是 0x1f00，如果想访问 test 方法，其内存地址（即真实地址）变为 ASLR+ 偏移值 = 运行时确定的内存地址（即 0x1f00+0x0001 = 0x1f01）。
+
+`Rebase` 就是在程序启动过程中根据 ASLR 随机地址值修改应用内存地址的过程。主要过程就是从 `__LINKEDIT`取出函数指针，根据偏移量修改函数指针，存入`__DATA` 中，Rebase 解决了**内部的符号引用**问题。
+
+`Binding`：当引用动态库其他的函数或者变量时，当前 `mach-o` 文件会指向其他 `dylib`。这时候就需要 `Binding` 操作，`dyld` 会根据符号表去找到相应函数和变量地址，`Binding` 解决了**修正外部指针指向**的问题。例如程序中调用`NSLog`方法，在编译时期生成的 `mach-o` 文件中，会创建一个符号 `NSLog`（目前指向一个随机的地址），然后在运行时（从磁盘加载到内存中，是一个镜像文件），会将真正的地址给符号（即在内存中将地址与符号进行绑定，是 `dyld` 做的，也称为动态库符号绑定），一句话概括：绑定就是给符号赋值的过程。
 
 #### 面试题扩展
 
-- load 中是否可以调用 cateory 中的方法；
-- load 方法在动态库，主工程的加载熟顺序；
--
+- load 中是否可以调用 cateory 中的方法？
+- load 方法在动态库，主工程的加载顺序？
 
 ### 调用 `main` 函数执行。
 
-（main -> applicationDidFinishLaunching）
+该阶段是指 `main` 函数执行之后到 `AppDelegate` 类中的 `applicationDidFinishLaunching:withOptions:` 方法执行结束前这段时间。
 
-  该阶段是指 main 函数执行之后到 AppDelegate 类中的 applicationDidFinishLaunching:withOptions: 方法执行结束前这段时间。
-  这是 APP 启动优化的重点。
+这个过程会涉及到一些启动项，如 SDK 的初始化，设置 RootViewController 等等。
 
-  主要是一些启动项。
-
-### applicationDidFinishLaunching -> 首页渲染完成
-
-   - 尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂
-   - 在 viewDidLoad 以及 viewWillAppear 方法中少做逻辑，或者采用异步的方式去做
+### 首屏渲染
 
 ## 指标及量化手段
 
-苹果建议的 `pre-main` 启动时间不要超过 `400ms`，也就是从点击图标到启动图消失这段时间不能超过 `400ms`(启动动画为 `400ms`)，并且启动时间超过 `20s` 将会被系统直接杀死。
+应用启动时，会播放一个启动动画。iPhone 上是 400ms，iPad 上是 500ms，苹果建议启动时间最好不要超过启动动画的时间，并且启动时间超过 `20s` 将会被系统的看门狗机制直接杀死。
 
 ### Environment Variables
 
@@ -227,12 +215,7 @@ void static __attribute__((constructor)) before_main() {
 - 二进制重排（主要是节省加载 Mach-O 文件的时间）
 - 多使用 swift structs，利用 swift 静态分发的特性。
 
-### main 阶段优化
-
-- 启动阶段的网络请求，是否都放到异步请求
-- 一些耗时的操作是否可以放到后面去执行，或异步执行等
-
-### 二进制重排
+#### 二进制重排
 
 核心步骤
 
@@ -259,8 +242,16 @@ clang 插桩
 
 获取启动过程中的执行方法：[AppOrderFiles](https://github.com/yulingtianxia/AppOrderFiles)
 
+### main 阶段优化
 
-- [Optimizing App Launch](https://developer.apple.com/videos/play/wwdc2019/423)
+- 启动阶段的网络请求，是否都放到异步请求
+- 一些耗时的操作是否可以放到后面去执行，或异步执行等
+
+### 首屏渲染优化
+
+- 尽量使用纯代码编写，减少 xib/storyboard 的使用，首页布局不要过于复杂
+- 在 viewDidLoad 以及 viewWillAppear 方法中少做逻辑，或者采用异步的方式去做
+
 - [58 同城 App 性能治理实践-iOS 启动时间优化](https://mp.weixin.qq.com/s/wkK2UBvuUZW3Pf0Yd_3XTA)
 - [iOS 优化篇 - 启动优化之Clang插桩实现二进制重排](https://juejin.cn/post/6844904130406793224)
 - [脉脉iOS如何启动秒开](https://zhuanlan.zhihu.com/p/396550853)
