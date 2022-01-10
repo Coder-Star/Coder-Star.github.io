@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 如">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 优化 - 启动优化">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 如">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/dyld流程图.webp">
@@ -34,10 +34,10 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-10T14:46:24.499Z">
+<meta property="og:updated_time" content="2022-01-10T16:32:08.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
-<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 如">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-10 22:46:24" itemprop="dateModified" datetime="2022-01-10T22:46:24+08:00">2022-01-10</time>
+                <time title="修改时间：2022-01-11 00:32:08" itemprop="dateModified" datetime="2022-01-11T00:32:08+08:00">2022-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,7 +282,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<p>该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。</p>
 <p>其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — <a href="https://developer.apple.com/videos/play/wwdc2019/423" target="_blank" rel="noopener">Optimizing App Launch</a>，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。</p>
 <p>如果不关心启动过程及原理，也可以直接查看后面的优化措施章节。</p>
 <h2 id="App-启动类型"><a href="#App-启动类型" class="headerlink" title="App 启动类型"></a>App 启动类型</h2><p>App 启动过程有三种：冷启动、温启动 / 暖启动、 恢复</p>
@@ -448,7 +449,7 @@
 <h2 id="优化措施"><a href="#优化措施" class="headerlink" title="优化措施"></a>优化措施</h2><p>下面是一些常用的优化手段，优化起来易，防劣化起来难。</p>
 <h3 id="pre-main-阶段优化"><a href="#pre-main-阶段优化" class="headerlink" title="pre-main 阶段优化"></a>pre-main 阶段优化</h3><h4 id="库的优化"><a href="#库的优化" class="headerlink" title="库的优化"></a>库的优化</h4><ul>
 <li>动态库转静态库；</li>
-<li>减少动态库的个数，可以采用合并手段，将多个静态库</li>
+<li>减少动态库的个数，可以采用合并手段，将多个动态库合并成一个，官方建议动态库数量小于 6 个；</li>
 <li>动态库懒加载；</li>
 </ul>
 <blockquote>
@@ -485,10 +486,10 @@
 <p>二进制重排这个估计大家都很清楚了，简单说下吧。核心原理就是利用二进制重排减少启动时<code>Page Fault</code>（缺页中断）发生的次数。</p>
 <p>主要分成两步：</p>
 <ul>
-<li>利用 <code>clang</code> 插桩获得启动时期需要加载的所有 函数, block , swift 方法以及 c++ 构造方法的符号，已经有大神写好的现成的包；</li>
+<li>利用 <code>clang</code> 插桩获得启动时期需要加载的所有函数、block、swift 方法以及 c++ 构造方法的符号；</li>
 <li>Xcode 的<code>Build Settings</code>配置<code>order file</code>即可；</li>
 </ul>
-<p>其中第一个步骤是关键步骤，其实核心就是利用</p>
+<p>其中第一个步骤是关键步骤，其实核心就是利用 LLVM 内置的<code>SanitizerCoverage</code>工具进行符号收集。</p>
 <ul>
 <li>在 <code>Build Settings</code> 中添加编译选项 <code>Other C Flags</code> 增加<code>-fsanitize-coverage=func,trace-pc-guard</code>;</li>
 <li>如果是 OC Swift 混编， 则在 Other Swift Flags 增加<ul>
@@ -497,21 +498,28 @@
 </ul>
 </li>
 </ul>
-<p>获取启动过程中的执行方法：<a href="https://github.com/yulingtianxia/AppOrderFiles" target="_blank" rel="noopener">AppOrderFiles</a></p>
+<blockquote>
+<p>如果是 CocoaPods 管理的项目，就需要为每一个 Pod 增加这些编译选项。</p>
+</blockquote>
+<p>至于代码示例直接看杨帝的<a href="https://github.com/yulingtianxia/AppOrderFiles" target="_blank" rel="noopener">AppOrderFiles</a></p>
 <blockquote>
 <p>扩展下，编译器在生成二进制代码的时候，默认会先编译 OC 的代码，然后在编译 Swift 的代码，在此顺序前提下，会按照编译文件顺序、方法在文件中的顺序生成。</p>
 </blockquote>
-<h3 id="post-main-阶段优化"><a href="#post-main-阶段优化" class="headerlink" title="post-main 阶段优化"></a><code>post-main</code> 阶段优化</h3><p>这个阶段跟</p>
+<h3 id="post-main-阶段优化"><a href="#post-main-阶段优化" class="headerlink" title="post-main 阶段优化"></a><code>post-main</code> 阶段优化</h3><p>这个阶段跟我们的业务结合的比较紧密，我们一般情况下会需要在<code>applicationDidFinishLaunching:withOptions:</code>中做很多初始化的工作，比如网络、统一样式，三方 SDK 初始化等，我们需要根据我们业务的特性去优化该阶段。</p>
+<p>遵循的原则其实很简单，就是<strong>尽量少做，最好不做</strong>；</p>
 <ul>
-<li>启动阶段的网络请求，是否都放到异步请求</li>
-<li>一些耗时的操作是否可以放到后面去执行，或异步执行等</li>
+<li>梳理相关业务逻辑，将可以延迟加载的库或者逻辑进行延时加载；</li>
+<li>考虑使用多线程充分利用 CPU 性能；<br>-</li>
 </ul>
-<h3 id="首屏渲染优化"><a href="#首屏渲染优化" class="headerlink" title="首屏渲染优化"></a>首屏渲染优化</h3><ul>
+<p>这里建议大家可以去看下之前写的<a href="../../../../设计模式/设计模式%20-%20命令模式&amp;中介者模式&amp;组合模式~AppDelegate%20解耦">AppDelegate解耦</a>对AppDelegate进行拆解，也更方便对业务的梳理。</p>
+<h3 id="首屏渲染优化"><a href="#首屏渲染优化" class="headerlink" title="首屏渲染优化"></a>首屏渲染优化</h3><p>这个阶段其实对 UI 渲染效率的提升了，优化手段也就是渲染优化方面的通用手段了。</p>
+<ul>
 <li>尽量使用纯代码编写，减少 <code>xib/storyboard</code> 的使用，首页布局不要过于复杂，必要时 <code>AutoLayout</code> 变为 <code>Frame</code> 布局；</li>
 <li>在 <code>viewDidLoad</code> 以及 <code>viewWillAppear</code> 方法中少做逻辑，或者采用异步的方式去做；</li>
 <li>减少视图层级；</li>
 <li>懒加载 View；</li>
 </ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>Let’s be CoderStar!</p>
 <p><strong>参考资料</strong></p>
 <ul>
 <li><a href="https://developer.apple.com/documentation/xcode/reducing-your-app-s-launch-time" target="_blank" rel="noopener">reducing-your-app-s-launch-time</a></li>
@@ -660,7 +668,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动类型"><span class="nav-number">2.</span> <span class="nav-text">App 启动类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动过程"><span class="nav-number">3.</span> <span class="nav-text">App 启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main"><span class="nav-number">3.1.</span> <span class="nav-text">pre-main</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载流程"><span class="nav-number">3.1.1.</span> <span class="nav-text">加载流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebase-amp-Bind"><span class="nav-number">3.1.2.</span> <span class="nav-text">Rebase &amp; Bind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面试题扩展"><span class="nav-number">3.1.3.</span> <span class="nav-text">面试题扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main"><span class="nav-number">3.2.</span> <span class="nav-text">post-main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染"><span class="nav-number">3.3.</span> <span class="nav-text">首屏渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指标及量化手段"><span class="nav-number">4.</span> <span class="nav-text">指标及量化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线下"><span class="nav-number">4.1.</span> <span class="nav-text">线下</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Environment-Variables"><span class="nav-number">4.1.1.</span> <span class="nav-text">Environment Variables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-Launch"><span class="nav-number">4.1.2.</span> <span class="nav-text">App Launch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XCTest"><span class="nav-number">4.1.3.</span> <span class="nav-text">XCTest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志"><span class="nav-number">4.1.4.</span> <span class="nav-text">日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线上"><span class="nav-number">4.2.</span> <span class="nav-text">线上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Xcode-Organizer"><span class="nav-number">4.2.1.</span> <span class="nav-text">Xcode Organizer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MetricKit"><span class="nav-number">4.2.2.</span> <span class="nav-text">MetricKit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#埋点"><span class="nav-number">4.2.3.</span> <span class="nav-text">埋点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#进程启动时间"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">进程启动时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pre-main-结束时间"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">pre-main 结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main结束时间"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">main结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#首屏渲染完成时间"><span class="nav-number">4.2.3.4.</span> <span class="nav-text">首屏渲染完成时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#扩展"><span class="nav-number">4.2.3.5.</span> <span class="nav-text">扩展</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化措施"><span class="nav-number">5.</span> <span class="nav-text">优化措施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main-阶段优化"><span class="nav-number">5.1.</span> <span class="nav-text">pre-main 阶段优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#库的优化"><span class="nav-number">5.1.1.</span> <span class="nav-text">库的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化控制"><span class="nav-number">5.1.2.</span> <span class="nav-text">初始化控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">5.1.3.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main-阶段优化"><span class="nav-number">5.2.</span> <span class="nav-text">post-main 阶段优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染优化"><span class="nav-number">5.3.</span> <span class="nav-text">首屏渲染优化</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动类型"><span class="nav-number">2.</span> <span class="nav-text">App 启动类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动过程"><span class="nav-number">3.</span> <span class="nav-text">App 启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main"><span class="nav-number">3.1.</span> <span class="nav-text">pre-main</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载流程"><span class="nav-number">3.1.1.</span> <span class="nav-text">加载流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebase-amp-Bind"><span class="nav-number">3.1.2.</span> <span class="nav-text">Rebase &amp; Bind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面试题扩展"><span class="nav-number">3.1.3.</span> <span class="nav-text">面试题扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main"><span class="nav-number">3.2.</span> <span class="nav-text">post-main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染"><span class="nav-number">3.3.</span> <span class="nav-text">首屏渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指标及量化手段"><span class="nav-number">4.</span> <span class="nav-text">指标及量化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线下"><span class="nav-number">4.1.</span> <span class="nav-text">线下</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Environment-Variables"><span class="nav-number">4.1.1.</span> <span class="nav-text">Environment Variables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-Launch"><span class="nav-number">4.1.2.</span> <span class="nav-text">App Launch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XCTest"><span class="nav-number">4.1.3.</span> <span class="nav-text">XCTest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志"><span class="nav-number">4.1.4.</span> <span class="nav-text">日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线上"><span class="nav-number">4.2.</span> <span class="nav-text">线上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Xcode-Organizer"><span class="nav-number">4.2.1.</span> <span class="nav-text">Xcode Organizer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MetricKit"><span class="nav-number">4.2.2.</span> <span class="nav-text">MetricKit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#埋点"><span class="nav-number">4.2.3.</span> <span class="nav-text">埋点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#进程启动时间"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">进程启动时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pre-main-结束时间"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">pre-main 结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main结束时间"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">main结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#首屏渲染完成时间"><span class="nav-number">4.2.3.4.</span> <span class="nav-text">首屏渲染完成时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#扩展"><span class="nav-number">4.2.3.5.</span> <span class="nav-text">扩展</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化措施"><span class="nav-number">5.</span> <span class="nav-text">优化措施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main-阶段优化"><span class="nav-number">5.1.</span> <span class="nav-text">pre-main 阶段优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#库的优化"><span class="nav-number">5.1.1.</span> <span class="nav-text">库的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化控制"><span class="nav-number">5.1.2.</span> <span class="nav-text">初始化控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">5.1.3.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main-阶段优化"><span class="nav-number">5.2.</span> <span class="nav-text">post-main 阶段优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染优化"><span class="nav-number">5.3.</span> <span class="nav-text">首屏渲染优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -741,12 +749,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">341k</span>
+    <span title="站点总字数">342k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:10</span>
+    <span title="站点阅读时长">5:11</span>
 </div>
 
         
