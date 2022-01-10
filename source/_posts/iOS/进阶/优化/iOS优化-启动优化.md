@@ -11,6 +11,8 @@ date: 2021-02-05 22:03:03
 
 ## 前言
 
+Hi Coder，我是 CoderStar！
+
 该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。
 
 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 -- [Optimizing App Launch](https://developer.apple.com/videos/play/wwdc2019/423)，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。
@@ -365,7 +367,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 #### 库的优化
 
 - 动态库转静态库；
-- 减少动态库的个数，可以采用合并手段，将多个静态库
+- 减少动态库的个数，可以采用合并手段，将多个动态库合并成一个，官方建议动态库数量小于 6 个；
 - 动态库懒加载；
 
 > 这里的动态库不是指系统动态库，而是我们自己新建的动态库，也就是所谓的`Embedded Framework`，它无法像系统库一样被其他应用所公有，只能让`App Extension`和`APP`之间共用一份。
@@ -409,33 +411,46 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 主要分成两步：
 
-- 利用 `clang` 插桩获得启动时期需要加载的所有 函数, block , swift 方法以及 c++ 构造方法的符号，已经有大神写好的现成的包；
+- 利用 `clang` 插桩获得启动时期需要加载的所有函数、block、swift 方法以及 c++ 构造方法的符号；
 - Xcode 的`Build Settings`配置`order file`即可；
 
-其中第一个步骤是关键步骤，其实核心就是利用
+其中第一个步骤是关键步骤，其实核心就是利用 LLVM 内置的`SanitizerCoverage`工具进行符号收集。
 
 - 在 `Build Settings` 中添加编译选项 `Other C Flags` 增加`-fsanitize-coverage=func,trace-pc-guard`;
 - 如果是 OC Swift 混编， 则在 Other Swift Flags 增加
    - `-sanitize-coverage=func`
    - `-sanitize=undefined`
 
-获取启动过程中的执行方法：[AppOrderFiles](https://github.com/yulingtianxia/AppOrderFiles)
+> 如果是 CocoaPods 管理的项目，就需要为每一个 Pod 增加这些编译选项。
+
+至于代码示例直接看杨帝的[AppOrderFiles](https://github.com/yulingtianxia/AppOrderFiles)
 
 > 扩展下，编译器在生成二进制代码的时候，默认会先编译 OC 的代码，然后在编译 Swift 的代码，在此顺序前提下，会按照编译文件顺序、方法在文件中的顺序生成。
 
 ### `post-main` 阶段优化
 
-这个阶段跟
+这个阶段跟我们的业务结合的比较紧密，我们一般情况下会需要在`applicationDidFinishLaunching:withOptions:`中做很多初始化的工作，比如网络、统一样式，三方 SDK 初始化等，我们需要根据我们业务的特性去优化该阶段。
 
-- 启动阶段的网络请求，是否都放到异步请求
-- 一些耗时的操作是否可以放到后面去执行，或异步执行等
+遵循的原则其实很简单，就是**尽量少做，最好不做**；
+
+- 梳理相关业务逻辑，将可以延迟加载的库或者逻辑进行延时加载；
+- 考虑使用多线程充分利用 CPU 性能；
+-
+
+这里建议大家可以去看下之前写的[AppDelegate解耦](../../../../设计模式/设计模式%20-%20命令模式&中介者模式&组合模式~AppDelegate%20解耦)对AppDelegate进行拆解，也更方便对业务的梳理。
 
 ### 首屏渲染优化
+
+这个阶段其实对 UI 渲染效率的提升了，优化手段也就是渲染优化方面的通用手段了。
 
 - 尽量使用纯代码编写，减少 `xib/storyboard` 的使用，首页布局不要过于复杂，必要时 `AutoLayout` 变为 `Frame` 布局；
 - 在 `viewDidLoad` 以及 `viewWillAppear` 方法中少做逻辑，或者采用异步的方式去做；
 - 减少视图层级；
 - 懒加载 View；
+
+## 最后
+
+Let's be CoderStar!
 
 **参考资料**
 
