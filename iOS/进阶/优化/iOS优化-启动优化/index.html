@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 A">
+  <meta name="description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 如">
 <meta name="keywords" content="iOS,优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 优化 - 启动优化">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 A">
+<meta property="og:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 如">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/dyld流程图.webp">
@@ -34,10 +34,10 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-09T15:20:02.384Z">
+<meta property="og:updated_time" content="2022-01-10T12:18:40.604Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
-<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 A">
+<meta name="twitter:description" content="前言该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — Optimizing App Launch，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。 如">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/流程.jpeg">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/优化/iOS优化-启动优化/">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-09 23:20:02" itemprop="dateModified" datetime="2022-01-09T23:20:02+08:00">2022-01-09</time>
+                <time title="修改时间：2022-01-10 20:18:40" itemprop="dateModified" datetime="2022-01-10T20:18:40+08:00">2022-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,14 +263,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.6k</span>
+              <span>9.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
+              <span>9 分钟</span>
             </span>
 
         </div>
@@ -284,6 +284,7 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>该篇文章是 iOS 优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。</p>
 <p>其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际的使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — <a href="https://developer.apple.com/videos/play/wwdc2019/423" target="_blank" rel="noopener">Optimizing App Launch</a>，建议大家首先看看这个，毕竟Apple自家的工程师还是比较更权威一些的，下文中部分概念也会来自该视频资料。</p>
+<p>如果不关心启动过程及原理，也可以直接查看后面的优化措施章节。</p>
 <h2 id="App-启动类型"><a href="#App-启动类型" class="headerlink" title="App 启动类型"></a>App 启动类型</h2><p>App 启动过程有三种：冷启动、温启动 / 暖启动、 恢复</p>
 <div class="table-container">
 <table>
@@ -373,11 +374,11 @@
 <p><code>Rebase</code> 就是在程序启动过程中根据 ASLR 随机地址值修改应用内存地址的过程。主要过程就是从 <code>__LINKEDIT</code>取出函数指针，根据偏移量修改函数指针，存入<code>__DATA</code> 中，Rebase 解决了<strong>内部的符号引用</strong>问题。</p>
 <p><code>Binding</code>：当引用动态库其他的函数或者变量时，当前 <code>mach-o</code> 文件会指向其他 <code>dylib</code>。这时候就需要 <code>Binding</code> 操作，<code>dyld</code> 会根据符号表去找到相应函数和变量地址，<code>Binding</code> 解决了<strong>修正外部指针指向</strong>的问题。例如程序中调用<code>NSLog</code>方法，在编译时期生成的 <code>mach-o</code> 文件中，会创建一个符号 <code>NSLog</code>（目前指向一个随机的地址），然后在运行时（从磁盘加载到内存中，是一个镜像文件），会将真正的地址给符号（即在内存中将地址与符号进行绑定，是 <code>dyld</code> 做的，也称为动态库符号绑定），一句话概括：绑定就是给符号赋值的过程。</p>
 <h4 id="面试题扩展"><a href="#面试题扩展" class="headerlink" title="面试题扩展"></a>面试题扩展</h4><ul>
-<li>load 中是否可以调用 cateory 中的方法？</li>
+<li>load 方法中是否可以调用 cateory 中的重名方法？</li>
 <li>load 方法在动态库，主工程的加载顺序？</li>
 </ul>
 <h3 id="main"><a href="#main" class="headerlink" title="main"></a><code>main</code></h3><p>该阶段是指 <code>main</code> 函数执行之后到 <code>AppDelegate</code> 类中的 <code>applicationDidFinishLaunching:withOptions:</code> 方法执行结束前这段时间。</p>
-<p>这个过程会涉及到一些启动项，如 SDK 的初始化，设置 RootViewController 等等。</p>
+<p>这个过程会涉及到一些启动项，如 SDK 的初始化，设置 <code>RootViewController</code> 等等。</p>
 <h3 id="首屏渲染"><a href="#首屏渲染" class="headerlink" title="首屏渲染"></a>首屏渲染</h3><p>这个过程主要就是首屏页面的渲染过程。一般会用 <code>RootController 的 viewDidApper 作为渲染的终点，但其实这时候首帧已经渲染完成一小段时间了，Apple 在</code>MetricsKit<code>里对启动终点定义是第一个</code>CA::Transaction::commit()`。</p>
 <h2 id="指标及量化手段"><a href="#指标及量化手段" class="headerlink" title="指标及量化手段"></a>指标及量化手段</h2><p>应用启动时，会播放一个启动动画。iPhone 上是 400ms，iPad 上是 500ms，苹果建议启动时间最好不要超过启动动画的时间，并且启动时间超过 <code>20s</code> 将会被系统的看门狗机制直接杀死。</p>
 <p>一般我们去量化启动时长会分为线下、线下两部分，线下我们可以利用 Apple 提供的工具，线上我们可以进行埋点或者通过 Apple 官方提供的性能监控获取相关数据。</p>
@@ -387,7 +388,7 @@
 <ul>
 <li>重启设备，并放置 2-3 分钟；</li>
 <li>开启飞行模式或 Mock 网络数据，排除网络对启动阶段的影响；</li>
-<li>关闭 iCloud；</li>
+<li>关闭 <code>iCloud</code>；</li>
 <li>尽可能使用 <code>Release Build</code> 进行测试；这样可以使用减少测量期间，不必要的调试代码的开销，并利用编译时优化；</li>
 <li>选一个性能稍微差点的设备，这样就可以更大程度的满足更多的用户；</li>
 </ul>
@@ -411,7 +412,13 @@
 <h4 id="XCTest"><a href="#XCTest" class="headerlink" title="XCTest"></a>XCTest</h4><p>在 UITest 内 Xcode 自动帮我们生成好了用于测试 App 启动的测试用例：</p>
 <p><img src="../../../../img/iOS/进阶/优化/启动优化/XCTest.png" alt="XCTest"></p>
 <p>此测试会启动你的应用 6 次，并且仅使用最后 5 个度量值。跳过了第一次启动，因为这被视为需要设置缓存的”冷启动”。</p>
-<h4 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h4><p>iOS13.0 以后，在隐私 - 分析与改进 - 分析数据中有以 log-power-xxx.session 命名的日志文件，日志文件中提供了应用运行的一些基本数据信息。</p>
+<h4 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h4><p>iOS13.0 以后，在<code>隐私 - 分析与改进 - 分析数据</code>中有以 <code>log-power-xxx.session</code> 命名的日志文件，日志文件中提供了应用运行的一些基本数据信息。</p>
+<blockquote>
+<p>该日志文件不是一个App对应一个文件，而是所有应用都是在一个文件中，我们可以根据我们应用的包名去找到对应的日志。</p>
+</blockquote>
+<p>下面为我从我设备中<code>log-power-2022-01-09-113331.session</code>文件截出的一个应用的记录片段。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">     <span class="attr">"app_sessionreporter_key"</span> : <span class="string">"69A6A581-C7E1-4ECD-BF82-3EAC569B13A7"</span>,</span><br><span class="line">     <span class="attr">"app_build_version"</span> : <span class="string">"10.2.51.6000"</span>,</span><br><span class="line">     <span class="attr">"app_is_beta"</span> : <span class="string">"false"</span>,</span><br><span class="line">     <span class="attr">"app_multiple_versions"</span> : <span class="number">0</span>,</span><br><span class="line">     <span class="attr">"app_cohort"</span> : <span class="string">"7|date=1603521000000&amp;sf=143465&amp;pgtp=Search&amp;pgid=c6323522-55b2-4d88-b4ae-b3b338b1fd0d&amp;prpg=Genre_179183&amp;ctxt=Search&amp;issrch=1"</span>,</span><br><span class="line">     <span class="attr">"app_version"</span> : <span class="string">"10.2.51"</span>,</span><br><span class="line">     <span class="attr">"app_adamid"</span> : <span class="number">333206289</span>,</span><br><span class="line">     <span class="attr">"app_arch"</span> : <span class="string">""</span>,</span><br><span class="line">     <span class="attr">"app_bundleid"</span> : <span class="string">"com.alipay.iphoneclient"</span>, <span class="comment">// App包名</span></span><br><span class="line">     <span class="attr">"slice_uuid"</span> : <span class="string">""</span>,</span><br><span class="line">     <span class="attr">"app_storefront"</span> : <span class="number">143465</span>,</span><br><span class="line">     ...</span><br><span class="line">     ...</span><br><span class="line">     "performance_metrics" : &#123;</span><br><span class="line">       "disk_io" : &#123;</span><br><span class="line">         "totalWrites" : 160706560,</span><br><span class="line">         "totalReads" : 2143322112</span><br><span class="line">       &#125;,</span><br><span class="line">       "memory" : &#123;</span><br><span class="line">         "average" : 164666852,</span><br><span class="line">         "peak" : 223054080</span><br><span class="line">       &#125;,</span><br><span class="line">       "app_performance" : &#123;</span><br><span class="line">         "launch" : &#123; // App启动时长相关</span><br><span class="line">           "fg" : &#123;</span><br><span class="line">             "count" : 0,</span><br><span class="line">             "sessions" : [</span><br><span class="line"></span><br><span class="line">             ]</span><br><span class="line">           &#125;,</span><br><span class="line">           "bg" : &#123;</span><br><span class="line">             "count" : 2, // 启动次数</span><br><span class="line">             "sessions" : [ // 每次启动，启动时长</span><br><span class="line">               1000,</span><br><span class="line">               <span class="number">1200</span></span><br><span class="line">             ]</span><br><span class="line">           &#125;</span><br><span class="line">         &#125;,</span><br><span class="line">         "processExits" : &#123;</span><br><span class="line">           "bg" : &#123;</span><br><span class="line">             "cumulativeMemoryPressureExitCount" : 3</span><br><span class="line">           &#125;</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;,</span><br><span class="line">     "app_is_clip" : 0</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>从上面注释我们可以很明显看到App包名、启动次数、启动时长相关数据。</p>
 <h3 id="线上"><a href="#线上" class="headerlink" title="线上"></a>线上</h3><h4 id="Xcode-Organizer"><a href="#Xcode-Organizer" class="headerlink" title="Xcode Organizer"></a>Xcode Organizer</h4><p>通过 Xcode 自带工具来查看，选择 <code>Xcode—&gt;Window—&gt;Organizer</code>，在左侧菜单栏选择 <code>Launch Time</code> 项查看线上用户 APP 的启动耗时数据，这种方式主要看线上用户整体启动耗时区间分布情况；</p>
 <p><img src="../../../../img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png" alt="app_launch_performance_xcode_organizer"></p>
 <h4 id="MetricKit"><a href="#MetricKit" class="headerlink" title="MetricKit"></a>MetricKit</h4><p><code>MetricKit</code> 是苹果 iOS13 推出的框架，其会在一天结束后，将过去 24 小时内收集的性能数据归集在一起，并在下一次 App 启动时，通过 delegate 方法回调给我们。</p>
@@ -713,12 +720,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">339k</span>
+    <span title="站点总字数">341k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:09</span>
+    <span title="站点阅读时长">5:10</span>
 </div>
 
         
