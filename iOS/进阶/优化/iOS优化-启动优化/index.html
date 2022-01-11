@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-11T13:15:46.878Z">
+<meta property="og:updated_time" content="2022-01-11T13:23:55.191Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选人，或多或少有了一些感想，后面会单独发篇文章跟大家聊一聊这个话题。 之前曾在iOS优化-瘦身文章中提到过iOS优化将会是一个专题，今天就带来iOS优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-11 21:15:46" itemprop="dateModified" datetime="2022-01-11T21:15:46+08:00">2022-01-11</time>
+                <time title="修改时间：2022-01-11 21:23:55" itemprop="dateModified" datetime="2022-01-11T21:23:55+08:00">2022-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -510,6 +510,7 @@
 <ul>
 <li>梳理相关业务逻辑，将可以延迟加载的库或者逻辑进行延时加载；</li>
 <li>考虑使用多线程充分利用 CPU 性能；</li>
+<li>…</li>
 </ul>
 <p>这里建议大家可以去看下之前写的<a href="../../../../设计模式/设计模式%20-%20命令模式&amp;中介者模式&amp;组合模式~AppDelegate%20解耦">AppDelegate解耦</a>对AppDelegate进行拆解，这样利于对启动过程相关业务的解耦以及后续的调整。</p>
 <h3 id="首屏渲染优化"><a href="#首屏渲染优化" class="headerlink" title="首屏渲染优化"></a>首屏渲染优化</h3><p>这个阶段其实对 UI 渲染效率的提升了，优化手段也就是渲染优化方面的通用手段了。</p>
@@ -518,8 +519,9 @@
 <li>在 <code>viewDidLoad</code> 以及 <code>viewWillAppear</code> 方法中少做逻辑，或者采用异步的方式去做；</li>
 <li>减少视图层级；</li>
 <li>懒加载 View；</li>
+<li>…</li>
 </ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>在<code>pre-main</code>期间各 App 使用的优化措施可能更一致些，而后面两个页面就需要根据我们的业务特性去进行对应的调整了，遵循的原则也很简单，就是<strong>尽量少做，最好不做</strong>。同时在专项优化启动时间后，也要制定相应的措施去防止劣化。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>在<code>pre-main</code>期间各 App 使用的优化措施可能更一致些，而后面两个阶段就需要根据我们的业务特性去进行对应的优化了，遵循的原则也很简单，就是<strong>尽量少做，最好不做</strong>。同时在专项优化启动时间后，也要制定相应的措施去防止劣化。</p>
 <p>Let’s be CoderStar!</p>
 <p><strong>参考资料</strong></p>
 <ul>
