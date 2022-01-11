@@ -435,6 +435,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 - 梳理相关业务逻辑，将可以延迟加载的库或者逻辑进行延时加载；
 - 考虑使用多线程充分利用 CPU 性能；
+- ...
 
 这里建议大家可以去看下之前写的[AppDelegate解耦](../../../../设计模式/设计模式%20-%20命令模式&中介者模式&组合模式~AppDelegate%20解耦)对AppDelegate进行拆解，这样利于对启动过程相关业务的解耦以及后续的调整。
 
@@ -446,10 +447,11 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 - 在 `viewDidLoad` 以及 `viewWillAppear` 方法中少做逻辑，或者采用异步的方式去做；
 - 减少视图层级；
 - 懒加载 View；
+- ...
 
 ## 最后
 
-在`pre-main`期间各 App 使用的优化措施可能更一致些，而后面两个页面就需要根据我们的业务特性去进行对应的调整了，遵循的原则也很简单，就是**尽量少做，最好不做**。同时在专项优化启动时间后，也要制定相应的措施去防止劣化。
+在`pre-main`期间各 App 使用的优化措施可能更一致些，而后面两个阶段就需要根据我们的业务特性去进行对应的优化了，遵循的原则也很简单，就是**尽量少做，最好不做**。同时在专项优化启动时间后，也要制定相应的措施去防止劣化。
 
 Let's be CoderStar!
 
