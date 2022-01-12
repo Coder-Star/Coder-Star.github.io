@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-11T13:23:55.191Z">
+<meta property="og:updated_time" content="2022-01-12T02:29:01.301Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选人，或多或少有了一些感想，后面会单独发篇文章跟大家聊一聊这个话题。 之前曾在iOS优化-瘦身文章中提到过iOS优化将会是一个专题，今天就带来iOS优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-11 21:23:55" itemprop="dateModified" datetime="2022-01-11T21:23:55+08:00">2022-01-11</time>
+                <time title="修改时间：2022-01-12 10:29:01" itemprop="dateModified" datetime="2022-01-12T10:29:01+08:00">2022-01-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -474,15 +474,18 @@
 </ul>
 <p>更换完毕之后，根据线下的测试数据，<code>pre-main</code>阶段的启动耗时相比之前有将近<code>100%</code>的提升。</p>
 <p>更换完毕之后也带来了一些包体积方面的正向收益，过去各 Pod <code>Strip Style</code>均为<code>Debugging Symbols</code>，换为静态库后，就使用的是 Project 下的<code>All Symbols</code>，从<code>Apple Connect</code>后台看在迭代升级一版的前提下，包的下载大小反而降低了<strong>5.1M</strong>。</p>
+<p>还有一个好处是，使用静态库，可以使用同一个 DSYM 文件，如果使用动态库，每一个动态库都有属于自己的 DSYM 文件，如果使用一些三方的 APM 平台，可能还需要自己进行合并，如果自己解析，也需要根据 Crash 出现的位置去调整解析的 DSYM 文件。</p>
 <h4 id="初始化控制"><a href="#初始化控制" class="headerlink" title="初始化控制"></a>初始化控制</h4><ul>
 <li>清理项目中未用到的类、类别、方法等，这个过程会影响很多方面，代码减少会降低 <code>fixup</code> 的次数，也会降低<code>Objc setup</code>的时间，也会减少包体积；开发者自己也要养成无用代码及时删除的好习惯。</li>
 <li>将 <code>load</code> 方法里面执行的逻辑延迟执行，如放入到首屏渲染后或者 <code>+initialize</code> 执行；关于这块需要跟具体的业务相结合去调整；</li>
 <li>控制 C++ 全局变量的数量；</li>
 <li>尽量不使用 C++ 虚函数；</li>
+<li>…</li>
 </ul>
 <h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
 <li>二进制重排；</li>
 <li>换<code>Swift</code>吧，利用其拥有的函数直接派发方式；</li>
+<li>…</li>
 </ul>
 <p>二进制重排这个估计大家都很清楚了，简单说下吧。核心原理就是利用二进制重排减少启动时<code>Page Fault</code>（缺页中断）发生的次数。</p>
 <p>主要分成两步：</p>
