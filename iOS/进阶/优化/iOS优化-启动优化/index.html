@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-12T06:04:24.832Z">
+<meta property="og:updated_time" content="2022-01-12T12:46:31.271Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选人，或多或少有了一些感想，后面会单独发篇文章跟大家聊一聊这个话题。 之前曾在iOS优化-瘦身文章中提到过iOS优化将会是一个专题，今天就带来iOS优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-12 14:04:24" itemprop="dateModified" datetime="2022-01-12T14:04:24+08:00">2022-01-12</time>
+                <time title="修改时间：2022-01-12 20:46:31" itemprop="dateModified" datetime="2022-01-12T20:46:31+08:00">2022-01-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,14 +263,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>11k</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
+              <span>12 分钟</span>
             </span>
 
         </div>
@@ -489,9 +489,11 @@
 <h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ul>
 <li>二进制重排；</li>
 <li>换<code>Swift</code>吧，利用其拥有的函数直接派发方式；</li>
+<li>PGO</li>
+<li><code>Text</code>段重命名迁移</li>
 <li>…</li>
 </ul>
-<p>二进制重排这个估计大家都很清楚了，简单说下吧。核心原理就是利用二进制重排减少启动时<code>Page Fault</code>（缺页中断）发生的次数。</p>
+<h5 id="二进制重排"><a href="#二进制重排" class="headerlink" title="二进制重排"></a>二进制重排</h5><p>二进制重排这个估计大家都很清楚了，简单说下吧。核心原理就是利用二进制重排减少启动时<code>Page Fault</code>（缺页中断）发生的次数。</p>
 <p>主要分成两步：</p>
 <ul>
 <li>利用 <code>clang</code> 插桩获得启动时期需要加载的所有函数、block、swift 方法以及 c++ 构造方法的符号；</li>
@@ -513,6 +515,29 @@
 <blockquote>
 <p>扩展下，编译器在生成二进制代码的时候，默认会先编译 OC 的代码，然后在编译 Swift 的代码，在此顺序前提下，会按照编译文件顺序、方法在文件中的顺序生成。</p>
 </blockquote>
+<h5 id="Text段重命名迁移"><a href="#Text段重命名迁移" class="headerlink" title="Text段重命名迁移"></a><code>Text</code>段重命名迁移</h5><p><code>App Store</code> 会对上传的 App 的 <code>TEXT</code> 段加密，在发生 <code>PageFault</code> 的时候会解密，解密的过程是很耗时的。</p>
+<p>既然会 <code>TEXT</code> 段加密，那么直接的思路就是把 <code>TEXT</code> 段中的内容移动到其它段，<code>ld</code> 也有个参数 <code>rename_section</code> 支持重命名。</p>
+<p>除非优化到极致，否则不建议使用此种方式优化，原因如下：</p>
+<ol>
+<li>TEXT 段迁移最难解决的问题是 ld 链接失败问题，是由 CPU 对寻址范围的限制以及 ld64 链接器的缺陷导致；</li>
+<li>被迁移的 TEXT 段，无法配合 dSYM 文件做符号化。</li>
+</ol>
+<h5 id="PGO"><a href="#PGO" class="headerlink" title="PGO"></a>PGO</h5><p>PGO 是苹果官方提供的工具。</p>
+<p>相比<code>OrderFile</code>二进制重排方案，PGO 文件还会参考引用次数等变量，使得最终优化结果上，PGO 的预期结果会高于 <code>OrderFile</code>。</p>
+<blockquote>
+<p>在编译时，通过指定优化等级，编译器已经可以帮助我们进行适当的优化，比如 inline 一些短函数等。现在考虑这样一个场景：有一个稍微长一点的函数，刚好长到编译器不对它的调用进行 inline 优化，但是实际上，这个函数是一个热点调用，在运行时被调用的次数非常多。那么如果此时编译器也能帮我们把它优化掉，是不是很好呢？但是，编译器怎么能知道这个 ‘稍微长一点的函数’ 是一个热点调用呢？</p>
+<p>这就是 Profile Guided Optimization（PGO）发挥作用的地方。PGO 是一种根据运行时 profiling data 来进行优化的技术。如果一个 application 的使用方式没有什么特点，那么我们可以认为代码的调用没有什么倾向性。但实际上，我们操作一个 application 的时候，往往有一套固定流程，尤其在程序启动的时候，这个特点更加明显。采集这种 ‘典型操作流’ 的 profiling data，然后让编译器根据这些 data 重新编译代码，就可以把运行时得到的知识，运用到编译期，从而获得一定的性能提升。然而，值得指出的一点是，这样获得的性能提升并不是十分明显，通常只有 5-10%。如果已经没有其他办法，再考虑试试 PGO。</p>
+</blockquote>
+<p>基本原理：</p>
+<ul>
+<li>编译一个所有方法插桩了的可执行文件；</li>
+<li>运行可执行文件（启动一次 app），此时插桩的方法会把执行过的方法都记录下来，并记录方法的执行频率；</li>
+<li>重新 build（原则上只是链接时需要 profdata），让链接器按照 profdata 的信息把（启动中用到的、或者频率高的方法）放到一起。</li>
+</ul>
+<p>具体使用方法是点击 Xcode 工具栏，<code>Product -&gt; Perform Action -&gt; Generate Optimization Profile</code> 按 xcode 提示操作即可，其中会提示允许启用，应用启动之后再点击停止按钮 / 重新 Build，此刻会在项目根目录生成<code>/OptimizationProfiles/XXXXX.profdata</code>文件。</p>
+<p>注意：</p>
+<p>1、如果项目中有 swift 代码，那么这种方式就不能用了，因为 swift 不支持 PGO；<br>2、代码发生变更，Xcode 会提示 profdata file out of date，需要每个版本或者每隔一段时间重新生成；</p>
+<p><a href="https://llvm.org/devmtg/2013-11/slides/Carruth-PGO.pdf" target="_blank" rel="noopener">Carruth-PGO</a><br><a href="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/xcode_profile_guided_optimization/pgo-using/pgo-using.html#//apple_ref/doc/uid/TP40014459-CH3-SW1" target="_blank" rel="noopener">Xcode Profile Guided Optimization</a><br><a href="https://zhuanlan.zhihu.com/p/48236683" target="_blank" rel="noopener">使用 Profile Guided Optimization 提升 Application 的性能</a></p>
 <h3 id="post-main-阶段优化"><a href="#post-main-阶段优化" class="headerlink" title="post-main 阶段优化"></a><code>post-main</code> 阶段优化</h3><p>这个阶段跟我们的业务结合的比较紧密，我们一般情况下会需要在<code>applicationDidFinishLaunching:withOptions:</code>中做很多初始化的工作，比如网络、统一样式，三方 SDK 初始化等，我们需要根据我们业务的特性去优化该阶段。</p>
 <ul>
 <li>梳理相关业务逻辑，将可以延迟加载的库或者逻辑进行延时加载；</li>
@@ -678,7 +703,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动类型"><span class="nav-number">2.</span> <span class="nav-text">App 启动类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动过程"><span class="nav-number">3.</span> <span class="nav-text">App 启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main"><span class="nav-number">3.1.</span> <span class="nav-text">pre-main</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载流程"><span class="nav-number">3.1.1.</span> <span class="nav-text">加载流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebase-amp-Bind"><span class="nav-number">3.1.2.</span> <span class="nav-text">Rebase &amp; Bind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面试题扩展"><span class="nav-number">3.1.3.</span> <span class="nav-text">面试题扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main"><span class="nav-number">3.2.</span> <span class="nav-text">post-main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染"><span class="nav-number">3.3.</span> <span class="nav-text">首屏渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指标及量化手段"><span class="nav-number">4.</span> <span class="nav-text">指标及量化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线下"><span class="nav-number">4.1.</span> <span class="nav-text">线下</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Environment-Variables"><span class="nav-number">4.1.1.</span> <span class="nav-text">Environment Variables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-Launch"><span class="nav-number">4.1.2.</span> <span class="nav-text">App Launch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XCTest"><span class="nav-number">4.1.3.</span> <span class="nav-text">XCTest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志"><span class="nav-number">4.1.4.</span> <span class="nav-text">日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线上"><span class="nav-number">4.2.</span> <span class="nav-text">线上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Xcode-Organizer"><span class="nav-number">4.2.1.</span> <span class="nav-text">Xcode Organizer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MetricKit"><span class="nav-number">4.2.2.</span> <span class="nav-text">MetricKit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#埋点"><span class="nav-number">4.2.3.</span> <span class="nav-text">埋点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#进程启动时间"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">进程启动时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pre-main-结束时间"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">pre-main 结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main结束时间"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">main结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#首屏渲染完成时间"><span class="nav-number">4.2.3.4.</span> <span class="nav-text">首屏渲染完成时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#扩展"><span class="nav-number">4.2.3.5.</span> <span class="nav-text">扩展</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化措施"><span class="nav-number">5.</span> <span class="nav-text">优化措施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main-阶段优化"><span class="nav-number">5.1.</span> <span class="nav-text">pre-main 阶段优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#库的优化"><span class="nav-number">5.1.1.</span> <span class="nav-text">库的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化控制"><span class="nav-number">5.1.2.</span> <span class="nav-text">初始化控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">5.1.3.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main-阶段优化"><span class="nav-number">5.2.</span> <span class="nav-text">post-main 阶段优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染优化"><span class="nav-number">5.3.</span> <span class="nav-text">首屏渲染优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动类型"><span class="nav-number">2.</span> <span class="nav-text">App 启动类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动过程"><span class="nav-number">3.</span> <span class="nav-text">App 启动过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main"><span class="nav-number">3.1.</span> <span class="nav-text">pre-main</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载流程"><span class="nav-number">3.1.1.</span> <span class="nav-text">加载流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rebase-amp-Bind"><span class="nav-number">3.1.2.</span> <span class="nav-text">Rebase &amp; Bind</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面试题扩展"><span class="nav-number">3.1.3.</span> <span class="nav-text">面试题扩展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main"><span class="nav-number">3.2.</span> <span class="nav-text">post-main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染"><span class="nav-number">3.3.</span> <span class="nav-text">首屏渲染</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指标及量化手段"><span class="nav-number">4.</span> <span class="nav-text">指标及量化手段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线下"><span class="nav-number">4.1.</span> <span class="nav-text">线下</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Environment-Variables"><span class="nav-number">4.1.1.</span> <span class="nav-text">Environment Variables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#App-Launch"><span class="nav-number">4.1.2.</span> <span class="nav-text">App Launch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XCTest"><span class="nav-number">4.1.3.</span> <span class="nav-text">XCTest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志"><span class="nav-number">4.1.4.</span> <span class="nav-text">日志</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线上"><span class="nav-number">4.2.</span> <span class="nav-text">线上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Xcode-Organizer"><span class="nav-number">4.2.1.</span> <span class="nav-text">Xcode Organizer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MetricKit"><span class="nav-number">4.2.2.</span> <span class="nav-text">MetricKit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#埋点"><span class="nav-number">4.2.3.</span> <span class="nav-text">埋点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#进程启动时间"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">进程启动时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#pre-main-结束时间"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">pre-main 结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#main结束时间"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">main结束时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#首屏渲染完成时间"><span class="nav-number">4.2.3.4.</span> <span class="nav-text">首屏渲染完成时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#扩展"><span class="nav-number">4.2.3.5.</span> <span class="nav-text">扩展</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化措施"><span class="nav-number">5.</span> <span class="nav-text">优化措施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pre-main-阶段优化"><span class="nav-number">5.1.</span> <span class="nav-text">pre-main 阶段优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#库的优化"><span class="nav-number">5.1.1.</span> <span class="nav-text">库的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化控制"><span class="nav-number">5.1.2.</span> <span class="nav-text">初始化控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">5.1.3.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#二进制重排"><span class="nav-number">5.1.3.1.</span> <span class="nav-text">二进制重排</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Text段重命名迁移"><span class="nav-number">5.1.3.2.</span> <span class="nav-text">Text段重命名迁移</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PGO"><span class="nav-number">5.1.3.3.</span> <span class="nav-text">PGO</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-main-阶段优化"><span class="nav-number">5.2.</span> <span class="nav-text">post-main 阶段优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首屏渲染优化"><span class="nav-number">5.3.</span> <span class="nav-text">首屏渲染优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -759,12 +784,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">342k</span>
+    <span title="站点总字数">343k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:11</span>
+    <span title="站点阅读时长">5:12</span>
 </div>
 
         
