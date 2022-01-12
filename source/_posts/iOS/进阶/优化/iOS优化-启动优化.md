@@ -411,7 +411,11 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 - 二进制重排；
 - 换`Swift`吧，利用其拥有的函数直接派发方式；
+- PGO
+- `Text`段重命名迁移
 - ...
+
+##### 二进制重排
 
 二进制重排这个估计大家都很清楚了，简单说下吧。核心原理就是利用二进制重排减少启动时`Page Fault`（缺页中断）发生的次数。
 
@@ -432,6 +436,43 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 至于代码示例直接看杨帝的[AppOrderFiles](https://github.com/yulingtianxia/AppOrderFiles)
 
 > 扩展下，编译器在生成二进制代码的时候，默认会先编译 OC 的代码，然后在编译 Swift 的代码，在此顺序前提下，会按照编译文件顺序、方法在文件中的顺序生成。
+
+##### `Text`段重命名迁移
+
+`App Store` 会对上传的 App 的 `TEXT` 段加密，在发生 `PageFault` 的时候会解密，解密的过程是很耗时的。
+
+既然会 `TEXT` 段加密，那么直接的思路就是把 `TEXT` 段中的内容移动到其它段，`ld` 也有个参数 `rename_section` 支持重命名。
+
+除非优化到极致，否则不建议使用此种方式优化，原因如下：
+
+1. TEXT 段迁移最难解决的问题是 ld 链接失败问题，是由 CPU 对寻址范围的限制以及 ld64 链接器的缺陷导致；
+2. 被迁移的 TEXT 段，无法配合 dSYM 文件做符号化。
+
+##### PGO
+
+PGO 是苹果官方提供的工具。
+
+相比`OrderFile`二进制重排方案，PGO 文件还会参考引用次数等变量，使得最终优化结果上，PGO 的预期结果会高于 `OrderFile`。
+> 在编译时，通过指定优化等级，编译器已经可以帮助我们进行适当的优化，比如 inline 一些短函数等。现在考虑这样一个场景：有一个稍微长一点的函数，刚好长到编译器不对它的调用进行 inline 优化，但是实际上，这个函数是一个热点调用，在运行时被调用的次数非常多。那么如果此时编译器也能帮我们把它优化掉，是不是很好呢？但是，编译器怎么能知道这个 '稍微长一点的函数' 是一个热点调用呢？
+>
+> 这就是 Profile Guided Optimization（PGO）发挥作用的地方。PGO 是一种根据运行时 profiling data 来进行优化的技术。如果一个 application 的使用方式没有什么特点，那么我们可以认为代码的调用没有什么倾向性。但实际上，我们操作一个 application 的时候，往往有一套固定流程，尤其在程序启动的时候，这个特点更加明显。采集这种 '典型操作流' 的 profiling data，然后让编译器根据这些 data 重新编译代码，就可以把运行时得到的知识，运用到编译期，从而获得一定的性能提升。然而，值得指出的一点是，这样获得的性能提升并不是十分明显，通常只有 5-10%。如果已经没有其他办法，再考虑试试 PGO。
+
+基本原理：
+
+* 编译一个所有方法插桩了的可执行文件；
+* 运行可执行文件（启动一次 app），此时插桩的方法会把执行过的方法都记录下来，并记录方法的执行频率；
+* 重新 build（原则上只是链接时需要 profdata），让链接器按照 profdata 的信息把（启动中用到的、或者频率高的方法）放到一起。
+
+具体使用方法是点击 Xcode 工具栏，`Product -> Perform Action -> Generate Optimization Profile` 按 xcode 提示操作即可，其中会提示允许启用，应用启动之后再点击停止按钮 / 重新 Build，此刻会在项目根目录生成`/OptimizationProfiles/XXXXX.profdata`文件。
+
+注意：
+
+1、如果项目中有 swift 代码，那么这种方式就不能用了，因为 swift 不支持 PGO；
+2、代码发生变更，Xcode 会提示 profdata file out of date，需要每个版本或者每隔一段时间重新生成；
+
+[Carruth-PGO](https://llvm.org/devmtg/2013-11/slides/Carruth-PGO.pdf)
+[Xcode Profile Guided Optimization](https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/xcode_profile_guided_optimization/pgo-using/pgo-using.html#//apple_ref/doc/uid/TP40014459-CH3-SW1)
+[使用 Profile Guided Optimization 提升 Application 的性能](https://zhuanlan.zhihu.com/p/48236683)
 
 ### `post-main` 阶段优化
 
