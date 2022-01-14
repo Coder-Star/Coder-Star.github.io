@@ -41,3 +41,6 @@ date: 2021-05-27 14:51:08
 - 子vc也会影响父vc的导航栏样式
 
 - UIButton设置imageView ishidden alpha 无反应，可以使用[UIButton's imageView property and hidden/alpha value](https://stackoverflow.com/questions/11673479/uibuttons-imageview-property-and-hidden-alpha-value)
+
+
+- UITableView 设置group样式 头部会有一段空白，可以设置`tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.01))`

@@ -41,7 +41,7 @@ Flutter: Mach-O 64-bit dynamically linked shared library arm64
 ```
 
 如 `file CSPickerView`，得到结果如下：[CSPickerView](https://github.com/Coder-Star/CSPickerView)为一个静态库
-```
+```text
 CSPickerView: Mach-O universal binary with 5 architectures: [i386:current ar archive] [arm_v7] [arm_v7s] [x86_64] [arm64]
 CSPickerView (for architecture i386):	current ar archive
 CSPickerView (for architecture armv7):	current ar archive
