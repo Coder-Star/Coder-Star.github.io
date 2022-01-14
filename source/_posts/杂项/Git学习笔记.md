@@ -33,9 +33,9 @@ tags: [Git]
 * post—merge
 
 **Server-Side Hooks**
-* pre-receive：当服务端收到一个push操作请求时触发，可用于检测push的内容
-* update：与pre-receive相似，但当一次push想更新多个分支时，pre-receive只执行一次，而此钩子会为每一分支都执行一次
-* post-receive：当整个push操作完成时触发，常用于服务侧同步、通知
+* pre-receive：当服务端收到一个 push 操作请求时触发，可用于检测 push 的内容
+* update：与 pre-receive 相似，但当一次 push 想更新多个分支时，pre-receive 只执行一次，而此钩子会为每一分支都执行一次
+* post-receive：当整个 push 操作完成时触发，常用于服务侧同步、通知
 
 ## 命令
 
@@ -89,6 +89,12 @@ git commit -m "first commit"
 git remote add origin url 地址
 git push -u origin master
 ```
+
+## commit
+
+当我们开发完一部分功能时，会提交 commit，如果这时发现对应的功能少改了一些东西，我们可以单独提一个 commit 标记这个小改动，但更推荐的做法是将这两次改动合并为同一个，对应的命令是：
+
+git commit --amend -m "message"
 
 ## 分支
 

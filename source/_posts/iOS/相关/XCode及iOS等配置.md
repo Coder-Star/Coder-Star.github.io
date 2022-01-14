@@ -45,6 +45,10 @@ Xcode 代码片段路径
 
 ## Build Settings
 
+Build Setting里的Other Linker Flags就是制定`ld`命令的参数。
+
+链接器（Linker）是一个程序，它可以将一个或多个由编译器或汇编器生成的目标文件外加库链接为一个可执行文件。
+
 - Other Linker Flags：控制对 OC 库文件的链接
   - -ObjC 告诉链接器把库中定义的 Objective-C 类和 Category 都加载进来。如果库中只有 category 没有类，category 也不会加进来，但是不会将 C++、C等类加载进来；（为了修复这个问题，通常的解决办法是在这个.m 文件里写一个空的 Class 来占位）
 
