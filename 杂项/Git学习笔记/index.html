@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/Git/Git分区.jpg">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/Git/GitHooks.png">
-<meta property="og:updated_time" content="2021-10-23T12:12:58.219Z">
+<meta property="og:updated_time" content="2022-01-14T06:28:01.667Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 学习笔记">
 <meta name="twitter:description" content="前言虽然在写这篇笔记之前已经用 Git 很长时间了，而且对于一些操作也比较熟悉，但是还是感觉对于 Git 没有进行系统的学习和梳理，这篇笔记的目的其实就是把 Git 相关知识进行系统的梳理一下，让 Git 这个果子在我的技能树上成熟。 基本概念在 Git 工作目录下的文件有已跟踪以及未跟踪两种状态，其中未跟踪的文件便是没有被 git 纳入版本控制的文件，而已跟踪的文件肯定就是 git 纳入版本控制">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-23 20:12:58" itemprop="dateModified" datetime="2021-10-23T20:12:58+08:00">2021-10-23</time>
+                <time title="修改时间：2022-01-14 14:28:01" itemprop="dateModified" datetime="2022-01-14T14:28:01+08:00">2022-01-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,7 +255,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.7k</span>
+              <span>4.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -293,9 +293,9 @@
 </ul>
 <p><strong>Server-Side Hooks</strong></p>
 <ul>
-<li>pre-receive：当服务端收到一个push操作请求时触发，可用于检测push的内容</li>
-<li>update：与pre-receive相似，但当一次push想更新多个分支时，pre-receive只执行一次，而此钩子会为每一分支都执行一次</li>
-<li>post-receive：当整个push操作完成时触发，常用于服务侧同步、通知</li>
+<li>pre-receive：当服务端收到一个 push 操作请求时触发，可用于检测 push 的内容</li>
+<li>update：与 pre-receive 相似，但当一次 push 想更新多个分支时，pre-receive 只执行一次，而此钩子会为每一分支都执行一次</li>
+<li>post-receive：当整个 push 操作完成时触发，常用于服务侧同步、通知</li>
 </ul>
 <h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="个人配置"><a href="#个人配置" class="headerlink" title="个人配置"></a>个人配置</h3><p>生成 ssh 公钥</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C "1340529758@qq.com"</span><br></pre></td></tr></table></figure>
@@ -308,6 +308,8 @@
 <p>如果想指定某个 git 项目提交的姓名及邮箱<br>可以在 <code>.git/config</code>文件中</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[user]</span><br><span class="line">	name = CoderStar</span><br><span class="line">	email = 1340529758@qq.com</span><br></pre></td></tr></table></figure>
 <h3 id="上传常用流程"><a href="#上传常用流程" class="headerlink" title="上传常用流程"></a>上传常用流程</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git add *</span><br><span class="line">git commit -m "first commit"</span><br><span class="line">git remote add origin url 地址</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<h2 id="commit"><a href="#commit" class="headerlink" title="commit"></a>commit</h2><p>当我们开发完一部分功能时，会提交 commit，如果这时发现对应的功能少改了一些东西，我们可以单独提一个 commit 标记这个小改动，但更推荐的做法是将这两次改动合并为同一个，对应的命令是：</p>
+<p>git commit —amend -m “message”</p>
 <h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><p>git checkout —track origin/second<br>该命令会在本地创建一个 second 分支用于跟踪远端的 second 分支并切换到本地 second 分支，下载多分支代码时，需要手工执行该命令以使本地分支与远程分支一一对应</p>
 <p><code>git clone -b 分支名仓库地址</code><br>使用 Git 下载指定分支命令</p>
 <p><code>git branch -d dev</code><br>删除分支 dev，删除之前先转到其余分支上，如果要删除的分支已经成功合并到当前分支，删除分支的操作会直接成功；如果要删除的分支没有合并到当前所在分支，则会出现提示。如果确定无须合并而要直接删除，则执行命令：<code>git branch -D dev</code> 进行强删。</p>
@@ -458,7 +460,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hook"><span class="nav-number">3.</span> <span class="nav-text">hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">4.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#个人配置"><span class="nav-number">4.1.</span> <span class="nav-text">个人配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他操作"><span class="nav-number">5.</span> <span class="nav-text">其他操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传常用流程"><span class="nav-number">5.1.</span> <span class="nav-text">上传常用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支"><span class="nav-number">6.</span> <span class="nav-text">分支</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hook"><span class="nav-number">3.</span> <span class="nav-text">hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">4.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#个人配置"><span class="nav-number">4.1.</span> <span class="nav-text">个人配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他操作"><span class="nav-number">5.</span> <span class="nav-text">其他操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传常用流程"><span class="nav-number">5.1.</span> <span class="nav-text">上传常用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit"><span class="nav-number">6.</span> <span class="nav-text">commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支"><span class="nav-number">7.</span> <span class="nav-text">分支</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
