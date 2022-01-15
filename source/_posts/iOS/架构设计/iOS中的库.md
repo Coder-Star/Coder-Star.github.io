@@ -1,5 +1,5 @@
 ---
-title: iOS中的库
+title: iOS 中的库
 category:
   - iOS
   - 架构设计
@@ -19,7 +19,7 @@ date: 2021-03-21 20:46:46
 
 动态库的优点是，不需要拷贝到目标程序中，不会影响目标程序的体积，而且同一份库可以被多个程序使用（因为这个原因，动态库也被称作共享库）。同时，编译时才载入的特性，也可以让我们随时对库进行替换，而不需要重新编译代码。动态库带来的问题主要是，动态载入会带来一部分性能损失，使用动态库也会使得程序依赖于外部环境。如果环境缺少动态库或者库的版本不正确，就会导致程序无法运行（Linux 下喜闻乐见的 lib not found 错误）。
 
-.a 文件是一个纯二进制文件，是.o 文件的合集,不能直接拿来使用，需要配合头文件、资源文件一起使用。将静态库打包的时候，只能打包代码资源，图片、本地 json 文件和 xib 等资源文件无法打包进去，使用.a 静态库的时候需要三个组成部分：.a 文件+需要暴露的头文件+资源文件；
+.a 文件是一个纯二进制文件，是.o 文件的合集, 不能直接拿来使用，需要配合头文件、资源文件一起使用。将静态库打包的时候，只能打包代码资源，图片、本地 json 文件和 xib 等资源文件无法打包进去，使用.a 静态库的时候需要三个组成部分：.a 文件 + 需要暴露的头文件 + 资源文件；
 
 framework 实际上是一种打包方式，是将库的二进制文件、头文件、资源文件等打包在一起。可以直接拿来使用。
 
@@ -41,6 +41,7 @@ Flutter: Mach-O 64-bit dynamically linked shared library arm64
 ```
 
 如 `file CSPickerView`，得到结果如下：[CSPickerView](https://github.com/Coder-Star/CSPickerView)为一个静态库
+
 ```text
 CSPickerView: Mach-O universal binary with 5 architectures: [i386:current ar archive] [arm_v7] [arm_v7s] [x86_64] [arm64]
 CSPickerView (for architecture i386):	current ar archive
@@ -54,16 +55,22 @@ CSPickerView (for architecture arm64):	current ar archive
 
 ## Module 机制
 
-如果要支持 Module，必须提供一个 module.modulemap 文件，用来声明模块与头文件之间的映射关系
+如果要支持 Module，必须提供一个 module.modulemap 文件，用来声明模块与头文件之间的映射关系。这个声明语言叫做 **模块映射语言**
 
 module.modulemap 文件格式
 
-```
-framework module moduleName {
-	umbrella header "moduleName-umbrella.h" // moduleName-umbrella.h中放置的就是要公开的头文件
+```c
+//
+module moduleName {
+  // 伞骨文件，通过这种方式避免将所有对外的.h文件都在该文件书写，转到一个统一文件的中去
+  // 如常见的UIKit本身也是有很多.h文件组合而成的
+  umbrella header "moduleName-umbrella.h"
 
-	export *
-	module * { export * }
+  // * 表示通配符，表示将 umbrella.h 中的所有头文件全部导出
+  export *
+
+  // 
+  module * { export * }
 
   // 子Module
   explicit module SubModuleName {
@@ -71,12 +78,17 @@ framework module moduleName {
     export *
   }
 
-	link framework "Foundation" // 目前这个地方只能link SDK内置的框架
+  // 目前这个地方只能link SDK内置的框架
+  link framework "Foundation"
 }
 ```
 
 swift 中使用 `import moduleName`
 oc 中使用 `@import LDPMChart;`
+
+默认开启 module 之后，在引入头文件时使用 include""、 import<>、@import ；这三种写法，最终都会被转化成 @import。
+
+[module-map](https://clang.llvm.org/docs/Modules.html#module-map-language)
 
 ## 打包（利用 cocoapods-packager 插件）
 
@@ -137,7 +149,7 @@ pod package XXX.podspec --library // --library表示打包成a文件，如果不
 - Swift 的 Pod 依赖 OC 的 Pod，如果 OC 开始没有模块化，打包不成功。
 
 动态库使用场景：
-- 解决苹果对__TEXT段大小限制问题；
+- 解决苹果对__TEXT 段大小限制问题；
 - 懒加载
 - 宿主程序与扩展程序使用同一个库
-- 
+-

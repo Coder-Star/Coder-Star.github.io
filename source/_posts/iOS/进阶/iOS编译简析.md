@@ -91,6 +91,8 @@ Swift 编译过程引入 SIL 有几个优点：
 - 处在编译管线的主通道 (Sits on the hot path of the compiler pipeline );
 - 架起桥梁连接源码与 LLVM，减少源码与 LLVM 之间的抽象鸿沟 (Bridges the abstraction gap between source and LLVM)
 
+[swift-compiler](https://www.swift.org/swift-compiler/)
+
 ### IR
 
 LLVM IR 有三种表示形式。

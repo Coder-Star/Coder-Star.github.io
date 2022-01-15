@@ -11,7 +11,10 @@ date: 2022-01-06 16:57:27
 
 Hi Coder，我是 CoderStar！
 
-今天我们来聊一聊我们平时可能会用到的一些 CLI 工具或者脚本。主要分为两类，一种是 Mac 下自带的命令行工具，另一种是 Xcode 附带的。
+今天我们来聊一聊`Xcode Command Lines`。
+
+
+
 
 ## xcrun
 
@@ -24,7 +27,7 @@ Hi Coder，我是 CoderStar！
 
 比如`xcodebuild`、`swift-demangle`，当然有些工具是可以直接调用的，比如`xcodebuild`，但是有些工具必须借助`xcurn`，比如`swift-demangle`。
 
-将 swift 函数名`demangle`，
+将 Swift 函数名`demangle`，
 
 ```shell
 xcrun swift-demangle  _TtC7iOSTest27PickImageDemoViewController
