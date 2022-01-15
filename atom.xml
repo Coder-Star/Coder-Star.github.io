@@ -27,11 +27,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;dyld-迭代&quot;&gt;&lt;a href=&quot;#dyld-迭代&quot; class=&quot;
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;dyld-迭代&quot;&gt;&lt;a href=&quot;#dyld-迭代&quot; class=&quot;headerlink&quot; title=&quot;dyld 迭代&quot;&gt;&lt;/a&gt;&lt;code&gt;dyld&lt;/code&gt; 迭代&lt;/h2&gt;&lt;p&gt;我们对&lt;code&gt;dyld&lt;/code&gt;展开讲一下，其是开源的，我们可以&lt;a href=&quot;https://opensource.apple.com/tarballs/dyld/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官网下载&lt;/a&gt;后阅读其源码。&lt;/p&gt;
+&lt;h3 id=&quot;dyld-1-0（1996-2004）&quot;&gt;&lt;a href=&quot;#dyld-1-0（1996-2004）&quot; class=&quot;headerlink&quot; title=&quot;dyld 1.0（1996-2004）&quot;&gt;&lt;/a&gt;dyld 1.0（1996-2004）&lt;/h3&gt;
     
     </summary>
     
@@ -48,17 +46,18 @@
     <link href="https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Xcode%E5%86%85%E7%BD%AECLI%E5%B7%A5%E5%85%B7/"/>
     <id>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87/Xcode%E5%86%85%E7%BD%AECLI%E5%B7%A5%E5%85%B7/</id>
     <published>2022-01-06T08:57:27.000Z</published>
-    <updated>2022-01-14T13:12:22.448Z</updated>
+    <updated>2022-01-15T16:32:37.540Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p><p>今天我们来聊一聊<code>Xcode Command Lines</code>。</p><h2 id="xcrun"><a href="#xcrun" class="headerlink" title="xcrun"></a>xcrun</h2><p><code>xcode command-line tool runner</code>，xcrun 是 Xcode 基本的命令行工具。使用它可以调用其他工具。工具所在路径为</p><ul><li><code>/usr/bin/</code></li><li><code>/Applications/Xcode.app/Contents/Developer/usr/bin</code></li></ul><p>使用 <code>xcrun xcodebuild</code> 这种方式会在上述多个路径去查找指定工具，当机器有多个 Xcode 环境，会按照通过<code>xcode-select</code>命令设置的默认 Xcode 环境去寻找工具。</p><p>比如<code>xcodebuild</code>、<code>swift-demangle</code>，当然有些工具是可以直接调用的，比如<code>xcodebuild</code>，但是有些工具必须借助<code>xcurn</code>，比如<code>swift-demangle</code>。</p><p>将 Swift 函数名<code>demangle</code>，</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xcrun swift-demangle  _TtC7iOSTest27PickImageDemoViewController</span><br><span class="line">_TtC7iOSTest27PickImageDemoViewController ---&gt; iOSTest.PickImageDemoViewController</span><br><span class="line"></span><br><span class="line">xcrun swift-demangle --compact _TtC7iOSTest27PickImageDemoViewController</span><br><span class="line">iOSTest.PickImageDemoViewController</span><br></pre></td></tr></table></figure><p>xcrun —find clang<br>xcrun —sdk iphoneos —find pngcrush<br>xcrun —sdk macosx —show-sdk-path</p><p>xcrun altool —validate-app -f ${IPA_PATH}/${SCHEME_NAME}.ipa -t ios —apiKey xxx —apiIssuer xxx —verbose</p><p>xcrun altool —upload-app -f ${IPA_PATH}/${SCHEME_NAME}.ipa -t ios —apiKey xxx —apiIssuer xxx —verbose</p><p><a href="https://macops.ca/developer-binaries-on-os-x-xcode-select-and-xcrun/" target="_blank" rel="noopener">Developer Binaries on OS X, xcode-select and xcrun</a><br><a href="https://juejin.cn/post/6844904052271087624" target="_blank" rel="noopener">深入浅出 Xcode Command Lines Tool - 初探</a><br><a href="https://juejin.cn/post/6844904052271087623" target="_blank" rel="noopener">深入浅出 Xcode 命令列 - libxcselect.dylib</a><br><a href="https://juejin.cn/post/6844904052275298317" target="_blank" rel="noopener">深入浅出 Xcode 命令列 - xcrun</a></p><h2 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h2><h3 id="otool"><a href="#otool" class="headerlink" title="otool"></a>otool</h3><p><code>otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</code></p><p>执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 <code>0x0000000100000000</code>，一般情况下都为这个值。</p><h3 id="xcode-select"><a href="#xcode-select" class="headerlink" title="xcode-select"></a>xcode-select</h3><p>显示当前选择的 Xcode。</p><ul><li>xcode-select —install: 安装 command line tools，会按照到<code>/Library/Developer/CommandLineTools/</code></li><li>xcode-select -p: 显示当前指定的 xcode 路径</li><li>xcode-select -s <path>: 指定 xcode 路径</path></li><li>xcode-select -r: 重置 xcode 路径</li></ul><h2 id="Xcode"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode</h2><h3 id="actool"><a href="#actool" class="headerlink" title="actool"></a>actool</h3><p>对 Assets 的文件进行压缩、处理</p><h3 id="atos"><a href="#atos" class="headerlink" title="atos"></a>atos</h3><p>符号化解析</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure><h3 id="xcodebuild"><a href="#xcodebuild" class="headerlink" title="xcodebuild"></a>xcodebuild</h3><p>可以通过<code>man xcodebuild</code>查看手册。</p><p><code>xcodebuild clean -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE} || exit</code></p><p><code>xcodebuild clean -project ${PROJECT_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE} || exit</code></p><p><code>xcodebuild archive -project ${PROJECT_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH}</code></p><p><code>xcodebuild archive -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH} -quiet || exit</code></p><p><code>xcodebuild -exportArchive -archivePath $ARCHIVE_PATH -exportPath ${IPA_PATH} -exportOptionsPlist ${EXPORTOPTIONSPLIST_PATH} -quiet || exit</code></p><p>我们可以使用其进行清理，分析，构建，测试，存档。</p><ul><li>xctool：xctool 是 facebook 推出的用于替换 xcodebuild 的更易于测试 ios 和 mac 应用程序的命令行工具，特别适用于 ios app 的持续集成。</li><li>xcbuild：xcbuild 是一个兼容 Xcode 的编译工具，它能使编译更快快速，更友好的编译过程日志，可以运行在多个平台（主要指 OS X 和 Linux）</li></ul><h3 id="symbolicatecrash"><a href="#symbolicatecrash" class="headerlink" title="symbolicatecrash"></a>symbolicatecrash</h3><p>符号化 crash 文件</p><h3 id="lipo"><a href="#lipo" class="headerlink" title="lipo"></a>lipo</h3><p>lipo 源于 mac 系统要制作兼容 powerpc 平台和 intel 平台的程序，lipo 是一个在 Mac OS X 中处理通用程序（Universal Binaries）的工具。</p><p><strong>lipo -info</strong></p><p>查看查看静态库支持的 CPU 架构<br>lipo -info frameworkName.framework/frameworkName<br>lipo -info frameworkName.a</p><p><strong>合并静态库</strong></p><p>lipo -create 静态库存放路径 1 静态库存放路径 2 … -output 整合后存放的路径</p><p>lipo -create frameworkName-armv7.a frameworkName-armv7s.a frameworkName-i386.a -output frameworkName.a</p><p>lipo -create frameworkNameOne.framework/frameworkNameOne frameworkNameTwo.framework/frameworkNameTwo -output frameworkName.framework</p><p><strong>静态库拆分</strong></p><p>lipo 静态库源文件路径 -thin CPU 架构名称 -output 拆分后文件存放路径</p><p>lipo libname.a -thin armv7 -output libname-armv7.a</p><p><strong>擦除指定架构</strong></p><p>lipo XXX.a -remove arm64 -output XXX.a</p><h3 id="libtool"><a href="#libtool" class="headerlink" title="libtool"></a>libtool</h3><h3 id="file"><a href="#file" class="headerlink" title="file"></a>file</h3><p>我们可以使用<code>file</code>命令来区分动态库与静态库。</p><p>如<code>file Flutter</code>得到，我们可以很容易看到<code>dynamically</code>关键字，其为一个动态库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Flutter: Mach-O 64-bit dynamically linked shared library arm64</span><br></pre></td></tr></table></figure><p>如 <code>file CSPickerView</code>，得到结果如下：<a href="https://github.com/Coder-Star/CSPickerView" target="_blank" rel="noopener">CSPickerView</a>为一个静态库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CSPickerView: Mach-O universal binary with 5 architectures: [i386:current ar archive] [arm_v7] [arm_v7s] [x86_64] [arm64]</span><br><span class="line">CSPickerView (for architecture i386):current ar archive</span><br><span class="line">CSPickerView (for architecture armv7):current ar archive</span><br><span class="line">CSPickerView (for architecture armv7s):current ar archive</span><br><span class="line">CSPickerView (for architecture x86_64):current ar archive</span><br><span class="line">CSPickerView (for architecture arm64):current ar archive</span><br></pre></td></tr></table></figure><h3 id="dwarfdump"><a href="#dwarfdump" class="headerlink" title="dwarfdump"></a>dwarfdump</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找指定地址的相关信息</span></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 校验DWARF的有效性</span></span><br><span class="line">dwarfdump --verify iOSTest.app.dSYM</span><br></pre></td></tr></table></figure><p>找到指定位置的函数符号</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">dwarfdump iOSTest.app.dSYM --lookup 0x100006694</span><br></pre></td></tr></table></figure><h3 id="class-dump"><a href="#class-dump" class="headerlink" title="class-dump"></a>class-dump</h3><h3 id="dumpdecrypted"><a href="#dumpdecrypted" class="headerlink" title="dumpdecrypted"></a>dumpdecrypted</h3><h2 id="Xcode-环境参数"><a href="#Xcode-环境参数" class="headerlink" title="Xcode 环境参数"></a>Xcode 环境参数</h2><ul><li><p>关闭 Xcode，打开终端输入<code>defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES</code>，然后项目 Build 的时候可以在 Xcode 顶部看到项目编译时间</p></li><li><p><code>defaults write com.apple.Xcode PBXNumberOfParallelBuildSubtasks 8</code>  提高 XCode 编译时使用的线程数</p></li></ul><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p><p>Let’s be CoderStar!</p><ul><li><a href="https://www.jianshu.com/p/a4731527ca73" target="_blank" rel="noopener">iOS开发中常用命令工具（xcode-select、lipo、xcrun等</a></li><li><a href="https://www.hanleylee.com/usage-of-xcode-terminal-tools.html" target="_blank" rel="noopener">Xcode 相关终端工具使用</a></li><li><a href="https://developer.apple.com/library/archive/technotes/tn2339/_index.html" target="_blank" rel="noopener">Building from the Command Line with Xcode FAQ</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p><p>今天我们来聊一聊<code>Command Lines Tool</code>。</p><p><code>Command Lines Tool</code>本质是一个命令行工具包，内部有很多有用的工具，如<code>Apple LLVM compiler</code>、<code>Make</code>等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用<code>Homebrew</code>在安装一些<code>python</code>库或者<code>js</code>库时，都会提示需要<code>Command Line Tools</code>。</p><blockquote><p>后文会对<code>Command Line Tools</code>直接缩写成 CLI。</p></blockquote><p>我们在开发者官网<a href="https://developer.apple.com/download/all/?q=command" target="_blank" rel="noopener">Command Line Tools</a>对其单独下载，当然每个版本的Xcode安装包内也会包含这套工具包。</p><h2 id="前置工具"><a href="#前置工具" class="headerlink" title="前置工具"></a>前置工具</h2><p>在我来介绍这套工具包其他工具之前，我先来介绍两个工具，我称为前置工具，因为有了这两个工具，我们才能更好的使用其他的工具。</p><h3 id="xcode-select"><a href="#xcode-select" class="headerlink" title="xcode-select"></a>xcode-select</h3><p>这个工具可以帮助我们安装下载 CLI，比手动下载更便捷。并且还能解决另外问题，就是如果我们装有多个 Xcode，我们在使用 CLI 相关工具时，系统就会不知道该去使用哪个版本或者哪个位置的 CLI，使用这个工具可以帮助我们设置及切换当前默认使用的 CLI。</p><p>介绍该工具常见的命令：</p><ul><li><code>xcode-select --install</code>: 安装 CLI，会安装到<code>/Library/Developer/CommandLineTools/</code></li><li><code>xcode-select -p</code>: 显示当前指定的工具包所在 Xcode 路径</li><li><code>xcode-select -s &lt;path&gt;</code>: 切换默认工具包所在 Xcode 路径</li><li><code>xcode-select -r</code>: 重置工具包所在 Xcode 路径</li></ul><blockquote><p><code>xcode-select</code>提供了一个环境变量，让你能临时使用其他环境来执行<code>xcode command</code>，<code>env DEVELOPER_DIR=&quot;/Applications/Xcode-beta.app&quot; /usr/bin/xcodebuild</code></p><p>xcode-select 选择路径不是直接选择的 CLI 路径，而是选择所在 Xcode 的路径，继而使用该 Xcode 对应的 CLI，默认情况会选择到该 Xcode 包内包含的 CLI，但是如果我们通过 Xcode Preferences 调整过该 Xcode 对应的 CLI，就会使用调整后的 CLI。</p></blockquote><p>这个工具应该是 Mac 自带的工具，位于<code>/usr/bin/xcode-select</code>，并不是跟随 CLI 工具包一块下载下来的。</p><h3 id="xcrun"><a href="#xcrun" class="headerlink" title="xcrun"></a>xcrun</h3><p>回想我们过去在使用一些 CLI 命令的时候，会直接在终端上执行<code>xcodebuild ...</code>这样的方式，没有指定具体的 CLI 路径，并且我们执行<code>which xcodebuild</code>得到的结果是<code>/usr/bin/xcodebuild</code>。那这个命令是怎么执行到我们通过<code>xcode-select</code>设置的默认 CLI 路径下呢？那就得提到我们马上要介绍的这个工具了 — <code>xcrun</code>。</p><p>我们就以<code>xcodebuild</code>举例，我们通过<code>which xcodebuild</code>得到的结果是<code>/usr/bin/xcodebuild</code>，也就是说我们在执行<code>xcodebuild</code>的时候实际上在执行<code>usr/bin/xcodebuild</code>，那再让我们看看<code>/usr/bin/xcodebuild</code> 下的指令是怎么配合<code>xcode-select</code>找到 <code>/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild</code>的？</p><p>我们先通过<code>otool -tV /usr/bin/xcodebuild</code>查看其<code>textsection</code>，得到：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(__TEXT,__text) section</span><br><span class="line">_main:</span><br><span class="line">0000000100003f63pushq%rbp</span><br><span class="line">0000000100003f64movq%rsp, %rbp</span><br><span class="line">0000000100003f67pushq%r14</span><br><span class="line">0000000100003f69pushq%rbx</span><br><span class="line">0000000100003f6amovq%rsi, %r14</span><br><span class="line">0000000100003f6dmovl%edi, %ebx</span><br><span class="line">0000000100003f6fcallq0x100003f88                     ## symbol stub for: __NSGetProgname</span><br><span class="line">0000000100003f74movq(%rax), %rdi</span><br><span class="line">0000000100003f77leal-0x1(%rbx), %esi</span><br><span class="line">0000000100003f7aleaq0x8(%r14), %rdx</span><br><span class="line">0000000100003f7emovl$0x1, %ecx</span><br><span class="line">0000000100003f83callq0x100003f8e                     ## symbol stub for: _xcselect_invoke_xcrun</span><br></pre></td></tr></table></figure><p>我们可以发现该命令调用<code>_xcselect_invoke_xcrun</code>函数。</p><p>然后我们通过<code>nm /usr/bin/xcodebuild</code>查看其<code>name list</code></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">                 U __NSGetProgname</span><br><span class="line">0000000100008018 d __dyld_private</span><br><span class="line">0000000100000000 T __mh_execute_header</span><br><span class="line">0000000100003f63 t _main</span><br><span class="line">0000000100008010 s _shim_marker</span><br><span class="line">                 U _xcselect_invoke_xcrun</span><br><span class="line">                 U dyld_stub_binder</span><br></pre></td></tr></table></figure><p>通过<code>_xcselect_invoke_xcrun</code>前面的<code>U</code>标识我们可以知道该函数是一个外部符号，是另外一个动态库去处理的。</p><p>后面我们通过<a href="https://dongaxis.github.io/2016/04/28/Swift-Swiftc/" target="_blank" rel="noopener">Swift-Swiftc</a>可以知道更详细流程。这里只说结论</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">libxcselect.dylib</span><br><span class="line">👇🏻</span><br><span class="line">_xcselect_invoke_xcrun</span><br><span class="line">👇🏻</span><br><span class="line">libxcrun.dylib</span><br><span class="line">👇🏻</span><br><span class="line">xcrun_main</span><br></pre></td></tr></table></figure><p>我们后面最后实际上会调用到<code>xcrun_main</code>函数，其内部就会根据<code>xcode-select</code>等设置的情况选择合适的 CLI 路径，具体执行的顺序可见<a href="https://macops.ca/developer-binaries-on-os-x-xcode-select-and-xcrun/" target="_blank" rel="noopener">Developer Binaries on OS X, xcode-select and xcrun</a>。</p><p>xcrun（<code>Xcode Command Line Tool Runner</code>） 是 Xcode 基本的命令行工具，使用它来调用其他 CLI 工具，这时候你应该就知道为啥需要它来调用其他 CLI 工具了。</p><p>我们执行<code>xcrun</code>命令时实际上也是走的<code>/usr/bin/xcrun</code>，其内部也是上面一套流程，准确而言，在这套 CLI 工具包中位于<code>/usr/bin</code>路径下的命令都是上面那个流程，也就是说下面几个命令是等价的：</p><ul><li>xcodebuild</li><li>/usr/bin/xcodebuild</li><li>xcrun xcodebuild</li><li>Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild</li></ul><p>当然这套工具包有些命令不在<code>/usr/bin</code>路径下，我们就需要在命令前加上<code>xcrun</code>了，如<code>swift-demangle</code>，如果我们直接使用<code>swift-demangle</code>就会出现命令找不到的错误，使用<code>xcrun swift-demangle</code>这种方式即可。</p><p>相关命令：</p><ul><li>xcrun —find clang // 找到指定工具路径</li><li>xcrun —sdk iphoneos —find pngcrush</li><li>xcrun —sdk macosx —show-sdk-path</li></ul><p>通过<code>xcode-select</code>安装的 CLI 路径位于：<code>/Library/Developer/CommandLineTools/</code>。<br>Xcode 内嵌的 CLI 路径位于：<code>/Applications/Xcode.app/Contents/Developer/usr/bin</code></p><p>还有一点需要注意的是，xcrun 并不是只会寻找<code>xcode-select</code>设置下的路径，还会寻找 Xcode 另外的一些路径来执行命令，包括</p><ul><li>Developer/usr</li><li>Developer/Platforms</li><li>Developer/ToolChain</li></ul><p>例子如下：</p><p>xcodebuild：<code>/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild</code><br>swift-demangle：<code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-demangle</code></p><p><a href="https://juejin.cn/post/6844904052271087624" target="_blank" rel="noopener">深入浅出 Xcode Command Lines Tool - 初探</a><br><a href="https://juejin.cn/post/6844904052271087623" target="_blank" rel="noopener">深入浅出 Xcode 命令列 - libxcselect.dylib</a><br><a href="https://juejin.cn/post/6844904052275298317" target="_blank" rel="noopener">深入浅出 Xcode 命令列 - xcrun</a></p><p>关于这两个工具有开源的实现<a href="https://github.com/b-man/xcode-tools" target="_blank" rel="noopener">xcode-tools</a>。</p><h2 id="Mac"><a href="#Mac" class="headerlink" title="Mac"></a>Mac</h2><h3 id="otool"><a href="#otool" class="headerlink" title="otool"></a>otool</h3><p><code>otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</code></p><p>执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 <code>0x0000000100000000</code>，一般情况下都为这个值。</p><p>otool(object file displaying tool) : 针对目标文件的展示工具，用来发现应用中使用到了哪些系统库，调用了其中哪些方法，使用了库中哪些对象及属性。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">-f print the fat headers</span><br><span class="line">-a print the archive header</span><br><span class="line">-h print the mach header</span><br><span class="line">-l print the load commands</span><br><span class="line">-L print shared libraries used</span><br><span class="line">-D print shared library id name</span><br><span class="line">-t print the text section (disassemble with -v)</span><br><span class="line">-p &lt;routine name&gt;  start dissassemble from routine name</span><br><span class="line">-s &lt;segname&gt; &lt;sectname&gt; print contents of section</span><br><span class="line">-d print the data section</span><br><span class="line">-o print the Objective-C segment</span><br><span class="line">-r print the relocation entries</span><br><span class="line">-S print the table of contents of a library</span><br><span class="line">-T print the table of contents of a dynamic shared library</span><br><span class="line">-M print the module table of a dynamic shared library</span><br><span class="line">-R print the reference table of a dynamic shared library</span><br><span class="line">-I print the indirect symbol table</span><br><span class="line">-H print the two-level hints table</span><br><span class="line">-G print the data in code table</span><br><span class="line">-v print verbosely (symbolically) when possible</span><br><span class="line">-V print disassembled operands symbolically</span><br><span class="line">-c print argument strings of a core file</span><br><span class="line">-X print no leading addresses or headers</span><br><span class="line">-m don't use archive(member) syntax</span><br><span class="line">-B force Thumb disassembly (ARM objects only)</span><br><span class="line">-q use llvm's disassembler (the default)</span><br><span class="line">-Q use otool(1)'s disassembler</span><br><span class="line">-mcpu=arg use `arg' as the cpu for disassembly</span><br><span class="line">-j print opcode bytes</span><br><span class="line">-P print the info plist section as strings</span><br><span class="line">-C print linker optimization hints</span><br><span class="line">--version print the version of /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool</span><br></pre></td></tr></table></figure><h2 id="Xcode"><a href="#Xcode" class="headerlink" title="Xcode"></a>Xcode</h2><h3 id="swift-demangle"><a href="#swift-demangle" class="headerlink" title="swift-demangle"></a>swift-demangle</h3><p>将 Swift 函数名<code>demangle</code>，</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">xcrun swift-demangle  _TtC7iOSTest27PickImageDemoViewController</span><br><span class="line">_TtC7iOSTest27PickImageDemoViewController ---&gt; iOSTest.PickImageDemoViewController</span><br><span class="line"></span><br><span class="line">xcrun swift-demangle --compact _TtC7iOSTest27PickImageDemoViewController</span><br><span class="line">iOSTest.PickImageDemoViewController</span><br></pre></td></tr></table></figure><h3 id="altool"><a href="#altool" class="headerlink" title="altool"></a>altool</h3><p>xcrun altool —validate-app -f ${IPA_PATH}/${SCHEME_NAME}.ipa -t ios —apiKey xxx —apiIssuer xxx —verbose</p><p>xcrun altool —upload-app -f ${IPA_PATH}/${SCHEME_NAME}.ipa -t ios —apiKey xxx —apiIssuer xxx —verbose</p><h3 id="nm"><a href="#nm" class="headerlink" title="nm"></a>nm</h3><p>命令列出目标文件的符号。</p><h3 id="actool"><a href="#actool" class="headerlink" title="actool"></a>actool</h3><p>对 Assets 的文件进行压缩、处理</p><h3 id="atos"><a href="#atos" class="headerlink" title="atos"></a>atos</h3><p>符号化解析</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure><h3 id="xcodebuild"><a href="#xcodebuild" class="headerlink" title="xcodebuild"></a>xcodebuild</h3><p>可以通过<code>man xcodebuild</code>查看手册。</p><p><code>xcodebuild clean -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE} || exit</code></p><p><code>xcodebuild clean -project ${PROJECT_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE} || exit</code></p><p><code>xcodebuild archive -project ${PROJECT_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH}</code></p><p><code>xcodebuild archive -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH} -quiet || exit</code></p><p><code>xcodebuild -exportArchive -archivePath $ARCHIVE_PATH -exportPath ${IPA_PATH} -exportOptionsPlist ${EXPORTOPTIONSPLIST_PATH} -quiet || exit</code></p><p>我们可以使用其进行清理，分析，构建，测试，存档。</p><ul><li>xctool：xctool 是 facebook 推出的用于替换 xcodebuild 的更易于测试 ios 和 mac 应用程序的命令行工具，特别适用于 ios app 的持续集成。</li><li>xcbuild：xcbuild 是一个兼容 Xcode 的编译工具，它能使编译更快快速，更友好的编译过程日志，可以运行在多个平台（主要指 OS X 和 Linux）</li></ul><h3 id="symbolicatecrash"><a href="#symbolicatecrash" class="headerlink" title="symbolicatecrash"></a>symbolicatecrash</h3><p>符号化 crash 文件</p><h3 id="lipo"><a href="#lipo" class="headerlink" title="lipo"></a>lipo</h3><p>lipo 源于 mac 系统要制作兼容 powerpc 平台和 intel 平台的程序，lipo 是一个在 Mac OS X 中处理通用程序（Universal Binaries）的工具。</p><p><strong>lipo -info</strong></p><p>查看查看静态库支持的 CPU 架构<br>lipo -info frameworkName.framework/frameworkName<br>lipo -info frameworkName.a</p><p><strong>合并静态库</strong></p><p>lipo -create 静态库存放路径 1 静态库存放路径 2 … -output 整合后存放的路径</p><p>lipo -create frameworkName-armv7.a frameworkName-armv7s.a frameworkName-i386.a -output frameworkName.a</p><p>lipo -create frameworkNameOne.framework/frameworkNameOne frameworkNameTwo.framework/frameworkNameTwo -output frameworkName.framework</p><p><strong>静态库拆分</strong></p><p>lipo 静态库源文件路径 -thin CPU 架构名称 -output 拆分后文件存放路径</p><p>lipo libname.a -thin armv7 -output libname-armv7.a</p><p><strong>擦除指定架构</strong></p><p>lipo XXX.a -remove arm64 -output XXX.a</p><h3 id="libtool"><a href="#libtool" class="headerlink" title="libtool"></a>libtool</h3><p>使用链接器 ld 创建库</p><h3 id="file"><a href="#file" class="headerlink" title="file"></a>file</h3><p>我们可以使用<code>file</code>命令来区分动态库与静态库。</p><p>如<code>file Flutter</code>得到，我们可以很容易看到<code>dynamically</code>关键字，其为一个动态库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Flutter: Mach-O 64-bit dynamically linked shared library arm64</span><br></pre></td></tr></table></figure><p>如 <code>file CSPickerView</code>，得到结果如下：<a href="https://github.com/Coder-Star/CSPickerView" target="_blank" rel="noopener">CSPickerView</a>为一个静态库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CSPickerView: Mach-O universal binary with 5 architectures: [i386:current ar archive] [arm_v7] [arm_v7s] [x86_64] [arm64]</span><br><span class="line">CSPickerView (for architecture i386):current ar archive</span><br><span class="line">CSPickerView (for architecture armv7):current ar archive</span><br><span class="line">CSPickerView (for architecture armv7s):current ar archive</span><br><span class="line">CSPickerView (for architecture x86_64):current ar archive</span><br><span class="line">CSPickerView (for architecture arm64):current ar archive</span><br></pre></td></tr></table></figure><h3 id="dwarfdump"><a href="#dwarfdump" class="headerlink" title="dwarfdump"></a>dwarfdump</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 使用示例</span></span><br><span class="line">dwarfdump -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app/xx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 xx.app.dSYM 文件的 UUID</span></span><br><span class="line">dwarfdump --uuid xx.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 导出debug_info 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-info xx.app.dSYM &gt; debug_info.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">  出debug_line 的信息到文件 debug_line.txt 中</span></span><br><span class="line">dwarfdump --debug-line xx.app.dSYM &gt; debug_line.txt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查找指定地址的相关信息</span></span><br><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 校验DWARF的有效性</span></span><br><span class="line">dwarfdump --verify iOSTest.app.dSYM</span><br></pre></td></tr></table></figure><p>找到指定位置的函数符号</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">dwarfdump iOSTest.app.dSYM --lookup 0x100006694</span><br></pre></td></tr></table></figure><h3 id="class-dump"><a href="#class-dump" class="headerlink" title="class-dump"></a>class-dump</h3><h3 id="dumpdecrypted"><a href="#dumpdecrypted" class="headerlink" title="dumpdecrypted"></a>dumpdecrypted</h3><h2 id="Xcode-环境参数"><a href="#Xcode-环境参数" class="headerlink" title="Xcode 环境参数"></a>Xcode 环境参数</h2><ul><li><p>关闭 Xcode，打开终端输入<code>defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES</code>，然后项目 Build 的时候可以在 Xcode 顶部看到项目编译时间</p></li><li><p><code>defaults write com.apple.Xcode PBXNumberOfParallelBuildSubtasks 8</code>  提高 XCode 编译时使用的线程数</p></li></ul><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p><p>Let’s be CoderStar!</p><ul><li><a href="https://www.jianshu.com/p/a4731527ca73" target="_blank" rel="noopener">iOS开发中常用命令工具（xcode-select、lipo、xcrun等</a></li><li><a href="https://www.hanleylee.com/usage-of-xcode-terminal-tools.html" target="_blank" rel="noopener">Xcode 相关终端工具使用</a></li><li><a href="https://developer.apple.com/library/archive/technotes/tn2339/_index.html" target="_blank" rel="noopener">Building from the Command Line with Xcode FAQ</a></li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天我们来聊一聊&lt;code&gt;Xcode Command Lines&lt;/code&gt;
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天我们来聊一聊&lt;code&gt;Command Lines Tool&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Command Lines Tool&lt;/code&gt;本质是一个命令行工具包，内部有很多有用的工具，如&lt;code&gt;Apple LLVM compiler&lt;/code&gt;、&lt;code&gt;Make&lt;/code&gt;等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用&lt;code&gt;Homebrew&lt;/code&gt;在安装一些&lt;code&gt;python&lt;/code&gt;库或者&lt;code&gt;js&lt;/code&gt;库时，都会提示需要&lt;code&gt;Command Line Tools&lt;/code&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;后文会对&lt;code&gt;Command Line Tools&lt;/code&gt;直接缩写成 CLI。&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -81,11 +80,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;1&quot;&gt;&lt;a href=&quot;#1&quot; class=&quot;headerlink&quot; 
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;1&quot;&gt;&lt;a href=&quot;#1&quot; class=&quot;headerlink&quot; title=&quot;1&quot;&gt;&lt;/a&gt;1&lt;/h2&gt;&lt;p&gt;Mach-O 文件由三部分组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Header&lt;/li&gt;
+&lt;li&gt;Load Commands&lt;/li&gt;
+&lt;li&gt;Data&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -112,11 +113,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天给大家介绍一个我遇到的小坑。过程大概是这样的，一个复用页面通过不同的入口进入
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天给大家介绍一个我遇到的小坑。过程大概是这样的，一个复用页面通过不同的入口进入，等返回时，有的正常，有的却出现了 Crash，log 信息如下。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Cannot form weak reference to instance XXXXXX. It is possible that this object was over-released, or is in the process of deallocation.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;然后看了一下 Crash 时候的调用栈，发现崩溃在&lt;code&gt;deinit&lt;/code&gt;时&lt;code&gt;KVO&lt;/code&gt;释放&lt;code&gt;Observer&lt;/code&gt;的过程中。一段排查之后，新的坑点出炉了。&lt;/p&gt;
     
     </summary>
     
@@ -141,11 +141,12 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;内存对齐&quot;&gt;&lt;a href=&quot;#内存对齐&quot; class=&quot;header
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;内存对齐&quot;&gt;&lt;a href=&quot;#内存对齐&quot; class=&quot;headerlink&quot; title=&quot;内存对齐&quot;&gt;&lt;/a&gt;内存对齐&lt;/h2&gt;&lt;p&gt;对齐原因&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;性能原因：数据结构（尤其是栈）应该尽可能地在自然边界上对齐。原因在于，CPU 对内存的读取不是连续的，而是分成块读取的，块的大小只能是 1、2、4、8、16…字节（&lt;strong&gt;64 位系统的内存存取粒度的大小是 8 字节，32 位系统内存存取粒度的大小是 4 字节&lt;/strong&gt;），对于访问未对齐的内存，处理器需要作两次内存访问；而对齐的内存访问仅需要一次访问。&lt;/li&gt;
+&lt;li&gt;平台原因 (移植原因)：不是所有的硬件平台都能访问任意地址上的任意数据的；某些硬件平台只能在某些地址处取某些特定类型的数据，否则抛出硬件异常。&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -170,11 +171,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;WMO&quot;&gt;&lt;a href=&quot;#WMO&quot; class=&quot;headerli
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;WMO&quot;&gt;&lt;a href=&quot;#WMO&quot; class=&quot;headerlink&quot; title=&quot;WMO&quot;&gt;&lt;/a&gt;WMO&lt;/h2&gt;&lt;p&gt;Swift 编译器专属优化。&lt;/p&gt;
+&lt;p&gt;在 Xcode 9.3（Swift 4.1 ） 之前对应&lt;code&gt;Build Setting&lt;/code&gt;中的&lt;code&gt;SWIFT_OPTIMIZATION_LEVEL&lt;/code&gt;为&lt;code&gt;Owholemodule&lt;/code&gt;，在之后，把’编译模式’从’优化级别’里剥离了出来。也就是&lt;code&gt;SWIFT_OPTIMIZATION_LEVEL&lt;/code&gt;中没有了&lt;code&gt;Owholemodule&lt;/code&gt;，而是直接多出一个&lt;code&gt;Build Setting&lt;/code&gt;项，为&lt;code&gt;SWIFT_COMPILATION_MODE&lt;/code&gt;，选项为&lt;code&gt;incremental&lt;/code&gt;与&lt;code&gt;wholemodule&lt;/code&gt;；同时&lt;/p&gt;
     
     </summary>
     
@@ -201,11 +200,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;要更加努力呀！&lt;/p&gt;
+&lt;p&gt;Let’s be CoderStar!&lt;/p&gt;
     
     </summary>
     
@@ -232,11 +229,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;要更加努力呀！&lt;/p&gt;
+&lt;p&gt;Let’s be CoderStar!&lt;/p&gt;
     
     </summary>
     
@@ -263,11 +258,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;SIL&quot;&gt;&lt;a href=&quot;#SIL&quot; class=&quot;headerli
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;SIL&quot;&gt;&lt;a href=&quot;#SIL&quot; class=&quot;headerlink&quot; title=&quot;SIL&quot;&gt;&lt;/a&gt;SIL&lt;/h2&gt;&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;要更加努力呀！&lt;/p&gt;
     
     </summary>
     
@@ -294,11 +286,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;iOS-工具&quot;&gt;&lt;a href=&quot;#iOS-工具&quot; class=&quot;he
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;iOS-工具&quot;&gt;&lt;a href=&quot;#iOS-工具&quot; class=&quot;headerlink&quot; title=&quot;iOS 工具&quot;&gt;&lt;/a&gt;iOS 工具&lt;/h2&gt;&lt;h3 id=&quot;JSONConverter&quot;&gt;&lt;a href=&quot;#JSONConverter&quot; class=&quot;headerlink&quot; title=&quot;JSONConverter&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/iosyaowei/JSONConverter&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;JSONConverter&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;JSONConverter 是 MAC 上 iOS/Flutter 开发的辅助工具，可以快速的格式化 JSON 数据并转换生成对应的模型类属性，目前支持 Objective-C、Swift、Flutter 以及目前流行的第三方库：SwiftyJSON、HandyJSON，ObjectMapper, 可以灵活选择构建 class/struct，并支持配置类名前缀等，省去手敲模型的麻烦，借此提高开发效率。&lt;/p&gt;
     
     </summary>
     
@@ -325,11 +314,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;LLDB&quot;&gt;&lt;a href=&quot;#LLDB&quot; class=&quot;header
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;LLDB&quot;&gt;&lt;a href=&quot;#LLDB&quot; class=&quot;headerlink&quot; title=&quot;LLDB&quot;&gt;&lt;/a&gt;LLDB&lt;/h2&gt;&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;要更加努力呀！&lt;/p&gt;
     
     </summary>
     
@@ -356,11 +342,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;在 Swift 开发过程中，你很可能至少问过自己一次&lt;code&gt;struct&lt;/
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;在 Swift 开发过程中，你很可能至少问过自己一次&lt;code&gt;struct&lt;/code&gt;与&lt;code&gt;class&lt;/code&gt;之间的区别，即使你自己没问过，你的面试官应该也问过。对这个问题的答案中，可能最大的区别就是一个是值类型，而另一个是引用类型，今天我们就来具体聊聊这个区别。&lt;/p&gt;
+&lt;p&gt;那在介绍值类型与引用类型之前，我们还是先来回顾一下&lt;code&gt;struct&lt;/code&gt;与&lt;code&gt;class&lt;/code&gt;之间的区别这个问题。&lt;/p&gt;
+&lt;h2 id=&quot;class-amp-struct&quot;&gt;&lt;a href=&quot;#class-amp-struct&quot; class=&quot;headerlink&quot; title=&quot;class &amp;amp; struct&quot;&gt;&lt;/a&gt;&lt;code&gt;class&lt;/code&gt; &amp;amp; &lt;code&gt;struct&lt;/code&gt;&lt;/h2&gt;
     
     </summary>
     
@@ -387,11 +372,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;attribute&lt;/strong&gt; 是 编译器提供的机制。&lt;/
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;attribute&lt;/strong&gt; 是 编译器提供的机制。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.arm.com/documentation/dui0774/k/Compiler-specific-Function--Variable--and-Type-Attributes/Function-attributes?lang=en&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Function-attribute&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;attribute-format-archetype-string-index-first-to-check&quot;&gt;&lt;a href=&quot;#attribute-format-archetype-string-index-first-to-check&quot; class=&quot;headerlink&quot; title=&quot;attribute((format(archetype, string-index, first-to-check)))&quot;&gt;&lt;/a&gt;&lt;strong&gt;attribute&lt;/strong&gt;((format(archetype, string-index, first-to-check)))&lt;/h2&gt;
     
     </summary>
     
@@ -418,11 +402,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;Date 或 CFAbsoluteTimeGetCurrent() 返回网络时间
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;Date 或 CFAbsoluteTimeGetCurrent() 返回网络时间同步的时钟时间。&lt;/p&gt;
+&lt;p&gt;mach_absolute_time() 和 CACurrentMediaTime() 是系统时间，是基于内建时钟的，能够更精确更原子化地测量，&lt;/p&gt;
+&lt;p&gt;并且不会因为外部时间变化而变化（例如时区变化、夏时制、秒突变等）, 但它和系统的 uptime 有关, 系统重启后 CACurrentMediaTime() 会被重置。&lt;/p&gt;
     
     </summary>
     
@@ -449,11 +432,17 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;NSCache&quot;&gt;&lt;a href=&quot;#NSCache&quot; class=&quot;
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;NSCache&quot;&gt;&lt;a href=&quot;#NSCache&quot; class=&quot;headerlink&quot; title=&quot;NSCache&quot;&gt;&lt;/a&gt;NSCache&lt;/h2&gt;&lt;p&gt;NSCache 删除缓存中的对象的场景&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NSCache 缓存对象自身被释放&lt;/li&gt;
+&lt;li&gt;手动调用 removeObjectForKey: 方法&lt;/li&gt;
+&lt;li&gt;手动调用 removeAllObjects&lt;/li&gt;
+&lt;li&gt;缓存中对象的个数大于 countLimit，或，缓存中对象的总 cost 值大于 totalCostLimit&lt;/li&gt;
+&lt;li&gt;程序进入后台后&lt;/li&gt;
+&lt;li&gt;收到系统的内存警告&lt;/li&gt;
+&lt;li&gt;同一个 key 更新对象时会将之前的对象删除&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -478,11 +467,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;原型模式&quot;&gt;&lt;a href=&quot;#原型模式&quot; class=&quot;header
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;原型模式&quot;&gt;&lt;a href=&quot;#原型模式&quot; class=&quot;headerlink&quot; title=&quot;原型模式&quot;&gt;&lt;/a&gt;原型模式&lt;/h2&gt;&lt;p&gt;用一个已经存在的原型对象实例通过拷贝等方式创建新的对象，其实大多数情况下就是用于引用对象的深度复制。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
     
     </summary>
     
@@ -507,11 +494,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;之前对于符号化的相关知识总是零零碎碎的，不成体系，刚好最近看到很多位同学发了一些关于 iOS 符号化的文章，整理这篇文章梳理一下 iOS 符号化的相关知识。我对符号化还处于初级阶段，文中很多知识来源于下面的参考资料，感谢各位同学的分享。&lt;/p&gt;
+&lt;p&gt;符号化从通俗意义上讲就是把一些机器语言可以转化成人类可读的符号，而在这里的环境下就是指 iOS 或者 Mac OS 下的一些异常信息（十六进制符号表示）通过某些手段转化成开发人员可读的高级代码片段，从而进一步定位异常的来源，迅速修复。&lt;/p&gt;
+&lt;p&gt;符号化程度一般会分为三种：&lt;/p&gt;
     
     </summary>
     
@@ -538,11 +524,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;最后&quot;&gt;&lt;a href=&quot;#最后&quot; class=&quot;headerlink&quot; title=&quot;最后&quot;&gt;&lt;/a&gt;最后&lt;/h2&gt;&lt;p&gt;新的一周要更加努力呀！&lt;/p&gt;
+&lt;p&gt;Let’s be CoderStar!&lt;/p&gt;
     
     </summary>
     
@@ -569,11 +553,12 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天主要给大家分享的内容是三种设计模式 (&lt;strong&gt;命令模式&lt;/stron
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天主要给大家分享的内容是三种设计模式 (&lt;strong&gt;命令模式&lt;/strong&gt;、&lt;strong&gt;中介者模式&lt;/strong&gt;以及&lt;strong&gt;组合模式&lt;/strong&gt;) 及其它们在&lt;code&gt;AppDelegate&lt;/code&gt;解耦场景下的应用，特别是组合模式，沉淀出相应的轮子分享给大家。&lt;/p&gt;
+&lt;p&gt;同时也给大家说下后面关于设计模式系列的文章计划，因为设计模式相关文章会结合我们开发中实际上会遇到的场景进行整理，所以发文可能不连续，希望大家理解，我会将大部分设计模式的代码示例全部整理到&lt;a href=&quot;https://github.com/Coder-Star/DesignPatternsDemo&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;DesignPatternsDemo&lt;/a&gt;仓库中，形式为&lt;code&gt;Playground&lt;/code&gt;，所以代码示例中可能会有一些手动调用系统函数的情况出现。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;同时给大家推荐一个学习设计模式的好网站—&lt;a href=&quot;https://refactoringguru.cn/design-patterns&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;深入设计模式&lt;/a&gt;，文章中涉及的部分UML图也来自该网站。&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -596,11 +581,12 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;插件&quot;&gt;&lt;a href=&quot;#插件&quot; class=&quot;headerlink
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;插件&quot;&gt;&lt;a href=&quot;#插件&quot; class=&quot;headerlink&quot; title=&quot;插件&quot;&gt;&lt;/a&gt;插件&lt;/h2&gt;&lt;h3 id=&quot;Markdown&quot;&gt;&lt;a href=&quot;#Markdown&quot; class=&quot;headerlink&quot; title=&quot;Markdown&quot;&gt;&lt;/a&gt;Markdown&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Markdown Preview Enhanced： md预览&lt;/li&gt;
+&lt;li&gt;Markdown Shortcuts：md快捷键&lt;/li&gt;
+&lt;li&gt;Markdown All in One：md集成工具&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -627,11 +613,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;测试阶段一般会发生这样的场景，测试拼命的提 Bug，开发拼命的改 Bug，改完重
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;测试阶段一般会发生这样的场景，测试拼命的提 Bug，开发拼命的改 Bug，改完重新打包发给测试进行复测，那这个过程中频繁的打包肯定是不可避免的。&lt;/p&gt;
+&lt;p&gt;如果使用 Xcode 打包，在打包期间我们是无法改剩余的 Bug 或进行其他模块的开发的，那这个时候我们能干什么呢？&lt;/p&gt;
+&lt;p&gt;哈哈哈，当然是去接杯咖啡或者泡杯茶了，不然还能干啥？&lt;/p&gt;
     
     </summary>
     
@@ -658,12 +643,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
 &lt;p&gt;这次主要给大家简单介绍一下我常用的一些Github工具。&lt;/p&gt;
-&lt;h2 id=
-      
+&lt;h2 id=&quot;Chrome-插件&quot;&gt;&lt;a href=&quot;#Chrome-插件&quot; class=&quot;headerlink&quot; title=&quot;Chrome 插件&quot;&gt;&lt;/a&gt;Chrome 插件&lt;/h2&gt;&lt;h3 id=&quot;Octotree&quot;&gt;&lt;a href=&quot;#Octotree&quot; class=&quot;headerlink&quot; title=&quot;Octotree&quot;&gt;&lt;/a&gt;Octotree&lt;/h3&gt;
     
     </summary>
     
@@ -690,11 +672,15 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;作为一名专业的 iOS 页面仔，画 UI 是我们的家常便饭，那不知道你在开发过程
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;作为一名专业的 iOS 页面仔，画 UI 是我们的家常便饭，那不知道你在开发过程中有没有思考过这样一些问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;App 静止不动时，页面是否还进行刷新？&lt;/li&gt;
+&lt;li&gt;页面渲染和 &lt;code&gt;RunLoop&lt;/code&gt; 之间是什么关系？&lt;/li&gt;
+&lt;li&gt;主 &lt;code&gt;RunLoop&lt;/code&gt; 周期与屏幕刷新率（&lt;code&gt;VSync&lt;/code&gt;）之间有关系吗？如果有，是什么关系？&lt;/li&gt;
+&lt;li&gt;…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不知道你有没有过这些疑问？如果有，请耐心看完本文，我们一起来逐步走进这些问题的答案，看看 UI 的渲染流程到底是什么样的。如果没有，那请联系我。😂😂&lt;/p&gt;
     
     </summary>
     
@@ -719,11 +705,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;上周介绍了一下&lt;a href=&quot;../iOS页面渲染-UIView%20&amp;amp
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;上周介绍了一下&lt;a href=&quot;../iOS页面渲染-UIView%20&amp;amp;%20CALayer&quot;&gt;iOS 页面渲染-UIView &amp;amp; CALayer&lt;/a&gt;，本周我们来聊一聊iOS页面渲染中的高频面试题—离屏渲染。&lt;/p&gt;
+&lt;p&gt;其实给大家先分享关于 iOS 页面渲染的相关知识有一个原因是为后续 iOS 优化系列中的 UI 渲染优化篇做铺垫，方便大家在后面阅读时能够清楚优化手段背后的原理以及有一个更深的理解。&lt;/p&gt;
+&lt;p&gt;在开始本文之前，我先谈谈上周我们《iOS 摸鱼周报》发起人 @zhangferry 访谈我的时候我对访谈问题给的一些答复吧。&lt;/p&gt;
     
     </summary>
     
@@ -750,11 +735,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;建造者模式&quot;&gt;&lt;a href=&quot;#建造者模式&quot; class=&quot;headerlink&quot; title=&quot;建造者模式&quot;&gt;&lt;/a&gt;建造者模式&lt;/h2&gt;&lt;p&gt;应用场景：&lt;/p&gt;
-&lt;p&gt;当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。&lt;
-      
+      &lt;h2 id=&quot;建造者模式&quot;&gt;&lt;a href=&quot;#建造者模式&quot; class=&quot;headerlink&quot; title=&quot;建造者模式&quot;&gt;&lt;/a&gt;建造者模式&lt;/h2&gt;&lt;p&gt;应用场景：&lt;/p&gt;
+&lt;p&gt;当新建一个对象实例时需要传入多个可选参数时，就可以使用建造者模式，避免定义多个构造函数。&lt;/p&gt;
+&lt;p&gt;代码示例&lt;br&gt;在 Java 中有静态内部类的方式，写起来更美观，但是 Swift 不支持，只能写成两个类，借用 fileprivate&lt;/p&gt;
+&lt;p&gt;建造者模式其实在java中非常常用。&lt;/p&gt;
     
     </summary>
     
@@ -781,11 +765,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天主要是给大家分享一下两种设计模式，即责任链模式以及策略模式。至于为什么想着给
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天主要是给大家分享一下两种设计模式，即责任链模式以及策略模式。至于为什么想着给大家分享这两种设计模式呢，这源于我之前对扫码场景的相关代码优化，下面我将结合我遇到这个的场景给大家讲一下这两种设计模式。&lt;/p&gt;
+&lt;p&gt;顺便我也表达一点我对设计模式的看法，设计模式需要结合一定的使用场景才会体现才会它的妙处，大家在平时在开发时觉得哪些地方的代码不简洁优雅，都可以思考一下应用哪种设计模式可以对其进行优化、解耦，但也需要注意，不要对设计模式生搬硬套。&lt;/p&gt;
+&lt;p&gt;同时本篇文章也将是设计模式系列的开篇作了，后面也会慢慢给大家介绍其他的设计模式及其应用的场景。&lt;/p&gt;
     
     </summary>
     
@@ -812,11 +795,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;UI方面的通用优化也会是具体控件内部优化。&lt;/p&gt;
-&lt;h2 id=&quot;优化&quot;&gt;&lt;a href=&quot;#优化&quot; class=&quot;headerlink&quot;
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;UI方面的通用优化也会是具体控件内部优化。&lt;/p&gt;
+&lt;h2 id=&quot;优化&quot;&gt;&lt;a href=&quot;#优化&quot; class=&quot;headerlink&quot; title=&quot;优化&quot;&gt;&lt;/a&gt;优化&lt;/h2&gt;&lt;h3 id=&quot;预加载&quot;&gt;&lt;a href=&quot;#预加载&quot; class=&quot;headerlink&quot; title=&quot;预加载&quot;&gt;&lt;/a&gt;预加载&lt;/h3&gt;&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;UITableViewDataSourcePrefetching&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;number&quot;&gt;_&lt;/span&gt; tableView: UITableView, prefetchRowsAt indexPaths: [NSIndexPath])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;optional&lt;/span&gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;number&quot;&gt;_&lt;/span&gt; tableView: UITableView, cancelPrefetchingForRowsAt indexPaths:&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;params&quot;&gt;                            [NSIndexPath])&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;UITableView&lt;/span&gt; : &lt;span class=&quot;title&quot;&gt;UIScrollView&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; prefetchDataSource: &lt;span class=&quot;type&quot;&gt;UITableViewDataSourcePrefetching?&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -843,11 +823,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天我们来聊一聊 &lt;code&gt;UIView&lt;/code&gt; 与 &lt;code&gt;CAL
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天我们来聊一聊 &lt;code&gt;UIView&lt;/code&gt; 与 &lt;code&gt;CALayer&lt;/code&gt; 的相关知识以及它们之间的关系，其实这部分内容要是引申出来会比较多，今天我们先收敛一下，先讲一些基本的东西，后面还会有系列文章对其进行扩展。&lt;br&gt;关于iOS的UI渲染部分，还是建议大家看看Apple的官方文档&lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/CoreAnimationBasics/CoreAnimationBasics.html#//apple_ref/doc/uid/TP40004514-CH2-SW12&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;核心动画编程指南&lt;/a&gt;以及WWDC2011的session&lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2011/121/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Understanding UIKit Rendering&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;UIView-与-CALayer&quot;&gt;&lt;a href=&quot;#UIView-与-CALayer&quot; class=&quot;headerlink&quot; title=&quot;UIView 与 CALayer&quot;&gt;&lt;/a&gt;UIView 与 CALayer&lt;/h2&gt;&lt;h3 id=&quot;概括&quot;&gt;&lt;a href=&quot;#概括&quot; class=&quot;headerlink&quot; title=&quot;概括&quot;&gt;&lt;/a&gt;概括&lt;/h3&gt;
     
     </summary>
     
@@ -874,11 +852,12 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;我想每一个 iOSer 对&lt;code&gt;UserDefaults&lt;/code&gt;都有
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;我想每一个 iOSer 对&lt;code&gt;UserDefaults&lt;/code&gt;都有所了解，但大家真的完全了解它吗？下面，我谈谈我对&lt;code&gt;UserDefaults&lt;/code&gt;的看法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;同时，这也应该是 iOS 持久化方式系列的开篇文章了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;对象实例&quot;&gt;&lt;a href=&quot;#对象实例&quot; class=&quot;headerlink&quot; title=&quot;对象实例&quot;&gt;&lt;/a&gt;对象实例&lt;/h2&gt;
     
     </summary>
     
@@ -901,10 +880,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;可能作为 iOS 开发者，对&lt;strong&gt;同层渲染&lt;/strong&gt;这个名词比较陌生，但是如果大家开发过小程序，应该对这个名词就不会陌生，
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;可能作为 iOS 开发者，对&lt;strong&gt;同层渲染&lt;/strong&gt;这个名词比较陌生，但是如果大家开发过小程序，应该对这个名词就不会陌生，因为小程序中有一类组件叫做原生组件（native-component），比如&lt;code&gt;camera&lt;/code&gt;、&lt;code&gt;video&lt;/code&gt;等，这类组件在渲染过程中最终会映射成下文提到的原生组件。&lt;/p&gt;
+&lt;p&gt;在正文开始之前，先给大家统一几个概念，方便后续的阅读。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原生组件：iOS、Android 等客户端 Native 组件，如 iOS 中的 &lt;code&gt;UITextField&lt;/code&gt;、&lt;code&gt;UITextView&lt;/code&gt;，Android 中的 &lt;code&gt;EditText&lt;/code&gt;、&lt;code&gt;ListView&lt;/code&gt; 等；&lt;/li&gt;
+&lt;li&gt;H5 组件：是指 HTML5 语言编写的 web 组件，如&lt;code&gt;&amp;lt;input/&amp;gt;&lt;/code&gt;、 &lt;code&gt;&amp;lt;textarea&amp;gt;&amp;lt;/textarea&amp;gt;&lt;/code&gt;等；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;相比于 H5 组件，原生组件不仅可以提供 H5 组件无法实现的一些功能，还能提升用户体验上的流畅度（特别是对于音视频播放器而言），又因为减少了客户端代码与 WebView 通信的流程，降低了通信开销，简单来说，原生组件功能全、速度快、开销少；&lt;/p&gt;
     
     </summary>
     
@@ -929,11 +911,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没用过这个设计模式的。&lt;/p&gt;
+&lt;h2 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../img/设计模式/SingletonUML.png&quot; alt=&quot;SingletonUML&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -958,10 +938,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;shell-基础&quot;&gt;&lt;a href=&quot;#shell-基础&quot; class=&quot;headerlink&quot; title=&quot;shell 基础&quot;&gt;&lt;/a&gt;shell 基础&lt;/h2&gt;&lt;p&gt;$() 与&lt;code&gt;`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RE
-      
+      &lt;h2 id=&quot;shell-基础&quot;&gt;&lt;a href=&quot;#shell-基础&quot; class=&quot;headerlink&quot; title=&quot;shell 基础&quot;&gt;&lt;/a&gt;shell 基础&lt;/h2&gt;&lt;p&gt;$() 与&lt;code&gt;`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=&lt;/code&gt;cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$&lt;/code&gt;与&lt;code&gt;${}&lt;/code&gt;都是用来获取变量内容的&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$?&lt;/code&gt; 来获取上条代码返回值，一般退出状态非 0 表示执行出错&lt;/p&gt;
+&lt;p&gt;判断整数&lt;/p&gt;
     
     </summary>
     
@@ -1036,14 +1016,18 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;刘海屏之前一些位置的高度基本上是固定的，如状态栏，导航栏、标签栏等。相关高度如下：&lt;/p&gt;
+      &lt;p&gt;刘海屏之前一些位置的高度基本上是固定的，如状态栏，导航栏、标签栏等。相关高度如下：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;状态栏（statusBar）：20pt&lt;/li&gt;
 &lt;li&gt;导航栏（navigationBar）：40pt&lt;/li&gt;
-&lt;li&gt;标签栏（tabBar）：49pt&lt;/li
-      
+&lt;li&gt;标签栏（tabBar）：49pt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;但是随着刘海屏的出现，顶部及底部都多出一块区域，并且这块区域相对而言不是那么固定，即状态栏、标签栏高度会发生改变，导航栏高度不变，苹果也推荐利用更好的方式去布局。即安全区域（safeArea）。对于一个 VC 的 root view,safeArea 指的是未被状态栏、一些可见的 bars（navigationBar、tabBar、toolBar）、和开发者通过 additionalSafeAreaInsets 属性设置的值遮盖的区域。刘海屏部分导致状态栏变成了 44pt，底部 tabBar 要在自身高度的基础上再为 home indicator 留出 34pt 边距。&lt;/p&gt;
+&lt;p&gt;安全区域概念 API 限制在 iOS 11 及之上，两个关键 API 为 UIView 新增的两个属性：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;safeAreaInsets&lt;/li&gt;
+&lt;li&gt;safeAreaLayoutGuide&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -1070,14 +1054,17 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;链表类&quot;&gt;&lt;a href=&quot;#链表类&quot; class=&quot;headerlink&quot; title=&quot;链表类&quot;&gt;&lt;/a&gt;链表类&lt;/h2&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;链表类&quot;&gt;&lt;a href=&quot;#链表类&quot; class=&quot;headerlink&quot; title=&quot;链表类&quot;&gt;&lt;/a&gt;链表类&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;反转链表&lt;/li&gt;
 &lt;li&gt;链表有环；多种方式&lt;/li&gt;
 &lt;li&gt;链表交叉；&lt;/li&gt;
-&lt;li&gt;合并两个有序链表&lt;/li
-      
+&lt;li&gt;合并两个有序链表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;数组类&quot;&gt;&lt;a href=&quot;#数组类&quot; class=&quot;headerlink&quot; title=&quot;数组类&quot;&gt;&lt;/a&gt;数组类&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;排序算法（重点快排）&lt;/li&gt;
+&lt;li&gt;合并两个有序数组&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;树&quot;&gt;&lt;a href=&quot;#树&quot; class=&quot;headerlink&quot; title=&quot;树&quot;&gt;&lt;/a&gt;树&lt;/h2&gt;
     
     </summary>
     
@@ -1100,10 +1087,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;接口&quot;&gt;&lt;a href=&quot;#接口&quot; class=&quot;headerlink&quot; title=&quot;接口&quot;&gt;&lt;/a&gt;接口&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../../img/iOS/进阶/混编/OC-Swift.h.png&quot; alt=&quot;OC-Swift.h查看方式&quot;&gt;
-      
+      &lt;h2 id=&quot;接口&quot;&gt;&lt;a href=&quot;#接口&quot; class=&quot;headerlink&quot; title=&quot;接口&quot;&gt;&lt;/a&gt;接口&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../../img/iOS/进阶/混编/OC-Swift.h.png&quot; alt=&quot;OC-Swift.h查看方式&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;相互调用&quot;&gt;&lt;a href=&quot;#相互调用&quot; class=&quot;headerlink&quot; title=&quot;相互调用&quot;&gt;&lt;/a&gt;相互调用&lt;/h2&gt;&lt;h3 id=&quot;Swift-反射&quot;&gt;&lt;a href=&quot;#Swift-反射&quot; class=&quot;headerlink&quot; title=&quot;Swift 反射&quot;&gt;&lt;/a&gt;Swift 反射&lt;/h3&gt;&lt;p&gt;我们一般是通过&lt;code&gt;NSClassFromString&lt;/code&gt;函数来对类进行反射，在 Swift 中因为命名空间的缘故在 Macho 中的类名实际上是混淆的。&lt;/p&gt;
     
     </summary>
     
@@ -1153,10 +1138,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而是限制过度个性化，以一种普遍认可的统一方式一起做事，提升协作效率。— 摘自《阿里巴巴 Java 代码规范》&lt;/p&gt;
+&lt;p&gt;该开发规范会持续更新，请关注该&lt;a href=&quot;https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/&quot;&gt;博文链接&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;规约分为【强制】、【推荐】两大类。&lt;code&gt;说明&lt;/code&gt; 对内容做了引申和解释；&lt;code&gt;正例&lt;/code&gt; 给出正确的代码示例；&lt;code&gt;反例&lt;/code&gt; 给出错误的代码示范；&lt;/p&gt;
+&lt;h2 id=&quot;一、命名规约&quot;&gt;&lt;a href=&quot;#一、命名规约&quot; class=&quot;headerlink&quot; title=&quot;一、命名规约&quot;&gt;&lt;/a&gt;一、命名规约&lt;/h2&gt;
     
     </summary>
     
@@ -1183,11 +1168,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;进入到项目根目录，执行&lt;code&gt;pod init&lt;/code&gt;命令，该命令会生成 Podfile 文件，开发者就可以编辑该文件
-      
+      &lt;h2 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;进入到项目根目录，执行&lt;code&gt;pod init&lt;/code&gt;命令，该命令会生成 Podfile 文件，开发者就可以编辑该文件内容了&lt;/li&gt;
+&lt;li&gt;编辑 Podfile 文件后执行&lt;code&gt;pod install&lt;/code&gt;命令，命令执行完成后，会生成 ProjectName.xcworkspace、Podfile.lock、Pods 等文件。&lt;/li&gt;
+&lt;li&gt;不再通过 ProjectName.xcodeproj 打开工程，而是使用 ProjectName.xcworkspace&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;关于 Podfile.lock 与 Manifest.lock 文件的作用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Podfile.lock 文件：&lt;/strong&gt; 该文件会记录三方库第一次 install 时的版本，当其他协作者同步了你的 Podfile.lock 文件后，他执行 pod install 会安装 Podfile.lock 指定版本的依赖库，这样就可以防止大家的依赖库不一致而造成问题，因此，CocoaPods 官方强烈推荐把 Podfile.lock 纳入版本控制之下。当修改了 Podfile 文件里使用的依赖库或者运行 pod update 命令时，就会生成新的 Podfile.lock 文件。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Manifest.lock 文件：&lt;/strong&gt; 该文件相当于 Podfile.lock 文件的副本，程序在 Build 的时候会执行 Build Phases 中的[CP] Check Pods Manifest.lock 脚本检查一下 Podfile.lock 和 Manifest.lock 是否一致,如果不一致就会报错。&lt;/p&gt;
     
     </summary>
     
@@ -1214,12 +1202,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;准备自己的-Pod-库&quot;&gt;&lt;a href=&quot;#准备自己的-Pod-库&quot; class=&quot;headerlink&quot; title=&quot;准备自己的 Pod 库&quot;&gt;&lt;/a&gt;准备自己的 Pod 库&lt;/h2&gt;&lt;p&gt;布一个共享库一般包含三部分&lt;/p&gt;
+      &lt;h2 id=&quot;准备自己的-Pod-库&quot;&gt;&lt;a href=&quot;#准备自己的-Pod-库&quot; class=&quot;headerlink&quot; title=&quot;准备自己的 Pod 库&quot;&gt;&lt;/a&gt;准备自己的 Pod 库&lt;/h2&gt;&lt;p&gt;布一个共享库一般包含三部分&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong
-      
+&lt;li&gt;&lt;strong&gt;库源码及资源文件&lt;/strong&gt; 你想要发布出去的相关资源文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;LICENSE 文件&lt;/strong&gt; 默认一般选择 MIT&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;podspec 文件&lt;/strong&gt; 本库的各项信息描述, 需要提交给 CocoaPods, pod 通过这个文件查找到你共享的库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;目录如下&lt;br&gt;&lt;img src=&quot;../../../../img/iOS/架构设计/工程目录.png&quot; alt=&quot;工程目录.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;生成这样的目录结构可以利用 CocoaPods 的命令自动生成&lt;/p&gt;
     
     </summary>
     
@@ -1246,10 +1236,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;strong&gt;CocoaPods 系列博客&lt;/strong&gt;&lt;br&gt;&lt;a href=&quot;../CocoaPods-总览&quot;&gt;CocoaPods-总览&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;../CocoaPods-项目使用&quot;&gt;CocoaPods-项目使用&lt;/a&gt;&lt;br&gt;&lt;a hre
-      
+      &lt;p&gt;&lt;strong&gt;CocoaPods 系列博客&lt;/strong&gt;&lt;br&gt;&lt;a href=&quot;../CocoaPods-总览&quot;&gt;CocoaPods-总览&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;../CocoaPods-项目使用&quot;&gt;CocoaPods-项目使用&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;../CocoaPods-封装自己的Pod库&quot;&gt;CocoaPods-封装自己的 Pod 库&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h2&gt;&lt;p&gt;CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(cocoapods-repo-svn).我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库.这样委托 pod 来管理.&lt;/p&gt;
+&lt;p&gt;远程索引库，本地索引库，远程代码库、本地代码库相关概念如下：&lt;br&gt;&lt;img src=&quot;../../../../img/iOS/架构设计/CocoaPods/CocoaPods概念图.png&quot; alt=&quot;CocoaPods概念图&quot;&gt;&lt;/p&gt;
+&lt;p&gt;远程索引库地址为&lt;code&gt;https://github.com/CocoaPods/Specs.git&lt;/code&gt;&lt;/p&gt;
     
     </summary>
     
@@ -1276,10 +1266,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;静态库：&lt;/strong&gt; 静态库即静态链接库（Windows 下的 .lib，Linux 和 Mac 下的 &lt;strong
-      
+      &lt;h2 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;静态库：&lt;/strong&gt; 静态库即静态链接库（Windows 下的 .lib，Linux 和 Mac 下的 &lt;strong&gt;.a/.framework&lt;/strong&gt;）。之所以叫做静态，是因为静态库在编译的时候会被直接拷贝一份，复制到目标程序里，这段代码在目标程序里就不会再改变了；&lt;/p&gt;
+&lt;p&gt;静态库的好处很明显，编译完成之后，库文件实际上就没有作用了。目标程序没有外部依赖，直接就可以运行。当然其缺点也很明显，就是会使用目标程序的体积增大&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;动态库：&lt;/strong&gt; 即动态链接库（Windows 下的 .dll，Linux 下的 .so，Mac 下的 &lt;strong&gt;.dylib/.tbd/.framework&lt;/strong&gt;）。与静态库相反，动态库在编译时并不会被拷贝到目标程序中，目标程序中只会存储指向动态库的引用。等到程序运行时，动态库才会被真正加载进来。&lt;/p&gt;
+&lt;p&gt;动态库的优点是，不需要拷贝到目标程序中，不会影响目标程序的体积，而且同一份库可以被多个程序使用（因为这个原因，动态库也被称作共享库）。同时，编译时才载入的特性，也可以让我们随时对库进行替换，而不需要重新编译代码。动态库带来的问题主要是，动态载入会带来一部分性能损失，使用动态库也会使得程序依赖于外部环境。如果环境缺少动态库或者库的版本不正确，就会导致程序无法运行（Linux 下喜闻乐见的 lib not found 错误）。&lt;/p&gt;
     
     </summary>
     
@@ -1306,12 +1296,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。&lt;/p&gt;
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;编译器前端 (FrontEnd): 词法分析
-      
+&lt;li&gt;编译器前端 (FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR；&lt;/li&gt;
+&lt;li&gt;优化器 (Optimizer): 对得到的中间代码 IR 进行优化；&lt;/li&gt;
+&lt;li&gt;编译器后端 (BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;../../../img/iOS/进阶/编译/编译器架构.jpeg&quot; alt=&quot;编译器架构.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;从 GCC 到 LLVM 以及大部分编译器都是这种结构。&lt;/p&gt;
     
     </summary>
     
@@ -1338,11 +1330,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;检测循环引用&quot;&gt;&lt;a href=&quot;#检测循环引用&quot; class=&quot;headerlink&quot; title=&quot;检测循环引用&quot;&gt;&lt;/a&gt;检测循环引用&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;MLeaksFinder&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;基本原理是当 ViewContro
-      
+      &lt;h3 id=&quot;检测循环引用&quot;&gt;&lt;a href=&quot;#检测循环引用&quot; class=&quot;headerlink&quot; title=&quot;检测循环引用&quot;&gt;&lt;/a&gt;检测循环引用&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;MLeaksFinder&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;基本原理是当 ViewController pop 或者 dimiss 后应该很快进行销毁，如果不销毁就是发生了循环引用，通过 hook 相关方法。在 hook 方法中使用一个弱引用引用 VC，然后延时一段时间再去使用该引用，如果此时引用为 nil，则没有循环引用，如果不为 nil，则有可能发生了循环引用。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;FBRetainCycleDetector&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;当传入内存中的任意一个 OC 对象，FBRetainCycleDetector 会递归遍历该对象的所有强引用的对象，以检测以该对象为根结点的强引用树有没有循环引用。&lt;/p&gt;
     
     </summary>
     
@@ -1369,10 +1360,11 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Core Foundation&lt;/code&gt; 是一组 C 语言接口，&lt;code&gt;Foundation&lt;/code&gt; 用 Obje
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;&lt;code&gt;Core Foundation&lt;/code&gt; 是一组 C 语言接口，&lt;code&gt;Foundation&lt;/code&gt; 用 Objective-C 封装了 Core Foundation 的 C 组件，并实现了额外了组件供开发人员使用。而 Core Foundation 也有一些 Foundation 没能彻底封装的功能，这些功能是 Core Foundation 特有的，比如 CFDictionary 的 Key 元素无需实现 NSCoping 协议、CFArray 可以不进行对象引用计数等、CFRunloop 提供了比 NSRunloop 更加细致化的 Api、利用 CFStringTransform 将中文转为拼音。反过来，Foundation 也有 Core Foundation 无法胜任的工作，最大的来说就是自动引用计数功能，还有比如 NSBundle 在 Core Foundation 中也没有。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;先说下出现这两个框架的历史原因，当年乔布斯被自己创办的公司驱逐后，成立了&lt;code&gt;NeXT Computer&lt;/code&gt;公司，拥有&lt;code&gt;NeXTSTEP&lt;/code&gt;操作系统，后来乔布斯回到苹果后，就出现了一个问题。如何让旧的系统（Mac OS 9）和 NeXTSTEP 合成为一个新系统，这就需要一个更为底层的核心库可以供 Mac Toolbox 和 OPENSTEP 双方调用。Core Foundation 就这么诞生了。其中 Foundation 对象是 NS 开头的原因也是由于 NeXTSTEP 系统。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;CF、NS-相互转换&quot;&gt;&lt;a href=&quot;#CF、NS-相互转换&quot; class=&quot;headerlink&quot; title=&quot;CF、NS 相互转换&quot;&gt;&lt;/a&gt;CF、NS 相互转换&lt;/h2&gt;&lt;p&gt;Core Foundation 中的对象也是使用引用计数的方式管理内存，对应的方式为 &lt;code&gt;CFRetain&lt;/code&gt;、&lt;code&gt;CFRelease&lt;/code&gt;。但是不同的是，ARC 可以管理 NS 对象指针，但是无法管理 CF 对象指针，所以即使在 ARC 中，CF 对象也需要手动管理引用计数。当然因为 CF 和 Foundation 之间的友好关系，它们之间的管理权也是可以移交的，这种管理权移交的技术叫做 &lt;code&gt;Toll-Free Bridging&lt;/code&gt;。&lt;/p&gt;
     
     </summary>
     
@@ -1401,11 +1393,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://github.com/apple/swift/blob/main/CHANGELOG.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Swift 官方更新日志&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;Swift5&quot;&gt;&lt;a hr
-      
+      &lt;p&gt;&lt;a href=&quot;https://github.com/apple/swift/blob/main/CHANGELOG.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Swift 官方更新日志&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Swift5&quot;&gt;&lt;a href=&quot;#Swift5&quot; class=&quot;headerlink&quot; title=&quot;Swift5&quot;&gt;&lt;/a&gt;Swift5&lt;/h2&gt;&lt;h3 id=&quot;一、非语法层面&quot;&gt;&lt;a href=&quot;#一、非语法层面&quot; class=&quot;headerlink&quot; title=&quot;一、非语法层面&quot;&gt;&lt;/a&gt;一、非语法层面&lt;/h3&gt;&lt;h4 id=&quot;1、ABI-稳定。&quot;&gt;&lt;a href=&quot;#1、ABI-稳定。&quot; class=&quot;headerlink&quot; title=&quot;1、ABI 稳定。&quot;&gt;&lt;/a&gt;1、ABI 稳定。&lt;/h4&gt;&lt;p&gt;iOS12.2 内置 Swift 核心库。当我们开发项目时，设置适配最低版本在 12.2 及其以上时，打包便不会再打入 swift 标准库，会很大程度上减小安装包的尺寸。当最低版本低于 12.2 版本后，就会打入 swift runtime，但是经过 app store 分发后，因为 App Thinning 机制，不同系统获取到的安装包尺寸会不同，即 12.2 及以上系统的尺寸会小一点，因为去掉了包中的 swift runtime。&lt;br&gt;因为内置了 Swift runtime 后，带来了以下好处：&lt;/p&gt;
     
     </summary>
     
@@ -1432,13 +1421,19 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;对于编译型语言来看，有主要三种类型的函数派发方式，分别为：&lt;/p&gt;
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;对于编译型语言来看，有主要三种类型的函数派发方式，分别为：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Direct Dispatch： 直接派发&lt;/li&gt;
-
-      
+&lt;li&gt;Table Dispatch： 函数表派发&lt;/li&gt;
+&lt;li&gt;Message Dispatch： 消息派发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分析三种派发方式主要从&lt;strong&gt;性能&lt;/strong&gt;及&lt;strong&gt;动态性&lt;/strong&gt;两方面讨论，这两个特性相对而言是矛盾的，性能要求高，则动态性差，反之亦然，其中直接派发被又称为静态派发，函数表派发与消息派发称为动态派发，大多数语言都会支持上面派发方式的一种到多种。如&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C 使用直接派发；&lt;/li&gt;
+&lt;li&gt;Java 默认使用函数表派发，可以通过 final 修饰符修改成直接派发；&lt;/li&gt;
+&lt;li&gt;C++ 默认使用直接派发，但可以通过加上 virtual 修饰符来改成函数表派发；&lt;/li&gt;
+&lt;li&gt;OC 使用直接派发、消息派发方式；（普通方法采用消息派发的方式，load 方法使用直接派发的方式）&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -1465,11 +1460,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天我们来看看&lt;code&gt;Runloop&lt;/code&gt;，其实我们在实际开发过程中
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天我们来看看&lt;code&gt;Runloop&lt;/code&gt;，其实我们在实际开发过程中已经或多或少用到过这个了。&lt;/p&gt;
+&lt;p&gt;其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。&lt;/p&gt;
+&lt;p&gt;RunLoop 休眠的原理：通过&lt;code&gt;mach_msg()&lt;/code&gt;让用户态跟内核态的切换，没有消息就切换到内核态休息，有消息就切换到用户态。如果你在模拟器里跑起一个 iOS 的 App，然后在 App 静止时点击暂停，你会看到主线程调用栈是停留在 &lt;code&gt;mach_msg_trap()&lt;/code&gt; 这个地方。&lt;/p&gt;
     
     </summary>
     
@@ -1496,10 +1490,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;使用形式&quot;&gt;&lt;a href=&quot;#使用形式&quot; class=&quot;headerlink&quot; title=&quot;使用形式&quot;&gt;&lt;/a&gt;使用形式&lt;/h2&gt;&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
-      
+      &lt;h2 id=&quot;使用形式&quot;&gt;&lt;a href=&quot;#使用形式&quot; class=&quot;headerlink&quot; title=&quot;使用形式&quot;&gt;&lt;/a&gt;使用形式&lt;/h2&gt;&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// OC&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@autoreleasepool &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 生成自动释放对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// swift&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;autoreleasepool &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 生成自动释放对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;基本原理&quot;&gt;&lt;a href=&quot;#基本原理&quot; class=&quot;headerlink&quot; title=&quot;基本原理&quot;&gt;&lt;/a&gt;基本原理&lt;/h2&gt;&lt;p&gt;autoreleasepool 包裹的相关代码在编译时，编译器会自动把它编译为如下形式。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;void *context = objc_autoreleasepoolPush();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;// &amp;#123;&amp;#125; 中的代码&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;objc_autoreleasepoolPop();&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -1526,11 +1519,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;img src=&quot;../../../img/iOS/多线程/iOS锁性能对比.png&quot; alt=&quot;iOS锁性能对比&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;iOS-中锁分析&quot;&gt;&lt;a href=&quot;#iOS-中锁分析&quot; class=&quot;headerlink&quot; title=&quot;iOS 中锁分析
-      
+      &lt;p&gt;&lt;img src=&quot;../../../img/iOS/多线程/iOS锁性能对比.png&quot; alt=&quot;iOS锁性能对比&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;iOS-中锁分析&quot;&gt;&lt;a href=&quot;#iOS-中锁分析&quot; class=&quot;headerlink&quot; title=&quot;iOS 中锁分析&quot;&gt;&lt;/a&gt;iOS 中锁分析&lt;/h2&gt;&lt;h3 id=&quot;互斥锁&quot;&gt;&lt;a href=&quot;#互斥锁&quot; class=&quot;headerlink&quot; title=&quot;互斥锁&quot;&gt;&lt;/a&gt;互斥锁&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;pthread_mutex（也是一个递归锁）&lt;/li&gt;
+&lt;li&gt;NSLock&lt;/li&gt;
+&lt;li&gt;synchronized（objc_sync_enter/objc_sync_exit）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;// pthread_mutex形式&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;var mutex = pthread_mutex_t()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;func initLock() &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  pthread_mutex_init(&amp;amp;mutex, nil)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pthread_mutex_lock(&amp;amp;mutex)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;// 执行内容&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pthread_mutex_unlock(&amp;amp;mutex)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -1557,11 +1552,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。&lt;/p&gt;
+&lt;p&gt;当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），如果 retainCount 为 0，则释放该对象。&lt;/p&gt;
+&lt;p&gt;引用计数这种方式只面向 class 这类引用类型，不适用于值类型。&lt;/p&gt;
     
     </summary>
     
@@ -1588,12 +1582,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;weak 是弱引用，用 weak 描述修饰或者所引用的对象，引用计数不会加1，并且在引用的对象释放时候自动被设置为 nil。利用这种特性，可以很方便的解决循环引用，也避免了野指针访问导致崩溃的情况。&lt;/p&gt;
+      &lt;p&gt;weak 是弱引用，用 weak 描述修饰或者所引用的对象，引用计数不会加1，并且在引用的对象释放时候自动被设置为 nil。利用这种特性，可以很方便的解决循环引用，也避免了野指针访问导致崩溃的情况。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Swift 中的 weak 相当于 OC 里面的
-      
+&lt;li&gt;Swift 中的 weak 相当于 OC 里面的 weak；&lt;/li&gt;
+&lt;li&gt;Swift 中的 unowned 相当于 OC 里的 __unsafe_unretained / assign&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;OC 的 weak 实现和 Swift 还有些区别；&lt;/p&gt;
+&lt;h2 id=&quot;OC-中-Weak-原理&quot;&gt;&lt;a href=&quot;#OC-中-Weak-原理&quot; class=&quot;headerlink&quot; title=&quot;OC 中 Weak 原理&quot;&gt;&lt;/a&gt;OC 中 Weak 原理&lt;/h2&gt;&lt;p&gt;Runtime 维护了一个 weak 表，用于存储指向某个对象的所有 weak 指针。weak 表其实是一个 hash 表，Key 是&lt;strong&gt;所指对象的地址&lt;/strong&gt;，value 是 &lt;strong&gt;weak 指针的地址数组&lt;/strong&gt;，是数组的原因是一个对象可能被多个弱引用指针指向。&lt;/p&gt;
     
     </summary>
     
@@ -1650,11 +1645,12 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;该篇文章是iOS持久化方系列的第二篇文章，第一篇请见&lt;a href=&quot;../Us
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;该篇文章是iOS持久化方系列的第二篇文章，第一篇请见&lt;a href=&quot;../UserDefaults浅析及其使用管理&quot;&gt;UserDefaults浅析及其使用管理&lt;/a&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;驾驶证快到期了，这个周末出去换了个证，花了一些时间，回来整理文章的时间比较少，就挑了一个篇幅相对比较少的知识点整理分享给大家咯。对了，如果大家对于在北京期满换证的流程有疑问的话，也可以私聊我，毕竟走了一遍流程，相对还是有些经验的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;整体目录结构&quot;&gt;&lt;a href=&quot;#整体目录结构&quot; class=&quot;headerlink&quot; title=&quot;整体目录结构&quot;&gt;&lt;/a&gt;整体目录结构&lt;/h2&gt;
     
     </summary>
     
@@ -1711,10 +1707,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;Method&quot;&gt;&lt;a href=&quot;#Method&quot; class=&quot;headerlink&quot; title=&quot;Method&quot;&gt;&lt;/a&gt;Method&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gut
-      
+      &lt;h2 id=&quot;Method&quot;&gt;&lt;a href=&quot;#Method&quot; class=&quot;headerlink&quot; title=&quot;Method&quot;&gt;&lt;/a&gt;Method&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;struct objc_method &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    SEL _Nonnull method_name           OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    char * _Nullable method_types      OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    IMP _Nonnull method_imp            OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;                                      OBJC2_UNAVAILABLE;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;SEL、IMP 都是 Method 结构体的属性。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SEL：方法的名称、标识&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;获取方式&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
@@ -1769,11 +1765,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。&lt;
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;我们平时开发时，或多或少都会使用到定时器，今天我们来聊聊 iOS 中的定时器。&lt;/p&gt;
+&lt;p&gt;iOS 中的定时器常用的包含三种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Timer&lt;/li&gt;
+&lt;li&gt;CADisplayLink&lt;/li&gt;
+&lt;li&gt;DispatchSourceTimer&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -1800,13 +1799,19 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;本地数据加密&quot;&gt;&lt;a href=&quot;#本地数据加密&quot; class=&quot;headerlink&quot; title=&quot;本地数据加密&quot;&gt;&lt;/a&gt;本地数据加密&lt;/h2&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;本地数据加密&quot;&gt;&lt;a href=&quot;#本地数据加密&quot; class=&quot;headerlink&quot; title=&quot;本地数据加密&quot;&gt;&lt;/a&gt;本地数据加密&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;UserDefaults&lt;/li&gt;
 &lt;li&gt;plist 文件&lt;/li&gt;
-&lt;li&gt;keychain
-      
+&lt;li&gt;keychain 钥匙串&lt;/li&gt;
+&lt;li&gt;归档&lt;/li&gt;
+&lt;li&gt;沙盒文件（Sandbox）&lt;/li&gt;
+&lt;li&gt;数据库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上述几种本地数据存储方式，UserDefaults、plist、沙盒文件、数据库这几种方式类似，其实都是将一些数据存储到 iOS 的沙盒目录下，只不过存储的文件形式不同而已，系统不会进行默认加密。所以采用这几种方式来存储敏感数据，需要自己对数据进行加解密。&lt;br&gt;keychain 和归档这两种方式系统会进行加密，特别是 keychain。&lt;/p&gt;
+&lt;h2 id=&quot;网络请求&quot;&gt;&lt;a href=&quot;#网络请求&quot; class=&quot;headerlink&quot; title=&quot;网络请求&quot;&gt;&lt;/a&gt;网络请求&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;使用 HTTPS&lt;/li&gt;
+&lt;li&gt;请求、返回数据加密&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -1833,15 +1838,17 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;其中 runtime 的核心包含下面几个部分&lt;/p&gt;
+      &lt;p&gt;其中 runtime 的核心包含下面几个部分&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;消息转发&lt;/li&gt;
 &lt;li&gt;方法交换&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;方法调用相关&quot;&gt;&lt;a href=&quot;#方法调用相关&quot; class=&quot;headerlink&quot; title=&quot;方法调用相关&quot;&gt;&lt;/a
-      
+&lt;h3 id=&quot;方法调用相关&quot;&gt;&lt;a href=&quot;#方法调用相关&quot; class=&quot;headerlink&quot; title=&quot;方法调用相关&quot;&gt;&lt;/a&gt;方法调用相关&lt;/h3&gt;&lt;p&gt;OC 的方法调用整体分为三个步骤&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;消息发送&lt;/li&gt;
+&lt;li&gt;动态方法解析&lt;/li&gt;
+&lt;li&gt;消息转发&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -1868,11 +1875,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选人，或多或少有了一些感想，后面会单独发篇文章跟大家聊一聊这个话题。&lt;/p&gt;
+&lt;p&gt;之前曾在&lt;a href=&quot;../../优化/iOS优化-瘦身&quot;&gt;iOS优化-瘦身&lt;/a&gt;文章中提到过iOS优化将会是一个专题，今天就带来iOS优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。&lt;/p&gt;
+&lt;p&gt;其实关于这块，网上的资料已经很多了，本文主要梳理了一下我所知的优化方案并结合我实际使用给大家总结一下。WWDC对此专门有过一个session进行介绍 — &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/423&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Optimizing App Launch&lt;/a&gt;，建议大家首先看看这个，毕竟Apple自家的工程师还是更权威一些的，下文中部分概念也会来自该视频资料。&lt;/p&gt;
     
     </summary>
     
@@ -1899,11 +1905,18 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;Swift-中模式匹配模式总览&quot;&gt;&lt;a href=&quot;#Swift-中模式匹配模式总览&quot; class=&quot;headerlink&quot; title=&quot;Swift 中模式匹配模式总览&quot;&gt;&lt;/a&gt;Swift 中模式匹配模式总览&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;通配符模式（Wildca
-      
+      &lt;h2 id=&quot;Swift-中模式匹配模式总览&quot;&gt;&lt;a href=&quot;#Swift-中模式匹配模式总览&quot; class=&quot;headerlink&quot; title=&quot;Swift 中模式匹配模式总览&quot;&gt;&lt;/a&gt;Swift 中模式匹配模式总览&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;通配符模式（Wildcard Pattern）&lt;/li&gt;
+&lt;li&gt;标识符模式（Identifier Pattern）&lt;/li&gt;
+&lt;li&gt;值绑定模式（Value-Binding Pattren）&lt;/li&gt;
+&lt;li&gt;元祖模式（Tuple Pattern）&lt;/li&gt;
+&lt;li&gt;枚举模式（Enumeration Case Pattern）&lt;/li&gt;
+&lt;li&gt;可选模式（Optional Pattern）&lt;/li&gt;
+&lt;li&gt;类型转换模式(Type-Casting Pattern)&lt;/li&gt;
+&lt;li&gt;表达式模式（Expression Pattern）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;通配符模式&quot;&gt;&lt;a href=&quot;#通配符模式&quot; class=&quot;headerlink&quot; title=&quot;通配符模式&quot;&gt;&lt;/a&gt;通配符模式&lt;/h2&gt;&lt;p&gt;使用 &lt;code&gt;_&lt;/code&gt; 来匹配任何值，使用 &lt;code&gt;_?&lt;/code&gt; 来匹配非 nil 值，其中&lt;code&gt;_?&lt;/code&gt;是通配符以及可选模式的混合&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;...&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt; &amp;#123;  f&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -1930,11 +1943,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;修饰符&quot;&gt;&lt;a href=&quot;#修饰符&quot; class=&quot;headerlink&quot; title=&quot;修饰符&quot;&gt;&lt;/a&gt;修饰符&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;@property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性
-      
+      &lt;h2 id=&quot;修饰符&quot;&gt;&lt;a href=&quot;#修饰符&quot; class=&quot;headerlink&quot; title=&quot;修饰符&quot;&gt;&lt;/a&gt;修饰符&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;@property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)&lt;/li&gt;
+&lt;li&gt;@synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。&lt;/li&gt;
+&lt;li&gt;@dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。&lt;/p&gt;
+&lt;p&gt;@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是 @syntheszie var = _var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上 @synthesize 及 @dynamic。&lt;/p&gt;
+&lt;p&gt;什么情况下需要使用 @synthesize 呢？&lt;/p&gt;
     
     </summary>
     
@@ -1961,11 +1977,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;原生交互&quot;&gt;&lt;a href=&quot;#原生交互&quot; class=&quot;headerlink&quot; title=&quot;原生交互&quot;&gt;&lt;/a&gt;原生交互&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/wendux/DSBridge-IOS&quot; target=
-      
+      &lt;h2 id=&quot;原生交互&quot;&gt;&lt;a href=&quot;#原生交互&quot; class=&quot;headerlink&quot; title=&quot;原生交互&quot;&gt;&lt;/a&gt;原生交互&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/wendux/DSBridge-IOS&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;DSBridge&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/marcuswestin/WebViewJavascriptBridge&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;WebViewJavascriptBridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;DSBridge&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;JS调用原生主要是利用拦截prompt输入框传递信息。其中同步调用是实现promt输入框来实现的。具体的原理可以自己去看下源码。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;WebViewJavascriptBridge&lt;/strong&gt;&lt;/p&gt;
     
     </summary>
     
@@ -1992,14 +2010,20 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;iOS 推送分为本地推送、在线推送、离线推送。&lt;/p&gt;
+      &lt;p&gt;iOS 推送分为本地推送、在线推送、离线推送。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;本地推送就是本地可以通过固定时间以及地点等条件触发推送操作。&lt;/li&gt;
 &lt;li&gt;在线推送就是 APP 在前台利用长链接等形式实现推送，如 QQ、微信在前台时收到的消息；&lt;/li&gt;
-&lt;li&gt;离线推送是指
-      
+&lt;li&gt;离线推送是指通过 APNs 服务器发送通知到 APP。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;离线推送&quot;&gt;&lt;a href=&quot;#离线推送&quot; class=&quot;headerlink&quot; title=&quot;离线推送&quot;&gt;&lt;/a&gt;离线推送&lt;/h2&gt;&lt;p&gt;推送流程基本如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;APP 申请推送权限&lt;/li&gt;
+&lt;li&gt;APP 申请获得 deviceToken&lt;/li&gt;
+&lt;li&gt;APNs 服务器验证成功后，将 deviceToken 返回至 APP 端&lt;/li&gt;
+&lt;li&gt;APP 端将 deviceToken 存储至服务器，服务器带着证书以及 deviceToken 发送到 APNs 服务器&lt;/li&gt;
+&lt;li&gt;APNs 服务器下发推送消息到 APP 端&lt;/li&gt;
+&lt;/ol&gt;
     
     </summary>
     
@@ -2026,11 +2050,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;跨域原理及解决&quot;&gt;&lt;a href=&quot;#跨域原理及解决&quot; class=&quot;headerlink&quot; title=&quot;跨域原理及解决&quot;&gt;&lt;/a&gt;跨域原理及解决&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;相关原理&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;跨域问题是在浏览器中出现的情况，主要原因是
-      
+      &lt;h2 id=&quot;跨域原理及解决&quot;&gt;&lt;a href=&quot;#跨域原理及解决&quot; class=&quot;headerlink&quot; title=&quot;跨域原理及解决&quot;&gt;&lt;/a&gt;跨域原理及解决&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;相关原理&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;跨域问题是在浏览器中出现的情况，主要原因是因为浏览器本身的同源策略机制的限制，同源策略（Same Origin Policy，简称SOP问题）是一种安全策略；&lt;/p&gt;
+&lt;p&gt;URL= 协议 + 域名 + 端口 + 协议；如果两个 URL 的协议、域名和端口相同，则它们同源，如果不相同，则不同源，则就会引起跨域；&lt;/p&gt;
+&lt;p&gt;浏览器会限制脚本中发起的跨域请求。比如，使用 XMLHttpRequest 对象和 Fetch 发起 HTTP 请求就必须遵守同源策略。不允许跨域访问并非是限制浏览器发起请求，而是返回的结果被浏览器给拦截了，接收不到；最好的例子是 CSRF 跨站攻击原理，无论是否跨域，服务器都接收到了请求。&lt;/p&gt;
     
     </summary>
     
@@ -2057,11 +2080,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;我们之前已经讲过 &lt;a href=&quot;../iOS多线程-Thread&quot;&gt;iOS多
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;我们之前已经讲过 &lt;a href=&quot;../iOS多线程-Thread&quot;&gt;iOS多线程-Thread&lt;/a&gt; 以及 &lt;a href=&quot;../iOS多线程-GCD&quot;&gt;iOS多线程-GCD&lt;/a&gt;，我们今天来聊一聊iOS多线程中最后一种比较常用的方式—&lt;code&gt;Operation&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;概览&quot;&gt;&lt;a href=&quot;#概览&quot; class=&quot;headerlink&quot; title=&quot;概览&quot;&gt;&lt;/a&gt;概览&lt;/h2&gt;&lt;p&gt;对于 Operation 而言，其相关的类比 GCD 要少的多。&lt;code&gt;Operation&lt;/code&gt;本身是一个&lt;code&gt;抽象类&lt;/code&gt;，不能直接进行使用，其定义了相关的方法及属性，需要靠子类进行相应的实现，系统已经实现了一个 —&lt;code&gt;BlockOperation&lt;/code&gt;。（在 OC 中，还有一个是&lt;code&gt;NSInvocationOperation&lt;/code&gt;，但在 Swift 中，该子类已经在 Swift4 里去掉，想必去掉的原因大家也很容易理解，因为 Swift 语言本身就不推荐 &lt;code&gt;selector&lt;/code&gt; 这种形式）。&lt;/p&gt;
     
     </summary>
     
@@ -2090,11 +2111,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;今天给大家带来多线程系列的第二篇文章 — &lt;code&gt;GCD&lt;/code&gt;，其大
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;今天给大家带来多线程系列的第二篇文章 — &lt;code&gt;GCD&lt;/code&gt;，其大概率是我们在使用多线程时最常用的方式了。&lt;/p&gt;
+&lt;p&gt;GCD 全称是 &lt;code&gt;Grand Central Dispatch&lt;/code&gt;，翻译过来就是大规模中央调度。根据官方文档，它的作用是：通过向系统管理的调度队列中提交任务，在多核硬件上同时执行代码。它提供了一套机制，让你可以充分利用硬件的多核性能，并且让你不用再调用那些繁琐的底层线程 API，编写易于理解和修改的代码。&lt;/p&gt;
+&lt;p&gt;对开发者而言，面对的不再是上一篇文章&lt;a href=&quot;../iOS多线程-Thread&quot;&gt;iOS多线程-Thread&lt;/a&gt;所描述的线程，CGD将线程概念模糊掉，开发者转而面对的是更上层的队列和任务，不再需要考虑线程的周期以及调度等等，这些交由GCD内部处理就好。&lt;/p&gt;
     
     </summary>
     
@@ -2123,13 +2143,15 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
 &lt;p&gt;多线程是 iOS 中一个重要的知识点，常见的技术包含&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-      
+&lt;li&gt;Thread&lt;/li&gt;
+&lt;li&gt;GCD&lt;/li&gt;
+&lt;li&gt;Operation&lt;/li&gt;
+&lt;li&gt;Pthreads&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中前三种方式我们比较常用，其中 GCD、Operation 使用的最频繁。Pthreads 是基于 C 语言的框架，可以跨平台使用，我们平时使用比较少。&lt;/p&gt;
     
     </summary>
     
@@ -2191,11 +2213,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;Date-对象&quot;&gt;&lt;a href=&quot;#Date-对象&quot; class=&quot;headerlink&quot; title=&quot;Date 对象&quot;&gt;&lt;/a&gt;Date 对象&lt;/h2&gt;&lt;p&gt;可以通过下面四种形式创建 Date 对象；&lt;/p&gt;
-&lt;figure class=&quot;highlight
-      
+      &lt;h2 id=&quot;Date-对象&quot;&gt;&lt;a href=&quot;#Date-对象&quot; class=&quot;headerlink&quot; title=&quot;Date 对象&quot;&gt;&lt;/a&gt;Date 对象&lt;/h2&gt;&lt;p&gt;可以通过下面四种形式创建 Date 对象；&lt;/p&gt;
+&lt;figure class=&quot;highlight js&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; d = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;Date&lt;/span&gt;(); &lt;span class=&quot;comment&quot;&gt;// 当前日期和时间&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; d = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;Date&lt;/span&gt;(milliseconds); &lt;span class=&quot;comment&quot;&gt;// milliseconds指距离 1970 年 1 月 1 日至指定日期的毫秒数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; d = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;Date&lt;/span&gt;(dateString);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; d = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;Date&lt;/span&gt;(year, month, day, hours, minutes, seconds, milliseconds);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其中对于第三种，常用的 dateString 形式包含两种格式，一种为&lt;code&gt;yyyy-MM-dd hh:mm:ss&lt;/code&gt;，另一种为&lt;code&gt;yyyy/MM/dd hh:mm:ss&lt;/code&gt;。其中第一种在 iOS 不兼容，转换出来的 Date 为 NaN。&lt;/p&gt;
+&lt;h2 id=&quot;input-标签在-disabled-情况下颜色偏淡&quot;&gt;&lt;a href=&quot;#input-标签在-disabled-情况下颜色偏淡&quot; class=&quot;headerlink&quot; title=&quot;input 标签在 disabled 情况下颜色偏淡&quot;&gt;&lt;/a&gt;input 标签在 disabled 情况下颜色偏淡&lt;/h2&gt;
     
     </summary>
     
@@ -2220,11 +2241,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。&lt;/p&gt;
+&lt;p&gt;APP 的大小是分为 APP 下载大小和安装大小两个概念的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量；&lt;/li&gt;
+&lt;li&gt;当压缩包下载完成后，就会自动解压，解压过程也就是通常所说的安装过程；安装大小就是指压缩包解压后所占用的空间。&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -2251,10 +2274,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1、物理像素&quot;&gt;&lt;a href=&quot;#1、物理像素&quot; class=&quot;headerlink&quot; title=&quot;1、物理像素&quot;&gt;&lt;/a&gt;1、物理像素&lt;/h2&gt;&lt;p&gt;也称为设备像素，屏幕的最小物理单位。是一个物理属性，即屏幕出厂时就已经固定的参数，比如一般手机产品参数中的设
-      
+      &lt;h2 id=&quot;1、物理像素&quot;&gt;&lt;a href=&quot;#1、物理像素&quot; class=&quot;headerlink&quot; title=&quot;1、物理像素&quot;&gt;&lt;/a&gt;1、物理像素&lt;/h2&gt;&lt;p&gt;也称为设备像素，屏幕的最小物理单位。是一个物理属性，即屏幕出厂时就已经固定的参数，比如一般手机产品参数中的设备分辨率（如 2340 x 1080）就是指设备像素。&lt;/p&gt;
+&lt;h2 id=&quot;2、逻辑像素&quot;&gt;&lt;a href=&quot;#2、逻辑像素&quot; class=&quot;headerlink&quot; title=&quot;2、逻辑像素&quot;&gt;&lt;/a&gt;2、逻辑像素&lt;/h2&gt;&lt;p&gt;也被成为设备独立像素。iOS 单位为 pt，Android 单位为 dp。一般逻辑像素与物理像素是 1：n 的关系。是一种绝对单位，1pt约等于0.16毫米。&lt;/p&gt;
+&lt;h2 id=&quot;3、CSS-像素&quot;&gt;&lt;a href=&quot;#3、CSS-像素&quot; class=&quot;headerlink&quot; title=&quot;3、CSS 像素&quot;&gt;&lt;/a&gt;3、CSS 像素&lt;/h2&gt;
     
     </summary>
     
@@ -2281,10 +2303,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;http-OSI-网络模型&quot;&gt;&lt;a href=&quot;#http-OSI-网络模型&quot; class=&quot;headerlink&quot; title=&quot;http OSI 网络模型&quot;&gt;&lt;/a&gt;http OSI 网络模型&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../img/网络/网络模
-      
+      &lt;h2 id=&quot;http-OSI-网络模型&quot;&gt;&lt;a href=&quot;#http-OSI-网络模型&quot; class=&quot;headerlink&quot; title=&quot;http OSI 网络模型&quot;&gt;&lt;/a&gt;http OSI 网络模型&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../img/网络/网络模型.png&quot; alt=&quot;网络模型&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;tcp-与-udp&quot;&gt;&lt;a href=&quot;#tcp-与-udp&quot; class=&quot;headerlink&quot; title=&quot;tcp 与 udp&quot;&gt;&lt;/a&gt;tcp 与 udp&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;tcp 特点&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;三次握手、四次挥手&lt;/li&gt;
+&lt;li&gt;滑动窗口&lt;/li&gt;
+&lt;li&gt;拥塞控制&lt;/li&gt;
+&lt;/ol&gt;
     
     </summary>
     
@@ -2307,11 +2332,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;上次给大家推荐了一波&lt;a href=&quot;../Mac效率软件&quot;&gt;Mac效率软件&lt;/
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;上次给大家推荐了一波&lt;a href=&quot;../Mac效率软件&quot;&gt;Mac效率软件&lt;/a&gt;，大家都说软件都很不错，但就是有一个问题：&lt;/p&gt;
+&lt;p&gt;软件有了，请问 Mac 电脑找谁领？ 这…&lt;/p&gt;
+&lt;p&gt;我是一个重度的 Chrome 使用者，还是给大家带来一波好用的 Chrome 插件吧，都是我自己亲身使用过觉得不错的，推荐给大家。&lt;/p&gt;
     
     </summary>
     
@@ -2336,10 +2360,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;使用 Mac 开发也有几个年头了，积累了一些效率工具和开发工具，今天整理了一下并分享给大家，工具几乎都是开源免费的，也期待大家有更多好的工具
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;使用 Mac 开发也有几个年头了，积累了一些效率工具和开发工具，今天整理了一下并分享给大家，工具几乎都是开源免费的，也期待大家有更多好的工具推荐给我，我补充上去。&lt;/p&gt;
+&lt;h2 id=&quot;包管理器&quot;&gt;&lt;a href=&quot;#包管理器&quot; class=&quot;headerlink&quot; title=&quot;包管理器&quot;&gt;&lt;/a&gt;包管理器&lt;/h2&gt;&lt;h3 id=&quot;Homebrew&quot;&gt;&lt;a href=&quot;#Homebrew&quot; class=&quot;headerlink&quot; title=&quot;Homebrew&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Homebrew&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Homebrew 是一款 Mac OS 平台下的软件包管理工具，拥有安装、卸载、更新、查看、搜索等很多实用的功能。算是 Mac 系统的必备环境了。&lt;/p&gt;
     
     </summary>
     
@@ -2364,12 +2386,16 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;常用&quot;&gt;&lt;a href=&quot;#常用&quot; class=&quot;headerlink&quot; title=&quot;常用&quot;&gt;&lt;/a&gt;常用&lt;/h2&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;常用&quot;&gt;&lt;a href=&quot;#常用&quot; class=&quot;headerlink&quot; title=&quot;常用&quot;&gt;&lt;/a&gt;常用&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Alamofire(Swift)、AFNetworking(OC)&lt;/strong&gt; 网络请求&lt;/li&gt;
-&lt;li
-      
+&lt;li&gt;&lt;strong&gt;SnapKit(Swift)、Masonry(OC)&lt;/strong&gt; 自动布局&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kingfisher(Swift)，SDWebImage(OC)&lt;/strong&gt; 加载图片&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IQKeyboardManagerSwift(Swift)、IQKeyboardManager(OC)&lt;/strong&gt; 键盘控制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;网络&quot;&gt;&lt;a href=&quot;#网络&quot; class=&quot;headerlink&quot; title=&quot;网络&quot;&gt;&lt;/a&gt;网络&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Moya&lt;/strong&gt; 网络抽象层&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;UI&quot;&gt;&lt;a href=&quot;#UI&quot; class=&quot;headerlink&quot; title=&quot;UI&quot;&gt;&lt;/a&gt;UI&lt;/h2&gt;
     
     </summary>
     
@@ -2394,11 +2420,16 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;p&gt;iOS 中的事件响应者主要分为两类，分别为&lt;code&gt;UIResponder&lt;/
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;p&gt;iOS 中的事件响应者主要分为两类，分别为&lt;code&gt;UIResponder&lt;/code&gt;及&lt;code&gt;UIGestureRecognizer&lt;/code&gt;，其中&lt;code&gt;UIControl&lt;/code&gt;是一种比较特殊的&lt;code&gt;UIResponder&lt;/code&gt;，所以本文将事件响应者分为以下三种类型进行讨论。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;UIResponder&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UIGestureRecognizer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UIControl&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;下文中所涉及到的Apple官方描述可以通过&lt;a href=&quot;https://gitee.com/CoderStar/pubilc-file/blob/master/iOS/Event%20Handling%20Guide%20for%20iOS/Event%20Handling%20Guide%20for%20iOS.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Event Handling Guide for iOS.pdf&lt;/a&gt;&lt;br&gt;查阅到。&lt;/p&gt;
+&lt;/blockquote&gt;
     
     </summary>
     
@@ -2423,11 +2454,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;Dart-库相关&quot;&gt;&lt;a href=&quot;#Dart-库相关&quot; class=&quot;headerlink&quot; title=&quot;Dart 库相关&quot;&gt;&lt;/a&gt;Dart 库相关&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;导入库&lt;/strong&gt;&lt;/p&gt;
-&lt;figure class=&quot;highli
-      
+      &lt;h2 id=&quot;Dart-库相关&quot;&gt;&lt;a href=&quot;#Dart-库相关&quot; class=&quot;headerlink&quot; title=&quot;Dart 库相关&quot;&gt;&lt;/a&gt;Dart 库相关&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;导入库&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight dart&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 完全导入&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;package:hello/hello.dart&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 只导入了math库中的Random对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;package:math&#39;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;show&lt;/span&gt; Random;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;导入math库但不导入math库种的Random对象&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;package:math&#39;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;hide&lt;/span&gt; Random;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 将引入的库加上别名，避免变量名冲突&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;package:math&#39;&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;as&lt;/span&gt; mymath;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;库拆分&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight dart&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;使用&lt;span class=&quot;keyword&quot;&gt;part&lt;/span&gt;的形式，库之间共享空间，即color_extension.dart中的私有内容，flutter_star_extension可以直接使用&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 子库 color_extension.dart&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;part&lt;/span&gt; of &lt;span class=&quot;keyword&quot;&gt;library&lt;/span&gt; flutter_star_extension;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 子库 string_extension.dart&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;part&lt;/span&gt; of &lt;span class=&quot;keyword&quot;&gt;library&lt;/span&gt; flutter_star_extension;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 总库&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;library&lt;/span&gt; flutter_star_extension;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;part&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;src/color_extension.dart&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;part&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&#39;src/string_extension.dart&#39;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -2452,10 +2482,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;a href=&quot;https://material.io/resources/icons/?icon=admin_panel_settings&amp;amp;style=outline&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Material Icons 
-      
+      &lt;p&gt;&lt;a href=&quot;https://material.io/resources/icons/?icon=admin_panel_settings&amp;amp;style=outline&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Material Icons 集锦地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://flutter.github.io/cupertino_icons/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Cupertino Icons 集锦地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;因图片不支持放大，建议将图片保存到本地然后放大查看&lt;/p&gt;
+&lt;h2 id=&quot;Cupertino-Icons&quot;&gt;&lt;a href=&quot;#Cupertino-Icons&quot; class=&quot;headerlink&quot; title=&quot;Cupertino Icons&quot;&gt;&lt;/a&gt;Cupertino Icons&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../img/../../img/Flutter/组件/Icon/Cupertino%20Icons.png&quot; alt=&quot;Cupertino Icons&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -2513,12 +2543,15 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;样式统一&quot;&gt;&lt;a href=&quot;#样式统一&quot; class=&quot;headerlink&quot; title=&quot;样式统一&quot;&gt;&lt;/a&gt;样式统一&lt;/h2&gt;&lt;p&gt;建立相关常量，或者工厂模式产生统一 View，目的是使 APP 中 UI 样式统一；&lt;/p&gt;
+      &lt;h2 id=&quot;样式统一&quot;&gt;&lt;a href=&quot;#样式统一&quot; class=&quot;headerlink&quot; title=&quot;样式统一&quot;&gt;&lt;/a&gt;样式统一&lt;/h2&gt;&lt;p&gt;建立相关常量，或者工厂模式产生统一 View，目的是使 APP 中 UI 样式统一；&lt;/p&gt;
 &lt;p&gt;常量包括：&lt;/p&gt;
-&lt;u
-      
+&lt;ul&gt;
+&lt;li&gt;文字（颜色、字号、字体）&lt;/li&gt;
+&lt;li&gt;颜色（多主题色）&lt;/li&gt;
+&lt;li&gt;圆角&lt;/li&gt;
+&lt;li&gt;边框（宽度、颜色）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;代码规范&quot;&gt;&lt;a href=&quot;#代码规范&quot; class=&quot;headerlink&quot; title=&quot;代码规范&quot;&gt;&lt;/a&gt;代码规范&lt;/h2&gt;
     
     </summary>
     
@@ -2543,10 +2576,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;Flutter-与-Native-通信方式&quot;&gt;&lt;a href=&quot;#Flutter-与-Native-通信方式&quot; class=&quot;headerlink&quot; title=&quot;Flutter 与 Native 通信方式&quot;&gt;&lt;/a&gt;Flutter 与 Native 通信方式&lt;/
-      
+      &lt;h3 id=&quot;Flutter-与-Native-通信方式&quot;&gt;&lt;a href=&quot;#Flutter-与-Native-通信方式&quot; class=&quot;headerlink&quot; title=&quot;Flutter 与 Native 通信方式&quot;&gt;&lt;/a&gt;Flutter 与 Native 通信方式&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;BasicMessageChannel：用于传递字符串和半结构化的信息,这个用的比较少，相互调用&lt;/li&gt;
+&lt;li&gt;MethodChannel：用于传递方法调用（method invocation）通常用来调用 native 中某个方法，相互调用&lt;/li&gt;
+&lt;li&gt;EventChannel: 用于数据流（event streams）的通信。有监听功能，比如电量变化之后直接推送数据给 flutter 端，原生发送消息,flutter接收，单向通信。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Channel 提供标准的消息解码器来为我们在发送及接收数据自动进行序列化及序列化；&lt;/p&gt;
+&lt;p&gt;支持的数据类型&lt;br&gt;&lt;img src=&quot;../../img/Flutter/Flutter-Native通信/MethodChannel数据类型.png&quot; alt=&quot;支持的数据类型&quot;&gt;&lt;/p&gt;
+&lt;p&gt;codec，MessageCodecx 协议&lt;/p&gt;
     
     </summary>
     
@@ -2569,11 +2606,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;Flutter-四种工程类型&quot;&gt;&lt;a href=&quot;#Flutter-四种工程类型&quot; class=&quot;headerlink&quot; title=&quot;Flutter 四种工程类型&quot;&gt;&lt;/a&gt;Flutter 四种工程类型&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;Flutter Applicat
-      
+      &lt;h3 id=&quot;Flutter-四种工程类型&quot;&gt;&lt;a href=&quot;#Flutter-四种工程类型&quot; class=&quot;headerlink&quot; title=&quot;Flutter 四种工程类型&quot;&gt;&lt;/a&gt;Flutter 四种工程类型&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Flutter Application: Flutter 应用，包含标准的 Dart 层与 Native 平台层&lt;/li&gt;
+&lt;li&gt;Flutter Module: Flutter 与原生混合开发，用于混编到已有的 Android/iOS 工程内&lt;/li&gt;
+&lt;li&gt;Flutter Plugin: Flutter 插件，包含 Dart 层与 Native 平台层的实现&lt;/li&gt;
+&lt;li&gt;Flutter Package: 纯 Dart 组件，仅包含 Dart 层的实现，往往定义一些公共 Widget&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;错误积累&quot;&gt;&lt;a href=&quot;#错误积累&quot; class=&quot;headerlink&quot; title=&quot;错误积累&quot;&gt;&lt;/a&gt;错误积累&lt;/h2&gt;&lt;h3 id=&quot;Waiting-for-another-flutter-command-to-release-the-startup-lock…&quot;&gt;&lt;a href=&quot;#Waiting-for-another-flutter-command-to-release-the-startup-lock…&quot; class=&quot;headerlink&quot; title=&quot;Waiting for another flutter command to release the startup lock…&quot;&gt;&lt;/a&gt;Waiting for another flutter command to release the startup lock…&lt;/h3&gt;&lt;p&gt;进入到你的 flutter sdk 目录中，然后找到 bin/cache/lockfile 文件，删除它即可。&lt;/p&gt;
     
     </summary>
     
@@ -2596,11 +2635,33 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;swift 中的关键字被保留，不可将其用作标识符，除非使用反引号``，如&lt;/p&gt;
-&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;b
-      
+      &lt;p&gt;swift 中的关键字被保留，不可将其用作标识符，除非使用反引号``，如&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt; -&amp;gt; `&lt;span class=&quot;keyword&quot;&gt;default&lt;/span&gt;`&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;声明中的关键字&quot;&gt;&lt;a href=&quot;#声明中的关键字&quot; class=&quot;headerlink&quot; title=&quot;声明中的关键字&quot;&gt;&lt;/a&gt;声明中的关键字&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;class&lt;/li&gt;
+&lt;li&gt;enum&lt;/li&gt;
+&lt;li&gt;protocol&lt;/li&gt;
+&lt;li&gt;struct&lt;/li&gt;
+&lt;li&gt;let&lt;/li&gt;
+&lt;li&gt;var&lt;/li&gt;
+&lt;li&gt;init&lt;/li&gt;
+&lt;li&gt;deinit&lt;/li&gt;
+&lt;li&gt;private&lt;/li&gt;
+&lt;li&gt;fileprivate&lt;/li&gt;
+&lt;li&gt;internal&lt;/li&gt;
+&lt;li&gt;public&lt;/li&gt;
+&lt;li&gt;open&lt;/li&gt;
+&lt;li&gt;extension&lt;/li&gt;
+&lt;li&gt;func&lt;/li&gt;
+&lt;li&gt;import&lt;/li&gt;
+&lt;li&gt;inout&lt;/li&gt;
+&lt;li&gt;operator&lt;/li&gt;
+&lt;li&gt;static&lt;/li&gt;
+&lt;li&gt;subscript&lt;/li&gt;
+&lt;li&gt;typealias&lt;/li&gt;
+&lt;li&gt;associatedtype&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;语句中的关键字&quot;&gt;&lt;a href=&quot;#语句中的关键字&quot; class=&quot;headerlink&quot; title=&quot;语句中的关键字&quot;&gt;&lt;/a&gt;语句中的关键字&lt;/h2&gt;
     
     </summary>
     
@@ -2627,12 +2688,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;除了图片资源外，Asset Catalogs 也可以存储文本、Data 甚至 AR、apple TV 相关的资源，非常全能。&lt;/p&gt;
+      &lt;p&gt;除了图片资源外，Asset Catalogs 也可以存储文本、Data 甚至 AR、apple TV 相关的资源，非常全能。&lt;/p&gt;
 &lt;p&gt;先放置一个 Assets.xcassets 中图片的操作选项&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;../../../img/iOS/相关
-      
+&lt;p&gt;&lt;img src=&quot;../../../img/iOS/相关/Assets.png&quot; alt=&quot;Assets.xcassets&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Render-As-渲染模式&quot;&gt;&lt;a href=&quot;#Render-As-渲染模式&quot; class=&quot;headerlink&quot; title=&quot;Render As (渲染模式)&quot;&gt;&lt;/a&gt;Render As (渲染模式)&lt;/h2&gt;&lt;p&gt;包含三个选项，分别为&lt;/p&gt;
     
     </summary>
     
@@ -2689,11 +2748,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;UI-渲染优化&quot;&gt;&lt;a href=&quot;#UI-渲染优化&quot; class=&quot;headerlink&quot; title=&quot;UI 渲染优化&quot;&gt;&lt;/a&gt;UI 渲染优化&lt;/h2&gt;&lt;p&gt;渲染优化目的就是减少 GPU 的运行压力&lt;/p&gt;
-&lt;h3 id=&quot;避免图层混合&quot;&gt;&lt;a href=&quot;
-      
+      &lt;h2 id=&quot;UI-渲染优化&quot;&gt;&lt;a href=&quot;#UI-渲染优化&quot; class=&quot;headerlink&quot; title=&quot;UI 渲染优化&quot;&gt;&lt;/a&gt;UI 渲染优化&lt;/h2&gt;&lt;p&gt;渲染优化目的就是减少 GPU 的运行压力&lt;/p&gt;
+&lt;h3 id=&quot;避免图层混合&quot;&gt;&lt;a href=&quot;#避免图层混合&quot; class=&quot;headerlink&quot; title=&quot;避免图层混合&quot;&gt;&lt;/a&gt;避免图层混合&lt;/h3&gt;&lt;p&gt;当两个 View 叠加时，其中一个 View 含有透明度，那么叠加部分就会出现图层混合，GPU 需要消耗资源去计算最终显示的颜色。计算公式如下&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;R(C) = (1-alpha)*R(B) + alpha*R(A)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;G(C) = (1-alpha)*G(B) + alpha*G(A)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;B(C) = (1-alpha)*B(B) + alpha*B(A)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -2720,11 +2777,15 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;创建 UIImage 的形式有两种&lt;/p&gt;
-&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line
-      
+      &lt;p&gt;创建 UIImage 的形式有两种&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 简称 named 方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;init&lt;/span&gt;?(named name: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 简称 contentsOfFile 方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;init&lt;/span&gt;?(contentsOfFile path: &lt;span class=&quot;type&quot;&gt;String&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;图片缓存&quot;&gt;&lt;a href=&quot;#图片缓存&quot; class=&quot;headerlink&quot; title=&quot;图片缓存&quot;&gt;&lt;/a&gt;图片缓存&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;named 方法创建的 UIImage 会进行缓存，其创建 UIImage 的步骤为：根据图片文件名在缓存池中查找特定的 UIImage 对象，如存在，将这个对象返回。如果不存在，则从 bundle 中加载图片数据，创建对象并返回。如果相应的图片数据不存在，返回 nil。&lt;br&gt;这种方式比较适合存放系统常用的，占用内存小的图片资源；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;contentsOfFile 方法不会进行缓存；这种方式适合不常使用，占用内存比较大的图片；&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Assets-xcassets&quot;&gt;&lt;a href=&quot;#Assets-xcassets&quot; class=&quot;headerlink&quot; title=&quot;Assets.xcassets&quot;&gt;&lt;/a&gt;Assets.xcassets&lt;/h2&gt;
     
     </summary>
     
@@ -2751,10 +2812,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;KVC&quot;&gt;&lt;a href=&quot;#KVC&quot; class=&quot;headerlink&quot; title=&quot;KVC&quot;&gt;&lt;/a&gt;KVC&lt;/h2&gt;&lt;p&gt;&lt;code&gt;KVC&lt;/code&gt; 是 &lt;code&gt;Key-Value Coding&lt;/code&gt; 的简称，它是一种可以直接通过字符串
-      
+      &lt;h2 id=&quot;KVC&quot;&gt;&lt;a href=&quot;#KVC&quot; class=&quot;headerlink&quot; title=&quot;KVC&quot;&gt;&lt;/a&gt;KVC&lt;/h2&gt;&lt;p&gt;&lt;code&gt;KVC&lt;/code&gt; 是 &lt;code&gt;Key-Value Coding&lt;/code&gt; 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 &lt;code&gt;Setter&lt;/code&gt;、&lt;code&gt;Getter&lt;/code&gt; 方法访问。KVC 机制是由 &lt;code&gt;NSKeyValueCoding&lt;/code&gt; 协议定义的。&lt;/p&gt;
+&lt;h3 id=&quot;取、赋值流程&quot;&gt;&lt;a href=&quot;#取、赋值流程&quot; class=&quot;headerlink&quot; title=&quot;取、赋值流程&quot;&gt;&lt;/a&gt;取、赋值流程&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;KVC 取值&lt;br&gt;&lt;img src=&quot;../../../../img/iOS/基础原理/Runtime/KVO&amp;amp;KVC/KVC取值.png&quot; alt=&quot;KVC取值.jpg&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;KVC 赋值&lt;br&gt;&lt;img src=&quot;../../../../img/iOS/基础原理/Runtime/KVO&amp;amp;KVC/KVC赋值.jpg&quot; alt=&quot;KVC赋值.jpg&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;常用-API&quot;&gt;&lt;a href=&quot;#常用-API&quot; class=&quot;headerlink&quot; title=&quot;常用 API&quot;&gt;&lt;/a&gt;常用 API&lt;/h3&gt;
     
     </summary>
     
@@ -2783,10 +2848,16 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;Environment-Variables&quot;&gt;&lt;a href=&quot;#Environment-Variables&quot; class=&quot;headerlink&quot; title=&quot;Environment Variables&quot;&gt;&lt;/a&gt;&lt;code&gt;Environment Varia
-      
+      &lt;h2 id=&quot;Environment-Variables&quot;&gt;&lt;a href=&quot;#Environment-Variables&quot; class=&quot;headerlink&quot; title=&quot;Environment Variables&quot;&gt;&lt;/a&gt;&lt;code&gt;Environment Variables&lt;/code&gt;&lt;/h2&gt;&lt;p&gt;进入 Product &amp;gt; Scheme &amp;gt; Edit Scheme… &amp;gt; Run &amp;gt; Arguments &amp;gt; Environment Variables&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;OS_ACTIVITY_MODE&lt;/code&gt;值置为&lt;code&gt;Disable&lt;/code&gt;：禁止控制台打印 NSLog&lt;br&gt;&lt;strong&gt;注意此种方式不禁止 swift 的 print()&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;增加&lt;code&gt;DYLD_PRINT_STATISTICS&lt;/code&gt;，值为&lt;code&gt;1&lt;/code&gt;&lt;br&gt;如果获取更详细的信息，可以使用 DYLD_PRINT_STATISTICS_DETAILS：控制台输出 APP main() 函数执行之前的耗时&lt;/li&gt;
+&lt;li&gt;增加&lt;code&gt;DYLD_PRINT_ENV&lt;/code&gt;，值为&lt;code&gt;1&lt;/code&gt;：控制台输入动态链接库相关信息&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DYLD_PRINT_OPTS&lt;/code&gt;：值为1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Arguments-Passed-On-Launch&quot;&gt;&lt;a href=&quot;#Arguments-Passed-On-Launch&quot; class=&quot;headerlink&quot; title=&quot;Arguments Passed On Launch&quot;&gt;&lt;/a&gt;&lt;code&gt;Arguments Passed On Launch&lt;/code&gt;&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;添加 &lt;code&gt;-com.apple.CoreData.SQLDebug 3&lt;/code&gt;：控制台输出 Core Data 执行过程及结果&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -2846,10 +2917,19 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h1 id&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;#&quot;&gt;&lt;/a&gt;#&lt;/h1&gt;&lt;h3 id=&quot;布尔值&quot;&gt;&lt;a href=&quot;#布尔值&quot; class=&quot;headerlink&quot; title=&quot;布尔值&quot;&gt;&lt;/a&gt;布尔值&lt;/h3&gt;&lt;p&gt;ECMAScri
-      
+      &lt;h1 id&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;#&quot;&gt;&lt;/a&gt;#&lt;/h1&gt;&lt;h3 id=&quot;布尔值&quot;&gt;&lt;a href=&quot;#布尔值&quot; class=&quot;headerlink&quot; title=&quot;布尔值&quot;&gt;&lt;/a&gt;布尔值&lt;/h3&gt;&lt;p&gt;ECMAScript 中所有类型都有与 true 或 false 这两个值等价的值，要将一个值转换为其对应的布尔&lt;br&gt;你可以使用!!操作符将 truthy 或 falsy 值转换为布尔值&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;!!”” // false&lt;/li&gt;
+&lt;li&gt;!!0 // false&lt;/li&gt;
+&lt;li&gt;!!null // false&lt;/li&gt;
+&lt;li&gt;!!undefined // false&lt;/li&gt;
+&lt;li&gt;!!NaN // false&lt;/li&gt;
+&lt;li&gt;!!”hello” // true&lt;/li&gt;
+&lt;li&gt;!!1 // true&lt;/li&gt;
+&lt;li&gt;!!{} // true&lt;/li&gt;
+&lt;li&gt;!![] // true&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;深拷贝&quot;&gt;&lt;a href=&quot;#深拷贝&quot; class=&quot;headerlink&quot; title=&quot;深拷贝&quot;&gt;&lt;/a&gt;深拷贝&lt;/h3&gt;
     
     </summary>
     
@@ -2906,14 +2986,15 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;语言&quot;&gt;&lt;a href=&quot;#语言&quot; class=&quot;headerlink&quot; title=&quot;语言&quot;&gt;&lt;/a&gt;语言&lt;/h2&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;语言&quot;&gt;&lt;a href=&quot;#语言&quot; class=&quot;headerlink&quot; title=&quot;语言&quot;&gt;&lt;/a&gt;语言&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;OC&lt;/li&gt;
 &lt;li&gt;Swift&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class
-      
+&lt;h2 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h2&gt;&lt;h3 id=&quot;UI&quot;&gt;&lt;a href=&quot;#UI&quot; class=&quot;headerlink&quot; title=&quot;UI&quot;&gt;&lt;/a&gt;UI&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;UI渲染流程&lt;/li&gt;
+&lt;li&gt;Frame、Bounds&lt;/li&gt;
+&lt;li&gt;UIView、Layer&lt;br&gt;-&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -2938,13 +3019,20 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;语法规范&quot;&gt;&lt;a href=&quot;#语法规范&quot; class=&quot;headerlink&quot; title=&quot;语法规范&quot;&gt;&lt;/a&gt;语法规范&lt;/h2&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;语法规范&quot;&gt;&lt;a href=&quot;#语法规范&quot; class=&quot;headerlink&quot; title=&quot;语法规范&quot;&gt;&lt;/a&gt;语法规范&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;../Swift开发规范&quot;&gt;Swift 开发规范&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=
-      
+&lt;h2 id=&quot;资源文件命名及使用&quot;&gt;&lt;a href=&quot;#资源文件命名及使用&quot; class=&quot;headerlink&quot; title=&quot;资源文件命名及使用&quot;&gt;&lt;/a&gt;资源文件命名及使用&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;资源文件命名单词之间使用下划线&lt;code&gt;_&lt;/code&gt;连接，单词小写，规则如下：&lt;br&gt;&lt;code&gt;模块名_业务功能描述_控件描述_控件状态限定词&lt;/code&gt;，如&lt;code&gt;home_message_btn_normal&lt;/code&gt;;&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;控件描述包括 背景：bg；图标：icon；按钮：btn；图片：img；等&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;控件状态包括 正常：normal；按下：pressed；选中：selected；禁用：disabled；高亮：highlighted；等&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;尽量使用 xcassets 管理图片资源，根据实际情况创建一个或多个 xcassets 文件，在 xcassets 内部也可以创建多个文件夹进行图片资源管理分组，其中文件夹名称使用 UpperCamelCase 形式，根据实际情况考虑，可不再放入1x的图片；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;png 图片使用 TinyPNG 或者类似工具压缩处理，减少包体积；&lt;/li&gt;
+&lt;li&gt;图片资源推荐使用 png 格式&lt;/li&gt;
+&lt;li&gt;颜色、字体等样式放在一处统一管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;基本组件&quot;&gt;&lt;a href=&quot;#基本组件&quot; class=&quot;headerlink&quot; title=&quot;基本组件&quot;&gt;&lt;/a&gt;基本组件&lt;/h2&gt;
     
     </summary>
     
@@ -2973,11 +3061,10 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;排序相关&quot;&gt;&lt;a href=&quot;#排序相关&quot; class=&quot;headerlink&quot; title=&quot;排序相关&quot;&gt;&lt;/a&gt;排序相关&lt;/h2&gt;&lt;p&gt;先来一波总结&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;../../img/算法/排序算法/排序算法.png&quot; alt=&quot;排序算法.
-      
+      &lt;h2 id=&quot;排序相关&quot;&gt;&lt;a href=&quot;#排序相关&quot; class=&quot;headerlink&quot; title=&quot;排序相关&quot;&gt;&lt;/a&gt;排序相关&lt;/h2&gt;&lt;p&gt;先来一波总结&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../../img/算法/排序算法/排序算法.png&quot; alt=&quot;排序算法.png&quot;&gt;&lt;/p&gt;
+&lt;p&gt;O(nlog&lt;sub&gt;2&lt;/sub&gt;n)&lt;/p&gt;
+&lt;p&gt;O(n&lt;sup&gt;2&lt;/sup&gt;)&lt;/p&gt;
     
     </summary>
     
@@ -3000,11 +3087,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;props&quot;&gt;&lt;a href=&quot;#props&quot; class=&quot;headerlink&quot; title=&quot;props&quot;&gt;&lt;/a&gt;props&lt;/h3&gt;&lt;p&gt;props 是父组件给子组件传值的一种方式，其中可以包括&lt;/p&gt;
-&lt;figure class=&quot;highlight 
-      
+      &lt;h3 id=&quot;props&quot;&gt;&lt;a href=&quot;#props&quot; class=&quot;headerlink&quot; title=&quot;props&quot;&gt;&lt;/a&gt;props&lt;/h3&gt;&lt;p&gt;props 是父组件给子组件传值的一种方式，其中可以包括&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;props: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    refFun: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        type: Function,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        default: () =&amp;gt; () =&amp;gt; &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    refObj: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        type: Object,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        default: () =&amp;gt; (&amp;#123;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    refArr: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        type: Array,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        default: () =&amp;gt; ([])&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    refStr: &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        type: String,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        required: true,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        validator: function(value) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;          return value &amp;gt; 10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    // type可以为 Number、String、Boolean、Object、Array、Function&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    // type也可以为数组，如type: [String, Number]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;关键&quot;&gt;&lt;a href=&quot;#关键&quot; class=&quot;headerlink&quot; title=&quot;关键&quot;&gt;&lt;/a&gt;关键&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;v-html&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v-text&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v-bind&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v-on&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v-model&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;v-slot&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
     
     </summary>
     
@@ -3025,10 +3110,8 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;大神博客&quot;&gt;&lt;a href=&quot;#大神博客&quot; class=&quot;headerlink&quot; title=&quot;大神博客&quot;&gt;&lt;/a&gt;大神博客&lt;/h2&gt;&lt;h3 id=&quot;1、https-casatwy-com&quot;&gt;&lt;a href=&quot;#1、https-casatwy-com&quot; class
-      
+      &lt;h2 id=&quot;大神博客&quot;&gt;&lt;a href=&quot;#大神博客&quot; class=&quot;headerlink&quot; title=&quot;大神博客&quot;&gt;&lt;/a&gt;大神博客&lt;/h2&gt;&lt;h3 id=&quot;1、https-casatwy-com&quot;&gt;&lt;a href=&quot;#1、https-casatwy-com&quot; class=&quot;headerlink&quot; title=&quot;1、https://casatwy.com/&quot;&gt;&lt;/a&gt;1、&lt;a href=&quot;https://casatwy.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://casatwy.com/&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;casatwy 的博客，看他的博客及网上的相关资料，之前是安居客的架构师，后来去了天猫，但一直没找到他的真实名字，其他人在介绍他的时候也是直接说他的英文名 casatwy，只有一篇博客称呼他为田神，可能是姓田吧，不过这些都不重要，他带给我们 iOS 开发者的技术分享才是最重要的，我们在心中默默的敬佩就好了。因为他之前是架构师，所以他的博客中对于 iOS 的架构设计有很多分享，非常建议大家去看一看。博客中有《iOS 应用架构谈》系列文章。&lt;/p&gt;
+&lt;h3 id=&quot;2、https-onevcat-com-blog&quot;&gt;&lt;a href=&quot;#2、https-onevcat-com-blog&quot; class=&quot;headerlink&quot; title=&quot;2、https://onevcat.com/#blog&quot;&gt;&lt;/a&gt;2、&lt;a href=&quot;https://onevcat.com/#blog&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://onevcat.com/#blog&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;喵神的博客，为 Swift 技术在国内的推广做了很大贡献。著作有《Swifter-Swift 开发者必备 Tips(第四版)》&lt;/p&gt;
     
     </summary>
     
@@ -3053,12 +3136,12 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h3&gt;&lt;p&gt;APP 组件化的过程我觉得主要分为下面几个部分。&lt;/p&gt;
+      &lt;h3 id=&quot;一、前言&quot;&gt;&lt;a href=&quot;#一、前言&quot; class=&quot;headerlink&quot; title=&quot;一、前言&quot;&gt;&lt;/a&gt;一、前言&lt;/h3&gt;&lt;p&gt;APP 组件化的过程我觉得主要分为下面几个部分。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;APP 架构设计&lt;/strong
-      
+&lt;li&gt;&lt;strong&gt;APP 架构设计&lt;/strong&gt;&lt;br&gt; 我们在将 APP 进行组件化搭建之前，我们首先得有一个整体的架构设计，哪些功能下沉，哪些功能归为一块，功能的颗粒度怎么设计，这都是我们需要考虑的问题。当然，架构肯定需要根据我们的业务来设计，脱离业务需求的架构肯定不是好架构。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;APP 组件之间的通信&lt;/strong&gt;&lt;br&gt; 将 APP 拆分成组件之后，我们就要考虑组件之间的通信问题。其实组件之间的通信问题说到底就是 APP 中的路由方案设计问题。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;二、架构设计、组件拆分&quot;&gt;&lt;a href=&quot;#二、架构设计、组件拆分&quot; class=&quot;headerlink&quot; title=&quot;二、架构设计、组件拆分&quot;&gt;&lt;/a&gt;二、架构设计、组件拆分&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;../../../img/iOS/架构设计/iOS架构设计.png&quot; alt=&quot;iOS架构设计&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -3083,10 +3166,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;安装原理&quot;&gt;&lt;a href=&quot;#安装原理&quot; class=&quot;headerlink&quot; title=&quot;安装原理&quot;&gt;&lt;/a&gt;安装原理&lt;/h2&gt;&lt;p&gt;OTA 即&lt;code&gt;Over-the-Air&lt;/code&gt;，是 Apple 在 iOS4 中新加的一项技术，目的是让开发者
-      
+      &lt;h2 id=&quot;安装原理&quot;&gt;&lt;a href=&quot;#安装原理&quot; class=&quot;headerlink&quot; title=&quot;安装原理&quot;&gt;&lt;/a&gt;安装原理&lt;/h2&gt;&lt;p&gt;OTA 即&lt;code&gt;Over-the-Air&lt;/code&gt;，是 Apple 在 iOS4 中新加的一项技术，目的是让开发者能够脱离 Appstore，实现从服务器下载并安装 iOS 应用，用户只需要在 iOS 的浏览器（WebKit）中，打开&lt;code&gt;itms-services://&lt;/code&gt;协议链接，就可以直接安装 APP。iOS 浏览器内核会读取.plist 文件中的信息，包括应用的名称、版本、ipa 包下载地址等。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这种方式只适合用来分发企业账号应用&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;安装步骤&quot;&gt;&lt;a href=&quot;#安装步骤&quot; class=&quot;headerlink&quot; title=&quot;安装步骤&quot;&gt;&lt;/a&gt;安装步骤&lt;/h2&gt;&lt;p&gt;我们只要在浏览器中使用 a 标签打开下面地址或者在 iOS 应用中使用&lt;code&gt;UIApplication.shared.open()&lt;/code&gt;来打开这个地址便可以开始进行下载了。&lt;/p&gt;
     
     </summary>
     
@@ -3111,10 +3193,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;虽然在写这篇笔记之前已经用 Git 很长时间了，而且对于一些操作也比较熟悉，但是还是感觉对于 Git 没有进行系统的学习和梳理，这篇笔记的目
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;虽然在写这篇笔记之前已经用 Git 很长时间了，而且对于一些操作也比较熟悉，但是还是感觉对于 Git 没有进行系统的学习和梳理，这篇笔记的目的其实就是把 Git 相关知识进行系统的梳理一下，让 Git 这个果子在我的技能树上成熟。&lt;/p&gt;
+&lt;h2 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h2&gt;&lt;p&gt;在 Git 工作目录下的文件有&lt;strong&gt;已跟踪&lt;/strong&gt;以及&lt;strong&gt;未跟踪&lt;/strong&gt;两种状态，其中未跟踪的文件便是没有被 git 纳入版本控制的文件，而已跟踪的文件肯定就是 git 纳入版本控制的文件了，纳入 git 控制的文件的状态会被分为三种：&lt;strong&gt;已提交（committed）&lt;/strong&gt;、&lt;strong&gt;已暂存 (staged)&lt;/strong&gt;和&lt;strong&gt;已暂存 (staged)&lt;/strong&gt;；那么相对应的 git 便分为&lt;strong&gt;工作区&lt;/strong&gt;、&lt;strong&gt;暂存区&lt;/strong&gt;以及&lt;strong&gt;版本库&lt;/strong&gt;三个部分；&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../../img/杂项/Git/Git分区.jpg&quot; alt=&quot;Git分区示意图&quot;&gt;&lt;/p&gt;
     
     </summary>
     
@@ -3137,10 +3218,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1、基本概念&quot;&gt;&lt;a href=&quot;#1、基本概念&quot; class=&quot;headerlink&quot; title=&quot;1、基本概念&quot;&gt;&lt;/a&gt;1、基本概念&lt;/h2&gt;&lt;h3 id=&quot;1、JVM、JRE、以及-JDK（以-Windows-为例）&quot;&gt;&lt;a href=&quot;#1、JVM、J
-      
+      &lt;h2 id=&quot;1、基本概念&quot;&gt;&lt;a href=&quot;#1、基本概念&quot; class=&quot;headerlink&quot; title=&quot;1、基本概念&quot;&gt;&lt;/a&gt;1、基本概念&lt;/h2&gt;&lt;h3 id=&quot;1、JVM、JRE、以及-JDK（以-Windows-为例）&quot;&gt;&lt;a href=&quot;#1、JVM、JRE、以及-JDK（以-Windows-为例）&quot; class=&quot;headerlink&quot; title=&quot;1、JVM、JRE、以及 JDK（以 Windows 为例）&quot;&gt;&lt;/a&gt;1、JVM、JRE、以及 JDK（以 Windows 为例）&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;1、JVM 是 JAVA 虚拟机(java.exe)，是 JAVA 能够实现跨平台的关键部分；&lt;/li&gt;
+&lt;li&gt;2、JRE = JRE + rt.jar 基础类库；&lt;/li&gt;
+&lt;li&gt;3、JDK 是在 JRE 的基础上加上了一些程序开发所需要的程序及 Jar 包；如编译器（javac.exe）、开发工具（javadoc.exe、jar.exe、keytool.exe、jconsole.exe），Jar 包包括 dt.jar、tools.jar 等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中 rt.jar 包为所有核心 Java 运行环境的已编译 class 文件的集合;tools.jar 是系统用来编译一个类的时候用到的，即执行 javac 所需要用到的；dt.jar 包是关于运行环境的类库，主要是 swing 包。&lt;/p&gt;
+&lt;h2 id=&quot;2、Java-语法&quot;&gt;&lt;a href=&quot;#2、Java-语法&quot; class=&quot;headerlink&quot; title=&quot;2、Java 语法&quot;&gt;&lt;/a&gt;2、Java 语法&lt;/h2&gt;
     
     </summary>
     
@@ -3191,11 +3275,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1、NodeJs&quot;&gt;&lt;a href=&quot;#1、NodeJs&quot; class=&quot;headerlink&quot; title=&quot;1、NodeJs&quot;&gt;&lt;/a&gt;1、NodeJs&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;curl --silent --location https://r
-      
+      &lt;h2 id=&quot;1、NodeJs&quot;&gt;&lt;a href=&quot;#1、NodeJs&quot; class=&quot;headerlink&quot; title=&quot;1、NodeJs&quot;&gt;&lt;/a&gt;1、NodeJs&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sudo yum -y install nodejs&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node -v&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;npm -v&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;2、JDK&quot;&gt;&lt;a href=&quot;#2、JDK&quot; class=&quot;headerlink&quot; title=&quot;2、JDK&quot;&gt;&lt;/a&gt;2、JDK&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://blog.csdn.net/u010590120/article/details/94736800&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;参考教程地址&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;1、下载地址点击跳转到下载地址&quot;&gt;&lt;a href=&quot;#1、下载地址点击跳转到下载地址&quot; class=&quot;headerlink&quot; title=&quot;1、下载地址点击跳转到下载地址&quot;&gt;&lt;/a&gt;1、下载地址&lt;a href=&quot;https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;点击跳转到下载地址&lt;/a&gt;&lt;/h3&gt;
     
     </summary>
     
@@ -3218,10 +3305,13 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;日常&quot;&gt;&lt;a href=&quot;#日常&quot; class=&quot;headerlink&quot; title=&quot;日常&quot;&gt;&lt;/a&gt;日常&lt;/h2&gt;&lt;h3 id=&quot;Mac&quot;&gt;&lt;a href=&quot;#Mac&quot; class=&quot;headerlink&quot; title=&quot;Mac&quot;&gt;&lt;/a&gt;Mac&lt;/h3&gt;&lt;u
-      
+      &lt;h2 id=&quot;日常&quot;&gt;&lt;a href=&quot;#日常&quot; class=&quot;headerlink&quot; title=&quot;日常&quot;&gt;&lt;/a&gt;日常&lt;/h2&gt;&lt;h3 id=&quot;Mac&quot;&gt;&lt;a href=&quot;#Mac&quot; class=&quot;headerlink&quot; title=&quot;Mac&quot;&gt;&lt;/a&gt;Mac&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;sudo lsof -i :XXXX&lt;/strong&gt; 查看 XXXX 端口的占用情况，可查到占用的 pid&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;sudo kill -9 XXXX&lt;/strong&gt; 杀死 pid 为 XXXX 的进程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;一、Redis&quot;&gt;&lt;a href=&quot;#一、Redis&quot; class=&quot;headerlink&quot; title=&quot;一、Redis&quot;&gt;&lt;/a&gt;一、Redis&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;启动 redis-server&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -3244,12 +3334,11 @@
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;npm 是 NodeJS 的包管理工具&lt;/p&gt;
+      &lt;p&gt;npm 是 NodeJS 的包管理工具&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;安装&lt;/strong&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;
-      
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install &amp;lt;模块名&amp;gt; -g&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;全局安装&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;npm install &amp;lt;模块名&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;本地安装&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;npm install &amp;lt;模块名&amp;gt; --save-dev 或 npm install gulp -S&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;项目中安装并将模块保存到package.json中devDependencies&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;npm install &amp;lt;模块名&amp;gt; --save  或 npm install gulp -D&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;项目中安装并将模块保存到package.json中dependencies&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;npm install gulp --save-optional 或 npm install gulp -O&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;项目中安装并将模块保存到package.json中optionalDependencies&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;安装淘宝镜像&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;npm install -g cnpm --registry=https://registry.npm.taobao.org&lt;/code&gt;&lt;/strong&gt;&lt;br&gt;安装完毕之后就可以使用 cnpm install 这种方式了，提高下载速度&lt;/p&gt;
     
     </summary>
     
@@ -3301,11 +3390,20 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h1 id=&quot;面向对象六大设计原则&quot;&gt;&lt;a href=&quot;#面向对象六大设计原则&quot; class=&quot;headerlink&quot; title=&quot;面向对象六大设计原则&quot;&gt;&lt;/a&gt;&lt;strong&gt;面向对象六大设计原则&lt;/strong&gt;&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;开闭原则（OCP）：Open 
-      
+      &lt;h1 id=&quot;面向对象六大设计原则&quot;&gt;&lt;a href=&quot;#面向对象六大设计原则&quot; class=&quot;headerlink&quot; title=&quot;面向对象六大设计原则&quot;&gt;&lt;/a&gt;&lt;strong&gt;面向对象六大设计原则&lt;/strong&gt;&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;开闭原则（OCP）：Open Close Principle&lt;/li&gt;
+&lt;li&gt;单一职责原则（SRP）：Single Responsibility Principle&lt;/li&gt;
+&lt;li&gt;里氏替换原则（LSP）：Liskov Substitution Principle&lt;/li&gt;
+&lt;li&gt;依赖倒置原则（DIP）：Dependence Inversion Principle&lt;/li&gt;
+&lt;li&gt;接口隔离原则（ISP）：Interface Segregation Principle&lt;/li&gt;
+&lt;li&gt;迪米特法则（LoP)：Law of Demeter，也称最少知识原则(LKP)：Least Knowledge Principle）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;开闭原则&quot;&gt;&lt;a href=&quot;#开闭原则&quot; class=&quot;headerlink&quot; title=&quot;开闭原则&quot;&gt;&lt;/a&gt;开闭原则&lt;/h2&gt;&lt;p&gt;是设计原则的总纲或者前提；&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;核心思想： 尽量通过扩展软件实体来解决需求变化，而不是通过修改已有的代码来完成变化&lt;/li&gt;
+&lt;li&gt;通俗来讲： 一个软件产品在生命周期内，都会发生变化，既然变化是一个既定的事实，我们就应该在设计的时候尽量适应这些变化，以提高项目的稳定性和灵活性。&lt;/li&gt;
+&lt;li&gt;一句话概括: 单一职责原则告诉我们实现类要职责单一；里氏替换原则告诉我们不要破坏继承体系；依赖倒置原则告诉我们要面向接口编程；接口隔离原则告诉我们在设计接口的时候要精简单一；迪米特法则告诉我们要降低耦合。而开闭原则是总纲，他告诉我们要对扩展开放，对修改关闭。&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -3387,10 +3485,15 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;Swif与OC对比&quot;&gt;&lt;a href=&quot;#Swif与OC对比&quot; class=&quot;headerlink&quot; title=&quot;Swif与OC对比&quot;&gt;&lt;/a&gt;Swif与OC对比&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../img/iOS/Swift/Swift-OC对比.p
-      
+      &lt;h2 id=&quot;Swif与OC对比&quot;&gt;&lt;a href=&quot;#Swif与OC对比&quot; class=&quot;headerlink&quot; title=&quot;Swif与OC对比&quot;&gt;&lt;/a&gt;Swif与OC对比&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;../../img/iOS/Swift/Swift-OC对比.png&quot; alt=&quot;Swift-Objec数据类型对应&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;UIImageView-加载图片相关&quot;&gt;&lt;a href=&quot;#UIImageView-加载图片相关&quot; class=&quot;headerlink&quot; title=&quot;UIImageView 加载图片相关&quot;&gt;&lt;/a&gt;UIImageView 加载图片相关&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;过程&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从磁盘拷贝数据到内核缓冲区域；&lt;/li&gt;
+&lt;li&gt;从内核缓存区域复制数据到用户内存；&lt;/li&gt;
+&lt;li&gt;UIImage 赋值给 UIImageView 的 image 时，图像数据会被解码，变成位图数，内存大小为 width height 4bytes （4bytes:每个像素点的大小)；&lt;/li&gt;
+&lt;li&gt;CTTransaction 捕捉到 UIImageView layer 树的变化；&lt;/li&gt;
+&lt;li&gt;主线程 runloop 提交 CTTransaction，开始图像渲染。（如果数据没有字节对齐，Core Animation 会再拷贝一份数据，进行字节对齐，GPU 处理位图数据，进行渲染）；&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -3413,10 +3516,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;一、相关规范&quot;&gt;&lt;a href=&quot;#一、相关规范&quot; class=&quot;headerlink&quot; title=&quot;一、相关规范&quot;&gt;&lt;/a&gt;一、相关规范&lt;/h2&gt;&lt;p&gt;1、ViewController 结构&lt;br&gt;viewDidload 里面只做 addSubview 的事情
-      
+      &lt;h2 id=&quot;一、相关规范&quot;&gt;&lt;a href=&quot;#一、相关规范&quot; class=&quot;headerlink&quot; title=&quot;一、相关规范&quot;&gt;&lt;/a&gt;一、相关规范&lt;/h2&gt;&lt;p&gt;1、ViewController 结构&lt;br&gt;viewDidload 里面只做 addSubview 的事情；然后在 viewWillAppear 里面做布局的事情；最后在 viewDidAppear 里面做 Notification 的监听之类的事情；&lt;br&gt;顺序：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;life cycle&lt;/li&gt;
+&lt;li&gt;Delegate 方法实现&lt;/li&gt;
+&lt;li&gt;event response (按钮以及手势的事件响应)&lt;/li&gt;
+&lt;li&gt;一些私有方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;二、架构设计&quot;&gt;&lt;a href=&quot;#二、架构设计&quot; class=&quot;headerlink&quot; title=&quot;二、架构设计&quot;&gt;&lt;/a&gt;二、架构设计&lt;/h2&gt;&lt;h3 id=&quot;1、MVVM&quot;&gt;&lt;a href=&quot;#1、MVVM&quot; class=&quot;headerlink&quot; title=&quot;1、MVVM&quot;&gt;&lt;/a&gt;1、MVVM&lt;/h3&gt;
     
     </summary>
     
@@ -3464,10 +3571,14 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1、UITapGestureRecognizer-相关&quot;&gt;&lt;a href=&quot;#1、UITapGestureRecognizer-相关&quot; class=&quot;headerlink&quot; title=&quot;1、UITapGestureRecognizer 相关&quot;&gt;&lt;/a&gt;1、UIT
-      
+      &lt;h2 id=&quot;1、UITapGestureRecognizer-相关&quot;&gt;&lt;a href=&quot;#1、UITapGestureRecognizer-相关&quot; class=&quot;headerlink&quot; title=&quot;1、UITapGestureRecognizer 相关&quot;&gt;&lt;/a&gt;1、UITapGestureRecognizer 相关&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;一个手势添加到多个 view 上，只有最后一个 view 添加的有效&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;每一个 Gesture Recognizer 关联一个 View，但是一个 View 可以关联多个 Gesture Recognizer,一个 View 可以响应多种触控操作方式。当一个触控事件发生时，Gesture Recognizer 接收一个动作消息要先于 View 本身，结果就是 Gesture Recognizer 作为 View 处理触控事件的代理。当 Gesture Recognizer 接收到指定的事件时，它就会发送一条动作消息(action message)给 ViewController 并处理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//labelOne点击事件会失效&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; singleTapGesture = &lt;span class=&quot;type&quot;&gt;UITapGestureRecognizer&lt;/span&gt;(target: &lt;span class=&quot;keyword&quot;&gt;self&lt;/span&gt;, action: #selector(changeAgreeState))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;labelOne.addGestureRecognizer(singleTapGesture)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;labelOne.isUserInteractionEnabled = &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;labelTwo.addGestureRecognizer(singleTapGesture)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;labelTwo.isUserInteractionEnabled = &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;2、元素被导航栏遮挡&quot;&gt;&lt;a href=&quot;#2、元素被导航栏遮挡&quot; class=&quot;headerlink&quot; title=&quot;2、元素被导航栏遮挡&quot;&gt;&lt;/a&gt;2、元素被导航栏遮挡&lt;/h2&gt;
     
     </summary>
     
@@ -3490,10 +3601,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;WebKit-进程&quot;&gt;&lt;a href=&quot;#WebKit-进程&quot; class=&quot;headerlink&quot; title=&quot;WebKit 进程&quot;&gt;&lt;/a&gt;WebKit 进程&lt;/h2&gt;&lt;p&gt;在 iOS 系统中，通常一个应用对应一个进程，但是在 WebKit 的发展过程中，基
-      
+      &lt;h2 id=&quot;WebKit-进程&quot;&gt;&lt;a href=&quot;#WebKit-进程&quot; class=&quot;headerlink&quot; title=&quot;WebKit 进程&quot;&gt;&lt;/a&gt;WebKit 进程&lt;/h2&gt;&lt;p&gt;在 iOS 系统中，通常一个应用对应一个进程，但是在 WebKit 的发展过程中，基于稳定性与安全性考虑，引入了多进程的概念，避免单一页面的异常影响整体 app 运行，首先本文简单介绍下几个常见的 WebKit 进程，如下所示。&lt;/p&gt;
+&lt;h3 id=&quot;UIProcess&quot;&gt;&lt;a href=&quot;#UIProcess&quot; class=&quot;headerlink&quot; title=&quot;UIProcess&quot;&gt;&lt;/a&gt;UIProcess&lt;/h3&gt;&lt;p&gt;APP 所在进程，WKWebView 代码和 WebKit 框架已加载到你的进程空间中；主要负责与 WebContent 进行交互，与 APP 在同一进程中，可以进行 WebView 的功能配置，并接收来自 WebContent 进程的各类消息，配合业务代码执行任务的决策，例如是否发起请求，是否接受响应等。&lt;/p&gt;
+&lt;h3 id=&quot;WebContent&quot;&gt;&lt;a href=&quot;#WebContent&quot; class=&quot;headerlink&quot; title=&quot;WebContent&quot;&gt;&lt;/a&gt;WebContent&lt;/h3&gt;
     
     </summary>
     
@@ -3518,10 +3628,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h2&gt;&lt;h3 id=&quot;样式&quot;&gt;&lt;a href=&quot;#样式&quot; class=&quot;headerlink&quot; title=&quot;样式&quot;&gt;&lt;/a&gt;样式&lt;/h
-      
+      &lt;h2 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;headerlink&quot; title=&quot;基础知识&quot;&gt;&lt;/a&gt;基础知识&lt;/h2&gt;&lt;h3 id=&quot;样式&quot;&gt;&lt;a href=&quot;#样式&quot; class=&quot;headerlink&quot; title=&quot;样式&quot;&gt;&lt;/a&gt;样式&lt;/h3&gt;&lt;p&gt;UITableView 有两种样式（plain，grouped），其中 plain 为普通列表样式，grouped 是分组样式。可以在实例化的时候进行设置，默认是 plain。&lt;/p&gt;
+&lt;figure class=&quot;highlight swift&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//tableview样式&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt;  tableView = &lt;span class=&quot;type&quot;&gt;UITableView&lt;/span&gt;()  &lt;span class=&quot;comment&quot;&gt;//plain形式&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt;  tableview = &lt;span class=&quot;type&quot;&gt;UITableView&lt;/span&gt;(frame:frame, style:.grouped) &lt;span class=&quot;comment&quot;&gt;//grouped形式&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tableview.separatorStyle = .singleLine &lt;span class=&quot;comment&quot;&gt;//设置是否有横线,默认有横线&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//tablecell样式&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tablecell.selectionStyle = .gray  &lt;span class=&quot;comment&quot;&gt;//设置cell点击的样式，其中设置为none时候点击时候没有阴影效果&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tablecell.accessoryType = .disclosureIndicator &lt;span class=&quot;comment&quot;&gt;//设置cell尾部样式，箭头还是对号等等&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;数据源（UITableViewDataSource）&quot;&gt;&lt;a href=&quot;#数据源（UITableViewDataSource）&quot; class=&quot;headerlink&quot; title=&quot;数据源（UITableViewDataSource）&quot;&gt;&lt;/a&gt;数据源（UITableViewDataSource）&lt;/h3&gt;
     
     </summary>
     
@@ -3546,10 +3655,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1、下载-Flutter&quot;&gt;&lt;a href=&quot;#1、下载-Flutter&quot; class=&quot;headerlink&quot; title=&quot;1、下载 Flutter&quot;&gt;&lt;/a&gt;1、下载 Flutter&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;
-      
+      &lt;h2 id=&quot;1、下载-Flutter&quot;&gt;&lt;a href=&quot;#1、下载-Flutter&quot; class=&quot;headerlink&quot; title=&quot;1、下载 Flutter&quot;&gt;&lt;/a&gt;1、下载 Flutter&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git clone -b master https://github.com/flutter/flutter.git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;2、配置环境变量&quot;&gt;&lt;a href=&quot;#2、配置环境变量&quot; class=&quot;headerlink&quot; title=&quot;2、配置环境变量&quot;&gt;&lt;/a&gt;2、配置环境变量&lt;/h2&gt;&lt;figure class=&quot;highlight vim&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;vim&lt;/span&gt; ~/.bash_profile&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//加入内容&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;export PATH=/你的flutter文件夹所在位置/flutter/bin:$PATH&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;export PUB_HOSTED_URL=http&lt;span class=&quot;variable&quot;&gt;s:&lt;/span&gt;//pub.flutter-io.&lt;span class=&quot;keyword&quot;&gt;cn&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;export FLUTTER_STORAGE_BASE_URL=http&lt;span class=&quot;variable&quot;&gt;s:&lt;/span&gt;//storage.flutter-io.&lt;span class=&quot;keyword&quot;&gt;cn&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;source&lt;/span&gt; ~/.bash_profile&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;flutter -h //显示相关帮助&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;3、flutter-相关命令&quot;&gt;&lt;a href=&quot;#3、flutter-相关命令&quot; class=&quot;headerlink&quot; title=&quot;3、flutter 相关命令&quot;&gt;&lt;/a&gt;3、flutter 相关命令&lt;/h2&gt;
     
     </summary>
     
@@ -3572,10 +3680,11 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;1、字符串&quot;&gt;&lt;a href=&quot;#1、字符串&quot; class=&quot;headerlink&quot; title=&quot;1、字符串&quot;&gt;&lt;/a&gt;1、字符串&lt;/h2&gt;&lt;h3 id=&quot;1、subString-与-String&quot;&gt;&lt;a href=&quot;#1、subString-与-String&quot;
-      
+      &lt;h2 id=&quot;1、字符串&quot;&gt;&lt;a href=&quot;#1、字符串&quot; class=&quot;headerlink&quot; title=&quot;1、字符串&quot;&gt;&lt;/a&gt;1、字符串&lt;/h2&gt;&lt;h3 id=&quot;1、subString-与-String&quot;&gt;&lt;a href=&quot;#1、subString-与-String&quot; class=&quot;headerlink&quot; title=&quot;1、subString 与 String&quot;&gt;&lt;/a&gt;1、subString 与 String&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;subString 是一个全新的类型，看类名像是 String 的子类，但是大家千万别被误导了，Substring 并不是 String 的子类，这是两个不同的类型，但是它们都继承了 StringProtocol 协议，因此存在一些共性；在开发中 Substring 并不常用 (一般会在分割 String 中见到)，所以往往要转成 String。&lt;/li&gt;
+&lt;li&gt;subString 最重要的作用的体现是在性能上，自身在分割时，其实重用了父 String 的内存，延长了父 String 的生命周期，当这个 subString 不被释放，其父 String 也不被释放。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;2、字符串分割&quot;&gt;&lt;a href=&quot;#2、字符串分割&quot; class=&quot;headerlink&quot; title=&quot;2、字符串分割&quot;&gt;&lt;/a&gt;2、字符串分割&lt;/h3&gt;&lt;p&gt;我们可以使用两种方式对字符串进行分割，分别为 split 以及 components 方法，两种方法在类型以及分割结果上有着不同结果；&lt;/p&gt;
     
     </summary>
     
@@ -3623,10 +3732,9 @@
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;有些时候技术群里面的群友会说一些涉及 Session 和 Cookie 的问题，但是通过他们的表述感觉其对两者并没有了解清楚，今天简单说明一
-      
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;有些时候技术群里面的群友会说一些涉及 Session 和 Cookie 的问题，但是通过他们的表述感觉其对两者并没有了解清楚，今天简单说明一下。&lt;/p&gt;
+&lt;h2 id=&quot;Cookie&quot;&gt;&lt;a href=&quot;#Cookie&quot; class=&quot;headerlink&quot; title=&quot;Cookie&quot;&gt;&lt;/a&gt;Cookie&lt;/h2&gt;&lt;p&gt;cookie 是存储在浏览器端的信息，以一串文本形式存在，存储的容量有限，大约为 4KB；我们可以通过 cookie 保存一些登录相关的账号密码等信息，并且我们可以人工的去编辑、阻止或者删除它，这种方式本身有着很大的风险性；&lt;br&gt;如果我们不设置 cookie 的过期时间时，cookie 信息保存在内存中，当浏览器关闭窗口时，就会自动将 cookie 删除；如果设定了过期时间，则浏览器会将 cookie 保存在硬盘中。存储在硬盘上的 cookie 可以在不同的浏览器进程间共享，比如两个浏览器窗口。而对于保存在内存里的 cookie，不同的浏览器有不同的处理方式。&lt;br&gt;cookie 在本地的存储格式为 key=value;key1=value1 有点类似于 map 的键值对，每个键值对之间用；号隔开，同时不允许键、值中出现分号（;）、逗号（,）、等号（=）以及空格；如果值中需要出现上述特殊字符，可以需要使用 escape()函数进行编码，取值时候通过 unescape()函数将取出的值进行解码。&lt;/p&gt;
+&lt;p&gt;前端持久化存储的方式除上述 Cookie 外还有以下几种形式：&lt;/p&gt;
     
     </summary>
     
