@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/Clang.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/swiftc.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/编译/LLVM后端.png">
-<meta property="og:updated_time" content="2022-01-07T00:46:55.718Z">
+<meta property="og:updated_time" content="2022-01-15T11:01:44.742Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 编译简析">
 <meta name="twitter:description" content="前言一般的编译器都是由三部分构成，从源码到机器码基本上都要经过这三部分。  编译器前端 (FrontEnd): 词法分析，语法分析，语义分析，将源代码抽象为语法树 AST，继而生成中间代码 IR； 优化器 (Optimizer): 对得到的中间代码 IR 进行优化； 编译器后端 (BackEnd): 将得到的中间代码转化为各平台的机器码，如 x86，ARM 等。   从 GCC 到 LLVM 以及">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-07 08:46:55" itemprop="dateModified" datetime="2022-01-07T08:46:55+08:00">2022-01-07</time>
+                <time title="修改时间：2022-01-15 19:01:44" itemprop="dateModified" datetime="2022-01-15T19:01:44+08:00">2022-01-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -262,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.1k</span>
+              <span>5.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -341,6 +341,7 @@
 <li>处在编译管线的主通道 (Sits on the hot path of the compiler pipeline );</li>
 <li>架起桥梁连接源码与 LLVM，减少源码与 LLVM 之间的抽象鸿沟 (Bridges the abstraction gap between source and LLVM)</li>
 </ul>
+<p><a href="https://www.swift.org/swift-compiler/" target="_blank" rel="noopener">swift-compiler</a></p>
 <h3 id="IR"><a href="#IR" class="headerlink" title="IR"></a>IR</h3><p>LLVM IR 有三种表示形式。</p>
 <ul>
 <li>text: 便于阅读的文本格式，类似于汇编语言，拓展名<code>.ll</code>；</li>
@@ -435,8 +436,8 @@
       <i class="fa fa-chevron-left"></i> iOS 优化 - 内存
     </a></div>
       <div class="post-nav-item">
-    <a href="/iOS/架构设计/iOS中的库/" rel="next" title="iOS中的库">
-      iOS中的库 <i class="fa fa-chevron-right"></i>
+    <a href="/iOS/架构设计/iOS中的库/" rel="next" title="iOS 中的库">
+      iOS 中的库 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -578,12 +579,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">346k</span>
+    <span title="站点总字数">349k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:15</span>
+    <span title="站点阅读时长">5:17</span>
 </div>
 
         
