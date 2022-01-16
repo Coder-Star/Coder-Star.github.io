@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://coder-star.github.io/"/>
-  <updated>2022-01-16T06:50:27.297Z</updated>
+  <updated>2022-01-16T10:14:25.150Z</updated>
   <id>https://coder-star.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SPM 相关</title>
+    <link href="https://coder-star.github.io/iOS/Swift/SPM/SPM%E7%9B%B8%E5%85%B3/"/>
+    <id>https://coder-star.github.io/iOS/Swift/SPM/SPM%E7%9B%B8%E5%85%B3/</id>
+    <published>2022-01-16T09:50:55.000Z</published>
+    <updated>2022-01-16T10:14:25.150Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p><h2 id="SPM-太卡顿"><a href="#SPM-太卡顿" class="headerlink" title="SPM 太卡顿"></a>SPM 太卡顿</h2><p>首先你得有一个翻墙工具，我用的是<code>V2RayX</code>，端口为<code>8001</code>。</p><p><img src="../../../../img/iOS/Swift/SPM/V2RayX端口.png" alt="V2RayX端口"></p><p>我们使用下列命令将终端代理指向翻墙工具。</p><p><code>export https_proxy=http://127.0.0.1:8001 http_proxy=http://127.0.0.1:8001  all_proxy=socks5://127.0.0.1:8001</code></p><p>然后使用下列命令使 SPM 下载时走终端的 git，这时就会开始 reslove。<br><code>xcodebuild -resolvePackageDependencies -scmProvider system</code></p><blockquote><p>执行过程中可能会出现找不到对应版本的情况，这时候可以先用 Xcode 打开项目，再执行这些命令。</p></blockquote><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p><p>Let’s be CoderStar!</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
+&lt;h2 id=&quot;SPM-太卡顿&quot;&gt;&lt;a href=&quot;#SPM-太卡顿&quot; class=&quot;headerlink&quot; title=&quot;SPM 太卡顿&quot;&gt;&lt;/a&gt;SPM 太卡顿&lt;/h2&gt;&lt;p&gt;首先你得有一个翻墙工具，我用的是&lt;code&gt;V2RayX&lt;/code&gt;，端口为&lt;code&gt;8001&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../../../../img/iOS/Swift/SPM/V2RayX端口.png&quot; alt=&quot;V2RayX端口&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Swift" scheme="https://coder-star.github.io/categories/Swift/"/>
+    
+      <category term="SPM" scheme="https://coder-star.github.io/categories/Swift/SPM/"/>
+    
+    
+      <category term="SPM" scheme="https://coder-star.github.io/tags/SPM/"/>
+    
+  </entry>
   
   <entry>
     <title>Xcode Concepts</title>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://coder-star.github.io/iOS/Swift/SPM/SPM%E7%9B%B8%E5%85%B3/</loc>
+    <lastmod>2022-01-16</lastmod>
+  </url>
+  <url>
     <loc>https://coder-star.github.io/iOS/Xcode/Xcode%E5%86%85%E7%BD%AECLI%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2022-01-16</lastmod>
   </url>
@@ -421,11 +425,11 @@
     <lastmod>2021-07-16</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/%E7%AE%97%E6%B3%95/%E5%BF%85%E4%BC%9A%E7%AE%97%E6%B3%95%E9%A2%98/</loc>
+    <loc>https://coder-star.github.io/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</loc>
+    <loc>https://coder-star.github.io/%E7%AE%97%E6%B3%95/%E5%BF%85%E4%BC%9A%E7%AE%97%E6%B3%95%E9%A2%98/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
@@ -433,19 +437,19 @@
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E5%8F%8A%E8%A7%A3%E5%86%B3/</loc>
-    <lastmod>2021-06-01</lastmod>
-  </url>
-  <url>
     <loc>https://coder-star.github.io/%E5%89%8D%E7%AB%AF/%E9%80%82%E9%85%8D/%E5%89%8D%E7%AB%AF%E5%85%B3%E4%BA%8EiOS%E7%9A%84%E9%80%82%E9%85%8D/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/CentOS%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E6%9C%8D%E5%8A%A1/</loc>
+    <loc>https://coder-star.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93/SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93/SQL%E8%AF%AD%E5%8F%A5%E4%BC%98%E5%8C%96/</loc>
+    <loc>https://coder-star.github.io/%E5%89%8D%E7%AB%AF/%E5%9F%BA%E7%A1%80/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E5%8F%8A%E8%A7%A3%E5%86%B3/</loc>
+    <lastmod>2021-06-01</lastmod>
+  </url>
+  <url>
+    <loc>https://coder-star.github.io/%E6%9D%82%E9%A1%B9/CentOS%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E6%9C%8D%E5%8A%A1/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
@@ -477,7 +481,7 @@
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/Java/%E5%85%B3%E4%BA%8ETomcat%E7%9A%84%E8%AE%BE%E7%BD%AE/</loc>
+    <loc>https://coder-star.github.io/Java/Java%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
@@ -485,7 +489,7 @@
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
-    <loc>https://coder-star.github.io/Java/Java%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://coder-star.github.io/Java/%E5%85%B3%E4%BA%8ETomcat%E7%9A%84%E8%AE%BE%E7%BD%AE/</loc>
     <lastmod>2021-06-01</lastmod>
   </url>
   <url>
