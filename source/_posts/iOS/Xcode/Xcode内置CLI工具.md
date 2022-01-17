@@ -20,6 +20,8 @@ Hi Coder，我是 CoderStar！
 
 我们在开发者官网[Command Line Tools](https://developer.apple.com/download/all/?q=command)对其单独下载，当然每个版本的Xcode安装包内也会包含这套工具包。
 
+其实下列有一部分工具属于 LLVM 序列，比如`dwarfdump`、`ar`，启动本质为`llvm-dwarfdump`、`llvm-ar`，都属于 LLVM 工具链中的一部分。
+
 ## 前置工具
 
 在我来介绍这套工具包其他工具之前，我先来介绍两个工具，我称为前置工具，因为有了这两个工具，我们才能更好的使用其他的工具。
@@ -137,6 +139,10 @@ swift-demangle：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDef
 
 ### dwarfdump
 
+作用：解析目标文件，存档和`.dSYM` 包中的 `DWARF` 节，并以人类可读的形式打印其内容。
+使用场景：Crash 符号化。
+路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dwarfdump`
+
 ```shell
 # 使用示例
 dwarfdump -h
@@ -153,32 +159,30 @@ dwarfdump --debug-info xx.app.dSYM > debug_info.txt
 #  出debug_line 的信息到文件 debug_line.txt 中
 dwarfdump --debug-line xx.app.dSYM > debug_line.txt
 
-# 查找指定地址的相关信息
-dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
-
 # 校验DWARF的有效性
 dwarfdump --verify iOSTest.app.dSYM
-```
 
-找到指定位置的函数符号
-
-```shell
+# 查找指定地址的相关信息
+# 一般用在Crash解析时
 dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 
-或者
-
-dwarfdump iOSTest.app.dSYM --lookup 0x100006694
 ```
+
+更多命令可见[llvm-dwarfdump](https://llvm.liuxfe.com/docs/man/llvm-dwarfdump)
 
 ### symbolicatecrash
 
-符号化 crash 文件
+作用：是一个`perl`脚本，里面整合了逐步解析的操作（可以将命令拷贝出来，直接进行调用）。
+路径：`/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash`
 
 ### atos
 
-符号化解析
+作用：Crash 符号化
+路径：`/Applications/Xcode.app/Contents/Developer/usr/bin/atos`
 
 ```shell
+# 0x0000000100298000为 load address； 0x000000010029e694为 symbol address
+# 最后一个i表示显示内联函数
 atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i
 ```
 
@@ -208,9 +212,9 @@ atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000
 
 ### altool
 
-xcrun altool --validate-app -f ${IPA_PATH}/${SCHEME_NAME}.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
+xcrun altool --validate-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
 
-xcrun altool --upload-app -f ${IPA_PATH}/${SCHEME_NAME}.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
+xcrun altool --upload-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
 
 ### actool
 
@@ -231,8 +235,6 @@ iOSTest.PickImageDemoViewController
 ```
 
 ### swiftc
-
-
 
 ## 反编译
 
