@@ -230,7 +230,13 @@ xcrun swift-demangle --compact _TtC7iOSTest27PickImageDemoViewController
 iOSTest.PickImageDemoViewController
 ```
 
+### swiftc
+
+
+
 ## 反编译
+
+### ar
 
 ### nm
 

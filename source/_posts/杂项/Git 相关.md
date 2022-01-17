@@ -1,5 +1,5 @@
 ---
-title: Git 学习笔记
+title: Git 相关
 date: 2020-03-26 10:12:28
 categories:
  - 杂项
@@ -36,6 +36,24 @@ tags: [Git]
 * pre-receive：当服务端收到一个 push 操作请求时触发，可用于检测 push 的内容
 * update：与 pre-receive 相似，但当一次 push 想更新多个分支时，pre-receive 只执行一次，而此钩子会为每一分支都执行一次
 * post-receive：当整个 push 操作完成时触发，常用于服务侧同步、通知
+
+## 加速
+
+### fastgit
+
+下载仓库
+
+git clone https://github.com/hanleylee/dotsh.git -> git clone https://hub.fastgit.org/hanleylee/dotsh.git
+
+下载文件
+
+wget https://raw.githubusercontent.com/hanleylee/dotsh/main/README.md -> wget https://raw.fastgit.org/hanleylee/dotsh/main/README.md
+
+### jsdelivr
+
+下载文件
+
+wget https://raw.githubusercontent.com/hanleylee/dotsh/README.md -> wget https://cdn.jsdelivr.net/gh/hanleylee/dotsh/README.md
 
 ## 命令
 
