@@ -648,7 +648,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-21 13:22:13" itemprop="dateModified" datetime="2021-08-21T13:22:13+08:00">2021-08-21</time>
+                <time title="修改时间：2022-01-18 10:23:19" itemprop="dateModified" datetime="2022-01-18T10:23:19+08:00">2022-01-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -685,14 +685,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Swif与OC对比"><a href="#Swif与OC对比" class="headerlink" title="Swif与OC对比"></a>Swif与OC对比</h2><p><img src="../../img/iOS/Swift/Swift-OC对比.png" alt="Swift-Objec数据类型对应"></p>
-<h2 id="UIImageView-加载图片相关"><a href="#UIImageView-加载图片相关" class="headerlink" title="UIImageView 加载图片相关"></a>UIImageView 加载图片相关</h2><p><strong>过程</strong></p>
+          <h2 id="UIImageView-加载图片相关"><a href="#UIImageView-加载图片相关" class="headerlink" title="UIImageView 加载图片相关"></a>UIImageView 加载图片相关</h2><p><strong>过程</strong></p>
 <ul>
 <li>从磁盘拷贝数据到内核缓冲区域；</li>
 <li>从内核缓存区域复制数据到用户内存；</li>
 <li>UIImage 赋值给 UIImageView 的 image 时，图像数据会被解码，变成位图数，内存大小为 width height 4bytes （4bytes:每个像素点的大小)；</li>
 <li>CTTransaction 捕捉到 UIImageView layer 树的变化；</li>
 <li>主线程 runloop 提交 CTTransaction，开始图像渲染。（如果数据没有字节对齐，Core Animation 会再拷贝一份数据，进行字节对齐，GPU 处理位图数据，进行渲染）；</li>
+</ul>
+<p><strong>加载方式</strong></p>
+<ul>
+<li>imageNamed：在图片第一次渲染到屏幕的时候触发解码，缓存解码之后的数据，缓存在全局内存中，不会随着 UIImage 的释放而释放。适合加载一些经常显示、比较小的图片，如 QQ 列表缩略图等；</li>
+<li>imageWithContentsOfFile: 或 imageWithData: 与 imageNamed 不同的是会随着 UIImage 的释放而释放。适合加载不常显示而且比较大的图片。</li>
 </ul>
           <!--noindex-->
             <div class="post-button">
