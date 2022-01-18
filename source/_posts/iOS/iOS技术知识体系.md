@@ -8,14 +8,21 @@ tags: [iOS, 体系]
 
 ## 语言
 
-- OC
-- Swift
+### OC
+
+### Swift
+
+## 工程方面
+
+- Xcode上各种概念，target这些
+- CI/CD
+- 
 
 ## 基础知识
 
 ### UI
 
-- UI渲染流程
+- UI 渲染流程
 - Frame、Bounds
 - UIView、Layer
 -
@@ -28,7 +35,7 @@ tags: [iOS, 体系]
   - AutoreleasePool
 - 循环引用
 - 内存管理分区
-- 
+-
 
 ### 持久化方案
 

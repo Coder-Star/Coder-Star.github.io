@@ -135,6 +135,11 @@ open class ObjC : NSObject {
 **Swift-C 数据类型对应**
 ![Swift-C数据类型对应](../../../img/iOS/Swift/Swift-C数据类型对应.png)
 
+## Swif与OC对比
+
+![Swift-OC对比](../../img/iOS/Swift/Swift-OC对比.png)
+
+
 - [京东App Swift 混编及组件化落地](https://juejin.cn/post/6926720202457497613)
 - [从预编译的角度理解Swift与Objective-C及混编机制](https://tech.meituan.com/2021/02/25/swift-objective-c.html)
 - [PartsOfSpeech](https://github.com/apple/swift/blob/main/lib/Basic/PartsOfSpeech.def)
