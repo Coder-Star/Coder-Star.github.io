@@ -53,7 +53,7 @@ default -> `default`
 - guard
 - if
 - in
-- repeat
+- repeat  // `repeat { } while`，swift 2.0之间可以do while 之后 do只用来
 - return
 - switch
 - where

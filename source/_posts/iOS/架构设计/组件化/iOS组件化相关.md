@@ -5,7 +5,7 @@ categories: [iOS]
 tags: [iOS, 组件化]
 ---
 
-### 一、前言
+### 前言
 
 APP 组件化的过程我觉得主要分为下面几个部分。
 
@@ -14,21 +14,27 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 - **APP 组件之间的通信**  
    将 APP 拆分成组件之后，我们就要考虑组件之间的通信问题。其实组件之间的通信问题说到底就是 APP 中的路由方案设计问题。
 
-### 二、架构设计、组件拆分
+### 架构设计
 
 ![iOS架构设计](../../../../img/iOS/架构设计/iOS架构设计.png)
 
-#### 1、基础支撑层
+#### 基础支撑层
 
-#### 2、基础模块及 UI 组件层
+#### 基础模块及 UI 组件层
 
-#### 3、业务模块层
+#### 业务模块层
 
-#### 4、APP 应用层
+#### APP 应用层
 
 如果项目业务不涉及到系列 APP，这一层可以忽略；
 
-### 三、组件间通信(路由方案)
+### 组件拆分
+
+- 自定义pod
+- pod二进制化
+  - [cocoapods-imy-bin](https://github.com/MeetYouDevs/cocoapods-imy-bin)
+
+### 组件间通信(路由方案)
 
 目前存在的组件间路由方案大概有四种，分别是
 
@@ -37,7 +43,7 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 - protocol 与 class 映射方案
 - 基于通知的方案
 
-#### 1、URL/Protocol 方案
+#### URL/Protocol 方案
 
 URL/Protocol 方案
 
@@ -79,7 +85,7 @@ ModuleManager.register(className: AnyObject, forProtocol: Protocol)
 
 - 如果 url 中含有中文，想要使用 canOpenURL 这个方法，需要对 url 进行编码，否则会引起代码 Crash，因为其函数实现未对 url 进行编码；这一点已经在 MGJRouter 提交了 pr，不过根据上次 pr 还没有处理的情况来看，这个库很有可能不再进行维护了；网上也有很多这个库的 swift 翻译版本；
 
-#### 2、Target-Action 方案
+#### Target-Action 方案
 
 **[CTMediator](https://github.com/casatwy/CTMediator)**
 
@@ -125,7 +131,7 @@ public extension CTMediator {
 }
 ```
 
-#### 3、完整的组件解耦以及通信方案
+#### 完整的组件解耦以及通信方案
 
 **[BeeHive](https://github.com/alibaba/BeeHive)**
 
