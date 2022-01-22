@@ -18,6 +18,8 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 
 ![iOS架构设计](../../../../img/iOS/架构设计/iOS架构设计.png)
 
+[抖音 iOS 工程架构演进](https://mp.weixin.qq.com/s/HHH5_IEbsR8iSmXSIdeutw)
+
 #### 基础支撑层
 
 #### 基础模块及 UI 组件层
@@ -30,9 +32,16 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 
 ### 组件拆分
 
-- 自定义pod
-- pod二进制化
-  - [cocoapods-imy-bin](https://github.com/MeetYouDevs/cocoapods-imy-bin)
+#### 自定义pod
+#### pod二进制化
+[cocoapods-imy-bin](https://github.com/MeetYouDevs/cocoapods-imy-bin)
+
+- 二进制污染
+- 源码/二进制化切换
+- 二进制CI
+- modular化
+  
+
 
 ### 组件间通信(路由方案)
 
