@@ -96,7 +96,6 @@ date: 2021-01-09 08:49:49
 - **UITableView+FDTemplateLayoutCell(OC)** 缓存 tableview 高度
 - **DZNEmptyDataSet** 空数据背景
 - **FSPagerView** 轮播控件
-- **Hero** 动画
 - **TPNS-iOS** 腾讯云推送
 - **Bugly** 错误上报
 - **SwiftyUserDefaults** UserDefaults 存储

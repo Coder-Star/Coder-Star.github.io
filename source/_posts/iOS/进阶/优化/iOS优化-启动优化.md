@@ -372,7 +372,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 - 减少动态库的个数，可以采用合并手段，将多个动态库合并成一个，官方建议动态库数量小于 6 个；
 - 动态库懒加载；
 
-> 这里的动态库不是指系统动态库，而是我们自己新建的动态库，也就是所谓的`Embedded Framework`，它无法像系统库一样被其他应用所公有，只能让`App Extension`和`APP`之间共用一份。
+> 这里的动态库不是指系统动态库，而是我们自己新建的动态库，也就是所谓的`Embedded Framework`，它无法像系统库一样被其他应用所共用，只能让`App Extension`和`APP`之间共用一份。
 
 正常情况下，我们的项目中一般都是静态库，当然一些情况下我们也是有使用动态库的需求。
 
@@ -388,7 +388,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 动态库懒加载相对于静态库少了`fixup`以及初始化等耗时。
 
-结合我的实际项目，项目为一个`Swift-OC`混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本地调整为静态库，具体方式为：
+结合我的实际项目，项目为一个`Swift-OC`混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本次调整为静态库，具体方式为：
 
 - 去掉`use_frameworks!`；
 - 添加`use_modular_headers!`，原因是部分 Swift 二方库内部使用了 OC 代码，对于不支持`modular`的库进行调整，其中主要包含`WCDB`；

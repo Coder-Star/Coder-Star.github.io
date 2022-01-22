@@ -9,12 +9,6 @@ tags:
 date: 2020-11-17 09:08:55
 ---
 
-swift 中的关键字被保留，不可将其用作标识符，除非使用反引号``，如
-
-```swift
-default -> `default`
-```
-
 ## 声明中的关键字
 
 - class
@@ -53,7 +47,7 @@ default -> `default`
 - guard
 - if
 - in
-- repeat  // `repeat { } while`，swift 2.0之间可以do while 之后 do只用来
+- repeat  // `repeat { } while`，swift 2.0 之间可以 do while 之后 do 只用来
 - return
 - switch
 - where
@@ -163,12 +157,11 @@ default -> `default`
 
 - _specialize
 
-
 ```swift
 @_specialize(where T == Int)
 @_specialize(where T == Int)
 public func min<T: Comparable>(_ x: T, _ y: T) -> T {
-    returny<x?y:x 
+    returny<x?y:x
 }
 ```
 
@@ -217,17 +210,16 @@ public func info() { }
 public func info() { }
 ```
 
-
 ### @_ silgen_name
 
-@_ silgen_name是Swift中间语言SIL的一个属性
+@_ silgen_name 是 Swift 中间语言 SIL 的一个属性
 
-* 第一个是指定函数符号，为了让C调用；
-* 第二个可以只声明一个函数符号，没有函数体，真正的函数实现是对应C的函数符号实现；
+* 第一个是指定函数符号，为了让 C 调用；
+* 第二个可以只声明一个函数符号，没有函数体，真正的函数实现是对应 C 的函数符号实现；
 
-第一个场景可以是这样，加在Swift函数上，这样可以将该函数符号暴露出去，外部可以通过不直接引用的方式直接访问到该函数，用在组件路由上。
+第一个场景可以是这样，加在 Swift 函数上，这样可以将该函数符号暴露出去，外部可以通过不直接引用的方式直接访问到该函数，用在组件路由上。
 
-第二个场景可以是这样，获取iOS或者Swift底层函数的实现，进而获取到一些Swift层没有的东西。
+第二个场景可以是这样，获取 iOS 或者 Swift 底层函数的实现，进而获取到一些 Swift 层没有的东西。
 
 ## 其他
 
