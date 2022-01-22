@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没用过这个设计模式的。 单例模式">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/设计模式/SingletonUML.png">
-<meta property="og:updated_time" content="2021-10-15T13:40:05.119Z">
+<meta property="og:updated_time" content="2022-01-19T15:47:39.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们讲一个设计模式中最简单的一个设计模式，我想凡是 Coder，就应该没有没用过这个设计模式的。 单例模式">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-15 21:40:05" itemprop="dateModified" datetime="2021-10-15T21:40:05+08:00">2021-10-15</time>
+                <time title="修改时间：2022-01-19 23:47:39" itemprop="dateModified" datetime="2022-01-19T23:47:39+08:00">2022-01-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,7 +254,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>498</span>
+              <span>502</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -298,7 +298,7 @@
 <li>线程安全问题</li>
 </ul>
 <p>代码示例</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 构造方法必须私有化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Swift中，let本身就线程安全</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">Singleton</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 构造方法必须私有化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Swift中，static底层保证线程安全</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">Singleton</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>单例模式与静态属性之间的区别？</p>
 <p>为什么要讨论这个问题呢？因为在我最开始写代码的时候就</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
@@ -454,7 +454,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">124</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -519,7 +519,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">355k</span>
+    <span title="站点总字数">356k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>

@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-14T06:42:05.846Z">
+<meta property="og:updated_time" content="2022-01-19T12:44:46.563Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选人，或多或少有了一些感想，后面会单独发篇文章跟大家聊一聊这个话题。 之前曾在iOS优化-瘦身文章中提到过iOS优化将会是一个专题，今天就带来iOS优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-14 14:42:05" itemprop="dateModified" datetime="2022-01-14T14:42:05+08:00">2022-01-14</time>
+                <time title="修改时间：2022-01-19 20:44:46" itemprop="dateModified" datetime="2022-01-19T20:44:46+08:00">2022-01-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -458,7 +458,7 @@
 <li>动态库懒加载；</li>
 </ul>
 <blockquote>
-<p>这里的动态库不是指系统动态库，而是我们自己新建的动态库，也就是所谓的<code>Embedded Framework</code>，它无法像系统库一样被其他应用所公有，只能让<code>App Extension</code>和<code>APP</code>之间共用一份。</p>
+<p>这里的动态库不是指系统动态库，而是我们自己新建的动态库，也就是所谓的<code>Embedded Framework</code>，它无法像系统库一样被其他应用所共用，只能让<code>App Extension</code>和<code>APP</code>之间共用一份。</p>
 </blockquote>
 <p>正常情况下，我们的项目中一般都是静态库，当然一些情况下我们也是有使用动态库的需求。</p>
 <ul>
@@ -471,7 +471,7 @@
 <p>当然我们还可以利用动态库运行时链接的特性，去将一些动态库进行懒加载。所谓懒加载就是动态库只打包进 App，但是在启动时不参与链接，即可以在 <code>podspec</code> 里添加 <code>spec.weak_frameworks</code> = ‘XXX’，并保证 <code>Link Binary With Libraries</code> 和 <code>Other Linker Flags</code> 没有链接对应的动态库，然后在 App 运行中用到动态库内的实现时，在调用之前先通过<code>[NSBundle loadAndReturnError:]</code>或者<code>dlopen()</code>去加载动态库（前者相对后者支持资源的加载），然后再调用到实际的业务代码。</p>
 <p>这种优化方式适合依赖少、比较稳定的库。目前了解到做了动态库懒加载的包括 58、贝壳等。</p>
 <p>动态库懒加载相对于静态库少了<code>fixup</code>以及初始化等耗时。</p>
-<p>结合我的实际项目，项目为一个<code>Swift-OC</code>混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本地调整为静态库，具体方式为：</p>
+<p>结合我的实际项目，项目为一个<code>Swift-OC</code>混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本次调整为静态库，具体方式为：</p>
 <ul>
 <li>去掉<code>use_frameworks!</code>；</li>
 <li>添加<code>use_modular_headers!</code>，原因是部分 Swift 二方库内部使用了 OC 代码，对于不支持<code>modular</code>的库进行调整，其中主要包含<code>WCDB</code>；</li>
@@ -721,7 +721,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">124</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -786,7 +786,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">355k</span>
+    <span title="站点总字数">356k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
