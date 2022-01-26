@@ -186,35 +186,35 @@ dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i
 ```
 
-## iOS 项目相关
+## 工程相关
 
 ### xcodebuild
 
 可以通过`man xcodebuild`查看手册。
 
-`xcodebuild clean -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE} || exit`
+我们可以使用其对 Xcode 工程进行清理，分析，构建，测试，存档。
 
-`xcodebuild clean -project ${PROJECT_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE} || exit`
+```shell
+# 清理
+xcodebuild clean -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -configuration ${BUILD_TYPE}
 
-`xcodebuild archive -project ${PROJECT_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH}`
+# 构建
+xcodebuild archive -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH}
 
-`xcodebuild archive -workspace ${WORKSPACE_PATH} -scheme ${SCHEME_NAME} -archivePath ${ARCHIVE_PATH} -quiet || exit`
+## 存档
+xcodebuild -exportArchive -archivePath $ARCHIVE_PATH -exportPath ${IPA_PATH} -exportOptionsPlist ${EXPORTOPTIONSPLIST_PATH}
+```
 
-`xcodebuild -exportArchive -archivePath $ARCHIVE_PATH -exportPath ${IPA_PATH} -exportOptionsPlist ${EXPORTOPTIONSPLIST_PATH} -quiet || exit`
-
-我们可以使用其进行清理，分析，构建，测试，存档。
-
-让 Xcode 通过系统的 git 拉取依赖
-`xcodebuild -resolvePackageDependencies -scmProvider system`
-
-- xctool：xctool 是 facebook 推出的用于替换 xcodebuild 的更易于测试 ios 和 mac 应用程序的命令行工具，特别适用于 ios app 的持续集成。
-- xcbuild：xcbuild 是一个兼容 Xcode 的编译工具，它能使编译更快快速，更友好的编译过程日志，可以运行在多个平台（主要指 OS X 和 Linux）
+- `xctool`：`xctool` 是 `facebook` 推出的用于替换 `xcodebuild` 的更易于测试 ios 和 mac 应用程序的命令行工具，特别适用于 ios app 的持续集成；
+- `xcbuild`：`xcbuild` 是一个兼容 `Xcode` 的编译工具，它能使编译更快快速，更友好的编译过程日志，可以运行在多个平台（主要指 OS X 和 Linux）；
 
 ### altool
 
+```shell
 xcrun altool --validate-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
 
 xcrun altool --upload-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
+```
 
 ### actool
 
