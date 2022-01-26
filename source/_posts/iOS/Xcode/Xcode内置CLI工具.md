@@ -186,13 +186,14 @@ dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i
 ```
 
-## 工程相关
+## 构建相关
 
 ### xcodebuild
 
-可以通过`man xcodebuild`查看手册。
+作用：我们可以使用其对 Xcode 工程进行清理，分析，构建，测试，存档。
+路径：`/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild`
 
-我们可以使用其对 Xcode 工程进行清理，分析，构建，测试，存档。
+可以通过`man xcodebuild`查看手册。
 
 ```shell
 # 清理
@@ -210,17 +211,30 @@ xcodebuild -exportArchive -archivePath $ARCHIVE_PATH -exportPath ${IPA_PATH} -ex
 
 ### altool
 
+作用：使用其验证 ipa 以及上传 ipa 到 store；
+路径：`/Applications/Xcode.app/Contents/Developer/usr/bin/altool`
+
 ```shell
+# 验证
+# version、build号是否正确等case
 xcrun altool --validate-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
 
+# 上传
 xcrun altool --upload-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbose
 ```
 
+## 工具链相关
+
 ### actool
 
-对 Assets 的文件进行压缩、处理
+作用：对 项目中 Assets 的文件进行压缩、处理，生成`.car`文件。
+路径：`/Applications/Xcode.app/Contents/Developer/usr/bin/actool`；
 
-## Swift
+`actool` 并非一个脚本，而是一个编译完成的二进制文件，所以`compile asset catalog`的过程是一个黑盒。
+
+### swiftc
+
+## 其他
 
 ### swift-demangle
 
@@ -233,8 +247,6 @@ _TtC7iOSTest27PickImageDemoViewController ---> iOSTest.PickImageDemoViewControll
 xcrun swift-demangle --compact _TtC7iOSTest27PickImageDemoViewController
 iOSTest.PickImageDemoViewController
 ```
-
-### swiftc
 
 ## 反编译
 
