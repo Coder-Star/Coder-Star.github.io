@@ -346,6 +346,8 @@ void static __attribute__((constructor)) before_main() {
 
 在 `RootController` 的 `viewDidApper` 中进行打点，或者按照`MetricsKit`里对启动终点的定义，在第一个 `CA::Transaction::commit()` 中打点。
 
+至于如何拿到`CA::Transaction::commit()`时刻，然后做埋点，可以看看[launch-monitor](https://ai-chan.top/code/launch-monitor/)。
+
 ##### 扩展
 
 在 iOS 15 及更高版本中，系统可能会根据设备条件预热您的应用程序 — 启动未运行的应用程序进程以减少用户在应用程序可用之前等待的时间。
@@ -379,7 +381,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 - 我们利用动态库先执行初始化方法的特性去执行一些需要最先执行的方法。
 - CocoaPods 早期版本管理 Swift 项目时，只能以动态库的形式去引入三方、二方库；
 - 项目中有`App Extension`，可以利用动态库一定范围内共享的特性去减少包体积；
-- 低版本iOS系统对__Text端体积可能有限制，导致Macho文件不可以太大，可以使用动态库的方式来避免这个问题；
+- 低版本 iOS 系统对__Text 端体积可能有限制，导致 Macho 文件不可以太大，可以使用动态库的方式来避免这个问题；
 - ...
 
 当然我们还可以利用动态库运行时链接的特性，去将一些动态库进行懒加载。所谓懒加载就是动态库只打包进 App，但是在启动时不参与链接，即可以在 `podspec` 里添加 `spec.weak_frameworks` = 'XXX'，并保证 `Link Binary With Libraries` 和 `Other Linker Flags` 没有链接对应的动态库，然后在 App 运行中用到动态库内的实现时，在调用之前先通过`[NSBundle loadAndReturnError:]`或者`dlopen()`去加载动态库（前者相对后者支持资源的加载），然后再调用到实际的业务代码。
@@ -458,7 +460,7 @@ PGO 是苹果官方提供的工具。
 > 在编译时，通过指定优化等级，编译器已经可以帮助我们进行适当的优化，比如 inline 一些短函数等。现在考虑这样一个场景：有一个稍微长一点的函数，刚好长到编译器不对它的调用进行 inline 优化，但是实际上，这个函数是一个热点调用，在运行时被调用的次数非常多。那么如果此时编译器也能帮我们把它优化掉，是不是很好呢？但是，编译器怎么能知道这个 '稍微长一点的函数' 是一个热点调用呢？
 >
 > 这就是 Profile Guided Optimization（PGO）发挥作用的地方。PGO 是一种根据运行时 profiling data 来进行优化的技术。如果一个 application 的使用方式没有什么特点，那么我们可以认为代码的调用没有什么倾向性。但实际上，我们操作一个 application 的时候，往往有一套固定流程，尤其在程序启动的时候，这个特点更加明显。采集这种 '典型操作流' 的 profiling data，然后让编译器根据这些 data 重新编译代码，就可以把运行时得到的知识，运用到编译期，从而获得一定的性能提升。
-> 
+>
 > 然而，值得指出的一点是，这样获得的性能提升并不是十分明显，通常只有 5-10%。如果已经没有其他办法，再考虑试试 PGO。
 
 基本原理：
@@ -512,6 +514,7 @@ Let's be CoderStar!
 - [脉脉iOS如何启动秒开](https://zhuanlan.zhihu.com/p/396550853)
 - [iOS 应用的启动流程和优化详解](https://juejin.cn/post/6951591401528229895)
 - [抖音品质建设 - iOS启动优化《原理篇》](https://mp.weixin.qq.com/s/3-Sbqe9gxdV6eI1f435BDg)
+- [抖音品质建设 - iOS启动优化《实战篇》](https://mp.weixin.qq.com/s/ekXfFu4-rmZpHwzFuKiLXw)
 - [Optimizing App Launch](https://developer.apple.com/videos/play/wwdc2019/423/)
 - [美团外卖iOS App冷启动治理](https://tech.meituan.com/2018/12/06/waimai-ios-optimizing-startup.html)
 - [dyld详解](https://www.dllhook.com/post/238.html)
