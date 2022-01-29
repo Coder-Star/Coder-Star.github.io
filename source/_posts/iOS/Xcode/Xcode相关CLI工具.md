@@ -137,6 +137,10 @@ swift-demangle：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDef
 
 ## 符号表相关
 
+先简单介绍一下 `DWARF` 以及 `dSYM`。
+
+`DWARF` 与 `dSYM` 的关系是，`DWARF` 是文件格式，而 `dSYM` 往往指一个单独的文件。在 Xcode 中如果不做特殊指定，`debug information` 是被保存在 `executable` 文件中。因为`DWARF`的存在我们才可以在 `debug` 时看到函数名称等信息，因为`dSYM`文件的存在，我们才可以符号化，解 Crash。
+
 ### dwarfdump
 
 作用：解析目标文件，存档和`.dSYM` 包中的 `DWARF` 节，并以人类可读的形式打印其内容。
@@ -169,6 +173,21 @@ dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 ```
 
 更多命令可见[llvm-dwarfdump](https://llvm.liuxfe.com/docs/man/llvm-dwarfdump)
+
+### dsymutil
+
+作用：可以使用 `dsymutil` 从 二进制中 中提取 `dSYM` 文件以及对 `dSYM` 文件进行一些操作。
+路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil`
+
+```shell
+
+# 从二进制文件中还有`DSYM`信息的二进制包中抽取形成`.dysm`文件
+dsymutil XXX
+
+# 使用指定的符号映射更新现有的 dSYM
+# 处理开启bitcode选项的dsym文件
+dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM
+````
 
 ### symbolicatecrash
 

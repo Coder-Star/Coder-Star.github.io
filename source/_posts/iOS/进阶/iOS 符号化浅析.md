@@ -122,11 +122,37 @@ signal也是类似，详细代码请见[KSCrashMonitor_Signal](https://github.co
 
 ## dSYM 文件
 
+在汇编产生的目标文件中，包含着 `DWARF` 信息，如果我们在 Debug 模式下打包且选择了 `Debug Information Format` 为 DWARF，那么最终的 App `Mach-O` 文件中则会包含 `DWARF` 信息。如果我们在 Release 模式下打包且选择了 `Debug Information Format` 为 `DWARF with dSYM File` ，那么则会通过 `dsymutil` 根据 `mach-o` 文件中的 `DWARF` 信息生成 dSYM 文件，然后通过 `strip` 命令去除掉 `mach-o` 中的调试符号化信息，以减少包体积以及不必要的源码隐私泄漏。
+
 **DWARF**
 
 `DWARF(Debuging With Arbitrary Record Format)` 是 `ELF` 和 `Mach-O` 等文件格式中用来存储和处理调试信息的标准格式。其内部数据是高度压缩的，可以通过 `dwarfdump`、`otool` 等命令提取其中的可读信息。通过 `MachOView` 打开 `DWARF` 后会发现其外层依旧是 `Mach-O` 格式。其中 `debug_info`、`debug_line`这两个 `section` 中存储了主要的调试信息。
 
 > ELF、Mach-O 分别是 Linux 和 Mac OS 平台用于存储二进制文件、可执行文件、目标代码和共享库的文件名称。
+
+`DWARF`格式介绍
+
+```txt
+DW_AT_low_pc表示函数的起始地址
+
+DW_AT_high_pc表示函数的结束地址
+
+DW_AT_frame_base表示函数的栈帧基址
+
+DW_AT_object_pointer表示对象指针地址
+
+DW_AT_name表示函数的名字
+
+DW_AT_decl_file表示函数所在的文件
+
+DW_AT_decl_line表示函数所在的文件中的行数
+
+DW_AT_prototyped为一个 Bool 值, 为 true 时代表这是一个子程序/函数(subroutine)
+
+DW_AT_type表示函数的返回值类型
+
+DW_AT_artificial为一个Bool值，为true时代表这是一个由编译器生成而不是源程序显式声明
+```
 
 **dSYM**
 
@@ -139,7 +165,9 @@ iOS 平台中， `dSYM` 文件是指具有调试信息的目标文件，dSYM 中
 
 一般情况下我们`Debug环境下`使用`DWARF`方式，方便我们进行调试，那对于`Release`环境我们使用第二种方式，选择第二种方式便可以将符号表从二进制文件中进行剥离，改为使用 dSYM 文件进行存储。开启之后我们就可以在 Xcode 打包出来的文件 xcarchive 里面看到它。另外，如果开启了 bitcode 优化的话，苹果会做二次编译优化，所以最终的 dSYM 就需要在 Apple Connect 手动下载了。
 
-> 对于开启`bitcode`优化的 dysm 文件，如果我们不进行处理，解析出来的符号会是`hidden#9276`这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。`xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM`
+> 对于开启`bitcode`优化的 dysm 文件，如果我们不进行处理，解析出来的符号会是`hidden#9276`这种形式，为保证可以正常解析，我们需要用命令对其单独处理一下。`xcrun dsymutil -symbol-map /Users/XXXXX/Library/Developer/Xcode/Archives/2019-09-27/YYYY.xcarchive/BCSymbolMaps 0f1e9458-9741-36fb-b47c-694546728ea1.dSYM`.
+>
+> 主要原因是开启了`bitcode`的项目提交到 App Store 后，其会根据这种 IR 格式编译器后端重新处理继而生成 App 以及新的 dsym 文件。所以开启了`bitcode`的项目的`dsym`文件需要从开发者后台重新获取或者通过上述`-symbol-map`的方式对打包生成的`dsym`文件进行处理。
 
 dSYM 文件对于符号化过程非常重要，所以我们每次发版之后对 dSYM 文件的备份保存是非常必要的。
 
