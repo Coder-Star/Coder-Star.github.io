@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊Command Lines Tool。 Command Lines Tool本质是一个命令行工具包，内部有很多有用的工具，如Apple LLVM compiler、Make等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用Homebrew在安装一些python库或者js库时，都会提示需要Command L">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-01-29T10:54:52.865Z">
+<meta property="og:updated_time" content="2022-01-29T11:24:18.539Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode 相关 CLI 工具">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来聊一聊Command Lines Tool。 Command Lines Tool本质是一个命令行工具包，内部有很多有用的工具，如Apple LLVM compiler、Make等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用Homebrew在安装一些python库或者js库时，都会提示需要Command L">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-29 18:54:52" itemprop="dateModified" datetime="2022-01-29T18:54:52+08:00">2022-01-29</time>
+                <time title="修改时间：2022-01-29 19:24:18" itemprop="dateModified" datetime="2022-01-29T19:24:18+08:00">2022-01-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.5k</span>
+              <span>10k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -347,6 +347,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 0x0000000100298000为 load address； 0x000000010029e694为 symbol address</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 最后一个i表示显示内联函数</span></span><br><span class="line">atos -arch arm64  -o iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest -l 0x0000000100298000 0x000000010029e694 -i</span><br></pre></td></tr></table></figure>
 <h2 id="构建相关"><a href="#构建相关" class="headerlink" title="构建相关"></a>构建相关</h2><h3 id="xcodebuild"><a href="#xcodebuild" class="headerlink" title="xcodebuild"></a>xcodebuild</h3><p>作用：我们可以使用其对 Xcode 工程进行清理，分析，构建，测试，存档。<br>路径：<code>/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild</code></p>
 <p>可以通过<code>man xcodebuild</code>查看手册。</p>
+<blockquote>
+<p>其中<code>man</code>命令就是用来查看指定命令的使用手册。</p>
+</blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 清理</span></span><br><span class="line">xcodebuild clean -workspace $&#123;WORKSPACE_PATH&#125; -scheme $&#123;SCHEME_NAME&#125; -configuration $&#123;BUILD_TYPE&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 构建</span></span><br><span class="line">xcodebuild archive -workspace $&#123;WORKSPACE_PATH&#125; -scheme $&#123;SCHEME_NAME&#125; -archivePath $&#123;ARCHIVE_PATH&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 存档</span></span></span><br><span class="line">xcodebuild -exportArchive -archivePath $ARCHIVE_PATH -exportPath $&#123;IPA_PATH&#125; -exportOptionsPlist $&#123;EXPORTOPTIONSPLIST_PATH&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>xctool</code>：<code>xctool</code> 是 <code>facebook</code> 推出的用于替换 <code>xcodebuild</code> 的更易于测试 ios 和 mac 应用程序的命令行工具，特别适用于 ios app 的持续集成；</li>
@@ -366,14 +369,26 @@
 <p>当然 Xcode 也为我们特意准备了一个 CLI 工具 —<code>swift-demangle</code>来方便我们。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">命令：xcrun swift-demangle  _TtC7iOSTest27PickImageDemoViewController</span><br><span class="line">结果：_TtC7iOSTest27PickImageDemoViewController ---&gt; iOSTest.PickImageDemoViewController</span><br><span class="line"></span><br><span class="line">命令：xcrun swift-demangle --compact _TtC7iOSTest27PickImageDemoViewController</span><br><span class="line">结果：iOSTest.PickImageDemoViewController</span><br></pre></td></tr></table></figure>
 <p>我们还可以在<a href="https://github.com/apple/swift/blob/main/include/swift/SwiftDemangle/SwiftDemangle.h" target="_blank" rel="noopener">SwiftDemangle.h</a>看到swift底层该函数名称 — <code>swift_demangle_getDemangledName</code>，项目中需要加入<code>libswiftDemangle.tbd</code>。</p>
-<h2 id="二进制文件操作"><a href="#二进制文件操作" class="headerlink" title="二进制文件操作"></a>二进制文件操作</h2><h3 id="lipo"><a href="#lipo" class="headerlink" title="lipo"></a>lipo</h3><p>lipo 源于 mac 系统要制作兼容 powerpc 平台和 intel 平台的程序，lipo 是一个在 Mac OS X 中处理通用程序（Universal Binaries）的工具。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 查看查看静态库支持的 CPU 架构</span></span></span><br><span class="line">lipo -info frameworkName.framework/frameworkName</span><br><span class="line">lipo -info frameworkName.a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 合并静态库</span></span></span><br><span class="line">lipo -create 静态库存放路径 1 静态库存放路径 2 ... -output 整合后存放的路径</span><br><span class="line"></span><br><span class="line">lipo -create frameworkName-armv7.a frameworkName-armv7s.a frameworkName-i386.a -output frameworkName.a</span><br><span class="line">lipo -create frameworkNameOne.framework/frameworkNameOne frameworkNameTwo.framework/frameworkNameTwo -output frameworkName.framework</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 静态库拆分</span></span></span><br><span class="line">lipo 静态库源文件路径 -thin CPU 架构名称 -output 拆分后文件存放路径</span><br><span class="line">lipo libname.a -thin armv7 -output libname-armv7.a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 擦除指定架构</span></span></span><br><span class="line">lipo XXX.a -remove arm64 -output XXX.a</span><br></pre></td></tr></table></figure>
-<h3 id="nm"><a href="#nm" class="headerlink" title="nm"></a>nm</h3><p>命令列出二进制目标文件的符号。</p>
+<h2 id="二进制文件操作"><a href="#二进制文件操作" class="headerlink" title="二进制文件操作"></a>二进制文件操作</h2><h3 id="lipo"><a href="#lipo" class="headerlink" title="lipo"></a>lipo</h3><p><code>lipo</code> 源于 <code>mac</code> 系统要制作兼容 <code>powerpc</code> 平台和 intel 平台的程序，<code>lipo</code> 是一个在 <code>Mac OS X</code> 中处理通用程序（Universal Binaries）的工具。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 查看查看静态库支持的 CPU 架构</span></span></span><br><span class="line">lipo -info frameworkName.framework/frameworkName</span><br><span class="line">lipo -info frameworkName.a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 合并静态库</span></span></span><br><span class="line">lipo -create 静态库存放路径 1 静态库存放路径 2 ... -output 整合后存放的路径</span><br><span class="line"></span><br><span class="line">lipo -create frameworkName-armv7.a frameworkName-armv7s.a frameworkName-i386.a -output frameworkName.a</span><br><span class="line">lipo -create frameworkNameOne.framework/frameworkNameOne frameworkNameTwo.framework/frameworkNameTwo -output frameworkName.framework</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 静态库拆分</span></span></span><br><span class="line">lipo 静态库源文件路径 -thin CPU 架构名称 -output 拆分后文件存放路径</span><br><span class="line">lipo libname.a -thin armv7 -output libname-armv7.a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 擦除指定架构</span></span></span><br><span class="line">lipo -remove XXX.a arm64 -output XXX.a</span><br></pre></td></tr></table></figure>
+<h3 id="nm"><a href="#nm" class="headerlink" title="nm"></a>nm</h3><p>作用：<code>nm</code> 命令是 linux 下自带的特定文件分析工具，一般用来检查分析二进制文件、库文件、可执行文件中的符号表，返回二进制文件中各段的信息，查看二进制目标文件的符号，主要就是函数名称以及全局变量；<br>路径：<code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm</code>；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 得到XXX中的程序符号表</span></span><br><span class="line">nm XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看所有符号，会打印出符号来源哪个地方</span></span><br><span class="line">nm -nm XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 找到未定义的符号，也就是外部符号</span></span><br><span class="line">nm -u XXX</span><br></pre></td></tr></table></figure>
+<p>前面我们曾经查看过<code>xcodebuild</code>的符号，输出如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">                 U __NSGetProgname</span><br><span class="line">0000000100008018 d __dyld_private</span><br><span class="line">0000000100000000 T __mh_execute_header</span><br><span class="line">0000000100003f63 t _main</span><br><span class="line">0000000100008010 s _shim_marker</span><br><span class="line">                 U _xcselect_invoke_xcrun</span><br><span class="line">                 U dyld_stub_binder</span><br></pre></td></tr></table></figure>
+<p>上述中间的大写字母就是后面对应符号的类型，其中全部的类型包括：</p>
+<ul>
+<li>A 该符号的值在今后的链接中将不再改变；</li>
+<li>B 该符号放在 BSS 段中，通常是那些未初始化的全局变量；</li>
+<li>D 该符号放在普通的数据段中，通常是那些已经初始化的全局变量；</li>
+<li>T 该符号放在代码段中，通常是那些全局非静态函数；</li>
+<li>U 该符号未定义过，需要自其他对象文件中链接进来；</li>
+<li>W 未明确指定的弱链接符号；同链接的其他对象文件中有它的定义就用上，否则就用一个系统特别指定的默认值。</li>
+</ul>
 <h3 id="otool"><a href="#otool" class="headerlink" title="otool"></a>otool</h3><p>作用： 针对目标文件的展示工具，用来发现应用中使用到了哪些系统库，调用了其中哪些方法，使用了库中哪些对象及属性。<br>路径：<code>/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool</code></p>
 <blockquote>
 <p>有了 MachOView（算是这个 CLI 工具的 GUI 工具了），用这个其实也少了。</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看使用到哪些动态库，一般是涉及到 	/usr/lib/ 	/System/Library/Frameworks/  @rpath 这三个位置，如果没有自己的动态库，就没有后面的 @rpath</span></span><br><span class="line">otool -L XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看汇编码</span></span><br><span class="line">otool -tV XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看头部内容</span></span><br><span class="line">otool -h XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 load commands</span></span><br><span class="line">otool -l XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看该应用是否砸壳</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看输出结果的cryptid参数，其中0：砸壳、1：未砸壳。</span></span><br><span class="line">otool -l XXX | grep -B 2 crypt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看代码段起始地址</span></span><br><span class="line">otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看使用到哪些动态库，一般是涉及到 	/usr/lib/ 	/System/Library/Frameworks/  @rpath 这三个位置，如果没有自己的动态库，就没有后面的 @rpath</span></span><br><span class="line">otool -L XXX</span><br><span class="line"><span class="meta">#</span><span class="bash"> 筛选是否链接了xxx库</span></span><br><span class="line">otool -L XXX | grep "xxx"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看汇编码</span></span><br><span class="line">otool -tV XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看头部内容</span></span><br><span class="line">otool -h XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 load commands</span></span><br><span class="line">otool -l XXX</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看该应用是否砸壳</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 看输出结果的cryptid参数，其中0：砸壳、1：未砸壳。</span></span><br><span class="line">otool -l XXX | grep -B 2 crypt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看代码段起始地址</span></span><br><span class="line">otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5</span><br></pre></td></tr></table></figure>
 <h3 id="ar"><a href="#ar" class="headerlink" title="ar"></a>ar</h3><h3 id="libtool"><a href="#libtool" class="headerlink" title="libtool"></a>libtool</h3><p>使用链接器 ld 创建库</p>
 <h3 id="file"><a href="#file" class="headerlink" title="file"></a>file</h3><p>我们可以使用<code>file</code>命令来区分动态库与静态库。</p>
 <p>如<code>file Flutter</code>得到，我们可以很容易看到<code>dynamically</code>关键字，其为一个动态库</p>
@@ -537,7 +552,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">124</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -550,7 +565,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">89</span>
+        <span class="site-state-item-count">90</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -602,12 +617,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">361k</span>
+    <span title="站点总字数">362k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:28</span>
+    <span title="站点阅读时长">5:29</span>
 </div>
 
         
