@@ -1,5 +1,5 @@
 ---
-title: Xcode 内置 CLI 工具
+title: Xcode 相关 CLI 工具
 category:
   - iOS
   - Xcode
@@ -175,6 +175,15 @@ dwarfdump --arch arm64 --lookup 0x100006694 iOSTest.app.dSYM
 作用：是一个`perl`脚本，里面整合了逐步解析的操作（可以将命令拷贝出来，直接进行调用）。
 路径：`/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash`
 
+```shell
+# 需要先运行该命令，不然下面 symbolicatecrash命令会出现
+# Error: "DEVELOPER_DIR" is not defined at ./symbolicatecrash line 69.
+export DEVELOPER_DIR="/Applications/XCode.App/Contents/Developer"
+
+# 运行命令前需要将崩溃日志、 dSYM 以及 symbolicatecrash 复制到同一个目录下
+symbolicatecrash log.crash -d xxx.app.dSYM > symbol.log
+```
+
 ### atos
 
 作用：Crash 符号化
@@ -227,18 +236,18 @@ xcrun altool --upload-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbo
 
 ### swiftc
 
-作用：
+作用：swift 语言的编译前端。
 路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc`
 
 ### clang
 
-作用：
+作用：oc 语言的编译前端。
 路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang`
-
 
 ### sourcekit-lsp
 
-作用：
+LSP（Language-Server-Protocol）开源的语言服务器协定。由红帽、微软和 Codenvy 联合推出，可以让不同的程序编辑器与集成开发环境（IDE）方便嵌入各种程序语言，允许开发人员在最喜爱的工具中使用各种语言来撰写程序，SourceKit-LSP 是 Apple 维护的用于 Swift 的 LSP；其的存在允许我们使用其他 IDE 开发 Swift，如 VSCode；
+
 路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp`
 
 ### 工具相关
@@ -268,86 +277,64 @@ xcrun altool --upload-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbo
 结果：iOSTest.PickImageDemoViewController
 ```
 
-## 反编译
-
-### ar
-
-### nm
-
-命令列出目标文件的符号。
-
-### otool
-
-otool(object file displaying tool) : 针对目标文件的展示工具，用来发现应用中使用到了哪些系统库，调用了其中哪些方法，使用了库中哪些对象及属性。
-
-```shell
--f print the fat headers
--a print the archive header
--h print the mach header
--l print the load commands
--L print shared libraries used
--D print shared library id name
--t print the text section (disassemble with -v)
--p <routine name>  start dissassemble from routine name
--s <segname> <sectname> print contents of section
--d print the data section
--o print the Objective-C segment
--r print the relocation entries
--S print the table of contents of a library
--T print the table of contents of a dynamic shared library
--M print the module table of a dynamic shared library
--R print the reference table of a dynamic shared library
--I print the indirect symbol table
--H print the two-level hints table
--G print the data in code table
--v print verbosely (symbolically) when possible
--V print disassembled operands symbolically
--c print argument strings of a core file
--X print no leading addresses or headers
--m don't use archive(member) syntax
--B force Thumb disassembly (ARM objects only)
--q use llvm's disassembler (the default)
--Q use otool(1)'s disassembler
--mcpu=arg use `arg' as the cpu for disassembly
--j print opcode bytes
--P print the info plist section as strings
--C print linker optimization hints
---version print the version of /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool
-```
-
-我们
-
-`otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5`
-
-执行命令后，结果如下，可以看到 dSYM 中代码段起始地址为 `0x0000000100000000`，一般情况下都为这个值。
+## 二进制文件操作
 
 ### lipo
 
 lipo 源于 mac 系统要制作兼容 powerpc 平台和 intel 平台的程序，lipo 是一个在 Mac OS X 中处理通用程序（Universal Binaries）的工具。
 
-**lipo -info**
-
-查看查看静态库支持的 CPU 架构
+```shell
+### 查看查看静态库支持的 CPU 架构
 lipo -info frameworkName.framework/frameworkName
 lipo -info frameworkName.a
 
-**合并静态库**
-
+### 合并静态库
 lipo -create 静态库存放路径 1 静态库存放路径 2 ... -output 整合后存放的路径
 
 lipo -create frameworkName-armv7.a frameworkName-armv7s.a frameworkName-i386.a -output frameworkName.a
-
 lipo -create frameworkNameOne.framework/frameworkNameOne frameworkNameTwo.framework/frameworkNameTwo -output frameworkName.framework
 
-**静态库拆分**
-
+### 静态库拆分
 lipo 静态库源文件路径 -thin CPU 架构名称 -output 拆分后文件存放路径
-
 lipo libname.a -thin armv7 -output libname-armv7.a
 
-**擦除指定架构**
-
+### 擦除指定架构
 lipo XXX.a -remove arm64 -output XXX.a
+```
+
+### nm
+
+命令列出二进制目标文件的符号。
+
+### otool
+
+作用： 针对目标文件的展示工具，用来发现应用中使用到了哪些系统库，调用了其中哪些方法，使用了库中哪些对象及属性。
+路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool`
+
+> 有了 MachOView（算是这个 CLI 工具的 GUI 工具了），用这个其实也少了。
+
+```shell
+# 查看使用到哪些动态库，一般是涉及到 	/usr/lib/ 	/System/Library/Frameworks/  @rpath 这三个位置，如果没有自己的动态库，就没有后面的 @rpath
+otool -L XXX
+
+# 查看汇编码
+otool -tV XXX
+
+# 查看头部内容
+otool -h XXX
+
+# 查看 load commands
+otool -l XXX
+
+# 查看该应用是否砸壳
+# 看输出结果的cryptid参数，其中0：砸壳、1：未砸壳。
+otool -l XXX | grep -B 2 crypt
+
+# 查看代码段起始地址
+otool -l iOSTest.app.dSYM/Contents/Resources/DWARF/iOSTest | grep __TEXT -C 5
+```
+
+### ar
 
 ### libtool
 
