@@ -124,6 +124,14 @@ APP 的启动过程大部分情况都会被分成两部分，即`pre-main`以及
 
 这个过程主要就是首屏页面的渲染过程。一般会用 `RootController` 的 `viewDidApper` 作为渲染的终点，但其实这时候首帧已经渲染完成一小段时间了，Apple 在 `MetricsKit` 里对启动终点定义是第一个 `CA::Transaction::commit()`。
 
+抖音对终点的定义是：
+
+CA::Transaction::commit()，CFRunLoopPerformBlock，kCFRunLoopBeforeTimers 这三个时机的顺序从早到晚依次是：
+![顺序](../../../../img/iOS/进阶/优化/启动优化/bytedance.png)
+
+* iOS13 以下的系统采用 CFRunLoopPerformBlock 方法注入 block 获取到的 App 首屏渲染完成的时机更准确。
+* iOS13（含）以上的系统采用 runloop 中注册一个 kCFRunLoopBeforeTimers 的回调获取到的 App 首屏渲染完成的时机更准确。
+
 ## 指标及量化手段
 
 应用启动时，会播放一个启动动画。iPhone 上是 `400ms`，iPad 上是 `500ms`，苹果建议启动时间最好不要超过启动动画的时间，并且启动时间超过 `20s` 将会被系统的看门狗机制直接杀死。
@@ -346,7 +354,65 @@ void static __attribute__((constructor)) before_main() {
 
 在 `RootController` 的 `viewDidApper` 中进行打点，或者按照`MetricsKit`里对启动终点的定义，在第一个 `CA::Transaction::commit()` 中打点。
 
-至于如何拿到`CA::Transaction::commit()`时刻，然后做埋点，可以看看[launch-monitor](https://ai-chan.top/code/launch-monitor/)。
+字节方案：
+
+> * iOS13（含）以上的系统采用 runloop 中注册一个 kCFRunLoopBeforeTimers 的回调获取到的 App 首屏渲染完成的时机更准确。
+> * iOS13 以下的系统采用 CFRunLoopPerformBlock 方法注入 block 获取到的 App 首屏渲染完成的时机更准确。
+
+```objective-c
+// 第一种方案：注册block
+CFRunLoopRef mainRunloop = [[NSRunLoop mainRunLoop] getCFRunLoop];
+CFRunLoopPerformBlock(mainRunloop,NSDefaultRunLoopMode,^(){
+    NSTimeInterval stamp = [[NSDate date] timeIntervalSince1970];
+    NSLog(@"runloop block launch end:%f",stamp);
+});
+
+// 第二种方案：注册kCFRunLoopBeforeTimers回调
+CFRunLoopRef mainRunloop = [[NSRunLoop mainRunLoop] getCFRunLoop];
+CFRunLoopActivity activities = kCFRunLoopAllActivities;
+CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(kCFAllocatorDefault, activities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+    if (activity == kCFRunLoopBeforeTimers) {
+        NSTimeInterval stamp = [[NSDate date] timeIntervalSince1970];
+        NSLog(@"runloop beforetimers launch end:%f",stamp);
+        CFRunLoopRemoveObserver(mainRunloop, observer, kCFRunLoopCommonModes);
+    }
+});
+CFRunLoopAddObserver(mainRunloop, observer, kCFRunLoopCommonModes);
+```
+
+监听 `CA::Transaction::commit()` 时刻：
+
+```objective-c
++ (void)load {
+    /// 其中 BSXPCServiceConnectionMessageReply 函数就是 CA::Transaction::commit()内部去执行的
+    Class aClass = NSClassFromString(@"BSXPCServiceConnectionMessageReply");
+    Class class = aClass;
+    SEL originalSelector = NSSelectorFromString(@"send");
+    SEL swizzledSelector = @selector(send1);
+
+    Method originalMethod = class_getInstanceMethod(aClass, originalSelector);
+    Method swizzledMethod = class_getInstanceMethod([KKMonitor class], swizzledSelector);
+
+    BOOL didAddMethod = class_addMethod(class,
+                                        originalSelector,
+                                        method_getImplementation(swizzledMethod),
+                                        method_getTypeEncoding(swizzledMethod));
+    if (didAddMethod) {
+        class_replaceMethod(class,
+                            swizzledSelector,
+                            method_getImplementation(originalMethod),
+                            method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    }
+}
+
+- (void)send1 {
+  // 在里面进行埋点
+}
+```
+
+具体可看[launch-monitor](https://ai-chan.top/code/launch-monitor/)，对应的Demo示例在[LaunchMonitor](https://github.com/sunbohong/LaunchMonitor)
 
 ##### 扩展
 
@@ -499,6 +565,10 @@ PGO 是苹果官方提供的工具。
 - 减少视图层级；
 - 懒加载 View；
 - ...
+
+## 日常编码素质
+
+- 高频次文件读取添加内存缓存，考虑 mmap 方式等等；
 
 ## 最后
 

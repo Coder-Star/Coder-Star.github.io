@@ -235,6 +235,12 @@ xcrun altool --upload-app -f xxx.ipa -t ios --apiKey xxx --apiIssuer xxx --verbo
 作用：
 路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang`
 
+
+### sourcekit-lsp
+
+作用：
+路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp`
+
 ### 工具相关
 
 ### actool

@@ -254,11 +254,13 @@ open class CADisplayLink : NSObject {
 
 对其中几个属性补充一下：
 
-- iOS 10 之后，虽然给出了`targetTimestamp`属性，用来标识下一帧预计的时间戳，开发者文档也描述可以通过`targetTimeStamp` - `timeStamp`得到两帧之间的差值，继而得到FPS，但是经过实际测试，这样得到的FPS一直是60HZ，根本不会波动，所以我们还是利用 YYKit 中的 [YYFPSLabel](https://github.com/ibireme/YYKit/blob/master/Demo/YYKitDemo/YYFPSLabel.m) 这种方式来获取真实的FPS，下方会给出Swift代码示例。
+- iOS 10 之后给出了`targetTimestamp`属性，用来标识下一帧预计的时间戳，开发者文档描述可以通过`targetTimeStamp` - `timeStamp`得到两帧之间的差值，继而得到 FPS。 但需要注意的是这里的`targetTimeStamp`以及`timeStamp`并不应该是同一个回调的（同一个回调的值进行相减你会发现一直是个常量），应该是要属于不同的回调，即下一个周期的`timeStamp`理论上应该是与上一个周期的`targetTimeStamp`一致，如果`timeStamp`更大，可以证明丢帧。
 - `preferredFramesPerSecond`这个属性为 **首选** 帧速率，表示设备每秒回调的帧数。每个设备都会有一个屏幕最大刷新频率的物理属性，大部分 iPhone 都是 60Hz，iPad pro 是 120Hz，我们可以利用`UIScreen.main.maximumFramesPerSecond`获取到。`preferredFramesPerSecond`默认值为 0，此时会按照最大刷新频率进行回调，我们也可以自定义设置的，但需要注意设置的值需要为最大刷新频率的因子，如 20、30 等（当然也不能设置的超过`maximumFramesPerSecond`），如果设置的值不为因子，则系统内部会将不是最大帧速率的除数的首选帧速率四舍五入到最接近的因子，比如说 60HZ 的设备上设置其为 26 或者 35，则内部会自动调整为 30，这也是命名中有`preferred`的原因；
 - `duration`表示以设备以`maximumFramesPerSecond`回调时两帧之间的差值，不受`preferredFramesPerSecond`的影响。那 `duration` 与 `targetTimeStamp` - `timeStamp` 之间有什么区别呢？比如 60HZ 的设备上，`preferredFramesPerSecond`设置为 30，那 `duration` 还是 `1 / 60`，而`targetTimeStamp` - `timeStamp`为 `1 / 30`。
 
 从上面代码中我们也可以看出来，`CADisplayLink`属性与方法比较少，使用起来也比较简单。其相对 Timer 来说使用场合相对专一，适合做 UI 的不停重绘，比如自定义动画或者视频播放的渲染，还有我们平时最常见的就是获取`FPS`，下面给出示例。
+
+YYKit 中的 [YYFPSLabel](https://github.com/ibireme/YYKit/blob/master/Demo/YYKitDemo/YYFPSLabel.m) 这种方式来获取真实的FPS。
 
 ```swift
 final class FPSUtils {

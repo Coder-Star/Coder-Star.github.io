@@ -85,6 +85,8 @@ dyld 3 包含三个组件：
 * `lauch closure`的缓存：
 **系统程序的`lauch closure`直接内置在 `shared cache` 中，而对于第三方 APP，将在 APP 安装或更新时生成**，这样就能保证`lauch closure`总是在 APP 打开之前准备好。
 
+> 启动闭包存储在`tmp/com.apple.dyld`目录下，当把该目录删除后，在App启动时会重新创建启动闭包；
+
 总体来说，dyld 3 把很多耗时的操作都提前处理好了，极大提升了启动速度。
 
 **dyld 3 的符号缺失问题**
