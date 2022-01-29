@@ -431,7 +431,7 @@ Swift 关于编译内联优化的参数位于 `Build Settings` -> `Swift Compile
 `Strip Style` 表示的是我们需要去除的符号的类型的选项，其分为三个选择项：
 
 * All Symbols: 去除所有符号，一般是在主工程中开启；
-* Non-Global Symbols: 去除一些非全局的 Symbol（保留全局符号，Debug Symbols 同样会被去除），链接时会被重定向的那些符号不会被去除，此选项是静态库 (二进制) / 动态库的建议选项；
+* Non-Global Symbols: 去除一些非全局的 Symbol（保留全局符号，Debug Symbols 同样会被去除），链接时会被重定向的那些符号不会被去除，此选项是动态库的建议选项；
 * Debug Symbols: 去除调试符号，去除之后将无法断点调试。
 
 > 当使用 Cocoapods 去管理项目时，对于各 pod 设置的`Strip Style`都为`Debug Symbols`，默认情况下，因为动态库是生成各个库的 Framework，会使用默认的`Debug Symbols`，如果是静态库，实际上是会使用主工程的`Strip Style`，也就是`All Symbols`。所以在 Swift 工程中使用动态库的方式打出的包会比静态库大一些。
