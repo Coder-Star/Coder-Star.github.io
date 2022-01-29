@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/Strip_Swift_Symbols.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/效率软件/LinkMap.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/AppCode_Inspect.png">
-<meta property="og:updated_time" content="2022-01-29T07:56:09.809Z">
+<meta property="og:updated_time" content="2022-01-29T09:51:27.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-29 15:56:09" itemprop="dateModified" datetime="2022-01-29T15:56:09+08:00">2022-01-29</time>
+                <time title="修改时间：2022-01-29 17:51:27" itemprop="dateModified" datetime="2022-01-29T17:51:27+08:00">2022-01-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -624,7 +624,7 @@
 <p><img src="../../../../img/iOS/进阶/优化/瘦身/AppCode_Inspect.png" alt="AppCode_Inspect"></p>
 <p>但是需要注意的是，AppCode 的静态检查还存在很多问题，对一些使用的代码可能会判断成没有使用，所以使用 AppCode 检查出来的无用代码，还需要人工二次确认才能进行最后的删除。</p>
 <blockquote>
-<p>项目大了之后AppCode索引速度很慢。</p>
+<p>项目大了之后 AppCode 索引速度很慢。</p>
 </blockquote>
 <h4 id="基于源码扫描"><a href="#基于源码扫描" class="headerlink" title="基于源码扫描"></a>基于源码扫描</h4><p>一般都是对源码文件进行字符串匹配。例如将 A *a、[A xxx]、NSStringFromClass(“A”)、objc_getClass(“A”) 等归类为使用的类，@interface A : B 归类为定义的类，然后计算差集。</p>
 <p>基于源码扫描 有个已经实现的工具 — <a href="https://github.com/dblock/fui" target="_blank" rel="noopener">fui</a>，它的实现原理是查找所有 #import “A” 和所有的文件进行比对。</p>
@@ -635,8 +635,17 @@
 </ul>
 <h4 id="分析-Macho-文件"><a href="#分析-Macho-文件" class="headerlink" title="分析 Macho 文件"></a>分析 Macho 文件</h4><p><a href="https://github.com/wuba/WBBlades" target="_blank" rel="noopener">WBBlades</a></p>
 <blockquote>
-<p>通过对 Mach-O 文件的了解，可以知道 <code>__TEXT:__objc_methname:</code> 中包含了代码中的所有方法，而<code>__DATA__objc_selrefs</code>中则包含了所有被使用的方法的引用，通过取两个集合的差集就可以得到所有未被使用的代码。具体可看<a href="https://github.com/nst/objc_cover" target="_blank" rel="noopener">objc_cover</a></p>
+<p>通过对 Mach-O 文件的了解，可以知道 <code>__TEXT:，而</code><strong>DATA</strong>objc_selrefs`中则包含了所有被使用的方法的引用，通过取两个集合的差集就可以得到所有未被使用的代码。</p>
 </blockquote>
+<ul>
+<li><code>__objc_selrefs</code> 和 <code>__objc_classrefs</code> 存储了引用到的 <code>sel 和</code>class`</li>
+<li><code>__objc_classlist</code> 存储了所有的 <code>sel</code> 和 <code>class</code></li>
+</ul>
+<blockquote>
+<p><code>__objc_methname:</code> 中也包含了代码中的所有方法。</p>
+</blockquote>
+<p>具体可看<a href="https://github.com/nst/objc_cover" target="_blank" rel="noopener">objc_cover</a></p>
+<p>二者做个差集就知道那些类 /sel 用不到，但 objc 支持运行时调用，删除之前还要在二次确认。</p>
 <h3 id="多个可执行文件中去除相同代码"><a href="#多个可执行文件中去除相同代码" class="headerlink" title="多个可执行文件中去除相同代码"></a>多个可执行文件中去除相同代码</h3><p>这里的多个可执行文件一般是指 APP 宿主程序与 Extension 程序，如果 APP 宿主程序与 Extension 程序都依赖同一个静态库库时，就会导致两个可执行文件中都包含相同的代码；个人觉得有两种解决方案：</p>
 <ul>
 <li>考虑到 Extension 程序相对宿主程序来说功能较小，可尽量使用原生功能，不接入三方库；</li>
@@ -894,7 +903,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">360k</span>
+    <span title="站点总字数">359k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
