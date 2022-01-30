@@ -12,7 +12,38 @@ date: 2022-01-03 13:24:33
 
 Hi Coder，我是 CoderStar！
 
-## 1
+## 类型
+
+常见的 Mach-O 包括以下几种：
+
+* MH_OBJECT 目标文件
+  * .o
+  * .a/ .framework 静态库 （静态库即多个.o 文件存放在一起实现特定的功能）
+* MH_EXECUTE 可执行文件
+  * .app/MyApp
+  * .out
+* MH_DYLIB 动态库
+  * .framework/xxx
+  * /dylib
+* MH_DYLINKER 动态链接器
+  * usr/lib/dyld
+* MH_DSYM 存储二进制文件符号信息的文件
+  * .dYSM/Contents/Resources/DWARF/MyApp
+
+### Framework 组成
+
+- Mach-O
+  - .O
+  - .O
+  - ...
+  - __.SYMDEF：符号信息
+- Modules/
+  - module.modulemap
+  - XXX.swiftmodule
+- Headers/
+- Info.plist
+
+## 组成
 
 Mach-O 文件由三部分组成：
 
