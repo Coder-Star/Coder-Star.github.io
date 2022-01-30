@@ -9,8 +9,24 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/iOS/Xcode/Xcode%E7%9B%B8%E5%85%B3CLI%E5%B7%A5%E5%85%B7/</loc>
-        <lastmod>2022-01-29T10:54:52.865Z</lastmod>
+        <loc>https://coder-star.github.io/iOS/Xcode/Xcode%E5%B8%B8%E8%A7%81CLI%E5%B7%A5%E5%85%B7/</loc>
+        <lastmod>2022-01-30T07:33:06.955Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/MachO/</loc>
+        <lastmod>2022-01-30T02:44:39.875Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E7%98%A6%E8%BA%AB/</loc>
+        <lastmod>2022-01-29T11:51:45.100Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -27,14 +43,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/iOS%E7%BC%96%E8%AF%91%E7%AE%80%E6%9E%90/</loc>
         <lastmod>2022-01-29T10:35:57.442Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-%E7%98%A6%E8%BA%AB/</loc>
-        <lastmod>2022-01-29T09:51:27.368Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -187,14 +195,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/iOS%E6%97%A5%E5%B8%B8%E5%B0%8F%E5%9D%91%E6%80%BB%E7%BB%93/</loc>
         <lastmod>2022-01-13T04:23:33.641Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/MachO/</loc>
-        <lastmod>2022-01-03T05:31:28.322Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -969,7 +969,7 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/Java/Java%E5%AD%A6%E4%B9%A0/</loc>
+        <loc>https://coder-star.github.io/Java/%E5%85%B3%E4%BA%8ETomcat%E7%9A%84%E8%AE%BE%E7%BD%AE/</loc>
         <lastmod>2021-06-01T09:17:10.297Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -977,7 +977,7 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/Java/%E5%85%B3%E4%BA%8ETomcat%E7%9A%84%E8%AE%BE%E7%BD%AE/</loc>
+        <loc>https://coder-star.github.io/Java/Java%E5%AD%A6%E4%B9%A0/</loc>
         <lastmod>2021-06-01T09:17:10.297Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
