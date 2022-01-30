@@ -21,7 +21,7 @@
   </script>
 
   <meta name="description" content="前言Hi Coder，我是 CoderStar！ 1Mach-O 文件由三部分组成：  Header Load Commands Data">
-<meta name="keywords" content="标签 1,标签 2">
+<meta name="keywords" content="iOS,MachO">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MachO">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/MachO/index.html">
@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 1Mach-O 文件由三部分组成：  Header Load Commands Data">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/MachO/MachO.webp">
-<meta property="og:updated_time" content="2022-01-03T05:31:28.322Z">
+<meta property="og:updated_time" content="2022-01-30T02:44:39.875Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MachO">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 1Mach-O 文件由三部分组成：  Header Load Commands Data">
@@ -221,21 +221,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-03 13:24:33 / 修改时间：13:31:28" itemprop="dateCreated datePublished" datetime="2022-01-03T13:24:33+08:00">2022-01-03</time>
+              <time title="创建时间：2022-01-03 13:24:33" itemprop="dateCreated datePublished" datetime="2022-01-03T13:24:33+08:00">2022-01-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-30 10:44:39" itemprop="dateModified" datetime="2022-01-30T10:44:39+08:00">2022-01-30</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/父分类/" itemprop="url" rel="index"><span itemprop="name">父分类</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/父分类/子分类/" itemprop="url" rel="index"><span itemprop="name">子分类</span></a>
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
                 </span>
             </span>
 
@@ -252,7 +254,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>562</span>
+              <span>766</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -288,6 +290,8 @@
 <li>DATA，数据段，读写，存储 Objective C 的字符串 (__cfstring)，以及运行时的元数据：class/protocol/method…</li>
 <li>LINKEDIT，启动 App 需要的信息，如 bind &amp; rebase 的地址，代码签名，符号表…</li>
 </ul>
+<h2 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h2><p>编译与链接：<br>当我们写的代码进行编译的时候会生成一个个.o 文件，也就是 MachO 文件，这个过程就是将代码放到对应的配置中，将各种类型的符号进行归类存放。</p>
+<p>而链接的本质就是把多个目标 (.o) 文件组合成一个可执行文件。把多个目标文件合并到一起，在合并的时候可以对其内部符号对外暴露的属性进行修改。静态链接器 (ld) 和动态链接器 (dyld) 在链接的过程中都会读取符号表，另外调试器也会用符号表来把符号映射到源文件。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 
@@ -349,8 +353,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/标签-1/" rel="tag"><i class="fa fa-tag"></i> 标签 1</a>
-              <a href="/tags/标签-2/" rel="tag"><i class="fa fa-tag"></i> 标签 2</a>
+              <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+              <a href="/tags/MachO/" rel="tag"><i class="fa fa-tag"></i> MachO</a>
           </div>
 
         
@@ -425,7 +429,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">2.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1"><span class="nav-number">2.</span> <span class="nav-text">1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号"><span class="nav-number">3.</span> <span class="nav-text">符号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -441,7 +445,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">124</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -454,7 +458,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -511,7 +515,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:29</span>
+    <span title="站点阅读时长">5:30</span>
 </div>
 
         
