@@ -14,15 +14,15 @@ Hi Coder，我是 CoderStar！
 
 在新的一年里，祝小伙伴们工作顺利，升职加薪。
 
-在咱们日常开发中，或多或少都会用到 Xcode 内置的一些`CLI`工具，但是大部分小伙伴可能只是会用到一些具体的命令，今天我们就一起来聊一聊 Xcode 内置的常见`Command Lines Tool`。
+在咱们日常开发中，或多或少都会用到 Xcode 内置的一些`CLI`工具，但是大部分小伙伴可能只是会用到一些具体的命令，今天我们就一起来聊一聊 Xcode 内置的常见`Command Line Tool`。
 
 > 介绍的可能不全，大家可以去文中出现的路径下查看更多的工具。
 
-`Command Lines Tool`本质是一个命令行工具包，内部有很多有用的工具，如`Apple LLVM compiler`、`Make`等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用`Homebrew`在安装一些`python`库或者`js`库时，都会提示需要`Command Line Tools`。
+`Command Line Tool`本质是一个命令行工具包，内部有很多有用的工具，如`Apple LLVM compiler`、`Make`等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用`Homebrew`在安装一些`python`库或者`js`库时，都会提示需要`Command Line Tool`。
 
-> 下文会对`Command Line Tools`直接缩写成 CLI，XXX 一般情况是指对应路径地址。
+> 下文会对`Command Line Tool`直接缩写成 CLI，XXX 一般情况是指对应路径地址。
 
-我们在开发者官网 [Command Line Tools](https://developer.apple.com/download/all/?q=command) 对其单独下载，当然每个版本的Xcode安装包内也会包含这套工具包。
+我们在开发者官网 [Command Line Tool](https://developer.apple.com/download/all/?q=command) 对其单独下载，当然每个版本的Xcode安装包内也会包含这套工具包。
 
 其实下列有一部分工具属于 LLVM 序列，比如`dwarfdump`、`ar`，启动本质其实为`llvm-dwarfdump`、`llvm-ar`，都属于 `LLVM` 工具链中的一部分。
 
