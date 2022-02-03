@@ -210,14 +210,14 @@ public func info() { }
 public func info() { }
 ```
 
-### @_ silgen_name
+### @_silgen_name
 
-@_ silgen_name 是 Swift 中间语言 SIL 的一个属性
+@_silgen_name 是 Swift 中间语言 SIL 的一个属性
 
 * 第一个是指定函数符号，为了让 C 调用；
 * 第二个可以只声明一个函数符号，没有函数体，真正的函数实现是对应 C 的函数符号实现；
 
-第一个场景可以是这样，加在 Swift 函数上，这样可以将该函数符号暴露出去，外部可以通过不直接引用的方式直接访问到该函数，用在组件路由上。
+第一个场景可以是这样，加在 Swift 函数上，这样可以将该函数符号暴露出去，外部可以通过不直接引用的方式直接访问到该函数，用在组件路由上。[SRouter](https://tannerjin.github.io/2019/11/04/SRouter/)
 
 第二个场景可以是这样，获取 iOS 或者 Swift 底层函数的实现，进而获取到一些 Swift 层没有的东西。
 

@@ -450,11 +450,17 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 - 低版本 iOS 系统对__Text 端体积可能有限制，导致 Macho 文件不可以太大，可以使用动态库的方式来避免这个问题；
 - ...
 
-当然我们还可以利用动态库运行时链接的特性，去将一些动态库进行懒加载。所谓懒加载就是动态库只打包进 App，但是在启动时不参与链接，即可以在 `podspec` 里添加 `spec.weak_frameworks` = 'XXX'，并保证 `Link Binary With Libraries` 和 `Other Linker Flags` 没有链接对应的动态库，然后在 App 运行中用到动态库内的实现时，在调用之前先通过`[NSBundle loadAndReturnError:]`或者`dlopen()`去加载动态库（前者相对后者支持资源的加载），然后再调用到实际的业务代码。
+当然我们还可以利用动态库运行时链接的特性，去将一些动态库进行懒加载。所谓懒加载就是动态库只打包进 App，但是在启动时不参与链接，即可以在 `podspec` 里添加 `spec.weak_frameworks` = 'XXX'，并保证 `Link Binary With Libraries` 和 `Other Linker Flags` 没有链接对应的动态库。
 
-这种优化方式适合依赖少、比较稳定的库。目前了解到做了动态库懒加载的包括 58、贝壳等。
+然后在 App 运行中用到动态库内的实现时，在调用之前先通过`[NSBundle loadAndReturnError:]`或者`dlopen()`去加载动态库（前者相对后者支持资源的加载），然后再调用到实际的业务代码。在这部分我们要尽量减少外界对懒加载过程的感知，对调用逻辑进行一定的收口，如暴露一个单例出去，然后在内部构造函数时刻进行懒加载。
 
-动态库懒加载相对于静态库少了`fixup`以及初始化等耗时。
+这种优化方式适用场景：
+
+- 依赖少、比较稳定的库；
+- 部分功能只能特定设备上使用，如一些只在iPad上出现的功能；
+- ...
+
+目前了解到做了动态库懒加载的包括 58、贝壳等。动态库懒加载相对于静态库少了`fixup`以及初始化等耗时。
 
 结合我的实际项目，项目为一个`Swift-OC`混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本次调整为静态库，具体方式为：
 
