@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/DYLD_PRINT_STATISTICS_DETAILS.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/XCTest.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/启动优化/app_launch_performance_xcode_organizer.png">
-<meta property="og:updated_time" content="2022-01-29T08:23:22.386Z">
+<meta property="og:updated_time" content="2022-02-03T07:31:20.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 启动优化">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 距离上次发完年终总结已经有将近一个月的时间，这一个月来也面试了将近 40 位候选人，或多或少有了一些感想，后面会单独发篇文章跟大家聊一聊这个话题。 之前曾在iOS优化-瘦身文章中提到过iOS优化将会是一个专题，今天就带来iOS优化系列的第二篇，主要介绍一下启动优化，即如何减少应用的启动时间。 其实关于这块，网上的资料已经很多了，本文主要梳理了一下我">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-29 16:23:22" itemprop="dateModified" datetime="2022-01-29T16:23:22+08:00">2022-01-29</time>
+                <time title="修改时间：2022-02-03 15:31:20" itemprop="dateModified" datetime="2022-02-03T15:31:20+08:00">2022-02-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -486,9 +486,15 @@
 <li>低版本 iOS 系统对__Text 端体积可能有限制，导致 Macho 文件不可以太大，可以使用动态库的方式来避免这个问题；</li>
 <li>…</li>
 </ul>
-<p>当然我们还可以利用动态库运行时链接的特性，去将一些动态库进行懒加载。所谓懒加载就是动态库只打包进 App，但是在启动时不参与链接，即可以在 <code>podspec</code> 里添加 <code>spec.weak_frameworks</code> = ‘XXX’，并保证 <code>Link Binary With Libraries</code> 和 <code>Other Linker Flags</code> 没有链接对应的动态库，然后在 App 运行中用到动态库内的实现时，在调用之前先通过<code>[NSBundle loadAndReturnError:]</code>或者<code>dlopen()</code>去加载动态库（前者相对后者支持资源的加载），然后再调用到实际的业务代码。</p>
-<p>这种优化方式适合依赖少、比较稳定的库。目前了解到做了动态库懒加载的包括 58、贝壳等。</p>
-<p>动态库懒加载相对于静态库少了<code>fixup</code>以及初始化等耗时。</p>
+<p>当然我们还可以利用动态库运行时链接的特性，去将一些动态库进行懒加载。所谓懒加载就是动态库只打包进 App，但是在启动时不参与链接，即可以在 <code>podspec</code> 里添加 <code>spec.weak_frameworks</code> = ‘XXX’，并保证 <code>Link Binary With Libraries</code> 和 <code>Other Linker Flags</code> 没有链接对应的动态库。</p>
+<p>然后在 App 运行中用到动态库内的实现时，在调用之前先通过<code>[NSBundle loadAndReturnError:]</code>或者<code>dlopen()</code>去加载动态库（前者相对后者支持资源的加载），然后再调用到实际的业务代码。在这部分我们要尽量减少外界对懒加载过程的感知，对调用逻辑进行一定的收口，如暴露一个单例出去，然后在内部构造函数时刻进行懒加载。</p>
+<p>这种优化方式适用场景：</p>
+<ul>
+<li>依赖少、比较稳定的库；</li>
+<li>部分功能只能特定设备上使用，如一些只在iPad上出现的功能；</li>
+<li>…</li>
+</ul>
+<p>目前了解到做了动态库懒加载的包括 58、贝壳等。动态库懒加载相对于静态库少了<code>fixup</code>以及初始化等耗时。</p>
 <p>结合我的实际项目，项目为一个<code>Swift-OC</code>混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本次调整为静态库，具体方式为：</p>
 <ul>
 <li>去掉<code>use_frameworks!</code>；</li>
@@ -743,7 +749,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -756,7 +762,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-count">92</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
