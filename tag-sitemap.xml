@@ -3,14 +3,21 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/APM/</loc>
-        <lastmod>2022-02-07T15:09:08.403Z</lastmod>
+        <loc>https://coder-star.github.io/tags/Swift-开发规范/</loc>
+        <lastmod>2022-02-07T15:19:24.944Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2022-02-07T15:19:24.944Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/APM/</loc>
         <lastmod>2022-02-07T15:09:08.403Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -187,13 +194,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/KVO/</loc>
         <lastmod>2021-12-26T11:00:46.289Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/Swift-开发规范/</loc>
-        <lastmod>2021-12-23T08:47:46.792Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

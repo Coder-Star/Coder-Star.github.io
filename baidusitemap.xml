@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</loc>
+    <lastmod>2022-02-07</lastmod>
+  </url>
+  <url>
     <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/iOS%E4%B9%8BAPM%E7%9B%B8%E5%85%B3/</loc>
     <lastmod>2022-02-07</lastmod>
   </url>
@@ -115,10 +119,6 @@
   <url>
     <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime%E7%9B%B8%E5%85%B3/KVO%E4%B8%8EKVC/</loc>
     <lastmod>2021-12-26</lastmod>
-  </url>
-  <url>
-    <loc>https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</loc>
-    <lastmod>2021-12-23</lastmod>
   </url>
   <url>
     <loc>https://coder-star.github.io/Android/Android%E4%B8%89%E6%96%B9%E5%BA%93%E6%94%B6%E9%9B%86/</loc>
