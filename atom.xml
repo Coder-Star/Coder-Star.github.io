@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://coder-star.github.io/"/>
-  <updated>2022-02-03T09:25:48.571Z</updated>
+  <updated>2022-02-07T15:09:08.403Z</updated>
   <id>https://coder-star.github.io/</id>
   
   <author>
@@ -21,15 +21,15 @@
     <link href="https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/iOS%E4%B9%8BAPM%E7%9B%B8%E5%85%B3/"/>
     <id>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/iOS%E4%B9%8BAPM%E7%9B%B8%E5%85%B3/</id>
     <published>2022-02-03T07:41:14.000Z</published>
-    <updated>2022-02-03T09:25:48.571Z</updated>
+    <updated>2022-02-07T15:09:08.403Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p><h2 id="卡顿"><a href="#卡顿" class="headerlink" title="卡顿"></a>卡顿</h2><p><a href="https://mp.weixin.qq.com/s/Csg7_lN8QjCdngY-EB_H9g" target="_blank" rel="noopener">iOS 卡顿监测方案总结</a><br><a href="https://github.com/aozhimin/iOS-Monitor-Platform/blob/master/iOS-Monitor-Platform_Basic.md" target="_blank" rel="noopener"> iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理</a></p><h3 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h3><p>CADisplayLink 仍然是基于 Runloop 来实现的，而 RunLoop 的运行取决于其所在的 mode 以及 CPU 的繁忙程度，当 CPU 忙于计算显示内容或者 GPU 工作太繁重时，就会导致显示出来的 FPS 与 Instrument 的不一致。所以说基于 CADisplayLink 实现的 FPS 无法完全检测出当前 Core Animation 的性能情况，它只能检测出当前 RunLoop 的帧率。</p><h3 id="子线程-Ping：这种方案不准"><a href="#子线程-Ping：这种方案不准" class="headerlink" title="子线程 Ping：这种方案不准"></a>子线程 Ping：这种方案不准</h3><h3 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h3><h3 id="CPU-超过-80"><a href="#CPU-超过-80" class="headerlink" title="CPU 超过 80%"></a>CPU 超过 80%</h3><p><a href="https://github.com/woshiccm/RCBacktrace" target="_blank" rel="noopener">RCBacktrace</a></p><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p><p>Let’s be CoderStar!</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p><h2 id="启动时间"><a href="#启动时间" class="headerlink" title="启动时间"></a>启动时间</h2><p><a href="../../进阶/优化/iOS优化-启动优化">iOS优化-启动优化</a></p><h2 id="Crash"><a href="#Crash" class="headerlink" title="Crash"></a>Crash</h2><p><a href="../../进阶/iOS%20符号化浅析">iOS 符号化浅析</a></p><ul><li><a href="https://github.com/kstenerud/KSCrash" target="_blank" rel="noopener">KSCrash</a> （建议阅读源码）</li><li><a href="https://github.com/microsoft/plcrashreporter" target="_blank" rel="noopener">plcrashreporter</a></li><li><a href="https://github.com/kaler/CrashKit" target="_blank" rel="noopener">CrashKit</a></li><li><a href="https://github.com/google/breakpad" target="_blank" rel="noopener">breakpad</a></li></ul><h2 id="卡顿"><a href="#卡顿" class="headerlink" title="卡顿"></a>卡顿</h2><p><a href="https://mp.weixin.qq.com/s/Csg7_lN8QjCdngY-EB_H9g" target="_blank" rel="noopener">iOS 卡顿监测方案总结</a><br><a href="https://github.com/aozhimin/iOS-Monitor-Platform/blob/master/iOS-Monitor-Platform_Basic.md" target="_blank" rel="noopener"> iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理</a></p><h3 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h3><p>CADisplayLink 仍然是基于 Runloop 来实现的，而 RunLoop 的运行取决于其所在的 mode 以及 CPU 的繁忙程度，当 CPU 忙于计算显示内容或者 GPU 工作太繁重时，就会导致显示出来的 FPS 与 Instrument 的不一致。所以说基于 CADisplayLink 实现的 FPS 无法完全检测出当前 Core Animation 的性能情况，它只能检测出当前 RunLoop 的帧率。</p><h3 id="子线程-Ping：这种方案不准"><a href="#子线程-Ping：这种方案不准" class="headerlink" title="子线程 Ping：这种方案不准"></a>子线程 Ping：这种方案不准</h3><h3 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h3><h3 id="CPU-超过-80"><a href="#CPU-超过-80" class="headerlink" title="CPU 超过 80%"></a>CPU 超过 80%</h3><p>获取当前堆栈：<a href="https://github.com/woshiccm/RCBacktrace" target="_blank" rel="noopener">RCBacktrace</a></p><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>iOS主线程UI调用监测工具：<a href="https://github.com/mademao/MDMMainThreadChecker" target="_blank" rel="noopener">MDMMainThreadChecker</a></p><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p><p>Let’s be CoderStar!</p>]]></content>
     
     <summary type="html">
     
       &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;Hi Coder，我是 CoderStar！&lt;/p&gt;
-&lt;h2 id=&quot;卡顿&quot;&gt;&lt;a href=&quot;#卡顿&quot; class=&quot;headerlink&quot; title=&quot;卡顿&quot;&gt;&lt;/a&gt;卡顿&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/Csg7_lN8QjCdngY-EB_H9g&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;iOS 卡顿监测方案总结&lt;/a&gt;&lt;br&gt;&lt;a href=&quot;https://github.com/aozhimin/iOS-Monitor-Platform/blob/master/iOS-Monitor-Platform_Basic.md&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt; iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;CADisplayLink&quot;&gt;&lt;a href=&quot;#CADisplayLink&quot; class=&quot;headerlink&quot; title=&quot;CADisplayLink&quot;&gt;&lt;/a&gt;CADisplayLink&lt;/h3&gt;
+&lt;h2 id=&quot;启动时间&quot;&gt;&lt;a href=&quot;#启动时间&quot; class=&quot;headerlink&quot; title=&quot;启动时间&quot;&gt;&lt;/a&gt;启动时间&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;../../进阶/优化/iOS优化-启动优化&quot;&gt;iOS优化-启动优化&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Crash&quot;&gt;&lt;a href=&quot;#Crash&quot; class=&quot;headerlink&quot; title=&quot;Crash&quot;&gt;&lt;/a&gt;Crash&lt;/h2&gt;
     
     </summary>
     

@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 卡顿iOS 卡顿监测方案总结 iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理 CADisplayLink">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 启动时间iOS优化-启动优化 Crash">
 <meta name="keywords" content="iOS,APM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS 之 APM 相关">
 <meta property="og:url" content="https://coder-star.github.io/iOS/进阶/iOS之APM相关/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 卡顿iOS 卡顿监测方案总结 iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理 CADisplayLink">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 启动时间iOS优化-启动优化 Crash">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-02-03T09:25:48.571Z">
+<meta property="og:updated_time" content="2022-02-07T15:09:08.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 之 APM 相关">
-<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 卡顿iOS 卡顿监测方案总结 iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理 CADisplayLink">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 启动时间iOS优化-启动优化 Crash">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/进阶/iOS之APM相关/">
 
@@ -219,10 +219,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-02-03 15:41:14 / 修改时间：17:25:48" itemprop="dateCreated datePublished" datetime="2022-02-03T15:41:14+08:00">2022-02-03</time>
+              <time title="创建时间：2022-02-03 15:41:14" itemprop="dateCreated datePublished" datetime="2022-02-03T15:41:14+08:00">2022-02-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-07 23:09:08" itemprop="dateModified" datetime="2022-02-07T23:09:08+08:00">2022-02-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -246,7 +252,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>333</span>
+              <span>450</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -266,9 +272,18 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
+<h2 id="启动时间"><a href="#启动时间" class="headerlink" title="启动时间"></a>启动时间</h2><p><a href="../../进阶/优化/iOS优化-启动优化">iOS优化-启动优化</a></p>
+<h2 id="Crash"><a href="#Crash" class="headerlink" title="Crash"></a>Crash</h2><p><a href="../../进阶/iOS%20符号化浅析">iOS 符号化浅析</a></p>
+<ul>
+<li><a href="https://github.com/kstenerud/KSCrash" target="_blank" rel="noopener">KSCrash</a> （建议阅读源码）</li>
+<li><a href="https://github.com/microsoft/plcrashreporter" target="_blank" rel="noopener">plcrashreporter</a></li>
+<li><a href="https://github.com/kaler/CrashKit" target="_blank" rel="noopener">CrashKit</a></li>
+<li><a href="https://github.com/google/breakpad" target="_blank" rel="noopener">breakpad</a></li>
+</ul>
 <h2 id="卡顿"><a href="#卡顿" class="headerlink" title="卡顿"></a>卡顿</h2><p><a href="https://mp.weixin.qq.com/s/Csg7_lN8QjCdngY-EB_H9g" target="_blank" rel="noopener">iOS 卡顿监测方案总结</a><br><a href="https://github.com/aozhimin/iOS-Monitor-Platform/blob/master/iOS-Monitor-Platform_Basic.md" target="_blank" rel="noopener"> iOS 性能监控 SDK —— Wedjat（华狄特）开发过程的调研和整理</a></p>
 <h3 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h3><p>CADisplayLink 仍然是基于 Runloop 来实现的，而 RunLoop 的运行取决于其所在的 mode 以及 CPU 的繁忙程度，当 CPU 忙于计算显示内容或者 GPU 工作太繁重时，就会导致显示出来的 FPS 与 Instrument 的不一致。所以说基于 CADisplayLink 实现的 FPS 无法完全检测出当前 Core Animation 的性能情况，它只能检测出当前 RunLoop 的帧率。</p>
-<h3 id="子线程-Ping：这种方案不准"><a href="#子线程-Ping：这种方案不准" class="headerlink" title="子线程 Ping：这种方案不准"></a>子线程 Ping：这种方案不准</h3><h3 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h3><h3 id="CPU-超过-80"><a href="#CPU-超过-80" class="headerlink" title="CPU 超过 80%"></a>CPU 超过 80%</h3><p><a href="https://github.com/woshiccm/RCBacktrace" target="_blank" rel="noopener">RCBacktrace</a></p>
+<h3 id="子线程-Ping：这种方案不准"><a href="#子线程-Ping：这种方案不准" class="headerlink" title="子线程 Ping：这种方案不准"></a>子线程 Ping：这种方案不准</h3><h3 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h3><h3 id="CPU-超过-80"><a href="#CPU-超过-80" class="headerlink" title="CPU 超过 80%"></a>CPU 超过 80%</h3><p>获取当前堆栈：<a href="https://github.com/woshiccm/RCBacktrace" target="_blank" rel="noopener">RCBacktrace</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>iOS主线程UI调用监测工具：<a href="https://github.com/mademao/MDMMainThreadChecker" target="_blank" rel="noopener">MDMMainThreadChecker</a></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 
@@ -403,7 +418,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡顿"><span class="nav-number">2.</span> <span class="nav-text">卡顿</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CADisplayLink"><span class="nav-number">2.1.</span> <span class="nav-text">CADisplayLink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子线程-Ping：这种方案不准"><span class="nav-number">2.2.</span> <span class="nav-text">子线程 Ping：这种方案不准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runloop"><span class="nav-number">2.3.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU-超过-80"><span class="nav-number">2.4.</span> <span class="nav-text">CPU 超过 80%</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动时间"><span class="nav-number">2.</span> <span class="nav-text">启动时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Crash"><span class="nav-number">3.</span> <span class="nav-text">Crash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡顿"><span class="nav-number">4.</span> <span class="nav-text">卡顿</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CADisplayLink"><span class="nav-number">4.1.</span> <span class="nav-text">CADisplayLink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子线程-Ping：这种方案不准"><span class="nav-number">4.2.</span> <span class="nav-text">子线程 Ping：这种方案不准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runloop"><span class="nav-number">4.3.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU-超过-80"><span class="nav-number">4.4.</span> <span class="nav-text">CPU 超过 80%</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
