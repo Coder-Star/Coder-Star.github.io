@@ -453,3 +453,4 @@ extension UIView {
 - [linkedin编码规范](https://github.com/linkedin/swift-style-guide)
 - [raywenderlich编码规范](https://github.com/raywenderlich/swift-style-guide)
 - [airbnb编码规范](https://github.com/airbnb/swift)
+- [swift-best-practices](https://github.com/Lickability/swift-best-practices)
