@@ -12,6 +12,19 @@ date: 2022-02-03 15:41:14
 
 Hi Coder，我是 CoderStar！
 
+## 启动时间
+
+[iOS优化-启动优化](../../进阶/优化/iOS优化-启动优化)
+
+## Crash
+
+[iOS 符号化浅析](../../进阶/iOS%20符号化浅析)
+
+- [KSCrash](https://github.com/kstenerud/KSCrash) （建议阅读源码）
+- [plcrashreporter](https://github.com/microsoft/plcrashreporter)
+- [CrashKit](https://github.com/kaler/CrashKit)
+- [breakpad](https://github.com/google/breakpad)
+
 ## 卡顿
 
 [iOS 卡顿监测方案总结](https://mp.weixin.qq.com/s/Csg7_lN8QjCdngY-EB_H9g)
@@ -27,7 +40,11 @@ CADisplayLink 仍然是基于 Runloop 来实现的，而 RunLoop 的运行取决
 
 ### CPU 超过 80%
 
-[RCBacktrace](https://github.com/woshiccm/RCBacktrace)
+获取当前堆栈：[RCBacktrace](https://github.com/woshiccm/RCBacktrace)
+
+## 其他
+
+iOS主线程UI调用监测工具：[MDMMainThreadChecker](https://github.com/mademao/MDMMainThreadChecker)
 
 ## 最后
 
