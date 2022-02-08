@@ -9,6 +9,30 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/iOS/iOS%E6%97%A5%E5%B8%B8%E5%B0%8F%E5%9D%91%E6%80%BB%E7%BB%93/</loc>
+        <lastmod>2022-02-08T02:18:38.743Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/iOS/iOS%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/</loc>
+        <lastmod>2022-02-08T02:18:33.310Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-UI/</loc>
+        <lastmod>2022-02-08T02:17:51.984Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/iOS/%E8%A7%84%E8%8C%83/Swift%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</loc>
         <lastmod>2022-02-07T15:19:24.944Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -193,14 +217,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/iOS/iOS%E9%9D%A2%E8%AF%95%E9%A2%98%E7%A7%AF%E7%B4%AF/</loc>
-        <lastmod>2022-01-18T02:23:19.046Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/iOS/iOS%E6%8A%80%E6%9C%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/</loc>
         <lastmod>2022-01-17T15:01:36.475Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -219,14 +235,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/Swift/SPM/SPM%E7%9B%B8%E5%85%B3/</loc>
         <lastmod>2022-01-16T10:14:25.150Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/iOS%E6%97%A5%E5%B8%B8%E5%B0%8F%E5%9D%91%E6%80%BB%E7%BB%93/</loc>
-        <lastmod>2022-01-13T04:23:33.641Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -395,14 +403,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/Swift/Swift%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95/</loc>
         <lastmod>2021-11-21T09:47:37.617Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E8%BF%9B%E9%98%B6/%E4%BC%98%E5%8C%96/iOS%E4%BC%98%E5%8C%96-UI/</loc>
-        <lastmod>2021-11-21T05:46:09.978Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -683,14 +683,6 @@
     <url>
         <loc>https://coder-star.github.io/iOS/UI/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93/iOS%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93-%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/</loc>
         <lastmod>2021-08-20T05:09:33.928Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/iOS%E5%BC%80%E5%8F%91%E6%9D%82%E8%AE%B0/</loc>
-        <lastmod>2021-08-20T05:08:34.053Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

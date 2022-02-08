@@ -3,14 +3,28 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/Swift-开发规范/</loc>
-        <lastmod>2022-02-07T15:19:24.944Z</lastmod>
+        <loc>https://coder-star.github.io/tags/坑/</loc>
+        <lastmod>2022-02-08T02:18:38.743Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2022-02-08T02:18:38.743Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/优化/</loc>
+        <lastmod>2022-02-08T02:17:51.984Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Swift-开发规范/</loc>
         <lastmod>2022-02-07T15:19:24.944Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -47,13 +61,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/库/</loc>
         <lastmod>2022-02-03T07:34:44.161Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/优化/</loc>
-        <lastmod>2022-02-03T07:31:20.658Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -166,13 +173,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/SPM/</loc>
         <lastmod>2022-01-16T10:14:25.150Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/坑/</loc>
-        <lastmod>2022-01-13T04:23:33.641Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
