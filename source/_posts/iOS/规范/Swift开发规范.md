@@ -392,6 +392,7 @@ extension UIView {
 - 【推荐】不要让可选值使用？? 赋默认值再嵌套其他运算；
 - 【推荐】将长计算式代码拆分，最后组合计算；
 - 【推荐】尽量不使用 `Storyboard` 或者 `Xib`，会增加编译时间；
+    还存在一些问题可见[think-twice-before-scaling-your-app-with-interface-builder](https://craft.faire.com/think-twice-before-scaling-your-app-with-interface-builder-90214ebdb12a)
 - 【推荐】减少三目运算符的使用；
 
 ## 七 优化规约
@@ -417,10 +418,12 @@ extension UIView {
   说明：Swift 里面的 String 的 `index` 和 `count` 不是一一对应的（兼容 `Unicode`），所以 `stirng.count == 0` 的效率不如 `string.isEmpty`；[Why using isEmpty is faster than checking count == 0](https://www.hackingwithswift.com/articles/181/why-using-isempty-is-faster-than-checking-count-0)
 - 【推荐】如果协议只会被类使用，建议加上`AnyObject`限制；
   说明：编译器可以对此进行优化，其可以明确在处理一个类，继而进行引用计数，而不用考虑结构体以及其带来的额外的逻辑及结构。
+
    ```swift
    正例：protocol Pingable: AnyObject { func ping() -> Int }
    ```
-- 
+
+-
 
 ## 八、设计规约
 
