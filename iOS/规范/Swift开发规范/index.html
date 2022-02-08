@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-02-07T15:19:24.944Z">
+<meta property="og:updated_time" content="2022-02-08T02:33:30.826Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 开发规范">
 <meta name="twitter:description" content="前言代码的字里行间流淌的是软件生命中的血液，质量的提升是尽可能少踩坑，杜绝踩重复的坑，切实提升质量意识。另外，现代软件架构都需要协同开发完成，高效协作即降低协同成本，提升沟通效率，所谓无规矩不成方圆，无规范不能协作。众所周知，制订交通法规表面上是要限制行车权，实际上是保障公众的人身安全。试想如果没有限速，没有红绿灯，谁还敢上路行驶。对软件来说，适当的规范和标准绝不是消灭代码内容的创造性、优雅性，而">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-07 23:19:24" itemprop="dateModified" datetime="2022-02-07T23:19:24+08:00">2022-02-07</time>
+                <time title="修改时间：2022-02-08 10:33:30" itemprop="dateModified" datetime="2022-02-08T10:33:30+08:00">2022-02-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -410,7 +410,7 @@
 <li><p>【推荐】不要让可选值使用？? 赋默认值再嵌套其他运算；</p>
 </li>
 <li>【推荐】将长计算式代码拆分，最后组合计算；</li>
-<li>【推荐】尽量不使用 <code>Storyboard</code> 或者 <code>Xib</code>，会增加编译时间；</li>
+<li>【推荐】尽量不使用 <code>Storyboard</code> 或者 <code>Xib</code>，会增加编译时间；<br>  还存在一些问题可见<a href="https://craft.faire.com/think-twice-before-scaling-your-app-with-interface-builder-90214ebdb12a" target="_blank" rel="noopener">think-twice-before-scaling-your-app-with-interface-builder</a></li>
 <li>【推荐】减少三目运算符的使用；</li>
 </ul>
 <h2 id="七-优化规约"><a href="#七-优化规约" class="headerlink" title="七 优化规约"></a>七 优化规约</h2><ul>
@@ -427,8 +427,8 @@
 <li><p>【推荐】如果协议只会被类使用，建议加上<code>AnyObject</code>限制；<br>说明：编译器可以对此进行优化，其可以明确在处理一个类，继而进行引用计数，而不用考虑结构体以及其带来的额外的逻辑及结构。</p>
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正例：<span class="class"><span class="keyword">protocol</span> <span class="title">Pingable</span>: <span class="title">AnyObject</span> </span>&#123; <span class="function"><span class="keyword">func</span> <span class="title">ping</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li></li>
 </ul>
+<p>-</p>
 <h2 id="八、设计规约"><a href="#八、设计规约" class="headerlink" title="八、设计规约"></a>八、设计规约</h2><ul>
 <li>【推荐】善用<code>func</code>嵌套；<br>说明：比如一段逻辑需要在方法内复用，可以在方法中定义方法，比如闭包中以及正常方法体中需要执行同一段逻辑；</li>
 <li>【推荐】委托性质的协议，第一个参数应尽量保证为代理源，类似<code>UITableViewDatasoure</code>；</li>
