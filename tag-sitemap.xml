@@ -3,6 +3,13 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/dyld/</loc>
+        <lastmod>2022-02-09T02:08:48.586Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/Xcode/</loc>
         <lastmod>2022-02-08T03:35:26.266Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -96,13 +103,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/编译过程/</loc>
         <lastmod>2022-01-29T10:35:57.442Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/dyld/</loc>
-        <lastmod>2022-01-29T08:03:37.287Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

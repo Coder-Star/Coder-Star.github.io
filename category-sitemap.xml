@@ -9,6 +9,13 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/categories/%E8%BF%9B%E9%98%B6/</loc>
+        <lastmod>2022-02-09T02:08:48.586Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/categories/iOS/Xcode/</loc>
         <lastmod>2022-02-08T03:35:26.266Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -60,13 +67,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/iOS/%E8%BF%9B%E9%98%B6/</loc>
         <lastmod>2022-01-29T10:36:44.514Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/%E8%BF%9B%E9%98%B6/</loc>
-        <lastmod>2022-01-29T08:03:37.287Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

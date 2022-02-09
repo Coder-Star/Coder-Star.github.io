@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ dyld 迭代我们对dyld展开讲一下，其是开源的，我们可以官网下载后阅读其源码。 dyld 1.0（1996-2004）">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/系统/Dyld/dyld2-dyld3.png">
-<meta property="og:updated_time" content="2022-01-29T08:03:37.287Z">
+<meta property="og:updated_time" content="2022-02-09T02:08:48.586Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dyld 迭代">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ dyld 迭代我们对dyld展开讲一下，其是开源的，我们可以官网下载后阅读其源码。 dyld 1.0（1996-2004）">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-29 16:03:37" itemprop="dateModified" datetime="2022-01-29T16:03:37+08:00">2022-01-29</time>
+                <time title="修改时间：2022-02-09 10:08:48" itemprop="dateModified" datetime="2022-02-09T10:08:48+08:00">2022-02-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -331,7 +331,7 @@
 <p>总体来说，dyld 3 把很多耗时的操作都提前处理好了，极大提升了启动速度。</p>
 <p><strong>dyld 3 的符号缺失问题</strong></p>
 <p>dyld 2 默认采取的是 lazy symbol 的符号加载方式，但在 dyld 3 中，在 app 启动之前，符号解析的结果已经在’lauch closure’内了，所以’lazy symbol’就不再需要。这时，如果有符号缺失的情况，APP 的行为会有不同：在 dyld 2 中，首次调用缺失符号时 APP 会 crash；而 dyld 3 中，缺失符号会导致 APP 一启动就会 crash。</p>
-<h3 id="dyld4（2021-）"><a href="#dyld4（2021-）" class="headerlink" title="dyld4（2021-）"></a>dyld4（2021-）</h3><p>在 iOS 15 系统上已经有 dyld4 的影子了，具体资料还没有。</p>
+<h3 id="dyld4（2021-）"><a href="#dyld4（2021-）" class="headerlink" title="dyld4（2021-）"></a>dyld4（2021-）</h3><p><a href="https://github.com/apple-oss-distributions/dyld/blob/main/doc/dyld4.md" target="_blank" rel="noopener">dyld4</a></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <ul>
