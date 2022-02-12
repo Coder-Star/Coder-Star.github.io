@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop流程.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runloop/RunLoop关系.png">
-<meta property="og:updated_time" content="2021-12-16T13:11:19.573Z">
+<meta property="og:updated_time" content="2022-02-10T13:44:36.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Runloop">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们来看看Runloop，其实我们在实际开发过程中已经或多或少用到过这个了。 其实这个概念在不同的操作系统都会有相应的体现，比如 Node.js 的事件处理、Windows 程序的消息循环。核心在于如何管理事件 / 消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。 RunLoop 休眠的原理：通过mach_msg(">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-16 21:11:19" itemprop="dateModified" datetime="2021-12-16T21:11:19+08:00">2021-12-16</time>
+                <time title="修改时间：2022-02-10 21:44:36" itemprop="dateModified" datetime="2022-02-10T21:44:36+08:00">2022-02-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,7 +259,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.3k</span>
+              <span>4.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -344,7 +344,8 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取当前线程的RunLoop对象,在子线程中调用时如果是第一次获取内部会帮我们创建RunLoop对象</span></span><br><span class="line"><span class="keyword">let</span> runloop = <span class="type">RunLoop</span>.current</span><br><span class="line"><span class="comment">// 运行runloop</span></span><br><span class="line">runloop.run()</span><br></pre></td></tr></table></figure>
 <p>配合 CADisplayLink 监听 FPS，基本原理就是统计每一秒中 CADisplayLink 执行的次数就 OK 啦</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> displayLink = <span class="type">CADisplayLink</span>(target: <span class="keyword">self</span>, selector: #selector(displayLinkAction(displayLink:)))</span><br><span class="line">displayLink.add(to: .current, forMode: .common)</span><br></pre></td></tr></table></figure>
-<h2 id="默认注册的-Observer"><a href="#默认注册的-Observer" class="headerlink" title="默认注册的 Observer"></a>默认注册的 Observer</h2><h3 id="AutoreleasePool"><a href="#AutoreleasePool" class="headerlink" title="AutoreleasePool"></a>AutoreleasePool</h3><p>App 启动后，苹果在主线程 RunLoop 里注册了两个 Observer，其回调都是 <code>_wrapRunLoopWithAutoreleasePoolHandler()</code>。</p>
+<h2 id="默认注册的-Observer"><a href="#默认注册的-Observer" class="headerlink" title="默认注册的 Observer"></a>默认注册的 Observer</h2><p>order 越小，优先级越高。</p>
+<h3 id="AutoreleasePool"><a href="#AutoreleasePool" class="headerlink" title="AutoreleasePool"></a>AutoreleasePool</h3><p>App 启动后，苹果在主线程 RunLoop 里注册了两个 Observer，其回调都是 <code>_wrapRunLoopWithAutoreleasePoolHandler()</code>。</p>
 <p>第一个 Observer 监视的事件是 Entry(即将进入 Loop)，其回调内会调用 _objc_autoreleasePoolPush() 创建自动释放池。其 order 是 -2147483647，优先级最高，保证创建释放池发生在其他所有回调之前。</p>
 <p>第二个 Observer 监视了两个事件： BeforeWaiting(准备进入休眠) 时调用_objc_autoreleasePoolPop() 和 _objc_autoreleasePoolPush() 释放旧的池并创建新池；Exit(即将退出 Loop) 时调用 _objc_autoreleasePoolPop() 来释放自动释放池。这个 Observer 的 order 是 2147483647，优先级最低，保证其释放池子发生在其他所有回调之后。</p>
 <p>在主线程执行的代码，通常是写在诸如事件回调、Timer 回调内的。这些回调会被 RunLoop 创建好的 AutoreleasePool 环绕着，所以不会出现内存泄漏，开发者也不必显示创建 Pool 了。</p>
@@ -357,6 +358,11 @@
 <p>当有 UIGestureRecognizer 的变化 (创建 / 销毁 / 状态改变) 时，这个回调都会进行相应处理。</p>
 <h3 id="主-GCD"><a href="#主-GCD" class="headerlink" title="主 GCD"></a>主 GCD</h3><p>实际上 RunLoop 底层也会用到 GCD 的东西，比如 RunLoop 是用 dispatch_source_t 实现的 Timer。但同时 GCD 提供的某些接口也用到了 RunLoop， 例如 dispatch_async()。</p>
 <p>当调用 dispatch<em>async(dispatch<em>get_main_queue(), block) 时，libDispatch 会向主线程的 RunLoop 发送消息，RunLoop 会被唤醒，并从消息中取得这个 block，并在回调 `__CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE</em></em>()` 里执行这个 block。但这个逻辑仅限于 dispatch 到主线程，dispatch 到其他线程仍然是由 libDispatch 处理的。</p>
+<h2 id="其他-Observer"><a href="#其他-Observer" class="headerlink" title="其他 Observer"></a>其他 Observer</h2><p>当有了<code>CADisplayLink</code>之后，我们会发现 <code>RunLoop</code> 会多出一个 <code>Port</code> 转发过来处理的 <code>source1</code>。</p>
+<blockquote>
+<p>至于怎么获取，可以直接打断点，可以直接使用<code>po RunLoop.main</code>命令打印出主 RunLoop 相关信息，对比一下就 ok 了。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;CFRunLoopSource 0x282dc8000 [0x1cadcf728]&gt;&#123;</span><br><span class="line">    signalled = No, valid = Yes, order = -1,</span><br><span class="line">    context = &lt;CFMachPort 0x282fd8160 [0x1cadcf728]&gt;&#123;</span><br><span class="line">        valid = Yes, port = 440b, source = 0x282dc8000,</span><br><span class="line">        callout = _ZL22display_timer_callbackP12__CFMachPortPvlS1_ (0x187592b2c),</span><br><span class="line">        context = &lt;CFMachPort context 0x2823d0000&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 <ul>
@@ -500,7 +506,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop"><span class="nav-number">2.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认注册的-Observer"><span class="nav-number">3.</span> <span class="nav-text">默认注册的 Observer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoreleasePool"><span class="nav-number">3.1.</span> <span class="nav-text">AutoreleasePool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI-绘制"><span class="nav-number">3.2.</span> <span class="nav-text">UI 绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件响应"><span class="nav-number">3.3.</span> <span class="nav-text">事件响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势识别"><span class="nav-number">3.4.</span> <span class="nav-text">手势识别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主-GCD"><span class="nav-number">3.5.</span> <span class="nav-text">主 GCD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop"><span class="nav-number">2.</span> <span class="nav-text">Runloop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认注册的-Observer"><span class="nav-number">3.</span> <span class="nav-text">默认注册的 Observer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoreleasePool"><span class="nav-number">3.1.</span> <span class="nav-text">AutoreleasePool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UI-绘制"><span class="nav-number">3.2.</span> <span class="nav-text">UI 绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件响应"><span class="nav-number">3.3.</span> <span class="nav-text">事件响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手势识别"><span class="nav-number">3.4.</span> <span class="nav-text">手势识别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主-GCD"><span class="nav-number">3.5.</span> <span class="nav-text">主 GCD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他-Observer"><span class="nav-number">4.</span> <span class="nav-text">其他 Observer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -581,12 +587,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">364k</span>
+    <span title="站点总字数">366k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:31</span>
+    <span title="站点阅读时长">5:33</span>
 </div>
 
         
