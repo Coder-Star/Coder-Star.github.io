@@ -9,17 +9,25 @@ tags:
 date: 2021-03-02 23:15:40
 ---
 
+## 前言
+
+Hi Coder，我是 CoderStar！
+
+在 MRC 时代，我们可能会经常用到`AutoreleasePool`来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的`release`以及`autorelease`等操作了，但是`AutoreleasePool`仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊`AutoreleasePool`。
+
 ## 使用形式
+
+在
 
 ```swift
 // OC
 @autoreleasepool {
-// 生成自动释放对象
+    // 生成自动释放对象
 }
 
 // swift
 autoreleasepool {
-// 生成自动释放对象
+    // 生成自动释放对象
 }
 ```
 
@@ -28,16 +36,27 @@ autoreleasepool {
 autoreleasepool 包裹的相关代码在编译时，编译器会自动把它编译为如下形式。
 
 ```objective-c
-void *context = objc_autoreleasepoolPush();
-// {} 中的代码
-objc_autoreleasepoolPop();
+// 这个poolSentinelObj其实就是哨兵对象
+void *poolSentinelObj = objc_autoreleasePoolPush();
+// 自动释放池作用域 {} 中的代码
+objc_autoreleasepoolPop(poolSentinelObj);
 ```
 
 主要就是一个类:AutoreleasePoolPage。两个函数: objc_autoreleasePoolPush()、objc_autoreleasePoolPop()。
 
-运作方式: 每一个 autoreleasepool 由若干个 autoreleasePoolPage 类以双向链表的形式组合而成, 当程序运行到 @autoreleasepool{时, objc_autoreleasePoolPush() 将被调用, runtime 会向当前的 AutoreleasePoolPage 中添加一个 nil 对象作为哨兵, 在{}中创建的对象会被依次记录到 AutoreleasePoolPage 的栈顶指针, 当运行完 @autoreleasepool{}时, objc_autoreleasePoolPop(哨兵) 将被调用, runtime 就会向 AutoreleasePoolPage 中记录的对象发送 release 消息直到哨兵的位置, 即完成了一次完整的运作。
+AutoreleasePoolPage 本身一个栈结构，从
 
-每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 因为 4096 是虚拟内存一页的大小
+每一个 autoreleasepool 由若干个 autoreleasePoolPage 类以双向链表的形式组合而成。
+
+objc_autoreleasePoolPush() 将被调用, runtime 会向当前的 AutoreleasePoolPage 中添加一个 nil 对象作为哨兵, 在{}中创建的对象会被依次记录到 AutoreleasePoolPage 的栈顶指针。
+
+哨兵对象定义为：
+
+`#define POOL_SENTINEL nil`
+
+当运行完 @autoreleasepool{}时, objc_autoreleasePoolPop(哨兵) 将被调用, runtime 就会向 AutoreleasePoolPage 中记录的对象发送 release 消息直到遇到第一个哨兵的位置, 即完成了一次完整的运作。
+
+每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 因为 4096 是虚拟内存一页的大小。
 
 **在没有手动加 Autorelease Pool 的情况下，Autorelease 对象是在当前的 runloop 迭代结束时释放的，而它能够释放的原因是系统在每个 runloop 迭代中都加入了自动释放池 Push 和 Pop**。
 
@@ -47,6 +66,10 @@ objc_autoreleasepoolPop();
 - 监测 BeforeWaiting 及 Exit 事件， BeforeWaiting(准备进入休眠) 时调用 \_objc_autoreleasePoolPop() 和 _objc_autoreleasePoolPush() 释放旧的池并创建新池。Exit(即将退出 Loop) 时调用 \_objc_autoreleasePoolPop() 来释放自动释放池。这个 Observer 的 order 是 2147483647，优先级最低，保证其释放池子发生在其他所有回调之后。
 
 **如果手动加了，则在作用域大括号结束时释放。**
+
+子线程默认不会开启 Runloop，那出现 Autorelease 对象如何处理？不手动处理会内存泄漏吗？
+
+子线程如果没有创建 Pool ，但是产生了 Autorelease 对象，就会调用 autoreleaseNoPage 方法。在这个方法中，会自动帮你创建一个 hotpage，也就是默认生成一个 AutoreleasePoolPage 来添加 autorelease 对象。pool 中的对象会等到线程销毁后得到释放。
 
 ## 关于 main 文件中的`autoreleasepool`
 
@@ -82,9 +105,14 @@ main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 aut
 
 ## 应用场景
 
-autoreleasepool 核心作用就是降低内存使用峰值。当你使用类似 for 循环这样的逻辑需要产生大量的中间变量时，Autorelease Pool 无意是最佳的一种解决方案；
+autoreleasepool 核心作用就是降低内存使用峰值。
 
-使用容器的 block 版本的枚举器时，内部会自动添加一个 AutoreleasePool：
+- 当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；
+- 需要自己管理一个辅助线程时，当开辟常驻线程后，需要加线程加入 AutoreleasePool；
+
+### 自动加释放池的地方
+
+- 使用容器的 block 版本的枚举器时，内部会自动添加一个 AutoreleasePool：
 
 ```swift
 [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -94,22 +122,35 @@ autoreleasepool 核心作用就是降低内存使用峰值。当你使用类似 
 
 当然，在普通 for 循环和 for in 循环中没有，所以，还是新版的 block 版本枚举器更加方便。for 循环中遍历产生大量 autorelease 变量时，就需要手加局部 AutoreleasePool。
 
-使用 NSThread 的 detachNewThreadSelector:toTarget:withObject: 方法创建新线程时，新线程自动带有 autoreleasepool。
+- 使用 NSThread 的 detachNewThreadSelector:toTarget:withObject: 方法创建新线程时，新线程自动带有 autoreleasepool。
+- iOS 8 之后，自定义 NSOperation 时 main 方法会自动被 autoreleasepool 包起来（但实际上好像没有就加，需要还需要测试下），之前是需要自己手动添加的。当然，系统的 NSBlockOperation 和 NSInvocationOperation 这种默认的 Operation ，一直是自动添加的。
 
-**其余场景**
+## 什么对象会加入 autoreleasePool?
 
-- 文件的读写处理
-- 数据的批量处理, 包括图像裁剪生成, 音视频编解码
-- 线程中 block 的回调处理
+通过 objc_autoreleaseReturnValue 和 objc_retainAutoreleasedReturnValue 来判断是否需要加入 autoreleasePool（objc_retainAutoreleasedReturnValue 和 objc_autoreleaseReturnValue 成对出现时就不会注册到 autoreleasepool），这是编译器的优化。 [arc-runtime-objc-autoreleasereturnvalue]((https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue))
 
--[黑幕背后的 Autorelease](https://blog.sunnyxx.com/2014/10/15/behind-autorelease/)
+- 编译器会检查方法名是否以 alloc, new, copy, mutableCopy 开始，如果不是则自动将返回值的对象注册到 autoreleasepool 中，比如一些类方法。
+- iOS5 及之前的编译器，关键字 __weak 修饰的对象，会自动加入 autoreleasePool；iOS5 及之后的编译器，则直接调用的 release，不会加入 autoreleasePool。
+- id 指针 (id *) 和对象指针（NSError *），会自动加上关键字 `__autorealeasing`，加入 autoreleasePool。
 
-还有使用 NSOperation 时 main 方法要不要用 autoreleasepool 包起来，官方文档说 iOS 8 之后不需要了，系统会帮你做。但是实际在使用 addOperationWithBlock 时，operation 执行完，block 中的 autorelease 对象没有被释放，感觉是没有生效，配合着比较重的解码或者其他操作时，也导致过 OOM。现在在异步线程搞事情时，除了关注并发问题外，特别注意 autorelease 问题
 
-之前遇到过一个 C++ 实现的 SDK，开了几个常驻线程，在线程中向上层 OC 回调数据，为了方便使用，会将 C++ 的 buffer 转成 NSData 再序列化成 OC 的 Protobuf 对象。SDK 中的异步线程没有显式创建 autoreleasepool 包起来，虽然回调中创建的 OC 对象最终还会进入 autoreleasepool（NoPage 逻辑），但线程销毁 pool 才释放，而线程是常驻的，导致细水长流，每次回调就泄漏一点点内存，最后 OOM。
+## 子线程中的自动释放池
 
-有两种情况生成的对象会加入到 autoreleasepool 中：
+子线程中原本是没有自动释放池的，但是如果有runloop或者autorelease对象的时候，就会自动的创建自动释放池。
 
-* 非 alloc/new/copy/mutablecopy 开始的方式初始化时； 比如`NSString * string2  = [NSString stringWithFormat:@"hello world auto relase..."];`
-* id 的指针或对象的指针在没有显示指定时；
-* 对象作为函数返回值时；
+## swift 还需不需要 autoreleasepool；
+
+当然需要，如果使用 NSData、Data 等方式创建实例，
+
+## 最后
+
+要更加努力呀！
+
+Let's be CoderStar!
+
+- [自动释放池的前世今生 ---- 深入解析 autoreleasepool](https://draveness.me/autoreleasepool/)
+- [iOS autoreleasePool原理总结](https://www.jianshu.com/p/20496cbb6dc3)
+- [黑幕背后的 Autorelease](https://blog.sunnyxx.com/2014/10/15/behind-autorelease/)
+- [autoreleasepool 探究](https://github.com/Yuan91/autoreleasepool)
+- [Transitioning to ARC Release Notes](https://developer.apple.com/library/archive/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226)
+- [iOS - 聊聊 autorelease 和 @autoreleasepool](https://juejin.cn/post/6844904094503567368)

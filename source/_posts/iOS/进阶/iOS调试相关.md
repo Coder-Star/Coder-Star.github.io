@@ -15,6 +15,19 @@ Hi Coder，我是 CoderStar！
 
 ## LLDB
 
+- image list
+- image lookup -a **address**
+- p
+- po
+- expr
+- bt
+- x
+- call
+- frame
+- thread list
+- 
+
+
 ## 最后
 
 要更加努力呀！
