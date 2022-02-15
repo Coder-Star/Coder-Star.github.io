@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-02-12T02:18:47.681Z">
+<meta property="og:updated_time" content="2022-02-15T04:12:58.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AutoreleasePool">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-12 10:18:47" itemprop="dateModified" datetime="2022-02-12T10:18:47+08:00">2022-02-12</time>
+                <time title="修改时间：2022-02-15 12:12:58" itemprop="dateModified" datetime="2022-02-15T12:12:58+08:00">2022-02-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,14 +256,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
+              <span>5 分钟</span>
             </span>
 
         </div>
@@ -305,11 +305,6 @@
 <p>main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。<br>在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。</p>
 <p>在 Xcode 11 后，触发主线程 RunLoop 的 UIApplicationMain 函数放在了 @autoreleasepool 外面，这可以保证 @autoreleasepool 中的 autorelease 对象在程序启动后立即释放。正如新版本的 @autoreleasepool 中的注释所写 “Setup code that might create autoreleased objects goes here.”</p>
 <p>对于 CLI 程序而言更有用。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>autoreleasepool 核心作用就是降低内存使用峰值。</p>
-<ul>
-<li>当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；</li>
-<li>需要自己管理一个辅助线程时，当开辟常驻线程后，需要加线程加入 AutoreleasePool；</li>
-</ul>
 <h3 id="自动加释放池的地方"><a href="#自动加释放池的地方" class="headerlink" title="自动加释放池的地方"></a>自动加释放池的地方</h3><ul>
 <li>使用容器的 block 版本的枚举器时，内部会自动添加一个 AutoreleasePool：</li>
 </ul>
@@ -325,7 +320,13 @@
 <li>iOS5 及之前的编译器，关键字 __weak 修饰的对象，会自动加入 autoreleasePool；iOS5 及之后的编译器，则直接调用的 release，不会加入 autoreleasePool。</li>
 <li>id 指针 (id <em>) 和对象指针（NSError </em>），会自动加上关键字 <code>__autorealeasing</code>，加入 autoreleasePool。</li>
 </ul>
-<h2 id="子线程中的自动释放池"><a href="#子线程中的自动释放池" class="headerlink" title="子线程中的自动释放池"></a>子线程中的自动释放池</h2><p>子线程中原本是没有自动释放池的，但是如果有runloop或者autorelease对象的时候，就会自动的创建自动释放池。</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>autoreleasepool 核心作用就是降低内存使用峰值。</p>
+<h3 id="CLI-程序"><a href="#CLI-程序" class="headerlink" title="CLI 程序"></a>CLI 程序</h3><h3 id="大量遍历生成临时对象"><a href="#大量遍历生成临时对象" class="headerlink" title="大量遍历生成临时对象"></a>大量遍历生成临时对象</h3><ul>
+<li>当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；</li>
+</ul>
+<h3 id="常驻线程"><a href="#常驻线程" class="headerlink" title="常驻线程"></a>常驻线程</h3><p>需要自己管理一个辅助线程时，当开辟常驻线程后，需要在任务外包一层 <code>AutoreleasePool</code>；这里对子线程中的自动释放池扩展一下。</p>
+<p>子线程中原本是没有自动释放池的，但是如果有<code>RunLoop</code>或者<code>autorelease</code>对象的时候，就会自动的创建自动释放池，正常情况下，释放池里面对象释放的时机是线程销毁时，如果是常驻线程，就容易导致线程中所有的<code>autorelease</code>对象都迟迟得不到释放，所以需要手动添加<code>AutoreleasePool</code>，让相关对象可以得到及时释放。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KeepAliveThreadManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">KeepAliveThreadManager</span>()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> thread: <span class="type">Thread?</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 开启常驻线程</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">start</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> thread != <span class="literal">nil</span>, thread!.isExecuting &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        thread = <span class="type">Thread</span> &#123;</span><br><span class="line">            autoreleasepool &#123;</span><br><span class="line">                <span class="keyword">let</span> currentRunLoop = <span class="type">RunLoop</span>.current</span><br><span class="line"></span><br><span class="line">                <span class="comment">// 如果想要加对该RunLoop的状态观察，需要在获取后添加，而不是等到启动之后再添加，</span></span><br><span class="line"></span><br><span class="line">                currentRunLoop.add(<span class="type">Port</span>(), forMode: .common)</span><br><span class="line">                currentRunLoop.run()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        thread?.start()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 关闭常驻线程</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">end</span><span class="params">()</span></span> &#123;</span><br><span class="line">        thread?.cancel()</span><br><span class="line">        thread = <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> thread = <span class="type">KeepAliveThreadManager</span>.shared.thread &#123;</span><br><span class="line">            perform(#selector(task), on: thread, with: <span class="literal">nil</span>, waitUntilDone: <span class="literal">false</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@objc</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">task</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">/// 在任务外加一层 autoreleasepool</span></span><br><span class="line">        autoreleasepool &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="swift-还需不需要-autoreleasepool；"><a href="#swift-还需不需要-autoreleasepool；" class="headerlink" title="swift 还需不需要 autoreleasepool；"></a>swift 还需不需要 autoreleasepool；</h2><p>当然需要，如果使用 NSData、Data 等方式创建实例，</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
@@ -472,7 +473,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用形式"><span class="nav-number">2.</span> <span class="nav-text">使用形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">3.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-main-文件中的autoreleasepool"><span class="nav-number">4.</span> <span class="nav-text">关于 main 文件中的autoreleasepool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">5.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动加释放池的地方"><span class="nav-number">5.1.</span> <span class="nav-text">自动加释放池的地方</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么对象会加入-autoreleasePool"><span class="nav-number">6.</span> <span class="nav-text">什么对象会加入 autoreleasePool?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子线程中的自动释放池"><span class="nav-number">7.</span> <span class="nav-text">子线程中的自动释放池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#swift-还需不需要-autoreleasepool；"><span class="nav-number">8.</span> <span class="nav-text">swift 还需不需要 autoreleasepool；</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">9.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用形式"><span class="nav-number">2.</span> <span class="nav-text">使用形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">3.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-main-文件中的autoreleasepool"><span class="nav-number">4.</span> <span class="nav-text">关于 main 文件中的autoreleasepool</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动加释放池的地方"><span class="nav-number">4.1.</span> <span class="nav-text">自动加释放池的地方</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么对象会加入-autoreleasePool"><span class="nav-number">5.</span> <span class="nav-text">什么对象会加入 autoreleasePool?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用场景"><span class="nav-number">6.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI-程序"><span class="nav-number">6.1.</span> <span class="nav-text">CLI 程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大量遍历生成临时对象"><span class="nav-number">6.2.</span> <span class="nav-text">大量遍历生成临时对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常驻线程"><span class="nav-number">6.3.</span> <span class="nav-text">常驻线程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#swift-还需不需要-autoreleasepool；"><span class="nav-number">7.</span> <span class="nav-text">swift 还需不需要 autoreleasepool；</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">8.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -553,12 +554,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">366k</span>
+    <span title="站点总字数">367k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:33</span>
+    <span title="站点阅读时长">5:34</span>
 </div>
 
         
