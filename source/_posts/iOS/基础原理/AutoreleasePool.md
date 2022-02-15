@@ -103,13 +103,6 @@ main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 aut
 
 对于 CLI 程序而言更有用。
 
-## 应用场景
-
-autoreleasepool 核心作用就是降低内存使用峰值。
-
-- 当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；
-- 需要自己管理一个辅助线程时，当开辟常驻线程后，需要加线程加入 AutoreleasePool；
-
 ### 自动加释放池的地方
 
 - 使用容器的 block 版本的枚举器时，内部会自动添加一个 AutoreleasePool：
@@ -133,10 +126,71 @@ autoreleasepool 核心作用就是降低内存使用峰值。
 - iOS5 及之前的编译器，关键字 __weak 修饰的对象，会自动加入 autoreleasePool；iOS5 及之后的编译器，则直接调用的 release，不会加入 autoreleasePool。
 - id 指针 (id *) 和对象指针（NSError *），会自动加上关键字 `__autorealeasing`，加入 autoreleasePool。
 
+## 应用场景
 
-## 子线程中的自动释放池
+autoreleasepool 核心作用就是降低内存使用峰值。
 
-子线程中原本是没有自动释放池的，但是如果有runloop或者autorelease对象的时候，就会自动的创建自动释放池。
+### CLI 程序
+
+### 大量遍历生成临时对象
+
+- 当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；
+
+### 常驻线程
+
+需要自己管理一个辅助线程时，当开辟常驻线程后，需要在任务外包一层 `AutoreleasePool`；这里对子线程中的自动释放池扩展一下。
+
+子线程中原本是没有自动释放池的，但是如果有`RunLoop`或者`autorelease`对象的时候，就会自动的创建自动释放池，正常情况下，释放池里面对象释放的时机是线程销毁时，如果是常驻线程，就容易导致线程中所有的`autorelease`对象都迟迟得不到释放，所以需要手动添加`AutoreleasePool`，让相关对象可以得到及时释放。
+
+```swift
+class KeepAliveThreadManager {
+    private init() {}
+    static let shared = KeepAliveThreadManager()
+
+    private(set) var thread: Thread?
+
+    /// 开启常驻线程
+    public func start() {
+        if thread != nil, thread!.isExecuting {
+            return
+        }
+        thread = Thread {
+            autoreleasepool {
+                let currentRunLoop = RunLoop.current
+
+                // 如果想要加对该RunLoop的状态观察，需要在获取后添加，而不是等到启动之后再添加，
+
+                currentRunLoop.add(Port(), forMode: .common)
+                currentRunLoop.run()
+            }
+        }
+        thread?.start()
+    }
+
+    /// 关闭常驻线程
+    public func end() {
+        thread?.cancel()
+        thread = nil
+    }
+}
+
+class Test: NSObject {
+    func test() {
+        if let thread = KeepAliveThreadManager.shared.thread {
+            perform(#selector(task), on: thread, with: nil, waitUntilDone: false)
+        }
+    }
+
+    @objc
+    func task() {
+        /// 在任务外加一层 autoreleasepool
+        autoreleasepool {
+
+        }
+    }
+}
+
+```
 
 ## swift 还需不需要 autoreleasepool；
 
