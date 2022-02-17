@@ -42,3 +42,6 @@ weak 对象自动被置为 nil 的流程
    4. 从引用计数表中删除废弃对象的地址为键值的记录
 
 ## Swift 中 Weak 原理
+
+
+- [从源码解析 Swift 弱引用](https://zhuanlan.zhihu.com/p/58179258)

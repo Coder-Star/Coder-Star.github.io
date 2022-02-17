@@ -1,49 +1,78 @@
 ---
-title: iOS组件化相关
+title: iOS 组件化相关
 date: 2020-04-10 19:12:43
 categories: [iOS]
 tags: [iOS, 组件化]
 ---
 
-### 前言
+## 前言
 
 APP 组件化的过程我觉得主要分为下面几个部分。
 
-- **APP 架构设计**  
+- **APP 架构设计**
    我们在将 APP 进行组件化搭建之前，我们首先得有一个整体的架构设计，哪些功能下沉，哪些功能归为一块，功能的颗粒度怎么设计，这都是我们需要考虑的问题。当然，架构肯定需要根据我们的业务来设计，脱离业务需求的架构肯定不是好架构。
-- **APP 组件之间的通信**  
+- **APP 组件之间的通信**
    将 APP 拆分成组件之后，我们就要考虑组件之间的通信问题。其实组件之间的通信问题说到底就是 APP 中的路由方案设计问题。
 
-### 架构设计
+## 架构设计
 
 ![iOS架构设计](../../../../img/iOS/架构设计/iOS架构设计.png)
 
 [抖音 iOS 工程架构演进](https://mp.weixin.qq.com/s/HHH5_IEbsR8iSmXSIdeutw)
 
-#### 基础支撑层
+### 基础支撑层
 
-#### 基础模块及 UI 组件层
+### 基础模块及 UI 组件层
 
-#### 业务模块层
+### 业务模块层
 
-#### APP 应用层
+### APP 应用层
 
 如果项目业务不涉及到系列 APP，这一层可以忽略；
 
-### 组件拆分
+## 组件拆分
 
-#### 自定义pod
-#### pod二进制化
+### 自定义 pod
+
+### pod 二进制化
+
 [cocoapods-imy-bin](https://github.com/MeetYouDevs/cocoapods-imy-bin)
 
 - 二进制污染
-- 源码/二进制化切换
-- 二进制CI
-- modular化
-  
+- 二进制 CI
+- modular 化
 
+### 二进制/源码切换
 
-### 组件间通信(路由方案)
+#### subspec方案
+
+这种方案其实很简单，但适用场景也比较单一，不方便后续扩展。
+
+核心其实就是
+
+```ruby
+ s.default_subspec = 'framework'
+
+ s.subspec 'source' do |source|
+    source.source_files = 'CSPickerView/Classes/**/*'
+    source.resource_bundles = {
+      'CSPickerView' => ['CSPickerView/Assets/**/*']
+    }
+    source.frameworks = 'Foundation', 'UIKit'
+end
+
+ s.subspec 'framework' do |framework|
+    framework.frameworks = 'Foundation', 'UIKit'
+    framework.ios.vendored_framework = 'CSPickerView/Frameworks/*.framework'
+    framework.resources = 'CSPickerView/Frameworks/*.bundle'
+end
+```
+
+#### 单源方案
+
+#### 双源方案
+
+### 组件间通信 (路由方案)
 
 目前存在的组件间路由方案大概有四种，分别是
 
