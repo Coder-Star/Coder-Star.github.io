@@ -213,7 +213,11 @@ xcrun -sdk iphoneos pngcrush -revert-iphone-optimizations image.png image1.png
 
 根据我自己测试的压缩效果来看，对于 Bundle 中放置的 png 图片，经过 `pngcrush` 的处理，大小不降反增，目前暂时没有找到哪些具体因素影响其压缩效果。
 
+其还有一个GUI工具 [pngcrush](https://pmt.sourceforge.io/pngcrush/)，但好像只支持windows系统。
+
 ![pngcrsuh测试效果对比图](../../../../img/iOS/进阶/优化/瘦身/pngcrsuh_deal.png)
+
+png
 
 **结论：Compress PNG Files 虽然是压缩 PNG，但其最主要的目的并不是为了压缩图片大小， 而是将 PNG 转换成 iOS 更容易处理、更快速度的去识别的格式，可以根据项目在开启、关闭两种情况下的打包大小，自行取舍。**
 
