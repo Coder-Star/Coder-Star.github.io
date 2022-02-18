@@ -15,9 +15,9 @@ Hi Coder，我是 CoderStar！
 
 在 MRC 时代，我们可能会经常用到`AutoreleasePool`来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的`release`以及`autorelease`等操作了，但是`AutoreleasePool`仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊`AutoreleasePool`。
 
-## 使用形式
+> 下列源码为`Runtime objc`内代码，版本之间可能会有差异，但是大致原理应该是一致的。
 
-在
+## 使用形式
 
 ```swift
 // OC
@@ -33,30 +33,184 @@ autoreleasepool {
 
 ## 基本原理
 
-autoreleasepool 包裹的相关代码在编译时，编译器会自动把它编译为如下形式。
+`@autoreleasepool` 包裹的相关代码在编译时，编译器会自动把它编译为如下形式。
 
 ```objective-c
 // 这个poolSentinelObj其实就是哨兵对象
 void *poolSentinelObj = objc_autoreleasePoolPush();
+
 // 自动释放池作用域 {} 中的代码
+
 objc_autoreleasepoolPop(poolSentinelObj);
 ```
 
-主要就是一个类:AutoreleasePoolPage。两个函数: objc_autoreleasePoolPush()、objc_autoreleasePoolPop()。
+继而查看`objc_autoreleasePoolPush`以及`objc_autoreleasepoolPop`这两个函数的源码实现，如下：
 
-AutoreleasePoolPage 本身一个栈结构，从
+```objective-c
+void *objc_autoreleasePoolPush(void) {
+    return AutoreleasePoolPage::push();
+}
 
-每一个 autoreleasepool 由若干个 autoreleasePoolPage 类以双向链表的形式组合而成。
+void objc_autoreleasePoolPop(void *ctxt) {
+    AutoreleasePoolPage::pop(ctxt);
+}
+```
 
-objc_autoreleasePoolPush() 将被调用, runtime 会向当前的 AutoreleasePoolPage 中添加一个 nil 对象作为哨兵, 在{}中创建的对象会被依次记录到 AutoreleasePoolPage 的栈顶指针。
+上面我们可以看到一个核心类，`AutoreleasePoolPage`。
 
-哨兵对象定义为：
+### `AutoreleasePoolPage`结构
 
-`#define POOL_SENTINEL nil`
+`AutoreleasePoolPage` 是一个 C++ 中的类，在 `NSObject.mm` 中的定义是这样的：
 
-当运行完 @autoreleasepool{}时, objc_autoreleasePoolPop(哨兵) 将被调用, runtime 就会向 AutoreleasePoolPage 中记录的对象发送 release 消息直到遇到第一个哨兵的位置, 即完成了一次完整的运作。
+```objective-c
+class AutoreleasePoolPage {
+    magic_t const magic; // 对当前AutoreleasePoolPage 完整性的校验
+    id *next;  // 指向下一个即将产生的autoreleased对象的存放位置（当next == begin()时，表示AutoreleasePoolPage为空；当next == end()时，表示AutoreleasePoolPage已满
+    pthread_t const thread; // 当前线程
+    AutoreleasePoolPage * const parent; // 指向父节点，第一个结点的 parent 值为 nil；
+    AutoreleasePoolPage *child; // 后节点
+    uint32_t const depth; // 代表深度，第一个page的depth为0，往后每递增一个page，depth会加1；
+    uint32_t hiwat; //
+};
+```
 
-每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 因为 4096 是虚拟内存一页的大小。
+从上述的结构可以知道，其实每一个`AutoreleasePool`都是以`AutoreleasePoolPage`为节点用双向链表的形式连接起来的。
+
+每个 `AutoreleasePoolPage` 对象有 `4096` 字节的存储空间, 除了存放它自己的成员变量（56 个字节，每个占 8 个字节）外, 剩下的空间用来存储后面加入的 `autorelease` 对象。
+
+> 为什么每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 因为 4096 是虚拟内存一页的大小。
+
+每一个释放池都会对应一个唯一的线程，但是每一个线程并不仅有一个释放池。
+
+![AutoreleasePool结构](../../../img/iOS/基础原理/AutoreleasePool/AutoreleasePool结构.png)
+
+### 大致流程
+
+- 当进入`@autoreleasepool`作用域时，`objc_autoreleasePoolPush` 方法被调用, `runtime` 会向当前的 `AutoreleasePoolPage` 中添加一个 nil 对象作为哨兵对象，并返回该哨兵对象的地址；
+- 对象调用`autorelease`方法，会被加入到对应的的`AutoreleasePoolPage`中去，`next`指针类似一个游标，不断变化，记录位置。如果加入的对象超出一页的大小，便会自动加一个新页。
+- 当离开`@autoreleasepool`作用域时，`objc_autoreleasePoolPop(哨兵对象地址)`方法被调用，其会从当前 page 的 next 指标的上一个元素开始查找, 直到最近一个哨兵对象, 依次向这个范围中的对象发送`release`消息；
+
+> 因为哨兵对象的存在，自动释放池的嵌套也是满足的，不管是嵌套还是被嵌套的自动释放池，找自己对应的哨兵对象就行了。
+
+下面看下具体源码流程分析。
+
+### 源码流程分析
+
+#### push 函数
+
+```objective-c
+// 哨兵对象定义
+#define POOL_BOUNDARY nil
+
+static inline void *push()
+{
+    id *dest;
+    if (slowpath(DebugPoolAllocation)) {
+        // Each autorelease pool starts on a new pool page.
+        dest = autoreleaseNewPage(POOL_BOUNDARY);
+    } else {
+        //添加一个哨兵对象到自动释放池
+        dest = autoreleaseFast(POOL_BOUNDARY);
+    }
+    ...
+    return dest;
+}
+
+//向自动释放池中添加对象
+static inline id *autoreleaseFast(id obj)
+{
+    //获取hotPage:当前正在使用的Page
+    AutoreleasePoolPage *page = hotPage();
+    //如果有page 并且 page没有被占满
+    if (page && !page->full()) {
+        //添加一个对象
+        return page->add(obj);
+    } else if (page) {
+        //添加一个对象
+        return autoreleaseFullPage(obj, page);
+    } else {
+        // 如果没有page,则创建一个page
+        return autoreleaseNoPage(obj);
+    }
+}
+
+//创建一个新的page,并将当前page->child指向新的page,将对象添加进去
+id *autoreleaseFullPage(id obj, AutoreleasePoolPage *page)
+{
+    ...
+    do {
+        if (page->child) page = page->child;
+        else page = new AutoreleasePoolPage(page);
+    } while (page->full());
+
+    setHotPage(page);
+    return page->add(obj);
+}
+
+//创建一个新的page
+id *autoreleaseNoPage(id obj)
+{
+    ...
+    AutoreleasePoolPage *page = new AutoreleasePoolPage(nil);
+    setHotPage(page);
+    ...
+    // Push the requested object or pool.
+    return page->add(obj);
+}
+```
+
+#### pop 函数
+
+```objective-c
+//查看源码发现pop函数最终会调用 releaseUntil
+//调用顺序为pop->popPage->releaseUntil
+
+//stop 的值即为最初push时返回的哨兵对象的地址.
+void releaseUntil(id *stop)
+{
+    //循环依次向autorelease对象发送release消息
+    while (this->next != stop) {
+        //AutoreleasePoolPage 有cold和hot之分.hot是当前正在使用的,cold是没有使用的
+        //获取当前正在使用的
+        AutoreleasePoolPage *page = hotPage();
+
+        //如果为空,通过parent指针指向它的父节点,并将父节点置为当前使用的page
+        while (page->empty()) {
+            page = page->parent;
+            setHotPage(page);
+        }
+
+        page->unprotect();
+        //获取当前Page next指针的上一个元素
+        id obj = *--page->next;
+        memset((void*)page->next, SCRIBBLE, sizeof(*page->next));
+        page->protect();
+
+        //从next的上一个元素开始,向上查找只要不是哨兵对象,就向其发送release消息
+        if (obj != POOL_BOUNDARY) {
+            objc_release(obj);
+        }
+    }
+
+    setHotPage(this);
+}
+```
+
+#### autorelease 函数
+
+```objective-c
+static inline id autorelease(id obj)
+{
+    ASSERT(obj);
+    ASSERT(!obj->isTaggedPointer());
+    //调用autoreleaseFast,添加到自动释放池中
+    id *dest __unused = autoreleaseFast(obj);
+    ASSERT(!dest  ||  dest == EMPTY_POOL_PLACEHOLDER  ||  *dest == obj);
+    return obj;
+}
+```
+
+### 
 
 **在没有手动加 Autorelease Pool 的情况下，Autorelease 对象是在当前的 runloop 迭代结束时释放的，而它能够释放的原因是系统在每个 runloop 迭代中都加入了自动释放池 Push 和 Pop**。
 
@@ -65,7 +219,11 @@ objc_autoreleasePoolPush() 将被调用, runtime 会向当前的 AutoreleasePool
 - 监测 Entry 事件，回调里会调用 push 创建自动释放池，order 优先级最高，为 `-214748364`，保证创建释放池发生在其他所有回调之前；
 - 监测 BeforeWaiting 及 Exit 事件， BeforeWaiting(准备进入休眠) 时调用 \_objc_autoreleasePoolPop() 和 _objc_autoreleasePoolPush() 释放旧的池并创建新池。Exit(即将退出 Loop) 时调用 \_objc_autoreleasePoolPop() 来释放自动释放池。这个 Observer 的 order 是 2147483647，优先级最低，保证其释放池子发生在其他所有回调之后。
 
+但系统的自动释放池并不总是在 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 才释放，在处理完 Timer 和 Source 事件之后, 都会插入释放操作。
+
 **如果手动加了，则在作用域大括号结束时释放。**
+
+## 子线程中的`autoreleasepool`
 
 子线程默认不会开启 Runloop，那出现 Autorelease 对象如何处理？不手动处理会内存泄漏吗？
 
@@ -123,7 +281,7 @@ main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 aut
 通过 objc_autoreleaseReturnValue 和 objc_retainAutoreleasedReturnValue 来判断是否需要加入 autoreleasePool（objc_retainAutoreleasedReturnValue 和 objc_autoreleaseReturnValue 成对出现时就不会注册到 autoreleasepool），这是编译器的优化。 [arc-runtime-objc-autoreleasereturnvalue]((https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue))
 
 - 编译器会检查方法名是否以 alloc, new, copy, mutableCopy 开始，如果不是则自动将返回值的对象注册到 autoreleasepool 中，比如一些类方法。
-- iOS5 及之前的编译器，关键字 __weak 修饰的对象，会自动加入 autoreleasePool；iOS5 及之后的编译器，则直接调用的 release，不会加入 autoreleasePool。
+- iOS 5 及之前的编译器，关键字 __weak 修饰的对象，会自动加入 autoreleasePool；iOS5 及之后的编译器，则直接调用的 release，不会加入 autoreleasePool。
 - id 指针 (id *) 和对象指针（NSError *），会自动加上关键字 `__autorealeasing`，加入 autoreleasePool。
 
 ## 应用场景
