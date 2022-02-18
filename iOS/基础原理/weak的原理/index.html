@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="weak 是弱引用，用 weak 描述修饰或者所引用的对象，引用计数不会加1，并且在引用的对象释放时候自动被设置为 nil。利用这种特性，可以很方便的解决循环引用，也避免了野指针访问导致崩溃的情况。  Swift 中的 weak 相当于 OC 里面的 weak； Swift 中的 unowned 相当于 OC 里的 __unsafe_unretained / assign  OC 的 weak 实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-08-02T14:00:18.038Z">
+<meta property="og:updated_time" content="2022-02-17T10:03:32.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="weak的原理">
 <meta name="twitter:description" content="weak 是弱引用，用 weak 描述修饰或者所引用的对象，引用计数不会加1，并且在引用的对象释放时候自动被设置为 nil。利用这种特性，可以很方便的解决循环引用，也避免了野指针访问导致崩溃的情况。  Swift 中的 weak 相当于 OC 里面的 weak； Swift 中的 unowned 相当于 OC 里的 __unsafe_unretained / assign  OC 的 weak 实">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-02 22:00:18" itemprop="dateModified" datetime="2021-08-02T22:00:18+08:00">2021-08-02</time>
+                <time title="修改时间：2022-02-17 18:03:32" itemprop="dateModified" datetime="2022-02-17T18:03:32+08:00">2022-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>942</span>
+              <span>955</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -308,7 +308,10 @@
 </ol>
 </li>
 </ol>
-<h2 id="Swift-中-Weak-原理"><a href="#Swift-中-Weak-原理" class="headerlink" title="Swift 中 Weak 原理"></a>Swift 中 Weak 原理</h2>
+<h2 id="Swift-中-Weak-原理"><a href="#Swift-中-Weak-原理" class="headerlink" title="Swift 中 Weak 原理"></a>Swift 中 Weak 原理</h2><ul>
+<li><a href="https://zhuanlan.zhihu.com/p/58179258" target="_blank" rel="noopener">从源码解析 Swift 弱引用</a></li>
+</ul>
+
     </div>
 
     
@@ -377,8 +380,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-总览/" rel="prev" title="iOS持久化方式-总览">
-      <i class="fa fa-chevron-left"></i> iOS持久化方式-总览
+    <a href="/iOS/基础原理/iOS中的持久化方式/iOS持久化方式-keychain/" rel="prev" title="iOS持久化方式-keychain">
+      <i class="fa fa-chevron-left"></i> iOS持久化方式-keychain
     </a></div>
       <div class="post-nav-item">
     <a href="/iOS/基础原理/iOS内存管理/" rel="next" title="iOS 内存管理">
@@ -459,20 +462,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">93</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -524,12 +527,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">367k</span>
+    <span title="站点总字数">369k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:34</span>
+    <span title="站点阅读时长">5:36</span>
 </div>
 
         

@@ -29,7 +29,7 @@
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
-<meta property="og:updated_time" content="2022-01-21T09:24:40.900Z">
+<meta property="og:updated_time" content="2022-02-17T14:07:39.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-21 17:24:40" itemprop="dateModified" datetime="2022-01-21T17:24:40+08:00">2022-01-21</time>
+                <time title="修改时间：2022-02-17 22:07:39" itemprop="dateModified" datetime="2022-02-17T22:07:39+08:00">2022-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.2k</span>
+              <span>7.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -410,6 +410,17 @@
 <p>__block 作用：1、解决 block 内部想修改外部 auto 变量的问题；2、解决循环引用；</p>
 <p><strong>对于基本数据类型，一般是存储到栈中的，它有没有可能存在堆上，什么情况下会存储到堆上？</strong></p>
 <p>栈和堆都是同属一块内存，只不过一个是高地址往低地址存储，一个从低地址往高地址存储，他们并没有严格的界限说一个值只能放在堆上或者栈上。所以基本数据类型也是可以存储到堆上的。<br>当该基础类型变量被__block 捕获时，该变量连同 block 都会被 copy 到堆上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof(self) weakSelf  = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong __typeof(self) strongSelf = weakSelf;</span><br><span class="line">    if (strongSelf == nil) return; </span><br><span class="line">    </span><br><span class="line">    [strongSelf doSomeThing];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>为什么使用weakSelf？<br>外面的weak作用是使self变为弱引用，使block不会强引用self；</li>
+<li>为什么在block里面需要使用strongSelf？<br>是为了保证block执行完毕之前self不会被释放，执行完毕的时候再释放。需要注意strongSelf只是为了保证在block内部执行的时候不会释放，但存在执行前self就已经被释放的情况，导致strongSelf=nil。注意判空处理。</li>
+<li>strongSelf不会不会引起循环引用的原因？<br>strongSelf实质是一个局部变量（在block这个’函数’里面的局部变量），当block执行完毕就会释放自动变量strongSelf，不会对self进行一直进行强引用</li>
+</ul>
+<p>刚才这部分有个专门的名字是<code>Weak/Strong Dance</code>，实际上Swift里面也有类似的东西。</p>
+<ul>
+<li><code>__weak __typeof(self) weakSelf  = self;</code> -&gt; <code>[weak self]</code></li>
+<li><code>__strong __typeof(self) strongSelf = weakSelf;</code> -&gt; <code>guard let self = self else { return }</code></li>
+</ul>
 <h2 id="copy-mutableCopy"><a href="#copy-mutableCopy" class="headerlink" title="copy / mutableCopy"></a>copy / mutableCopy</h2><ul>
 <li>不可变对象调用 copy，不会生成新的对象，因为没有必要。指针指向同一地址即可满足。</li>
 <li>不可变对象调用 mutableCopy，生成新的对象，因为需要修改而原对象不支持修改。</li>
@@ -575,20 +586,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">92</span>
+        <span class="site-state-item-count">93</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -640,12 +651,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">367k</span>
+    <span title="站点总字数">369k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:34</span>
+    <span title="站点阅读时长">5:36</span>
 </div>
 
         
