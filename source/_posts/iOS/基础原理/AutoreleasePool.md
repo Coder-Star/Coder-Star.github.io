@@ -80,8 +80,6 @@ class AutoreleasePoolPage {
 
 > 为什么每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 因为 4096 是虚拟内存一页的大小。
 
-每一个释放池都会对应一个唯一的线程，但是每一个线程并不仅有一个释放池。
-
 ![AutoreleasePool结构](../../../img/iOS/基础原理/AutoreleasePool/AutoreleasePool结构.png)
 
 ### 大致流程
@@ -210,26 +208,40 @@ static inline id autorelease(id obj)
 }
 ```
 
-### 
+### 执行类型
 
-**在没有手动加 Autorelease Pool 的情况下，Autorelease 对象是在当前的 runloop 迭代结束时释放的，而它能够释放的原因是系统在每个 runloop 迭代中都加入了自动释放池 Push 和 Pop**。
+`AutoreleasePool`一般会包括两种执行类型：
 
-程序启动后，系统在主线程 Runloop 中注册了两个 Observer，回调都是 _wrapRunLoopWithAutoreleasePoolHandler()。两个 Observer 分别如下：
+- 主 RunLoop 自动加入的`AutoreleasePool`；
+- 手动添加`AutoreleasePool`；
 
-- 监测 Entry 事件，回调里会调用 push 创建自动释放池，order 优先级最高，为 `-214748364`，保证创建释放池发生在其他所有回调之前；
-- 监测 BeforeWaiting 及 Exit 事件， BeforeWaiting(准备进入休眠) 时调用 \_objc_autoreleasePoolPop() 和 _objc_autoreleasePoolPush() 释放旧的池并创建新池。Exit(即将退出 Loop) 时调用 \_objc_autoreleasePoolPop() 来释放自动释放池。这个 Observer 的 order 是 2147483647，优先级最低，保证其释放池子发生在其他所有回调之后。
+#### 主 `Runloop` 自动加入
 
-但系统的自动释放池并不总是在 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 才释放，在处理完 Timer 和 Source 事件之后, 都会插入释放操作。
+主线程 `Runloop` 中注册了两个 `Observer`，回调都是 `_wrapRunLoopWithAutoreleasePoolHandler()`。两个 `Observer` 如下：
 
-**如果手动加了，则在作用域大括号结束时释放。**
+- 监测 `Entry` 事件，回调里自动创建自动释放池，`order`为 `-214748364`， 优先级最高，保证创建释放池发生在其他所有回调之前；
+- 监测 `BeforeWaiting` 及 `Exit` 事件；
+  - `BeforeWaiting`时调用 `_objc_autoreleasePoolPop()` 和 `_objc_autoreleasePoolPush()` 释放旧的池并创建新池。
+  - `Exit`时调用 `_objc_autoreleasePoolPop()` 来释放自动释放池。这个 Observer 的 `order` 是 `2147483647`，优先级最低，保证其释放池子发生在其他所有回调之后。
 
-## 子线程中的`autoreleasepool`
+> 系统的自动释放池也并不总是在 `BeforeWaiting` 和 `Exit` 才释放，在处理完 `Timer` 和 `Source` 事件之后, 也可能会进行释放操作；
+
+#### 手动添加
+
+如果手动加了，则在作用域大括号结束时释放；
+
+## 子线程中的`AutoreleasePool`
 
 子线程默认不会开启 Runloop，那出现 Autorelease 对象如何处理？不手动处理会内存泄漏吗？
 
 子线程如果没有创建 Pool ，但是产生了 Autorelease 对象，就会调用 autoreleaseNoPage 方法。在这个方法中，会自动帮你创建一个 hotpage，也就是默认生成一个 AutoreleasePoolPage 来添加 autorelease 对象。pool 中的对象会等到线程销毁后得到释放。
 
-## 关于 main 文件中的`autoreleasepool`
+## `main` 文件中的`@autoreleasepool`
+
+main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。
+在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。
+
+在 Xcode 11 后，触发主线程 RunLoop 的 UIApplicationMain 函数放在了 @autoreleasepool 外面，这可以保证 @autoreleasepool 中的 autorelease 对象在程序启动后立即释放。正如新版本的 @autoreleasepool 中的注释所写 "Setup code that might create autoreleased objects goes here."
 
 Xcode 11 前
 
@@ -253,13 +265,6 @@ int main(int argc, char * argv[]) {
     return UIApplicationMain(argc, argv, nil, appDelegateClassName);
 }
 ```
-
-main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。
-在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。
-
-在 Xcode 11 后，触发主线程 RunLoop 的 UIApplicationMain 函数放在了 @autoreleasepool 外面，这可以保证 @autoreleasepool 中的 autorelease 对象在程序启动后立即释放。正如新版本的 @autoreleasepool 中的注释所写 "Setup code that might create autoreleased objects goes here."
-
-对于 CLI 程序而言更有用。
 
 ### 自动加释放池的地方
 
