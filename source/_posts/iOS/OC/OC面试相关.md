@@ -286,6 +286,26 @@ __block 作用：1、解决 block 内部想修改外部 auto 变量的问题；2
 栈和堆都是同属一块内存，只不过一个是高地址往低地址存储，一个从低地址往高地址存储，他们并没有严格的界限说一个值只能放在堆上或者栈上。所以基本数据类型也是可以存储到堆上的。
 当该基础类型变量被__block 捕获时，该变量连同 block 都会被 copy 到堆上。
 
+```objective-c
+__weak __typeof(self) weakSelf  = self;
+self.block = ^{
+    __strong __typeof(self) strongSelf = weakSelf;
+    if (strongSelf == nil) return; 
+    
+    [strongSelf doSomeThing];
+};
+```
+- 为什么使用weakSelf？
+外面的weak作用是使self变为弱引用，使block不会强引用self；
+- 为什么在block里面需要使用strongSelf？
+  是为了保证block执行完毕之前self不会被释放，执行完毕的时候再释放。需要注意strongSelf只是为了保证在block内部执行的时候不会释放，但存在执行前self就已经被释放的情况，导致strongSelf=nil。注意判空处理。
+- strongSelf不会不会引起循环引用的原因？
+  strongSelf实质是一个局部变量（在block这个'函数'里面的局部变量），当block执行完毕就会释放自动变量strongSelf，不会对self进行一直进行强引用
+
+刚才这部分有个专门的名字是`Weak/Strong Dance`，实际上Swift里面也有类似的东西。
+- `__weak __typeof(self) weakSelf  = self;` -> `[weak self]`
+- `__strong __typeof(self) strongSelf = weakSelf;` -> `guard let self = self else { return }`
+
 ## copy / mutableCopy
 
 - 不可变对象调用 copy，不会生成新的对象，因为没有必要。指针指向同一地址即可满足。
