@@ -66,15 +66,30 @@ void objc_autoreleasePoolPop(void *ctxt) {
 
 ```objective-c
 class AutoreleasePoolPage {
-    magic_t const magic; // 对当前AutoreleasePoolPage 完整性的校验
-    id *next;  // 指向下一个即将产生的autoreleased对象的存放位置（当next == begin()时，表示AutoreleasePoolPage为空；当next == end()时，表示AutoreleasePoolPage已满
-    pthread_t const thread; // 当前线程
-    AutoreleasePoolPage * const parent; // 指向父节点，第一个结点的 parent 值为 nil；
-    AutoreleasePoolPage *child; // 后节点
-    uint32_t const depth; // 代表深度，第一个page的depth为0，往后每递增一个page，depth会加1；
-    uint32_t hiwat; //
+    // 对当前AutoreleasePoolPage 完整性的校验
+    magic_t const magic;
+
+    // 指向下一个即将产生的autoreleased对象的存放位置（当next == begin()时，表示AutoreleasePoolPage为空；当next == end()时，表示AutoreleasePoolPage已满
+    id *next;
+
+    // 当前线程，表明与线程有对应关系
+    pthread_t const thread;
+
+    // 指向父节点，第一个节点的 parent 值为 nil；
+    AutoreleasePoolPage * const parent;
+
+    // 指向子节点，最后一个节点的 child 值为 nil；
+    AutoreleasePoolPage *child;
+
+    // 代表深度，第一个page的depth为0，往后每递增一个page，depth会加1；
+    uint32_t const depth;
+
+    // 表示high water mark（最高水位标记）
+    uint32_t hiwat;
 };
 ```
+
+> 注意查看注释
 
 从上述的结构可以知道，其实每一个`AutoreleasePool`都是以`AutoreleasePoolPage`为节点用双向链表的形式连接起来的。
 
@@ -109,7 +124,7 @@ static inline void *push()
         // Each autorelease pool starts on a new pool page.
         dest = autoreleaseNewPage(POOL_BOUNDARY);
     } else {
-        //添加一个哨兵对象到自动释放池
+        // 添加一个哨兵对象到自动释放池
         dest = autoreleaseFast(POOL_BOUNDARY);
     }
     ...
@@ -119,14 +134,14 @@ static inline void *push()
 //向自动释放池中添加对象
 static inline id *autoreleaseFast(id obj)
 {
-    //获取hotPage:当前正在使用的Page
+    // 获取hotPage: 当前正在使用的Page
     AutoreleasePoolPage *page = hotPage();
-    //如果有page 并且 page没有被占满
+    // 如果有page 并且 page没有被占满
     if (page && !page->full()) {
-        //添加一个对象
+        // 添加一个对象
         return page->add(obj);
     } else if (page) {
-        //添加一个对象
+        // 添加一个对象
         return autoreleaseFullPage(obj, page);
     } else {
         // 如果没有page,则创建一个page
@@ -134,7 +149,7 @@ static inline id *autoreleaseFast(id obj)
     }
 }
 
-//创建一个新的page,并将当前page->child指向新的page,将对象添加进去
+// 创建一个新的page,并将当前page->child指向新的page,将对象添加进去
 id *autoreleaseFullPage(id obj, AutoreleasePoolPage *page)
 {
     ...
@@ -147,7 +162,7 @@ id *autoreleaseFullPage(id obj, AutoreleasePoolPage *page)
     return page->add(obj);
 }
 
-//创建一个新的page
+// 创建一个新的page
 id *autoreleaseNoPage(id obj)
 {
     ...
@@ -162,31 +177,31 @@ id *autoreleaseNoPage(id obj)
 #### pop 函数
 
 ```objective-c
-//查看源码发现pop函数最终会调用 releaseUntil
-//调用顺序为pop->popPage->releaseUntil
+// 查看源码发现pop函数最终会调用 releaseUntil
+// 调用顺序为pop->popPage->releaseUntil
 
-//stop 的值即为最初push时返回的哨兵对象的地址.
+// stop 的值即为最初push时返回的哨兵对象的地址.
 void releaseUntil(id *stop)
 {
-    //循环依次向autorelease对象发送release消息
+    // 循环依次向autorelease对象发送release消息
     while (this->next != stop) {
-        //AutoreleasePoolPage 有cold和hot之分.hot是当前正在使用的,cold是没有使用的
+        // AutoreleasePoolPage 有cold和hot之分.hot是当前正在使用的,cold是没有使用的
         //获取当前正在使用的
         AutoreleasePoolPage *page = hotPage();
 
-        //如果为空,通过parent指针指向它的父节点,并将父节点置为当前使用的page
+        // 如果为空,通过parent指针指向它的父节点,并将父节点置为当前使用的page
         while (page->empty()) {
             page = page->parent;
             setHotPage(page);
         }
 
         page->unprotect();
-        //获取当前Page next指针的上一个元素
+        // 获取当前Page next指针的上一个元素
         id obj = *--page->next;
         memset((void*)page->next, SCRIBBLE, sizeof(*page->next));
         page->protect();
 
-        //从next的上一个元素开始,向上查找只要不是哨兵对象,就向其发送release消息
+        // 从next的上一个元素开始,向上查找只要不是哨兵对象,就向其发送release消息
         if (obj != POOL_BOUNDARY) {
             objc_release(obj);
         }
@@ -203,7 +218,7 @@ static inline id autorelease(id obj)
 {
     ASSERT(obj);
     ASSERT(!obj->isTaggedPointer());
-    //调用autoreleaseFast,添加到自动释放池中
+    // 调用autoreleaseFast,添加到自动释放池中
     id *dest __unused = autoreleaseFast(obj);
     ASSERT(!dest  ||  dest == EMPTY_POOL_PLACEHOLDER  ||  *dest == obj);
     return obj;
@@ -214,7 +229,7 @@ static inline id autorelease(id obj)
 
 `AutoreleasePool`一般会包括两种执行类型：
 
-- 主 RunLoop 自动加入的`AutoreleasePool`；
+- 主 `RunLoop` 自动加入的`AutoreleasePool`；
 - 手动添加`AutoreleasePool`；
 
 ### 主 `Runloop` 自动加入
@@ -243,7 +258,9 @@ static inline id autorelease(id obj)
 
 ### 手动添加
 
-如果手动加了，则在作用域大括号结束时释放；那我们一般会在什么场景下手动添加呢？
+如果手动加了`autoreleasepool`，则在作用域大括号结束时释放；
+
+那我们一般会在什么场景下手动添加呢？
 
 #### CLI 程序
 
@@ -252,6 +269,19 @@ static inline id autorelease(id obj)
 #### 遍历中生成大量`Autorelease`局部变量
 
 在遍历过程中生成大量`Autorelease`局部变量，会导致内存峰值比较高，我们手动加入`AutoreleasePool`可以降低内存使用峰值；
+
+```swift
+func loadBigData() {
+    if let path = NSBundle.mainBundle().pathForResource("big", ofType: "jpg") {
+        for i in 1...10000 {
+            autoreleasepool {
+                let data = NSData.dataWithContentsOfFile(path, options: nil, error: nil)
+                NSThread.sleepForTimeInterval(0.5)
+            }
+        }
+    }
+}
+```
 
 这个地方稍微扩展一下，不是所有方式生成的对象都可以用这种方式去降低内存峰值，因为我们可以明确的是只有`Autorelease`类型的对象才会交给`AutoreleasePool`去管理，如果不是这类对象；
 
@@ -262,7 +292,7 @@ static inline id autorelease(id obj)
 - iOS 5 及之前的编译器，关键字 `__weak` 修饰的对象，会自动加入`AutoreleasePool`。iOS5 及之后的编译器，则直接调用的 `release`，不会加入 `AutoreleasePool`；
 - id 指针 (`id *`) 和对象指针（`NSError *`），会自动加上关键字 `__autorealeasing`，加入 `AutoreleasePool`；
 
-我们其实可以通过`objc_autoreleaseReturnValue`函数来标识一个对象是否加入到`AutoreleasePool`中去，同时其还附带了优化效果，`objc_autoreleaseReturnValue`函数会检查使用该函数的方法或函数调用方的执行命令列表，如果方法或函数的调用方在调用了方法或函数后紧接着调用`objc_retainAutoreleasedReturnValue()`函数，那么就不将返回的对象注册到`AutoreleasePool`，而是直接传递到方法或函数的调用方。
+我们其实可以通过`objc_autoreleaseReturnValue`函数来标识一个对象是否加入到`AutoreleasePool`中去。同时该方法还附带了优化效果，`objc_autoreleaseReturnValue`函数会检查使用该函数的方法或函数调用方的执行命令列表，如果方法或函数的调用方在调用了方法或函数后紧接着调用`objc_retainAutoreleasedReturnValue()`函数，那么就不将返回的对象注册到`AutoreleasePool`，而是直接传递到方法或函数的调用方。
 
 [arc-runtime-objc-autoreleasereturnvalue](https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue)
 
@@ -353,11 +383,9 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-## `Swift` 是否需要 `autoreleasepool`
-
-当然需要，如果使用 NSData、Data 等方式创建实例，
-
 ## 最后
+
+大致把`AutoreleasePool`涉及的点简单摸了一遍，希望小伙伴能对其有一个更全面的认识。
 
 要更加努力呀！
 
