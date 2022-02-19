@@ -44,6 +44,8 @@ void *poolSentinelObj = objc_autoreleasePoolPush();
 objc_autoreleasepoolPop(poolSentinelObj);
 ```
 
+> 其实如果研究的更细一点，其中还会有一个`__AtAutoreleasePool`的结构存在，其仅仅是对上述两个方法更高一层的封装而已；
+
 继而查看`objc_autoreleasePoolPush`以及`objc_autoreleasepoolPop`这两个函数的源码实现，如下：
 
 ```objective-c
@@ -208,14 +210,14 @@ static inline id autorelease(id obj)
 }
 ```
 
-### 执行类型
+## 执行类型
 
 `AutoreleasePool`一般会包括两种执行类型：
 
 - 主 RunLoop 自动加入的`AutoreleasePool`；
 - 手动添加`AutoreleasePool`；
 
-#### 主 `Runloop` 自动加入
+### 主 `Runloop` 自动加入
 
 主线程 `Runloop` 中注册了两个 `Observer`，回调都是 `_wrapRunLoopWithAutoreleasePoolHandler()`。两个 `Observer` 如下：
 
@@ -239,59 +241,32 @@ static inline id autorelease(id obj)
 - 使用 `NSThread` 的 `detachNewThreadSelector:toTarget:withObject:`方法创建新线程时，新线程自动带有 `AutoreleasePool`；
 - ...
 
-#### 手动添加
+### 手动添加
 
-如果手动加了，则在作用域大括号结束时释放；
+如果手动加了，则在作用域大括号结束时释放；那我们一般会在什么场景下手动添加呢？
 
-## `main.m` 文件中的`@autoreleasepool`
+#### CLI 程序
 
-main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。
-在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。
+因为 GUI 程序拥有 RunLoop 机制的原因，每个周期都会进行释放，我们可能不用太过关注`AutoreleasePool`的使用，但是 CLI 程序可能我么就需要对其更关注一些了。
 
-在 Xcode 11 后，触发主线程 RunLoop 的 UIApplicationMain 函数放在了 @autoreleasepool 外面，这可以保证 @autoreleasepool 中的 autorelease 对象在程序启动后立即释放。正如新版本的 @autoreleasepool 中的注释所写 "Setup code that might create autoreleased objects goes here."
+#### 遍历中生成大量`Autorelease`局部变量
 
-Xcode 11 前
+在遍历过程中生成大量`Autorelease`局部变量，会导致内存峰值比较高，我们手动加入`AutoreleasePool`可以降低内存使用峰值；
 
-```objective-c
-int main(int argc, char * argv[]) {
-    @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-    }
-}
-```
+这个地方稍微扩展一下，不是所有方式生成的对象都可以用这种方式去降低内存峰值，因为我们可以明确的是只有`Autorelease`类型的对象才会交给`AutoreleasePool`去管理，如果不是这类对象；
 
-Xcode 11
+那什么样的对象才是`Autorelease`类型的呢？
 
-```objective-c
-int main(int argc, char * argv[]) {
-    NSString * appDelegateClassName;
-    @autoreleasepool {
-        // Setup code that might create autoreleased objects goes here.
-        appDelegateClassName = NSStringFromClass([AppDelegate class]);
-    }
-    return UIApplicationMain(argc, argv, nil, appDelegateClassName);
-}
-```
+- 编译器会检查方法名是否以`alloc`, `new`, `copy`, `mutableCopy` 开始，如果不是则自动将返回值的对象注册到 `AutoreleasePool` 中，比如一些类方法；
+  > 这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走``逻辑，我们可以利用`clang attribute`去处理，示例：`- (id)allocObject __attribute__((objc_method_family(none)))`，其会将`allocObject`这个方法当做普通对象看待。
+- iOS 5 及之前的编译器，关键字 `__weak` 修饰的对象，会自动加入`AutoreleasePool`。iOS5 及之后的编译器，则直接调用的 `release`，不会加入 `AutoreleasePool`；
+- id 指针 (`id *`) 和对象指针（`NSError *`），会自动加上关键字 `__autorealeasing`，加入 `AutoreleasePool`；
 
-## 什么对象会加入 autoreleasePool?
+我们其实可以通过`objc_autoreleaseReturnValue`函数来标识一个对象是否加入到`AutoreleasePool`中去，同时其还附带了优化效果，`objc_autoreleaseReturnValue`函数会检查使用该函数的方法或函数调用方的执行命令列表，如果方法或函数的调用方在调用了方法或函数后紧接着调用`objc_retainAutoreleasedReturnValue()`函数，那么就不将返回的对象注册到`AutoreleasePool`，而是直接传递到方法或函数的调用方。
 
-通过 objc_autoreleaseReturnValue 和 objc_retainAutoreleasedReturnValue 来判断是否需要加入 autoreleasePool（objc_retainAutoreleasedReturnValue 和 objc_autoreleaseReturnValue 成对出现时就不会注册到 autoreleasepool），这是编译器的优化。 [arc-runtime-objc-autoreleasereturnvalue]((https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue))
+[arc-runtime-objc-autoreleasereturnvalue](https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue)
 
-- 编译器会检查方法名是否以 alloc, new, copy, mutableCopy 开始，如果不是则自动将返回值的对象注册到 autoreleasepool 中，比如一些类方法。
-- iOS 5 及之前的编译器，关键字 __weak 修饰的对象，会自动加入 autoreleasePool；iOS5 及之后的编译器，则直接调用的 release，不会加入 autoreleasePool。
-- id 指针 (id *) 和对象指针（NSError *），会自动加上关键字 `__autorealeasing`，加入 autoreleasePool。
-
-## 应用场景
-
-### CLI 程序
-
-### 大量遍历生成临时对象
-
-autoreleasepool 核心作用就是降低内存使用峰值。
-
-- 当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；
-
-### 常驻线程
+#### 常驻线程
 
 子线程默认不会开启 Runloop，
 
@@ -351,6 +326,36 @@ class Test: NSObject {
     }
 }
 
+```
+
+## `main.m` 文件中的`@autoreleasepool`
+
+main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。
+在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。
+
+在 Xcode 11 后，触发主线程 RunLoop 的 UIApplicationMain 函数放在了 @autoreleasepool 外面，这可以保证 @autoreleasepool 中的 autorelease 对象在程序启动后立即释放。正如新版本的 @autoreleasepool 中的注释所写 "Setup code that might create autoreleased objects goes here."
+
+Xcode 11 前
+
+```objective-c
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+}
+```
+
+Xcode 11
+
+```objective-c
+int main(int argc, char * argv[]) {
+    NSString * appDelegateClassName;
+    @autoreleasepool {
+        // Setup code that might create autoreleased objects goes here.
+        appDelegateClassName = NSStringFromClass([AppDelegate class]);
+    }
+    return UIApplicationMain(argc, argv, nil, appDelegateClassName);
+}
 ```
 
 ## swift 还需不需要 autoreleasepool；
