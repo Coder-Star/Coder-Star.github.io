@@ -324,12 +324,11 @@ class Test: NSObject {
 
 ## `main.m` 文件中的`@autoreleasepool`
 
-main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。
-在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。
+`main`函数中的 `@autoreleasepool` 只是负责管理它的作用域中的 `autorelease` 对象。
 
-在 Xcode 11 后，触发主线程 RunLoop 的 UIApplicationMain 函数放在了 @autoreleasepool 外面，这可以保证 @autoreleasepool 中的 autorelease 对象在程序启动后立即释放。正如新版本的 @autoreleasepool 中的注释所写 "Setup code that might create autoreleased objects goes here."
+在 Xcode11 之前，是将整个应用程序运行放在 `@autoreleasepool` 内，由于 `RunLoop` 的存在，理论上这里的`@autoreleasepool`有点像摆设，根本没有发挥出作用。
 
-Xcode 11 前
+**Xcode 11 前**
 
 ```objective-c
 int main(int argc, char * argv[]) {
@@ -339,7 +338,9 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-Xcode 11
+**Xcode 11**
+
+在 Xcode 11 后，触发主线程 `RunLoop` 的 `UIApplicationMain` 函数放在了 `@autoreleasepool` 外面，这可以保证 `@autoreleasepool` 中的 `autorelease` 对象在程序启动后立即释放。正如新版本的 `@autoreleasepool` 中的注释所写 "Setup code that might create autoreleased objects goes here."，这里的`autoreleasepool`是为了处理进入`UIApplicationMain`之前可能会产生的`autorelease`对象。
 
 ```objective-c
 int main(int argc, char * argv[]) {
