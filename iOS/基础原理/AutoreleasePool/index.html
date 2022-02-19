@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/AutoreleasePool/AutoreleasePool结构.png">
-<meta property="og:updated_time" content="2022-02-19T14:00:12.891Z">
+<meta property="og:updated_time" content="2022-02-19T14:13:31.980Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AutoreleasePool">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-19 22:00:12" itemprop="dateModified" datetime="2022-02-19T22:00:12+08:00">2022-02-19</time>
+                <time title="修改时间：2022-02-19 22:13:31" itemprop="dateModified" datetime="2022-02-19T22:13:31+08:00">2022-02-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -342,7 +342,7 @@
 </ul>
 <h3 id="手动添加"><a href="#手动添加" class="headerlink" title="手动添加"></a>手动添加</h3><p>如果手动加了<code>autoreleasepool</code>，则在作用域大括号结束时释放；</p>
 <p>那我们一般会在什么场景下手动添加呢？</p>
-<h4 id="CLI-程序"><a href="#CLI-程序" class="headerlink" title="CLI 程序"></a>CLI 程序</h4><p>因为 GUI 程序拥有 RunLoop 机制的原因，每个周期都会进行释放，我们可能不用太过关注<code>AutoreleasePool</code>的使用，但是 CLI 程序可能我么就需要对其更关注一些了。</p>
+<h4 id="CLI-程序"><a href="#CLI-程序" class="headerlink" title="CLI 程序"></a>CLI 程序</h4><p>因为 GUI 程序拥有 RunLoop 机制的原因，每个周期都会进行释放，我们可能不用太过关注<code>AutoreleasePool</code>的使用，但是 CLI 程序可能我们就需要对其更关注一些了。</p>
 <h4 id="遍历中生成大量Autorelease局部变量"><a href="#遍历中生成大量Autorelease局部变量" class="headerlink" title="遍历中生成大量Autorelease局部变量"></a>遍历中生成大量<code>Autorelease</code>局部变量</h4><p>在遍历过程中生成大量<code>Autorelease</code>局部变量，会导致内存峰值比较高，我们手动加入<code>AutoreleasePool</code>可以降低内存使用峰值；</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">loadBigData</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> path = <span class="type">NSBundle</span>.mainBundle().pathForResource(<span class="string">"big"</span>, ofType: <span class="string">"jpg"</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>...<span class="number">10000</span> &#123;</span><br><span class="line">            autoreleasepool &#123;</span><br><span class="line">                <span class="keyword">let</span> data = <span class="type">NSData</span>.dataWithContentsOfFile(path, options: <span class="literal">nil</span>, error: <span class="literal">nil</span>)</span><br><span class="line">                <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">0.5</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个地方稍微扩展一下，不是所有方式生成的对象都可以用这种方式去降低内存峰值，因为我们可以明确的是只有<code>Autorelease</code>类型的对象才会交给<code>AutoreleasePool</code>去管理，如果不是这类对象；</p>
@@ -352,7 +352,7 @@
 <p>这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走<code>`逻辑，我们可以利用</code>clang attribute<code>去处理，示例：</code>- (id)allocObject <strong>attribute</strong>((objc_method_family(none)))<code>，其会将</code>allocObject`这个方法当做普通对象看待。</p>
 </blockquote>
 </li>
-<li>iOS 5 及之前的编译器，关键字 <code>__weak</code> 修饰的对象，会自动加入<code>AutoreleasePool</code>。iOS5 及之后的编译器，则直接调用的 <code>release</code>，不会加入 <code>AutoreleasePool</code>；</li>
+<li>iOS 5 及之前的编译器，关键字 <code>__weak</code> 修饰的对象，会自动加入<code>AutoreleasePool</code>。iOS 5 及之后的编译器，则直接调用的 <code>release</code>，不会加入 <code>AutoreleasePool</code>；</li>
 <li>id 指针 (<code>id *</code>) 和对象指针（<code>NSError *</code>），会自动加上关键字 <code>__autorealeasing</code>，加入 <code>AutoreleasePool</code>；</li>
 </ul>
 <p>我们其实可以通过<code>objc_autoreleaseReturnValue</code>函数来标识一个对象是否加入到<code>AutoreleasePool</code>中去。同时该方法还附带了优化效果，<code>objc_autoreleaseReturnValue</code>函数会检查使用该函数的方法或函数调用方的执行命令列表，如果方法或函数的调用方在调用了方法或函数后紧接着调用<code>objc_retainAutoreleasedReturnValue()</code>函数，那么就不将返回的对象注册到<code>AutoreleasePool</code>，而是直接传递到方法或函数的调用方。</p>
