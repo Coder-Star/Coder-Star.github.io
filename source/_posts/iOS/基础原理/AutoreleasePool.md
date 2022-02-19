@@ -264,7 +264,7 @@ static inline id autorelease(id obj)
 
 #### CLI 程序
 
-因为 GUI 程序拥有 RunLoop 机制的原因，每个周期都会进行释放，我们可能不用太过关注`AutoreleasePool`的使用，但是 CLI 程序可能我么就需要对其更关注一些了。
+因为 GUI 程序拥有 RunLoop 机制的原因，每个周期都会进行释放，我们可能不用太过关注`AutoreleasePool`的使用，但是 CLI 程序可能我们就需要对其更关注一些了。
 
 #### 遍历中生成大量`Autorelease`局部变量
 
@@ -289,7 +289,7 @@ func loadBigData() {
 
 - 编译器会检查方法名是否以`alloc`, `new`, `copy`, `mutableCopy` 开始，如果不是则自动将返回值的对象注册到 `AutoreleasePool` 中，比如一些类方法；
   > 这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走``逻辑，我们可以利用`clang attribute`去处理，示例：`- (id)allocObject __attribute__((objc_method_family(none)))`，其会将`allocObject`这个方法当做普通对象看待。
-- iOS 5 及之前的编译器，关键字 `__weak` 修饰的对象，会自动加入`AutoreleasePool`。iOS5 及之后的编译器，则直接调用的 `release`，不会加入 `AutoreleasePool`；
+- iOS 5 及之前的编译器，关键字 `__weak` 修饰的对象，会自动加入`AutoreleasePool`。iOS 5 及之后的编译器，则直接调用的 `release`，不会加入 `AutoreleasePool`；
 - id 指针 (`id *`) 和对象指针（`NSError *`），会自动加上关键字 `__autorealeasing`，加入 `AutoreleasePool`；
 
 我们其实可以通过`objc_autoreleaseReturnValue`函数来标识一个对象是否加入到`AutoreleasePool`中去。同时该方法还附带了优化效果，`objc_autoreleaseReturnValue`函数会检查使用该函数的方法或函数调用方的执行命令列表，如果方法或函数的调用方在调用了方法或函数后紧接着调用`objc_retainAutoreleasedReturnValue()`函数，那么就不将返回的对象注册到`AutoreleasePool`，而是直接传递到方法或函数的调用方。
