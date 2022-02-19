@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/Strip_Swift_Symbols.jpeg">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/效率软件/LinkMap.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/进阶/优化/瘦身/AppCode_Inspect.png">
-<meta property="og:updated_time" content="2022-01-29T11:51:45.100Z">
+<meta property="og:updated_time" content="2022-02-18T08:57:45.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 优化 - 瘦身">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 优化将是一个专题，其中会包括包体积优化（瘦身）、启动时间优化、UI 优化等等。那么这个专题的开篇就从瘦身开始吧。 APP 的大小是分为 APP 下载大小和安装大小两个概念的。  下载大小是指 App 压缩包（也就是 .ipa 文件）所占的空间，用户在下载 App 时，下载的是压缩包，这样做可以节省流量； 当压缩包下载完成后，就会自动解压，解">
@@ -233,7 +233,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-29 19:51:45" itemprop="dateModified" datetime="2022-01-29T19:51:45+08:00">2022-01-29</time>
+                <time title="修改时间：2022-02-18 16:57:45" itemprop="dateModified" datetime="2022-02-18T16:57:45+08:00">2022-02-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -408,7 +408,9 @@
 <p><strong>其本质是使正常的 png 图片变成了一个优化后的 CgBI 格式的 png</strong>。可以利用<a href="http://www.libpng.org/pub/png/apps/pngcheck.html" target="_blank" rel="noopener">pngcheck</a>查看处理前的图片信息，利用<a href="http://www.jongware.com/pngdefry.html" target="_blank" rel="noopener">pngdefry</a>查看处理后的图片信息（其还可以将 CgBI 格式的 png还原回去，这个功能跟pngcrush工具解码功能类似）。</p>
 <p>从上述变化内容来看， <code>pngcrush</code> 工具编码过程并不是简单的压缩数据，更重要的是对文件格式做了修改。<strong>因为 iPhone 中，图像是以 BGRA 格式在内存中处理的，所以修改后的格式变成了 iPhone 能更方便处理的格式，加快处理速度。</strong></p>
 <p>根据我自己测试的压缩效果来看，对于 Bundle 中放置的 png 图片，经过 <code>pngcrush</code> 的处理，大小不降反增，目前暂时没有找到哪些具体因素影响其压缩效果。</p>
+<p>其还有一个GUI工具 <a href="https://pmt.sourceforge.io/pngcrush/" target="_blank" rel="noopener">pngcrush</a>，但好像只支持windows系统。</p>
 <p><img src="../../../../img/iOS/进阶/优化/瘦身/pngcrsuh_deal.png" alt="pngcrsuh测试效果对比图"></p>
+<p>png</p>
 <p><strong>结论：Compress PNG Files 虽然是压缩 PNG，但其最主要的目的并不是为了压缩图片大小， 而是将 PNG 转换成 iOS 更容易处理、更快速度的去识别的格式，可以根据项目在开启、关闭两种情况下的打包大小，自行取舍。</strong></p>
 <p><strong>非 PNG 资源</strong></p>
 <p>非 PNG 资源压缩包含两种方式：</p>
@@ -838,7 +840,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">126</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -903,12 +905,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">369k</span>
+    <span title="站点总字数">374k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:36</span>
+    <span title="站点阅读时长">5:40</span>
 </div>
 
         
