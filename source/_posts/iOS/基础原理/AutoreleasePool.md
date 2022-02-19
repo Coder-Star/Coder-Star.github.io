@@ -268,15 +268,9 @@ static inline id autorelease(id obj)
 
 #### 常驻线程
 
-子线程默认不会开启 Runloop，
+子线程默认不会开启 Runloop，可能这时候会有小伙伴有疑问，那还会自动创建`AutoreleasePool`吗？
 
-那出现 Autorelease 对象如何处理？不手动处理会内存泄漏吗？
-
-子线程如果没有创建 Pool ，但是产生了 Autorelease 对象，就会调用 autoreleaseNoPage 方法。在这个方法中，会自动帮你创建一个 hotpage，也就是默认生成一个 AutoreleasePoolPage 来添加 autorelease 对象。pool 中的对象会等到线程销毁后得到释放。
-
-需要自己管理一个辅助线程时，当开辟常驻线程后，需要在任务外包一层 `AutoreleasePool`；这里对子线程中的自动释放池扩展一下。
-
-子线程中原本是没有自动释放池的，但是如果有`RunLoop`或者`autorelease`对象的时候，就会自动的创建自动释放池，正常情况下，释放池里面对象释放的时机是线程销毁时，如果是常驻线程，就容易导致线程中所有的`autorelease`对象都迟迟得不到释放，所以需要手动添加`AutoreleasePool`，让相关对象可以得到及时释放。
+答案当然是会，其实根据上面的源码分析，我们就可以知道，当子线程如果没有创建 `AutoreleasePool` ，但是产生了 `Autorelease` 对象，就会调用 `autoreleaseNoPage` 方法。在这个方法中，会自动帮你创建一个 `hotpage`，也就是默认生成一个 `AutoreleasePoolPage` 来添加 `Autorelease` 对象。`AutoreleasePool`中的对象会等到线程销毁后得到释放。说到这里，我们就需要注意常驻线程了。如果是常驻线程，就容易导致线程中所有的`Autorelease`对象都迟迟得不到释放，所以需要手动添加`AutoreleasePool`，让相关对象可以得到及时释放。
 
 ```swift
 class KeepAliveThreadManager {
