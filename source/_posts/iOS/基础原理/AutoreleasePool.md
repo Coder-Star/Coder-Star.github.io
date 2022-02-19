@@ -224,19 +224,26 @@ static inline id autorelease(id obj)
   - `BeforeWaiting`时调用 `_objc_autoreleasePoolPop()` 和 `_objc_autoreleasePoolPush()` 释放旧的池并创建新池。
   - `Exit`时调用 `_objc_autoreleasePoolPop()` 来释放自动释放池。这个 Observer 的 `order` 是 `2147483647`，优先级最低，保证其释放池子发生在其他所有回调之后。
 
-> 系统的自动释放池也并不总是在 `BeforeWaiting` 和 `Exit` 才释放，在处理完 `Timer` 和 `Source` 事件之后, 也可能会进行释放操作；
+> 系统的自动释放池也并不总是在 `BeforeWaiting` 和 `Exit` 才释放，在处理完 `Timer` 和 `Source` 事件之后, 也可能会进行释放操作。
+
+当然系统部分方法内部也自动添加了`AutoreleasePool`，比如：
+
+- 使用容器的 `block` 版本的枚举器时，内部会自动添加一个 `AutoreleasePool`；
+
+    ```objective-c
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        // 这里被一个局部 @autoreleasepool 包围着
+    }];
+    ```
+
+- 使用 `NSThread` 的 `detachNewThreadSelector:toTarget:withObject:`方法创建新线程时，新线程自动带有 `AutoreleasePool`；
+- ...
 
 #### 手动添加
 
 如果手动加了，则在作用域大括号结束时释放；
 
-## 子线程中的`AutoreleasePool`
-
-子线程默认不会开启 Runloop，那出现 Autorelease 对象如何处理？不手动处理会内存泄漏吗？
-
-子线程如果没有创建 Pool ，但是产生了 Autorelease 对象，就会调用 autoreleaseNoPage 方法。在这个方法中，会自动帮你创建一个 hotpage，也就是默认生成一个 AutoreleasePoolPage 来添加 autorelease 对象。pool 中的对象会等到线程销毁后得到释放。
-
-## `main` 文件中的`@autoreleasepool`
+## `main.m` 文件中的`@autoreleasepool`
 
 main() 函数中的 @autoreleasepool 只是负责管理它的作用域中的 autorelease 对象。
 在 Xcode11 之前，是将整个应用程序运行放在 @autoreleasepool 内，由于 RunLoop 的存在，要 return 即程序结束后 @autoreleasepool 作用域才会结束，这意味着程序结束后 main 函数中的 @autoreleasepool 中的 autorelease 对象才会释放。
@@ -266,21 +273,6 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-### 自动加释放池的地方
-
-- 使用容器的 block 版本的枚举器时，内部会自动添加一个 AutoreleasePool：
-
-```swift
-[array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    // 这里被一个局部 @autoreleasepool 包围着
-}];
-```
-
-当然，在普通 for 循环和 for in 循环中没有，所以，还是新版的 block 版本枚举器更加方便。for 循环中遍历产生大量 autorelease 变量时，就需要手加局部 AutoreleasePool。
-
-- 使用 NSThread 的 detachNewThreadSelector:toTarget:withObject: 方法创建新线程时，新线程自动带有 autoreleasepool。
-- iOS 8 之后，自定义 NSOperation 时 main 方法会自动被 autoreleasepool 包起来（但实际上好像没有就加，需要还需要测试下），之前是需要自己手动添加的。当然，系统的 NSBlockOperation 和 NSInvocationOperation 这种默认的 Operation ，一直是自动添加的。
-
 ## 什么对象会加入 autoreleasePool?
 
 通过 objc_autoreleaseReturnValue 和 objc_retainAutoreleasedReturnValue 来判断是否需要加入 autoreleasePool（objc_retainAutoreleasedReturnValue 和 objc_autoreleaseReturnValue 成对出现时就不会注册到 autoreleasepool），这是编译器的优化。 [arc-runtime-objc-autoreleasereturnvalue]((https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue))
@@ -291,15 +283,21 @@ int main(int argc, char * argv[]) {
 
 ## 应用场景
 
-autoreleasepool 核心作用就是降低内存使用峰值。
-
 ### CLI 程序
 
 ### 大量遍历生成临时对象
 
+autoreleasepool 核心作用就是降低内存使用峰值。
+
 - 当你使用类似 for 循环这样的逻辑需要产生大量的 Autorelease 局部变量时，AutoreleasePool 无意是最佳的一种解决方案；
 
 ### 常驻线程
+
+子线程默认不会开启 Runloop，
+
+那出现 Autorelease 对象如何处理？不手动处理会内存泄漏吗？
+
+子线程如果没有创建 Pool ，但是产生了 Autorelease 对象，就会调用 autoreleaseNoPage 方法。在这个方法中，会自动帮你创建一个 hotpage，也就是默认生成一个 AutoreleasePoolPage 来添加 autorelease 对象。pool 中的对象会等到线程销毁后得到释放。
 
 需要自己管理一个辅助线程时，当开辟常驻线程后，需要在任务外包一层 `AutoreleasePool`；这里对子线程中的自动释放池扩展一下。
 
