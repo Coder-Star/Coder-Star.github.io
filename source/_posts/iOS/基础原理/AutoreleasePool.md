@@ -353,7 +353,7 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-## swift 还需不需要 autoreleasepool；
+## `Swift` 是否需要 `autoreleasepool`
 
 当然需要，如果使用 NSData、Data 等方式创建实例，
 
