@@ -95,7 +95,7 @@ class AutoreleasePoolPage {
 
 每个 `AutoreleasePoolPage` 对象有 `4096` 字节的存储空间, 除了存放它自己的成员变量（56 个字节，每个占 8 个字节）外, 剩下的空间用来存储后面加入的 `autorelease` 对象。
 
-> 为什么每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 因为 4096 是虚拟内存一页的大小。
+> 为什么每个 AutoreleasePoolPage 的大小设置成 4096 个字节呢？ 内存管理、映射中的基本单位是页，一页的大小是 4kb（早期设备）或者 16kb（A7 芯片及以后）。
 
 ![AutoreleasePool结构](../../../img/iOS/基础原理/AutoreleasePool/AutoreleasePool结构.png)
 

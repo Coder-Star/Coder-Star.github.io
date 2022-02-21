@@ -7,14 +7,12 @@ category:
 tags: [Swift]
 ---
 
-## 1、字符串
-
-### 1、subString 与 String
+## subString 与 String
 
 - subString 是一个全新的类型，看类名像是 String 的子类，但是大家千万别被误导了，Substring 并不是 String 的子类，这是两个不同的类型，但是它们都继承了 StringProtocol 协议，因此存在一些共性；在开发中 Substring 并不常用 (一般会在分割 String 中见到)，所以往往要转成 String。
 - subString 最重要的作用的体现是在性能上，自身在分割时，其实重用了父 String 的内存，延长了父 String 的生命周期，当这个 subString 不被释放，其父 String 也不被释放。
 
-### 2、字符串分割
+## 字符串分割
 
 我们可以使用两种方式对字符串进行分割，分别为 split 以及 components 方法，两种方法在类型以及分割结果上有着不同结果；
 
@@ -44,7 +42,7 @@ print("使用components对字符串进行分割结果：\(x.components(separated
 //我们可以直接利用String()函数将subString类型转成String
 ```
 
-## 2、Map、filter、reduce、flatMap 以及 compactMap 的使用
+## Map、filter、reduce、flatMap 以及 compactMap 的使用
 
 首先明确这些高阶函数内部实现机制实际也是循环，是比较耗时的操作，大家使用时要考虑到这一点。
 
@@ -334,25 +332,6 @@ class Test{
 Test.showSex(sex:[.man,.woman])
 ```
 
-## 10、其他汇总
-
-### 1、**class func 与 static func 之间的区别**
-
-**static func** 禁止被子类重写，相当于 **class final func**
-
-### 2、标识符使用关键字的写法
-
-在 swift，一些关键字可以通过加上``成为标识符，如下面这些写法
-
-```swift
-class 'class' {
-
-}
-enum sex {
-    case `default`
-}
-```
-
 ## 11、isKindOf、isMemberOf、isEuqal、is 以及 == 之间区别
 
 **1、** isKindOf、isMemberOf 以及 isEuqal 都是 NSObjectProtocol 协议中定义的方法，类需要继承自 NSObject 或者实现了 NSObjectProtocol 协议) 才可以使用，其中 isMemberOf 判断某个对象是否是某一个类的实例，isKindOf 判断某个对象是否为某个类及其子类的实例，isKindOf 的范围更大点；isEuqal 主要用于比较两个对象是否是同一个对象，hash 值是否相同。
@@ -444,19 +423,6 @@ static let redLabel:UILabel = {
     }()
 
 ```
-
-## 14、class 和 static 的相同点和区别
-
-### 1、相同点
-
-- 都可以用来修饰方法，其中 class 修饰的叫做类方法，static 修饰的叫做静态方法；
-- 都可以用来修饰计算属性；
-
-### 2、区别
-
-- class 只可以用于类中，修饰的方法以及计算属性可以被重写
-- static 可以用于类、结构体以及枚举中使用，修饰后的方法以及属性不可以被重写；static 可以修饰存储属性，修改后的属性叫做静态变量（常量）；
-- class、struct 以及 enum 都可以实现 protocol，其中在 protocol 定义时使用 static，enum 以及 struct 去实现时使用 static，class 去实现时 class 以及 static 都可以使用；
 
 ## 15、计算属性、存储属性以及类型属性
 
@@ -626,8 +592,3 @@ extension SomeProtocol {
 - ?? 操作符
 
 @autoclosure 并不支持带有输入参数的写法，也就是说只有形如 `() -> T` 的参数才能使用这个特性进行简化。
-
-## inout
-
-虽然 & 符号可能会让你想起 C 和 Objective-c 中的取址操作符，或者是 C++ 中的引用传递操作符，但在 Swift 中，其作用是不一样的。就像对待普通的参数一样，Swift 还是会复制传入的 inout 参数，但当函数返回时，会用这些参数的值覆盖原来的值。也就是说，即使在函数中对一个 inout 参数做多次修改，但对调用者来说只会注意到一次修改的发生，也就是在用新的值覆盖原有值的时候。同理，即使函数完全没有对 inout 参数做任何的修改，调用者也还是会注意到一次修改 (willSet 和 didSet 这两个观察者方法都会被调用)。
-
