@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/AutoreleasePool/AutoreleasePool结构.png">
-<meta property="og:updated_time" content="2022-02-21T02:34:06.306Z">
+<meta property="og:updated_time" content="2022-02-21T02:53:00.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AutoreleasePool">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-21 10:34:06" itemprop="dateModified" datetime="2022-02-21T10:34:06+08:00">2022-02-21</time>
+                <time title="修改时间：2022-02-21 10:53:00" itemprop="dateModified" datetime="2022-02-21T10:53:00+08:00">2022-02-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -349,7 +349,7 @@
 <p>那什么样的对象才是<code>Autorelease</code>类型的呢？</p>
 <ul>
 <li>编译器会检查方法名是否以<code>alloc</code>, <code>new</code>, <code>copy</code>, <code>mutableCopy</code> 开始，如果不是则自动将返回值的对象注册到 <code>AutoreleasePool</code> 中，比如一些类方法；<blockquote>
-<p>这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走<code>`逻辑，我们可以利用</code>clang attribute<code>去处理，示例：</code>- (id)allocObject <strong>attribute</strong>((objc_method_family(none)))<code>，其会将</code>allocObject`这个方法当做普通对象看待。</p>
+<p>这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走<code>release</code>逻辑，我们可以利用<code>clang attribute</code>去处理，示例：<code>- (id)allocObject __attribute__((objc_method_family(none)))</code>，其会将<code>allocObject</code>这个方法当做普通对象看待。</p>
 </blockquote>
 </li>
 <li>iOS 5 及之前的编译器，关键字 <code>__weak</code> 修饰的对象，会自动加入<code>AutoreleasePool</code>。iOS 5 及之后的编译器，则直接调用的 <code>release</code>，不会加入 <code>AutoreleasePool</code>；</li>
