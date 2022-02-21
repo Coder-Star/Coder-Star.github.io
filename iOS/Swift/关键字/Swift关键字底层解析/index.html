@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 利用 SIL 文件，我们很容易分析出 Swift 的一些底层原理， Lazy本质被 lazy 修饰的变量实际在底层是一个可选值，在内存的表现是 0x0，在第一次访问的过程中，访问的是 getter 方法，通过 enum 值的分支进行一个赋值的操作。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-01-20T02:02:58.697Z">
+<meta property="og:updated_time" content="2022-02-20T07:17:23.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 关键字底层解析">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 利用 SIL 文件，我们很容易分析出 Swift 的一些底层原理， Lazy本质被 lazy 修饰的变量实际在底层是一个可选值，在内存的表现是 0x0，在第一次访问的过程中，访问的是 getter 方法，通过 enum 值的分支进行一个赋值的操作。">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-20 10:02:58" itemprop="dateModified" datetime="2022-01-20T10:02:58+08:00">2022-01-20</time>
+                <time title="修改时间：2022-02-20 15:17:23" itemprop="dateModified" datetime="2022-02-20T15:17:23+08:00">2022-02-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,7 +276,7 @@
 <h2 id="Lazy"><a href="#Lazy" class="headerlink" title="Lazy"></a>Lazy</h2><p>本质被 lazy 修饰的变量实际在底层是一个可选值，在内存的表现是 0x0，在第一次访问的过程中，访问的是 getter 方法，通过 enum 值的分支进行一个赋值的操作。</p>
 <h2 id="static"><a href="#static" class="headerlink" title="static"></a>static</h2><p>底层通过<code>swift_once</code>保证线程安全，内部调用的就是 GCD 底层的<code>dispatch_once_f</code>。</p>
 <h2 id="inout"><a href="#inout" class="headerlink" title="inout"></a>inout</h2><p>虽然 &amp; 符号可能会让你想起 C 和 Objective-c 中的取址操作符，或者是 C++ 中的引用传递操作符，但在 Swift 中，其作用是不一样的。就像对待普通的参数一样，Swift 还是会复制传入的 inout 参数，但当函数返回时，会用这些参数的值覆盖原来的值。也就是说，即使在函数中对一个 inout 参数做多次修改，但对调用者来说只会注意到一次修改的发生，也就是在用新的值覆盖原有值的时候。同理，即使函数完全没有对 inout 参数做任何的修改，调用者也还是会注意到一次修改 (willSet 和 didSet 这两个观察者方法都会被调用)。</p>
-<h2 id="mutating"><a href="#mutating" class="headerlink" title="mutating"></a>mutating</h2><p>底层实际上使用了inout方式</p>
+<h2 id="mutating"><a href="#mutating" class="headerlink" title="mutating"></a>mutating</h2><p>底层实际上使用了 inout 方式</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><a href="https://github.com/guillermomuntaner/Burritos" target="_blank" rel="noopener">A collection of well tested Swift Property Wrappers</a></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
@@ -430,7 +430,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">126</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -495,12 +495,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">374k</span>
+    <span title="站点总字数">373k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:40</span>
+    <span title="站点阅读时长">5:39</span>
 </div>
 
         
