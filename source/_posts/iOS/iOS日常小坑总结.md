@@ -42,4 +42,6 @@ date: 2021-05-27 14:51:08
 
 - UIButton设置imageView ishidden alpha 无反应，可以使用[UIButton's imageView property and hidden/alpha value](https://stackoverflow.com/questions/11673479/uibuttons-imageview-property-and-hidden-alpha-value)
 
+- UIButton（可推及到UIControl）的state值不是一个enum，而是一个OptionSet。意味着状态间并不是互斥关系，而是一个叠加关系，其中遇到的实例为 UIButton 在已经是selected的前提时，长按时并不会出现高亮状态设置的内容，而是会出现normal状态下的内容。解决方式为：`setImage(UIImage(named: "XXX"), for: [.selected, .highlighted])`，即为该种状态单独设置一下值。
+
 - UITableView 设置 group 样式 头部会有一段空白，可以设置`tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.01))`
