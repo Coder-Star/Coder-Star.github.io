@@ -1129,7 +1129,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-08 10:18:38" itemprop="dateModified" datetime="2022-02-08T10:18:38+08:00">2022-02-08</time>
+                <time title="修改时间：2022-02-25 12:17:53" itemprop="dateModified" datetime="2022-02-25T12:17:53+08:00">2022-02-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1147,14 +1147,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -1198,6 +1198,8 @@
 <li><p>子 vc 也会影响父 vc 的导航栏样式</p>
 </li>
 <li><p>UIButton设置imageView ishidden alpha 无反应，可以使用<a href="https://stackoverflow.com/questions/11673479/uibuttons-imageview-property-and-hidden-alpha-value" target="_blank" rel="noopener">UIButton’s imageView property and hidden/alpha value</a></p>
+</li>
+<li><p>UIButton（可推及到UIControl）的state值不是一个enum，而是一个OptionSet。意味着状态间并不是互斥关系，而是一个叠加关系，其中遇到的实例为 UIButton 在已经是selected的前提时，长按时并不会出现高亮状态设置的内容，而是会出现normal状态下的内容。解决方式为：<code>setImage(UIImage(named: &quot;XXX&quot;), for: [.selected, .highlighted])</code>，即为该种状态单独设置一下值。</p>
 </li>
 <li><p>UITableView 设置 group 样式 头部会有一段空白，可以设置<code>tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.01))</code></p>
 </li>

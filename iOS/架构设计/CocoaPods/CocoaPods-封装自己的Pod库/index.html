@@ -29,7 +29,7 @@
 <meta property="og:description" content="准备自己的 Pod 库布一个共享库一般包含三部分  库源码及资源文件 你想要发布出去的相关资源文件 LICENSE 文件 默认一般选择 MIT podspec 文件 本库的各项信息描述, 需要提交给 CocoaPods, pod 通过这个文件查找到你共享的库  目录如下 生成这样的目录结构可以利用 CocoaPods 的命令自动生成">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/架构设计/工程目录.png">
-<meta property="og:updated_time" content="2021-07-16T12:49:41.480Z">
+<meta property="og:updated_time" content="2022-02-24T13:06:41.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CocoaPods-封装自己的Pod库">
 <meta name="twitter:description" content="准备自己的 Pod 库布一个共享库一般包含三部分  库源码及资源文件 你想要发布出去的相关资源文件 LICENSE 文件 默认一般选择 MIT podspec 文件 本库的各项信息描述, 需要提交给 CocoaPods, pod 通过这个文件查找到你共享的库  目录如下 生成这样的目录结构可以利用 CocoaPods 的命令自动生成">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-16 20:49:41" itemprop="dateModified" datetime="2021-07-16T20:49:41+08:00">2021-07-16</time>
+                <time title="修改时间：2022-02-24 21:06:41" itemprop="dateModified" datetime="2022-02-24T21:06:41+08:00">2022-02-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4.6k</span>
+              <span>4.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -297,7 +297,7 @@
 <h2 id="发布-Pod-库"><a href="#发布-Pod-库" class="headerlink" title="发布 Pod 库"></a>发布 Pod 库</h2><h3 id="正式发布前准备"><a href="#正式发布前准备" class="headerlink" title="正式发布前准备"></a>正式发布前准备</h3><p>podspec 文件关联的源代码地址是以 tag 为准，所以发布 pod 库之前还要保证远程仓库中已经存在本地发布依赖的 tag，tag 设置相关命令如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git tag -m &apos;描述&apos; &apos;1.0.0&apos;</span><br><span class="line"></span><br><span class="line">// 推送所有tag，也可以使用  git push origin &apos;1.0.0&apos; 推送指定tag到远程</span><br><span class="line">git push --tags</span><br></pre></td></tr></table></figure>
 <p>库发布之前需要使用命令验证库的格式及代码是否有问题，命令如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 验证 本地podspec，验证过程中可能会出现警告造成验证不成功（The spec did not pass validation）,可以使用pod lib lint --allow-warnings忽略警告完成验证</span><br><span class="line">// 也可以添加 `--skip-import-validation` 忽略导入验证</span><br><span class="line">pod lib lint</span><br><span class="line"></span><br><span class="line">// 验证本地podspec及远程podspec文件</span><br><span class="line">pod spec lint</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 验证 本地podspec，验证过程中可能会出现警告造成验证不成功（The spec did not pass validation）,可以使用pod lib lint --allow-warnings忽略警告完成验证</span><br><span class="line">// 也可以添加 `--skip-import-validation` 忽略导入验证</span><br><span class="line">// 当出现 ERROR | [iOS] xcodebuild: Returned an unsuccessful exit code 就可以使用</span><br><span class="line">pod lib lint</span><br><span class="line"></span><br><span class="line">// 验证本地podspec及远程podspec文件</span><br><span class="line">pod spec lint</span><br></pre></td></tr></table></figure>
 <p>在发布 Pod 之前需要先进行注册 CocoaPods 账号，注册命令如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// pod 注册,包括邮箱以及用户名，会让邮箱发送一个链接，点击链接完成注册</span><br><span class="line">pod trunk register xxxx@qq.com &apos;name&apos;</span><br></pre></td></tr></table></figure>
 <h3 id="发布"><a href="#发布" class="headerlink" title="发布"></a>发布</h3><p>发布 Pod 库有两种方式，一种方式是发布到 CocoaPods 的中心仓库，这样是开源出去的，另外一种是发布到私有索引库，用于不开源，公司内部使用。</p>
