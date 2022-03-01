@@ -29,7 +29,7 @@
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
-<meta property="og:updated_time" content="2022-02-17T14:07:39.175Z">
+<meta property="og:updated_time" content="2022-03-01T14:27:04.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-17 22:07:39" itemprop="dateModified" datetime="2022-02-17T22:07:39+08:00">2022-02-17</time>
+                <time title="修改时间：2022-03-01 22:27:04" itemprop="dateModified" datetime="2022-03-01T22:27:04+08:00">2022-03-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -293,20 +293,22 @@
 </ul>
 <p>怎么用呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// .h文件</span><br><span class="line">@property (nonatomic, readonly, unsafe_unretained) int i;</span><br><span class="line"></span><br><span class="line">// .m文件</span><br><span class="line">@synthesize i = __i; // __i为指定的实例变量，@synthesize i相当于 @synthesize i = i;</span><br></pre></td></tr></table></figure>
-<h3 id="property-属性修饰符"><a href="#property-属性修饰符" class="headerlink" title="@property 属性修饰符"></a>@property 属性修饰符</h3><p><strong>setter、getter</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, readonly, getter=isFinalized) BOOL finalized;</span><br><span class="line">@property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;</span><br></pre></td></tr></table></figure>
-<p><strong>内存管理</strong></p>
+<h3 id="property-属性修饰符"><a href="#property-属性修饰符" class="headerlink" title="@property 属性修饰符"></a>@property 属性修饰符</h3><p><strong>内存管理</strong></p>
 <ul>
-<li>retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用</li>
-<li>strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用</li>
+<li><p>retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用</p>
+</li>
+<li><p>strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用</p>
+</li>
 <li>copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于 (NSArray,NSDictionary,NSString)，释放旧对象</li>
-<li>assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针</li>
+<li>assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针；</li>
 <li>weak 表示只是指向对象，不隐式发送 retain, 指向对象一旦被销毁就会自动 nil 化</li>
-<li>__unsafe_unretained 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针</li>
+<li><code>__unsafe_unretained</code> 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针</li>
 </ul>
 <blockquote>
 <p>当修饰可变类型的属性时，如 NSMutableArray、NSMutableDictionary、NSMutableString，用 strong。<br>当修饰不可变类型的属性时，如 NSArray、NSDictionary、NSString，用 copy。</p>
 </blockquote>
+<p><strong>setter、getter</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, readonly, getter=isFinalized) BOOL finalized;</span><br><span class="line">@property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;</span><br></pre></td></tr></table></figure>
 <p><strong>读写权限</strong></p>
 <ul>
 <li>readwrite 可读可写，会生成 getter 和 setter 方法</li>
@@ -410,13 +412,13 @@
 <p>__block 作用：1、解决 block 内部想修改外部 auto 变量的问题；2、解决循环引用；</p>
 <p><strong>对于基本数据类型，一般是存储到栈中的，它有没有可能存在堆上，什么情况下会存储到堆上？</strong></p>
 <p>栈和堆都是同属一块内存，只不过一个是高地址往低地址存储，一个从低地址往高地址存储，他们并没有严格的界限说一个值只能放在堆上或者栈上。所以基本数据类型也是可以存储到堆上的。<br>当该基础类型变量被__block 捕获时，该变量连同 block 都会被 copy 到堆上。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof(self) weakSelf  = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong __typeof(self) strongSelf = weakSelf;</span><br><span class="line">    if (strongSelf == nil) return; </span><br><span class="line">    </span><br><span class="line">    [strongSelf doSomeThing];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof(self) weakSelf  = self;</span><br><span class="line">self.block = ^&#123;</span><br><span class="line">    __strong __typeof(self) strongSelf = weakSelf;</span><br><span class="line">    if (strongSelf == nil) return;</span><br><span class="line"></span><br><span class="line">    [strongSelf doSomeThing];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>为什么使用weakSelf？<br>外面的weak作用是使self变为弱引用，使block不会强引用self；</li>
-<li>为什么在block里面需要使用strongSelf？<br>是为了保证block执行完毕之前self不会被释放，执行完毕的时候再释放。需要注意strongSelf只是为了保证在block内部执行的时候不会释放，但存在执行前self就已经被释放的情况，导致strongSelf=nil。注意判空处理。</li>
-<li>strongSelf不会不会引起循环引用的原因？<br>strongSelf实质是一个局部变量（在block这个’函数’里面的局部变量），当block执行完毕就会释放自动变量strongSelf，不会对self进行一直进行强引用</li>
+<li>为什么使用 weakSelf？<br>外面的 weak 作用是使 self 变为弱引用，使 block 不会强引用 self；</li>
+<li>为什么在 block 里面需要使用 strongSelf？<br>是为了保证 block 执行完毕之前 self 不会被释放，执行完毕的时候再释放。需要注意 strongSelf 只是为了保证在 block 内部执行的时候不会释放，但存在执行前 self 就已经被释放的情况，导致 strongSelf=nil。注意判空处理。</li>
+<li>strongSelf 不会不会引起循环引用的原因？<br>strongSelf 实质是一个局部变量（在 block 这个’函数’里面的局部变量），当 block 执行完毕就会释放自动变量 strongSelf，不会对 self 进行一直进行强引用</li>
 </ul>
-<p>刚才这部分有个专门的名字是<code>Weak/Strong Dance</code>，实际上Swift里面也有类似的东西。</p>
+<p>刚才这部分有个专门的名字是<code>Weak/Strong Dance</code>，实际上 Swift 里面也有类似的东西。</p>
 <ul>
 <li><code>__weak __typeof(self) weakSelf  = self;</code> -&gt; <code>[weak self]</code></li>
 <li><code>__strong __typeof(self) strongSelf = weakSelf;</code> -&gt; <code>guard let self = self else { return }</code></li>
@@ -651,12 +653,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">374k</span>
+    <span title="站点总字数">375k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:40</span>
+    <span title="站点阅读时长">5:41</span>
 </div>
 
         
