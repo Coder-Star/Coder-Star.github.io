@@ -122,6 +122,9 @@ LLVM IR 有三种表示形式。
 // 预编译命令
 clang -E LLVMOC.m -o LLVMOC.mi
 
+// 将m文件转换成cpp文件
+clang -rewrite-objc LLVMOC.m -o LLVMOC.cpp
+
 // 生成AST语法树
 clang -Xclang -ast-dump -fsyntax-only LLVMOC.m
 

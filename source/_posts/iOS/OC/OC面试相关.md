@@ -38,24 +38,25 @@ date: 2021-02-02 20:25:06
 
 ### @property 属性修饰符
 
+**内存管理**
+
+- retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用
+
+- strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用
+- copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于 (NSArray,NSDictionary,NSString)，释放旧对象
+- assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针；
+- weak 表示只是指向对象，不隐式发送 retain, 指向对象一旦被销毁就会自动 nil 化
+- `__unsafe_unretained` 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针
+
+> 当修饰可变类型的属性时，如 NSMutableArray、NSMutableDictionary、NSMutableString，用 strong。
+> 当修饰不可变类型的属性时，如 NSArray、NSDictionary、NSString，用 copy。
+
 **setter、getter**
 
 ```objective-c
 @property (nonatomic, readonly, getter=isFinalized) BOOL finalized;
 @property (nonatomic, setter=setFinalized, getter=isFinalized) BOOL finalized;
 ```
-
-**内存管理**
-
-- retain 属性必须是 objc 对象，此时输入会增加对象的引用计数加 1，MRC 模式下使用
-- strong 表示只要该属性一直指向某个对象，这个对象就不会被销毁，与 retain 效果一样，在 ARC 模式下使用
-- copy 属性必须是 objc 对象，并遵守了 NSCopying 协议；在赋值时使用传入一份拷贝，拷贝工作由 copy 方法执行，将指向新的内存地址，常常用于 (NSArray,NSDictionary,NSString)，释放旧对象
-- assign 简单直接赋值，不更改索引计数，适用简单数据类型（如 NSInteger,double,bool）。也可以修改对象，但是对象释放后，指针地址还存在没有置为 nil，造成野指针
-- weak 表示只是指向对象，不隐式发送 retain, 指向对象一旦被销毁就会自动 nil 化
-- \_\_unsafe_unretained 功能几乎等同于 weak, 但是对象被销毁不会自动 nil 化， 成了野指针
-
-> 当修饰可变类型的属性时，如 NSMutableArray、NSMutableDictionary、NSMutableString，用 strong。
-> 当修饰不可变类型的属性时，如 NSArray、NSDictionary、NSString，用 copy。
 
 **读写权限**
 
@@ -290,19 +291,20 @@ __block 作用：1、解决 block 内部想修改外部 auto 变量的问题；2
 __weak __typeof(self) weakSelf  = self;
 self.block = ^{
     __strong __typeof(self) strongSelf = weakSelf;
-    if (strongSelf == nil) return; 
-    
+    if (strongSelf == nil) return;
+
     [strongSelf doSomeThing];
 };
 ```
-- 为什么使用weakSelf？
-外面的weak作用是使self变为弱引用，使block不会强引用self；
-- 为什么在block里面需要使用strongSelf？
-  是为了保证block执行完毕之前self不会被释放，执行完毕的时候再释放。需要注意strongSelf只是为了保证在block内部执行的时候不会释放，但存在执行前self就已经被释放的情况，导致strongSelf=nil。注意判空处理。
-- strongSelf不会不会引起循环引用的原因？
-  strongSelf实质是一个局部变量（在block这个'函数'里面的局部变量），当block执行完毕就会释放自动变量strongSelf，不会对self进行一直进行强引用
 
-刚才这部分有个专门的名字是`Weak/Strong Dance`，实际上Swift里面也有类似的东西。
+- 为什么使用 weakSelf？
+外面的 weak 作用是使 self 变为弱引用，使 block 不会强引用 self；
+- 为什么在 block 里面需要使用 strongSelf？
+  是为了保证 block 执行完毕之前 self 不会被释放，执行完毕的时候再释放。需要注意 strongSelf 只是为了保证在 block 内部执行的时候不会释放，但存在执行前 self 就已经被释放的情况，导致 strongSelf=nil。注意判空处理。
+- strongSelf 不会不会引起循环引用的原因？
+  strongSelf 实质是一个局部变量（在 block 这个'函数'里面的局部变量），当 block 执行完毕就会释放自动变量 strongSelf，不会对 self 进行一直进行强引用
+
+刚才这部分有个专门的名字是`Weak/Strong Dance`，实际上 Swift 里面也有类似的东西。
 - `__weak __typeof(self) weakSelf  = self;` -> `[weak self]`
 - `__strong __typeof(self) strongSelf = weakSelf;` -> `guard let self = self else { return }`
 
