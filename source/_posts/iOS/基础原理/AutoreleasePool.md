@@ -383,6 +383,12 @@ int main(int argc, char * argv[]) {
 }
 ```
 
+## Swift 中的`AutoreleasePool`
+
+如果是 Swift 纯对象，不考虑任何 OC 的因素在内，Swift 中其实是不存在`autorelease`这种内存释放方式的。
+
+但是如果用一些 OC 对象，还是会存在需要调用`autorelease`方法。
+
 ## 最后
 
 大致把`AutoreleasePool`涉及的点简单摸了一遍，希望小伙伴能对其有一个更全面的认识。
@@ -397,3 +403,4 @@ Let's be CoderStar!
 - [autoreleasepool 探究](https://github.com/Yuan91/autoreleasepool)
 - [Transitioning to ARC Release Notes](https://developer.apple.com/library/archive/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226)
 - [iOS - 聊聊 autorelease 和 @autoreleasepool](https://juejin.cn/post/6844904094503567368)
+- [autoreleasepool uses in Swift](https://swiftrocks.com/autoreleasepool-in-swift)

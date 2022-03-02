@@ -77,7 +77,7 @@ date: 2021-02-02 20:25:06
 - null_resettable get 不能返回空, set 可以为空，如果使用，必须重写 set 或者 get 方法，处理传递值为空的情况
 - \_Null_unspecified 不确定是否为空
 
-```
+```objective-c
 // nonnull
 @property (nonatomic, copy, nonnull) NSString *name;
 @property (nonatomic, copy) NSString * _Nonnull name;
@@ -326,3 +326,53 @@ isa 指针是一个联合体，
 - 所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。
 
 引用计数会存储在 isa 指针上，当引用计数超过 255 时，引用计数会存储在 SideTable 的属性中。
+
+## 通知
+
+通知发出线程与接收通知所在线程为同一线程，与添加监听所在线程无关，默认情况下通知为同步的，但可借助通知队列`NotificationQueue`调整方式。
+
+## 回调方式
+
+- block
+- delegate
+- 通知
+- target-action
+
+## 线程间通信方式
+
+### Thread
+
+`open func performSelector(onMainThread aSelector: Selector, with arg: Any?, waitUntilDone wait: Bool)`
+
+### GCD：
+
+`DispatchQueue.main.async { }`
+
+### Operation
+
+`OperationQueue.main.addOperation { }`
+
+### NSMachPort
+
+NSPort 有 3 个子类，NSSocketPort、NSMessagePort、NSMachPort，但在 iOS 下只有 NSMachPort 可用。
+
+```swift
+class XXX {
+  
+  let port = NSMachPort()
+  
+  port.setDelegate(self)
+  RunLoop.main.add(port, forMode: .common)
+
+  /// 发送
+  port.send(before: Date(), msgid: 100, components: nil, from: nil, reserved: 0)
+}
+
+/// 接收
+extension XXX: NSMachPortDelegate {
+    func handleMachMessage(_ msg: UnsafeMutableRawPointer) {
+        print(Thread.current)
+        print(msg)
+    }
+}
+```
