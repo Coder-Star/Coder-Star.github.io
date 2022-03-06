@@ -77,7 +77,7 @@ Hi Coder，我是 CoderStar！
 
 **栈上的引用类型**
 
-堆栈上的分配和释放成本远低于堆上的分配和释放，因此有时编译器可能会提升引用类型也存储在堆栈上，这个过程实际发生在 SIL 优化阶段，官方术语叫做`Memory promotion`。关于这一说法，我们可以在[Guaranteed Optimization and Diagnostic Passes](https://github.com/apple/swift/blob/main/docs/SIL.rst#guaranteed-optimization-and-diagnostic-passes)找到支撑。
+栈上的分配和释放成本远低于堆上的分配和释放，因此有时编译器可能会提升引用类型也存储在堆栈上，这个过程实际发生在 SIL 优化阶段，官方术语叫做`Memory promotion`。关于这一说法，我们可以在[Guaranteed Optimization and Diagnostic Passes](https://github.com/apple/swift/blob/main/docs/SIL.rst#guaranteed-optimization-and-diagnostic-passes)找到支撑。
 
 > Memory promotion is implemented as two optimization phases, the first of which performs capture analysis to promote alloc_box instructions to alloc_stack, and the second of which promotes non-address-exposed alloc_stack instructions to SSA registers.
 

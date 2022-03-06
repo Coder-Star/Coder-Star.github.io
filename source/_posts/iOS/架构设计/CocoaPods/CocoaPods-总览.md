@@ -1,5 +1,5 @@
 ---
-title: CocoaPods-总览
+title: CocoaPods- 总览
 category:
   - iOS
   - CocoaPods
@@ -10,13 +10,14 @@ date: 2021-03-22 08:47:15
 ---
 
 **CocoaPods 系列博客**
-[CocoaPods-总览](../CocoaPods-总览)
-[CocoaPods-项目使用](../CocoaPods-项目使用)
-[CocoaPods-封装自己的 Pod 库](../CocoaPods-封装自己的Pod库)
+
+* [CocoaPods-总览](../CocoaPods-总览)
+* [CocoaPods-项目使用](../CocoaPods-项目使用)
+* [CocoaPods-封装自己的 Pod 库](../CocoaPods-封装自己的Pod库)
 
 ## 基本概念
 
-CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(cocoapods-repo-svn).我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库.这样委托 pod 来管理.
+CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具, 帮助管理和集成, 自动更新网络上的第三方类库. 方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件 (cocoapods-repo-svn). 我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库. 这样委托 pod 来管理.
 
 远程索引库，本地索引库，远程代码库、本地代码库相关概念如下：
 ![CocoaPods概念图](../../../../img/iOS/架构设计/CocoaPods/CocoaPods概念图.png)
@@ -58,7 +59,7 @@ Cocoapods 1.7.2 就可以使用 CDN 的方式下载索引库，需要在 Podfile
 
 两个 sh 文件实际上就是将封装通用架构动态库文件和将动态库复制到 bundle 指定目录下。
 
-如果是静态库方式引入，Pods 项目最终会编译成为一个名为 libPods-项目名称.a 的文件，主项目只要依赖这个.a 文件即可；
+如果是静态库方式引入，Pods 项目最终会编译成为一个名为 libPods- 项目名称.a 的文件，主项目只要依赖这个.a 文件即可；
 
 如果是以动态库形式引入三方库，项目会依赖一个名为 Pods\_项目名称.framework 的文件，该文件是一个静态库，只是起到一个集合的作用，实际的二进制代码还是放置在各个动态库之中。
 
@@ -66,7 +67,7 @@ Cocoapods 1.7.2 就可以使用 CDN 的方式下载索引库，需要在 Podfile
 
 CocoaPods 是用 ruby 语言写的，可以使用 ruby 语言的包管理器 gem 进行安装，如果没有 gem 环境，还需先安装 gem 环境。
 
-```
+```shell
 sudo gem install cocoapods
 ```
 
@@ -108,7 +109,7 @@ pod deintegrate
 
 pod 命令选项
 
-```
+```shell
 // 跳过更新podspec索引
 --no-repo-update
 
@@ -119,15 +120,12 @@ pod 命令选项
 --allow-warnings
 ```
 
-
 ## 工具链
 
 ruby：`brew install rbenv`
-rvm/rbenv：使用这个安装指定ruby版本。`rbenv install 2.7.0`
-gem：ruby环境下的包
-Bundler：gem包管理器，`bundle init`生成一个`Gemfile`文件，描述gem及其版本，`Cocoapods`就是其下一个普通的gem。写完之后使用`bundle install`
+rvm/rbenv：使用这个安装指定 ruby 版本。`rbenv install 2.7.0`
+gem：ruby 环境下的包
+Bundler：gem 包管理器，`bundle init`生成一个`Gemfile`文件，描述 gem 及其版本，`Cocoapods`就是其下一个普通的 gem。写完之后使用`bundle install`
 Cocoapods：不再使用`pod install`，而是使用`bundle exec pod install`
-
-
 
 推荐阅读冬瓜写的[Cocoapods历险记](https://mp.weixin.qq.com/mp/appmsgalbum?action=getalbum&album_id=1477103239887142918&__biz=MzA5MTM1NTc2Ng==#wechat_redirect)

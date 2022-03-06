@@ -23,12 +23,11 @@ Hi Coder，我是 CoderStar！
 
 > 真机环境下，该目录路径为`/private/var/mobile/Containers`，如果在模拟器中，该目录路径便实际为 Mac 下的文件路径，举某一个模拟器下的路径为例：`/Users/coderstar/Library/Developer/CoreSimulator/Devices/1328FF08-D6CB-4EFE-B936-5E1CB5D03D75/data/Containers`。
 
-- Bundle：
-  - Application
-    - app 的 md5 标识为名的文件夹
-      - MyApp.app
-      - BundleMetadata.plist
-- Data
+- /Application
+  - app 的 md5 标识为名的文件夹
+    - MyApp.app
+    - BundleMetadata.plist
+- /private/var/mobile/Containers/Data
   - Application
     - app 的 md5 标识为名的文件夹
       - Documents

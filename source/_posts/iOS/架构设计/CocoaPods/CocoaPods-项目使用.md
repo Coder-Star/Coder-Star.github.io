@@ -1,5 +1,5 @@
 ---
-title: CocoaPods-项目使用
+title: CocoaPods- 项目使用
 category:
   - iOS
   - CocoaPods
@@ -19,7 +19,7 @@ date: 2021-03-22 10:58:25
 
 **Podfile.lock 文件：** 该文件会记录三方库第一次 install 时的版本，当其他协作者同步了你的 Podfile.lock 文件后，他执行 pod install 会安装 Podfile.lock 指定版本的依赖库，这样就可以防止大家的依赖库不一致而造成问题，因此，CocoaPods 官方强烈推荐把 Podfile.lock 纳入版本控制之下。当修改了 Podfile 文件里使用的依赖库或者运行 pod update 命令时，就会生成新的 Podfile.lock 文件。
 
-**Manifest.lock 文件：** 该文件相当于 Podfile.lock 文件的副本，程序在 Build 的时候会执行 Build Phases 中的[CP] Check Pods Manifest.lock 脚本检查一下 Podfile.lock 和 Manifest.lock 是否一致,如果不一致就会报错。
+**Manifest.lock 文件：** 该文件相当于 Podfile.lock 文件的副本，程序在 Build 的时候会执行 Build Phases 中的 [CP] Check Pods Manifest.lock 脚本检查一下 Podfile.lock 和 Manifest.lock 是否一致, 如果不一致就会报错。
 
 **有了 Podfile.lock 那为啥还要有 Manifest.lock 的原因**：Pods 目录并不总是被放到版本控制之下，有了这个检查机制就能保证开发团队的各个小伙伴能在运行项目前更新他们的依赖库，并保持这些依赖库的版本一致，从而防止在依赖库的版本不统一造成程序在一些不明显的地方编译失败或运行崩溃。
 
@@ -30,7 +30,7 @@ date: 2021-03-22 10:58:25
 
 **小 Tips：**
 
-- Podfile 中依赖的第三方库使用精确版本号，不使用任何’~> 1.0', ‘>= 1.0'之类的版本号语法，只使用精确版本号，如'1.0.0'；这种做法可以保证不同的协作者依赖的三方库版本一致；
+- Podfile 中依赖的第三方库使用精确版本号，不使用任何'~> 1.0', '>= 1.0'之类的版本号语法，只使用精确版本号，如'1.0.0'；这种做法可以保证不同的协作者依赖的三方库版本一致；
 
 ## Podfile 文件样式
 
@@ -39,16 +39,21 @@ date: 2021-03-22 10:58:25
 ```Ruby
 def rn_dependency
   pod "Yoga", :path => "node_modules/react-native/ReactCommon/yoga"
-end 
+end
 
 target 'BaseIOSProject' do
+  
   source 'https://github.com/Coder-Star/LTXSpecs.git' #自己的私有库，在前面
   source 'https://github.com/CocoaPods/Specs.git' #公有库
+  
   #source 'https://cdn.cocoapods.org/' # cocoapods 1.7.2 加入了cdn，用于替换https://github.com/CocoaPods/Specs.git共有源
 
   platform :ios, '10.0'
 
-  install! 'cocoapods', :clean  #全局
+  #全局
+  install! 'cocoapods', :clean, :disable_input_output_paths => true
+
+  # disable_input_output_paths设置完在 copy pods resource 脚本上不会再有input file以及outfile，这种可以保证每次编译都重新编译，不会存在代码不生效的情况，但是会出现编译速度变的很慢的现象，所以最好不要打开，此还能解决的case是，子pod里面含有assets，而且是以resource的方式引入的。
 
   # 动态库形式
   use_frameworks!
@@ -139,5 +144,5 @@ pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :commit =
 
 pod 'Alamofire', :podspec => 'https://github.com/Alamofire/Alamofire/blob/master/Alamofire.podspec'
 
-pod 'Alamofire',:path => '../' # 本地库，寻找对应的Alamofire.podspec文件
+pod 'Alamofire',:path => '../' # 本地库，寻找对应的 Alamofire.podspec文件
 ```

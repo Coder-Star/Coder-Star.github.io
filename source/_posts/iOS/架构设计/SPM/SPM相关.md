@@ -26,6 +26,24 @@ Hi Coder，我是 CoderStar！
 `xcodebuild -resolvePackageDependencies -scmProvider system`
 > 执行过程中可能会出现找不到对应版本的情况，这时候可以先用 Xcode 打开项目，再执行这些命令。
 
+## 创建
+
+我们可以先创建一个文件夹，然后进入文件夹后，执行`swift package init`命令，这时，
+
+## 格式
+
+我们需要使用一个`Package.swift`这个文件去描述一个 Swift Package。
+
+```swift
+
+
+
+```
+
+## 其他
+
+目前一个 package 可以支持 OC、Swift
+
 ## 最后
 
 要更加努力呀！
