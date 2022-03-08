@@ -24,18 +24,19 @@
 <meta name="keywords" content="SPM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SPM 相关">
-<meta property="og:url" content="https://coder-star.github.io/iOS/Swift/SPM/SPM相关/index.html">
+<meta property="og:url" content="https://coder-star.github.io/iOS/架构设计/SPM/SPM相关/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ SPM 太卡顿首先你得有一个翻墙工具，我用的是V2RayX，端口为8001。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/Swift/SPM/V2RayX端口.png">
-<meta property="og:updated_time" content="2022-01-16T10:14:25.150Z">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/架构设计/SPM/V2RayX端口.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/架构设计/SPM/SPMPackageTree.png">
+<meta property="og:updated_time" content="2022-03-06T09:18:22.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SPM 相关">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ SPM 太卡顿首先你得有一个翻墙工具，我用的是V2RayX，端口为8001。">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Swift/SPM/V2RayX端口.png">
+<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/架构设计/SPM/V2RayX端口.png">
 
-<link rel="canonical" href="https://coder-star.github.io/iOS/Swift/SPM/SPM相关/">
+<link rel="canonical" href="https://coder-star.github.io/iOS/架构设计/SPM/SPM相关/">
 
 
 <script id="page-configurations">
@@ -199,7 +200,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/Swift/SPM/SPM相关/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/架构设计/SPM/SPM相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -221,10 +222,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-16 17:50:55 / 修改时间：18:14:25" itemprop="dateCreated datePublished" datetime="2022-01-16T17:50:55+08:00">2022-01-16</time>
+              <time title="创建时间：2022-01-16 17:50:55" itemprop="dateCreated datePublished" datetime="2022-01-16T17:50:55+08:00">2022-01-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-06 17:18:22" itemprop="dateModified" datetime="2022-03-06T17:18:22+08:00">2022-03-06</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -252,14 +259,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>347</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -273,13 +280,20 @@
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
 <h2 id="SPM-太卡顿"><a href="#SPM-太卡顿" class="headerlink" title="SPM 太卡顿"></a>SPM 太卡顿</h2><p>首先你得有一个翻墙工具，我用的是<code>V2RayX</code>，端口为<code>8001</code>。</p>
-<p><img src="../../../../img/iOS/Swift/SPM/V2RayX端口.png" alt="V2RayX端口"></p>
+<p><img src="../../../../img/iOS/架构设计/SPM/V2RayX端口.png" alt="V2RayX端口"></p>
 <p>我们使用下列命令将终端代理指向翻墙工具。</p>
 <p><code>export https_proxy=http://127.0.0.1:8001 http_proxy=http://127.0.0.1:8001  all_proxy=socks5://127.0.0.1:8001</code></p>
 <p>然后使用下列命令使 SPM 下载时走终端的 git，这时就会开始 reslove。<br><code>xcodebuild -resolvePackageDependencies -scmProvider system</code></p>
 <blockquote>
 <p>执行过程中可能会出现找不到对应版本的情况，这时候可以先用 Xcode 打开项目，再执行这些命令。</p>
 </blockquote>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>我们可以先创建一个文件夹，然后进入文件夹后，执行<code>swift package init</code>命令，这时就会创建相应的 package，相关的名称也会自动以<strong>目录名</strong>为准。</p>
+<p>目录结构如下:<br><img src="../../../../img/iOS/架构设计/SPM/SPMPackageTree.png" alt="SPMPackageTree"></p>
+<p>接下来我们打开<code>Package.swift</code>，其会打开整个package，包含其他的文件，而不只是打开这个单文件</p>
+<h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><p>我们需要使用一个<code>Package.swift</code>这个文件去描述一个 Swift Package。</p>
+<p>每次修改之后，保存一下，Xcode就会自动去检查相关错误。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// swift-tools-version:5.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面这个描述并不是简单的注释，而是在编译过程中起到声明的作用，比较重要</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// 导入描述库，在描述过程中相关会有代码提示</span></span><br><span class="line"><span class="comment">/// 所以看这个源码也能最大程度了解相关的规则</span></span><br><span class="line"><span class="keyword">import</span> PackageDescription</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> package = <span class="type">Package</span>(</span><br><span class="line">    name: <span class="string">"SPMTest"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 支持的平台</span></span><br><span class="line">    platforms: [</span><br><span class="line">        .macOS(.v10_12),</span><br><span class="line">        .iOS(.v10),</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 供外界使用的包装</span></span><br><span class="line">    products: [</span><br><span class="line">        .library(</span><br><span class="line">            name: <span class="string">"SPMTest"</span>,</span><br><span class="line">            <span class="comment">/// type包含 static（默认）、dynamic、executable（编译测试用二进制和 macOS 命令行工具）</span></span><br><span class="line">            type: .<span class="keyword">static</span>,</span><br><span class="line">            targets: [</span><br><span class="line">                <span class="string">"SPMTestSubOne"</span>,</span><br><span class="line">                <span class="string">"SPMTestSubTwo"</span></span><br><span class="line">            ]</span><br><span class="line">        ),</span><br><span class="line">        .library(</span><br><span class="line">            name: <span class="string">"SPMTestSubOne"</span>,</span><br><span class="line">            targets: [<span class="string">"SPMTestSubOne"</span>]</span><br><span class="line">        ),</span><br><span class="line">        .library(</span><br><span class="line">            name: <span class="string">"SPMTestSubTwo"</span>,</span><br><span class="line">            targets: [<span class="string">"SPMTestSubTwo"</span>]</span><br><span class="line">        ),</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 依赖库</span></span><br><span class="line">    dependencies: [</span><br><span class="line">        <span class="comment">/// 远程，这里还有很多方式去设置依赖，可以根据提示自己研究</span></span><br><span class="line">        .package(name: <span class="string">"Alamofire"</span>, url: <span class="string">"https://github.com/Alamofire/Alamofire.git"</span>, .exact(<span class="string">"5.4.3"</span>)),</span><br><span class="line">        <span class="comment">/// 本地</span></span><br><span class="line">        .package(name: <span class="string">"SPMTestLocal"</span>, path: <span class="string">"../SPMTestLocal"</span>),</span><br><span class="line"></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// 原料库</span></span><br><span class="line">    targets: [</span><br><span class="line">        <span class="comment">/// Target总参数包括 name、dependencies、path、exclude、sources、publicHeadersPath</span></span><br><span class="line">        <span class="comment">/// publicHeadersPath一般不需要自定义，默认是在 include文件夹下</span></span><br><span class="line">        .target(</span><br><span class="line">            name: <span class="string">"SPMTestSubOne"</span>,</span><br><span class="line">            dependencies: [</span><br><span class="line">                <span class="string">"Alamofire"</span>,</span><br><span class="line">                <span class="string">"SPMTestLocal"</span></span><br><span class="line">            ],</span><br><span class="line">            path: <span class="string">"Sources/SPMTest/SubOne"</span></span><br><span class="line">        ),</span><br><span class="line">        .target(</span><br><span class="line">            name: <span class="string">"SPMTestSubTwo"</span>,</span><br><span class="line">            path: <span class="string">"Sources/SPMTest/SubTwo"</span>,</span><br><span class="line">            <span class="comment">/// 资源有两种形式，copy、process</span></span><br><span class="line">            <span class="comment">/// copy：直接拷贝，保存目录结构,可直接copy文件夹</span></span><br><span class="line">            <span class="comment">/// process：推荐方式，它所配置的文件会根据具体使用的平台和内置规则进行适当的优化；Swift Package 会为每一个 Package 生成一个 module 扩展，以便直接调用，使用该形式会在 Bundle 类内生成 .module 属性专门用于获取 Particles 文件夹内的资源。</span></span><br><span class="line">            resources: [.copy(<span class="string">"CopyResources"</span>), .process(<span class="string">"ProcessResources"</span>)]</span><br><span class="line">        ),</span><br><span class="line"></span><br><span class="line">        .testTarget(</span><br><span class="line">            name: <span class="string">"SPMTestTests"</span>,</span><br><span class="line">            dependencies: [<span class="string">"SPMTestSubOne"</span>]</span><br><span class="line">        ),</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>目前一个 package 可以支持 OC、Swift</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 
@@ -416,7 +430,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPM-太卡顿"><span class="nav-number">2.</span> <span class="nav-text">SPM 太卡顿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPM-太卡顿"><span class="nav-number">2.</span> <span class="nav-text">SPM 太卡顿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建"><span class="nav-number">3.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式"><span class="nav-number">4.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -497,12 +511,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">375k</span>
+    <span title="站点总字数">379k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:41</span>
+    <span title="站点阅读时长">5:45</span>
 </div>
 
         
@@ -606,7 +620,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'BlogTalk',
       owner       : 'Coder-Star',
       admin       : ['Coder-Star'],
-      id          : '0c8cfa41d6f0808920ff185b84ce6e94',
+      id          : '21e8ac52c8b6cb7b5822cc47aecd2d01',
         language: 'zh-CN',
       distractionFreeMode: true
     });

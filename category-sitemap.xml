@@ -9,6 +9,62 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/categories/iOS/Hybrid/</loc>
+        <lastmod>2022-03-08T09:56:18.988Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/</loc>
+        <lastmod>2022-03-08T09:56:18.988Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/OC/</loc>
+        <lastmod>2022-03-06T09:59:17.583Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/Swift/SPM/</loc>
+        <lastmod>2022-03-06T09:18:22.948Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/Swift/</loc>
+        <lastmod>2022-03-06T09:18:22.948Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/CocoaPods/</loc>
+        <lastmod>2022-03-06T06:14:56.346Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/Swift/</loc>
+        <lastmod>2022-03-06T06:08:14.222Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
+        <lastmod>2022-03-02T15:01:44.996Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/categories/iOS/%E8%BF%9B%E9%98%B6/</loc>
         <lastmod>2022-03-01T15:07:13.085Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -16,50 +72,8 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/categories/iOS/</loc>
-        <lastmod>2022-03-01T15:07:13.085Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/OC/</loc>
-        <lastmod>2022-03-01T14:27:04.821Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/categories/%E9%80%86%E5%90%91/</loc>
         <lastmod>2022-02-26T13:27:33.896Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/CocoaPods/</loc>
-        <lastmod>2022-02-24T13:06:41.639Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/</loc>
-        <lastmod>2022-02-21T03:05:41.749Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/Swift/</loc>
-        <lastmod>2022-02-20T07:20:28.524Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/Swift/</loc>
-        <lastmod>2022-02-20T07:17:49.468Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -123,13 +137,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E6%9D%82%E9%A1%B9/</loc>
         <lastmod>2022-01-17T12:16:09.340Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/Swift/SPM/</loc>
-        <lastmod>2022-01-16T10:14:25.150Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -228,13 +235,6 @@
     <url>
         <loc>https://coder-star.github.io/categories/%E5%89%8D%E7%AB%AF/JS/</loc>
         <lastmod>2021-07-30T12:00:44.968Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/categories/iOS/Hybrid/</loc>
-        <lastmod>2021-07-30T11:59:16.752Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

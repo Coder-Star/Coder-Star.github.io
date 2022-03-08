@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="CocoaPods 系列博客CocoaPods-总览CocoaPods-项目使用CocoaPods-封装自己的 Pod 库 基本概念CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(">
+  <meta name="description" content="CocoaPods 系列博客  CocoaPods-总览 CocoaPods-项目使用 CocoaPods-封装自己的 Pod 库  基本概念CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具, 帮助管理和集成, 自动更新网络上的第三方类库. 方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需">
 <meta name="keywords" content="iOS,CocoaPods">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CocoaPods-总览">
+<meta property="og:title" content="CocoaPods- 总览">
 <meta property="og:url" content="https://coder-star.github.io/iOS/架构设计/CocoaPods/CocoaPods-总览/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="CocoaPods 系列博客CocoaPods-总览CocoaPods-项目使用CocoaPods-封装自己的 Pod 库 基本概念CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(">
+<meta property="og:description" content="CocoaPods 系列博客  CocoaPods-总览 CocoaPods-项目使用 CocoaPods-封装自己的 Pod 库  基本概念CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具, 帮助管理和集成, 自动更新网络上的第三方类库. 方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/架构设计/CocoaPods/CocoaPods概念图.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/架构设计/CocoaPods/缓存存储目录.png">
-<meta property="og:updated_time" content="2021-10-24T13:29:34.986Z">
+<meta property="og:updated_time" content="2022-03-06T06:09:52.981Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CocoaPods-总览">
-<meta name="twitter:description" content="CocoaPods 系列博客CocoaPods-总览CocoaPods-项目使用CocoaPods-封装自己的 Pod 库 基本概念CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(">
+<meta name="twitter:title" content="CocoaPods- 总览">
+<meta name="twitter:description" content="CocoaPods 系列博客  CocoaPods-总览 CocoaPods-项目使用 CocoaPods-封装自己的 Pod 库  基本概念CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具, 帮助管理和集成, 自动更新网络上的第三方类库. 方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/架构设计/CocoaPods/CocoaPods概念图.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/架构设计/CocoaPods/CocoaPods-总览/">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>CocoaPods-总览 | CoderStar's Blog</title>
+  <title>CocoaPods- 总览 | CoderStar's Blog</title>
   
 
 
@@ -213,7 +213,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CocoaPods-总览
+          CocoaPods- 总览
         </h1>
 
         <div class="post-meta">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-24 21:29:34" itemprop="dateModified" datetime="2021-10-24T21:29:34+08:00">2021-10-24</time>
+                <time title="修改时间：2022-03-06 14:09:52" itemprop="dateModified" datetime="2022-03-06T14:09:52+08:00">2022-03-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,8 +278,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>CocoaPods 系列博客</strong><br><a href="../CocoaPods-总览">CocoaPods-总览</a><br><a href="../CocoaPods-项目使用">CocoaPods-项目使用</a><br><a href="../CocoaPods-封装自己的Pod库">CocoaPods-封装自己的 Pod 库</a></p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具,帮助管理和集成,自动更新网络上的第三方类库.方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件(cocoapods-repo-svn).我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库.这样委托 pod 来管理.</p>
+        <p><strong>CocoaPods 系列博客</strong></p>
+<ul>
+<li><a href="../CocoaPods-总览">CocoaPods-总览</a></li>
+<li><a href="../CocoaPods-项目使用">CocoaPods-项目使用</a></li>
+<li><a href="../CocoaPods-封装自己的Pod库">CocoaPods-封装自己的 Pod 库</a></li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>CocoaPods 是一个 ruby 工具，Mac 下优秀的第三方包管理工具, 帮助管理和集成, 自动更新网络上的第三方类库. 方便了配置。CocoaPods 默认只能管理基于 git 管理的代码，如果要使用 svn 或者 mercurial 管理代码，则需要安装一些插件 (cocoapods-repo-svn). 我们通过 git 上的插件把私有代码通过 svn 下载到本地的私有仓库. 这样委托 pod 来管理.</p>
 <p>远程索引库，本地索引库，远程代码库、本地代码库相关概念如下：<br><img src="../../../../img/iOS/架构设计/CocoaPods/CocoaPods概念图.png" alt="CocoaPods概念图"></p>
 <p>远程索引库地址为<code>https://github.com/CocoaPods/Specs.git</code></p>
 <p>本地索引库存储位置 <code>~/.cocoapods</code>，缓存存储位置：<code>~/Library/Caches/CocoaPods</code></p>
@@ -309,10 +314,10 @@
 <li>Build Phases -&gt; Copy Pods Resources 添加 “${SRCROOT}/Pods/Target Support Files/Pods-test/Pods-test-resources.sh” // 如果三方库中没有资源文件，则不会生成该文件</li>
 </ul>
 <p>两个 sh 文件实际上就是将封装通用架构动态库文件和将动态库复制到 bundle 指定目录下。</p>
-<p>如果是静态库方式引入，Pods 项目最终会编译成为一个名为 libPods-项目名称.a 的文件，主项目只要依赖这个.a 文件即可；</p>
+<p>如果是静态库方式引入，Pods 项目最终会编译成为一个名为 libPods- 项目名称.a 的文件，主项目只要依赖这个.a 文件即可；</p>
 <p>如果是以动态库形式引入三方库，项目会依赖一个名为 Pods_项目名称.framework 的文件，该文件是一个静态库，只是起到一个集合的作用，实际的二进制代码还是放置在各个动态库之中。</p>
 <h2 id="安装及使用"><a href="#安装及使用" class="headerlink" title="安装及使用"></a>安装及使用</h2><p>CocoaPods 是用 ruby 语言写的，可以使用 ruby 语言的包管理器 gem 进行安装，如果没有 gem 环境，还需先安装 gem 环境。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gem install cocoapods</span><br></pre></td></tr></table></figure>
 <ol>
 <li>进入到项目根目录，执行<code>pod init</code>命令，该命令会生成 Podfile 文件，开发者就可以编辑该文件内容了</li>
 <li>编辑 Podfile 文件后执行<code>pod install</code>命令，命令执行完成后，会生成 ProjectName.xcworkspace、Podfile.lock、Pods 等文件。</li>
@@ -320,8 +325,8 @@
 </ol>
 <h2 id="pod-命令集锦"><a href="#pod-命令集锦" class="headerlink" title="pod 命令集锦"></a>pod 命令集锦</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 查看本地索引库列表</span><br><span class="line">pod repo</span><br><span class="line"></span><br><span class="line">// 搜索pod库</span><br><span class="line">pod search XXX</span><br><span class="line"></span><br><span class="line">// 查询Podfile依赖的三方库是否有更新</span><br><span class="line">pod outdated</span><br><span class="line"></span><br><span class="line">// 安装跳过更新podspec索引，如果指定版本了，会安装指定版本，如果没有指定版本，则不会更新；pod install --verbose --no-repo-update 查看详细更新信息</span><br><span class="line">pod install --no-repo-update</span><br><span class="line"></span><br><span class="line">// 更新跳过更新podspec索引，不指定版本，会将版本更新到最新版； pod update --verbose --no-repo-update 查看更新过程中的详细信息</span><br><span class="line">pod update --no-repo-update</span><br><span class="line"></span><br><span class="line">// 生成本地spec仓库，本质就是将远程索引库下载到本地，该过程很慢，所以耐心等待</span><br><span class="line">pod setup</span><br><span class="line"></span><br><span class="line">// 如果你的pod是多人维护的，可以使用该命令添加协作者</span><br><span class="line">pod trunk add-owner 名称</span><br><span class="line"></span><br><span class="line">// 清理pod缓存，实际会清除Pods文件夹</span><br><span class="line">pod cache clean --all #清理</span><br><span class="line"></span><br><span class="line">// 移除项目的pod依赖，不再使用pod管理</span><br><span class="line">pod deintegrate</span><br></pre></td></tr></table></figure>
 <p>pod 命令选项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 跳过更新podspec索引</span><br><span class="line">--no-repo-update</span><br><span class="line"></span><br><span class="line">// pod命令执行过程中详细信息</span><br><span class="line">--verbose</span><br><span class="line"></span><br><span class="line">// 忽略pod命令执行过程中提示的警告信息</span><br><span class="line">--allow-warnings</span><br></pre></td></tr></table></figure>
-<h2 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h2><p>ruby：<code>brew install rbenv</code><br>rvm/rbenv：使用这个安装指定ruby版本。<code>rbenv install 2.7.0</code><br>gem：ruby环境下的包<br>Bundler：gem包管理器，<code>bundle init</code>生成一个<code>Gemfile</code>文件，描述gem及其版本，<code>Cocoapods</code>就是其下一个普通的gem。写完之后使用<code>bundle install</code><br>Cocoapods：不再使用<code>pod install</code>，而是使用<code>bundle exec pod install</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 跳过更新podspec索引</span><br><span class="line">--no-repo-update</span><br><span class="line"></span><br><span class="line">// pod命令执行过程中详细信息</span><br><span class="line">--verbose</span><br><span class="line"></span><br><span class="line">// 忽略pod命令执行过程中提示的警告信息</span><br><span class="line">--allow-warnings</span><br></pre></td></tr></table></figure>
+<h2 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h2><p>ruby：<code>brew install rbenv</code><br>rvm/rbenv：使用这个安装指定 ruby 版本。<code>rbenv install 2.7.0</code><br>gem：ruby 环境下的包<br>Bundler：gem 包管理器，<code>bundle init</code>生成一个<code>Gemfile</code>文件，描述 gem 及其版本，<code>Cocoapods</code>就是其下一个普通的 gem。写完之后使用<code>bundle install</code><br>Cocoapods：不再使用<code>pod install</code>，而是使用<code>bundle exec pod install</code></p>
 <p>推荐阅读冬瓜写的<a href="https://mp.weixin.qq.com/mp/appmsgalbum?action=getalbum&amp;album_id=1477103239887142918&amp;__biz=MzA5MTM1NTc2Ng==#wechat_redirect" target="_blank" rel="noopener">Cocoapods历险记</a></p>
 
     </div>
@@ -539,12 +544,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">375k</span>
+    <span title="站点总字数">379k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:41</span>
+    <span title="站点阅读时长">5:45</span>
 </div>
 
         

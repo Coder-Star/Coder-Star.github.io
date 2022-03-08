@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="原生交互 DSBridge WebViewJavascriptBridge  DSBridge JS调用原生主要是利用拦截prompt输入框传递信息。其中同步调用是实现promt输入框来实现的。具体的原理可以自己去看下源码。 WebViewJavascriptBridge">
+  <meta name="description" content="原生支持JS 调用 Nativeurl 拦截一般情况下都是使用iframe跳转  连续续调用 location.href 会出现消息丢失，因为 WebView 限制了连续跳转，会过滤掉后续的请求； URL 会有长度限制，一旦过长就会出现信息丢失 因此，类似 WebViewJavaScriptBridge 这类库，就结合了注入 API 的形式一起使用；">
 <meta name="keywords" content="iOS,Hybrid">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Native与JS交互">
+<meta property="og:title" content="Native 与 JS 交互">
 <meta property="og:url" content="https://coder-star.github.io/iOS/Hybrid/Native与JS交互/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="原生交互 DSBridge WebViewJavascriptBridge  DSBridge JS调用原生主要是利用拦截prompt输入框传递信息。其中同步调用是实现promt输入框来实现的。具体的原理可以自己去看下源码。 WebViewJavascriptBridge">
+<meta property="og:description" content="原生支持JS 调用 Nativeurl 拦截一般情况下都是使用iframe跳转  连续续调用 location.href 会出现消息丢失，因为 WebView 限制了连续跳转，会过滤掉后续的请求； URL 会有长度限制，一旦过长就会出现信息丢失 因此，类似 WebViewJavaScriptBridge 这类库，就结合了注入 API 的形式一起使用；">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-30T11:59:16.752Z">
+<meta property="og:updated_time" content="2022-03-08T09:56:18.988Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Native与JS交互">
-<meta name="twitter:description" content="原生交互 DSBridge WebViewJavascriptBridge  DSBridge JS调用原生主要是利用拦截prompt输入框传递信息。其中同步调用是实现promt输入框来实现的。具体的原理可以自己去看下源码。 WebViewJavascriptBridge">
+<meta name="twitter:title" content="Native 与 JS 交互">
+<meta name="twitter:description" content="原生支持JS 调用 Nativeurl 拦截一般情况下都是使用iframe跳转  连续续调用 location.href 会出现消息丢失，因为 WebView 限制了连续跳转，会过滤掉后续的请求； URL 会有长度限制，一旦过长就会出现信息丢失 因此，类似 WebViewJavaScriptBridge 这类库，就结合了注入 API 的形式一起使用；">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/Hybrid/Native与JS交互/">
 
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>Native与JS交互 | CoderStar's Blog</title>
+  <title>Native 与 JS 交互 | CoderStar's Blog</title>
   
 
 
@@ -210,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Native与JS交互
+          Native 与 JS 交互
         </h1>
 
         <div class="post-meta">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-30 19:59:16" itemprop="dateModified" datetime="2021-07-30T19:59:16+08:00">2021-07-30</time>
+                <time title="修改时间：2022-03-08 17:56:18" itemprop="dateModified" datetime="2022-03-08T17:56:18+08:00">2022-03-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>531</span>
+              <span>804</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -275,19 +275,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="原生交互"><a href="#原生交互" class="headerlink" title="原生交互"></a>原生交互</h2><ul>
+        <h2 id="原生支持"><a href="#原生支持" class="headerlink" title="原生支持"></a>原生支持</h2><h3 id="JS-调用-Native"><a href="#JS-调用-Native" class="headerlink" title="JS 调用 Native"></a>JS 调用 Native</h3><h4 id="url-拦截"><a href="#url-拦截" class="headerlink" title="url 拦截"></a>url 拦截</h4><p>一般情况下都是使用<code>iframe</code>跳转</p>
+<ul>
+<li>连续续调用 location.href 会出现消息丢失，因为 WebView 限制了连续跳转，会过滤掉后续的请求；</li>
+<li>URL 会有长度限制，一旦过长就会出现信息丢失 因此，类似 WebViewJavaScriptBridge 这类库，就结合了注入 API 的形式一起使用；</li>
+</ul>
+<h4 id="捕获-promt"><a href="#捕获-promt" class="headerlink" title="捕获 promt"></a>捕获 promt</h4><p>UIWebView 不支持，WKWebView 支持，可以支持同步调用</p>
+<h4 id="官方"><a href="#官方" class="headerlink" title="官方"></a>官方</h4><p>UIWebView 可以使用<code>JSContext</code>；<br>WKWebView 因为是多线程，不存在<code>JSContext</code>，使用 MessageHandler 的方式；</p>
+<h2 id="三方库"><a href="#三方库" class="headerlink" title="三方库"></a>三方库</h2><ul>
 <li><a href="https://github.com/wendux/DSBridge-IOS" target="_blank" rel="noopener">DSBridge</a></li>
 <li><a href="https://github.com/marcuswestin/WebViewJavascriptBridge" target="_blank" rel="noopener">WebViewJavascriptBridge</a></li>
 </ul>
 <p><strong>DSBridge</strong></p>
-<p>JS调用原生主要是利用拦截prompt输入框传递信息。其中同步调用是实现promt输入框来实现的。具体的原理可以自己去看下源码。</p>
+<p>JS 调用原生主要是利用拦截 prompt 输入框传递信息。其中同步调用是实现 promt 输入框来实现的。具体的原理可以自己去看下源码。</p>
 <p><strong>WebViewJavascriptBridge</strong></p>
-<p>主要原理是创建一个看不见的iframe，然后原生部分通过拦截url进行解析传递信息。</p>
+<p>主要原理是创建一个看不见的 iframe，然后原生部分通过拦截 url 进行解析传递信息。</p>
 <p><strong>对比</strong></p>
 <ul>
-<li>同步支持：WVJB是不支持同步调用的，这意味着js中的native调用必须是异步的，如果调用过多，又会出现“回调地狱”。而对于一些简单的调用，同步调用会很方便。</li>
-<li>初始化：WVJB需要在js中定义一个函数，来异步获取bridge对象(只有webview初始化成功后，bridge才可以使用)，而dsBridge只需要引入一段初始化js后（dsbridge.js）就可以直接使用 ,而无论webview是否初始化成功，因为在webview在未初始化成功时，dsBridge会将调用入队，等到初始化成功后再调用。</li>
-<li>API管理：WVJB的API管理是碎片化的，每一个API都需要单独注册，如果API较多(如web app)，代码耦合就会较乱。而DSBridge通过将API强制分离到一个类中, 这样一来可以解耦，二来也可以批量管理。</li>
+<li>同步支持：WVJB 是不支持同步调用的，这意味着 js 中的 native 调用必须是异步的，如果调用过多，又会出现’回调地狱’。而对于一些简单的调用，同步调用会很方便。</li>
+<li>初始化：WVJB 需要在 js 中定义一个函数，来异步获取 bridge 对象 (只有 webview 初始化成功后，bridge 才可以使用)，而 dsBridge 只需要引入一段初始化 js 后（dsbridge.js）就可以直接使用 , 而无论 webview 是否初始化成功，因为在 webview 在未初始化成功时，dsBridge 会将调用入队，等到初始化成功后再调用。</li>
+<li>API 管理：WVJB 的 API 管理是碎片化的，每一个 API 都需要单独注册，如果 API 较多 (如 web app)，代码耦合就会较乱。而 DSBridge 通过将 API 强制分离到一个类中, 这样一来可以解耦，二来也可以批量管理。</li>
 </ul>
 
     </div>
@@ -424,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原生交互"><span class="nav-number">1.</span> <span class="nav-text">原生交互</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原生支持"><span class="nav-number">1.</span> <span class="nav-text">原生支持</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-调用-Native"><span class="nav-number">1.1.</span> <span class="nav-text">JS 调用 Native</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#url-拦截"><span class="nav-number">1.1.1.</span> <span class="nav-text">url 拦截</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#捕获-promt"><span class="nav-number">1.1.2.</span> <span class="nav-text">捕获 promt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#官方"><span class="nav-number">1.1.3.</span> <span class="nav-text">官方</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三方库"><span class="nav-number">2.</span> <span class="nav-text">三方库</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -505,12 +512,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">375k</span>
+    <span title="站点总字数">379k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:41</span>
+    <span title="站点阅读时长">5:45</span>
 </div>
 
         

@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/AutoreleasePool/AutoreleasePool结构.png">
-<meta property="og:updated_time" content="2022-02-21T03:05:41.749Z">
+<meta property="og:updated_time" content="2022-03-02T11:32:42.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AutoreleasePool">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 在 MRC 时代，我们可能会经常用到AutoreleasePool来帮助我们管理内存，在 ARC 时代，一些内存管理的操作被编译器替代了，不用再去手动的release以及autorelease等操作了，但是AutoreleasePool仍然在背后默默发挥着作用，并且有些场景下我们还是需要显式用到它，今天我们就来聊一聊AutoreleasePool。">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-21 11:05:41" itemprop="dateModified" datetime="2022-02-21T11:05:41+08:00">2022-02-21</time>
+                <time title="修改时间：2022-03-02 19:32:42" itemprop="dateModified" datetime="2022-03-02T19:32:42+08:00">2022-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>8.7k</span>
+              <span>8.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -367,6 +367,8 @@
 <p><strong>Xcode 11</strong></p>
 <p>在 Xcode 11 后，触发主线程 <code>RunLoop</code> 的 <code>UIApplicationMain</code> 函数放在了 <code>@autoreleasepool</code> 外面，这可以保证 <code>@autoreleasepool</code> 中的 <code>autorelease</code> 对象在程序启动后立即释放。正如新版本的 <code>@autoreleasepool</code> 中的注释所写 “Setup code that might create autoreleased objects goes here.”，这里的<code>autoreleasepool</code>是为了处理进入<code>UIApplicationMain</code>之前可能会产生的<code>autorelease</code>对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    NSString * appDelegateClassName;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        // Setup code that might create autoreleased objects goes here.</span><br><span class="line">        appDelegateClassName = NSStringFromClass([AppDelegate class]);</span><br><span class="line">    &#125;</span><br><span class="line">    return UIApplicationMain(argc, argv, nil, appDelegateClassName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Swift-中的AutoreleasePool"><a href="#Swift-中的AutoreleasePool" class="headerlink" title="Swift 中的AutoreleasePool"></a>Swift 中的<code>AutoreleasePool</code></h2><p>如果是 Swift 纯对象，不考虑任何 OC 的因素在内，Swift 中其实是不存在<code>autorelease</code>这种内存释放方式的。</p>
+<p>但是如果用一些 OC 对象，还是会存在需要调用<code>autorelease</code>方法。</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>大致把<code>AutoreleasePool</code>涉及的点简单摸了一遍，希望小伙伴能对其有一个更全面的认识。</p>
 <p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
@@ -377,6 +379,7 @@
 <li><a href="https://github.com/Yuan91/autoreleasepool" target="_blank" rel="noopener">autoreleasepool 探究</a></li>
 <li><a href="https://developer.apple.com/library/archive/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226" target="_blank" rel="noopener">Transitioning to ARC Release Notes</a></li>
 <li><a href="https://juejin.cn/post/6844904094503567368" target="_blank" rel="noopener">iOS - 聊聊 autorelease 和 @autoreleasepool</a></li>
+<li><a href="https://swiftrocks.com/autoreleasepool-in-swift" target="_blank" rel="noopener">autoreleasepool uses in Swift</a></li>
 </ul>
 
     </div>
@@ -513,7 +516,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用形式"><span class="nav-number">2.</span> <span class="nav-text">使用形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">3.</span> <span class="nav-text">基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoreleasePoolPage结构"><span class="nav-number">3.1.</span> <span class="nav-text">AutoreleasePoolPage结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大致流程"><span class="nav-number">3.2.</span> <span class="nav-text">大致流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码流程分析"><span class="nav-number">3.3.</span> <span class="nav-text">源码流程分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#push-函数"><span class="nav-number">3.3.1.</span> <span class="nav-text">push 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pop-函数"><span class="nav-number">3.3.2.</span> <span class="nav-text">pop 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#autorelease-函数"><span class="nav-number">3.3.3.</span> <span class="nav-text">autorelease 函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行类型"><span class="nav-number">4.</span> <span class="nav-text">执行类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主-Runloop-自动加入"><span class="nav-number">4.1.</span> <span class="nav-text">主 Runloop 自动加入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动添加"><span class="nav-number">4.2.</span> <span class="nav-text">手动添加</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CLI-程序"><span class="nav-number">4.2.1.</span> <span class="nav-text">CLI 程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#遍历中生成大量Autorelease局部变量"><span class="nav-number">4.2.2.</span> <span class="nav-text">遍历中生成大量Autorelease局部变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常驻线程"><span class="nav-number">4.2.3.</span> <span class="nav-text">常驻线程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-m-文件中的-autoreleasepool"><span class="nav-number">5.</span> <span class="nav-text">main.m 文件中的@autoreleasepool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">6.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用形式"><span class="nav-number">2.</span> <span class="nav-text">使用形式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本原理"><span class="nav-number">3.</span> <span class="nav-text">基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoreleasePoolPage结构"><span class="nav-number">3.1.</span> <span class="nav-text">AutoreleasePoolPage结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#大致流程"><span class="nav-number">3.2.</span> <span class="nav-text">大致流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码流程分析"><span class="nav-number">3.3.</span> <span class="nav-text">源码流程分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#push-函数"><span class="nav-number">3.3.1.</span> <span class="nav-text">push 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pop-函数"><span class="nav-number">3.3.2.</span> <span class="nav-text">pop 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#autorelease-函数"><span class="nav-number">3.3.3.</span> <span class="nav-text">autorelease 函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行类型"><span class="nav-number">4.</span> <span class="nav-text">执行类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主-Runloop-自动加入"><span class="nav-number">4.1.</span> <span class="nav-text">主 Runloop 自动加入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动添加"><span class="nav-number">4.2.</span> <span class="nav-text">手动添加</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CLI-程序"><span class="nav-number">4.2.1.</span> <span class="nav-text">CLI 程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#遍历中生成大量Autorelease局部变量"><span class="nav-number">4.2.2.</span> <span class="nav-text">遍历中生成大量Autorelease局部变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常驻线程"><span class="nav-number">4.2.3.</span> <span class="nav-text">常驻线程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#main-m-文件中的-autoreleasepool"><span class="nav-number">5.</span> <span class="nav-text">main.m 文件中的@autoreleasepool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-中的AutoreleasePool"><span class="nav-number">6.</span> <span class="nav-text">Swift 中的AutoreleasePool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -594,12 +597,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">375k</span>
+    <span title="站点总字数">379k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:41</span>
+    <span title="站点阅读时长">5:45</span>
 </div>
 
         
