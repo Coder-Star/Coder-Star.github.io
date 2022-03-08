@@ -376,3 +376,49 @@ extension XXX: NSMachPortDelegate {
     }
 }
 ```
+
+
+### OC中的单例
+
+注意copy等方法的重写
+
+```objective-c
+#import "DataManager.h"
+
+@interface DataManager()<NSCopying,NSMutableCopying>
+
+@end
+
+static DataManager *manager = nil;
+
+@implementation DataManager
+
++ (instancetype)shareManager{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[self alloc]init];
+    });
+    return manager;
+}
+
++ (id)allocWithZone:(struct _NSZone *)zone{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        /// 注意是super
+        manager = [super allocWithZone:zone];
+    });
+    return manager;
+}
+- (nonnull id)copyWithZone:(nullable NSZone *)zone {
+    return manager;
+}
+
+- (nonnull id)mutableCopyWithZone:(nullable NSZone *)zone {
+    return manager;
+}
+@end
+```
+
+### `dispatch_once`注意点
+
+如果在`dispatch_once`的`的`block`内部再调用相关逻辑从而又触发`dispatch_once`执行就会出现死锁。
