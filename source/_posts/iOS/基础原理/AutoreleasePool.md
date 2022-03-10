@@ -211,6 +211,13 @@ void releaseUntil(id *stop)
 }
 ```
 
+在 autoreleasepool 中，看看这个释放的顺序：
+
+pop 哨兵对象时先通过找到当前页，然后再通过 child 指针找到所有子页进行释放。我们需要使用 child 指针；
+由于需要保证释放时是先进后出，所以我们是从最末尾一个 page 开始，那么会需要取到前一个 page，所以用到 parent；
+
+这个也是双向链表而不是单向链表的原因。
+
 #### autorelease 函数
 
 ```objective-c
