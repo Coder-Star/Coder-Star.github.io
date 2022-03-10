@@ -1,5 +1,5 @@
 ---
-title: runtime浅析
+title: runtime 浅析
 category:
   - iOS
   - 基础原理
@@ -26,11 +26,19 @@ OC 的方法调用整体分为三个步骤
 
 1. 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送
 2. 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行
-3. 没有在消息接受者 receiverClass 的 cache 中找到方法，则从 receiverClass 的 class_rw_t 中查找方法(查找时如果方法有序则二分查找，如果无序，则遍历查找，其中类实现了协议，会触发一个排序方法，使方法有序)，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行
+3. 没有在消息接受者 receiverClass 的 cache 中找到方法，则从 receiverClass 的 class_rw_t 中查找方法 (查找时如果方法有序则二分查找，如果无序，则遍历查找)，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行
 4. 没有在 receiverClass 中找到方法，则通过 superClass 指针找到 superClass，也是现在缓存中查找，如果找到，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行
-5. 没有在消息接受者 superClass 的 cache 中找到方法，则从 superClass 的 class_rw_t 中查找方法，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，重复 4、5 步骤。如果找不到了 superClass 了，往下进行 6.如果在最底层的 superClass 也找不到该方法，则要转到动态方法解析
+5. 没有在消息接受者 superClass 的 cache 中找到方法，则从 superClass 的 class_rw_t 中查找方法，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，重复 4、5 步骤。如果找不到了 superClass 了，往下进行
+6. 如果在最底层的 superClass 也找不到该方法，则要转到动态方法解析
 
-**动态方法解析/动态方法决议**
+需要注意的是，当方法列表的结构发生改变的时候，就会触发对列表的排序（注意是方法所在的列表，而不是 rw 中所有的方法列表，即如果是二维数组，只需要重新排列当前方法所在的列表即可）。在以下函数的调用中，会触发对 mlist 的排序：
+
+* methodizeClass
+* attachCategories
+* addMethod
+* addMethods
+
+**动态方法解析 / 动态方法决议**
 
 开发者可以实现以下方法，来动态添加方法实现
 
@@ -39,7 +47,7 @@ OC 的方法调用整体分为三个步骤
   +resolveClassMethod: //类方法
 ```
 
-动态解析(实际由开发者手动增加一个方法)过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行
+动态解析 (实际由开发者手动增加一个方法) 过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行
 
 **消息转发**
 
@@ -47,17 +55,22 @@ OC 的方法调用整体分为三个步骤
 
 - 调用 forwardingTargetForSelector，返回值不为 nil 时，会调用 objc_msgSend(返回值, SEL)，返回值为 nil，执行下一步。
 
+```objective-c
+- (id)forwardingTargetForSelector:(SEL)selector {
+}
+```
+
 **慢速转发**
 
-- 调用 methodSignatureForSelector,返回值不为 nil，调用 forwardInvocation:方法；返回值为 nil 时，调用 doesNotRecognizeSelector:方法
-- 开发者可以在 forwardInvocation:方法中自定义任何逻辑
-- 以上方法都有对象方法、类方法 2 个版本（前面可以是加号+，也可以是减号-）
+- 调用 methodSignatureForSelector, 返回值不为 nil，调用 forwardInvocation: 方法；返回值为 nil 时，调用 doesNotRecognizeSelector: 方法
+- 开发者可以在 forwardInvocation: 方法中自定义任何逻辑
+- 以上方法都有对象方法、类方法 2 个版本（前面可以是加号 +，也可以是减号 -）
 
 > forwardingTargetForSelector 仅支持一个对象的返回，也就是说消息只能被转发给一个对象;forwardInvocation 可以将消息同时转发给任意多个对象。
 
 ### 方法交换
 
-方法交换(method-swizzling)，主要目的是替换两个 Method 的 IMP
+方法交换 (method-swizzling)，主要目的是替换两个 Method 的 IMP
 
 ```swift
 // 获取SEL值
@@ -88,7 +101,7 @@ if didAddMethod {
 - Category 中为类添加成员变量，利用关联对象。
 - JSON 转 model
 
-> 关联对象由AssociationsManager管理并在AssociationsHashMap中存储。所有对象的关联内容都被放在一个统一的全局容器中.
+> 关联对象由 AssociationsManager 管理并在 AssociationsHashMap 中存储。所有对象的关联内容都被放在一个统一的全局容器中.
 
 ## runtime 三方库
 
@@ -98,3 +111,7 @@ if didAddMethod {
 - NullSafe（防止因发 unrecognised messages 给 NSNull 导致的崩溃）
 - UITableView-FDTemplateLayoutCell（自动计算并缓存 table view 的 cell 高度）
 - UINavigationController+FDFullscreenPopGesture（全屏滑动返回）
+
+
+
+- [OC源码分析之方法的查找原理](https://juejin.cn/post/6844904118973104135#heading-19)
