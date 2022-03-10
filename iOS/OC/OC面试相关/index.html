@@ -29,7 +29,7 @@
 <meta property="og:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/isa.png">
-<meta property="og:updated_time" content="2022-03-06T09:59:17.583Z">
+<meta property="og:updated_time" content="2022-03-10T07:51:12.543Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OC 面试相关">
 <meta name="twitter:description" content="修饰符 @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名) @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。 @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，  当属性是只读属性，但是重写了 getter 方法，系统不">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-06 17:59:17" itemprop="dateModified" datetime="2022-03-06T17:59:17+08:00">2022-03-06</time>
+                <time title="修改时间：2022-03-10 15:51:12" itemprop="dateModified" datetime="2022-03-10T15:51:12+08:00">2022-03-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -432,8 +432,8 @@
 <h2 id="isa-指针"><a href="#isa-指针" class="headerlink" title="isa 指针"></a>isa 指针</h2><p>isa 指针是一个联合体，</p>
 <p><img src="../../../img/iOS/基础原理/Runtime/isa.png" alt="isa指针"></p>
 <ul>
-<li>每一个对象本质上都是一个类的实例。其中类定义了成员变量和成员方法的列表。对象通过对象的 isa 指针指向类。</li>
-<li>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了类方法的列表。类通过类的 isa 指针指向元类。</li>
+<li>每一个对象本质上都是一个类的实例。其中类定义了<strong>成员变量和成员方法</strong>的列表。对象通过对象的 isa 指针指向类。</li>
+<li>每一个类本质上都是一个对象，类其实是元类（meteClass）的实例。元类定义了<strong>类方法的列表</strong>。类通过类的 isa 指针指向元类。</li>
 <li>所有的元类最终继承一个根元类，根元类 isa 指针指向本身，形成一个封闭的内循环。</li>
 </ul>
 <p>引用计数会存储在 isa 指针上，当引用计数超过 255 时，引用计数会存储在 SideTable 的属性中。</p>
@@ -668,7 +668,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">379k</span>
+    <span title="站点总字数">380k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
