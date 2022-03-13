@@ -180,6 +180,35 @@ id *autoreleaseNoPage(id obj)
 // 查看源码发现pop函数最终会调用 releaseUntil
 // 调用顺序为pop->popPage->releaseUntil
 
+popPage(void *token, AutoreleasePoolPage *page, id *stop)
+{
+    if (allowDebug && PrintPoolHiwat) printHiwat();
+
+    page->releaseUntil(stop);
+
+    // memory: delete empty children
+    if (allowDebug && DebugPoolAllocation  &&  page->empty()) {
+        // special case: delete everything during page-per-pool debugging
+        AutoreleasePoolPage *parent = page->parent;
+        page->kill();
+        setHotPage(parent);
+    } else if (allowDebug && DebugMissingPools  &&  page->empty()  &&  !page->parent) {
+        // special case: delete everything for pop(top)
+        // when debugging missing autorelease pools
+        page->kill();
+        setHotPage(nil);
+    } else if (page->child) {
+        // 如果当前页不满一半，则将所有子页也销毁
+        if (page->lessThanHalfFull()) {
+            page->child->kill();
+        }
+        // 如果超过一半，则留一个空子页，避免马上新建子页增加开销
+        else if (page->child->child) {
+            page->child->child->kill();
+        }
+    }
+}
+
 // stop 的值即为最初push时返回的哨兵对象的地址.
 void releaseUntil(id *stop)
 {
@@ -211,12 +240,17 @@ void releaseUntil(id *stop)
 }
 ```
 
-在 autoreleasepool 中，看看这个释放的顺序：
+在`Pop`函数中隐藏点一个知识点：
 
-pop 哨兵对象时先通过找到当前页，然后再通过 child 指针找到所有子页进行释放。我们需要使用 child 指针；
-由于需要保证释放时是先进后出，所以我们是从最末尾一个 page 开始，那么会需要取到前一个 page，所以用到 parent；
+为什么各`AutoreleasePoolPage`之间使用双向链表进行链接呢？使用单链表为什么不行呢？
 
-这个也是双向链表而不是单向链表的原因。
+按照一般逻辑来看，我们可以只保留一个`parent`指针就可以，因为我们一般是从后到前释放对象的，即使在`push`操作时，也可以使用`parent`指针来链接，那我们为什么还需要一个`child`指针呢？
+
+大家可以看到一个策略问题，也就是`popPage`函数中`page->releaseUntil(stop);`后面的逻辑，`releaseUntil`这个函数的作用只是将存放在`AutoreleasePoolPage`这个结点里面的`autorelease`对象进行销毁，但对`AutoreleasePoolPage`本身这个结点对象没有处理，那上面提到的逻辑便是对这些对象进行处理（策略可看注释）。
+
+那回到刚才的问题，如果说我们使用单链表，那我们在处理`autorelease`对象时就得顺便将`AutoreleasePoolPage`对象也进行销毁，那这样我们可能就没法使用上述 **如果超过一半，则留一个空子页，避免马上新建子页增加开销** 这种策略了，你品品。
+
+当然这可能只是用双向链表的某一个很小的原因而已，可能还有其他的代码细节要求使用双向链表。
 
 #### autorelease 函数
 
