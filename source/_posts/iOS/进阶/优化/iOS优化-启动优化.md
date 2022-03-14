@@ -428,6 +428,19 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 [about_the_app_launch_sequence](https://developer.apple.com/documentation/uikit/app_and_environment/responding_to_the_launch_of_your_app/about_the_app_launch_sequence?language=objc#3894431)
 
+
+根据观察到的一些现象，有些现象跟Apple在文档所描述的不一致。
+
+`UIApplicationMain`函数始终运行
+
+对于支持`UIScene`的App：
+  
+  - `applcation:didFinishLaunchingWithOptions`可能会被调用（不总是发生）；
+  - `scene:willConnectToSession:options:` 未被调用，事实上，`SceneDelegate`直到应用程序打开才创建；
+
+对于不支持`UIScene`的App：
+   - `didFinishLaunchingWithOptions`不调用； 
+
 ## 优化措施
 
 下面是一些常用的优化手段，优化起来易，防劣化起来难。
