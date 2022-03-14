@@ -52,9 +52,17 @@ fi
 获取当前路径
 
 ```shell
+# 通过 readlink 获取绝对路径，再取出目录
+CURRENT_PATH=$(dirname $(readlink -f $0 ))
+
+CURRENT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# 这个是有缺陷的，比如脚本A source了另一个目录下的脚本B、然后脚本B尝试使用此法获取路径时得到的是A的路径
 CURRENT_PATH=$(cd "$(dirname "$0")";pwd)
 
-CURRENT_PATH=$(dirname $(readlink -f $0 ))
+# 在某些情况下会拿到错误结果
+CURRENT_PATH=$(dirname $0)
+CURRENT_PATH=$(pwd)
 ```
 
 ## sed 命令

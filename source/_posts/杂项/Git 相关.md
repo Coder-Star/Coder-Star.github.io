@@ -237,3 +237,17 @@ git log -n 1 最后一次提交的 commit
 能设置的颜色值包括：reset（默认的灰色），normal, black, red, green, yellow, blue, magenta, cyan, white.
 字体属性则有 bold, dim, ul, blink, reverse.
 内容可以是占位元字符，也可以是直接显示的普通字符
+
+
+## 代码段
+
+```shell
+# 同步所有的分支
+git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+
+# 删除所有不在远程的本地分支
+git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
+
+# 删除已经合并过但是远程不存在的本地分支
+git fetch -p && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d
+```
