@@ -167,6 +167,19 @@ category：分类
 
 多个分类中的同名方法会只执行一个, 即后编译的分类里面的方法会覆盖所有前面的同名方法。只调用 category 中方法的原因是：runtime 加载某个类的所有分类数据，将分类中的方法、属性、协议数据都合并到一个大数组中。而由于是倒序的方式遍历，所以后面参与编译的 Category 数据会在数组的前面。最后将合并后的分类数据插入到类原来数据的前面。
 
+> class_ro_t 存放的是编译期间就确定的；而 class_rw_t 是在 runtime 时才确定，它会先将 class_ro_t 的内容拷贝过去，然后再将当前类的分类的这些属性、方法等拷贝到其中。所以可以说 class_rw_t 是 class_ro_t 的超集，当然实际访问类的方法、属性等也都是访问的 class_rw_t 中的内容；
+
+其中实例方法和类方法的方法列表都会合并；
+
+其中分类中定义存储属性使用关联对象，关联对象的存储存储在全局的Map中。
+
+![关联对象结构](../../../img/iOS/OC/关联对象结构.png)
+
+外面Map，key为对象地址，Value还是一个Map；
+里面Map，key为对象属性名称，Value为一个对象，属性包括关联指针以及关联值；
+
+
+
 怎么调用到原来类中被 category 覆盖掉的方法？ 对于这个问题，我们已经知道 category 其实并不是完全替换掉原来类的同名方法，只是 category 在方法列表的前面而已，所以我们只要顺着方法列表找到最后一个对应名字的方法，就可以调用原来类的方法：
 
 ```objective-c
@@ -358,9 +371,9 @@ NSPort 有 3 个子类，NSSocketPort、NSMessagePort、NSMachPort，但在 iOS 
 
 ```swift
 class XXX {
-  
+
   let port = NSMachPort()
-  
+
   port.setDelegate(self)
   RunLoop.main.add(port, forMode: .common)
 
@@ -377,10 +390,9 @@ extension XXX: NSMachPortDelegate {
 }
 ```
 
+### OC 中的单例
 
-### OC中的单例
-
-注意copy等方法的重写
+注意 copy 等方法的重写
 
 ```objective-c
 #import "DataManager.h"
