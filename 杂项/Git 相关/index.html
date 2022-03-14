@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/Git/Git分区.jpg">
 <meta property="og:image" content="https://coder-star.github.io/img/杂项/Git/GitHooks.png">
-<meta property="og:updated_time" content="2022-01-17T12:16:09.340Z">
+<meta property="og:updated_time" content="2022-03-14T09:30:09.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 相关">
 <meta name="twitter:description" content="前言虽然在写这篇笔记之前已经用 Git 很长时间了，而且对于一些操作也比较熟悉，但是还是感觉对于 Git 没有进行系统的学习和梳理，这篇笔记的目的其实就是把 Git 相关知识进行系统的梳理一下，让 Git 这个果子在我的技能树上成熟。 基本概念在 Git 工作目录下的文件有已跟踪以及未跟踪两种状态，其中未跟踪的文件便是没有被 git 纳入版本控制的文件，而已跟踪的文件肯定就是 git 纳入版本控制">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-17 20:16:09" itemprop="dateModified" datetime="2022-01-17T20:16:09+08:00">2022-01-17</time>
+                <time title="修改时间：2022-03-14 17:30:09" itemprop="dateModified" datetime="2022-03-14T17:30:09+08:00">2022-03-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -255,7 +255,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.2k</span>
+              <span>5.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -332,7 +332,7 @@
 <p>rebase 操作<br>git pull —rebase 当需要进行 pull 代码时候，使用这个命令，可以不生成 merge branch 的 log<br>git rebase —continue 当冲突问题解决之后可以使用 git add . 再使用该命令继续完成<br>git rebase —abort 当前的 commit 会回到 rebase 操作之前的状态<br>git rebase -i [startpoint] [endpoint]  将几个 commit 合并成同一个 commit // 这里的区间是一个前开后闭的区间。<br>git rebase -i head~3 合并 head 以下的 3 条 commits(包含 head)</p>
 <p>log 操作<br>git log [<options>] [<since>..<until>] [[—] <path>…]<br>git log -n 1 最后一次提交的 commit<br>—pretty＝：使用其他格式显示历史提交信息，可选项有：oneline,short,medium,full,fuller,email,raw 以及 format:<string>, 默认为 medium，如：<br>—pretty=oneline：一行显示，只显示哈希值和提交说明（—online 本身也可以作为单独的属性）<br>—pretty=format:” “：控制显示的记录格式，如：<br>%H 提交对象（commit）的完整哈希字串<br>%h 提交对象的简短哈希字串<br>%T 树对象（tree）的完整哈希字串<br>%t 树对象的简短哈希字串<br>%P 父对象（parent）的完整哈希字串<br>%p 父对象的简短哈希字串<br>%an 作者（author）的名字<br>%ae 作者的电子邮件地址<br>%ad 作者修订日期（可以用 -date= 选项定制格式）<br>%ar 作者修订日期，按多久以前的方式显示<br>%cn 提交者 (committer) 的名字<br>作者和提交者的区别不知道是啥？<br>作者与提交者的关系：作者是程序的修改者，提交者是代码提交人（自己的修改不提交是怎么能让别人拉下来再提交的？）<br>其实作者指的是实际作出修改的人，提交者指的是最后将此工作成果提交到仓库的人。所以，当你为某个项目发布补丁，然后某个核心成员将你的补丁并入项目时，你就是作者，而那个核心成员就是提交者（soga）<br>%ce 提交者的电子邮件地址<br>%cd 提交日期（可以用 -date= 选项定制格式）<br>%cr 提交日期，按多久以前的方式显示<br>%s 提交说明<br>带颜色的 —pretty=format:” “，这个另外写出来分析<br>以这句为例：%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)&lt;%an&gt;<br>它的效果是：</string></path></until></since></options></p>
 <p>先断句：［%Cred%h］［%Creset  -］［%C(yellow)%d ］［%Cblue%s］［%Cgreen(%cd)］［%C(bold blue)&lt;%an&gt;］<br>然后就是很明显能得到的规律了<br>一个颜色＋一个内容<br>颜色以％C 开头，后边接几种颜色，还可以设置字体，如果要设置字体的话，要一块加个括号<br>能设置的颜色值包括：reset（默认的灰色），normal, black, red, green, yellow, blue, magenta, cyan, white.<br>字体属性则有 bold, dim, ul, blink, reverse.<br>内容可以是占位元字符，也可以是直接显示的普通字符</p>
-
+<h2 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 同步所有的分支</span></span><br><span class="line">git branch -r | grep -v '\-&gt;' | while read remote; do git branch --track "$&#123;remote#origin/&#125;" "$remote"; done</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除所有不在远程的本地分支</span></span><br><span class="line">git fetch -p &amp;&amp; git branch -vv | grep ': gone]' | awk '&#123;print $1&#125;' | xargs git branch -D</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除已经合并过但是远程不存在的本地分支</span></span><br><span class="line">git fetch -p &amp;&amp; git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -466,7 +466,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hook"><span class="nav-number">3.</span> <span class="nav-text">hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加速"><span class="nav-number">4.</span> <span class="nav-text">加速</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fastgit"><span class="nav-number">4.1.</span> <span class="nav-text">fastgit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsdelivr"><span class="nav-number">4.2.</span> <span class="nav-text">jsdelivr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">5.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#个人配置"><span class="nav-number">5.1.</span> <span class="nav-text">个人配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他操作"><span class="nav-number">6.</span> <span class="nav-text">其他操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传常用流程"><span class="nav-number">6.1.</span> <span class="nav-text">上传常用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit"><span class="nav-number">7.</span> <span class="nav-text">commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支"><span class="nav-number">8.</span> <span class="nav-text">分支</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hook"><span class="nav-number">3.</span> <span class="nav-text">hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加速"><span class="nav-number">4.</span> <span class="nav-text">加速</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fastgit"><span class="nav-number">4.1.</span> <span class="nav-text">fastgit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsdelivr"><span class="nav-number">4.2.</span> <span class="nav-text">jsdelivr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">5.</span> <span class="nav-text">命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#个人配置"><span class="nav-number">5.1.</span> <span class="nav-text">个人配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他操作"><span class="nav-number">6.</span> <span class="nav-text">其他操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上传常用流程"><span class="nav-number">6.1.</span> <span class="nav-text">上传常用流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#commit"><span class="nav-number">7.</span> <span class="nav-text">commit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支"><span class="nav-number">8.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码段"><span class="nav-number">9.</span> <span class="nav-text">代码段</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -547,12 +547,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">381k</span>
+    <span title="站点总字数">382k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:46</span>
+    <span title="站点阅读时长">5:47</span>
 </div>
 
         

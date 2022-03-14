@@ -3,6 +3,20 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/tags/Git/</loc>
+        <lastmod>2022-03-14T09:30:09.755Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/shell/</loc>
+        <lastmod>2022-03-14T08:54:38.994Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/tags/优化/</loc>
         <lastmod>2022-03-14T08:45:12.708Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -262,13 +276,6 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/tags/Git/</loc>
-        <lastmod>2022-01-17T12:16:09.340Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://coder-star.github.io/tags/Android/</loc>
         <lastmod>2021-12-20T11:14:56.966Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -341,13 +348,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/装机必备/</loc>
         <lastmod>2021-11-18T04:48:06.982Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/shell/</loc>
-        <lastmod>2021-11-08T14:07:50.723Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

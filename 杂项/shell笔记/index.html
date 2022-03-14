@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="shell 基础$() 与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非 0 表示执行出错 判断整数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-08T14:07:50.723Z">
+<meta property="og:updated_time" content="2022-03-14T08:54:38.994Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell 笔记">
 <meta name="twitter:description" content="shell 基础$() 与`都是用来做命令替换的，当需要获取命令返回的结果时，比较常用，如 RESULT=cat main.swift`，就可以将 main.swift 中的内容作为字符串赋值给变量 RESULT。 $与${}都是用来获取变量内容的 $? 来获取上条代码返回值，一般退出状态非 0 表示执行出错 判断整数">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-08 22:07:50" itemprop="dateModified" datetime="2021-11-08T22:07:50+08:00">2021-11-08</time>
+                <time title="修改时间：2022-03-14 16:54:38" itemprop="dateModified" datetime="2022-03-14T16:54:38+08:00">2022-03-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -252,7 +252,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>831</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -284,7 +284,7 @@
 <p>判断文件是否存在</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if [ -f "$IPA_FILE" ] ; then</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>获取当前路径</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CURRENT_PATH=$(cd "$(dirname "$0")";pwd)</span><br><span class="line"></span><br><span class="line">CURRENT_PATH=$(dirname $(readlink -f $0 ))</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 通过 readlink 获取绝对路径，再取出目录</span></span><br><span class="line">CURRENT_PATH=$(dirname $(readlink -f $0 ))</span><br><span class="line"></span><br><span class="line">CURRENT_PATH=$( cd "$( dirname "$&#123;BASH_SOURCE[0]&#125;" )" &amp;&amp; pwd )</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 这个是有缺陷的，比如脚本A <span class="built_in">source</span>了另一个目录下的脚本B、然后脚本B尝试使用此法获取路径时得到的是A的路径</span></span><br><span class="line">CURRENT_PATH=$(cd "$(dirname "$0")";pwd)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 在某些情况下会拿到错误结果</span></span><br><span class="line">CURRENT_PATH=$(dirname $0)</span><br><span class="line">CURRENT_PATH=$(pwd)</span><br></pre></td></tr></table></figure>
 <h2 id="sed-命令"><a href="#sed-命令" class="headerlink" title="sed 命令"></a>sed 命令</h2><p>unix 与 linux 在执行 sed 指令时有些许区别，当使用 sed -i 命令时，需要在 -i 指令后面多加一段 “”, 即 <code>sed -i &quot;&quot; &quot;s/192.168.0.2/192.168.0.3/g&quot; filePath</code></p>
 <h2 id="curl-命令"><a href="#curl-命令" class="headerlink" title="curl 命令"></a>curl 命令</h2><h2 id="shell-好用工具"><a href="#shell-好用工具" class="headerlink" title="shell 好用工具"></a>shell 好用工具</h2><ul>
 <li>jq：shell 下处理 json 神器，mac 安装命令 <code>brew install jq</code></li>
@@ -504,12 +504,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">381k</span>
+    <span title="站点总字数">382k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:46</span>
+    <span title="站点阅读时长">5:47</span>
 </div>
 
         
