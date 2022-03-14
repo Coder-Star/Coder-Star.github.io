@@ -195,6 +195,8 @@ popPage(void *token, AutoreleasePoolPage *page, id *stop)
     } else if (allowDebug && DebugMissingPools  &&  page->empty()  &&  !page->parent) {
         // special case: delete everything for pop(top)
         // when debugging missing autorelease pools
+
+        /// 删除所有Page
         page->kill();
         setHotPage(nil);
     } else if (page->child) {
