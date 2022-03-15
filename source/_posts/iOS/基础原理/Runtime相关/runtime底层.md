@@ -1,5 +1,5 @@
 ---
-title: runtime底层
+title: runtime 底层
 category:
   - iOS
   - 基础原理
@@ -8,6 +8,8 @@ tags:
   - runtime
 date: 2021-02-23 23:33:51
 ---
+
+## class
 
 ## Method
 
@@ -21,27 +23,23 @@ struct objc_method {
 
 SEL、IMP 都是 Method 结构体的属性。
 
-**SEL：方法的名称、标识**
-
-**获取方式**
+### SEL
 
 - sel_registerName
 - #selector
 - NSSelectorFromString()
 - method_getName
 
-**后三种底层全是 sel_registerName**
+> 后三种底层全是 sel_registerName
 
-**Method：方法体类定义中的方法**
+### Method
 
-**获取方式**
+方法体类定义中的方法
 
-- class_getInstanceMethod() //获取 Method，传入 SEL
+- class_getInstanceMethod() // 获取 Method，传入 SEL
 
-**IMP：函数指针，指向方法实现的地址**
+### IMP
 
-**获取方式**
+函数指针，指向方法实现的地址
 
-- method_getImplementation //获取 IMP，传入 Method
-
-## class
+- method_getImplementation // 获取 IMP，传入 Method
