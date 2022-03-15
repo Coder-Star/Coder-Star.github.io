@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC取值.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/KVO&KVC/KVC赋值.jpg">
-<meta property="og:updated_time" content="2022-02-18T06:16:16.615Z">
+<meta property="og:updated_time" content="2022-03-15T11:55:44.551Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVO&amp;KVC">
 <meta name="twitter:description" content="KVCKVC 是 Key-Value Coding 的简称，它是一种可以直接通过字符串的名字 (key) 来访问类属性的机制。而不是通过调用 Setter、Getter 方法访问。KVC 机制是由 NSKeyValueCoding 协议定义的。 取、赋值流程 KVC 取值  KVC 赋值   常用 API">
@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-18 14:16:16" itemprop="dateModified" datetime="2022-02-18T14:16:16+08:00">2022-02-18</time>
+                <time title="修改时间：2022-03-15 19:55:44" itemprop="dateModified" datetime="2022-03-15T19:55:44+08:00">2022-03-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -303,13 +303,13 @@
 <li>KVO 是关于 runtime 机制实现的;</li>
 <li>当某个类的对象属性第一次被观察时，系统就会在运行期动态地创建该类的一个派生类，在这个派生类中重写基类中任何被观察属性的 setter 方法。派生类在被重写的 setter 方法内实现真正的通知机制;</li>
 <li>如果原类为 Person，那么生成的派生类名为 <code>NSKVONotifying_Person</code>，但是在 Swift 工程中，因为命名空间的存在，生成的类名为 <code>NSKVONotifying_xxx.Person</code>（xxx 为命名空间名称）</li>
-<li>每个类对象中都有一个 isa 指针指向当前类，当一个类对象的第一次被观察，那么系统就会偷偷将 isa 指针指向动态生成的派生类（同时还会生成一个派生类元类，派生类isa指针会指向该元类），从而在给被监控属性赋值时执行的是派生类的 setter 方法;</li>
+<li>每个类对象中都有一个 isa 指针指向当前类，当一个类对象的第一次被观察，那么系统就会偷偷将 isa 指针指向动态生成的派生类（同时还会生成一个派生类元类，派生类 isa 指针会指向该元类），从而在给被监控属性赋值时执行的是派生类的 setter 方法;</li>
 <li>键值观察通知依赖于 NSObject 的两个方法：<code>willChangeValueForKey:</code>和<code>didChangeValueForKey:</code>, 在一个被观察属性发生改变之前，willChangeValueForKey: 一定会被调用，这就会记录旧的值。而当改变发生后，didChangeValueForKey: 会被调用，继而 observeValueForKey:ofObject:change:context: 也会被调用</li>
 </ol>
 <h3 id="方法重写"><a href="#方法重写" class="headerlink" title="方法重写"></a>方法重写</h3><p>自动生成的子类会重写父类的 <code>setter</code>、<code>class</code>、<code>dealloc</code>、<code>_isKVOA</code> 方法。</p>
 <ul>
 <li>重写 class 方法返回的不是子类，而是父类。（通过该情景，我们通过 isa 指针获取类的类型是不可靠的，通过 class 方法获取的才可靠）</li>
-<li>重写 dealloc 方法：去除KVO过程中产生的一些东西，比如去除所有的观察者。</li>
+<li>重写 dealloc 方法：去除 KVO 过程中产生的一些东西，比如去除所有的观察者。</li>
 <li>重写_isKVOA 方法，如果是动态生成的子类，返回 Yes，正常情况下返回 NO；</li>
 <li>重写 set 方法，内部会调用<code>_NSSetObjectValueAndNotify</code>方法，该方法内部封装<code>willChangeValueForkey</code>、调用父类 set 方法、<code>didChangeValueForKey</code>方法相关逻辑，同时，还会根据属性类型调用不同函数。同<code>_NSSetObjectValueAndNotify</code>方法类似的方法还有<code>_NSSetIntValueAndNotify</code>、<code>__NSSetBoolValueAndNotify</code>等等，<code>Foundation</code>框架中几乎为所有类型都支持了类似方法。</li>
 </ul>
@@ -551,7 +551,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:47</span>
+    <span title="站点阅读时长">5:48</span>
 </div>
 
         
