@@ -29,7 +29,7 @@
 <meta property="og:description" content="前言Hi Coder，我是 CoderStar！ iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/内存管理/MemoryManagement.png">
-<meta property="og:updated_time" content="2021-11-19T14:15:28.880Z">
+<meta property="og:updated_time" content="2022-03-16T09:57:49.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 内存管理">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ iOS 内存管理分为 MRC、ARC 两个方式，核心原理都是利用对象的引用计数来实现。MRC 是需要开发者自己手动去管理的对象的 retain 及 release，控制引用计数的变化。ARC 是编译时自动在程序对应的位置加上 retain 及 release。 当每个 runloo 完成一个循环后，都会检查对象的引用计数（retainCount），">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-19 22:15:28" itemprop="dateModified" datetime="2021-11-19T22:15:28+08:00">2021-11-19</time>
+                <time title="修改时间：2022-03-16 17:57:49" itemprop="dateModified" datetime="2022-03-16T17:57:49+08:00">2022-03-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,7 +258,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>760</span>
+              <span>784</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -285,7 +285,11 @@
 <h2 id="内存管理区"><a href="#内存管理区" class="headerlink" title="内存管理区"></a>内存管理区</h2><p><img src="../../../img/iOS/基础原理/内存管理/MemoryManagement.png" alt="MemoryManagement"></p>
 <p>iOS 内存管理区分为栈、堆、全局区、常量区、代码区。这几个区内存地址由高到低。其中栈、堆在运行过程中会动态增长，其他在编译器确定。</p>
 <ul>
-<li>栈：存储非对象类型；存放函数的参数值、局部变量值；对象指针也属于局部变量。存储空间有限（512k），地址连续，运行时分配，编译器自动分配释放，访问速度快。内存地址一般以0x7开头。</li>
+<li>栈区地址从高到低分配。</li>
+<li><p>堆区的地址是从低到高分配。</p>
+</li>
+<li><p>栈：存储非对象类型；存放函数的参数值、局部变量值；对象指针也属于局部变量。存储空间有限（512k），地址连续，运行时分配，编译器自动分配释放，访问速度快。内存地址一般以0x7开头。</p>
+</li>
 <li>堆： 存储对象；开发者自己去分配及释放，地址不连续，速度没有栈快。内存地址一般以0x6开头。</li>
 <li>全局区：内存地址一般以0x1开头。<ul>
 <li>全局 / 静态区（.bss，对应macho文件_common区）：编译时分配，存储未初始化的全局变量和静态变量</li>
@@ -448,7 +452,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">127</span>
+          <span class="site-state-item-count">128</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -513,12 +517,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">382k</span>
+    <span title="站点总字数">384k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:48</span>
+    <span title="站点阅读时长">5:49</span>
 </div>
 
         
