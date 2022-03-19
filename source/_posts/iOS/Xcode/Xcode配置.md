@@ -41,7 +41,7 @@ Xcode 代码片段路径
 `~/Library/Developer/Xcode/UserData/CodeSnippets`
 
 文件模板路径
-`/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File\ Templates/iOS/Source`
+`/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File Templates/iOS/Source`
 
 ## Build Settings
 

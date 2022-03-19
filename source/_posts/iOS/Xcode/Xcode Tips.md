@@ -20,7 +20,7 @@ Hi Coder，我是 CoderStar！
 
 ## 编辑相关
 
-### Refactor
+### `Refactor`
 
 我们把光标放在类上或者方法上右键选中`Refactor`，其会显示出对其光标处可以进行的自动补全的一些操作；如下图所示：
 
@@ -33,19 +33,21 @@ Hi Coder，我是 CoderStar！
 - `Add Missing Switch Cases`：填充缺失的`case`，虽然说`Xcode`会自动提示`Fix`补全，但是在电脑提示较慢的时候还是很难受的；
 - ...
 
-### Actions
+### `Actions`
 
-还是将光标放到类或者方法上，然后 `Command` + `左键`，就会出现下列的`Actions`选项，看名字大家就知道大概支持哪些操作。
+还是将光标放到类或者方法上，然后 `command` + `左键`，就会出现下列的`Actions`选项，看名字大家就知道大概支持哪些操作。
 
 ![Actions](../../../img/iOS/Xcode/XcodeTips/Actions.png)
 
 > 之前还有小伙伴在群里抱怨`Xcode`没有`Callers`的功能，这不是来了嘛...
 
+其中 `Edit All in Scope` 快捷键为 `control` + `command` + `e`
+
 使用 `option` + `左键` ，会显示相应的`Quick Help`，也就是可以看到光标选中的相关提示，如果是系统相关的类或方法，还可以通过其进入到对应的`Developer Documentation`。
 
-使用 `control` + `Command` + `左键`，会直接跳转到光标选中处的相关实现里面去。
+使用 `control` + `command` + `左键`，会直接跳转到光标选中处的相关实现里面去。
 
-### Navigate to Related Items
+### `Navigate to Related Items`
 
 ![Navigate to Related Items](../../../img/iOS/Xcode/XcodeTips/Navigate%20to%20Related%20Items.png)
 
@@ -53,7 +55,7 @@ Hi Coder，我是 CoderStar！
 
 就不一一介绍了，主要介绍下`Generated Interface`功能，该功能可以查看 OC 的`.h`文件生成对应的`.swift`文件是什么样子，在处理混编时候比较常用；
 
-### Check Spelling
+### `Check Spelling`
 
 这项功能为`Xcode`的拼写检查，开启方式为
 
@@ -67,7 +69,7 @@ Hi Coder，我是 CoderStar！
 
 > 红色波浪线误单词为`Infoo`。
 
-### Code Snippet
+### `Code Snippet`
 
 这是我们一定要利用起来的东西，良好、丰富的代码块可以有效提高我们代码的编写速度，
 
@@ -79,28 +81,46 @@ Hi Coder，我是 CoderStar！
 
 我们可以使用一些云同步方式对其进行同步，方便复用。
 
+### `Fix All Issues`
+
+程序出现多个错误时，可以选择 `Editor` —> `Fix All Issues` 修复多个错误。
+
+快捷键为：`control` + `option` + `command` + `F`
+
 ### 其他
 
-- 可以使用 `Ctrl` + `I` 快捷建来重新调整所选代码的缩进，但其能力有限，如果你使用的是 Swift 开发语言，建议使用`SwiftFormat for Xcode`；
-- 可以使用 `Command` + `+`/`-` 来调整编辑区域代码的字体大小，在代码演示时比较常用；
-- 可以使用 `Command` + `option` + `[`/`]` 来向上或向下移动所选代码行；
+- 可以使用 `control` + `I` 快捷建来重新调整所选代码的缩进，但其能力有限，如果你使用的是 Swift 开发语言，建议使用`SwiftFormat for Xcode`；
+- 可以使用 `command` + `+`/`-` 来调整编辑区域代码的字体大小，在代码演示时比较常用；
+- 可以使用 `command` + `option` + `[`/`]` 来向上或向下移动所选代码行；
+- 可以使用 `command` + `option` + `/` 为方法添加注释，这也是我们通过`Quick Help`看到的内容。这个功能在`Xcode` 13 以上略微有点小 bug；
+- 可以使用 `shift` + `control` + `左键`来实现多行光标，即同时在文件不同位置编写相同内容；
+- 可以使用 `control` + `command` + `↑` 来实现 `.m` 文件与 `.h`之间来回切换，避免繁琐的查找；
 - ...
 
 ## 导航
 
 ### `Open Quickly`
 
-`Command` + `Shift` + `O`，该快捷键会打开一个`Open Quickly`窗口，使我们能够搜索几乎所有内容，包括文件、类型、方法、函数和属性。
+`command` + `Shift` + `O`，该快捷键会打开一个`Open Quickly`窗口，使我们能够搜索几乎所有内容，包括文件、类型、方法、函数和属性。
 
 ![OpenQuickly](../../../img/iOS/Xcode/XcodeTips/OpenQuickly.png)
 
 ### `Reveal in Project Navigator`
 
-`Command` + `Shift` + `J`，该快捷建会将你当前打开的文件在左侧导航定位到，方便查到该文件所在等级。
+`command` + `Shift` + `J`，该快捷建会将你当前打开的文件在左侧导航定位到，方便查到该文件所在等级。
 
-### 其他
+## 其他
 
-## 模拟器
+### 获取 Build Setting 对应的环境变量 Key
+
+共有两种方式：
+
+1. 选中该配置项，展开右部侧边栏，选中点击帮助按钮就能够看到这个配置的说明和对应的环境变量名称。
+2. 选中该配置，按住 Option 键，双击该配置，会出现一个描述该选项的帮助卡片，这个内容与上面的帮助侧边栏内容一致。
+
+## 模拟器相关
+
+### Debug 操作
 
 ![Simulator](../../../img/iOS/Xcode/XcodeTips/Simulator.png)
 
@@ -110,8 +130,26 @@ Hi Coder，我是 CoderStar！
 2. 检测图层混合；
 3. 检测离屏渲染；
 
+### `Environment Overrides`
+
+我们可以在`Xcode`里面通过设置`Environment Overrides`来调整模拟器的一些设置，如浅 / 深色模式、字体大小等，而不是再去模拟器进行设置。
+
+![Environment Overrides](../../../img/iOS/Xcode/XcodeTips/Environment%20Overrides.png)
+
+## 参数配置
+
+- 关闭 `Xcode`，打开终端输入`defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES`，然后项目 `Build` 的时候可以在 `Xcode` 顶部看到项目编译时间；
+- 进入`Product` > `Scheme` > `Edit Scheme...` > `Run` > `Arguments` > `Environment Variables`，然后设置`OS_ACTIVITY_MODE`值置为`Disable`，该操作可以禁止控制台打印 `NSLog`，但不可以禁止`print()`；
 
 ## 最后
+
+其实还有很多操作没有展开说，比如说断点设置、`Xib`等等，可能需要大家去主动发现了，对于我们日常使用的`IDE`，我们应该去主动发掘其的一些隐藏功能，有可能一个小的发现就能帮我们解决过去很不方便的问题。
+
+顺便列几个专门是说明`Xcode`的`Tips`的网站，特别是第一个，比较有意思。
+
+[xcode.tips](https://xcode.tips/)
+[xcode-tips](https://xcode-tips.github.io/)
+[xcodetips](http://xcodetips.com/)
 
 要更加努力呀！
 
