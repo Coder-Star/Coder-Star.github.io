@@ -104,6 +104,11 @@ Hi Coder，我是 CoderStar！
 
 ![Simulator](../../../img/iOS/Xcode/XcodeTips/Simulator.png)
 
+模拟器`Debug`下这三个功能比较常用，其中从上到下依次：
+
+1. 将动画变慢，可以更好看清动画的动作；
+2. 检测图层混合；
+3. 检测离屏渲染；
 
 
 ## 最后
