@@ -20,13 +20,13 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 今天我们不聊技术原理，咱们聊点简单的，也就是我们 iOSer 几乎每天都会用到的Xbug。Xcode虽然确实会有很多Bug，一些设计也不如JB家的做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？ 哈哈，简单开个玩笑，回到正题。虽然我们经常使用Xcode，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊Xcode的一">
+  <meta name="description" content="前言Hi Coder，我是 CoderStar！ 今天我们不聊技术原理，咱们聊点简单轻松的，也就是我们 iOSer 几乎每天都会用到的Xbug。Xcode虽然确实会有很多Bug，一些设计也不如JB家做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？ 哈哈，简单开个玩笑，回到正题。虽然我们经常使用Xcode，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊Xcode的">
 <meta name="keywords" content="Xcode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xcode Tips">
 <meta property="og:url" content="https://coder-star.github.io/iOS/Xcode/Xcode Tips/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们不聊技术原理，咱们聊点简单的，也就是我们 iOSer 几乎每天都会用到的Xbug。Xcode虽然确实会有很多Bug，一些设计也不如JB家的做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？ 哈哈，简单开个玩笑，回到正题。虽然我们经常使用Xcode，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊Xcode的一">
+<meta property="og:description" content="前言Hi Coder，我是 CoderStar！ 今天我们不聊技术原理，咱们聊点简单轻松的，也就是我们 iOSer 几乎每天都会用到的Xbug。Xcode虽然确实会有很多Bug，一些设计也不如JB家做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？ 哈哈，简单开个玩笑，回到正题。虽然我们经常使用Xcode，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊Xcode的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Refactor.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Actions.png">
@@ -34,12 +34,15 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Check%20Spelling.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Check%20Spelling%20prompt.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/OpenQuickly.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/search1.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/search2.png">
+<meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/search3.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Simulator.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Environment%20Overrides.png">
-<meta property="og:updated_time" content="2022-03-19T14:41:18.861Z">
+<meta property="og:updated_time" content="2022-03-20T10:47:00.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode Tips">
-<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们不聊技术原理，咱们聊点简单的，也就是我们 iOSer 几乎每天都会用到的Xbug。Xcode虽然确实会有很多Bug，一些设计也不如JB家的做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？ 哈哈，简单开个玩笑，回到正题。虽然我们经常使用Xcode，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊Xcode的一">
+<meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 今天我们不聊技术原理，咱们聊点简单轻松的，也就是我们 iOSer 几乎每天都会用到的Xbug。Xcode虽然确实会有很多Bug，一些设计也不如JB家做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？ 哈哈，简单开个玩笑，回到正题。虽然我们经常使用Xcode，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊Xcode的">
 <meta name="twitter:image" content="https://coder-star.github.io/img/iOS/Xcode/XcodeTips/Refactor.png">
 
 <link rel="canonical" href="https://coder-star.github.io/iOS/Xcode/Xcode Tips/">
@@ -228,10 +231,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-19 16:57:47 / 修改时间：22:41:18" itemprop="dateCreated datePublished" datetime="2022-03-19T16:57:47+08:00">2022-03-19</time>
+              <time title="创建时间：2022-03-19 16:57:47" itemprop="dateCreated datePublished" datetime="2022-03-19T16:57:47+08:00">2022-03-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-20 18:47:00" itemprop="dateModified" datetime="2022-03-20T18:47:00+08:00">2022-03-20</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -259,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.7k</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -279,10 +288,10 @@
 
       
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hi Coder，我是 CoderStar！</p>
-<p>今天我们不聊技术原理，咱们聊点简单的，也就是我们 <code>iOSer</code> 几乎每天都会用到的<code>Xbug</code>。<code>Xcode</code>虽然确实会有很多<code>Bug</code>，一些设计也不如<code>JB</code>家的做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？</p>
+<p>今天我们不聊技术原理，咱们聊点简单轻松的，也就是我们 <code>iOSer</code> 几乎每天都会用到的<code>Xbug</code>。<code>Xcode</code>虽然确实会有很多<code>Bug</code>，一些设计也不如<code>JB</code>家做的好，但是还是有一些可取之处的，比如页面简洁…，嗯…，好像就这一个？</p>
 <p>哈哈，简单开个玩笑，回到正题。虽然我们经常使用<code>Xcode</code>，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊<code>Xcode</code>的一些<code>Tips</code>。</p>
 <blockquote>
-<p>有些<code>Tips</code>可能对于老司机们已经习以为常了，还望不要嫌太低级，如果还有一些文中没有体现的<code>Tips</code>，还望指教。</p>
+<p>本文涉及的 <code>Tips</code> 主要是一些相对通用的，还有一些相对专一点的，比如断点、<code>Instruments</code>等后面再单独介绍。有些<code>Tips</code>可能对于老司机们已经习以为常了，还望不要嫌太低级，如果还有一些文中没有体现的<code>Tips</code>，还望指教。</p>
 </blockquote>
 <h2 id="编辑相关"><a href="#编辑相关" class="headerlink" title="编辑相关"></a>编辑相关</h2><h3 id="Refactor"><a href="#Refactor" class="headerlink" title="Refactor"></a><code>Refactor</code></h3><p>我们把光标放在类上或者方法上右键选中<code>Refactor</code>，其会显示出对其光标处可以进行的自动补全的一些操作；如下图所示：</p>
 <p><img src="../../../img/iOS/Xcode/XcodeTips/Refactor.png" alt="Refactor"></p>
@@ -304,25 +313,28 @@
 <h3 id="Navigate-to-Related-Items"><a href="#Navigate-to-Related-Items" class="headerlink" title="Navigate to Related Items"></a><code>Navigate to Related Items</code></h3><p><img src="../../../img/iOS/Xcode/XcodeTips/Navigate%20to%20Related%20Items.png" alt="Navigate to Related Items"></p>
 <p>大家可以很少关注上图所示的按钮，其实这个地方能提供很多有用的功能。</p>
 <p>就不一一介绍了，主要介绍下<code>Generated Interface</code>功能，该功能可以查看 OC 的<code>.h</code>文件生成对应的<code>.swift</code>文件是什么样子，在处理混编时候比较常用；</p>
+<p>快捷键：<code>control</code> + <code>1</code></p>
 <h3 id="Check-Spelling"><a href="#Check-Spelling" class="headerlink" title="Check Spelling"></a><code>Check Spelling</code></h3><p>这项功能为<code>Xcode</code>的拼写检查，开启方式为</p>
 <p><code>Edit</code> &gt; <code>Format</code> &gt; <code>Spelling and Grammar</code> &gt; <code>Check Spelling While Typing</code>。</p>
 <p><img src="../../../img/iOS/Xcode/XcodeTips/Check%20Spelling.png" alt="Check Spelling"></p>
 <p>当开启之后，我们在代码编辑过程中出现错误单词后，<code>Xcode</code>会将该单词下面加上红色波浪线，点击邮件并出现推荐的单词以及一些操作。</p>
 <p><img src="../../../img/iOS/Xcode/XcodeTips/Check%20Spelling%20prompt.png" alt="Check Spelling Prompt"></p>
 <blockquote>
-<p>红色波浪线误单词为<code>Infoo</code>。</p>
+<p>红色波浪线错误单词为<code>Infoo</code>。</p>
 </blockquote>
-<h3 id="Code-Snippet"><a href="#Code-Snippet" class="headerlink" title="Code Snippet"></a><code>Code Snippet</code></h3><p>这是我们一定要利用起来的东西，良好、丰富的代码块可以有效提高我们代码的编写速度，</p>
+<h3 id="Code-Snippet"><a href="#Code-Snippet" class="headerlink" title="Code Snippet"></a><code>Code Snippet</code></h3><p>这是我们一定要利用起来的东西，良好、丰富的代码块可以有效提高我们代码的编写速度。</p>
 <p>其中我们在保存一些代码段的时候可以需要留下一些变量等到使用时再填写上，我们可以使用<code>&lt;#placeholder#&gt;</code>这样的方式来留下待填充值。</p>
 <p>我们编写的代码段保存路径为：</p>
 <p><code>~/Library/Developer/Xcode/UserData/CodeSnippets</code></p>
 <p>我们可以使用一些云同步方式对其进行同步，方便复用。</p>
+<p>顺便提一下我们新建文件的模板文件路径为：</p>
+<p><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File Templates/iOS/Source</code></p>
 <h3 id="Fix-All-Issues"><a href="#Fix-All-Issues" class="headerlink" title="Fix All Issues"></a><code>Fix All Issues</code></h3><p>程序出现多个错误时，可以选择 <code>Editor</code> —&gt; <code>Fix All Issues</code> 修复多个错误。</p>
 <p>快捷键为：<code>control</code> + <code>option</code> + <code>command</code> + <code>F</code></p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
-<li>可以使用 <code>control</code> + <code>I</code> 快捷建来重新调整所选代码的缩进，但其能力有限，如果你使用的是 Swift 开发语言，建议使用<code>SwiftFormat for Xcode</code>；</li>
+<li>可以使用 <code>control</code> + <code>I</code> 快捷键盘来重新调整所选代码的缩进，但其能力有限，如果你使用的是 Swift 开发语言，建议使用<code>SwiftFormat for Xcode</code>；</li>
 <li>可以使用 <code>command</code> + <code>+</code>/<code>-</code> 来调整编辑区域代码的字体大小，在代码演示时比较常用；</li>
-<li>可以使用 <code>command</code> + <code>option</code> + <code>[</code>/<code>]</code> 来向上或向下移动所选代码行；</li>
+<li>可以使用 <code>command</code> + <code>option</code> + <code>[</code>/<code>]</code> 来向上或向下移动所选代码行，这个操作在操作<code>SwiftUI</code>描述符时非常常用；</li>
 <li>可以使用 <code>command</code> + <code>option</code> + <code>/</code> 为方法添加注释，这也是我们通过<code>Quick Help</code>看到的内容。这个功能在<code>Xcode</code> 13 以上略微有点小 bug；</li>
 <li>可以使用 <code>shift</code> + <code>control</code> + <code>左键</code>来实现多行光标，即同时在文件不同位置编写相同内容；</li>
 <li>可以使用 <code>control</code> + <code>command</code> + <code>↑</code> 来实现 <code>.m</code> 文件与 <code>.h</code>之间来回切换，避免繁琐的查找；</li>
@@ -331,7 +343,29 @@
 </ul>
 <h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><h3 id="Open-Quickly"><a href="#Open-Quickly" class="headerlink" title="Open Quickly"></a><code>Open Quickly</code></h3><p><code>command</code> + <code>Shift</code> + <code>O</code>，该快捷键会打开一个<code>Open Quickly</code>窗口，使我们能够搜索几乎所有内容，包括文件、类型、方法、函数和属性。</p>
 <p><img src="../../../img/iOS/Xcode/XcodeTips/OpenQuickly.png" alt="OpenQuickly"></p>
-<h3 id="Reveal-in-Project-Navigator"><a href="#Reveal-in-Project-Navigator" class="headerlink" title="Reveal in Project Navigator"></a><code>Reveal in Project Navigator</code></h3><p><code>command</code> + <code>Shift</code> + <code>J</code>，该快捷建会将你当前打开的文件在左侧导航定位到，方便查到该文件所在等级。</p>
+<h3 id="Reveal-in-Project-Navigator"><a href="#Reveal-in-Project-Navigator" class="headerlink" title="Reveal in Project Navigator"></a><code>Reveal in Project Navigator</code></h3><p><code>command</code> + <code>Shift</code> + <code>J</code>，该快捷键会将你当前打开的文件在左侧导航定位到，方便查到该文件所在位置。</p>
+<h3 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h3><p><code>Xcode</code>里面的搜索方式相对来说会比较多，不管是导航器底部的文件筛选还是全局筛选可调整的<code>Scope</code>，或者是使用正则表达式的筛选方式。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>导航筛选</th>
+<th>调整<code>Scope</code></th>
+<th>正则表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="../../../img/iOS/Xcode/XcodeTips/search1.png" alt></td>
+<td><img src="../../../img/iOS/Xcode/XcodeTips/search2.png" alt></td>
+<td><img src="../../../img/iOS/Xcode/XcodeTips/search3.png" alt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>有的时候我们全局搜索完成之后在看到一些搜索项不是我们想要的时候，可以直接删除键将搜索结果删除掉，避免影响我们，当然这个删除只是对搜索结果的删除而已，不会对文件或者内容产生什么影响。</p>
+</blockquote>
 <h2 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h2><h3 id="获取-Build-Setting-对应的环境变量-Key"><a href="#获取-Build-Setting-对应的环境变量-Key" class="headerlink" title="获取 Build Setting 对应的环境变量 Key"></a>获取 Build Setting 对应的环境变量 Key</h3><p>共有两种方式：</p>
 <ol>
 <li>选中该配置项，展开右部侧边栏，选中点击帮助按钮就能够看到这个配置的说明和对应的环境变量名称。</li>
@@ -350,9 +384,13 @@
 <li>关闭 <code>Xcode</code>，打开终端输入<code>defaults write com.apple.dt.Xcode ShowBuildOperationDuration YES</code>，然后项目 <code>Build</code> 的时候可以在 <code>Xcode</code> 顶部看到项目编译时间；</li>
 <li>进入<code>Product</code> &gt; <code>Scheme</code> &gt; <code>Edit Scheme...</code> &gt; <code>Run</code> &gt; <code>Arguments</code> &gt; <code>Environment Variables</code>，然后设置<code>OS_ACTIVITY_MODE</code>值置为<code>Disable</code>，该操作可以禁止控制台打印 <code>NSLog</code>，但不可以禁止<code>print()</code>；</li>
 </ul>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>其实还有很多操作没有展开说，比如说断点设置、<code>Xib</code>等等，可能需要大家去主动发现了，对于我们日常使用的<code>IDE</code>，我们应该去主动发掘其的一些隐藏功能，有可能一个小的发现就能帮我们解决过去很不方便的问题。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>其实不管是<code>Xcode</code>还是我们平时开发过程中用到的其他<code>IDE</code>，我们应该去主动发掘其的一些隐藏功能，有可能一个小的发现就能帮我们解决过去很不方便的问题。</p>
 <p>顺便列几个专门是说明<code>Xcode</code>的<code>Tips</code>的网站，特别是第一个，比较有意思。</p>
-<p><a href="https://xcode.tips/" target="_blank" rel="noopener">xcode.tips</a><br><a href="https://xcode-tips.github.io/" target="_blank" rel="noopener">xcode-tips</a><br><a href="http://xcodetips.com/" target="_blank" rel="noopener">xcodetips</a></p>
+<ul>
+<li><a href="https://xcode.tips/" target="_blank" rel="noopener">xcode.tips</a></li>
+<li><a href="https://xcode-tips.github.io/" target="_blank" rel="noopener">xcode-tips</a></li>
+<li><a href="http://xcodetips.com/" target="_blank" rel="noopener">xcodetips</a></li>
+</ul>
 <p>要更加努力呀！</p>
 <p>Let’s be CoderStar!</p>
 
@@ -486,7 +524,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑相关"><span class="nav-number">2.</span> <span class="nav-text">编辑相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Refactor"><span class="nav-number">2.1.</span> <span class="nav-text">Refactor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Actions"><span class="nav-number">2.2.</span> <span class="nav-text">Actions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Navigate-to-Related-Items"><span class="nav-number">2.3.</span> <span class="nav-text">Navigate to Related Items</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-Spelling"><span class="nav-number">2.4.</span> <span class="nav-text">Check Spelling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code-Snippet"><span class="nav-number">2.5.</span> <span class="nav-text">Code Snippet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fix-All-Issues"><span class="nav-number">2.6.</span> <span class="nav-text">Fix All Issues</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">2.7.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导航"><span class="nav-number">3.</span> <span class="nav-text">导航</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Open-Quickly"><span class="nav-number">3.1.</span> <span class="nav-text">Open Quickly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reveal-in-Project-Navigator"><span class="nav-number">3.2.</span> <span class="nav-text">Reveal in Project Navigator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他-1"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-Build-Setting-对应的环境变量-Key"><span class="nav-number">4.1.</span> <span class="nav-text">获取 Build Setting 对应的环境变量 Key</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟器相关"><span class="nav-number">5.</span> <span class="nav-text">模拟器相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-操作"><span class="nav-number">5.1.</span> <span class="nav-text">Debug 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Overrides"><span class="nav-number">5.2.</span> <span class="nav-text">Environment Overrides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数配置"><span class="nav-number">6.</span> <span class="nav-text">参数配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑相关"><span class="nav-number">2.</span> <span class="nav-text">编辑相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Refactor"><span class="nav-number">2.1.</span> <span class="nav-text">Refactor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Actions"><span class="nav-number">2.2.</span> <span class="nav-text">Actions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Navigate-to-Related-Items"><span class="nav-number">2.3.</span> <span class="nav-text">Navigate to Related Items</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-Spelling"><span class="nav-number">2.4.</span> <span class="nav-text">Check Spelling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Code-Snippet"><span class="nav-number">2.5.</span> <span class="nav-text">Code Snippet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fix-All-Issues"><span class="nav-number">2.6.</span> <span class="nav-text">Fix All Issues</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">2.7.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导航"><span class="nav-number">3.</span> <span class="nav-text">导航</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Open-Quickly"><span class="nav-number">3.1.</span> <span class="nav-text">Open Quickly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reveal-in-Project-Navigator"><span class="nav-number">3.2.</span> <span class="nav-text">Reveal in Project Navigator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索"><span class="nav-number">3.3.</span> <span class="nav-text">搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他-1"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-Build-Setting-对应的环境变量-Key"><span class="nav-number">4.1.</span> <span class="nav-text">获取 Build Setting 对应的环境变量 Key</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟器相关"><span class="nav-number">5.</span> <span class="nav-text">模拟器相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Debug-操作"><span class="nav-number">5.1.</span> <span class="nav-text">Debug 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Overrides"><span class="nav-number">5.2.</span> <span class="nav-text">Environment Overrides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数配置"><span class="nav-number">6.</span> <span class="nav-text">参数配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -567,12 +605,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">385k</span>
+    <span title="站点总字数">386k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">5:50</span>
+    <span title="站点阅读时长">5:51</span>
 </div>
 
         
