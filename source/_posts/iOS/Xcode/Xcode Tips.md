@@ -12,11 +12,11 @@ date: 2022-03-19 16:57:47
 
 Hi Coder，我是 CoderStar！
 
-今天我们不聊技术原理，咱们聊点简单的，也就是我们 `iOSer` 几乎每天都会用到的`Xbug`。`Xcode`虽然确实会有很多`Bug`，一些设计也不如`JB`家的做的好，但是还是有一些可取之处的，比如页面简洁...，嗯...，好像就这一个？
+今天我们不聊技术原理，咱们聊点简单轻松的，也就是我们 `iOSer` 几乎每天都会用到的`Xbug`。`Xcode`虽然确实会有很多`Bug`，一些设计也不如`JB`家做的好，但是还是有一些可取之处的，比如页面简洁...，嗯...，好像就这一个？
 
 哈哈，简单开个玩笑，回到正题。虽然我们经常使用`Xcode`，但是有些功能还是需要我们自己特意去发现一下。今天我们就来聊聊`Xcode`的一些`Tips`。
 
-> 有些`Tips`可能对于老司机们已经习以为常了，还望不要嫌太低级，如果还有一些文中没有体现的`Tips`，还望指教。
+> 本文涉及的 `Tips` 主要是一些相对通用的，还有一些相对专一点的，比如断点、`Instruments`等后面再单独介绍。有些`Tips`可能对于老司机们已经习以为常了，还望不要嫌太低级，如果还有一些文中没有体现的`Tips`，还望指教。
 
 ## 编辑相关
 
@@ -55,6 +55,8 @@ Hi Coder，我是 CoderStar！
 
 就不一一介绍了，主要介绍下`Generated Interface`功能，该功能可以查看 OC 的`.h`文件生成对应的`.swift`文件是什么样子，在处理混编时候比较常用；
 
+快捷键：`control` + `1`
+
 ### `Check Spelling`
 
 这项功能为`Xcode`的拼写检查，开启方式为
@@ -67,11 +69,11 @@ Hi Coder，我是 CoderStar！
 
 ![Check Spelling Prompt](../../../img/iOS/Xcode/XcodeTips/Check%20Spelling%20prompt.png)
 
-> 红色波浪线误单词为`Infoo`。
+> 红色波浪线错误单词为`Infoo`。
 
 ### `Code Snippet`
 
-这是我们一定要利用起来的东西，良好、丰富的代码块可以有效提高我们代码的编写速度，
+这是我们一定要利用起来的东西，良好、丰富的代码块可以有效提高我们代码的编写速度。
 
 其中我们在保存一些代码段的时候可以需要留下一些变量等到使用时再填写上，我们可以使用`<#placeholder#>`这样的方式来留下待填充值。
 
@@ -81,6 +83,10 @@ Hi Coder，我是 CoderStar！
 
 我们可以使用一些云同步方式对其进行同步，方便复用。
 
+顺便提一下我们新建文件的模板文件路径为：
+
+`/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/File Templates/iOS/Source`
+
 ### `Fix All Issues`
 
 程序出现多个错误时，可以选择 `Editor` —> `Fix All Issues` 修复多个错误。
@@ -89,9 +95,9 @@ Hi Coder，我是 CoderStar！
 
 ### 其他
 
-- 可以使用 `control` + `I` 快捷建来重新调整所选代码的缩进，但其能力有限，如果你使用的是 Swift 开发语言，建议使用`SwiftFormat for Xcode`；
+- 可以使用 `control` + `I` 快捷键盘来重新调整所选代码的缩进，但其能力有限，如果你使用的是 Swift 开发语言，建议使用`SwiftFormat for Xcode`；
 - 可以使用 `command` + `+`/`-` 来调整编辑区域代码的字体大小，在代码演示时比较常用；
-- 可以使用 `command` + `option` + `[`/`]` 来向上或向下移动所选代码行；
+- 可以使用 `command` + `option` + `[`/`]` 来向上或向下移动所选代码行，这个操作在操作`SwiftUI`描述符时非常常用；
 - 可以使用 `command` + `option` + `/` 为方法添加注释，这也是我们通过`Quick Help`看到的内容。这个功能在`Xcode` 13 以上略微有点小 bug；
 - 可以使用 `shift` + `control` + `左键`来实现多行光标，即同时在文件不同位置编写相同内容；
 - 可以使用 `control` + `command` + `↑` 来实现 `.m` 文件与 `.h`之间来回切换，避免繁琐的查找；
@@ -108,7 +114,17 @@ Hi Coder，我是 CoderStar！
 
 ### `Reveal in Project Navigator`
 
-`command` + `Shift` + `J`，该快捷建会将你当前打开的文件在左侧导航定位到，方便查到该文件所在等级。
+`command` + `Shift` + `J`，该快捷键会将你当前打开的文件在左侧导航定位到，方便查到该文件所在位置。
+
+### 搜索
+
+`Xcode`里面的搜索方式相对来说会比较多，不管是导航器底部的文件筛选还是全局筛选可调整的`Scope`，或者是使用正则表达式的筛选方式。
+
+导航筛选 | 调整`Scope` | 正则表达式
+---------|----------|---------
+![](../../../img/iOS/Xcode/XcodeTips/search1.png) | ![](../../../img/iOS/Xcode/XcodeTips/search2.png) | ![](../../../img/iOS/Xcode/XcodeTips/search3.png)
+
+> 有的时候我们全局搜索完成之后在看到一些搜索项不是我们想要的时候，可以直接删除键将搜索结果删除掉，避免影响我们，当然这个删除只是对搜索结果的删除而已，不会对文件或者内容产生什么影响。
 
 ## 其他
 
@@ -144,13 +160,13 @@ Hi Coder，我是 CoderStar！
 
 ## 最后
 
-其实还有很多操作没有展开说，比如说断点设置、`Xib`等等，可能需要大家去主动发现了，对于我们日常使用的`IDE`，我们应该去主动发掘其的一些隐藏功能，有可能一个小的发现就能帮我们解决过去很不方便的问题。
+其实不管是`Xcode`还是我们平时开发过程中用到的其他`IDE`，我们应该去主动发掘其的一些隐藏功能，有可能一个小的发现就能帮我们解决过去很不方便的问题。
 
 顺便列几个专门是说明`Xcode`的`Tips`的网站，特别是第一个，比较有意思。
 
-[xcode.tips](https://xcode.tips/)
-[xcode-tips](https://xcode-tips.github.io/)
-[xcodetips](http://xcodetips.com/)
+* [xcode.tips](https://xcode.tips/)
+* [xcode-tips](https://xcode-tips.github.io/)
+* [xcodetips](http://xcodetips.com/)
 
 要更加努力呀！
 
