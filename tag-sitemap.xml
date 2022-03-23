@@ -3,15 +3,22 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/Xcode/</loc>
-        <lastmod>2022-03-20T10:47:00.512Z</lastmod>
+        <loc>https://coder-star.github.io/tags/runtime/</loc>
+        <lastmod>2022-03-23T13:10:57.141Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
-        <lastmod>2022-03-19T14:22:07.134Z</lastmod>
+        <lastmod>2022-03-23T13:10:57.141Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/Xcode/</loc>
+        <lastmod>2022-03-20T10:47:00.512Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
@@ -26,13 +33,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/OC/</loc>
         <lastmod>2022-03-15T13:57:10.503Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/runtime/</loc>
-        <lastmod>2022-03-15T12:45:02.382Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

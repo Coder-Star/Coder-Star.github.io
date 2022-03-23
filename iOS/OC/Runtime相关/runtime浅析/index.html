@@ -20,31 +20,20 @@
     var CONFIG = {"hostname":"coder-star.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
   </script>
 
-  <meta name="description" content="runtime-API 收集">
+  <meta name="description" content="消息转发机制OC 的方法调用整体分为三个步骤  消息发送 动态方法解析 消息转发  消息发送 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行 没有在消息接受者 receiverCla">
 <meta name="keywords" content="iOS,runtime">
 <meta property="og:type" content="article">
-<meta property="og:title" content="runtime-API">
-<meta property="og:url" content="https://coder-star.github.io/iOS/基础原理/Runtime相关/runtime-API/index.html">
+<meta property="og:title" content="runtime 浅析">
+<meta property="og:url" content="https://coder-star.github.io/iOS/OC/Runtime相关/runtime浅析/index.html">
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
-<meta property="og:description" content="runtime-API 收集">
+<meta property="og:description" content="消息转发机制OC 的方法调用整体分为三个步骤  消息发送 动态方法解析 消息转发  消息发送 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行 没有在消息接受者 receiverCla">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/objc.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/class.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/class1.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/object.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/method.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/preperty.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/protocol.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/ivar.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/sel.webp">
-<meta property="og:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/imp.webp">
-<meta property="og:updated_time" content="2022-03-15T11:55:28.397Z">
+<meta property="og:updated_time" content="2022-03-23T13:10:57.141Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="runtime-API">
-<meta name="twitter:description" content="runtime-API 收集">
-<meta name="twitter:image" content="https://coder-star.github.io/img/iOS/基础原理/Runtime/runtime-api/objc.webp">
+<meta name="twitter:title" content="runtime 浅析">
+<meta name="twitter:description" content="消息转发机制OC 的方法调用整体分为三个步骤  消息发送 动态方法解析 消息转发  消息发送 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行 没有在消息接受者 receiverCla">
 
-<link rel="canonical" href="https://coder-star.github.io/iOS/基础原理/Runtime相关/runtime-API/">
+<link rel="canonical" href="https://coder-star.github.io/iOS/OC/Runtime相关/runtime浅析/">
 
 
 <script id="page-configurations">
@@ -57,7 +46,7 @@
   };
 </script>
 
-  <title>runtime-API | CoderStar's Blog</title>
+  <title>runtime 浅析 | CoderStar's Blog</title>
   
 
 
@@ -208,7 +197,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/基础原理/Runtime相关/runtime-API/">
+    <link itemprop="mainEntityOfPage" href="https://coder-star.github.io/iOS/OC/Runtime相关/runtime浅析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -221,7 +210,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          runtime-API
+          runtime 浅析
         </h1>
 
         <div class="post-meta">
@@ -231,14 +220,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-09-18 20:50:44" itemprop="dateCreated datePublished" datetime="2020-09-18T20:50:44+08:00">2020-09-18</time>
+              <time title="创建时间：2021-02-07 14:05:23" itemprop="dateCreated datePublished" datetime="2021-02-07T14:05:23+08:00">2021-02-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-15 19:55:28" itemprop="dateModified" datetime="2022-03-15T19:55:28+08:00">2022-03-15</time>
+                <time title="修改时间：2022-03-23 21:10:57" itemprop="dateModified" datetime="2022-03-23T21:10:57+08:00">2022-03-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -267,14 +256,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>13</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -286,7 +275,70 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="runtime-API-收集"><a href="#runtime-API-收集" class="headerlink" title="runtime-API 收集"></a>runtime-API 收集</h2><p><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/objc.webp" alt="objc"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/class.webp" alt="class"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/class1.webp" alt="class续"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/object.webp" alt="object"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/method.webp" alt="method"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/preperty.webp" alt="preperty"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/protocol.webp" alt="protocol"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/ivar.webp" alt="ivar"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/sel.webp" alt="sel"><br><img src="../../../../img/iOS/基础原理/Runtime/runtime-api/imp.webp" alt="imp"></p>
+        <h2 id="消息转发机制"><a href="#消息转发机制" class="headerlink" title="消息转发机制"></a>消息转发机制</h2><p>OC 的方法调用整体分为三个步骤</p>
+<ul>
+<li>消息发送</li>
+<li>动态方法解析</li>
+<li>消息转发</li>
+</ul>
+<h3 id="消息发送"><a href="#消息发送" class="headerlink" title="消息发送"></a>消息发送</h3><ol>
+<li>首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送</li>
+<li>如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行</li>
+<li>没有在消息接受者 receiverClass 的 cache 中找到方法，则从 receiverClass 的 class_rw_t 中查找方法 (查找时如果方法有序则<code>二分查找</code>，如果无序，则遍历查找)，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行</li>
+<li>没有在 receiverClass 中找到方法，则通过 superClass 指针找到 superClass，也是现在缓存中查找，如果找到，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，往下进行</li>
+<li>没有在消息接受者 superClass 的 cache 中找到方法，则从 superClass 的 class_rw_t 中查找方法，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，重复 4、5 步骤。如果找不到了 superClass 了，往下进行</li>
+<li>如果在最底层的 superClass 也找不到该方法，则要转到动态方法解析</li>
+</ol>
+<h4 id="子类的方法缓存是否会存储从父类方法列表查询到的方法？"><a href="#子类的方法缓存是否会存储从父类方法列表查询到的方法？" class="headerlink" title="子类的方法缓存是否会存储从父类方法列表查询到的方法？"></a>子类的方法缓存是否会存储从父类方法列表查询到的方法？</h4><p>方法列表缓存存在<code>metaclass</code>上，所以每个类都只有一份方法缓存，而不是每一个类的 object 都保存一份。即便是从父类取到的方法，也会存在类本身的方法缓存里。而当用一个父类对象去调用那个方法的时候，也会在父类的 metaclass 里缓存一份。</p>
+<p>缓存 Map，key 是方法名<code>SEL</code>，Value 为方法实现<code>IMP</code>；</p>
+<h4 id="为什么不直接使用散列表来存方法列表呢？"><a href="#为什么不直接使用散列表来存方法列表呢？" class="headerlink" title="为什么不直接使用散列表来存方法列表呢？"></a>为什么不直接使用散列表来存方法列表呢？</h4><blockquote>
+<ul>
+<li>散列表是没有顺序的，Objective-C 的方法列表是一个 list，是有顺序的；Objective-C 在查找方法的时候会顺着 list 依次寻找，并且 category 的方法在原始方法 list 的前面，需要先被找到，如果直接用 hash 存方法，方法的顺序就没法保证；</li>
+<li>list 的方法还保存了除了 selector 和 imp 之外其他很多属性；</li>
+<li>散列表是有空槽的，会浪费空间；</li>
+</ul>
+</blockquote>
+<h4 id="方法列表查找时，什么情况下是有序的，什么情况下是无需的；"><a href="#方法列表查找时，什么情况下是有序的，什么情况下是无需的；" class="headerlink" title="方法列表查找时，什么情况下是有序的，什么情况下是无需的；"></a>方法列表查找时，什么情况下是有序的，什么情况下是无需的；</h4><p>需要注意的是，当方法列表的结构发生改变的时候，就会触发对列表的排序（注意是方法所在的列表，而不是 rw 中所有的方法列表，即如果是二维数组，只需要重新排列当前方法所在的列表即可）。在以下函数的调用中，会触发对 mlist 的排序：</p>
+<ul>
+<li>methodizeClass</li>
+<li>attachCategories</li>
+<li>addMethod</li>
+<li>addMethods</li>
+</ul>
+<h3 id="动态方法解析-动态方法决议"><a href="#动态方法解析-动态方法决议" class="headerlink" title="动态方法解析 / 动态方法决议"></a>动态方法解析 / 动态方法决议</h3><p>开发者可以实现以下方法，来动态添加方法实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+resolveInstanceMethod: //实例方法</span><br><span class="line">+resolveClassMethod: //类方法</span><br></pre></td></tr></table></figure>
+<p>动态解析 (实际由开发者手动增加一个方法) 过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行；</p>
+<p>其中这个步骤可以放置一些不常用的方法，起到一个按需加载的作用；</p>
+<h3 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h3><h4 id="快速转发"><a href="#快速转发" class="headerlink" title="快速转发"></a>快速转发</h4><ul>
+<li>调用 forwardingTargetForSelector，返回值不为 nil 时，会调用 objc_msgSend(返回值, SEL)，返回值为 nil，执行下一步。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (id)forwardingTargetForSelector:(SEL)selector &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用场景：继承<code>NSProxy</code>达到切断循环引用链的作用；</p>
+<h4 id="慢速转发"><a href="#慢速转发" class="headerlink" title="慢速转发"></a>慢速转发</h4><p>调用 methodSignatureForSelector, 返回值不为 nil，调用 forwardInvocation: 方法；返回值为 nil 时，调用 doesNotRecognizeSelector: 方法</p>
+<h3 id="为什么需要方法签名这个步骤？"><a href="#为什么需要方法签名这个步骤？" class="headerlink" title="为什么需要方法签名这个步骤？"></a>为什么需要方法签名这个步骤？</h3><p>IMP 的本质是函数指针，在调用 C 语言函数时，CPU 需要为其分配栈空间，栈空间的栈底若干字节是固定用来存储函数的参数列表以及返回值的，方法签名就是为了告诉 CPU 应如何对栈底的这段内存空间进行布局</p>
+<h3 id="为什么转发分成快速、慢速转发？"><a href="#为什么转发分成快速、慢速转发？" class="headerlink" title="为什么转发分成快速、慢速转发？"></a>为什么转发分成快速、慢速转发？</h3><p>forwardingTargetForSelector 仅支持一个对象的返回，也就是说消息只能被转发给一个对象;forwardInvocation 可以将消息同时转发给任意多个对象。</p>
+<h2 id="方法交换"><a href="#方法交换" class="headerlink" title="方法交换"></a>方法交换</h2><p>方法交换 (method-swizzling)，主要目的是替换两个 Method 的 IMP</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取SEL值</span></span><br><span class="line"><span class="comment">// 获取方式包括 1、#selector 2、NSSelectorFromString()</span></span><br><span class="line"><span class="keyword">let</span> originalSelector = #selector(<span class="string">"老方法引用"</span>)</span><br><span class="line"><span class="keyword">let</span> swizzledSelector = #selector(<span class="string">"新方法引用"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原有方法，通过方法编号找到方法</span></span><br><span class="line"><span class="keyword">let</span> originalMethod = class_getInstanceMethod(<span class="keyword">self</span>, originalSelector)</span><br><span class="line"><span class="keyword">let</span> swizzledMethod = class_getInstanceMethod(<span class="keyword">self</span>, swizzledSelector)</span><br><span class="line"><span class="comment">// 先尝试給原有SEL添加新IMP，这里是为了避免原有SEL没有实现IMP的情况</span></span><br><span class="line"><span class="keyword">let</span> didAddMethod = class_addMethod(<span class="keyword">self</span>, originalSelector, method_getImplementation(swizzledMethod!), method_getTypeEncoding(swizzledMethod!))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> didAddMethod &#123;</span><br><span class="line">    <span class="comment">// 添加成功，说明原SEL没有实现IMP，此时新SEL还是对应新IMP，添加成功后将新的SEL的IMP替换成老IMP</span></span><br><span class="line">    <span class="comment">// 一个IMP可以对应多个SEL</span></span><br><span class="line">    class_replaceMethod(<span class="keyword">self</span>, swizzledSelector, method_getImplementation(originalMethod!), method_getTypeEncoding(originalMethod!))</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 添加失败，说明原SEL已经实现了IMP，直接将两个SEL的IMP实现交换即可</span></span><br><span class="line">    method_exchangeImplementations(originalMethod!, swizzledMethod!)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="runtime-应用场景"><a href="#runtime-应用场景" class="headerlink" title="runtime 应用场景"></a>runtime 应用场景</h2><ul>
+<li>数据埋点</li>
+<li>Crash 防护</li>
+<li>Category 中为类添加成员变量，利用关联对象。</li>
+<li>JSON 转 model</li>
+</ul>
+<blockquote>
+<p>关联对象由 AssociationsManager 管理并在 AssociationsHashMap 中存储。所有对象的关联内容都被放在一个统一的全局容器中.</p>
+</blockquote>
+<h2 id="runtime-三方库"><a href="#runtime-三方库" class="headerlink" title="runtime 三方库"></a>runtime 三方库</h2><ul>
+<li>Aspects（AOP 必备，’取缔’baseVC，无侵入埋点）</li>
+<li>MJExtension（JSON 转 model，一行代码实现 NSCoding 协议的自动归档和解档）</li>
+<li>JSPatch（动态下发 JS 进行热修复）</li>
+<li>NullSafe（防止因发 unrecognised messages 给 NSNull 导致的崩溃）</li>
+<li>UITableView-FDTemplateLayoutCell（自动计算并缓存 table view 的 cell 高度）</li>
+<li><p>UINavigationController+FDFullscreenPopGesture（全屏滑动返回）</p>
+</li>
+<li><p><a href="https://juejin.cn/post/6844904118973104135#heading-19" target="_blank" rel="noopener">OC源码分析之方法的查找原理</a></p>
+</li>
+</ul>
 
     </div>
 
@@ -356,12 +408,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/iOS/iOS技术知识体系/" rel="prev" title="iOS 技术知识体系">
-      <i class="fa fa-chevron-left"></i> iOS 技术知识体系
+    <a href="/iOS/进阶/优化/iOS优化-启动优化/" rel="prev" title="iOS 优化 - 启动优化">
+      <i class="fa fa-chevron-left"></i> iOS 优化 - 启动优化
     </a></div>
       <div class="post-nav-item">
-    <a href="/前端/JS/ES相关/" rel="next" title="ES相关">
-      ES相关 <i class="fa fa-chevron-right"></i>
+    <a href="/iOS/进阶/APP安全相关/" rel="next" title="APP安全相关">
+      APP安全相关 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -422,7 +474,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime-API-收集"><span class="nav-number">1.</span> <span class="nav-text">runtime-API 收集</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息转发机制"><span class="nav-number">1.</span> <span class="nav-text">消息转发机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息发送"><span class="nav-number">1.1.</span> <span class="nav-text">消息发送</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#子类的方法缓存是否会存储从父类方法列表查询到的方法？"><span class="nav-number">1.1.1.</span> <span class="nav-text">子类的方法缓存是否会存储从父类方法列表查询到的方法？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么不直接使用散列表来存方法列表呢？"><span class="nav-number">1.1.2.</span> <span class="nav-text">为什么不直接使用散列表来存方法列表呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法列表查找时，什么情况下是有序的，什么情况下是无需的；"><span class="nav-number">1.1.3.</span> <span class="nav-text">方法列表查找时，什么情况下是有序的，什么情况下是无需的；</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态方法解析-动态方法决议"><span class="nav-number">1.2.</span> <span class="nav-text">动态方法解析 / 动态方法决议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息转发"><span class="nav-number">1.3.</span> <span class="nav-text">消息转发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#快速转发"><span class="nav-number">1.3.1.</span> <span class="nav-text">快速转发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#慢速转发"><span class="nav-number">1.3.2.</span> <span class="nav-text">慢速转发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要方法签名这个步骤？"><span class="nav-number">1.4.</span> <span class="nav-text">为什么需要方法签名这个步骤？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么转发分成快速、慢速转发？"><span class="nav-number">1.5.</span> <span class="nav-text">为什么转发分成快速、慢速转发？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法交换"><span class="nav-number">2.</span> <span class="nav-text">方法交换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime-应用场景"><span class="nav-number">3.</span> <span class="nav-text">runtime 应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime-三方库"><span class="nav-number">4.</span> <span class="nav-text">runtime 三方库</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -612,7 +664,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'BlogTalk',
       owner       : 'Coder-Star',
       admin       : ['Coder-Star'],
-      id          : 'f4ab079a91051ead9b0b00971a6ed7fc',
+      id          : 'c701816e561721d1880a6dd3ad695abe',
         language: 'zh-CN',
       distractionFreeMode: true
     });

@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>https://coder-star.github.io/iOS/OC/Runtime%E7%9B%B8%E5%85%B3/runtime%E6%B5%85%E6%9E%90/</loc>
+        <lastmod>2022-03-23T13:10:57.141Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://coder-star.github.io/iOS/Xcode/Xcode%20Tips/</loc>
         <lastmod>2022-03-20T10:47:00.512Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -41,15 +49,7 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime%E7%9B%B8%E5%85%B3/runtime%E6%B5%85%E6%9E%90/</loc>
-        <lastmod>2022-03-15T12:45:02.382Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime%E7%9B%B8%E5%85%B3/runtime%E5%BA%95%E5%B1%82/</loc>
+        <loc>https://coder-star.github.io/iOS/OC/Runtime%E7%9B%B8%E5%85%B3/runtime%E5%BA%95%E5%B1%82/</loc>
         <lastmod>2022-03-15T11:59:30.618Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -57,7 +57,7 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime%E7%9B%B8%E5%85%B3/KVO%E4%B8%8EKVC/</loc>
+        <loc>https://coder-star.github.io/iOS/OC/Runtime%E7%9B%B8%E5%85%B3/KVO%E4%B8%8EKVC/</loc>
         <lastmod>2022-03-15T11:55:44.551Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -65,7 +65,7 @@
     </url>
 
     <url>
-        <loc>https://coder-star.github.io/iOS/%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/Runtime%E7%9B%B8%E5%85%B3/runtime-API/</loc>
+        <loc>https://coder-star.github.io/iOS/OC/Runtime%E7%9B%B8%E5%85%B3/runtime-API/</loc>
         <lastmod>2022-03-15T11:55:28.397Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
