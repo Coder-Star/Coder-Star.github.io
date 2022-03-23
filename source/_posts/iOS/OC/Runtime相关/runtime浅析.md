@@ -26,13 +26,19 @@ OC 的方法调用整体分为三个步骤
 5. 没有在消息接受者 superClass 的 cache 中找到方法，则从 superClass 的 class_rw_t 中查找方法，如果找到方法，执行方法，并把该方法缓存到 receiverClass 的 cache 中；如果没有找到，重复 4、5 步骤。如果找不到了 superClass 了，往下进行
 6. 如果在最底层的 superClass 也找不到该方法，则要转到动态方法解析
 
-方法列表缓存存在`metaclass`上，所以每个类都只有一份方法缓存，而不是每一个类的 object 都保存一份。即便是从父类取到的方法，也会存在类本身的方法缓存里。而当用一个父类对象去调用那个方法的时候，也会在父类的 metaclass 里缓存一份。缓存 Map，key 是方法名`SEL`，Value 为方法实现`IMP`；
+#### 子类的方法缓存是否会存储从父类方法列表查询到的方法？
 
-为什么不直接使用散列表来存方法列表呢？
+方法列表缓存存在`metaclass`上，所以每个类都只有一份方法缓存，而不是每一个类的 object 都保存一份。即便是从父类取到的方法，也会存在类本身的方法缓存里。而当用一个父类对象去调用那个方法的时候，也会在父类的 metaclass 里缓存一份。
+
+缓存 Map，key 是方法名`SEL`，Value 为方法实现`IMP`；
+
+#### 为什么不直接使用散列表来存方法列表呢？
 
 >* 散列表是没有顺序的，Objective-C 的方法列表是一个 list，是有顺序的；Objective-C 在查找方法的时候会顺着 list 依次寻找，并且 category 的方法在原始方法 list 的前面，需要先被找到，如果直接用 hash 存方法，方法的顺序就没法保证；
 >* list 的方法还保存了除了 selector 和 imp 之外其他很多属性；
 >* 散列表是有空槽的，会浪费空间；
+
+#### 方法列表查找时，什么情况下是有序的，什么情况下是无需的；
 
 需要注意的是，当方法列表的结构发生改变的时候，就会触发对列表的排序（注意是方法所在的列表，而不是 rw 中所有的方法列表，即如果是二维数组，只需要重新排列当前方法所在的列表即可）。在以下函数的调用中，会触发对 mlist 的排序：
 
@@ -65,13 +71,19 @@ OC 的方法调用整体分为三个步骤
 }
 ```
 
+应用场景：继承`NSProxy`达到切断循环引用链的作用；
+
 #### 慢速转发
 
-- 调用 methodSignatureForSelector, 返回值不为 nil，调用 forwardInvocation: 方法；返回值为 nil 时，调用 doesNotRecognizeSelector: 方法
-- 开发者可以在 forwardInvocation: 方法中自定义任何逻辑
-- 以上方法都有对象方法、类方法 2 个版本（前面可以是加号 +，也可以是减号 -）
+调用 methodSignatureForSelector, 返回值不为 nil，调用 forwardInvocation: 方法；返回值为 nil 时，调用 doesNotRecognizeSelector: 方法
 
-> forwardingTargetForSelector 仅支持一个对象的返回，也就是说消息只能被转发给一个对象;forwardInvocation 可以将消息同时转发给任意多个对象。
+### 为什么需要方法签名这个步骤？
+
+IMP 的本质是函数指针，在调用 C 语言函数时，CPU 需要为其分配栈空间，栈空间的栈底若干字节是固定用来存储函数的参数列表以及返回值的，方法签名就是为了告诉 CPU 应如何对栈底的这段内存空间进行布局
+
+### 为什么转发分成快速、慢速转发？
+
+forwardingTargetForSelector 仅支持一个对象的返回，也就是说消息只能被转发给一个对象;forwardInvocation 可以将消息同时转发给任意多个对象。
 
 ## 方法交换
 
