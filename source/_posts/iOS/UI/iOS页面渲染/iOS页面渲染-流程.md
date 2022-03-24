@@ -54,6 +54,9 @@ Hi Coder，我是 CoderStar！
 - `Metal`：
   `Metal` 类似于`OpenGL ES`，也是一套标准，具体实现由苹果实现。`Core Animation`、`Core Image`、`SceneKit`、`SpriteKit` 等等渲染框架都是构建于 `Metal` 之上的。
 
+> CoreGraphics.framework下面有：Quartz 2D / Quartz Services ;
+> QuartzCore.framework下面有： Core Animation / Core Image ;
+
 ## 图像显示原理
 
 介绍屏幕图像显示的原理，需要先从 CRT 显示器原理说起，如下图所示。CRT 的电子枪从上到下逐行扫描，扫描完成后显示器就呈现一帧画面。然后电子枪回到初始位置进行下一次扫描。为了同步显示器的显示过程和系统的视频控制器，显示器会用**硬件时钟**产生一系列的定时信号。当电子枪换行进行扫描时，显示器会发出一个水平同步信号（`horizonal synchronization`），简称 `HSync`；而当一帧画面绘制完成后，电子枪回复到原位，准备画下一帧前，显示器会发出一个垂直同步信号（`vertical synchronization`），简称 `VSync`。**显示器通常以固定频率进行刷新，这个刷新率就是 `VSync` 信号产生的频率**。虽然现在的显示器基本都是液晶显示屏了，但其原理基本一致。

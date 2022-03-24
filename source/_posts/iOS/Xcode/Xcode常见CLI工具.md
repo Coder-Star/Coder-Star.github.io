@@ -18,7 +18,7 @@ Hi Coder，我是 CoderStar！
 
 > 介绍的可能不全，大家可以去文中出现的路径下查看更多的工具。
 
-`Command Line Tool`本质是一个命令行工具包，内部有很多有用的工具，如`Apple LLVM compiler`、`Make`等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们使用`Homebrew`在安装一些`python`库或者`js`库时，都会提示需要`Command Line Tool`。
+`Command Line Tool`本质是一个命令行工具包，内部有很多有用的工具，如`Apple LLVM compiler`、`Make`等等。并且并不是只有开发 Apple 应用程序才需要用到这些工具包，当我们下载`Homebrew`时，在安装过程中也会下载`Command Line Tool`。
 
 > 下文会对`Command Line Tool`直接缩写成 CLI，XXX 一般情况是指对应路径地址。
 
