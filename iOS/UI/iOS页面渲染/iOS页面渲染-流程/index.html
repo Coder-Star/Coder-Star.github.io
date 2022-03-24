@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Core%20Animation%20Pipeline.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/Render%20Server.png">
 <meta property="og:image" content="https://coder-star.github.io/img/iOS/UI/iOS页面渲染/流程/VSync-Runloop.png">
-<meta property="og:updated_time" content="2021-12-07T02:01:26.588Z">
+<meta property="og:updated_time" content="2022-03-24T12:24:55.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 页面渲染 - 流程">
 <meta name="twitter:description" content="前言Hi Coder，我是 CoderStar！ 作为一名专业的 iOS 页面仔，画 UI 是我们的家常便饭，那不知道你在开发过程中有没有思考过这样一些问题：  App 静止不动时，页面是否还进行刷新？ 页面渲染和 RunLoop 之间是什么关系？ 主 RunLoop 周期与屏幕刷新率（VSync）之间有关系吗？如果有，是什么关系？ …  不知道你有没有过这些疑问？如果有，请耐心看完本文，我们一起">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-07 10:01:26" itemprop="dateModified" datetime="2021-12-07T10:01:26+08:00">2021-12-07</time>
+                <time title="修改时间：2022-03-24 20:24:55" itemprop="dateModified" datetime="2022-03-24T20:24:55+08:00">2022-03-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,7 +265,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7.7k</span>
+              <span>7.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -317,6 +317,9 @@
 <li><p><code>Metal</code>：<br><code>Metal</code> 类似于<code>OpenGL ES</code>，也是一套标准，具体实现由苹果实现。<code>Core Animation</code>、<code>Core Image</code>、<code>SceneKit</code>、<code>SpriteKit</code> 等等渲染框架都是构建于 <code>Metal</code> 之上的。</p>
 </li>
 </ul>
+<blockquote>
+<p>CoreGraphics.framework下面有：Quartz 2D / Quartz Services ;<br>QuartzCore.framework下面有： Core Animation / Core Image ;</p>
+</blockquote>
 <h2 id="图像显示原理"><a href="#图像显示原理" class="headerlink" title="图像显示原理"></a>图像显示原理</h2><p>介绍屏幕图像显示的原理，需要先从 CRT 显示器原理说起，如下图所示。CRT 的电子枪从上到下逐行扫描，扫描完成后显示器就呈现一帧画面。然后电子枪回到初始位置进行下一次扫描。为了同步显示器的显示过程和系统的视频控制器，显示器会用<strong>硬件时钟</strong>产生一系列的定时信号。当电子枪换行进行扫描时，显示器会发出一个水平同步信号（<code>horizonal synchronization</code>），简称 <code>HSync</code>；而当一帧画面绘制完成后，电子枪回复到原位，准备画下一帧前，显示器会发出一个垂直同步信号（<code>vertical synchronization</code>），简称 <code>VSync</code>。<strong>显示器通常以固定频率进行刷新，这个刷新率就是 <code>VSync</code> 信号产生的频率</strong>。虽然现在的显示器基本都是液晶显示屏了，但其原理基本一致。</p>
 <blockquote>
 <p><code>VSync</code> 信号由屏幕显示器硬件产生，是物理属性，一般不会改变。不同显示器的<code>VSync</code>信号频率也会不同，如 iPhone 的 60HZ，iPad Pro 的 120HZ，以及 PC 显示器的 144HZ 等等。</p>
