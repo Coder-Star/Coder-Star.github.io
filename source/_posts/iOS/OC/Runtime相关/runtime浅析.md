@@ -111,6 +111,12 @@ if didAddMethod {
 }
 ```
 
+为什么要先调用`class_addMethod`？
+
+因为如果这个类没有实现原始方法"originalSelector" ，但其父类实现了，那 `class_getInstanceMethod` 会返回父类的方法。这样 `method_exchangeImplementations` 替换的是父类的那个方法。
+
+假设父类有个方法`method`，子类未重写`method`方法，子类的中想要拿来替换的方法为`swizzledMethod`，交换完成之后，在子类实例调用`method`方法可以正常调用到`swizzledMethod`的实现，但是当父类实例调用`method`方法时，因为在父类里面找不到`swizzledMethod`的实现，所以直接就崩溃了。
+
 ## runtime 应用场景
 
 - 数据埋点
