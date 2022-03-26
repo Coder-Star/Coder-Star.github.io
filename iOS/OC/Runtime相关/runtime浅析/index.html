@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="CoderStar&#39;s Blog">
 <meta property="og:description" content="消息转发机制OC 的方法调用整体分为三个步骤  消息发送 动态方法解析 消息转发  消息发送 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行 没有在消息接受者 receiverCla">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2022-03-23T13:10:57.141Z">
+<meta property="og:updated_time" content="2022-03-26T09:37:22.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime 浅析">
 <meta name="twitter:description" content="消息转发机制OC 的方法调用整体分为三个步骤  消息发送 动态方法解析 消息转发  消息发送 首先判断消息接受者 receiver 是否为 nil，如果为 nil 直接退出消息发送 如果存在消息接受者 receiverClass，首先在消息接受者 receiverClass 的 cache（哈希表） 中查找方法，如果找到方法，直接调用。如果找不到，往下进行 没有在消息接受者 receiverCla">
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-23 21:10:57" itemprop="dateModified" datetime="2022-03-23T21:10:57+08:00">2022-03-23</time>
+                <time title="修改时间：2022-03-26 17:37:22" itemprop="dateModified" datetime="2022-03-26T17:37:22+08:00">2022-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.1k</span>
+              <span>3.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -319,6 +319,9 @@
 <h3 id="为什么转发分成快速、慢速转发？"><a href="#为什么转发分成快速、慢速转发？" class="headerlink" title="为什么转发分成快速、慢速转发？"></a>为什么转发分成快速、慢速转发？</h3><p>forwardingTargetForSelector 仅支持一个对象的返回，也就是说消息只能被转发给一个对象;forwardInvocation 可以将消息同时转发给任意多个对象。</p>
 <h2 id="方法交换"><a href="#方法交换" class="headerlink" title="方法交换"></a>方法交换</h2><p>方法交换 (method-swizzling)，主要目的是替换两个 Method 的 IMP</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取SEL值</span></span><br><span class="line"><span class="comment">// 获取方式包括 1、#selector 2、NSSelectorFromString()</span></span><br><span class="line"><span class="keyword">let</span> originalSelector = #selector(<span class="string">"老方法引用"</span>)</span><br><span class="line"><span class="keyword">let</span> swizzledSelector = #selector(<span class="string">"新方法引用"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原有方法，通过方法编号找到方法</span></span><br><span class="line"><span class="keyword">let</span> originalMethod = class_getInstanceMethod(<span class="keyword">self</span>, originalSelector)</span><br><span class="line"><span class="keyword">let</span> swizzledMethod = class_getInstanceMethod(<span class="keyword">self</span>, swizzledSelector)</span><br><span class="line"><span class="comment">// 先尝试給原有SEL添加新IMP，这里是为了避免原有SEL没有实现IMP的情况</span></span><br><span class="line"><span class="keyword">let</span> didAddMethod = class_addMethod(<span class="keyword">self</span>, originalSelector, method_getImplementation(swizzledMethod!), method_getTypeEncoding(swizzledMethod!))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> didAddMethod &#123;</span><br><span class="line">    <span class="comment">// 添加成功，说明原SEL没有实现IMP，此时新SEL还是对应新IMP，添加成功后将新的SEL的IMP替换成老IMP</span></span><br><span class="line">    <span class="comment">// 一个IMP可以对应多个SEL</span></span><br><span class="line">    class_replaceMethod(<span class="keyword">self</span>, swizzledSelector, method_getImplementation(originalMethod!), method_getTypeEncoding(originalMethod!))</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 添加失败，说明原SEL已经实现了IMP，直接将两个SEL的IMP实现交换即可</span></span><br><span class="line">    method_exchangeImplementations(originalMethod!, swizzledMethod!)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么要先调用<code>class_addMethod</code>？</p>
+<p>因为如果这个类没有实现原始方法”originalSelector” ，但其父类实现了，那 <code>class_getInstanceMethod</code> 会返回父类的方法。这样 <code>method_exchangeImplementations</code> 替换的是父类的那个方法。</p>
+<p>假设父类有个方法<code>method</code>，子类未重写<code>method</code>方法，子类的中想要拿来替换的方法为<code>swizzledMethod</code>，交换完成之后，在子类实例调用<code>method</code>方法可以正常调用到<code>swizzledMethod</code>的实现，但是当父类实例调用<code>method</code>方法时，因为在父类里面找不到<code>swizzledMethod</code>的实现，所以直接就崩溃了。</p>
 <h2 id="runtime-应用场景"><a href="#runtime-应用场景" class="headerlink" title="runtime 应用场景"></a>runtime 应用场景</h2><ul>
 <li>数据埋点</li>
 <li>Crash 防护</li>
