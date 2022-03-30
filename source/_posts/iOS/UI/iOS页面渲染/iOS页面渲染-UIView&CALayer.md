@@ -170,6 +170,8 @@ public protocol CALayerDelegate : NSObjectProtocol {
 
 > 注意 drawRect 方法是在 CPU 执行的, 在它执行完之后, 通过 context 将数据 (通常情况下这里的最终结果会是一个 bitmap, 类型是 CGImageRef) 写入 backing store, 通过 rendserver 交给 GPU 去渲染，将 backing  store 中的 bitmap 数据显示在屏幕上。
 
+> 当我们重写 UIView 中`draw(_ layer: CALayer, in ctx: CGContext)`该方法去自定义绘制一些东西，会发现该方法不会被自动调用，本质原理是 绘制是需要通过 `setNeedsDisplay` 打上标记才表示需要绘制。当然有些情况下，系统也会自动绘制，比如第一次出现的时候，对于上面这个情况，原因是因为系统为了提高效率，运行时假定如果视图没有 `drawRect` 实现，则不需要自动重绘。所以为了使`draw(_ layer: CALayer, in ctx: CGContext)`被调用到，我们还需要重写`drawRect`，实现内容为空也可以。
+
 **异步绘制**
 
 上面已经提到如果成为 layer 的 delegate，然后实现 displayLayer 方法，便可以开始异步绘制了，在异步绘制过程中：
