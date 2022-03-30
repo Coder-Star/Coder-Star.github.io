@@ -3,14 +3,21 @@
 
 
     <url>
-        <loc>https://coder-star.github.io/tags/runtime/</loc>
-        <lastmod>2022-03-26T09:37:22.463Z</lastmod>
+        <loc>https://coder-star.github.io/tags/UIView/</loc>
+        <lastmod>2022-03-30T15:20:59.431Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>https://coder-star.github.io/tags/iOS/</loc>
+        <lastmod>2022-03-30T15:20:59.431Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://coder-star.github.io/tags/runtime/</loc>
         <lastmod>2022-03-26T09:37:22.463Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
@@ -299,13 +306,6 @@
     <url>
         <loc>https://coder-star.github.io/tags/多线程/</loc>
         <lastmod>2021-12-16T12:30:44.500Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://coder-star.github.io/tags/UIView/</loc>
-        <lastmod>2021-12-15T12:14:40.159Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
