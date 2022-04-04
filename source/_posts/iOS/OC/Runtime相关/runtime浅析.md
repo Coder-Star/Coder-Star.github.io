@@ -52,22 +52,33 @@ OC 的方法调用整体分为三个步骤
 开发者可以实现以下方法，来动态添加方法实现
 
 ```Objective-C
-  +resolveInstanceMethod: //实例方法
-  +resolveClassMethod: //类方法
+// 实例方法
++ (BOOL)resolveInstanceMethod:(SEL)aSEL {
+
+}
+
+// 类方法
++ (BOOL)resolveClassMethod:(SEL)aSEL {
+}
 ```
 
 动态解析 (实际由开发者手动增加一个方法) 过后，会重新走消息发送的流程，从 receiverClass 的 cache 中查找方法这一步开始执行；
 
 其中这个步骤可以放置一些不常用的方法，起到一个按需加载的作用；
 
+在 CoreData 中，有些属性标记为 @dynamic，这些属性的值背后是通过数据库来更新和获取的，并不需要一个成员变量。所以就会为这些属性的 setter 和 getter 方法实现 resolveInstanceMethod:，返回 YES，并通过数据库来设置或者获取该属性的值。
+
 ### 消息转发
 
 #### 快速转发
+
+本质是替换消息接收者
 
 - 调用 forwardingTargetForSelector，返回值不为 nil 时，会调用 objc_msgSend(返回值, SEL)，返回值为 nil，执行下一步。
 
 ```objective-c
 - (id)forwardingTargetForSelector:(SEL)selector {
+
 }
 ```
 
@@ -76,6 +87,17 @@ OC 的方法调用整体分为三个步骤
 #### 慢速转发
 
 调用 methodSignatureForSelector, 返回值不为 nil，调用 forwardInvocation: 方法；返回值为 nil 时，调用 doesNotRecognizeSelector: 方法
+
+```objective-c
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+   
+}
+
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    SEL selector = [anInvocation selector];
+}
+```
 
 ### 为什么需要方法签名这个步骤？
 

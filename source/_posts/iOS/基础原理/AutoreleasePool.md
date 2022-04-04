@@ -331,7 +331,7 @@ func loadBigData() {
 那什么样的对象才是`Autorelease`类型的呢？
 
 - 编译器会检查方法名是否以`alloc`, `new`, `copy`, `mutableCopy` 开始，如果不是则自动将返回值的对象注册到 `AutoreleasePool` 中，比如一些类方法；
-  > 这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走`release`逻辑，我们可以利用`clang attribute`去处理，示例：`- (id)allocObject __attribute__((objc_method_family(none)))`，其会将`allocObject`这个方法当做普通对象看待。
+  > 这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走`release`逻辑，我们可以利用`clang attribute`去处理，示例：`- (id)allocObject __attribute__((objc_method_family(none)))`，其会将`allocObject`这个方法当做普通对象看待。 这个修饰符还有一个用处，当有一个属性是以init开头的时候，生成的set方法会被编译器误认为是构造方法，这个时候也可以使用这个。
 - iOS 5 及之前的编译器，关键字 `__weak` 修饰的对象，会自动加入`AutoreleasePool`。iOS 5 及之后的编译器，则直接调用的 `release`，不会加入 `AutoreleasePool`；
 - id 指针 (`id *`) 和对象指针（`NSError *`），会自动加上关键字 `__autorealeasing`，加入 `AutoreleasePool`；
 

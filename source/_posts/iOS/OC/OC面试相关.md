@@ -9,6 +9,25 @@ tags:
 date: 2021-02-02 20:25:06
 ---
 
+## 数据类型
+
+因为OC是在C的基础上发展而来，所以天然会携带C的一些数据类型，如：
+
+- int
+- float
+- double
+- char
+- bool
+
+除了上图中基本类型之外，还有一些类型限定修饰词
+
+short短型，修饰int、double；
+long长型，修饰int、double；
+signed有符号型，修饰int、char；
+unsigned 无符号型，修饰int、char；
+
+> 这些限定词经常用来限定int型，在限定int类型时int可以省略；
+
 ## 修饰符
 
 - @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)
