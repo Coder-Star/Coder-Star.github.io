@@ -11,7 +11,7 @@ date: 2021-02-02 20:25:06
 
 ## 数据类型
 
-因为OC是在C的基础上发展而来，所以天然会携带C的一些数据类型，如：
+因为 OC 是在 C 的基础上发展而来，所以天然会携带 C 的一些数据类型，如：
 
 - int
 - float
@@ -21,17 +21,17 @@ date: 2021-02-02 20:25:06
 
 除了上图中基本类型之外，还有一些类型限定修饰词
 
-short短型，修饰int、double；
-long长型，修饰int、double；
-signed有符号型，修饰int、char；
-unsigned 无符号型，修饰int、char；
+short 短型，修饰 int、double；
+long 长型，修饰 int、double；
+signed 有符号型，修饰 int、char；
+unsigned 无符号型，修饰 int、char；
 
-> 这些限定词经常用来限定int型，在限定int类型时int可以省略；
+> 这些限定词经常用来限定 int 型，在限定 int 类型时 int 可以省略；
 
 ## 修饰符
 
-- @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)
-- @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明。
+- @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)，在`声明`中。
+- @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明，在实现中；
 - @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，
 
 当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。
@@ -40,10 +40,10 @@ unsigned 无符号型，修饰int、char；
 
 什么情况下需要使用 @synthesize 呢？
 
+- 实现了带有 property 属性的 protocol；
 - 修改生成的成员变量名字；
 - 重写了只读属性的 getter 时；
 - 同时重写 setter 和 getter 时；
-- 实现了带有 property 属性的 protocol；
 
 怎么用呢？
 
