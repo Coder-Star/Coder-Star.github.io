@@ -30,17 +30,21 @@ unsigned 无符号型，修饰 int、char；
 
 ## 修饰符
 
+在.h 中使用`@property`声明的属性，必须在.m 中使用 @synthesize 或者 @dynamic 来实现，iOS6 以后可省略实现，默认自动合成；
+
 - @property 自动生成属性 setter 和 getter 方法的声明，自动生成对应的实例变量 (下划线 + 属性名)，在`声明`中。
 - @synthesize 生成实例变量（开发人员可设置）及属性 setter 和 getter 方法的声明，在实现中；
-- @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，
+- @dynamic 实例变量，属性 setter 和 getter 方法由用户自己实现，不自动生成，在实现中；
 
 当属性是只读属性，但是重写了 getter 方法，系统不会自动生成成员变量。当属性可读可写，同时重写了 setter/getter 方法，系统不会为你自动生成成员变量，但是如果只重写其中一个，系统还是会自动生成。
 
-@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是 @syntheszie var = \_var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上 @synthesize 及 @dynamic。
+@property 有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize 和 @dynamic 都没写，那么默认的就是 @syntheszie var = _var; （自动合成的）。正常情况下，我们都是使用自动合成的，一般用不上 @synthesize 及 @dynamic。
+
+### @synthesize
 
 什么情况下需要使用 @synthesize 呢？
 
-- 实现了带有 property 属性的 protocol；
+- 实现了带有 property 属性的 protocol，实现类声明里面不需要再添加`@property`。
 - 修改生成的成员变量名字；
 - 重写了只读属性的 getter 时；
 - 同时重写 setter 和 getter 时；
@@ -54,6 +58,10 @@ unsigned 无符号型，修饰 int、char；
 // .m文件
 @synthesize i = __i; // __i为指定的实例变量，@synthesize i相当于 @synthesize i = i;
 ```
+
+### @dynamic
+
+其主要的作用就是用在 NSManageObject 对象的属性声明上，由于此类对象的属性一般是从 Core Data 的属性中生成的，Core Data 框架会在程序运行的时候为此类属性生成 getter 和 Setter 方法。
 
 ### @property 属性修饰符
 
