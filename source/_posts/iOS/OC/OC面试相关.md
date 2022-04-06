@@ -99,10 +99,10 @@ unsigned 无符号型，修饰 int、char；
 
 **允许为空，iOS9 新关键字，用于引用类型**
 
-- nullable/\_Nullable/\_\_nullable 告诉编译器表示值可以空
-- nonnull/\_\_nonnull/\_Nonnull 表示不可以为 nil，NULL， 不遵守规定编译器会警告
+- nullable /_Nullable / __nullable 告诉编译器表示值可以空
+- nonnull /__nonnull / _Nonnull 表示不可以为 nil，NULL， 不遵守规定编译器会警告
 - null_resettable get 不能返回空, set 可以为空，如果使用，必须重写 set 或者 get 方法，处理传递值为空的情况
-- \_Null_unspecified 不确定是否为空
+- _Null_unspecified 不确定是否为空
 
 ```objective-c
 // nonnull
