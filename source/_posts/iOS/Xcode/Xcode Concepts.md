@@ -12,6 +12,10 @@ date: 2022-01-16 12:55:07
 
 Hi Coder，我是 CoderStar！
 
+今天我们还是接着聊聊`Xcode`。
+
+在我面试候选人的时候，我的题库里面有这样一道题：请
+
 Xcode 有非常多的概念，比如：workspace、project、target、scheme 等，这些概念之间都存在一定的依赖关系，了解这些关系有利于我们对 Xcode 工程体系的一个理解，后续使用`xcodebuild`命令进行操作时也能对参数的使用一清二楚。
 
 ## workspace
@@ -102,4 +106,4 @@ Let's be CoderStar!
 [Xcode Concept 学习笔记](https://sketchk.xyz/2020/05/14/Xcode-Concept/)
 [理解 Xcode 中的各种概念](http://chuquan.me/2021/12/03/understand-concepts-in-xcode/#more)
 [理解 Xcode 中的各种文件](http://chuquan.me/2021/12/14/understand-files-in-xcode/#more)
-[https://looseyi.github.io/post/sourcecode-cocoapods/08-cocoapods-xcodeproj/](https://looseyi.github.io/post/sourcecode-cocoapods/08-cocoapods-xcodeproj/)
+[Xcode 工程文件解析](https://looseyi.github.io/post/sourcecode-cocoapods/08-cocoapods-xcodeproj/)
