@@ -25,6 +25,9 @@ Hi Coder，我是 CoderStar！
 
 ### @ViewBuilder
 
+
+> 因为Swift中泛型还不支持可变参数，所以只能像下面一样，提供11个模板方法，至于为什么参数最多是10个，可能更多是一个经验值。
+
 ```swift
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 @_functionBuilder public struct ViewBuilder {
