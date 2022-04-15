@@ -17,6 +17,8 @@ Hi Coder，我是 CoderStar！
 
 ### @resultBuilder
 
+在语义分析阶段，Swift 编译器将函数构建器转换应用于解析的 AST。
+
 > 该`Attribute`在未公开之前叫做`@_functionBuilder`，Swift 5.4 修改为 `@resultBuilder`，按照 Apple 的习惯，一般没有公开的`Attribute`，前面都会有一个下划线`_`。
 
 [awesome-result-builders](https://github.com/carson-katri/awesome-result-builders)
@@ -25,8 +27,7 @@ Hi Coder，我是 CoderStar！
 
 ### @ViewBuilder
 
-
-> 因为Swift中泛型还不支持可变参数，所以只能像下面一样，提供11个模板方法，至于为什么参数最多是10个，可能更多是一个经验值。
+> 因为 Swift 中泛型还不支持可变参数，所以只能像下面一样，提供 11 个模板方法，至于为什么参数最多是 10 个，可能更多是一个经验值。
 
 ```swift
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
