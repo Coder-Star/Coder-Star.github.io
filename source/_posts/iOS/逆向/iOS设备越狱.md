@@ -67,6 +67,7 @@ Hi Coder，我是 CoderStar！
 ### 常用源
 
 - BigBoss：http://apt.thebigboss.org/repofiles/cydia/
+- angelxwind：http://cydia.angelxwind.net，拥有Appsync
 
 ### 常用插件
 
