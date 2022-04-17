@@ -39,19 +39,26 @@ Xcode 有比较多的概念，如下有：
 - Bundle
 - ...
 
-这个产物便是我们最终想要得到的东西。
+这个产物便是我们最终想通过`Xcode`所需的结果。
 
 ## Target
 
+上面谈到`Product`，那如何得到这个`Product`呢？这便引出这节的概念--`Target`。
+
+一个`Target`定义一个`Product`的构建，
+
+
 ## Workspace
-
-
 
 ## Project
 
 ## Target
 
-## build configuration
+## Build Setting 
+
+这个设置是一级一级的
+
+## Build Configuration
 
 属于 project 范围
 
