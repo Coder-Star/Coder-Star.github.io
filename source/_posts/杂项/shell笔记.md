@@ -65,12 +65,28 @@ CURRENT_PATH=$(dirname $0)
 CURRENT_PATH=$(pwd)
 ```
 
+## Linux常用命令
+```shell
+// 后台执行
+nohup ./main &
+
+// 找到指定端口相关信息
+netstat -antp | grep :7780
+
+// 找到指定端口对应pid
+netstat -antp | grep :7780 | awk '{print $7}' | awk -F '/' '{print $1}'
+
+// 杀死指定端口对应进程
+kill -9 $(netstat -antp | grep :7780 | awk '{print $7}' | awk -F '/' '{print $1}')
+
+```
+
 ## sed 命令
 
 unix 与 linux 在执行 sed 指令时有些许区别，当使用 sed -i 命令时，需要在 -i 指令后面多加一段 "", 即 `sed -i "" "s/192.168.0.2/192.168.0.3/g" filePath`
 
 ## curl 命令
 
-## shell 好用工具
+## shell 工具
 
 - jq：shell 下处理 json 神器，mac 安装命令 `brew install jq`
