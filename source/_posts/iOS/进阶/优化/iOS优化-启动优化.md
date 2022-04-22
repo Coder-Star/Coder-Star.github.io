@@ -608,3 +608,4 @@ Let's be CoderStar!
 - [美团外卖iOS App冷启动治理](https://tech.meituan.com/2018/12/06/waimai-ios-optimizing-startup.html)
 - [dyld详解](https://www.dllhook.com/post/238.html)
 - [launch-time-performance-optimization](https://www.avanderlee.com/optimization/launch-time-performance-optimization/)
+- [快手 iOS 启动优化实践](https://mp.weixin.qq.com/s/ph7kFRKYWP1bqbNtTK4z3Q)

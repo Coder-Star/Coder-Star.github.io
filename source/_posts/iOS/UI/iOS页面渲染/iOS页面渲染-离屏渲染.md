@@ -169,6 +169,7 @@ Let's be CoderStar!
 - [关于iOS离屏渲染的深入研究](https://zhuanlan.zhihu.com/p/72653360)
 - [iOS界面渲染与优化(四) - 离屏渲染与优化总结](https://juejin.cn/post/6982909100275269662)
 - [iOS圆角的离屏渲染，你真的弄明白了吗](https://juejin.cn/post/6846687603316490254#heading-2)
+- [iOS性能优化——离屏渲染的分析探究](https://mp.weixin.qq.com/s/grfRkNI90bUUCWR0l7TjNw)
 
 > 为什么圆角和裁剪后iOS绘制会触发离屏渲染?
 
