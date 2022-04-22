@@ -45,3 +45,17 @@ date: 2021-05-27 14:51:08
 - UIButton（可推及到UIControl）的state值不是一个enum，而是一个OptionSet。意味着状态间并不是互斥关系，而是一个叠加关系，其中遇到的实例为 UIButton 在已经是selected的前提时，长按时并不会出现高亮状态设置的内容，而是会出现normal状态下的内容。解决方式为：`setImage(UIImage(named: "XXX"), for: [.selected, .highlighted])`，即为该种状态单独设置一下值。
 
 - UITableView 设置 group 样式 头部会有一段空白，可以设置`tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0.01))`
+
+
+```swift
+    /// 处理 UICollectionView 只有一个cell时，cell被自动居中问题
+    /// 还有一个 _setRowAlignmentsOptions 私有API方案
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if dataArr.count == 1 {
+            let right = collectionView.frame.width - self.collectionView(collectionView, layout: collectionViewLayout, sizeForItemAt: IndexPath(item: 0, section: section)).width
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: right)
+        } else {
+            return UIEdgeInsets.zero
+        }
+    }
+```
