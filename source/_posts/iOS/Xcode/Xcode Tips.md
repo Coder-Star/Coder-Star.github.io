@@ -53,7 +53,8 @@ Hi Coder，我是 CoderStar！
 
 大家可以很少关注上图所示的按钮，其实这个地方能提供很多有用的功能。
 
-就不一一介绍了，主要介绍下`Generated Interface`功能，该功能可以查看 OC 的`.h`文件生成对应的`.swift`文件是什么样子，在处理混编时候比较常用；
+- `Generated Interface`：该功能可以查看 OC 的`.h`文件生成对应的`.swift`文件是什么样子，在处理混编时候比较常用；
+- `Preprocess`：对OC代码进行预编译；
 
 快捷键：`control` + `1`
 

@@ -12,7 +12,14 @@ date: 2022-01-16 12:55:07
 
 Hi Coder，我是 CoderStar！
 
-今天我们还是接着聊聊`Xcode`。
+不知道大家会不会思考这样的问题？
+
+- `xcodebuild`命令的几个参数怎么填，到底是填`scheme`，还是填`target`，亦或是其他的？
+- `CocoaPods`是如何将库与工程组合到一起的？
+- 多环境配置出包的是选择多`target`方案还是多`configuration`方案？
+- ...
+
+带着这些问题我们走进今天的文章，了解`Xcode`的各种`Concepts`。
 
 Xcode 有比较多的概念，如下有：
 
@@ -25,7 +32,9 @@ Xcode 有比较多的概念，如下有：
 * Configurations
 * Product
 
-是不是有一种感觉：看着就很熟悉，但细细去解释又感觉有点吃力。接下来我们就一起来沿着我的思路回顾一下这些概念：
+是不是有一种感觉：看着就很熟悉，但细细去解释又感觉有点吃力。接下来我们就一起来沿着我的思路回顾一下这些概念。
+
+> 概念之间是相辅相成的，需要带着整体的思路去理解这些概念；
 
 官方对这些概念的解释可以看这篇文档：[Xcode Concepts](https://developer.apple.com/library/archive/featuredarticles/XcodeConcepts/Concept-Targets.html)
 
@@ -39,24 +48,26 @@ Xcode 有比较多的概念，如下有：
 - Bundle
 - ...
 
-这个产物便是我们最终想通过`Xcode`所需的结果。
+这个产物便是我们最终想通过`Xcode`得到的目标产物，那我们需要怎么得到这个产物呢，那就涉及到下方的概念了。
 
 ## Target
 
-上面谈到`Product`，那如何得到这个`Product`呢？这便引出这节的概念--`Target`。
+一个`Target`来描述（或者叫做确定）一个`Product`，
+
 
 一个`Target`定义一个`Product`的构建，
 
+## Project
 
 ## Workspace
 
-## Project
-
-## Target
-
 ## Build Setting 
 
+Target级 > xcconfig文件 > Project级 > iOS 默认配置
+
 这个设置是一级一级的
+
+https://xcodebuildsettings.com/
 
 ## Build Configuration
 
@@ -67,6 +78,19 @@ Xcode 有比较多的概念，如下有：
 Xcode Scheme 定义一组操作，默认有：Build、Test、Launch、Profile、Analyze、Archive。每一种操作定义了一系列的指令，包括：target、build configuration、arguments、options 等等，这些参数、指令共同构成一个构建方案，从而用于构建一个或多个 target。
 
 我们可以拥有任意数量的 scheme，但一次只能激活一个 scheme，对应在 Xcode 的右上角我们每次只能选中一个 scheme。
+
+## xcconfig
+
+https://github.com/CocoaPods/CocoaPods/issues/1736
+
+单独定义时，并且使用cocoapods需要注意在自定义的文件中导入
+
+pod install --no-integrate
+
+曾经有一个选项--no-integrate可以避免将相应的pod config文件附加到我们现在不再存在的配置集中。
+如果我们想要它，我们会在 Podfile 中添加:integrate_targets => false作为选项。
+
+#include "Pods/Target Support Files/XXXXXX.xcconfig"
 
 ## 多环境打包
 
