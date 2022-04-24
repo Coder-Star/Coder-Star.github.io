@@ -73,9 +73,21 @@ Data 部分包含了实际的代码和数据，Data 被分割成很多个 Segmen
 
 存储分类方法列表
 
+#### __objc_nlcatlist
+
+当分类中有 `+load` 方法，全部分类方法列表不仅会在`__objc_catlist`存下，还会在`__objc_nlcatlist`存下。
+
+该位置主要目的是让App启动时可以方便调用 `+load` 方法。
+
 #### __objc_const
 
 存储主类方法列表
+
+##### Objc2 Method List
+
+##### Objc2 Class Info
+
+##### Objc2 Caterory
 
 ### `LINKEDIT`
 

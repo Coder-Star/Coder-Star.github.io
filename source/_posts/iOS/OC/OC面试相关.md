@@ -207,7 +207,9 @@ category：分类
 
 其中实例方法和类方法的方法列表都会合并；
 
-> Category中的方法在启动时添加明明会消耗性能，为什么不能提前处理好呢？ [Category中的方法都在App启动时才添加吗？](https://www.jianshu.com/p/87af1bb3cc20)
+Category中的方法在启动时添加明明会消耗性能，为什么不能提前处理好呢？ [Category中的方法都在App启动时才添加吗？](https://www.jianshu.com/p/87af1bb3cc20)
+
+在**静态链接**期间，会优化
 
 其中分类中定义存储属性使用关联对象，关联对象的存储存储在全局的 Map 中。
 
