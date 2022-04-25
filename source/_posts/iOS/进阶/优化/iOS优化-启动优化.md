@@ -616,3 +616,4 @@ Let's be CoderStar!
 - [dyld详解](https://www.dllhook.com/post/238.html)
 - [launch-time-performance-optimization](https://www.avanderlee.com/optimization/launch-time-performance-optimization/)
 - [快手 iOS 启动优化实践](https://mp.weixin.qq.com/s/ph7kFRKYWP1bqbNtTK4z3Q)
+- [货拉拉用户端体验优化--启动优化篇](https://juejin.cn/post/7087773731061235743)
