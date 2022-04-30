@@ -23,28 +23,28 @@ Hi Coder，我是 CoderStar！
 
 Xcode 有比较多的概念，如下有：
 
-* Workspace
-* Project
-* Target
-* Scheme
-* Build Setting（Xcconfig）
-* Configurations
-* Product
+* `Workspace`
+* `Project`
+* `Target`
+* `Scheme`
+* `Build Setting`（`Xcconfig`）
+* `Configurations`
+* `Product`
 
 是不是有一种感觉：看着就很熟悉，但细细去解释又感觉有点吃力。接下来我们就一起来沿着我的思路回顾一下这些概念。
 
-> 概念之间是相辅相成的，需要带着整体的思路去理解这些概念，不同章节之间记得联系起来看。
+> 概念之间是相辅相成的，需要带着整体的思维去理解这些概念，不同章节之间记得联系起来看。
 
 官方对这些概念的解释可以看这篇文档：[Xcode Concepts](https://developer.apple.com/library/archive/featuredarticles/XcodeConcepts/Concept-Targets.html)
 
 ## Product
 
-`Product` 顾名思议就是 **产物**，这也是我们使用 Xcode 最终想要生成的东西，这些产物按照 `Mach-O Type` 来划分包括：
+`Product` 顾名思义就是 **产物**，这也是我们使用 `Xcode` 最终想要生成的东西，这些产物按照 `Mach-O Type` 来划分包括：
 
-- Executable
-- Dynamic Library
-- Static Library
-- Bundle
+- `Executable`
+- `Dynamic Library`
+- `Static Library`
+- `Bundle`
 - ...
 
 这个产物便是我们最终想通过`Xcode`得到的目标产物，那我们需要怎么得到这个产物呢，那就涉及到下方的概念了。
@@ -59,9 +59,9 @@ Xcode 有比较多的概念，如下有：
 
 如上图所示，`Target`的设置主要包含七个部分，就不一一列举了，挑几个我觉得需要注意的几个聊一聊吧。
 
-### `Build Settings`
+### Build Settings
 
-我们对`Build Settings`应该是比较熟悉的，会经常在里面配置一些参数，其本质就是`Target`所依赖的环境参数。具体的参数列举以及说明可以参照 [xcodebuildsettings](https://xcodebuildsettings.com/)。
+我们对`Build Settings`应该是比较熟悉的，会经常在里面配置一些参数，其本质就是`Target`所依赖的参数或者告诉编译器的参数等。具体的参数列举以及说明可以参照 [xcodebuildsettings](https://xcodebuildsettings.com/)。
 
 配置界面如下图所示，完整的 `Build Settings` 共有将近 40 项配置内容。从配置界面上看，每一项的配置都有五列（因为项目是`CocoaPods`管理的，所以会有`Project Config`文件配置列），可以看到，从左至右的顺序分别是：`Resolved` 列、`Target` 列、`Project Config`列、`Project` 列、`iOS Default` 列，每一列所代表的意义如下。
 
@@ -69,23 +69,23 @@ Xcode 有比较多的概念，如下有：
 
 * `Resolved` 列：最终确定的编译方式，无法自己设定。其结果是根据其右边四栏的选择结果以及优先级顺序来确定最后编译时采用的编译方式。在图的第二行选项卡中选择 `combined` 选项，可以直接地看到只有该栏的最后结果；
 * `Target` 列：`Target` 的 `Build Settings` 配置的编译选项。可自定义，其优先级最高；
-* `Project Config` 列：`Project`对应配置的`Config`文件配置的编译选项，如果没有配置，则没有该列。（该列文件会在下文给出）
+* `Project Config` 列：`Project`对应配置的`Config`文件配置的编译选项，如果没有配置，则没有该列。（相关细节请看下文）
 * `Project` 列：`Project` 的 `Build Settings` 配置的编译选项；
-* `iOS Default` 列：在创建项目时系统自带的默认编译选项，无法修改。优先级最低，只有当其他两栏都没有设置选项时，最后的编译方式才会以该栏为准；
+* `iOS Default` 列：在创建项目时系统自带的默认编译选项，无法修改，优先级最低。
 
 整个配置是有优先级的，**从左到右优先级依次降低**，其中绿色背景就是最终生效的配置，与`Resolved`列完全对应上。
 
-> 选中某个配置，前面会出现一个指向右侧的箭头，点击可以展开不同环境（Configuations）的配置选中，这跟`Project`里面配置的 `Configuations`是对应上的，具体在`Project`章节详细介绍；
+> 选中某个配置，前面会出现一个指向右侧的箭头，点击可以展开不同环境（`Configuations`）的配置选中，这跟`Project`里面配置的 `Configuations`是对应上的，具体在`Project`章节详细介绍。
 
-在平时我们配置`Build Settings`会碰到一些环境变量，这里也稍微列举一下。
+平时我们配置`Build Settings`会碰到一些环境变量，这里也稍微列举一下：
 
 - `$(PROJECT_DIR)` 代表的是整个项目，一般是`.xcodeproj`文件所在目录；
 - `${SRCROOT}` 包含定义 `Target` 的 `Project` 的路径，一般情况下和`$(PROJECT_DIR)`是等价的；
 - `${PROJECT_FILE_PATH}`表示 `Project` 的当前路径，相当于`$(PROJECT_DIR)/$(PROJECT_NAME).xcodeproj`；
 - `${PODS_ROOT}` 代表的是 `Pods` 目录，是 `CocoaPods` 通过 `UserDefine` 自定义的；
-- `$(inherited)` 继承上一级（Project）或依赖项的配置。通过 CocoaPods 集成的项目，$(inherited) 将会包含 Pods_xxxx.xcconfig 中的配置
+- `$(inherited)` 继承上一级（`Project`）或依赖项的配置。通过 `CocoaPods` 集成的项目，`$(inherited)` 将会包含 `Pods_xxxx.xcconfig` 中的配置；
 
-在设置路径时还有下面两个选项，表示是否递归寻找子目录
+在设置路径时还有下面两个选项，表示是否递归寻找子目录：
 - `non-recursive`：非递归
 - `recursive`：递归
 
@@ -99,7 +99,7 @@ Xcode 有比较多的概念，如下有：
 
 #### `Dependenices`
 
-`Target` 对象依赖阶段：设置该`Target`依赖的其他`Target`，即该`Target`的构建必须等到其依赖的`Target`构建输出之后才可构建。注意这里`Target`的范围必须是同一`Project`里面的；
+设置`Target`依赖的其他`Target`，即该`Target`的构建必须等到其依赖的`Target`构建输出之后才可构建。注意这里`Target`的范围必须是同一`Project`里面的；
 
 有一些对应的使用场景：
   * 宿主程序依赖扩展程序；
@@ -109,19 +109,19 @@ Xcode 有比较多的概念，如下有：
 
 #### `Compile Sources`
 
-源文件阶段：是指将有哪些源代码被编译，可以通过对应的【+】【-】按钮进行添加或删除资源来控制编译的代码文件。并且可以通过修改此阶段的 `Compiler Flags`（编译器标识）来为每个单独文件设置其编译器标示，比如设置是否支持 ARC，是否显示`Warning`等；
+指将有哪些源代码被编译，可以通过对应的【+】【-】按钮进行添加或删除资源来控制编译的代码文件。并且可以通过修改此阶段的 `Compiler Flags`（编译器标识）来为每个单独文件设置其编译器标示，比如设置是否支持 `ARC`，是否显示`Warning`等；
 
 #### `Link Binary With Libraries`
 
-链接二进制库阶段：是指编译过程中会引用哪些库文件，我们同样可以通过【+】【-】按钮进行添加或删除编译所引用的库文件。
+指编译过程中会引用哪些库文件，我们同样可以通过【+】【-】按钮进行添加或删除编译所引用的库文件。
 
 这里就不受同一个`Project`的限制，默认搜索范围会包括整个`WorkSpace`。
 
 #### `Copy Bundle Resources`
 
-拷贝 `Bundle` 资源阶段：是指生成的 product 的 .app 内将包含哪些资源文件，同样可以通过红框中的【+】【-】按钮进行添加或删除资源来控制编译的资源文件。该阶段定义了对象中的资源文件，包括图片，`xib`文件等等。
+指生成的 `Product` 的 `.app` 内将包含哪些资源文件，同样可以通过红框中的【+】【-】按钮进行添加或删除资源来控制编译的资源文件。该阶段定义了对象中的资源文件，包括图片，`xib`文件等等。
 
-> 从上面的的一些配置大家可以看到，`Target`本身具备的依赖特性，即 Xcode 会根据依赖顺序构建相关`Product`；
+> 从上面的的一些配置大家可以看到，`Target`本身具备的依赖特性，即 Xcode 会根据依赖顺序构建对应`Product`；
 
 ## Project
 
@@ -132,15 +132,15 @@ Xcode 有比较多的概念，如下有：
 ![Project](../../../img/iOS/Xcode/XcodeConcepts/Project.jpg)
 
 根据上图，我们可以发现其涉及三个`Tab`：
-- Info：基本信息；
-- Build Settings：配置；
-- Package Dependencies：`Package`依赖项，也就是我们常说的 SPM；
+- `Info`：基本信息；
+- `Build Settings`：配置；
+- `Package Dependencies`：`Package`依赖项，也就是我们常说的 `SPM`；
 
-这里我们只关注一下 `Info` 所在 `Tab` 部分信息；
+这里我们只关注一下 `Info` 所在 `Tab` 下的部分信息；
 
 ### Configurations
 
-用来配置 iOS 项目的 `xcconfig` 文件，主要用于在几套不同的开发环境编译。
+用来配置`Project`的 `xcconfig` 文件，主要用于在几套不同的开发环境编译。
 
 `xcconfig` 文件其实就是 `Xcode` 里的 `config` 文件，本质是一个用来保存 `Build Settings` 键值对的纯文本文件。形式如下：
 
@@ -151,7 +151,7 @@ CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 
 利用`xcconfig`文件我们可以更方便以及工程化的配置`Build Settings`。
 
-默认的`Configurations`有`Debug`和`Release`两种；我们可以利用`Configurations`这一概念来做多环境配置，常见的多环境会包括基础 API 地址（develop、pre 等等），
+默认的`Configurations`有`Debug`和`Release`两种，我们可以进行额外的添加，可以利用`Configurations`这一概念来做多环境配置。
 
 ### .xcodeproj
 
@@ -162,14 +162,14 @@ CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 上图我们可以看到`.xcodeproj`的文件结构：
 - `project.pbxproj`：想必大家都知道，我们平时在合并分支时经常会解决这个文件的冲突，也是最复杂的一个文件，里面记录代码的结构等信息。
 - `project.xcworkspace`：这个位置的`.workspace`就不多介绍了，下面统一介绍。
-- `xcshareddata`：主要包括 shared 出去的 scheme；
-- `xcuserdata`：断点数据 (如果未打过断点，则不会有该文件，如果打过全取消了，该文件也不会被删除，只是内容发生变化)，未 `shared` 的 `scheme`。该文件夹一般是需要被 git 进行忽略的；
+- `xcshareddata`：主要包括 `shared` 出去的 `Scheme`；
+- `xcuserdata`：断点数据 (如果未打过断点，则不会有该文件，如果打过全取消了，该文件也不会被删除，只是内容发生变化)，未 `shared` 的 `Scheme`。该文件夹一般是需要被 `git` 进行忽略的；
 
 ## Scheme
 
-`Xcode Scheme` 定义一组操作，默认有：`Build`、`Test`、`Launch`、`Profile`、`Analyze`、`Archive`。每一种操作定义了一系列的指令，包括：`target`、`build configuration`、`arguments`、`options` 等等，这些参数、指令共同构成一个构建方案，从而用于构建一个或多个 `Target`。
+`Scheme` 定义一组操作，默认有：`Build`、`Test`、`Launch`、`Profile`、`Analyze`、`Archive`。每一种操作定义了一系列的指令，包括：`target`、`build configuration`、`arguments`、`options` 等等，这些参数、指令共同构成一个构建方案，从而用于构建一个或多个 `Target`。
 
-我们可以拥有任意数量的 `Scheme`，但一次只能激活一个 `Scheme`，对应在 Xcode 的右上角我们每次只能选中一个 `Scheme`。
+我们可以拥有任意数量的 `Scheme`，但一次只能激活一个 `Scheme`，对应在 `Xcode` 的右上角我们每次只能选中一个 `Scheme`。
 
 Edit Scheme | Manage Scheme
 ---------|----------
@@ -187,7 +187,7 @@ Edit Scheme | Manage Scheme
 
 上面两种方式其实都有各自比较典型的适用场景：
 - `Configurations`：比较适合区别一些环境特征的，比如根据网络环境划分为`dev`、`test`、`pre`、`prod`等环境的，还有根据环境去区别是否显示内部调试工具的。
-- `Target`：比较适合一套代码出多包的场景，比如两个产品之间有很大比例代码是一致的，则可以使用这种方式去处理，常用的`马甲包`就是这种套路。
+- `Target`：比较适合一套代码出多包的场景，比如两个产品之间有很大比例代码是一致的，则可以使用这种方式去处理，常说的马甲包就是这种套路。
 
 ## Workspace
 
@@ -197,17 +197,17 @@ Edit Scheme | Manage Scheme
 
 一个`Workspace`可以有多个`Project`，其都是相互独立的，我们可以在不打开 `Workspace` 的情况下直接打开 `Project`，我们`一个Project`也可以分布在多个`Workspace`中。通过`Workspace`，我们可以灵活的组合`Project`，实现非常庞大、复杂的工程；
 
-默认情况下，`Workspace` 中的所有 `project` 都构建在同一目录中。
+默认情况下，`Workspace` 中的所有 `Project` 都构建在同一目录中。
 
 `Workspace` 类似`.xcodeproj`文件，其不是一个文件夹，而是一个有管理、索引作用的一个文件，结构如下所示：
 
 ![xcworkspace文件结构](../../../img/iOS/Xcode/xcworkspace文件结构.png)
 
-- `contents.xcworkspacedata`：拥有的 project 等配置；
-- `xcshareddata`：里面会包含对 IDE 的版本检查，以及 SPM 保存的数据。
-- `xcuserdata`：断点数据 (如果未打过断点，则不会有该文件，如果打过全取消了，该文件也不会被删除，只是内容发生变化)，窗口设置数据；（UserInterfaceState.xcuserstate，二进制类型），该文件夹一般是需要被 git 进行忽略的；
+- `contents.xcworkspacedata`：拥有的 `Project` 等配置；
+- `xcshareddata`：里面会包含对 `IDE` 的版本检查，以及 `SPM` 保存的数据。
+- `xcuserdata`：断点数据 (如果未打过断点，则不会有该文件，如果打过全取消了，该文件也不会被删除，只是内容发生变化)，窗口设置数据；（`UserInterfaceState.xcuserstate`，为二进制类型），该文件夹一般是需要被 `git` 进行忽略的；
 
-> 看到这里想必大家就能明白为什么 Xcode 重新打开项目时，断点以及窗口还会保持原样。
+> 看到这里想必大家就能明白为什么 `Xcode` 重新打开项目时，断点以及窗口还会保持原样。
 
 ## 最后
 
