@@ -47,7 +47,7 @@ Xcode 有比较多的概念，如下有：
 - `Bundle`
 - ...
 
-这个产物便是我们最终想通过`Xcode`得到的目标产物，那我们需要怎么得到这个产物呢，那就涉及到下方的概念了。
+这个产物便是我们最终想通过`Xcode`得到的目标产物，那我们怎么得到这个产物呢，那就涉及到下方的概念了。
 
 ## Target
 
@@ -95,7 +95,7 @@ Xcode 有比较多的概念，如下有：
 
 ### `Build Phases`
 
-我们可以看到该部分主要方面四方面的类型，当然也可以手动添加一些脚本在构建过程中运行，如使用`Cocoapods`管理的项目这里就会增加一些自定义的脚本。
+我们可以看到该部分主要分为四方面，当然也可以手动添加一些脚本在构建过程中运行，如使用`Cocoapods`管理的项目这里就会增加一些自定义的脚本。
 
 #### `Dependenices`
 
@@ -195,7 +195,7 @@ Edit Scheme | Manage Scheme
 
 `Workspace`扩展了整个工作流程的范围，不管是`Target`之间的依赖关系，还有索引的范围都得到了扩大（代码补全、定义跳转以及其他内容感知的相关功能都可以在 `Workspace` 下的所有 `Project` 中使用）。
 
-一个`Workspace`可以有多个`Project`，其都是相互独立的，我们可以在不打开 `Workspace` 的情况下直接打开 `Project`，我们`一个Project`也可以分布在多个`Workspace`中。通过`Workspace`，我们可以灵活的组合`Project`，实现非常庞大、复杂的工程；
+一个`Workspace`可以有多个`Project`，其都是相互独立的，我们可以在不打开 `Workspace` 的情况下直接打开 `Project`，我们一个`Project`也可以分布在多个`Workspace`中。通过`Workspace`，我们可以灵活的组合`Project`，实现非常庞大、复杂的工程；
 
 默认情况下，`Workspace` 中的所有 `Project` 都构建在同一目录中。
 
