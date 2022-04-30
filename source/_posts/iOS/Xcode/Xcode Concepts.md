@@ -109,7 +109,7 @@ Xcode 有比较多的概念，如下有：
 
 #### `Compile Sources`
 
-指将有哪些源代码被编译，可以通过对应的【+】【-】按钮进行添加或删除资源来控制编译的代码文件。并且可以通过修改此阶段的 `Compiler Flags`（编译器标识）来为每个单独文件设置其编译器标示，比如设置是否支持 `ARC`，是否显示`Warning`等；
+指将有哪些源代码被编译，可以通过对应的【+】【-】按钮进行添加或删除资源来控制编译的代码文件。并且可以通过修改此阶段的 `Compiler Flags`（编译器标识）来为每个单独文件设置其编译器标识，比如设置是否支持 `ARC`，是否显示`Warning`等；
 
 #### `Link Binary With Libraries`
 
@@ -157,7 +157,7 @@ CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 
 这个文件大家应该是很熟悉的，其可以看做是`Project`的声明文件，我们这里顺便扩展一下这个文件的结构。
 
-![xcodeproj文件结构](../../../img/iOS/Xcode/xcodeproj文件结构.png)
+![xcodeproj文件结构](../../../img/iOS/Xcode/XcodeConcepts/xcodeproj文件结构.png)
 
 上图我们可以看到`.xcodeproj`的文件结构：
 - `project.pbxproj`：想必大家都知道，我们平时在合并分支时经常会解决这个文件的冲突，也是最复杂的一个文件，里面记录代码的结构等信息。
@@ -201,7 +201,7 @@ Edit Scheme | Manage Scheme
 
 `Workspace` 类似`.xcodeproj`文件，其不是一个文件夹，而是一个有管理、索引作用的一个文件，结构如下所示：
 
-![xcworkspace文件结构](../../../img/iOS/Xcode/xcworkspace文件结构.png)
+![xcworkspace文件结构](../../../img/iOS/Xcode/XcodeConcepts/xcworkspace文件结构.png)
 
 - `contents.xcworkspacedata`：拥有的 `Project` 等配置；
 - `xcshareddata`：里面会包含对 `IDE` 的版本检查，以及 `SPM` 保存的数据。
