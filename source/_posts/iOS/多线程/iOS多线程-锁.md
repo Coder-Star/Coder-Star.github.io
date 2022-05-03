@@ -11,24 +11,34 @@ date: 2021-03-02 22:52:45
 
 ![iOS锁性能对比](../../../img/iOS/多线程/iOS锁性能对比.png)
 
+- 自旋锁
+  - OSSpinLock
+- 互斥锁
+  - 可递归
+    - pthread_mutex(recursive)
+      - NSRecursiveLock
+    - os_unfair_recursive_lock
+      - recursive_mutex_t （内部基于 os_unfair_lock）
+        - synchronized
+  - 不可递归
+    - pthread_mutex
+      - NSLock
+    - os_unfair_lock
+  - 条件锁
+    - NSCondtion（pthread_mutex_t + pthread_cond_t）
+      - NSConditionLock
+  - 信号量
+    - semaphore
+- 读写锁
+  - pthread_rwlock（读写锁）
+
 ## iOS 中锁分析
 
-### 互斥锁
+### @synchronized
 
-- pthread_mutex（支持递归）
-- NSLock
-- @synchronized（支持递归）（objc_sync_enter/objc_sync_exit）
+@synchronized（objc_sync_enter/objc_sync_exit）
 
-```
-// pthread_mutex形式
-var mutex = pthread_mutex_t()
-func initLock() {
-  pthread_mutex_init(&mutex, nil)
-}
-pthread_mutex_lock(&mutex)
-// 执行内容
-pthread_mutex_unlock(&mutex)
-```
+互斥递归锁
 
 ```swift
 // NSLock形式
@@ -58,6 +68,24 @@ objc_sync_enter(self)
 objc_sync_exit(self)
 ```
 
+> `recursive_mutex_t` 是一个互斥递归锁，它是基于 `os_unfair_recursive_lock` 互斥锁的封装（再早些版本是对 `pthread_mutex_t` 的封装），而 `os_unfair_recursive_lock` 底层是对 os_unfair_lock 的封装，进一步跟进代码会发现。`os_unfair_recursive_lock` 是 iOS 12.0 之后才可用的，即 iOS 12.0 之后 `@synchronized` 是一个封装了 `os_unfair_lock` 的互斥递归锁。
+
+### 互斥锁
+
+- pthread_mutex（支持递归）
+- NSLock(底层基于`pthread_mutex`)
+
+```objective-c
+// pthread_mutex形式
+var mutex = pthread_mutex_t()
+func initLock() {
+  pthread_mutex_init(&mutex, nil)
+}
+pthread_mutex_lock(&mutex)
+// 执行内容
+pthread_mutex_unlock(&mutex)
+```
+
 ### 自旋锁
 
 自旋锁不会使线程状态发生切换，不会使线程进入阻塞状态，减少了不必要的上下文切换，执行速度快，比较适用于锁使用者保持锁时间比较短的情况。如果不能在很短的时间内获得锁，CPU 效率降低。
@@ -79,15 +107,15 @@ objc_sync_exit(self)
 有人会问这样的问题：为什么不用其他的互斥锁来替换`OSSpinLock`，而是选用`os_unfair_lock`，我个人感觉其实是 apple 的一个选择而已。
 
 > 查看 CoreFoundation 的源码能够发现，苹果至少在 2014 年就发现了这个问题，并把 CoreFoundation 中的 spinlock 替换成了 pthread_mutex，具体变化可以查看这两个文件：CFInternal.h(855.17)、CFInternal.h(1151.16)。
-> 
+>
 > 在 iOS 10/macOS 10.12 发布时，苹果提供了新的 os_unfair_lock 作为 OSSpinLock 的替代，并且将 OSSpinLock 标记为了 Deprecated。
-> 
+>
 > google/protobuf 内部的 spinlock 被全部替换为 dispatch_semaphore，详情可以看这个提交：https://github.com/google/protobuf/pull/1060。用 dispatch_semaphore 而不用 pthread_mutex 应该是出于性能考虑。
 
 ### 条件锁
 
-- NSCondition
-- NSContionLock(基于 NSCondition 实现，只不过比 NSCondition 少了一些繁琐的操作)
+- NSCondition(底层也是`pthread_mutex`)
+- NSContionLock(基于 NSCondition 实现，只不过比 NSCondition 少了一些繁琐的操作，可以用来做多任务顺序执行)
 
 ### 读写锁
 
@@ -202,3 +230,5 @@ pthread_mutex_unlock(&lock);
 - 死锁检测与解除 ----- 在检测到运行系统进入死锁，进行恢复
 
 - [Threading Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Introduction/Introduction.html#//apple_ref/doc/uid/10000057i)
+
+-[iOS Teach Team iOS 常用锁的底层实现及使用详解](https://github.com/minhechen/iOSTechTeam/blob/main/Blogs/iOSTechTeam_04.md)

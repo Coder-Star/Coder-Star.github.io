@@ -312,6 +312,8 @@ load 方法里面可以调用 category 中声明的方法，因为附加 categor
 
 ## OC 中的 block
 
+[Working with Blocks](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html)
+
 OC 中的 block 本质是一个 OC 对象，内部也会有一个 isa 指针。有三种类型。
 
 - 全局 block：**NSGlobalBlock** ，存储在静态区
@@ -331,7 +333,9 @@ ARC 下，栈 block 自动转为堆 block 的情况
 - block 作为 Cocoa API 中方法名含有 usingBlock 的方法参数时
 - block 作为 GCD API 的方法参数时
 
-__block 作用：1、解决 block 内部想修改外部 auto 变量的问题；2、解决循环引用；
+`__block` 作用：
+* 解决 block 内部想修改外部 auto 变量的问题；如果不添加，则报错（`Variable is not assignable (missing __block type specifier)`）
+* 解决循环引用；(在闭包中将`__block`修饰的变量手动置为nil，闭包也要得到调用)
 
 **对于基本数据类型，一般是存储到栈中的，它有没有可能存在堆上，什么情况下会存储到堆上？**
 
