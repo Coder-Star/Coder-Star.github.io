@@ -17,7 +17,7 @@ date: 2021-03-02 22:52:45
   - 可递归
     - pthread_mutex(recursive)
       - NSRecursiveLock
-    - os_unfair_recursive_lock
+    - os_unfair_recursive_lock（私有）
       - recursive_mutex_t （内部基于 os_unfair_lock）
         - synchronized
   - 不可递归
@@ -31,6 +31,9 @@ date: 2021-03-02 22:52:45
     - semaphore
 - 读写锁
   - pthread_rwlock（读写锁）
+
+> - pthread 头文件为 `#import <pthread.h>`
+> - os_unfair_lock 头文件为`#import <os/lock.h>`
 
 ## iOS 中锁分析
 
@@ -111,6 +114,19 @@ pthread_mutex_unlock(&mutex)
 > 在 iOS 10/macOS 10.12 发布时，苹果提供了新的 os_unfair_lock 作为 OSSpinLock 的替代，并且将 OSSpinLock 标记为了 Deprecated。
 >
 > google/protobuf 内部的 spinlock 被全部替换为 dispatch_semaphore，详情可以看这个提交：https://github.com/google/protobuf/pull/1060。用 dispatch_semaphore 而不用 pthread_mutex 应该是出于性能考虑。
+
+`os_unfair_lock` 是一个不公平的锁，其和`OSSpinLock`一样，`os_unfair_lock`也没有加强公平性和顺序。例如，释放锁的线程可能立即再次加锁，而之前等待锁的线程唤醒后没有机会尝试加锁。这样有利于提高性能，但也造成了饥饿（`starvation`）。
+
+> Starvation: 指贪婪线程占用共享资源太长时间，其他线程无法访问共享资源、无法取得进展。例如，某对象的同步方法占用时间过长，并且频繁调用，其他线程尝试调用该方法时会被堵塞，处于饥饿状态。
+
+作为非公平锁的实现，`os_unfair_lock`直接由 CPU 来调度，不会像`mutex`那样保证等待队列的出列顺序，也就减少了线程切换的资源消耗。
+
+对比 `mutex`：
+- 优点：
+  - 申请锁的内存消耗更少，os_unfair_lock 为 int32，而 mutex 的结构体显然比 os_unfair_lock 大
+  - 减少由于要保持队列顺序，而产生线程上下文切换带来的消耗。
+- 缺点：
+  - 无法保证被锁住线程的执行顺序。很可能会出现某个线程长时间不会执行的情况
 
 ### 条件锁
 
@@ -232,3 +248,5 @@ pthread_mutex_unlock(&lock);
 - [Threading Programming Guide](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Introduction/Introduction.html#//apple_ref/doc/uid/10000057i)
 
 -[iOS Teach Team iOS 常用锁的底层实现及使用详解](https://github.com/minhechen/iOSTechTeam/blob/main/Blogs/iOSTechTeam_04.md)
+
+- [深入理解iOS中的锁](https://devyang.space/2020/03/25/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3iOS%E4%B8%AD%E7%9A%84%E9%94%81/)
