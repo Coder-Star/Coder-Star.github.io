@@ -20,6 +20,8 @@ date: 2021-02-02 12:39:50
 * 连续续调用 location.href 会出现消息丢失，因为 WebView 限制了连续跳转，会过滤掉后续的请求；
 * URL 会有长度限制，一旦过长就会出现信息丢失 因此，类似 WebViewJavaScriptBridge 这类库，就结合了注入 API 的形式一起使用；
 
+[URL最大长度--2GB](https://github.com/apple/swift-corelibs-foundation/blob/b23dc8e249987442811e9e0097c326d7083784ac/CoreFoundation/URL.subproj/CFURLComponents_URIParser.c#L708)
+
 #### 捕获 promt
 
 UIWebView 不支持，WKWebView 支持，可以支持同步调用
