@@ -89,6 +89,8 @@ Xcode 有比较多的概念，如下有：
 - `non-recursive`：非递归
 - `recursive`：递归
 
+> 在 Framework Search Paths，Header Search Path 可以看到。
+
 ### Info
 
 这里提一下查询`Info.plist`文件相关键值的文档：[AboutInformationPropertyListFiles](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html#//apple_ref/doc/uid/TP40009254-SW5)。

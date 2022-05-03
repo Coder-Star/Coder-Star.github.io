@@ -34,7 +34,11 @@ Hi Coder，我是 CoderStar！
 
 CADisplayLink 仍然是基于 Runloop 来实现的，而 RunLoop 的运行取决于其所在的 mode 以及 CPU 的繁忙程度，当 CPU 忙于计算显示内容或者 GPU 工作太繁重时，就会导致显示出来的 FPS 与 Instrument 的不一致。所以说基于 CADisplayLink 实现的 FPS 无法完全检测出当前 Core Animation 的性能情况，它只能检测出当前 RunLoop 的帧率。
 
+`CADisplayLink`的时间戳是什么时候赋值的
+
 ### 子线程 Ping：这种方案不准
+
+
 
 ### Runloop
 
