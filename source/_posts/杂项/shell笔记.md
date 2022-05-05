@@ -65,7 +65,8 @@ CURRENT_PATH=$(dirname $0)
 CURRENT_PATH=$(pwd)
 ```
 
-## Linux常用命令
+## Linux 常用命令
+
 ```shell
 // 后台执行
 nohup ./main &
@@ -81,12 +82,56 @@ kill -9 $(netstat -antp | grep :7780 | awk '{print $7}' | awk -F '/' '{print $1}
 
 ```
 
-## sed 命令
+## 命令细节
+
+### sed 命令
 
 unix 与 linux 在执行 sed 指令时有些许区别，当使用 sed -i 命令时，需要在 -i 指令后面多加一段 "", 即 `sed -i "" "s/192.168.0.2/192.168.0.3/g" filePath`
 
-## curl 命令
+### curl 命令
+
+### echo 命令
+
+```shell
+echo "\033[41;1;37m 红底白字 \033[0m"
+```
+
+字色              背景              颜色
+---------------------------------------
+30                40              黑色
+31                41              紅色
+32                42              綠色
+33                43              黃色
+34                44              藍色
+35                45              紫紅色
+36                46              青藍色
+37                47              白色
+
+————————-
+0 终端默认设置（黑底白字）
+1 高亮显示
+4 使用下划线
+5 闪烁
+7 反白显示
+8 不可见
+
+## mac、linux 不一样的地方
+
+- unix 与 linux 在执行 sed 指令时有些许区别，当使用 sed -i 命令时，需要在 -i 指令后面多加一段 "", 即 `sed -i "" "s/192.168.0.2/192.168.0.3/g" filePath`
+- mac 的 echo 只有 `-n` 没有`-e`以及额外的参数
+
+## mac 好玩的
+
+```shell
+# 发出 噔 声音
+echo -e '\07'
+
+# 会有一个女声音播放出来
+say 'xxx'
+```
 
 ## shell 工具
 
 - jq：shell 下处理 json 神器，mac 安装命令 `brew install jq`
+
+- [Bash 脚本教程](https://wangdoc.com/bash/grammar.html)

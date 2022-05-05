@@ -113,6 +113,8 @@ A 线程优先级高，B 线程优先级中，C 线程优先级低；
 > 优先级继承：就是为了解决优先级反转问题而提出的一种优化机制。其大致原理是让低优先级线程在获得同步资源的时候 (如果有高优先级的线程也需要使用该同步资源时)，临时提升其优先级。以便其能更快的执行并释放同步资源。释放同步资源后再恢复其原来的优先级。
 > 而这套机制要求系统知道当前持有锁的线程相关信息；这也是目前`mutex`系列锁解决优先级反转问题的办法；
 
+iOS官方对这套机制相关描述位于 [Prioritize Work with Quality of Service Classes](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/EnergyGuide-iOS/PrioritizeWorkWithQoS.html#//apple_ref/doc/uid/TP40015243-CH39-SW1)的 `Priority Inversions` 章节。
+
 [优先级反转那点事儿](https://zhuanlan.zhihu.com/p/146132061)
 
 `OSSpinLock`
@@ -228,7 +230,7 @@ lock.wait()
 lock.signal()
 ```
 
-> 信号量也是因为不知道哪个线程正在持有锁，导致也会存在相应的优先级反转问题；
+> 信号量因为持有者有多个，导致不知道该调整谁的优先级，也会存在相应的优先级反转问题；
 > dispatch_group 类似，在调用 enter() 方法时，无法预知谁会调用 leave()，所以系统也无法知道其 owner 是谁
 
 ### 其他类型
