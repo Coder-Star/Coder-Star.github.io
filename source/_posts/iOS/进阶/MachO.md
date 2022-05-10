@@ -35,9 +35,10 @@ Mach-O 其实是 Mach Object 文件格式的缩写，是 macOS 以及 iOS 上可
 ### Framework 组成
 
 - Mach-O
-  - .O
-  - .O
+  - 1.O
+  - 2.O
   - ...
+  - XXX_Vers.O：版本文件
   - __.SYMDEF：符号信息
 - Modules/
   - module.modulemap
