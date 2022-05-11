@@ -60,3 +60,4 @@ date: 2021-05-27 14:51:08
     }
 ```
 - UITableView cell中有文本框输入，文本框输入过程中需要调整cell高度，如果使用reloaddata会促使文本框丧失焦点，可以使用beginUpdate、endUpdate或者performBatchUpdates 两种方式处理刷新；
+- 设置attributedText后会重置lineBreakMode、textAlignment等属性；
