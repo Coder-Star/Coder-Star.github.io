@@ -534,7 +534,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 ##### `Text`段重命名迁移
 
-`App Store` 会对上传的 App 的 `TEXT` 段加密，在发生 `PageFault` 的时候会解密，解密的过程是很耗时的。
+`App Store` 会对上传的 App 的 `TEXT` 段加密，在发生 `PageFault` 的时候会解密，解密的过程是很耗时的（iOS 13 之后不需要解密）。
 
 既然会 `TEXT` 段加密，那么直接的思路就是把 `TEXT` 段中的内容移动到其它段，`ld` 也有个参数 `rename_section` 支持重命名。
 
