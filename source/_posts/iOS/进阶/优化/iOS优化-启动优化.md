@@ -532,6 +532,11 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 > 扩展下，编译器在生成二进制代码的时候，默认会先编译 OC 的代码，然后在编译 Swift 的代码，在此顺序前提下，会按照编译文件顺序、方法在文件中的顺序生成。
 
+
+> 按照经验是优化一个Page Fault，启动速度提升0.6~0.8ms。
+
+
+
 ##### `Text`段重命名迁移
 
 `App Store` 会对上传的 App 的 `TEXT` 段加密，在发生 `PageFault` 的时候会解密，解密的过程是很耗时的（iOS 13 之后不需要解密）。

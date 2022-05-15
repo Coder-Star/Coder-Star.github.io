@@ -463,6 +463,8 @@ otool -r XXX
 
 #### objdump
 
+Linux的文件也可以使用这个工具。
+
 路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/objdump`
 
 ```shell
