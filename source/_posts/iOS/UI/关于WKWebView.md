@@ -187,4 +187,27 @@ webView.evaluateJavaScript("document.documentElement.style.webkitTouchCallout='n
 //放大文字
 webView.evaluateJavaScript("document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '266%'",completionHandler: nil)
 ```
+
+## 白屏原因
+
+``` cpp
+/// https://github.com/WebKit/webkit/blob/main/Source/WebKit/Shared/ProcessTerminationReason.h
+enum class ProcessTerminationReason {
+    ExceededMemoryLimit, //超出内存限制
+    ExceededCPULimit, //超出CPU限制
+    RequestedByClient, //主动触发的terminate，全部在Webkit的单元测试中，因此开发者无法调用，属于WebKit的“特权”范畴，目前看它们的是提供给Apple内部来使用，而使用的时机和具体的业务场景没有强关联。
+    IdleExit,
+    Unresponsive,
+    Crash, //web进程自己发生了crash， 一般都发生在进程通信机制中，当进程连接的端口不合法或者通信时发送的消息不合法时，则会被认为是发生了Crash，进程会终止。
+    
+    // Those below only relevant for the WebContent process.
+    ExceededProcessCountLimit,
+    NavigationSwap, // 加载环境出现了变化
+    RequestedByNetworkProcess,
+    RequestedByGPUProcess
+};
+```
+
+主要ExceededMemoryLimit、 Crash这两种
+
 - [深入理解 WKWebView（入门篇）—— WebKit 源码调试与分析](https://mp.weixin.qq.com/s/VdkVBIQwj7WkAk8-5wppmQ)

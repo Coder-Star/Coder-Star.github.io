@@ -92,10 +92,52 @@ unsigned 无符号型，修饰 int、char；
 
 **原子性**
 
-- nonatomic 非原子性，与 atomic 是相反的
-- atomic 原子性，在多线程的环境下是有必要的，会在 setter 里加锁，保证线程安全, 效率降低，底层加锁的方式为 spinlock_t 自旋锁来实现的，在 iOS10 之后，底层换成了`os_unfair_lock`
+- nonatomic 非原子性，与 atomic 是相反的。
+- atomic 原子性，在多线程的环境下是有必要的，会在 getter、setter 里加锁，保证线程安全, 效率降低，底层加锁的方式为 spinlock_t 自旋锁来实现的，在 iOS10 之后，底层换成了`os_unfair_lock`
 
-> atomic 不是一定线程安全的，如果一个对象的改变不是直接调用 getter/setter 方法，而是直接对对象内部属性修改、字符串拼接、数组增加和移除元素等操作，就不能保证这个对象是线程安全的。
+> atomic 本质是保证读取到的是一个完整的值，atomic 不是一定线程安全的，如果一个对象的改变不是直接调用 getter/setter 方法，而是直接对对象内部属性修改、字符串拼接、数组增加和移除元素等操作，就不能保证这个对象是线程安全的。
+
+```objective-c
+//objc-accessors.mm
+
+///属性锁
+static StripedMap<spinlock_t> PropertyLocks;
+
+/// getter
+id objc_getProperty_non_gc(id self, SEL _cmd, ptrdiff_t offset, BOOL atomic) {
+    id *slot = (id*) ((char*)self + offset);
+    if (!atomic) return *slot;
+    //原子，使用自旋锁加锁
+    // Atomic retain release world
+    spinlock_t& slotlock = PropertyLocks[slot];
+    slotlock.lock();
+    id value = objc_retain(*slot);
+    slotlock.unlock();
+
+    return objc_autoreleaseReturnValue(value);
+}
+
+///setter
+static inline void reallySetProperty(id self, SEL _cmd, id newValue, ptrdiff_t offset, bool atomic, bool copy, bool mutableCopy) {
+    //省略...
+    if (!atomic) {
+        //非原子，不加锁
+        oldValue = *slot;
+        *slot = newValue;
+    } else {
+        //原子，使用自旋锁加锁
+        spinlock_t& slotlock = PropertyLocks[slot];
+        slotlock.lock();
+        oldValue = *slot;
+        *slot = newValue;
+        slotlock.unlock();
+    }
+    objc_release(oldValue);
+}
+```
+
+多线程环境下对的 nonatomic 修饰的属性进行赋值操作有导致程序 Crash 的概率。
+[iOS多线程安全------nonatomic与野指针不得不说的故事](https://astorkai.github.io/2019/03/10/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8-nonatomic%E4%B8%8E%E9%87%8E%E6%8C%87%E9%92%88%E4%B8%8D%E5%BE%97%E4%B8%8D%E8%AF%B4%E7%9A%84%E6%95%85%E4%BA%8B/)
 
 **允许为空，iOS9 新关键字，用于引用类型**
 
@@ -335,7 +377,7 @@ ARC 下，栈 block 自动转为堆 block 的情况
 
 `__block` 作用：
 * 解决 block 内部想修改外部 auto 变量的问题；如果不添加，则报错（`Variable is not assignable (missing __block type specifier)`）
-* 解决循环引用；(在闭包中将`__block`修饰的变量手动置为nil，闭包也要得到调用)
+* 解决循环引用；(在闭包中将`__block`修饰的变量手动置为 nil，闭包也要得到调用)
 
 **对于基本数据类型，一般是存储到栈中的，它有没有可能存在堆上，什么情况下会存储到堆上？**
 
