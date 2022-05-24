@@ -97,9 +97,11 @@ Swift 编译过程引入 SIL 有几个优点：
 
 LLVM IR 有三种表示形式。
 
-- text: 便于阅读的文本格式，类似于汇编语言，拓展名`.ll`；
+- text: 便于阅读的文本格式，类似于汇编语言，但其实它介于高等语言和汇编之间，拓展名`.ll`；
 - bitcode: 二进制格式，拓展名`.bc`；
 - memory: 内存格式
+
+[关于bitcode, 知道这些就够了](https://xelz.info/blog/2018/11/24/all-you-need-to-know-about-bitcode/)
 
 ### LLVM 后端
 
