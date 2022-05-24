@@ -286,6 +286,8 @@ static inline id autorelease(id obj)
 
 > 系统的自动释放池也并不总是在 `BeforeWaiting` 和 `Exit` 才释放，在处理完 `Timer` 和 `Source` 事件之后, 也可能会进行释放操作。
 
+[autoreleasepool 探究](https://github.com/Yuan91/autoreleasepool)
+
 当然系统部分方法内部也自动添加了`AutoreleasePool`，比如：
 
 - 使用容器的 `block` 版本的枚举器时，内部会自动添加一个 `AutoreleasePool`；
@@ -443,7 +445,6 @@ Let's be CoderStar!
 - [自动释放池的前世今生 ---- 深入解析 autoreleasepool](https://draveness.me/autoreleasepool/)
 - [iOS autoreleasePool原理总结](https://www.jianshu.com/p/20496cbb6dc3)
 - [黑幕背后的 Autorelease](https://blog.sunnyxx.com/2014/10/15/behind-autorelease/)
-- [autoreleasepool 探究](https://github.com/Yuan91/autoreleasepool)
 - [Transitioning to ARC Release Notes](https://developer.apple.com/library/archive/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html#//apple_ref/doc/uid/TP40011226)
 - [iOS - 聊聊 autorelease 和 @autoreleasepool](https://juejin.cn/post/6844904094503567368)
 - [autoreleasepool uses in Swift](https://swiftrocks.com/autoreleasepool-in-swift)
