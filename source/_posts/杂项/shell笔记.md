@@ -65,6 +65,8 @@ CURRENT_PATH=$(dirname $0)
 CURRENT_PATH=$(pwd)
 ```
 
+rm 命令删除目录下文件，但不包括目录 rm  xxx/*
+
 ## Linux 常用命令
 
 ```shell
@@ -135,3 +137,5 @@ say 'xxx'
 - jq：shell 下处理 json 神器，mac 安装命令 `brew install jq`
 
 - [Bash 脚本教程](https://wangdoc.com/bash/grammar.html)
+
+
