@@ -56,18 +56,71 @@ Mach-O 文件由三部分组成：
 
 ![MachO](../../../img/iOS/进阶/优化/MachO/MachO.webp)
 
+大小端
+
+大端：高字节存放在低地址，符合书写顺序；
+小端：高字节存放在地址
+
+大小端一般由 CPU 架构决定。arm64 架构默认是小端，但是支持大端。
+小端模式 ：强制转换数据不需要调整字节内容，1、2、4 字节的存储方式一样。
+大端模式 ：符号位的判定固定为第一个字节，容易判断正负。
+
+主机基本上使用的都是小端模式，但是在网络传输的时候使用的却是大端模式。java 虚拟机里面的字节序是大端
+
 ### Header
 
-Header 的最开始是 Magic Number，表示这是一个 Mach-O 文件，除此之外还包含一些 Flags，这些 flags 会影响 Mach-O 的解析。
+`otool -h XXX`
 
-* magic：魔数，快速定位属于 64 位还是 32 位
-* cputype：CPU 类型，比如 ARM
-* cpusubtype：CPU 的具体类型，arm64、armv7
-* filetype：文件类型，例如：可执行文件
-* ncmds：LoadCommands 的条数
-* sizeofcmds：LoadCommands 的大小
-* flags：标志位，标识二进制文件支持的功能。主要是和系统加载、链接有关
-* reserved：占位符
+[](https://opensource.apple.com/source/xnu/xnu-792/EXTERNAL_HEADERS/mach-o/loader.h.auto.html)
+
+```objective-c
+struct mach_header_64 {
+	uint32_t	magic;		/* mach magic number identifier */  4个字节
+	cpu_type_t	cputype;	/* cpu specifier */ 4个字节
+	cpu_subtype_t	cpusubtype;	/* machine specifier */
+	uint32_t	filetype;	/* type of file */
+	uint32_t	ncmds;		/* number of load commands */
+	uint32_t	sizeofcmds;	/* the size of all the load commands */
+	uint32_t	flags;		/* flags */
+	uint32_t	reserved;	/* reserved */  64位相比于32位多出的字段
+};
+```
+
+#### magic
+
+区分 36 位还是 64 位
+
+- 0xfeedfacf MH_MAGIC_64
+- 0xfeedface MH_MAGIC
+- 0xbebafeca FAT_CIGAM
+
+#### cputype
+
+CPU 类型，比如 ARM
+
+#### cpusubtype
+
+CPU 的具体类型，arm64、armv7
+
+#### filetype
+
+文件类型，例如：可执行文件
+
+#### ncmds
+
+LoadCommands 的条数
+
+#### sizeofcmds
+
+LoadCommands 的大小
+
+#### flags
+
+标志位，标识二进制文件支持的功能。主要是和系统加载、链接有关
+
+#### reserved
+
+占位符
 
 ### Load Commands
 
