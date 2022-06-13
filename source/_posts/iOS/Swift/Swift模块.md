@@ -25,6 +25,11 @@ Hi Coder，我是 CoderStar！
 
 [Proposal: emitting source information file during compilation](https://forums.swift.org/t/proposal-emitting-source-information-file-during-compilation/28794)
 
+
+有组件 A 依赖组件 B，组件 B 依赖组件 C 在 Objective-C 中，B 对外暴露的头文件中引用了 C 的公开头文件，我们叫组件 B 传递依赖 C，结果就是编译组件 A 时必须同时能找到组件 B 和组件 C 的头文件，否则编译失败。
+
+然而 Swift 并没有公开头文件一说，只要组件 B import C，导致 swiftmodule 中也明确标记了 import C，当组件 A import B 时，也同时 import C ，如果组件 A 找不到组件 C 的 module，那组件 A 将编译失败。
+
 ## 最后
 
 要更加努力呀！

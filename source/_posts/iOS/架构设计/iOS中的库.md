@@ -59,28 +59,52 @@ CSPickerView (for architecture arm64):	current ar archive
 
 ## Module 机制
 
+被使用方：`DEFINES_MODULE` 设置为`YES`。
+使用方：`Enable Modules`设置为`YES`。
+
 如果要支持 Module，必须提供一个 module.modulemap 文件，用来声明模块与头文件之间的映射关系。这个声明语言叫做 **模块映射语言**
+
+好处：
+
+* 语义上完整描述了一个框架的作用;
+* 提高编译时可扩展性，只编译或 include 一次。避免头文件多次引用，只解析一次头文件甚至不需要解析（类似预编译头文件）;
+* 减少碎片化，每个 module 只处理一次，环境的变化不会导致不一致;
+* 对工具友好，工具（语言编译器）可以获取更多关于 module 的信息，比如链接库，比如语言是 C++ 还是 C 等等;
+
+Module 编译之后的缓存是 `pcm`格式的文件。其为二进制格式。
 
 module.modulemap 文件格式
 
 ```c
-//
+/// 如果是framwork会是  framework module moduleName
 module moduleName {
-  // 伞骨文件，通过这种方式避免将所有对外的.h文件都在该文件书写，转到一个统一文件的中去
+  // 伞骨文件，通过这种方式避免将所有对外的.h文件都在该文件书写，转到一个统一文件的中去。
   // 如常见的UIKit本身也是有很多.h文件组合而成的
+  // #import <UIKit/UIKit.h> -> #import <UIKit/UIViewController.h> #import <UIKit/UILabel.h> ...
   umbrella header "moduleName-umbrella.h"
+
+  
+  // 如果是个目录，也会递归查询所有子目录
+  // 注意framework module 中无法使用 umbrella的递归导出文件夹内容
+  umbrella "folder"
 
   // * 表示通配符，表示将 umbrella.h 中的所有头文件全部导出
   export *
 
-  //
+  // 导出子module
+  // module * ：目录下所有的头文件都当作一个子module
   module * { export * }
 
   // 子Module
+  // 显式声明一个子module的名称
   explicit module SubModuleName {
     header "SubModuleName.h"
     export *
   }
+
+  /// C和OC要分开编译, C++可以和C一起编译， C++也可以和OC一起编译。
+  /// 当OC 和C 一起需要添加requires objc
+  requires objc
 
   // 目前这个地方只能link SDK内置的框架
   link framework "Foundation"
@@ -88,11 +112,20 @@ module moduleName {
 ```
 
 swift 中使用 `import moduleName`
-oc 中使用 `@import LDPMChart;`
+oc 中使用 `@import moduleName;`
 
 默认开启 module 之后，在引入头文件时使用 include""、 import<>、@import ；这三种写法，最终都会被转化成 @import。
 
 [module-map](https://clang.llvm.org/docs/Modules.html#module-map-language)
+
+> 建议 modulemap 内声明一个umbrella header，便于快速引用对应的头文件，但必须将所有公开的头文件填充到 umbrella header 文件内。否则将得到一个警告。
+
+```text
+<module-includes>
+Umbrella header for module 'XXX' does not include header 'absolute path to a public header'
+```
+
+
 
 ## 打包（利用 cocoapods-packager 插件）
 
