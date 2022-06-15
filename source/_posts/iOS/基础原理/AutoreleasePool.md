@@ -432,6 +432,8 @@ int main(int argc, char * argv[]) {
 
 如果是 Swift 纯对象，不考虑任何 OC 的因素在内，Swift 中其实是不存在`autorelease`这种内存释放方式的。
 
+[Is autorelease no longer in pure swift arc?](https://forums.swift.org/t/is-autorelease-no-longer-in-pure-swift-arc/33712/5)
+
 但是如果用一些 OC 对象，还是会存在需要调用`autorelease`方法。
 
 ## 最后
