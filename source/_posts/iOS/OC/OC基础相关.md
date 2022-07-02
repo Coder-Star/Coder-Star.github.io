@@ -118,18 +118,18 @@ id objc_getProperty_non_gc(id self, SEL _cmd, ptrdiff_t offset, BOOL atomic) {
 }
 
 ///setter
-static inline void reallySetProperty(id self, SEL _cmd, id newValue, ptrdiff_t offset, bool atomic, bool copy, bool mutableCopy) {
-    //省略...
+static inline void reallySetProperty(id self, SEL _cmd, id newValue, ptrdiff_t offset, bool atomic)
+{
+    id oldValue;
+    id *slot = (id*) ((char*)self + offset);
     if (!atomic) {
-        //非原子，不加锁
         oldValue = *slot;
         *slot = newValue;
     } else {
-        //原子，使用自旋锁加锁
         spinlock_t& slotlock = PropertyLocks[slot];
         slotlock.lock();
         oldValue = *slot;
-        *slot = newValue;
+        *slot = newValue;       
         slotlock.unlock();
     }
     objc_release(oldValue);
@@ -138,6 +138,11 @@ static inline void reallySetProperty(id self, SEL _cmd, id newValue, ptrdiff_t o
 
 多线程环境下对的 nonatomic 修饰的属性进行赋值操作有导致程序 Crash 的概率。
 [iOS多线程安全------nonatomic与野指针不得不说的故事](https://astorkai.github.io/2019/03/10/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8-nonatomic%E4%B8%8E%E9%87%8E%E6%8C%87%E9%92%88%E4%B8%8D%E5%BE%97%E4%B8%8D%E8%AF%B4%E7%9A%84%E6%95%85%E4%BA%8B/)
+
+存在问题：
+
+- 多次release原始值；
+- 错误release新创建的对象；
 
 **允许为空，iOS9 新关键字，用于引用类型**
 
