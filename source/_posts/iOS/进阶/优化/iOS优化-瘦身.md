@@ -285,6 +285,8 @@ Assets.car 文件是工程中 Asset Catalog 的构建产物。Xcode 构建过程
 
 引申一下，好的工具是开发利器，之前整理了一些好用的Mac效率工具，可见[Mac效率软件](../../../../杂项/装机必备/Mac效率软件)
 
+[[ WWDC2018 ] - 优化 App Assets Optimizing App Assets](https://www.jianshu.com/p/0c6fcf59ab82?utm_campaign=maleskine...&utm_content=note&utm_medium=seo_notes&utm_source=recommendation)
+
 **结论：能用 Asset Catalogs 管理的资源，尽量使用 Asset Catalogs 来管理。使用 Asset Catalog 管理图片不要对图片进行无损压缩，最终起不到压缩效果，如果想要压缩，可以采用上面所提到的有损压缩方式，并检查压缩后的效果。**
 
 ### 图片资源使用 Webp 格式

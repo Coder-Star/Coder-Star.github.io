@@ -20,6 +20,9 @@ APP 组件化的过程我觉得主要分为下面几个部分。
 
 [抖音 iOS 工程架构演进](https://mp.weixin.qq.com/s/HHH5_IEbsR8iSmXSIdeutw)
 
+
+[打造完备的 iOS 组件化方案：如何面向接口进行模块解耦？](https://xiaozhuanlan.com/topic/9250863471)
+
 ### 基础支撑层
 
 ### 基础模块及 UI 组件层
