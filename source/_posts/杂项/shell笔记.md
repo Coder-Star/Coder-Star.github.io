@@ -133,6 +133,12 @@ say 'xxx'
 
 # 杀死指定端口对应进程
 kill -9 $(lsof -t -i :8081)
+
+# 在支持Rosetta的机器上能够取到值，不支持的机器会报错
+sysctl sysctl.proc_translated
+
+# 系统型号，出现：Apple M1 Pro
+sysctl -n machdep.cpu.brand_string
 ```
 
 ## shell 工具
