@@ -605,3 +605,4 @@ Let's be CoderStar!
 * [iOS 安装包瘦身 （上篇）](https://sq.163yun.com/blog/article/200385709022117888)
 * [iOS 安装包瘦身（下篇）](https://sq.163yun.com/blog/article/200384401846304768)
 * [209M->102M，贝壳B端iOS包瘦身之路](https://mp.weixin.qq.com/s?__biz=MzIyMTg0OTExOQ==&mid=2247488331&idx=2&sn=5baff8fd8881a03d7458f06e7a7b7578&chksm=e837203bdf40a92dd9c1c661963cd3b246ac03814bc45eeb1bf49cc328fe9d067a877f2e86db&cur_album_id=1561892331979669505&scene=190#rd)
+* [Alibaba.com瘦包40MB——业界最全的iOS包大小技术总结](https://mp.weixin.qq.com/s/I6DH5RvkMh_-bxGpkAKBPA)
