@@ -123,6 +123,11 @@ let package = Package(
 
 目前一个 package 可以支持 OC、Swift
 
+## 工具链
+
+根据 `package.swift` 文件打包成xcframework
+- [swift-create-xcframework](https://github.com/unsignedapps/swift-create-xcframework)
+
 ## 最后
 
 要更加努力呀！
