@@ -22,7 +22,7 @@ tags: [Git]
 
 **Client-Side Hooks**
 
-* pre-commit：执行`git commit`命令时触发，常用于检查代码风格
+* pre-commit：执行`git commit`命令时触发，常用于检查代码风格、检查是否有东西有以后，运行自动化测试等
 * prepare-commit-msg：`commit message`编辑器呼起前`default commit message`创建后触发，常用于生成默认的标准化的提交说明。该钩子接收三个参数：存有当前提交信息的文件的路径、提交类型和修补提交的提交的 SHA-1 校验。
 * commit-msg：开发者编写完并确认 commit message 后触发，常用于校验提交说明是否标准。钩子接收一个参数，此参数即上文提到的，存有当前提交信息的临时文件的路径。可以用来检测提交信息是否符合要求；
 
