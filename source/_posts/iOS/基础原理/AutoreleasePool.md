@@ -17,6 +17,11 @@ Hi Coder，我是 CoderStar！
 
 > 下列源码为`Runtime objc`内代码，版本之间可能会有差异，但是大致原理应该是一致的。
 
+## 为什么会有 autorelease
+
+OC 的内存管理机制的原则是"谁申请，谁释放"。如果一个方法需要返回一个新建的对象该如何释放？
+方法内部是不可能写 release 释放对象的；调用者也不会主动释放该对象的，因为调用者遵循"谁申请，谁释放的原则"，这样的话就会产生内存泄露。正是基于此，autorelease 才实现的。
+
 ## 使用形式
 
 ```swift
@@ -333,13 +338,16 @@ func loadBigData() {
 那什么样的对象才是`Autorelease`类型的呢？
 
 - 编译器会检查方法名是否以`alloc`, `new`, `copy`, `mutableCopy` 开始，如果不是则自动将返回值的对象注册到 `AutoreleasePool` 中，比如一些类方法；
-  > 这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走`release`逻辑，我们可以利用`clang attribute`去处理，示例：`- (id)allocObject __attribute__((objc_method_family(none)))`，其会将`allocObject`这个方法当做普通对象看待。 这个修饰符还有一个用处，当有一个属性是以init开头的时候，生成的set方法会被编译器误认为是构造方法，这个时候也可以使用这个。
+  > 这个地方会有个点，如果你自定义的方法是用这几个关键单词开头的，clang 在编译的时候就就不会走`release`逻辑，我们可以利用`clang attribute`去处理，示例：`- (id)allocObject __attribute__((objc_method_family(none)))`，其会将`allocObject`这个方法当做普通对象看待。 这个修饰符还有一个用处，当有一个属性是以 init 开头的时候，生成的 set 方法会被编译器误认为是构造方法，这个时候也可以使用这个。
 - iOS 5 及之前的编译器，关键字 `__weak` 修饰的对象，会自动加入`AutoreleasePool`。iOS 5 及之后的编译器，则直接调用的 `release`，不会加入 `AutoreleasePool`；
 - id 指针 (`id *`) 和对象指针（`NSError *`），会自动加上关键字 `__autorealeasing`，加入 `AutoreleasePool`；
 
 我们其实可以通过`objc_autoreleaseReturnValue`函数来标识一个对象是否加入到`AutoreleasePool`中去。同时该方法还附带了优化效果，`objc_autoreleaseReturnValue`函数会检查使用该函数的方法或函数调用方的执行命令列表，如果方法或函数的调用方在调用了方法或函数后紧接着调用`objc_retainAutoreleasedReturnValue()`函数，那么就不将返回的对象注册到`AutoreleasePool`，而是直接传递到方法或函数的调用方。
 
 [arc-runtime-objc-autoreleasereturnvalue](https://clang.llvm.org/docs/AutomaticReferenceCounting.html#arc-runtime-objc-autoreleasereturnvalue)
+
+> __builtin_return_address(int level)
+> 是一个内建函数，作用是返回函数的地址，参数是层级，如果是0，则表示是当前函数体返回地址；如果是1：则表示调用这个函数的外层函数。当我们知道了一个函数体的返回地址的时候，就可以根据反汇编，利用某些固定的偏移量，被调方可以定位到主调放在返回值后>面的汇编指令，来确定该条函数指令调用完成后下一个调用的函数
 
 #### 常驻线程
 
