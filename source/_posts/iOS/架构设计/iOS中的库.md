@@ -125,62 +125,6 @@ oc 中使用 `@import moduleName;`
 Umbrella header for module 'XXX' does not include header 'absolute path to a public header'
 ```
 
-
-
-## 打包（利用 cocoapods-packager 插件）
-
-### framework
-
-1. 安装 cocoapods-packager `gem "cocoapods-packager"`
-2. 打包 `pod package XXX.podspec`
-
-命令
-
-```ruby
-pod package XXX.podspec --force // --force表示强制覆盖之前存在的文件
-pod package XXX.podspec --library // --library表示打包成a文件，如果不加就是打包成framework文件
-```
-
-```ruby
---force
-# 强制覆盖之前已经生成过的二进制库
-
---embedded
-# 生成静态.framework
-
---library
-# 生成静态.a
-
---dynamic
-# 生成动态.framework
-
---bundle-identifier
-# 动态.framework是需要签名的，所以只有生成动态库的时候需要这个BundleId
-
---exclude-deps
-# 不包含依赖的pod库的符号表/依赖的pod库不打包进去。生成动态库的时候不能使用这个命令，动态库一定需要包含依赖的符号表。
-
---configuration
-# 表示生成的库是debug还是release，默认是release 。
-例如：--configuration=Debug,ONLY_ACTIVE_ARCH=NO
-
---no-mangle
-# 表示 Do not mangle symbols of depedendant Pods，当你的项目依赖包含静态库时，
-不加上这句，就会打包失败：
-[!] podspec has binary-only depedencies,mangling not possible.
-
---subspecs
-# 如果你的pod库有subspec，那么加上这个命名表示只给某个或几个subspec生成二进制库，
-# --subspecs=subspec1,subspec2。生成的库的名字就是你podspec的名字，
-# 如果你想生成的库的名字跟subspec的名字一样，那么就需要修改podspec的名字。
-# 这个脚本就是批量生成subspec的二进制库，每一个subspec的库名就是podspecName+subspecName。
-
---spec-sources
-# 一些依赖的source，如果你有依赖是来自于私有库的，
-# 那就需要加上那个私有库的source，默认是cocoapods的Specs仓库。
-# --spec-sources=private,https://github.com/CocoaPods/Specs.git。
-```
-
 问题
 
 - Swift 的 Pod 依赖 OC 的 Pod，如果 OC 开始没有模块化，打包不成功。
@@ -189,3 +133,7 @@ pod package XXX.podspec --library // --library表示打包成a文件，如果不
 - 解决苹果对__TEXT 段大小限制问题；
 - 懒加载
 - 宿主程序与扩展程序使用同一个库
+
+## 静态链接器ld
+
+[深入 iOS 静态链接器（一）— ld64](https://mp.weixin.qq.com/s/tSj6JVEg7plJQm7aDHLyMw)

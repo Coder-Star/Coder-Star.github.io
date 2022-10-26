@@ -70,6 +70,7 @@ dyld3 的 `out-of-process` 会做如下事情：
 * 分析 Mach-o Headers
 * 分析依赖的动态库
 * 查找需要 Rebase & Bind 之类的符号
+* 注册objc的class、method等元数据。
 * 把上述结果写入缓存
 
 等我们启动应用时，会对闭包进行校验，直接能享受到闭包的缓存。

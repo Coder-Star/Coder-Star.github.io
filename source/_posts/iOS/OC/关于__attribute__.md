@@ -31,6 +31,10 @@ first-to-check 指定第一个可变参数所在的索引。
 
 ## __attribute__((unused))
 
+## __attribute__((used))
+
+used的作用是告诉编译器，我声明的这个符号是需要保留的。被used修饰以后，意味着即使函数没有被引用，在Release下也不会被优化。如果不加这个修饰，那么Release环境链接器会去掉没有被引用的段
+
 ## __attribute__((constructor))
 
 确保此函数在 在 main 函数被调用之前调用

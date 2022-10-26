@@ -109,6 +109,11 @@ APP 的启动过程大部分情况都会被分成两部分，即`pre-main`以及
 
 `Binding`：当引用动态库其他的函数或者变量时，当前 `mach-o` 文件会指向其他 `dylib`。这时候就需要 `Binding` 操作，`dyld` 会根据符号表去找到相应函数和变量地址，`Binding` 解决了**修正外部指针指向**的问题。例如程序中调用`NSLog`方法，在编译时期生成的 `mach-o` 文件中，会创建一个符号 `NSLog`（目前指向一个随机的地址），然后在运行时（从磁盘加载到内存中，是一个镜像文件），会将真正的地址给符号（即在内存中将地址与符号进行绑定，是 `dyld` 做的，也称为动态库符号绑定），一句话概括：绑定就是给符号赋值的过程。
 
+
+> 注意一点，动态库个数会影响启动速度主要原因不是因为rebase和bind，而是因为验证签名完整性。
+
+> rebase解决的问题是段平移以后指针的值没有slide的问题，所以只有data pointers需要rebase.
+
 #### 面试题扩展
 
 - `load` 方法中是否可以调用 cateory 中的重名方法？
@@ -539,7 +544,7 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 ##### `Text`段重命名迁移
 
-`App Store` 会对上传的 App 的 `TEXT` 段加密，在发生 `PageFault` 的时候会解密，解密的过程是很耗时的（iOS 13 之后不需要解密）。
+`App Store` 会对上传的 App 的 `TEXT` 段加密，在发生 `PageFault` 的时候会解密，解密的过程是很耗时的（**iOS 13 之后不需要解密**）。
 
 既然会 `TEXT` 段加密，那么直接的思路就是把 `TEXT` 段中的内容移动到其它段，`ld` 也有个参数 `rename_section` 支持重命名。
 
@@ -600,6 +605,11 @@ PGO 是苹果官方提供的工具。
 ## 日常编码素质
 
 - 高频次文件读取添加内存缓存，考虑 mmap 方式等等；
+
+
+## 调整 Deployment Target
+- iOS 13 启动时也不需要进行page in 解密了，启动速度double提升
+- iOS 13.4 使用chained fixups
 
 ## 最后
 
