@@ -568,6 +568,13 @@ CSPickerView (for architecture arm64):	current ar archive
 
 > 如果安装了`MonkeyDev`，内置了`class-dump`，就不用再特意去安装了。
 
+### dyldinfo
+
+```shell
+# 查看一个可执行文件需要 Fix-up 的内容
+xcrun dyldinfo -rebase -bind XXX
+```
+
 ## 最后
 
 当然，CLI 命令还有很多，这里只是列举了一些常见的，对于其他的，大家可以直接通过开头提到的一些路径去查找。
