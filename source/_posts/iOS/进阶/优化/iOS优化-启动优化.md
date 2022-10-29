@@ -112,7 +112,7 @@ APP 的启动过程大部分情况都会被分成两部分，即`pre-main`以及
 
 > 注意一点，动态库个数会影响启动速度主要原因不是因为rebase和bind，而是因为验证签名完整性。
 
-> rebase解决的问题是段平移以后指针的值没有slide的问题，所以只有data pointers需要rebase.
+> rebase解决的问题是段平移以后指针的值没有slide的问题，所以只有data pointers需要rebase，改变的是__DATA段间的引用。
 
 #### 面试题扩展
 
