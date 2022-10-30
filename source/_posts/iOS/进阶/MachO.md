@@ -12,6 +12,8 @@ date: 2022-01-03 13:24:33
 
 Hi Coder，我是 CoderStar！
 
+[语雀](https://www.yuque.com/coderstar/fz1agx/uforio)
+
 ## 类型
 
 Mach-O（Mach object） 其实是 Mach Object 文件格式的缩写，是 macOS 以及 iOS 上可执行文件的格式，类似于 Windows 上的 PE 格式（Portable Executable），Linux 上的 ELF 格式（Executable and Linking Format）。
@@ -71,7 +73,7 @@ Mach-O 文件由三部分组成：
 
 `otool -h XXX`
 
-[](https://opensource.apple.com/source/xnu/xnu-792/EXTERNAL_HEADERS/mach-o/loader.h.auto.html)
+[auto.html](https://opensource.apple.com/source/xnu/xnu-792/EXTERNAL_HEADERS/mach-o/loader.h.auto.html)
 
 ```objective-c
 struct mach_header_64 {
@@ -89,10 +91,19 @@ struct mach_header_64 {
 #### magic
 
 区分 36 位还是 64 位
+以及其是大端还是小端
 
 - 0xfeedfacf MH_MAGIC_64
 - 0xfeedface MH_MAGIC
 - 0xbebafeca FAT_CIGAM
+
+```
+# 默认是小端模式
+#define	MH_MAGIC	0xfeedface
+
+// CIGAM 是 MAGIC反过来的拼写，是大端模式下的值
+#define MH_CIGAM	NXSwapInt(MH_MAGIC)
+```
 
 #### cputype
 
@@ -117,6 +128,10 @@ LoadCommands 的大小
 #### flags
 
 标志位，标识二进制文件支持的功能。主要是和系统加载、链接有关
+
+- MH_DYLDLINK
+- MH_TWOLEVEL
+- ...
 
 #### reserved
 
@@ -193,6 +208,7 @@ OC 类信息、方法列表、属性列表、变量列表
 * Data in Code Entries
 * Dynamic Symbol Table
 * String Table
+* Code Signature
 
 ## 符号
 
@@ -214,7 +230,7 @@ OC 类信息、方法列表、属性列表、变量列表
 假设在主程序 main.c 中使用了 math.c 模块的 add() 函数
 那么在 main.c 的编译过程中，遇到调用 add() 函数的指令，对于调用指令的目标地址暂时搁置，待到链接的时候，再由链接器来填写 add() 函数的真实地址。
 
-动态链接；
+动态链接：
 
 
 

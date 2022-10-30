@@ -86,11 +86,18 @@ dyld 3 包含三个组件：
 * `lauch closure`的缓存：
 **系统程序的`lauch closure`直接内置在 `shared cache` 中，而对于第三方 APP，将在 APP 安装或更新时生成**，这样就能保证`lauch closure`总是在 APP 打开之前准备好。内部存储包括：
 
-* dependends，依赖动态库列表
+* dependends：依赖动态库列表
 * fixup：bind & rebase 的地址
 * initializer-order：初始化调用顺序
 * optimizeObjc: Objective C 的元数据
 * 其他：main entry, uuid…
+
+
+启动闭包里面的fixup并不能替代App启动过程中的fixup过程，启动缓存里面的fixup信息是fixup流程中的一部分；
+启动闭包里面的fixup：
+- bind：提前获取符号的地址，等到启动的时候将符号的地址绑定到符号上去；
+- rebase：启动闭包里面的缓存主要是对`opcode`的解析。
+  > opcode 存储空间小，使用变长的编码方式，字符串这些也是 trie 树存储的。
 
 > 启动闭包存储在`tmp/com.apple.dyld`目录下，当把该目录删除后，在 App 启动时会重新创建启动闭包；
 
@@ -113,7 +120,7 @@ iOS 16。
 dyld3 出于对启动速度的优化，增加了启动闭包。应用首启和发生变化时将一些启动数据创建为闭包存到本地，下次启动将不再重新解析数据，而是直接读取闭包内容。这种方法的理想情况是应用程序和系统应很少发生变化，因为如果这两者经常变化，即意味着闭包可能面临失效。为了应对这类场景，dyld4 采用了 Prebuilt + JustInTime 的双解析模式，Prebuild 对应的就是 dyld3 中的启动闭包场景，JustInTime 大致对应 dyld2 中的实时解析，JustInTime 过程是可以利用 Prebuild 的缓存的，所以性能也还可控。应用首启、包体或系统版本更新、普通启动，dyld4 将根据缓存有效与否选择合适的模式进行解析。
 dyld3 在不使用启动闭包的情况下会 fallback 到 dyld2，两套代码分别在两边，不利于行为的统一和维护，dyld4 做了逻辑统一（@鹅喵 补充）。所以 dyld4 的设计目标是更优的兼容性和逻辑统一。
 
-dyld4存储目录，发生了改变，会存放在 `Library/Caches/com.apple.dyld` 目录下，后缀为 dyld4
+dyld4存储目录，发生了改变，会存放在 `Library/Caches/com.apple.dyld` 目录下，后缀为 dyld4 。
 
 闭包名称为 `XCExecutableName`.dyld4
 
