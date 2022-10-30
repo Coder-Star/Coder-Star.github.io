@@ -429,6 +429,8 @@ nm -u XXX
 
 路径：`/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/otool`
 
+还有一个比这个更方便的工具，`jtool`
+
 > MachOView 算是这个 CLI 工具的 GUI 工具了。
 
 ```shell
