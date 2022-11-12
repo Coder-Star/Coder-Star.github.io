@@ -487,6 +487,20 @@ if let activePrewarm = ProcessInfo.processInfo.environment["ActivePrewarm"] {
 
 目前了解到做了动态库懒加载的包括 58、贝壳、快手、抖音、facebook等。动态库懒加载相对于静态库少了`fixup`以及初始化等耗时。
 
+> 1. 因为动态库不参与链接，所有日常调用动态库需要使用反射，或者调用侧做一个收口；
+> 2. dlopen方式调用动态库比启动时自动链接动态库时间更长，所以使用动态库懒加载方案最好不要在启动时使用；
+> 3. 使用动态库懒加载方案，库中的图片资源可能获取不到，需要换成远程资源；
+
+懒加载的动态库Target Other Link Flags => -undifined dynamic_loopup  正常情况动态库是会依赖静态库，会导致有多份静态库，为解决这个问题 我们需要对该动态库Link Binary With Libraries 去除依赖的静态库 打出来的动态库不会包含静态库
+
+MainTarget:  Strip Style => Non-Global Symbols  因为动态库引用了主执行文件（静态库最后会被链接到主执行文件）的符号，所以主工程的配置也需要跟着修改：
+
+MainTarget:  Other Link Flags => -Wl,-export_dynamic 就是这个选项让主程序内定义的全局函数对库函数可见
+
+检查动态库启动时候不被链接的标记就是loadcommand段里面没有该动态库。
+
+
+
 结合我的实际项目，项目为一个`Swift-OC`混编项目，主体为 Swift，CocoaPods 管理库的方式为动态库，本次调整为静态库，具体方式为：
 
 - 去掉`use_frameworks!`；
