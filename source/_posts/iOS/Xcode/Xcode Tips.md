@@ -82,6 +82,10 @@ Hi Coder，我是 CoderStar！
 
 `~/Library/Developer/Xcode/UserData/CodeSnippets`
 
+主题路径
+
+`~/Library/Developer/Xcode/UserData/FontAndColorThemes`
+
 我们可以使用一些云同步方式对其进行同步，方便复用。
 
 顺便提一下我们新建文件的模板文件路径为：
