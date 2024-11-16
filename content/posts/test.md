@@ -1,5 +1,4 @@
 ---
-date: "{{date}}"
 share: true
 description: ""
 author: 
