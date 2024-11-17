@@ -26,7 +26,7 @@
           {{- if strings.HasSuffix $url.Path ".md" -}}
             {{- relref .Page .Destination | safeURL -}}
           {{- else -}}
-            {{- printf "/%s%s" .Page.File.Dir .Destination | safeURL -}}
+            {{- printf "%s%s" .Page.File.Dir .Destination | safeURL -}}
           {{- end -}}
         {{- else -}}
           {{- .Destination | safeURL -}}
@@ -38,7 +38,7 @@
               {{- if strings.HasSuffix $url.Path ".md" -}}
                 {{- relref .Page .Destination | safeURL -}}
               {{- else -}}
-                {{- printf "/%s%s" .Page.File.Dir .Destination | safeURL -}}
+                {{- printf "%s%s" .Page.File.Dir .Destination | safeURL -}}
               {{- end -}}
             {{- else -}}
               {{- .Destination | safeURL -}}
@@ -51,7 +51,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var images = document.querySelectorAll(".responsive-image");
-            var maxHeight = window.innerHeight / 3;
+            var maxHeight = window.innerHeight;
             images.forEach(function(image) {
                 image.style.maxHeight = maxHeight + "px";
             });
