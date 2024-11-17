@@ -2,28 +2,47 @@ baseURL: https://coder-star.github.io/
 languageCode: zh-cn
 title: CodrStar's Blog
 theme: ["PaperMod"]
-paginate: 5
+paginate: 8
 buildDrafts: true
+enableEmoji: true
+enableInlineShortcodes: true
 
 params:
-  env: production
+  # 用于自定义图片相关配置
+  fancybox: true
+  homeInfoParams:
+    Title: Welcome CodrStar's Blog
+    Content: >
+      - 👋  Hello，我是 **CoderStar**，目前在北京。想要发展的方向是大前端，包括但不限于 iOS、Android、Flutter 及 Vue 等，对 Java 后端也有一定了解，目前主要的工作还是与 iOS 相关。
+
+      - 📖  平时会写一些技术文章，同步到 [掘金](https://juejin.cn/user/588993964541288) 和 [微信公众号](https://mp.weixin.qq.com/cgi-bin/settingpage?t=setting/index&action=index&token=990712989&lang=zh_CN)，希望可以和大家一起进行技术探讨和交流；微信公众号: [CoderStar](https://raw.githubusercontent.com/Coder-Star/Coder-Star/main/static/img/WeChatOfficialAccount.jpg)，欢迎大家订阅!
+
+      - ✉️  如果你想联系我，可以给我[发邮件](mailto:1340529758@qq.com)。
+  socialIcons:
+    - name: "github"
+      url: "https://github.com/Coder-Star"
+    - name: "email"
+      url: "1340529758@qq.com"
+  assets:
+    disableHLJS: true
+    favicon: "/assets/favicon.ico"
+  env: development
+  author: CoderStar
   ShowBreadCrumbs: true
   ShowReadingTime: true
   ShowShareButtons: false
   ShowPostNavLinks: true
-  ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
   ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
-  disableSpecial1stPost: false
+  disableSpecial1stPost: true
   disableScrollToTop: false
   comments: true
   hidemeta: false
   hideSummary: false
   showtoc: true
-  tocopen: true
-
+  tocopen: false
 
 menu:
   main:
@@ -45,22 +64,17 @@ menu:
       weight: 4
 
 outputs:
-    home:
-        - HTML
-        - RSS
-        - JSON
+  home:
+    - HTML
+    - RSS
+    - JSON
 
 markup:
-    goldmark:
-        renderer:
-            unsafe: true
-    highlight:
-        # anchorLineNos: true
-        codeFences: true
-        guessSyntax: true
-        lineNos: true
-        # noClasses: false
-        style: monokai
-
-params:
-    fancybox: true
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: monokai

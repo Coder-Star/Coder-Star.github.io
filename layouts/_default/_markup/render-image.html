@@ -21,7 +21,16 @@
 <body>
     {{ if .Page.Site.Params.fancybox }}
     <div class="post-img-view">
-        <a data-fancybox="gallery" href="{{ .Destination | safeURL }}">
+        <a data-fancybox="gallery" href="
+        {{- if eq $scheme "" -}}
+          {{- if strings.HasSuffix $url.Path ".md" -}}
+            {{- relref .Page .Destination | safeURL -}}
+          {{- else -}}
+            {{- printf "/%s%s" .Page.File.Dir .Destination | safeURL -}}
+          {{- end -}}
+        {{- else -}}
+          {{- .Destination | safeURL -}}
+        {{- end -}}">
             <img 
             class="responsive-image" 
             src="
