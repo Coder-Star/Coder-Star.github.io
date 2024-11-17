@@ -14,11 +14,27 @@
         }
     </style>
 </head>
+
+{{- $url := urls.Parse .Destination -}}
+{{- $scheme := $url.Scheme -}}
+
 <body>
     {{ if .Page.Site.Params.fancybox }}
     <div class="post-img-view">
         <a data-fancybox="gallery" href="{{ .Destination | safeURL }}">
-            <img class="responsive-image" src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}"{{ end }} style="margin: 0 auto;"/>
+            <img 
+            class="responsive-image" 
+            src="
+            {{- if eq $scheme "" -}}
+              {{- if strings.HasSuffix $url.Path ".md" -}}
+                {{- relref .Page .Destination | safeURL -}}
+              {{- else -}}
+                {{- printf "/%s%s" .Page.File.Dir .Destination | safeURL -}}
+              {{- end -}}
+            {{- else -}}
+              {{- .Destination | safeURL -}}
+            {{- end -}}" 
+            alt="{{ .Text }}" {{ with .Title}} title="{{ . }}"{{ end }} style="margin: 0 auto;"/>
         </a>
     </div>
     {{ end }}
