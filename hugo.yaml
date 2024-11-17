@@ -61,3 +61,6 @@ markup:
         lineNos: true
         # noClasses: false
         style: monokai
+
+params:
+    fancybox: true
