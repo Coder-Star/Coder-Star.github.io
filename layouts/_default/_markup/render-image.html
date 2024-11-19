@@ -26,7 +26,7 @@
           {{- if strings.HasSuffix $url.Path ".md" -}}
             {{- relref .Page .Destination | safeURL -}}
           {{- else -}}
-            {{- printf "%s%s" .Page.File.Dir .Destination | safeURL -}}
+          {{- printf "../%s" .Destination | safeURL -}}
           {{- end -}}
         {{- else -}}
           {{- .Destination | safeURL -}}
@@ -38,7 +38,7 @@
               {{- if strings.HasSuffix $url.Path ".md" -}}
                 {{- relref .Page .Destination | safeURL -}}
               {{- else -}}
-                {{- printf "%s%s" .Page.File.Dir .Destination | safeURL -}}
+                {{- printf "../%s" .Destination | safeURL -}}
               {{- end -}}
             {{- else -}}
               {{- .Destination | safeURL -}}
