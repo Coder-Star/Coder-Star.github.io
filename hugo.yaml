@@ -25,7 +25,6 @@ params:
   assets:
     disableHLJS: true
     favicon: "/assets/favicon.ico"
-  env: development
   author: CoderStar
   ShowBreadCrumbs: true
   ShowReadingTime: true
