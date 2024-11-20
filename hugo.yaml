@@ -5,6 +5,7 @@ paginate: 8
 buildDrafts: true
 enableEmoji: true
 enableInlineShortcodes: true
+disablePathToLower: true
 
 params:
   # 用于自定义图片相关配置
