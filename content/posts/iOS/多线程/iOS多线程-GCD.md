@@ -76,7 +76,7 @@ public convenience init(label: String,
 
 > 其实利用这个属性，我们可以完成一些所谓的骚操作，比如将多个并行队列的异步任务手动变成同步执行。
 
-![](attachments/GCD.png)
+![](attachments/iOS_thread_gcd.png)
 
 **qos 属性扩展**
 
