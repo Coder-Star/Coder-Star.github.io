@@ -80,19 +80,7 @@ JFrog 起步较晚，但有点后来者居上的趋势，功能也比较强大�
 JFrog 每一个 <font style="color:rgb(36, 41, 47);">Repository </font>默认都会有 Local 以及 Remote 两种类型，CocoaPods 也不例外。
 
 - Local 一般是用来管理我们的二方库；
-- Remote 一般是代理其他的制品源，目前 CocoaPods 代理的源只能是 CocoaPods 的 git 源，也就是 [https://github.com/CocoaPods/Specs](https://github.com/CocoaPods/Specs)。---
-title: 关于 CocoaPods 之 Nexus、JFrog
-date: 2024-11-21T13:31:52+08:00
-categories: CocoaPods
-tags:
- - iOS
- - CocoaPods
-share: false
-description: ""
-cover.image: ""
-lastmod: 2024-11-21T13:39:54+08:00
----
-
+- Remote 一般是代理其他的制品源，目前 CocoaPods 代理的源只能是 CocoaPods 的 git 源，也就是 [https://github.com/CocoaPods/Specs](https://github.com/CocoaPods/Specs)。
 ![](attachments/c06d46e43bd68d9c75e8c4a8210bfd6a_MD5.png)
 
 同时 JFrog 也为 CocoaPods 提供了对应的插件 -- [cocoapods-art](https://github.com/jfrog/cocoapods-art)，方便我们在项目中使用；

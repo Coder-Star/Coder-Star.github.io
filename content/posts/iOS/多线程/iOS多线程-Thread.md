@@ -10,6 +10,7 @@ description:
 cover.image: ""
 lastmod: 2024-11-17T13:37:05
 ---
+
 ## 前言
 
 Hi Coder，我是 CoderStar！
@@ -41,7 +42,7 @@ open class func detachNewThread(_ block: @escaping () -> Void)
 open class func detachNewThreadSelector(_ selector: Selector, toTarget target: Any, with argument: Any?)
 ```
 
-类方法创建的线程自动运行，通过这种方式我们无法对 Thread 属性进行一些自定义的设置，如`name`、`threadPriority`等。
+类方法创建的线程自动运行，通过这种方式我们无法对 Thread 属性进行一些自定义的设置，如 `name`、`threadPriority` 等。
 
 ### 实例方法
 
@@ -98,11 +99,11 @@ class MyThread: Thread {
 
 线程的生命周期分为下列几种：
 
-* 创建：实例化一个线程对象。
-* 就绪：将线程对象添加到可调度线程池，等待 CPU 调用；
-* 运行：CPU 从可调度线程池中选中线程进行调用，当前选中的线程为运行状态，未选中的重新变为就绪状态，此步程序员无法控制，由系统来处理；
-* 堵塞：线程休眠处理。线程 sleep、加了同步锁的对象正在被其他线程操作时，线程也会进入休眠；
-* 死亡：当线程需要执行的代码块执行完，或者线程强制退出，线程结束。
+- 创建：实例化一个线程对象。
+- 就绪：将线程对象添加到可调度线程池，等待 CPU 调用；
+- 运行：CPU 从可调度线程池中选中线程进行调用，当前选中的线程为运行状态，未选中的重新变为就绪状态，此步程序员无法控制，由系统来处理；
+- 堵塞：线程休眠处理。线程 sleep、加了同步锁的对象正在被其他线程操作时，线程也会进入休眠；
+- 死亡：当线程需要执行的代码块执行完，或者线程强制退出，线程结束。
 
 ![](attachments/iOS多线程-Thread.png)
 
@@ -133,7 +134,7 @@ thread 调用 start 方法后，其实并不是马上就开始运行了。实质
 
 **sleep**
 
-目前只能控制其休眠多长时间或休眠到什么时间，外部无法手动唤醒。如果想实现手动唤醒的效果，可以考虑使用`NSCondition`，后面也会对其单独介绍。
+目前只能控制其休眠多长时间或休眠到什么时间，外部无法手动唤醒。如果想实现手动唤醒的效果，可以考虑使用 `NSCondition`，后面也会对其单独介绍。
 
 ## Thread 的常用属性 / 方法
 
@@ -142,7 +143,7 @@ thread 调用 start 方法后，其实并不是马上就开始运行了。实质
 - name：给线程命名，方便查找
 - stackSize：栈区大小，看看线程在栈区占了多大空间
 - isMainThread：是否是主线程，比较常用
-- threadPriority：线程的优先级，由 0.0 到 1.0 之间的浮点数指定，其中 1.0 是最高优先级，因为语义不够清晰，已经即将被弃用了，跟有注释`// To be deprecated; use qualityOfService below`，但是 Swift 源码没有相应注释，只有 OC 中有。
+- threadPriority：线程的优先级，由 0.0 到 1.0 之间的浮点数指定，其中 1.0 是最高优先级，因为语义不够清晰，已经即将被弃用了，跟有注释 `// To be deprecated; use qualityOfService below`，但是 Swift 源码没有相应注释，只有 OC 中有。
 - qualityOfService：服务质量，一个枚举类型（`QualityOfService`），iOS8.0 推出，为了取代优先级，在 GCD 中也有类型属性
 - current：当前线程，比较常用
 - callStackSymbols：线程调用堆栈，在异步捕获场景下常用
