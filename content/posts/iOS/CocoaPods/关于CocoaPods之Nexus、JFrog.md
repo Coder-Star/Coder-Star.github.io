@@ -35,7 +35,7 @@ Hi Coder，我是 CoderStar！
 
 - Carthage
 
-      库支持较少，侵入性较弱；
+库支持较少，侵入性较弱；
 
 - SPM
 
