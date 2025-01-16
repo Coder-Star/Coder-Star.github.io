@@ -129,8 +129,9 @@ final public class Lazy<T> {
 
 ```swift
 class MyClass: NSObject, MyServiceDelegate {
-    private lazy var service = Lazy<MyService> {
-        let service = MyService()
+    private lazy var service = Lazy<MyService> { [weak self] in
+	    guard let self = self else { return MyService() }        
+	    let service = MyService()
         service.delegate = self
         return service
     }
